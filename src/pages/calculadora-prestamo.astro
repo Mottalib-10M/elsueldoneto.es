@@ -1,0 +1,139 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import Prestamo from '../components/calculadoras/Prestamo';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Calculadora Préstamo Personal: Cuota y Amortización`;
+const description = `Calcula la cuota mensual de tu préstamo personal, el total de intereses y la tabla de amortización completa. Simulador gratuito actualizado para ${CURRENT_FISCAL_YEAR}.`;
+
+const faqs = [
+  {
+    question: '¿Qué diferencia hay entre TIN y TAE?',
+    answer: 'El TIN (Tipo de Interés Nominal) es el porcentaje que el banco cobra por el préstamo. La TAE (Tasa Anual Equivalente) incluye el TIN más todas las comisiones y gastos asociados, y es la referencia real del coste del préstamo.',
+  },
+  {
+    question: '¿Cómo se calcula la cuota mensual de un préstamo?',
+    answer: 'Se utiliza el sistema francés de amortización: cuotas constantes donde al principio pagas más intereses y menos capital, y al final más capital y menos intereses.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1="Calculadora de Préstamo Personal"
+  calculatorName="Calculadora Préstamo"
+  path="/calculadora-prestamo/"
+  faqs={faqs}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <Prestamo client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía de préstamos personales: cómo funcionan y qué debes vigilar
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Un préstamo personal es un contrato por el que una entidad financiera te presta una cantidad de dinero que debes devolver en un plazo determinado, junto con los intereses pactados. A diferencia de la hipoteca, el préstamo personal no está respaldado por un inmueble: la garantía es tu propia solvencia económica. Esto explica por qué los tipos de interés de los préstamos personales son siempre superiores a los hipotecarios: el banco asume más riesgo y cobra más por ello.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El sistema francés de amortización</h3>
+      <p>
+        La inmensa mayoría de los préstamos personales en España utilizan el sistema francés de amortización. Su principal característica es que la cuota mensual es constante durante toda la vida del préstamo. Pero dentro de esa cuota fija, la proporción de intereses y capital varía: al principio pagas mucho en intereses y poco en capital, y al final la proporción se invierte. Esto tiene una consecuencia práctica importante: si amortizas anticipadamente un préstamo en sus primeros meses, te ahorras proporcionalmente más intereses que si lo haces cerca del final, porque en los primeros meses el componente de intereses es mayor.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">TIN y TAE: las dos cifras que debes comparar</h3>
+      <p>
+        El TIN (Tipo de Interés Nominal) es el porcentaje puro que el banco aplica al capital pendiente. Pero el coste real de un préstamo no se reduce al TIN: hay comisiones de apertura, de estudio, seguros obligatorios vinculados, y otros gastos que encarecen la operación. La TAE (Tasa Anual Equivalente) es la cifra que incorpora todos esos costes y permite comparar préstamos de distintas entidades en igualdad de condiciones. Por ley, toda publicidad bancaria de préstamos debe mostrar la TAE. Un préstamo con un TIN del 5% pero comisiones elevadas puede tener una TAE del 7%, mientras que otro con un TIN del 5,5% sin comisiones puede resultar más barato en términos de TAE.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Cuánto puedes pedir prestado</h3>
+      <p>
+        La regla general que aplican las entidades financieras en España es que la cuota del préstamo, junto con el resto de deudas, no debe superar el 35-40% de los ingresos netos mensuales del solicitante. Si cobras 2.000 € netos al mes y ya pagas 300 € de hipoteca, tu capacidad de endeudamiento adicional ronda los 400-500 € mensuales de cuota. Los plazos habituales van de 12 a 96 meses. A mayor plazo, menor cuota mensual, pero más intereses totales. Un préstamo de 10.000 € al 6% TAE cuesta 1.585 € en intereses a 3 años, pero 2.687 € a 5 años. La comodidad de la cuota baja se paga con un coste total sensiblemente mayor.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo: préstamo de 15.000 € para un coche</h3>
+      <p>
+        Marta quiere financiar un coche de segunda mano por 15.000 € con un préstamo personal al 6,5% TIN a 5 años (60 meses):
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Cuota mensual:</strong> 293,27 € (constante durante 60 meses).</li>
+        <li><strong>Total pagado:</strong> 293,27 × 60 = 17.596,20 €.</li>
+        <li><strong>Intereses totales:</strong> 17.596,20 − 15.000 = <strong>2.596,20 €</strong>.</li>
+        <li>En el primer mes, 81,25 € van a intereses y 212,02 € a capital.</li>
+        <li>En el último mes, solo 1,59 € van a intereses y 291,68 € a capital.</li>
+      </ul>
+      <p>
+        Si Marta redujera el plazo a 3 años (36 meses), la cuota subiría a 459,52 €, pero los intereses bajarían a 1.542,72 €, un ahorro de más de 1.000 € respecto al plazo de 5 años.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Amortización anticipada: total y parcial</h3>
+      <p>
+        Cualquier titular de un préstamo personal en España tiene derecho a devolver el capital antes del plazo acordado. Es lo que se conoce como amortización anticipada, y puede ser total (cancelas toda la deuda de golpe) o parcial (adelantas una cantidad que reduce el capital pendiente, pero el préstamo sigue vigente). En la práctica, la amortización parcial es mucho más frecuente: un trabajador recibe la paga extra de Navidad o una devolución de Hacienda y destina parte a reducir su préstamo.
+      </p>
+      <p>
+        La Ley 16/2011 de contratos de crédito al consumo establece las comisiones máximas que el banco puede cobrarte por amortizar anticipadamente. Si el plazo restante del préstamo supera un año, la comisión máxima es del 1% sobre el capital amortizado. Si queda menos de un año para la finalización, baja al 0,5%. Además, la compensación que pague el consumidor no puede superar en ningún caso el importe de los intereses que habría pagado durante el periodo restante. Esto es relevante cuando queda poco tiempo: si adelantas 5.000 € y los intereses pendientes de ese capital solo suman 120 €, la comisión no podrá superar esos 120 €, aunque el 1% de 5.000 sea 50 € (en este caso 50 € es menor, así que se aplicaría 50 €).
+      </p>
+      <p>
+        ¿Cuándo conviene amortizar? Como regla general, si tu préstamo tiene una TAE superior a la rentabilidad que obtienes por tu dinero (después de impuestos), amortizar sale a cuenta. Por ejemplo, si tu préstamo tiene una TAE del 7% y tu cuenta remunerada te da un 2,5% neto, cada euro que adelantas te «renta» un 4,5% neto. Además, la amortización es más ventajosa durante los primeros años del préstamo, cuando el componente de intereses en cada cuota es mayor. Javier tiene un préstamo de 12.000 € al 6,5% TAE a 48 meses. Si al mes 12 amortiza 3.000 €, se ahorra unos 420 € en intereses totales, descontando la comisión del 1% (30 €). Si esperara al mes 36 para amortizar los mismos 3.000 €, el ahorro neto sería de solo 95 €, porque a esas alturas la mayor parte de los intereses ya se han pagado.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tipos de préstamos personales en España</h3>
+      <p>
+        No todos los préstamos personales son iguales. En el mercado español existen varias categorías que conviene distinguir antes de firmar.
+      </p>
+      <p>
+        Los <strong>préstamos finalistas</strong> están vinculados a un propósito concreto: comprar un coche, financiar un máster o reformar una vivienda. La entidad puede exigir justificantes del gasto y, a cambio, suele ofrecer condiciones más favorables (TAE del 5-8%) porque el destino del dinero reduce el riesgo percibido. Los <strong>préstamos no finalistas</strong> (o de libre disposición) no requieren justificar el destino del capital. Ofrecen flexibilidad total, pero las TAE son algo más altas (7-12%) porque el banco desconoce el riesgo real de la operación.
+      </p>
+      <p>
+        Mención aparte merecen los <strong>créditos revolving</strong>, un producto que ha generado una abundante litigiosidad en España. El revolving funciona como una línea de crédito renovable: la cuota mensual es baja, pero como la mayor parte se destina a intereses y apenas se amortiza capital, la deuda se eterniza. Las TAE habituales oscilan entre el 18% y el 26%, y en muchos casos superan el 30%. El Tribunal Supremo, en su sentencia 149/2020 de 4 de marzo, estableció que los intereses de las tarjetas revolving pueden declararse usurarios cuando superan de forma notable el interés medio de productos similares publicado por el Banco de España. Desde esa sentencia, miles de consumidores han reclamado y recuperado los intereses pagados en exceso. Si tienes un revolving con una TAE superior al 20%, consulta con un abogado especializado: es probable que puedas reclamar.
+      </p>
+      <p>
+        Por último, los <strong>préstamos rápidos online</strong> (también llamados minicréditos o microcréditos) ofrecen cantidades pequeñas (300-1.000 €) a devolver en plazos muy cortos (15-30 días). La comodidad de obtener el dinero en minutos tiene un precio brutal: las TAE equivalentes superan con frecuencia el 1.000%. Un minicrédito de 300 € a 30 días con 75 € de intereses supone una TAE del 3.112%. Estos productos están pensados para emergencias puntuales, nunca para financiación recurrente.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tabla comparativa: 10.000 € a distintos plazos al 7% TAE</h3>
+      <p>
+        Para visualizar el impacto del plazo en el coste total del préstamo, esta tabla muestra un préstamo de 10.000 € al 7% TAE con el sistema francés de amortización:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Plazo</th>
+              <th class="px-3 py-2 text-right">Cuota mensual</th>
+              <th class="px-3 py-2 text-right">Total intereses</th>
+              <th class="px-3 py-2 text-right">Total pagado</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">24 meses (2 años)</td><td class="px-3 py-1 text-right">447,73 €</td><td class="px-3 py-1 text-right">745,52 €</td><td class="px-3 py-1 text-right">10.745,52 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">36 meses (3 años)</td><td class="px-3 py-1 text-right">308,77 €</td><td class="px-3 py-1 text-right">1.115,72 €</td><td class="px-3 py-1 text-right">11.115,72 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">48 meses (4 años)</td><td class="px-3 py-1 text-right">239,46 €</td><td class="px-3 py-1 text-right">1.494,08 €</td><td class="px-3 py-1 text-right">11.494,08 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">60 meses (5 años)</td><td class="px-3 py-1 text-right">198,01 €</td><td class="px-3 py-1 text-right">1.880,60 €</td><td class="px-3 py-1 text-right">11.880,60 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        La diferencia es notable: pasar de 2 a 5 años reduce la cuota mensual casi a la mitad (de 447 € a 198 €), pero el coste en intereses se multiplica por 2,5 (de 745 € a 1.880 €). Patricia, administrativa en Sevilla, necesita financiar unas obras en su vivienda por 10.000 €. Si opta por 36 meses, pagará 308 € al mes y 1.115 € en intereses. Si esos 308 € encajan en su presupuesto (su nómina neta es de 1.650 €, la cuota supone el 18,7% de sus ingresos), es la opción óptima: cuota asumible sin disparar los intereses. Si eligiera 60 meses por comodidad, pagaría 765 € más en intereses totales, dinero que podría destinar a amortizar antes.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Derechos del consumidor en los préstamos personales</h3>
+      <p>
+        La legislación española otorga varios derechos al consumidor que muchos desconocen. El más relevante es el <strong>derecho de desistimiento</strong>: según el artículo 28 de la Ley 16/2011, puedes cancelar un préstamo personal sin penalización ni necesidad de dar explicaciones durante los 14 días naturales siguientes a la firma del contrato (o a la recepción de la información contractual, si es posterior). Solo tendrás que devolver el capital y los intereses devengados durante esos días. Este derecho es especialmente útil si firmaste un préstamo en una tienda para financiar una compra impulsiva y te arrepientes al día siguiente.
+      </p>
+      <p>
+        Otro derecho fundamental es el <strong>reembolso anticipado</strong>, regulado en los artículos 30 y 31 de la misma ley. Como hemos visto, puedes devolver la totalidad o parte del préstamo en cualquier momento, y la comisión máxima está limitada al 1% o 0,5% según el plazo restante. Ninguna cláusula contractual puede impedir este derecho ni fijar comisiones superiores a las legales. Si tu contrato contiene una cláusula que limita la amortización anticipada a determinadas fechas o exige un mínimo de capital, esa cláusula es nula por contraria a la ley.
+      </p>
+      <p>
+        Adicionalmente, antes de firmar, la entidad está obligada a entregarte la Información Normalizada Europea (INE), un documento estandarizado que resume las condiciones del préstamo: TAE, cuota mensual, importe total a devolver, comisiones y seguros vinculados. Si el banco no te entregó la INE antes de la firma, o si la TAE del contrato no coincide con la publicidad, podrías tener argumentos para reclamar. El Banco de España dispone de un servicio de reclamaciones gratuito para estos casos, aunque su resolución no es vinculante. Para resoluciones vinculantes, la vía es el juzgado de primera instancia.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fuentes</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2019-5765" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 5/2019, de contratos de crédito inmobiliario</a> - Aunque se refiere a hipotecas, establece estándares de transparencia (TAE, FEIN) que influyen en toda la regulación crediticia española.</li>
+        <li><a href="https://www.bde.es/bde/es/" class="text-brand hover:underline" target="_blank" rel="noopener">Banco de España</a> - Portal del cliente bancario con información sobre derechos del consumidor y comparativas de tipos de interés.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2007-20555" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 16/2011, de contratos de crédito al consumo</a> - Obligaciones de información precontractual, cálculo de TAE y derecho de desistimiento (14 días).</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

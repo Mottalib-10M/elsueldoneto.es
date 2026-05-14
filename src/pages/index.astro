@@ -1,0 +1,159 @@
+---
+import Layout from '../components/layout/Layout.astro';
+import SueldoNeto from '../components/calculadoras/SueldoNeto';
+import { CURRENT_FISCAL_YEAR } from '../config';
+import { buildWebApplicationSchema, buildBreadcrumbSchema } from '../lib/seo';
+
+const title = `Calculadora Sueldo Neto ${CURRENT_FISCAL_YEAR}: De Bruto a Neto España`;
+const description = `Calcula tu sueldo neto en España en ${CURRENT_FISCAL_YEAR}. Descubre tu IRPF por comunidad autónoma, Seguridad Social y deducciones familiares. Resultado exacto en segundos.`;
+
+const schemas = [
+  buildWebApplicationSchema(`Calculadora Sueldo Neto ${CURRENT_FISCAL_YEAR}`, '/'),
+  buildBreadcrumbSchema([{ name: 'Calculadora Sueldo Neto', url: '/' }]),
+];
+---
+
+<Layout title={title} description={description} schema={schemas}>
+  <section class="bg-light-gray py-12 dark:bg-gray-800">
+    <div class="mx-auto max-w-4xl px-4 text-center">
+      <h1 class="mb-4 text-3xl font-bold text-charcoal md:text-5xl dark:text-gray-100">
+        Calculadora de <span class="text-brand">Sueldo Neto</span> {CURRENT_FISCAL_YEAR}
+      </h1>
+      <p class="mx-auto max-w-2xl text-lg text-dark-gray dark:text-gray-300">
+        Calcula tu sueldo neto en segundos. IRPF por comunidad autónoma,
+        cotizaciones a la Seguridad Social y deducciones familiares.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 py-8">
+    <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+      <SueldoNeto client:load />
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 py-8">
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">¿Qué es el sueldo neto y cómo se calcula en España?</h2>
+      <p>
+        El sueldo neto es la cantidad que un trabajador recibe en su cuenta bancaria cada mes, una vez descontados los impuestos y las cotizaciones obligatorias. La diferencia entre el salario bruto que aparece en tu contrato y lo que realmente cobras puede sorprender a quien firma su primer contrato laboral: en España, esa diferencia ronda entre el 20% y el 40% del bruto, dependiendo del tramo de renta, la comunidad autónoma y la situación personal del trabajador.
+      </p>
+      <p>
+        Dos grandes conceptos se comen esa diferencia. El primero es la <strong>Seguridad Social</strong>, que supone un 6,35% fijo del salario bruto para contingencias comunes, desempleo y formación profesional. El segundo, y más variable, es el <strong>IRPF</strong> (Impuesto sobre la Renta de las Personas Físicas), un impuesto progresivo que se aplica por tramos. Esto significa que los primeros 12.450 € de base imponible tributan a un tipo diferente que los siguientes 7.750 €, y así sucesivamente hasta alcanzar el tipo máximo del 47% para rentas superiores a 300.000 €.
+      </p>
+      <p>
+        Lo que mucha gente desconoce es que el IRPF no se aplica directamente sobre el bruto. Antes hay que restar las cotizaciones a la Seguridad Social, los gastos deducibles del trabajo (2.000 € anuales), y en algunos casos una reducción adicional por rendimientos del trabajo para rentas inferiores a 19.747,50 €. Sobre esa base imponible reducida se aplica el mínimo personal y familiar, una cantidad exenta de impuestos que depende de si tienes hijos, ascendientes a cargo o alguna discapacidad reconocida.
+      </p>
+      <p>
+        Otro factor determinante es tu <strong>comunidad autónoma</strong>. El IRPF se divide en una escala estatal (igual en todo el territorio, excepto País Vasco y Navarra) y una escala autonómica que cada gobierno regional fija libremente. La diferencia puede llegar a superar los 2.000 € anuales para un mismo salario bruto. Madrid aplica los tipos autonómicos más bajos, mientras que Cataluña y la Comunidad Valenciana se sitúan en el extremo opuesto para rentas altas.
+      </p>
+      <p>
+        El número de pagas también influye en lo que cobras cada mes, aunque no en el total anual. Con 14 pagas recibes 12 nóminas ordinarias más dos pagas extraordinarias, normalmente en junio y diciembre. Con 12 pagas, la misma cantidad anual se distribuye en partes iguales cada mes. El neto anual es idéntico en ambos casos, pero la sensación de cobrar las pagas extra puede resultar útil para gastos puntuales o para reforzar el ahorro.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo práctico: nómina de 30.000 € brutos en Madrid</h3>
+      <p>
+        Veamos paso a paso cómo se calcula el neto de un trabajador soltero, sin hijos, con un salario bruto de 30.000 € anuales en la Comunidad de Madrid y 14 pagas:
+      </p>
+      <ol class="list-decimal ml-4 space-y-1">
+        <li><strong>Seguridad Social:</strong> 6,35% × 30.000 € = 1.905 €/año. Es la primera deducción y se aplica sobre el bruto total.</li>
+        <li><strong>Gastos deducibles del trabajo:</strong> 2.000 € fijos según el art. 19.2 de la Ley del IRPF.</li>
+        <li><strong>Rendimiento neto del trabajo:</strong> 30.000 − 1.905 − 2.000 = 26.095 €. Como supera los 19.747,50 €, no aplica la reducción adicional por rendimientos del trabajo.</li>
+        <li><strong>Mínimo personal:</strong> 5.550 € (contribuyente menor de 65 años sin cargas familiares).</li>
+        <li><strong>IRPF estatal:</strong> se calcula aplicando los tramos del art. 63 de la Ley 35/2006 a la base imponible, descontando la cuota del mínimo personal. Resultado aproximado: 2.760 €.</li>
+        <li><strong>IRPF autonómico (Madrid):</strong> escala aprobada por la Ley 3/2023 de la CAM. Resultado aproximado: 1.885 €.</li>
+        <li><strong>IRPF total:</strong> 2.760 + 1.885 = 4.645 €/año.</li>
+        <li><strong>Neto anual:</strong> 30.000 − 1.905 − 4.645 = 23.450 €.</li>
+        <li><strong>Neto mensual (14 pagas):</strong> 23.450 ÷ 14 ≈ 1.675 €/mes.</li>
+      </ol>
+      <p>
+        En este ejemplo, el tipo efectivo total (IRPF + SS sobre bruto) es del 21,8%. Esto significa que de cada 100 € brutos, el trabajador se lleva 78,20 € a su cuenta. Si este mismo trabajador viviera en Cataluña con el mismo bruto, su IRPF autonómico sería unos 350 € más alto, y su neto mensual bajaría a unos 1.650 €.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tabla de referencia: bruto a neto en Madrid (2026, soltero, 14 pagas)</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Bruto anual</th>
+              <th class="px-3 py-2 text-right">SS (6,35%)</th>
+              <th class="px-3 py-2 text-right">IRPF aprox.</th>
+              <th class="px-3 py-2 text-right">Neto anual</th>
+              <th class="px-3 py-2 text-right">Neto/mes (14p)</th>
+              <th class="px-3 py-2 text-right">Tipo efectivo</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">18.000 €</td><td class="px-3 py-1 text-right">1.143 €</td><td class="px-3 py-1 text-right">1.250 €</td><td class="px-3 py-1 text-right">15.607 €</td><td class="px-3 py-1 text-right">1.115 €</td><td class="px-3 py-1 text-right">13,3%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">25.000 €</td><td class="px-3 py-1 text-right">1.588 €</td><td class="px-3 py-1 text-right">3.150 €</td><td class="px-3 py-1 text-right">20.262 €</td><td class="px-3 py-1 text-right">1.447 €</td><td class="px-3 py-1 text-right">19,0%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">30.000 €</td><td class="px-3 py-1 text-right">1.905 €</td><td class="px-3 py-1 text-right">4.645 €</td><td class="px-3 py-1 text-right">23.450 €</td><td class="px-3 py-1 text-right">1.675 €</td><td class="px-3 py-1 text-right">21,8%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">40.000 €</td><td class="px-3 py-1 text-right">2.540 €</td><td class="px-3 py-1 text-right">7.820 €</td><td class="px-3 py-1 text-right">29.640 €</td><td class="px-3 py-1 text-right">2.117 €</td><td class="px-3 py-1 text-right">25,9%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">50.000 €</td><td class="px-3 py-1 text-right">3.175 €</td><td class="px-3 py-1 text-right">11.400 €</td><td class="px-3 py-1 text-right">35.425 €</td><td class="px-3 py-1 text-right">2.530 €</td><td class="px-3 py-1 text-right">29,2%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">60.000 €</td><td class="px-3 py-1 text-right">3.810 €</td><td class="px-3 py-1 text-right">15.300 €</td><td class="px-3 py-1 text-right">40.890 €</td><td class="px-3 py-1 text-right">2.921 €</td><td class="px-3 py-1 text-right">31,9%</td></tr>
+            <tr><td class="px-3 py-1">80.000 €</td><td class="px-3 py-1 text-right">4.495 €</td><td class="px-3 py-1 text-right">23.500 €</td><td class="px-3 py-1 text-right">52.005 €</td><td class="px-3 py-1 text-right">3.715 €</td><td class="px-3 py-1 text-right">35,0%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-gray-400 mt-2">Valores orientativos calculados para un trabajador soltero, sin hijos, régimen general. Los importes exactos pueden variar según la situación personal.</p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El Salario Mínimo Interprofesional y su efecto en la nómina</h3>
+      <p>
+        El SMI en 2025 se fijó en 1.134 € mensuales en 14 pagas, lo que equivale a 15.876 € brutos anuales. Es el suelo salarial que ningún contrato a jornada completa puede perforar. Su impacto fiscal es notable: un trabajador que cobra exactamente el SMI prácticamente no paga IRPF, gracias a la combinación de la reducción por rendimientos del trabajo (art. 20 de la Ley 35/2006) y el mínimo personal de 5.550 €. La base imponible resultante queda tan baja que la cuota tributaria es próxima a cero. Sin embargo, las cotizaciones a la Seguridad Social sí se aplican íntegramente: el 6,35% sobre 15.876 € supone unos 1.008 € anuales que el trabajador aporta de su nómina. Así, alguien como David, reponedor en un supermercado de Murcia con contrato al SMI, cobra en limpio unos 14.800 € netos al año (alrededor de 1.057 € en 14 pagas). Cada subida del SMI eleva también la base mínima de cotización, lo que incrementa ligeramente el coste de Seguridad Social tanto para el trabajador como para la empresa.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Normativa y fuentes oficiales</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 35/2006, de 28 de noviembre, del IRPF</a>: Boletín Oficial del Estado. Regulación completa del impuesto, tramos estatales y reducciones.</li>
+        <li><a href="https://www.agenciatributaria.gob.es" class="text-brand hover:underline" target="_blank" rel="noopener">Agencia Tributaria (AEAT)</a>: Tablas de retenciones, modelos fiscales y consultas vinculantes.</li>
+        <li><a href="https://www.seg-social.es/wps/portal/wss/internet/Trabajadores/CotizacionRecworkeraudacionTrabajadores/36537" class="text-brand hover:underline" target="_blank" rel="noopener">Seguridad Social: Bases y tipos de cotización</a>. Detalle de los porcentajes de cotización del trabajador y la empresa.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430" class="text-brand hover:underline" target="_blank" rel="noopener">Real Decreto Legislativo 2/2015, Estatuto de los Trabajadores</a>: Regulación sobre pagas extraordinarias (art. 31) y estructura salarial.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 py-8">
+    <h2 class="mb-6 text-2xl font-bold text-charcoal dark:text-gray-100">
+      Otras calculadoras
+    </h2>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {[
+        { href: '/calculadora-irpf/', title: 'Calculadora IRPF', desc: 'Calcula tu impuesto sobre la renta' },
+        { href: '/comparador-comunidades/', title: 'Comparador CCAA', desc: 'Compara tu sueldo neto en las 17 comunidades' },
+        { href: '/calculadora-salario-bruto/', title: 'Salario Bruto', desc: 'Calcula el bruto necesario para un neto objetivo' },
+        { href: '/regimen-beckham-calculadora/', title: 'Régimen Beckham', desc: 'Simulador para trabajadores desplazados' },
+        { href: '/calculadora-autonomos/', title: 'Autónomos', desc: 'Calcula tus ingresos netos como autónomo' },
+        { href: '/calculadora-finiquito/', title: 'Finiquito', desc: 'Calcula tu indemnización y finiquito' },
+      ].map(({ href, title, desc }) => (
+        <a href={href} class="group rounded-lg border border-gray-200 p-4 transition-all hover:border-brand hover:shadow-md dark:border-gray-700 dark:hover:border-brand">
+          <h3 class="font-semibold text-charcoal group-hover:text-brand dark:text-gray-100">{title}</h3>
+          <p class="mt-1 text-sm text-medium-gray">{desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 py-8">
+    <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+      Sueldos más consultados
+    </h2>
+    <div class="flex flex-wrap gap-2">
+      {[
+        { amount: '1500', period: 'mes' },
+        { amount: '2000', period: 'mes' },
+        { amount: '25000', period: 'año' },
+        { amount: '30000', period: 'año' },
+        { amount: '40000', period: 'año' },
+        { amount: '50000', period: 'año' },
+        { amount: '60000', period: 'año' },
+        { amount: '80000', period: 'año' },
+      ].map(({ amount, period }) => (
+        <a
+          href={`/sueldo/${amount}-euros-brutos-al-${period}/`}
+          class="rounded-full border border-gray-200 px-4 py-2 text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300"
+        >
+          {Number(amount).toLocaleString('es-ES').replace(/\./g, '\u00A0')} €/{period === 'mes' ? 'mes' : 'año'}
+        </a>
+      ))}
+    </div>
+  </section>
+</Layout>

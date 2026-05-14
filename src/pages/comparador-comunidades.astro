@@ -1,0 +1,166 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import ComparadorComunidades from '../components/calculadoras/ComparadorComunidades';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Comparador Sueldo Neto por Comunidad Autónoma ${CURRENT_FISCAL_YEAR}`;
+const description = `Compara tu sueldo neto en las 17 comunidades autónomas de España en ${CURRENT_FISCAL_YEAR}. Descubre dónde cobrarás más neto con el mismo bruto según el IRPF autonómico vigente.`;
+
+const faqs = [
+  {
+    question: '¿En qué comunidad autónoma se cobra más neto?',
+    answer: 'Madrid suele ofrecer el mayor sueldo neto gracias a sus tipos autonómicos del IRPF más bajos. Le siguen Castilla y León y La Rioja. La diferencia puede superar los 2.000 € anuales para salarios altos.',
+  },
+  {
+    question: '¿País Vasco y Navarra se pueden comparar directamente?',
+    answer: 'País Vasco y Navarra tienen regímenes forales propios con una escala única de IRPF distinta. Se incluyen en la comparación, pero conviene tener en cuenta que su sistema fiscal tiene particularidades que van más allá de los tramos.',
+  },
+  {
+    question: '¿El IRPF es el único impuesto que varía por comunidad?',
+    answer: 'No. También varían el Impuesto de Sucesiones y Donaciones, el ITP (Impuesto de Transmisiones Patrimoniales) y algunas deducciones autonómicas por vivienda, familia o inversión.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Comparador de Sueldo Neto por Comunidad Autónoma ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Comparador Comunidades"
+  path="/comparador-comunidades/"
+  faqs={faqs}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <ComparadorComunidades client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      El mapa fiscal de España: por qué tu neto cambia según dónde vivas
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        España no tiene un IRPF único. Lo que los contribuyentes pagan es la suma de dos impuestos paralelos: la cuota estatal (regulada por la Ley del IRPF, común a todo el territorio excepto País Vasco y Navarra) y la cuota autonómica, que cada comunidad fija con total libertad. Esta dualidad significa que dos personas con el mismo sueldo bruto y la misma situación familiar pueden pagar cantidades diferentes de IRPF simplemente por vivir en provincias distintas.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Quién paga más y quién paga menos</h3>
+      <p>
+        Madrid ha hecho de la fiscalidad reducida una seña de identidad política. Sus tipos autonómicos son los más bajos del régimen común, con un máximo del 20,5% frente al 25,5% de Cataluña o el 25% de la Comunidad Valenciana. En la práctica, un trabajador con un bruto de 50.000 € paga unos 1.200 € menos de IRPF al año en Madrid que en Cataluña. Esa brecha crece con el salario: para un bruto de 100.000 €, la diferencia supera los 3.500 € anuales.
+      </p>
+      <p>
+        Sin embargo, reducir la comparación al IRPF da una imagen incompleta. Las comunidades con tipos más bajos pueden compensar la menor recaudación con impuestos indirectos o menor gasto público. Una comunidad con un IRPF más alto puede ofrecer sanidad, educación o transporte público que ahorre al ciudadano costes que en otras regiones salen del bolsillo.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Los regímenes forales: País Vasco y Navarra</h3>
+      <p>
+        País Vasco y Navarra funcionan con un sistema fiscal completamente propio derivado de los derechos históricos reconocidos en la Constitución. No aplican la escala estatal ni la autonómica: tienen sus propias escalas únicas con tramos, tipos y deducciones distintas. En general, para salarios medios, el País Vasco resulta competitivo con Madrid, mientras que Navarra se sitúa en una posición intermedia. Pero la comparación directa es engañosa porque sus sistemas incluyen particularidades como deducciones propias, tratamiento diferente de la vivienda o reducciones específicas por familia que no existen en el régimen común.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">¿Merece la pena mudarse por el IRPF?</h3>
+      <p>
+        Es una pregunta que surge con frecuencia en foros y redes sociales. La respuesta depende del salario. Para sueldos inferiores a 30.000 € brutos, las diferencias entre comunidades raramente superan los 500 € anuales, una cantidad que no justifica un traslado. A partir de 60.000 €, las diferencias ya se miden en miles de euros y empiezan a ser un factor relevante, especialmente para teletrabajadores que pueden elegir su lugar de residencia. En cualquier caso, la residencia fiscal se determina por donde vivas más de 183 días al año, y la Agencia Tributaria vigila activamente los cambios de domicilio fiscal de contribuyentes con rentas altas.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo: mismo sueldo, distintas comunidades</h3>
+      <p>
+        Veamos cómo varía el neto mensual de un trabajador soltero con 45.000 € brutos y 14 pagas según la comunidad (valores aproximados):
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Comunidad</th>
+              <th class="px-3 py-2 text-right">IRPF anual</th>
+              <th class="px-3 py-2 text-right">Neto mensual</th>
+              <th class="px-3 py-2 text-right">Diferencia vs Madrid</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700 bg-emerald-50/50 dark:bg-emerald-900/10"><td class="px-3 py-1 font-medium">Madrid</td><td class="px-3 py-1 text-right">9.420 €</td><td class="px-3 py-1 text-right">2.377 €</td><td class="px-3 py-1 text-right">-</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Castilla y León</td><td class="px-3 py-1 text-right">9.650 €</td><td class="px-3 py-1 text-right">2.361 €</td><td class="px-3 py-1 text-right">−16 €/mes</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Andalucía</td><td class="px-3 py-1 text-right">9.950 €</td><td class="px-3 py-1 text-right">2.339 €</td><td class="px-3 py-1 text-right">−38 €/mes</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">País Vasco</td><td class="px-3 py-1 text-right">9.700 €</td><td class="px-3 py-1 text-right">2.357 €</td><td class="px-3 py-1 text-right">−20 €/mes</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Cataluña</td><td class="px-3 py-1 text-right">10.450 €</td><td class="px-3 py-1 text-right">2.304 €</td><td class="px-3 py-1 text-right">−73 €/mes</td></tr>
+            <tr class="bg-red-50/50 dark:bg-red-900/10"><td class="px-3 py-1">C. Valenciana</td><td class="px-3 py-1 text-right">10.600 €</td><td class="px-3 py-1 text-right">2.293 €</td><td class="px-3 py-1 text-right">−84 €/mes</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        La diferencia entre Madrid y la Comunidad Valenciana es de 84 €/mes, es decir, más de 1.000 € al año. Para un salario de 80.000 €, esa brecha se duplica.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Cómo funcionan los tramos autonómicos del IRPF</h3>
+      <p>
+        El IRPF en España se recauda a partes iguales entre el Estado y la comunidad autónoma donde reside el contribuyente. La Ley 22/2009, de 18 de diciembre, del sistema de financiación de las comunidades autónomas de régimen común, establece que el 50% de la cuota íntegra del IRPF corresponde al tramo estatal y el otro 50% al tramo autonómico. El Estado fija una escala estatal (Art. 63 de la Ley 35/2006) que se aplica en todo el territorio de régimen común, y cada comunidad fija su propia escala para su mitad.
+      </p>
+      <p>
+        Veamos cómo funciona con un ejemplo. Antonio gana 40.000 € brutos en Sevilla. Tras aplicar las cotizaciones a la Seguridad Social (6,35%) y las reducciones por rendimientos del trabajo, su base liquidable general queda en unos 30.800 €. A esa cifra se le aplican dos escalas en paralelo: la escala estatal genera una cuota de unos 3.540 €, y la escala autonómica de Andalucía genera unos 3.670 €. El total de IRPF de Antonio es la suma de ambas cuotas: 7.210 € aproximadamente. Si Antonio viviera en Madrid con las mismas condiciones, la cuota estatal sería idéntica (3.540 €), pero la cuota autonómica de Madrid sería de unos 3.350 €, resultando un IRPF total de 6.890 €. La diferencia (320 €) procede exclusivamente de la mitad autonómica.
+      </p>
+      <p>
+        Es importante entender que el sistema es progresivo en ambas mitades. Cada tramo se aplica solo al importe de renta que excede el límite inferior del tramo, no a la totalidad de la base. Eso significa que aunque Madrid tenga un tipo máximo del 20,5% y Cataluña del 25,5%, esos tipos solo se aplican a la renta que supera los umbrales más altos, no a todo el sueldo.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Comparativa ampliada: retención efectiva por comunidad y nivel salarial</h3>
+      <p>
+        La siguiente tabla muestra la retención efectiva total de IRPF (estatal + autonómica) para tres niveles de salario bruto, en las seis comunidades más pobladas. Perfil: trabajador soltero, sin hijos, contrato indefinido, 14 pagas.
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Comunidad</th>
+              <th class="px-3 py-2 text-right">30.000 € brutos</th>
+              <th class="px-3 py-2 text-right">50.000 € brutos</th>
+              <th class="px-3 py-2 text-right">80.000 € brutos</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700 bg-emerald-50/50 dark:bg-emerald-900/10"><td class="px-3 py-1 font-medium">Madrid</td><td class="px-3 py-1 text-right">14,8%</td><td class="px-3 py-1 text-right">20,9%</td><td class="px-3 py-1 text-right">27,1%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Andalucía</td><td class="px-3 py-1 text-right">15,3%</td><td class="px-3 py-1 text-right">21,8%</td><td class="px-3 py-1 text-right">28,4%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">País Vasco (Bizkaia)</td><td class="px-3 py-1 text-right">14,9%</td><td class="px-3 py-1 text-right">21,4%</td><td class="px-3 py-1 text-right">28,6%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Galicia</td><td class="px-3 py-1 text-right">15,5%</td><td class="px-3 py-1 text-right">22,0%</td><td class="px-3 py-1 text-right">28,9%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Cataluña</td><td class="px-3 py-1 text-right">15,6%</td><td class="px-3 py-1 text-right">22,4%</td><td class="px-3 py-1 text-right">29,8%</td></tr>
+            <tr class="bg-red-50/50 dark:bg-red-900/10"><td class="px-3 py-1">C. Valenciana</td><td class="px-3 py-1 text-right">15,7%</td><td class="px-3 py-1 text-right">22,5%</td><td class="px-3 py-1 text-right">30,1%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-gray-400 mt-2">Porcentaje de retención efectiva de IRPF sobre el bruto total. Valores orientativos. País Vasco aplica normativa foral propia, no tramos estatales+autonómicos.</p>
+      <p>
+        Para un salario de 30.000 € brutos, la diferencia entre Madrid (14,8%) y la Comunidad Valenciana (15,7%) es de 0,9 puntos, lo que equivale a unos 270 € anuales. Pero a 80.000 € brutos, la brecha entre Madrid (27,1%) y la Comunidad Valenciana (30,1%) es de 3 puntos: unos 2.400 € al año. La progresividad fiscal amplifica las diferencias autonómicas a medida que sube el salario, lo que explica por qué el debate fiscal entre comunidades afecta sobre todo a las rentas medias-altas y altas.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El régimen foral: País Vasco y Navarra, un sistema aparte</h3>
+      <p>
+        País Vasco y Navarra no participan del sistema de financiación autonómica común. Su singularidad tiene base constitucional: la Disposición Adicional Primera de la Constitución Española de 1978 ampara los derechos históricos de los territorios forales. Esto se materializa en dos figuras jurídicas distintas.
+      </p>
+      <p>
+        El <strong>Concierto Económico</strong> (Ley 12/2002) regula la relación fiscal entre el Estado y el País Vasco. Cada uno de los tres Territorios Históricos (Bizkaia, Gipuzkoa y Araba) tiene su propia Diputación Foral, que aprueba su propia normativa tributaria. Esto incluye una escala del IRPF completa (no solo una mitad autonómica) con tramos, tipos, deducciones y mínimos propios. Las Juntas Generales de cada territorio aprueban sus respectivas Normas Forales del IRPF: la Norma Foral 13/2013 de Bizkaia, la 3/2014 de Gipuzkoa y la 33/2013 de Araba. Las tres son similares pero no idénticas; pueden existir diferencias de varios cientos de euros entre vivir en Bilbao o en Vitoria para el mismo salario.
+      </p>
+      <p>
+        El <strong>Convenio Económico</strong> (Ley 28/1990, actualizada por la Ley 25/2003) regula la relación del Estado con Navarra. A diferencia del País Vasco, Navarra tiene un único territorio con una sola normativa fiscal: la Ley Foral 13/1992 del Impuesto sobre la Renta de las Personas Físicas de Navarra (modificada periódicamente por sucesivas leyes forales). Los tipos de Navarra son propios e históricamente se han situado en una posición intermedia entre Madrid y Cataluña para salarios medios.
+      </p>
+      <p>
+        Un aspecto práctico que confunde a muchos contribuyentes es el punto de conexión: un trabajador que vive en Bizkaia pero trabaja en una empresa con sede en Madrid tributa por el IRPF foral de Bizkaia si tiene su residencia habitual allí (más de 183 días al año). No importa dónde esté la empresa ni dónde trabaje físicamente. Esto adquiere relevancia con el auge del teletrabajo, ya que un empleado remoto que se traslade de Madrid a San Sebastián pasará a tributar por la normativa foral guipuzcoana, con consecuencias fiscales que conviene calcular antes de hacer el cambio.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">¿Merece la pena mudarse por impuestos? Un análisis realista</h3>
+      <p>
+        Es la pregunta estrella en las conversaciones sobre fiscalidad autonómica. La respuesta corta: para la inmensa mayoría de asalariados, no. La respuesta larga tiene matices.
+      </p>
+      <p>
+        Tomemos el caso de Pablo, que gana 40.000 € brutos anuales como responsable de marketing en una empresa con sede en Barcelona. Pablo es soltero y sin hijos. En Cataluña, su IRPF total ronda los 8.900 €. Si se mudara a Madrid, su IRPF bajaría a unos 8.100 €. La diferencia es de 800 € al año, es decir, 67 € al mes. Ahora bien, mudarse de Barcelona a Madrid tiene costes que superan ampliamente esos 800 €: fianza y primer mes de alquiler (en Madrid, un piso similar puede costar entre 100 y 300 € más al mes que en muchos barrios de Barcelona), coste de la mudanza física, cambio de centro de salud, trámites administrativos, y la pérdida de la red social y profesional.
+      </p>
+      <p>
+        Para rentas más altas, las cifras cambian. Marta gana 90.000 € como directora financiera. La diferencia de IRPF entre la Comunidad Valenciana (donde la retención efectiva es la más alta del régimen común) y Madrid supera los 3.000 € anuales. En ese caso, si Marta teletrabaja y no tiene ataduras geográficas, el ahorro fiscal empieza a ser un factor con peso real, sobre todo acumulado a lo largo de varios años. Aun así, conviene analizar el panorama completo: Madrid no tiene Impuesto de Sucesiones y Donaciones efectivo (bonificación del 99% para familiares directos), lo que puede importar más que el IRPF si se espera una herencia significativa. Pero el coste de la vivienda en Madrid, ya sea compra o alquiler, puede devorar y superar con creces el ahorro fiscal.
+      </p>
+      <p>
+        La conclusión más honesta es que la decisión de dónde vivir debe basarse en factores como la calidad de vida, las oportunidades laborales presenciales, el coste de la vivienda, la proximidad a la familia y los servicios públicos. La diferencia fiscal, para salarios por debajo de 60.000 €, rara vez supera los 1.500 € anuales, una cifra que cualquier variación en el alquiler mensual puede compensar o anular fácilmente.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fuentes y normativa</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 35/2006, del IRPF</a>: Art. 63 (escala estatal) y disposición adicional trigésimo primera (cesión a las CCAA).</li>
+        <li>Leyes autonómicas de cada comunidad que regulan su propia escala: Ley 3/2023 de la CAM (Madrid), Ley 22/2009 del sistema de financiación autonómica.</li>
+        <li><a href="https://www.hacienda.gob.es/es-ES/Areas%20Tematicas/Financiacion%20Autonomica/Paginas/Financiacion%20Autonomica.aspx" class="text-brand hover:underline" target="_blank" rel="noopener">Ministerio de Hacienda: Financiación Autonómica</a>. Marco legal de la cesión del IRPF a las comunidades.</li>
+        <li><strong>Concierto Económico</strong> (País Vasco) y <strong>Convenio Económico</strong> (Navarra): regulan los regímenes forales con escalas IRPF propias.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

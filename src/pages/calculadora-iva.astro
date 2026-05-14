@@ -1,0 +1,217 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import IVA from '../components/calculadoras/IVA';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Calculadora de IVA: Añadir y Quitar IVA Online ${CURRENT_FISCAL_YEAR}`;
+const description = `Calcula el IVA de cualquier importe al instante. Añade o quita el 21%, 10% o 4% de IVA con nuestra calculadora online gratuita y actualizada para España ${CURRENT_FISCAL_YEAR}.`;
+
+const faqs = [
+  {
+    question: '¿Cuáles son los tres tipos de IVA en España?',
+    answer: `En España existen tres tipos de IVA: el general del 21%, que se aplica a la mayoría de productos y servicios; el reducido del 10%, para alimentos, transporte de viajeros, hostelería y vivienda nueva; y el superreducido del 4%, para bienes de primera necesidad como pan, leche, frutas, verduras, libros y medicamentos.`,
+  },
+  {
+    question: '¿Cómo se calcula el IVA de un importe?',
+    answer: `Para añadir IVA, multiplica la base imponible por el tipo (por ejemplo, 1.000 x 0,21 = 210 € de IVA, total 1.210 €). Para quitar el IVA de un precio final, divide entre 1 más el tipo: 1.210 / 1,21 = 1.000 € de base imponible.`,
+  },
+  {
+    question: '¿Se aplica IVA en Canarias, Ceuta y Melilla?',
+    answer: `No. Canarias tiene su propio impuesto indirecto, el IGIC (Impuesto General Indirecto Canario), con un tipo general del 7%. Ceuta y Melilla aplican el IPSI (Impuesto sobre la Producción, los Servicios y la Importación), con un tipo general del 10%. El IVA peninsular no se aplica en estos territorios.`,
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1="Calculadora de IVA"
+  calculatorName="Calculadora IVA"
+  path="/calculadora-iva/"
+  faqs={faqs}
+  sources={[
+    { label: 'AEAT', url: 'https://www.agenciatributaria.gob.es' },
+    { label: 'Ley 37/1992 del IVA', url: 'https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740' },
+    { label: 'BOE', url: 'https://www.boe.es' },
+  ]}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <IVA client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía completa del IVA en España: tipos, cálculo y obligaciones fiscales
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        El Impuesto sobre el Valor Añadido (IVA) es el principal impuesto indirecto que se aplica en España. A diferencia del IRPF, que grava la renta de las personas según su capacidad económica, el IVA grava el consumo: cada vez que compras un producto o contratas un servicio, una parte del precio que pagas corresponde a este impuesto. Lo paga el consumidor final, pero lo recaudan y lo ingresan en Hacienda las empresas y los autónomos que intervienen en la cadena comercial. El IVA está regulado por la Ley 37/1992, de 28 de diciembre, y es un impuesto armonizado a nivel europeo, lo que significa que todos los países de la Unión Europea aplican alguna variante del mismo sistema, aunque con tipos y exenciones que varían de un Estado miembro a otro.
+      </p>
+      <p>
+        En la práctica, el IVA funciona como un impuesto en cadena. Cada empresa que participa en el proceso de producción y distribución repercute el IVA a su cliente y, al mismo tiempo, puede deducir el IVA que ha soportado en sus compras. Solo el consumidor final, que no puede deducir nada, asume el coste real del impuesto. Este mecanismo de repercusión y deducción es lo que convierte al IVA en un impuesto «neutral» para las empresas, al menos en teoría: el impuesto no debería suponer un coste empresarial, sino únicamente un coste para quien consume el bien o servicio final.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Los tres tipos de IVA en España</h3>
+      <p>
+        La legislación española establece tres tipos impositivos de IVA, cada uno aplicable a categorías distintas de bienes y servicios. La elección del tipo no es arbitraria: responde a criterios de política fiscal orientados a reducir la carga impositiva sobre bienes de primera necesidad y servicios considerados esenciales.
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Tipo general: 21%.</strong> Se aplica a la mayoría de productos y servicios que no tienen un tipo específico. Ejemplos: electrónica, ropa, servicios profesionales (abogados, consultores, diseñadores), telecomunicaciones, cosmética, electrodomésticos, vehículos, tabaco, bebidas alcohólicas y refrescos, joyas, servicios digitales y entretenimiento.</li>
+        <li><strong>Tipo reducido: 10%.</strong> Se aplica a alimentos en general (excepto los de primera necesidad que tributan al 4%), transporte de viajeros, hostelería y restauración, vivienda de obra nueva, productos sanitarios, espectáculos culturales y deportivos en directo, servicios funerarios y peluquería.</li>
+        <li><strong>Tipo superreducido: 4%.</strong> Reservado para bienes y servicios de primera necesidad: pan, leche, huevos, frutas, verduras, hortalizas, cereales, quesos, legumbres, tubérculos, libros y periódicos (tanto en papel como en formato digital desde 2020), medicamentos de uso humano, sillas de ruedas, prótesis, viviendas de protección oficial (VPO) y servicios de teleasistencia y ayuda a domicilio.</li>
+      </ul>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tabla de productos y servicios por tipo de IVA</h3>
+      <p>
+        La siguiente tabla recoge las categorías más habituales y el tipo de IVA que les corresponde. Conviene consultarla antes de emitir una factura o para verificar que el IVA cobrado en un ticket es correcto.
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Categoría</th>
+              <th class="px-3 py-2 text-left">Ejemplos</th>
+              <th class="px-3 py-2 text-right">Tipo de IVA</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Alimentación básica</td><td class="px-3 py-1">Pan, leche, huevos, frutas, verduras, legumbres</td><td class="px-3 py-1 text-right">4%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Alimentación general</td><td class="px-3 py-1">Carne, pescado, embutidos, conservas, pasta, arroz</td><td class="px-3 py-1 text-right">10%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Bebidas alcohólicas y refrescos</td><td class="px-3 py-1">Cerveza, vino, licores, zumos envasados, refrescos</td><td class="px-3 py-1 text-right">21%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Restauración y hostelería</td><td class="px-3 py-1">Restaurantes, bares, cafeterías, hoteles</td><td class="px-3 py-1 text-right">10%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Transporte de viajeros</td><td class="px-3 py-1">Autobús, metro, tren, avión nacional</td><td class="px-3 py-1 text-right">10%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Vivienda nueva</td><td class="px-3 py-1">Compra de obra nueva (primera entrega)</td><td class="px-3 py-1 text-right">10%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Vivienda VPO</td><td class="px-3 py-1">Vivienda de protección oficial</td><td class="px-3 py-1 text-right">4%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Libros y prensa</td><td class="px-3 py-1">Libros, periódicos, revistas (papel y digital)</td><td class="px-3 py-1 text-right">4%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Medicamentos</td><td class="px-3 py-1">Medicamentos de uso humano</td><td class="px-3 py-1 text-right">4%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Productos sanitarios</td><td class="px-3 py-1">Gafas graduadas, lentillas, compresas, tampones</td><td class="px-3 py-1 text-right">10%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Espectáculos en directo</td><td class="px-3 py-1">Teatro, cine, conciertos, museos, eventos deportivos</td><td class="px-3 py-1 text-right">10%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Servicios profesionales</td><td class="px-3 py-1">Abogados, consultores, arquitectos, diseñadores</td><td class="px-3 py-1 text-right">21%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Telecomunicaciones</td><td class="px-3 py-1">Internet, telefonía fija y móvil</td><td class="px-3 py-1 text-right">21%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Electrónica y tecnología</td><td class="px-3 py-1">Ordenadores, móviles, televisiones</td><td class="px-3 py-1 text-right">21%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Ropa y calzado</td><td class="px-3 py-1">Prendas de vestir, zapatos, complementos</td><td class="px-3 py-1 text-right">21%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Peluquería</td><td class="px-3 py-1">Corte de pelo, tratamientos capilares</td><td class="px-3 py-1 text-right">10%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Servicios funerarios</td><td class="px-3 py-1">Entierro, cremación, tanatorio</td><td class="px-3 py-1 text-right">10%</td></tr>
+            <tr><td class="px-3 py-1">Vehículos</td><td class="px-3 py-1">Coches, motos, furgonetas (nuevos y usados)</td><td class="px-3 py-1 text-right">21%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Hay que tener en cuenta que existen operaciones exentas de IVA. Las más relevantes son los servicios sanitarios prestados por profesionales médicos, la enseñanza reglada en centros autorizados, las operaciones financieras y de seguros, y el alquiler de vivienda habitual. Que una operación esté exenta significa que no se repercute IVA al cliente, pero también implica que el profesional o empresa que la realiza no puede deducirse el IVA soportado en sus compras relacionadas.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El IVA para autónomos y empresas: repercutir, deducir y declarar</h3>
+      <p>
+        Para un trabajador por cuenta ajena, el IVA es simplemente un sobrecoste en lo que compra. Para un autónomo o una empresa, el IVA forma parte de su operativa fiscal diaria. El mecanismo es el siguiente: cuando un autónomo vende un servicio o producto, repercute (cobra) IVA a su cliente. Cuando compra materiales, herramientas, software o cualquier gasto deducible para su actividad, soporta (paga) IVA a su proveedor. La diferencia entre el IVA repercutido y el IVA soportado es lo que debe ingresar a Hacienda. Si en un trimestre ha soportado más IVA del que ha repercutido (algo habitual al inicio de una actividad, por ejemplo, por la compra de equipamiento), el resultado es negativo y puede compensarlo en trimestres posteriores o solicitar su devolución.
+      </p>
+      <p>
+        La declaración del IVA se realiza trimestralmente a través del <strong>Modelo 303</strong>, que debe presentarse durante los primeros 20 días naturales del mes siguiente al cierre de cada trimestre (abril, julio, octubre y enero). Adicionalmente, en enero se presenta el <strong>Modelo 390</strong>, que es un resumen anual informativo del IVA. Las grandes empresas (facturación superior a 6.010.121,04 euros) tienen obligación de presentar declaraciones mensuales en lugar de trimestrales.
+      </p>
+      <p>
+        Existe un régimen especial para los comerciantes minoristas que venden al público final sin transformar el producto: el <strong>régimen de recargo de equivalencia</strong>. Bajo este sistema, el minorista no presenta declaraciones de IVA. En su lugar, su proveedor le cobra un recargo adicional sobre el IVA de cada factura (5,2% para productos al 21%, 1,4% para los del 10% y 0,5% para los del 4%). A cambio, el minorista queda liberado de toda obligación formal de IVA, lo que simplifica enormemente su contabilidad. Este régimen es obligatorio para las personas físicas (autónomos) que ejercen el comercio minorista y no realizan transformación del producto.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">IVA intracomunitario: operaciones con la Unión Europea</h3>
+      <p>
+        Cuando una empresa o autónomo español realiza operaciones comerciales con empresas de otros países de la UE, se aplican reglas especiales. En las entregas intracomunitarias de bienes (ventas a empresas de otros Estados miembros), la operación está exenta de IVA en España, siempre que el comprador esté registrado en el censo de operadores intracomunitarios (ROI) y el bien se transporte físicamente a otro Estado miembro. El comprador autoliquida el IVA en su país mediante el mecanismo de inversión del sujeto pasivo.
+      </p>
+      <p>
+        Para poder realizar estas operaciones, tanto el vendedor como el comprador deben estar dados de alta en el <strong>Registro de Operadores Intracomunitarios (ROI)</strong> y disponer de un NIF-IVA válido, que en España tiene el formato «ES» seguido del NIF de la empresa. La solicitud de alta se realiza a través del Modelo 036 ante la AEAT. Es fundamental verificar que el NIF-IVA del cliente europeo sea válido antes de emitir la factura sin IVA; la AEAT ofrece un sistema de validación en línea (VIES) para este fin.
+      </p>
+      <p>
+        Adicionalmente, todas las operaciones intracomunitarias deben declararse trimestralmente en el <strong>Modelo 349</strong> (Declaración recapitulativa de operaciones intracomunitarias). Este modelo es informativo y permite a las administraciones tributarias de los distintos países de la UE cruzar datos y detectar fraudes en el IVA intracomunitario. Los autónomos y empresas que realicen operaciones intracomunitarias de forma habitual deben asegurarse de cumplir esta obligación, ya que su incumplimiento puede acarrear sanciones significativas.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Cambios recientes en el IVA: medidas extraordinarias 2023-2025</h3>
+      <p>
+        La crisis de inflación desencadenada en 2022 por el encarecimiento de la energía y los alimentos llevó al Gobierno a adoptar medidas excepcionales sobre el IVA. En enero de 2023, mediante el Real Decreto-ley 20/2022, se redujo temporalmente el IVA de los alimentos de primera necesidad del 4% al 0% (pan, leche, huevos, frutas, verduras, cereales, legumbres, tubérculos y quesos). Simultáneamente, los aceites (incluido el de oliva) y la pasta pasaron del 10% al 5%. El objetivo era aliviar el impacto de la subida de precios en las familias.
+      </p>
+      <p>
+        Estas reducciones se fueron prorrogando a lo largo de 2023 y 2024. En octubre de 2024, con la inflación de alimentos ya moderada, se inició la vuelta progresiva a los tipos normales. El aceite de oliva, que hasta entonces tributaba al 5%, pasó a tributar al 4% de forma permanente, reconociendo su papel como alimento esencial en la dieta mediterránea. Los alimentos de primera necesidad recuperaron su tipo del 4%, y los aceites de semillas y la pasta volvieron al 10%. Esta transición se completó a principios de 2025, restaurando la estructura habitual de tipos con la excepción mencionada del aceite de oliva.
+      </p>
+      <p>
+        Estos cambios son un buen ejemplo de cómo el IVA puede utilizarse como herramienta de política económica coyuntural: reducir temporalmente el impuesto sobre productos esenciales para contener el impacto de la inflación en los hogares. Sin embargo, también generaron complejidad administrativa para los comercios, que tuvieron que ajustar sus sistemas de facturación y TPV en varias ocasiones durante el periodo de vigencia de las medidas.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo: factura de un autónomo con IVA y retención de IRPF</h3>
+      <p>
+        Un autónomo que presta servicios profesionales (por ejemplo, un diseñador gráfico) emite una factura a una empresa. La factura tipo incluye la base imponible, el IVA repercutido y la retención de IRPF que practica el cliente. Veamos un ejemplo con una base de 2.000 euros:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Concepto</th>
+              <th class="px-3 py-2 text-right">Importe</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Base imponible</td><td class="px-3 py-1 text-right">2.000,00 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">IVA 21%</td><td class="px-3 py-1 text-right">+ 420,00 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Retención IRPF 15%</td><td class="px-3 py-1 text-right">- 300,00 €</td></tr>
+            <tr class="border-t-2 border-gray-300 dark:border-gray-500 font-medium"><td class="px-3 py-1">Total a percibir</td><td class="px-3 py-1 text-right">2.120,00 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        En este ejemplo, el autónomo cobra 2.120 euros de su cliente. De esos 2.120 euros, 420 corresponden al IVA repercutido, que deberá ingresar a Hacienda a través del Modelo 303 (descontando el IVA soportado en sus gastos deducibles). Los 300 euros de retención de IRPF los ingresa directamente el cliente a cuenta del autónomo, y este los recupera al presentar su declaración de la renta anual. La retención del 15% es la habitual para profesionales; los autónomos en su primer año y los dos siguientes pueden aplicar una retención reducida del 7%.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">IVA en Canarias, Ceuta y Melilla: las excepciones al sistema español</h3>
+      <p>
+        El IVA regulado por la Ley 37/1992 se aplica en la Península y Baleares. Canarias, Ceuta y Melilla quedan fuera de su ámbito territorial y aplican sus propios impuestos indirectos.
+      </p>
+      <p>
+        En <strong>Canarias</strong> se aplica el IGIC (Impuesto General Indirecto Canario). Su tipo general es del 7%, significativamente inferior al 21% del IVA peninsular. El IGIC tiene también tipos reducidos (3%), un tipo cero (0%) para determinados bienes esenciales y un tipo incrementado del 15% para productos como el tabaco. La estructura es similar a la del IVA pero con una escala de tipos más baja, lo que contribuye al menor coste de vida relativo en las islas (compensado parcialmente por los costes de transporte e insularidad).
+      </p>
+      <p>
+        En <strong>Ceuta y Melilla</strong> se aplica el IPSI (Impuesto sobre la Producción, los Servicios y la Importación). Su tipo general es del 10%, con tipos reducidos del 0,5%, 1%, 2%, 4% y 8% para distintas categorías de bienes y servicios. A diferencia del IVA y del IGIC, el IPSI tiene una estructura de tipos más fragmentada y compleja.
+      </p>
+      <p>
+        Las consecuencias prácticas para las empresas son importantes. Las ventas desde la Península a Canarias, Ceuta o Melilla se consideran exportaciones a efectos del IVA, lo que significa que están exentas de IVA (se facturan sin impuesto). El destinatario en el territorio correspondiente deberá liquidar el IGIC o el IPSI a la importación. Esto genera una ventaja para el consumidor canario, ceutí o melillense en muchos productos, pero también una complejidad logística y aduanera adicional para las empresas que venden a estos territorios.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Cómo calcular el IVA: fórmulas y ejemplos paso a paso</h3>
+      <p>
+        El cálculo del IVA es sencillo, pero conviene tener claras las dos operaciones posibles para evitar errores habituales.
+      </p>
+      <p>
+        <strong>Añadir IVA a una base imponible.</strong> Cuando conoces el precio sin IVA (base imponible) y quieres saber el precio final con IVA incluido, la fórmula es: Total = Base x (1 + tipo). Por ejemplo, para un servicio de 500 euros al 21%: Total = 500 x 1,21 = 605 euros. El IVA es 105 euros.
+      </p>
+      <p>
+        <strong>Quitar IVA de un precio final.</strong> Cuando conoces el precio con IVA incluido y quieres saber cuál es la base imponible, la fórmula es: Base = Total / (1 + tipo). Por ejemplo, un producto que cuesta 121 euros con IVA al 21%: Base = 121 / 1,21 = 100 euros. El IVA incluido en el precio es 21 euros. Un error muy frecuente es calcular el 21% de 121 (que da 25,41 euros) para obtener la base: eso es incorrecto, porque el 21% se aplica sobre la base, no sobre el total.
+      </p>
+      <p>
+        Nuestra calculadora de IVA realiza ambas operaciones de forma automática. Solo tienes que introducir el importe, seleccionar el tipo de IVA y elegir si quieres añadirlo o quitarlo. Adicionalmente, la tabla de referencia rápida que aparece debajo de los resultados te muestra el IVA correspondiente a los tres tipos (21%, 10% y 4%) para el importe que hayas introducido, lo que facilita comparaciones instantáneas.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Comparativa del IVA en la Unión Europea</h3>
+      <p>
+        El tipo general del IVA en España (21%) se sitúa en la franja media de la UE. Los países nórdicos aplican los tipos más altos: Hungría lidera con un 27%, seguida de Dinamarca, Suecia, Noruega y Croacia con un 25%. En el extremo inferior se encuentra Luxemburgo con un 17%. Alemania aplica un 19%, Francia un 20%, Italia un 22% y Portugal un 23%. La Directiva 2006/112/CE del Consejo establece un tipo mínimo del 15% para el tipo general, pero no fija un máximo, lo que explica la dispersión entre países. La armonización europea se centra más en las reglas del juego (base imponible, exenciones, mecanismos de declaración) que en los tipos concretos, que cada Estado miembro fija según sus necesidades presupuestarias.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Preguntas prácticas sobre el IVA</h3>
+      <p>
+        <strong>Si soy particular, ¿puedo recuperar el IVA?</strong> No. Solo los empresarios y profesionales dados de alta en una actividad económica pueden deducir el IVA soportado. Los consumidores finales asumen el IVA como coste. La excepción es el régimen de viajeros no residentes en la UE, que pueden solicitar la devolución del IVA de compras superiores a 90,15 euros realizadas en tiendas adheridas al sistema Tax Free.
+      </p>
+      <p>
+        <strong>¿El alquiler de vivienda lleva IVA?</strong> El alquiler de vivienda habitual está exento de IVA. Sin embargo, el alquiler de locales comerciales tributa al 21%, y el alquiler de vivienda con servicios propios de la industria hotelera (limpieza periódica, recepción, cambio de ropa de cama) también lleva IVA al 10%, ya que se considera una actividad de alojamiento turístico.
+      </p>
+      <p>
+        <strong>¿Qué ocurre si aplico un tipo de IVA incorrecto en una factura?</strong> Si repercutes un tipo inferior al correcto, deberás emitir una factura rectificativa e ingresar la diferencia a Hacienda. Si repercutes un tipo superior, el cliente tiene derecho a solicitar la rectificación y la devolución del exceso. La aplicación de un tipo incorrecto de forma sistemática puede dar lugar a sanciones tributarias.
+      </p>
+      <p>
+        <strong>¿Cuándo prescribe el IVA?</strong> El derecho de la Administración a comprobar y liquidar el IVA prescribe a los cuatro años, contados desde el día siguiente al fin del plazo de presentación de la declaración correspondiente. Lo mismo aplica al derecho del contribuyente a solicitar devoluciones: si no reclamas un IVA soportado en exceso dentro de ese plazo, pierdes el derecho.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fuentes y normativa de referencia</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 37/1992, de 28 de diciembre, del Impuesto sobre el Valor Añadido</a> - Texto consolidado publicado en el BOE. Es la norma fundamental que regula el IVA en España.</li>
+        <li><a href="https://www.agenciatributaria.gob.es" class="text-brand hover:underline" target="_blank" rel="noopener">Agencia Estatal de Administración Tributaria (AEAT)</a> - Sede electrónica para la presentación de modelos (303, 390, 349) y consultas vinculantes sobre el IVA.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-1992-28741" class="text-brand hover:underline" target="_blank" rel="noopener">Reglamento del IVA (Real Decreto 1624/1992)</a> - Desarrollo reglamentario de la Ley del IVA, con detalle de obligaciones formales y regímenes especiales.</li>
+        <li><a href="https://www.boe.es/buscar/doc.php?id=BOE-A-2022-22685" class="text-brand hover:underline" target="_blank" rel="noopener">Real Decreto-ley 20/2022</a> - Medidas de respuesta a las consecuencias económicas y sociales de la Guerra de Ucrania, incluyendo la rebaja temporal del IVA de alimentos.</li>
+        <li><a href="https://ec.europa.eu/taxation_customs/tedb/taxDetails.html?id=2086" class="text-brand hover:underline" target="_blank" rel="noopener">Comisión Europea: tipos de IVA en los Estados miembros</a> - Base de datos actualizada con los tipos de IVA de todos los países de la UE.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

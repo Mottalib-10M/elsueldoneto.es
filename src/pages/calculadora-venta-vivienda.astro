@@ -1,0 +1,244 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import VentaVivienda from '../components/calculadoras/VentaVivienda';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Calculadora de Impuestos por Venta de Vivienda ${CURRENT_FISCAL_YEAR}`;
+const description = `Calcula los impuestos que pagarás por vender tu vivienda: IRPF sobre la ganancia patrimonial y plusvalía municipal. Simulador gratuito actualizado en ${CURRENT_FISCAL_YEAR}.`;
+
+const faqs = [
+  {
+    question: '¿Cuánto se paga de IRPF por vender una vivienda?',
+    answer: 'El IRPF se aplica sobre la ganancia patrimonial (precio de venta menos precio de compra y gastos deducibles). Se tributa por la escala del ahorro, que va del 19% para los primeros 6.000 euros hasta el 28% para ganancias superiores a 300.000 euros.',
+  },
+  {
+    question: '¿Puedo evitar pagar impuestos si reinvierto en otra vivienda?',
+    answer: 'Si la vivienda vendida es tu vivienda habitual y reinviertes el importe total de la venta en la compra de otra vivienda habitual en un plazo de dos anos, puedes quedar exento del IRPF sobre la ganancia patrimonial (art. 38 LIRPF). La plusvalia municipal se paga igualmente.',
+  },
+  {
+    question: '¿Qué es la plusvalía municipal y cuándo se paga?',
+    answer: 'La plusvalia municipal (Impuesto sobre el Incremento del Valor de los Terrenos de Naturaleza Urbana) es un impuesto que cobra tu ayuntamiento cuando vendes un inmueble urbano. Desde la STC 182/2021, no se paga si vendes con perdidas. Su calculo depende del valor catastral del suelo, los anos de tenencia y los coeficientes del municipio.',
+  },
+  {
+    question: '¿Qué gastos puedo deducir al calcular la ganancia patrimonial?',
+    answer: 'En la compra puedes deducir el ITP o IVA, notaria, registro y gestoria. En la venta puedes deducir la comision de la agencia inmobiliaria, el certificado energetico, la cancelacion registral de hipoteca y los gastos de notaria. Tambien se deducen las inversiones en mejoras debidamente justificadas con factura.',
+  },
+  {
+    question: '¿Los mayores de 65 años pagan IRPF por vender su vivienda?',
+    answer: 'No. Las personas mayores de 65 anos que venden su vivienda habitual estan completamente exentas del IRPF sobre la ganancia patrimonial, sin necesidad de reinvertir en otra vivienda. Ademas, desde 2015, los mayores de 65 anos pueden estar exentos por la venta de cualquier bien si reinvierten en una renta vitalicia asegurada (maximo 240.000 euros).',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1="Calculadora de Impuestos por Venta de Vivienda"
+  calculatorName="Venta Vivienda"
+  path="/calculadora-venta-vivienda/"
+  faqs={faqs}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <VentaVivienda client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía completa: impuestos por la venta de una vivienda en España
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Vender una vivienda en España tiene implicaciones fiscales que conviene conocer antes de firmar la escritura. Dos impuestos principales gravan la operación: el IRPF sobre la ganancia patrimonial, que se declara en la renta del ejercicio en que se vende, y la plusvalía municipal, que cobra el ayuntamiento donde se ubica el inmueble. A estos pueden sumarse otros costes, como la comisión de la agencia inmobiliaria o la cancelación registral de la hipoteca, que a su vez reducen la base sobre la que se tributa. Entender cómo funciona cada uno de estos conceptos te permitirá planificar la venta con mayor seguridad y evitar sorpresas desagradables cuando llegue el momento de liquidar tus obligaciones fiscales.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Cómo se calcula la ganancia patrimonial</h3>
+      <p>
+        La ganancia patrimonial es la diferencia entre el valor de transmisión y el valor de adquisición. El valor de transmisión es el precio real de venta menos los gastos inherentes a la transmisión que haya pagado el vendedor (comisión de agencia inmobiliaria, certificado energético, cancelación registral de hipoteca). El valor de adquisición es el precio que pagaste en su día más los gastos e impuestos asociados a la compra (ITP o IVA, notaría, registro, gestoría) y las inversiones y mejoras realizadas en la vivienda, siempre que estén debidamente justificadas con factura.
+      </p>
+      <p>
+        La fórmula resumida es la siguiente:
+      </p>
+      <p>
+        <strong>Ganancia patrimonial = Valor de transmisión - Valor de adquisición</strong>
+      </p>
+      <p>
+        Donde:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Valor de transmisión</strong> = Precio de venta - Gastos de venta (agencia, certificado energético, cancelación registral de hipoteca).</li>
+        <li><strong>Valor de adquisición</strong> = Precio de compra + Gastos de compra (ITP/IVA, notaría, registro, gestoría) + Inversiones en mejoras.</li>
+      </ul>
+      <p>
+        Si el resultado es negativo, no existe ganancia patrimonial y, por tanto, no hay tributación por IRPF. Esa pérdida patrimonial se puede compensar con ganancias del mismo tipo obtenidas en el mismo ejercicio o en los cuatro siguientes, lo que resulta especialmente relevante si vendes varios inmuebles en diferentes años.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">La escala del ahorro del IRPF</h3>
+      <p>
+        La ganancia patrimonial por la venta de un inmueble se integra en la base del ahorro del IRPF, no en la base general. Esto significa que tributa por una escala específica, la escala del ahorro, que para el ejercicio 2025 tiene cinco tramos:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Base liquidable del ahorro</th>
+              <th class="px-3 py-2 text-right">Tipo aplicable</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Hasta 6.000 €</td><td class="px-3 py-1 text-right">19%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">De 6.001 € a 50.000 €</td><td class="px-3 py-1 text-right">21%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">De 50.001 € a 200.000 €</td><td class="px-3 py-1 text-right">23%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">De 200.001 € a 300.000 €</td><td class="px-3 py-1 text-right">27%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Más de 300.000 €</td><td class="px-3 py-1 text-right">28%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        La escala es progresiva: no se aplica un único porcentaje a toda la ganancia, sino que cada tramo se grava a su tipo correspondiente. Veamos un ejemplo con una ganancia de 70.000 euros:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li>Primeros 6.000 € al 19% = 1.140 €</li>
+        <li>Siguientes 44.000 € (de 6.001 a 50.000) al 21% = 9.240 €</li>
+        <li>Últimos 20.000 € (de 50.001 a 70.000) al 23% = 4.600 €</li>
+        <li><strong>Total IRPF = 14.980 €</strong></li>
+      </ul>
+      <p>
+        El tipo efectivo resultante en este ejemplo es del 21,4% (14.980 / 70.000). La progresividad implica que cuanto mayor sea la ganancia, más se aproximará el tipo efectivo al marginal del último tramo aplicable. Una ganancia de 10.000 euros tributa a un tipo efectivo del 19,84%, mientras que una de 500.000 euros alcanza un tipo efectivo cercano al 26%.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Exenciones: cuándo no se paga IRPF</h3>
+      <p>
+        La legislación fiscal contempla varias situaciones en las que la ganancia patrimonial por la venta de una vivienda queda total o parcialmente exenta de IRPF.
+      </p>
+      <p>
+        <strong>Reinversión en vivienda habitual (art. 38 LIRPF).</strong> Si la vivienda vendida constituía tu vivienda habitual y reinviertes la totalidad del precio obtenido en la compra de otra vivienda habitual, la ganancia patrimonial queda completamente exenta. El plazo para materializar la reinversión es de dos años, contados desde la fecha de la venta. Si solo reinviertes una parte del precio, la exención se aplica proporcionalmente. Por ejemplo, si vendes por 250.000 euros y reinviertes 200.000 euros, la exención cubrirá el 80% de la ganancia. Para que la vivienda tenga la consideración de habitual, debes haber residido en ella de forma efectiva durante al menos tres años (salvo causas justificadas como traslado laboral, separación o divorcio).
+      </p>
+      <p>
+        <strong>Mayores de 65 años.</strong> Las personas que hayan cumplido 65 años en el momento de la venta y vendan su vivienda habitual quedan completamente exentas del IRPF sobre la ganancia, sin necesidad de reinvertir. Además, desde 2015, los mayores de 65 años pueden beneficiarse de la exención por venta de cualquier bien (no solo la vivienda habitual) si destinan el importe obtenido a constituir una renta vitalicia asegurada, con un límite de 240.000 euros y un plazo de seis meses desde la venta para formalizar la renta vitalicia.
+      </p>
+      <p>
+        <strong>Dación en pago.</strong> Cuando el propietario entrega la vivienda habitual al banco para cancelar la hipoteca (dación en pago), la ganancia patrimonial que pudiera generarse queda exenta si el deudor no dispone de otros bienes suficientes para satisfacer la deuda. Esta exención se aplica desde la Ley 1/2013, de medidas para reforzar la protección a los deudores hipotecarios.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Gastos deducibles: del lado de la compra y de la venta</h3>
+      <p>
+        Reducir la ganancia patrimonial de forma legítima pasa por incluir todos los gastos deducibles que la normativa permite. Estos gastos se agrupan en dos categorías según el momento en que se producen.
+      </p>
+      <p>
+        <strong>Gastos de compra (incrementan el valor de adquisición):</strong>
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Impuesto de Transmisiones Patrimoniales (ITP)</strong> o IVA, según si la vivienda era de segunda mano o nueva. El ITP varía por comunidad autónoma (entre el 4% y el 11% del precio). El IVA de vivienda nueva es del 10%.</li>
+        <li><strong>Notaría de compraventa.</strong> Los honorarios notariales de la escritura de compraventa.</li>
+        <li><strong>Registro de la Propiedad.</strong> El coste de inscribir la escritura en el Registro.</li>
+        <li><strong>Gestoría.</strong> Si contrataste una gestoría para tramitar la inscripción y la liquidación de impuestos.</li>
+        <li><strong>Comisión de apertura de hipoteca.</strong> Si financiaste la compra con hipoteca y pagaste comisión de apertura, esta se incluye como gasto de adquisición (sentencias del TS y doctrina de la DGT).</li>
+      </ul>
+      <p>
+        <strong>Gastos de venta (reducen el valor de transmisión):</strong>
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Comisión de la agencia inmobiliaria.</strong> El porcentaje o importe fijo que pagas a la agencia por la intermediación. Habitualmente oscila entre el 3% y el 5% del precio de venta.</li>
+        <li><strong>Certificado de eficiencia energética.</strong> Es obligatorio desde 2013 para vender o alquilar un inmueble. Su coste (entre 50 y 250 euros) es deducible.</li>
+        <li><strong>Cancelación registral de hipoteca.</strong> Si tenías hipoteca y la cancelas en el registro, los gastos de notaría y registro de la escritura de cancelación son deducibles.</li>
+        <li><strong>Plusvalía municipal.</strong> Aunque es un impuesto distinto del IRPF, su importe reduce el valor de transmisión a efectos del cálculo de la ganancia patrimonial. Es decir, pagar la plusvalía municipal reduce indirectamente lo que pagas de IRPF.</li>
+      </ul>
+      <p>
+        Además de estos gastos, las <strong>inversiones en mejoras</strong> realizadas en la vivienda incrementan el valor de adquisición, siempre que se puedan acreditar con facturas. Se consideran mejoras las obras que amplían la superficie útil, instalan elementos que no existían (calefacción, aire acondicionado, ascensor) o sustituyen elementos estructurales. No se consideran mejoras las reparaciones de mantenimiento ordinario (pintar, arreglar una persiana).
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Plusvalía municipal: qué es y cómo se calcula</h3>
+      <p>
+        El Impuesto sobre el Incremento del Valor de los Terrenos de Naturaleza Urbana (IIVTNU), conocido popularmente como "plusvalía municipal", es un tributo local que grava el aumento de valor del suelo urbano durante el periodo en que el vendedor ha sido propietario. Lo recauda el ayuntamiento del municipio donde se ubica el inmueble.
+      </p>
+      <p>
+        Tras la Sentencia del Tribunal Constitucional 182/2021, que declaró inconstitucional el método de cálculo entonces vigente, el Real Decreto-ley 26/2021 introdujo dos métodos de cálculo, y el contribuyente puede elegir el que le resulte más favorable:
+      </p>
+      <p>
+        <strong>Método objetivo (estimación objetiva):</strong> Se aplica un coeficiente al valor catastral del suelo en función de los años de tenencia del inmueble. Estos coeficientes se actualizan cada año en la Ley de Presupuestos Generales del Estado. El resultado se multiplica por el tipo impositivo que fije cada ayuntamiento (máximo 30%). Este es el método tradicional, simplificado y actualizado.
+      </p>
+      <p>
+        <strong>Método real (estimación directa):</strong> Se calcula la diferencia entre el precio de venta y el precio de compra, y se aplica al suelo la proporción que este represente en el valor catastral total. Es decir, si el suelo representa el 40% del valor catastral total, se imputa el 40% de la ganancia real al suelo. Sobre esa cantidad se aplica el tipo impositivo municipal. Este método beneficia al contribuyente cuando el incremento real del suelo ha sido inferior al que resulta del método objetivo.
+      </p>
+      <p>
+        Desde la STC 182/2021, si la venta se realiza con pérdidas (el precio de venta es inferior al de compra), no se paga plusvalía municipal. Esta fue precisamente la cuestión que el Tribunal Constitucional consideró contraria a la Constitución: gravar un incremento de valor inexistente. Si vendes con pérdidas, puedes solicitar la no sujeción al impuesto y, en caso de que el ayuntamiento te exija el pago, recurrir administrativa y judicialmente.
+      </p>
+      <p>
+        El plazo para presentar y pagar la plusvalía municipal es de 30 días hábiles desde la fecha de la escritura de compraventa. En caso de herencia, el plazo se amplía a seis meses desde el fallecimiento, prorrogable por otros seis meses si se solicita dentro del plazo inicial.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo completo: Sofía vende su piso en 2025</h3>
+      <p>
+        Sofía compró un piso en Madrid en 2015 por 195.000 euros. Los gastos de compra fueron: ITP (6% en Madrid en 2015, es decir, 11.700 euros), notaría (850 euros), registro (450 euros) y gestoría (300 euros). Total de gastos de compra: 13.300 euros. Durante estos diez años, Sofía reformó la cocina y el baño por 12.000 euros (con factura).
+      </p>
+      <p>
+        En 2025, Sofía vende el piso por 285.000 euros. Contrató una agencia inmobiliaria que cobra el 3% del precio de venta (8.550 euros). Además, paga el certificado energético (150 euros) y la cancelación registral de la hipoteca (600 euros de notaría y registro). Total de gastos de venta: 9.300 euros.
+      </p>
+      <p>
+        Calculamos la ganancia patrimonial:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li>Valor de adquisición = 195.000 + 13.300 + 12.000 = <strong>220.300 €</strong></li>
+        <li>Valor de transmisión = 285.000 - 9.300 = <strong>275.700 €</strong></li>
+        <li>Ganancia patrimonial = 275.700 - 220.300 = <strong>55.400 €</strong></li>
+      </ul>
+      <p>
+        Ahora aplicamos la escala del ahorro:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li>Primeros 6.000 € al 19% = 1.140 €</li>
+        <li>Siguientes 44.000 € (de 6.001 a 50.000) al 21% = 9.240 €</li>
+        <li>Últimos 5.400 € (de 50.001 a 55.400) al 23% = 1.242 €</li>
+        <li><strong>Total IRPF = 11.622 €</strong></li>
+      </ul>
+      <p>
+        Para la plusvalía municipal, supongamos que el valor catastral del suelo del piso de Sofía es de 40.000 euros y que el ayuntamiento de su municipio aplica un coeficiente de 0,12 para diez años de tenencia y un tipo del 30%:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li>Base imponible = 40.000 × 0,12 = 4.800 €</li>
+        <li>Plusvalía municipal = 4.800 × 30% = <strong>1.440 €</strong></li>
+      </ul>
+      <p>
+        <strong>Total de impuestos estimados para Sofía: 11.622 + 1.440 = 13.062 euros.</strong>
+      </p>
+      <p>
+        Si Sofía reinvirtiese la totalidad del precio de venta (285.000 euros) en la compra de otra vivienda habitual en los dos años siguientes, el IRPF de 11.622 euros quedaría exento. Solo pagaría la plusvalía municipal de 1.440 euros, ya que la exención por reinversión no se aplica a este impuesto local.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Venta de vivienda heredada</h3>
+      <p>
+        Cuando se vende una vivienda que fue adquirida por herencia, el tratamiento fiscal presenta particularidades que conviene conocer. La principal diferencia respecto a una compraventa ordinaria radica en la determinación del valor de adquisición.
+      </p>
+      <p>
+        El valor de adquisición de un inmueble heredado es el que se declaró en el Impuesto sobre Sucesiones, más los gastos e impuestos inherentes a la adquisición (el propio Impuesto de Sucesiones pagado, la notaría de la escritura de aceptación de herencia, el registro de la propiedad y la gestoría). Si la vivienda se heredó antes de que entrara en vigor la ley de actualización de valores catastrales y se declaró un valor inferior al de mercado, la ganancia patrimonial al vender será proporcionalmente mayor.
+      </p>
+      <p>
+        En la práctica, esto significa que si tu padre falleció en 2018 y declaraste un valor de la vivienda de 180.000 euros en el Impuesto de Sucesiones, ese será tu valor de adquisición (más los gastos mencionados). Si vendes esa vivienda en 2025 por 230.000 euros, la ganancia patrimonial se calculará sobre la diferencia entre ambos valores, descontando los gastos de venta.
+      </p>
+      <p>
+        Otro aspecto relevante: si varios herederos son copropietarios del inmueble y se disuelve el condominio (es decir, uno compra la parte de los demás para quedarse con el piso entero), esa operación no tributa como ganancia patrimonial siempre que se realice a valor de mercado. Lo que sí tributa es la posterior venta del inmueble por parte del heredero que se lo adjudicó.
+      </p>
+      <p>
+        Conviene recordar que los inmuebles adquiridos antes del 31 de diciembre de 1994 disfrutan de los llamados "coeficientes de abatimiento", que reducen la ganancia patrimonial generada hasta el 20 de enero de 2006. Estos coeficientes se aplican solo si el valor total de transmisión de todos los bienes a los que se aplican no supera los 400.000 euros acumulados desde 2015. Para viviendas heredadas antes de 1995, estos coeficientes pueden suponer un ahorro fiscal muy significativo y conviene revisar si resultan aplicables.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Calendario fiscal: plazos para pagar</h3>
+      <p>
+        Los plazos de pago de cada impuesto son diferentes y es importante respetarlos para evitar recargos y sanciones:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>IRPF:</strong> La ganancia patrimonial se declara en la declaración de la renta del ejercicio en que se produce la venta. Si vendes en 2025, declaras la ganancia en la campaña de renta de abril a junio de 2026. El pago puede fraccionarse en dos plazos (60% en el momento de la presentación y 40% en noviembre).</li>
+        <li><strong>Plusvalía municipal:</strong> El plazo para presentar y pagar es de 30 días hábiles desde la fecha de la escritura de compraventa. Si el ayuntamiento no envía la liquidación en plazo, se considera autoliquidación y el contribuyente debe presentarla por iniciativa propia.</li>
+      </ul>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fuentes</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 35/2006 del IRPF (LIRPF), artículos 33 a 38</a> - Regulación de las ganancias y pérdidas patrimoniales, la escala del ahorro y las exenciones por reinversión en vivienda habitual.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2004-4214" class="text-brand hover:underline" target="_blank" rel="noopener">Real Decreto Legislativo 2/2004, Texto Refundido de la Ley Reguladora de las Haciendas Locales</a> - Regulación del Impuesto sobre el Incremento del Valor de los Terrenos de Naturaleza Urbana (plusvalía municipal), artículos 104 a 110.</li>
+        <li><a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2021-17564" class="text-brand hover:underline" target="_blank" rel="noopener">Real Decreto-ley 26/2021</a> - Adaptación del IIVTNU a la Sentencia del Tribunal Constitucional 182/2021, con la introducción de los métodos objetivo y real de cálculo.</li>
+        <li><a href="https://www.tribunalconstitucional.es/es/jurisprudencia/Paginas/Sentencia.aspx?cod=25032" class="text-brand hover:underline" target="_blank" rel="noopener">STC 182/2021 del Tribunal Constitucional</a> - Declaración de inconstitucionalidad del método de cálculo de la plusvalía municipal cuando no existe incremento real de valor.</li>
+        <li><a href="https://www.agenciatributaria.gob.es" class="text-brand hover:underline" target="_blank" rel="noopener">Agencia Tributaria (AEAT)</a> - Portal del contribuyente con manuales de renta, consultas vinculantes y herramientas de ayuda para la declaración.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

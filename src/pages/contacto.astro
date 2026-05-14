@@ -1,0 +1,66 @@
+---
+import Layout from '../components/layout/Layout.astro';
+import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../config';
+import { buildBreadcrumbSchema } from '../lib/seo';
+
+const title = 'Contacto: Consultas sobre Sueldo Neto y Calculadoras';
+const description = 'Escríbenos para resolver dudas sobre el cálculo de sueldo neto, IRPF o Seguridad Social en España. Atendemos consultas, sugerencias y reportes de errores.';
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Inicio', url: '/' },
+    { name: 'Contacto', url: '/contacto' },
+  ]),
+];
+---
+
+<Layout title={title} description={description} schema={schemas}>
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/" class="hover:text-brand">Inicio</a> / <span class="text-charcoal dark:text-gray-200">Contacto</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal dark:text-gray-100">Contacto</h1>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <p>
+        ¿Tienes alguna pregunta, sugerencia o has encontrado un error en nuestras calculadoras?
+        Escríbenos y te responderemos lo antes posible.
+      </p>
+
+      <div class="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+        <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">Escríbenos</h2>
+        <p class="mb-4">
+          Puedes contactar con nosotros por correo electrónico:
+        </p>
+        <a
+          href="mailto:contacto@elsueldoneto.es"
+          class="inline-flex items-center gap-2 rounded-lg bg-brand px-6 py-3 font-medium text-white transition-colors hover:bg-red-700"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+          </svg>
+          contacto@elsueldoneto.es
+        </a>
+      </div>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">¿Sobre qué puedes escribirnos?</h2>
+        <ul>
+          <li><strong>Errores en cálculos:</strong> Si detectas una diferencia significativa con el simulador de la AEAT, nos interesa saberlo para corregirlo.</li>
+          <li><strong>Sugerencias:</strong> Ideas para nuevas calculadoras o mejoras en las existentes.</li>
+          <li><strong>Colaboraciones:</strong> Propuestas de colaboración editorial o técnica.</li>
+          <li><strong>Datos fiscales:</strong> Actualizaciones de tramos IRPF o cotizaciones que debamos incorporar.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Aviso importante</h2>
+        <p>
+          {SITE_NAME} no ofrece asesoramiento fiscal ni financiero personalizado. Para consultas sobre tu situación particular, te recomendamos acudir a un asesor fiscal colegiado o a la propia <a href="https://www.agenciatributaria.gob.es" target="_blank" rel="noopener" class="text-brand hover:underline">Agencia Tributaria</a>.
+        </p>
+      </section>
+    </div>
+  </div>
+</Layout>

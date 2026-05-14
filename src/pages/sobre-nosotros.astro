@@ -1,0 +1,73 @@
+---
+import Layout from '../components/layout/Layout.astro';
+import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../config';
+import { buildBreadcrumbSchema } from '../lib/seo';
+
+const title = 'Sobre Nosotros: Calculadora de Sueldo Neto en España';
+const description = 'Conoce al equipo detrás de la calculadora de sueldo neto en España. Datos fiscales actualizados de IRPF, Seguridad Social y todas las comunidades autónomas.';
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Inicio', url: '/' },
+    { name: 'Sobre Nosotros', url: '/sobre-nosotros' },
+  ]),
+];
+---
+
+<Layout title={title} description={description} schema={schemas}>
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/" class="hover:text-brand">Inicio</a> / <span class="text-charcoal dark:text-gray-200">Sobre Nosotros</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal dark:text-gray-100">Sobre {SITE_NAME}</h1>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <p class="text-lg">
+        {SITE_NAME} nace con una misión clara: hacer que cualquier persona en España pueda entender su nómina sin necesidad de ser experto en fiscalidad.
+      </p>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Nuestra misión</h2>
+        <p>
+          Creemos que todo trabajador tiene derecho a saber cuánto va a cobrar realmente antes de aceptar una oferta de trabajo, negociar un salario o planificar sus finanzas personales.
+        </p>
+        <p>
+          Por eso hemos creado una suite de calculadoras gratuitas, actualizadas cada año fiscal, que cubren desde el cálculo básico de sueldo neto hasta herramientas más avanzadas como el comparador por comunidades autónomas, la simulación del régimen Beckham o la calculadora de finiquito.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Precisión y fuentes</h2>
+        <p>
+          Nuestros cálculos se basan en la normativa fiscal vigente publicada en el BOE, los datos oficiales de la Agencia Tributaria (AEAT) y la Seguridad Social. Actualizamos los tramos del IRPF, las cotizaciones a la Seguridad Social y el SMI cada año fiscal.
+        </p>
+        <p>
+          Nuestro objetivo es que los resultados se ajusten al simulador oficial de la AEAT con una diferencia máxima de 5 €/mes para la mayoría de los casos.
+        </p>
+        <p>
+          Fuentes principales:
+        </p>
+        <ul>
+          <li><a href="https://www.agenciatributaria.gob.es" target="_blank" rel="noopener" class="text-brand hover:underline">Agencia Tributaria (AEAT)</a></li>
+          <li><a href="https://www.seg-social.es" target="_blank" rel="noopener" class="text-brand hover:underline">Seguridad Social</a></li>
+          <li><a href="https://www.boe.es" target="_blank" rel="noopener" class="text-brand hover:underline">Boletín Oficial del Estado (BOE)</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Privacidad</h2>
+        <p>
+          Todas nuestras calculadoras funcionan íntegramente en tu navegador. <strong>No enviamos tus datos salariales ni personales a ningún servidor.</strong> Tu privacidad es una prioridad absoluta.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Ejercicio fiscal {CURRENT_FISCAL_YEAR}</h2>
+        <p>
+          Esta versión del sitio está actualizada para el ejercicio fiscal {CURRENT_FISCAL_YEAR}, con los tramos de IRPF (estatal y autonómico), las cotizaciones a la Seguridad Social y el Salario Mínimo Interprofesional vigentes.
+        </p>
+      </section>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,166 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import SalarioBruto from '../components/calculadoras/SalarioBruto';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Calculadora de Salario Bruto desde Neto ${CURRENT_FISCAL_YEAR} en España`;
+const description = `Calcula qué salario bruto necesitas para cobrar un neto objetivo en España ${CURRENT_FISCAL_YEAR}. Cálculo inverso: de neto a bruto con IRPF y Seguridad Social incluidos.`;
+
+const faqs = [
+  {
+    question: '¿Cómo sé qué bruto pedir para cobrar un neto determinado?',
+    answer: 'Introduce el neto mensual o anual que deseas cobrar. La calculadora calcula el bruto necesario teniendo en cuenta el IRPF de tu comunidad autónoma, las cotizaciones a la Seguridad Social y tu situación familiar.',
+  },
+  {
+    question: '¿Por qué el bruto necesario varía según la comunidad?',
+    answer: 'Porque cada comunidad autónoma tiene tipos de IRPF autonómico diferentes. Para cobrar el mismo neto en Madrid que en Cataluña, necesitas un bruto diferente.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Calculadora de Salario Bruto desde Neto ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Calculadora Salario Bruto"
+  path="/calculadora-salario-bruto/"
+  faqs={faqs}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <SalarioBruto client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía: de neto a bruto, el cálculo inverso que nadie te enseña
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Cuando buscas trabajo o negocies un aumento, la pregunta que realmente importa es «¿cuánto voy a cobrar en limpio?». Pero en España, las ofertas laborales siempre expresan el salario en bruto anual. Eso obliga al trabajador a hacer una conversión mental que, sin herramientas, resulta casi imposible de calcular con precisión. Esta calculadora hace el camino inverso: tú pones el neto que quieres cobrar y ella te dice qué bruto necesitas pedir.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Por qué el cálculo inverso no es trivial</h3>
+      <p>
+        Si el IRPF fuera un porcentaje fijo, bastaría con una regla de tres. Pero al ser un impuesto progresivo por tramos, la relación entre bruto y neto no es lineal. Para un neto objetivo de 1.500 € mensuales necesitas un bruto muy distinto que para 3.000 €, y la proporción no se duplica. Además, el cálculo depende de tu comunidad autónoma, de si tienes 12 o 14 pagas, y de tu situación familiar. Un trabajador soltero en Cataluña necesita un bruto diferente que un padre de dos hijos en Madrid para cobrar la misma cifra neta.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Cuándo necesitas saber tu bruto desde un neto</h3>
+      <p>
+        Hay varias situaciones habituales. La primera es la negociación salarial: si un reclutador te pregunta «¿cuáles son tus expectativas salariales?», esperan una cifra bruta anual. Saber de antemano qué bruto se traduce en el neto que deseas te da ventaja en la conversación. La segunda es al comparar ofertas de trabajo entre distintas comunidades autónomas: un bruto de 35.000 € en Madrid no produce el mismo neto que en Valencia, por las diferencias en el IRPF autonómico. La tercera situación es al planificar un cambio personal (como tener un hijo o que tu cónyuge deje de trabajar) que modificará tu mínimo personal y, por tanto, tu retención fiscal.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Cómo funciona internamente el cálculo</h3>
+      <p>
+        Técnicamente, no existe una fórmula directa para obtener el bruto desde el neto. Lo que la calculadora hace es un proceso iterativo: parte de una estimación inicial del bruto, calcula el neto resultante con las reglas fiscales completas (Seguridad Social, reducciones, mínimo personal, tramos IRPF estatal y autonómico), compara con el neto deseado, y ajusta la estimación. Repite este proceso hasta que la diferencia es inferior a un céntimo. Es el mismo método que utilizan los departamentos de recursos humanos al elaborar las ofertas salariales basadas en paquetes retributivos netos.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo: ¿qué bruto necesito para cobrar 2.000 € netos al mes?</h3>
+      <p>
+        Supongamos un trabajador soltero sin hijos en Madrid, con 14 pagas. Quiere cobrar 2.000 € netos mensuales, es decir, 28.000 € netos anuales (2.000 × 14). ¿Qué bruto debe pedir?
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li>La calculadora itera y determina que necesita un bruto de aproximadamente <strong>36.500 €/año</strong>.</li>
+        <li>De ese bruto, unos 2.320 € se van a la Seguridad Social (6,35%).</li>
+        <li>El IRPF total (estatal + autonómico Madrid) ronda los 6.180 €.</li>
+        <li>Neto resultante: 36.500 − 2.320 − 6.180 = 28.000 € netos ≈ 2.000 €/mes en 14 pagas.</li>
+      </ul>
+      <p>
+        Si este mismo trabajador viviera en Cataluña, necesitaría pedir unos <strong>37.200 €</strong> brutos para cobrar los mismos 2.000 € netos, unos 700 € más al año. Y si tuviera un hijo menor de 3 años, el mínimo familiar reduciría su IRPF y le bastaría con unos 35.800 € brutos en Madrid.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tabla: bruto necesario por neto objetivo (Madrid, soltero, 14 pagas)</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Neto mensual deseado</th>
+              <th class="px-3 py-2 text-right">Neto anual</th>
+              <th class="px-3 py-2 text-right">Bruto necesario</th>
+              <th class="px-3 py-2 text-right">Diferencia bruto-neto</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">1.200 €/mes</td><td class="px-3 py-1 text-right">16.800 €</td><td class="px-3 py-1 text-right">~20.200 €</td><td class="px-3 py-1 text-right">3.400 € (17%)</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">1.500 €/mes</td><td class="px-3 py-1 text-right">21.000 €</td><td class="px-3 py-1 text-right">~26.500 €</td><td class="px-3 py-1 text-right">5.500 € (21%)</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2.000 €/mes</td><td class="px-3 py-1 text-right">28.000 €</td><td class="px-3 py-1 text-right">~36.500 €</td><td class="px-3 py-1 text-right">8.500 € (23%)</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2.500 €/mes</td><td class="px-3 py-1 text-right">35.000 €</td><td class="px-3 py-1 text-right">~48.000 €</td><td class="px-3 py-1 text-right">13.000 € (27%)</td></tr>
+            <tr><td class="px-3 py-1">3.000 €/mes</td><td class="px-3 py-1 text-right">42.000 €</td><td class="px-3 py-1 text-right">~60.500 €</td><td class="px-3 py-1 text-right">18.500 € (31%)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-gray-400 mt-2">Valores orientativos. La columna «Diferencia» muestra el porcentaje del bruto que se retiene en impuestos y cotizaciones.</p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Por qué necesitas conocer tu salario bruto (aunque solo te importe el neto)</h3>
+      <p>
+        Pensar solo en neto es comprensible (es lo que llega a la cuenta), pero ignorar el bruto tiene consecuencias prácticas en tres situaciones que afectan a cualquier trabajador.
+      </p>
+      <p>
+        <strong>Negociación salarial.</strong> Las empresas en España negocian en bruto anual, sin excepción. Cuando Javier recibe una oferta que dice «42.000 € brutos anuales», debe saber instantáneamente si eso cubre sus necesidades netas. Si Javier necesita cobrar 2.200 € al mes en 14 pagas para pagar su hipoteca, los gastos del hogar y ahorrar algo, tiene que saber que 42.000 € brutos le dejan unos 2.280 € netos mensuales en Madrid, pero solo unos 2.210 € en Cataluña. Sin ese conocimiento, puede aceptar una oferta que no le da para llegar a fin de mes o, peor aún, rechazar una oferta que sí era suficiente. El error se produce porque mucha gente calcula «le quito un 30% al bruto y listo», cuando el porcentaje real de retención varía según el tramo del IRPF, la comunidad autónoma y la situación personal.
+      </p>
+      <p>
+        <strong>Comparación con ofertas del extranjero.</strong> Si a Elena, ingeniera de software, le ofrecen 55.000 € brutos en Madrid y 65.000 € brutos en Múnich, no puede comparar cifras brutas directamente. Alemania tiene tramos de IRPF distintos, cotizaciones sociales diferentes, y además Elena tendría que pagar el Solidaritätszuschlag (recargo de solidaridad). Conocer el bruto y saber convertirlo a neto en ambos países es la única forma de hacer una comparación real. Lo mismo aplica a ofertas en Portugal (con su régimen de residente no habitual) o en Irlanda, donde muchos españoles del sector tecnológico reciben propuestas.
+      </p>
+      <p>
+        <strong>Declaración de la renta.</strong> El borrador de la Agencia Tributaria (AEAT) utiliza datos brutos que envía la empresa mediante el modelo 190. Si el contribuyente no sabe cuánto cobra en bruto, no puede verificar si su empresa ha informado correctamente a Hacienda. Cada año, la AEAT detecta discrepancias entre lo declarado por la empresa y lo que consta en los registros de la Seguridad Social. Un trabajador que conozca su bruto puede revisar la casilla 0003 del borrador y detectar errores antes de que se conviertan en un requerimiento.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tabla: de neto a bruto para varios niveles salariales</h3>
+      <p>
+        La siguiente tabla muestra qué salario bruto anual necesita un trabajador soltero, sin hijos, residente en Madrid, con contrato indefinido y 14 pagas, para alcanzar distintos niveles de neto mensual. Los datos se calculan aplicando las cotizaciones a la Seguridad Social del trabajador (6,35% sobre la base de cotización) y los tramos del IRPF estatal y autonómico de Madrid vigentes.
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Neto mensual deseado</th>
+              <th class="px-3 py-2 text-right">Neto anual (14 pagas)</th>
+              <th class="px-3 py-2 text-right">Bruto anual necesario</th>
+              <th class="px-3 py-2 text-right">Seg. Social trabajador</th>
+              <th class="px-3 py-2 text-right">IRPF retenido</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">1.500 €/mes</td><td class="px-3 py-1 text-right">21.000 €</td><td class="px-3 py-1 text-right">~26.500 €</td><td class="px-3 py-1 text-right">1.683 €</td><td class="px-3 py-1 text-right">3.817 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2.000 €/mes</td><td class="px-3 py-1 text-right">28.000 €</td><td class="px-3 py-1 text-right">~36.500 €</td><td class="px-3 py-1 text-right">2.318 €</td><td class="px-3 py-1 text-right">6.182 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2.500 €/mes</td><td class="px-3 py-1 text-right">35.000 €</td><td class="px-3 py-1 text-right">~48.000 €</td><td class="px-3 py-1 text-right">3.048 €</td><td class="px-3 py-1 text-right">9.952 €</td></tr>
+            <tr><td class="px-3 py-1">3.000 €/mes</td><td class="px-3 py-1 text-right">42.000 €</td><td class="px-3 py-1 text-right">~60.500 €</td><td class="px-3 py-1 text-right">3.842 €</td><td class="px-3 py-1 text-right">14.658 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-gray-400 mt-2">Valores orientativos para Madrid, soltero, sin hijos, 14 pagas, contrato indefinido. Los importes de Seguridad Social y IRPF son aproximados y pueden variar según las bases de cotización vigentes.</p>
+      <p>
+        Observa cómo el salto de 2.500 € a 3.000 € netos mensuales requiere un incremento desproporcionado en el bruto: pasar de 48.000 € a 60.500 €, es decir, 12.500 € adicionales de bruto para ganar solo 7.000 € más de neto. Esto se debe a la progresividad del IRPF: cada euro adicional de bruto tributa a un tipo marginal más alto. En el tramo de 60.000 € brutos, el tipo marginal combinado (estatal + autonómico Madrid) alcanza el 37%, frente al 30% que se aplica en torno a los 26.000 €.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El coste total para la empresa: más allá del salario bruto</h3>
+      <p>
+        Lo que el trabajador percibe como «salario bruto» es solo una parte de lo que la empresa desembolsa. Encima del bruto, la empresa paga las cotizaciones patronales a la Seguridad Social, que representan aproximadamente un 30% adicional del salario bruto. Este porcentaje se desglosa así según la normativa vigente (regulada por la Ley General de la Seguridad Social, Real Decreto Legislativo 8/2015):
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Contingencias comunes:</strong> 23,60%, cubre jubilación, incapacidad temporal, maternidad/paternidad.</li>
+        <li><strong>Desempleo (contrato indefinido):</strong> 5,50%, financia las prestaciones por desempleo del SEPE.</li>
+        <li><strong>FOGASA:</strong> 0,20%. Fondo de Garantía Salarial, que garantiza el cobro de salarios en caso de insolvencia empresarial.</li>
+        <li><strong>Formación profesional:</strong> 0,60%, financia programas de formación para el empleo.</li>
+        <li><strong>Accidentes de trabajo:</strong> variable según actividad (entre 1% y 6,7%), cuota que depende de la CNAE de la empresa.</li>
+      </ul>
+      <p>
+        Pongamos un ejemplo concreto. Roberto cobra 40.000 € brutos anuales como analista financiero en una consultora en Barcelona. La empresa paga, además de esos 40.000 €, unos 12.000 € en cotizaciones patronales (un 30% aproximado). El coste total para la empresa es de 52.000 € al año. De esos 52.000 €, Roberto recibe en limpio unos 27.800 € netos (tras descontar su Seguridad Social del 6,35% y su IRPF en Cataluña). Es decir, de cada 100 € que la empresa gasta en Roberto, él se lleva 53 € al bolsillo. Los otros 47 € se reparten entre cotizaciones patronales (23 €), cotizaciones del trabajador (6 €) e IRPF (18 €). Este dato es relevante para los autónomos que piensan en contratar su primer empleado: el coste real de un salario es siempre un 30% superior a la cifra bruta que aparece en la nómina.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Diferencias entre comunidades: mismo bruto, distinto neto</h3>
+      <p>
+        El IRPF en España se divide en dos tramos: el estatal (común a todas las comunidades de régimen común) y el autonómico, que cada comunidad fija libremente. Esto provoca que dos trabajadores con idéntico bruto y situación personal cobren distinto neto según su lugar de residencia fiscal.
+      </p>
+      <p>
+        Las diferencias más notables se producen entre Madrid, que aplica los tipos autonómicos más bajos del régimen común (el tipo máximo autonómico es del 20,5%), y Cataluña o la Comunidad Valenciana, donde el tipo máximo autonómico supera el 25%. Para un salario de 40.000 € brutos, la diferencia entre Madrid y Cataluña ronda los 700-900 € anuales a favor de Madrid. A 60.000 € brutos, la brecha se amplía a 1.300-1.600 €. La Comunidad Valenciana presenta cifras similares a Cataluña, mientras que Andalucía se sitúa en una posición intermedia tras las bajadas de tipos aplicadas desde 2019.
+      </p>
+      <p>
+        El País Vasco, por su parte, es un caso aparte: no aplica los tramos estatales ni autonómicos del régimen común, sino su propia normativa foral (Norma Foral 13/2013 del IRPF en el Territorio Histórico de Bizkaia, por ejemplo). Para salarios medios de 30.000-45.000 € brutos, el País Vasco resulta competitivo con Madrid, pero para rentas muy altas los tipos forales pueden superar a los madrileños. Navarra tiene su propio sistema a través de la Ley Foral 13/1992 del Convenio Económico, con tramos y deducciones específicas que dificultan la comparación directa.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fuentes y normativa</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 35/2006, del IRPF</a>: Tramos, reducciones y mínimos que determinan la relación bruto-neto.</li>
+        <li><a href="https://www.seg-social.es" class="text-brand hover:underline" target="_blank" rel="noopener">Tesorería General de la Seguridad Social</a>: Bases máximas y mínimas de cotización vigentes.</li>
+        <li><a href="https://www.agenciatributaria.gob.es" class="text-brand hover:underline" target="_blank" rel="noopener">AEAT</a>: Herramienta oficial de cálculo de retenciones (modelo 145).</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

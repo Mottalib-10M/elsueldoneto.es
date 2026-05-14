@@ -1,0 +1,194 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
+import { buildBreadcrumbSchema, buildFAQSchema } from '../../lib/seo';
+
+const title = `Régimen Beckham en España ${CURRENT_FISCAL_YEAR}: Requisitos y Ventajas`;
+const description = `Descubre cómo funciona el Régimen Beckham en España. Tributación fija al 24%, requisitos para aplicar, ventajas frente al IRPF ordinario y calculadora incluida.`;
+
+const faqs = [
+  {
+    question: '¿Qué es el régimen Beckham?',
+    answer: `El régimen Beckham (oficialmente Régimen Especial de Tributación por INRP) permite a los trabajadores desplazados a España tributar como no residentes fiscales durante el año del desplazamiento y los 5 siguientes. El tipo fijo es del 24% sobre los primeros 600.000 € de renta del trabajo.`,
+  },
+  {
+    question: '¿Quién puede acogerse al régimen Beckham?',
+    answer: 'Pueden acogerse personas que se desplacen a España por motivo de un contrato de trabajo, que no hayan sido residentes fiscales en España en los 5 ejercicios anteriores, y que la mayoría de sus rentas del trabajo provengan de actividades realizadas en España.',
+  },
+  {
+    question: '¿Cuánto dura el régimen Beckham?',
+    answer: 'Se aplica durante el año fiscal del desplazamiento y los 5 años siguientes, para un total máximo de 6 ejercicios fiscales.',
+  },
+];
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Inicio', url: '/' },
+    { name: 'Guías', url: '/guias/' },
+    { name: 'Régimen Beckham', url: '/guias/regimen-beckham-explicado/' },
+  ]),
+  buildFAQSchema(faqs),
+];
+---
+
+<Layout title={title} description={description} ogType="article" schema={schemas}>
+  <article class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/" class="hover:text-brand">Inicio</a> /
+      <a href="/guias/" class="hover:text-brand">Guías</a> /
+      <span class="text-charcoal dark:text-gray-200">Régimen Beckham</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      Régimen Beckham en España: Guía Completa ({CURRENT_FISCAL_YEAR})
+    </h1>
+
+    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+      La Ley Beckham permite a los profesionales que se trasladan a España tributar a un tipo fijo del 24% durante hasta 6 años. Te explicamos cómo funciona, quién puede solicitarlo y si te compensa.
+    </p>
+
+    <div class="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">
+      <p class="font-medium text-blue-800 dark:text-blue-300">
+        Usa nuestra <a href="/regimen-beckham-calculadora/" class="underline">calculadora Beckham</a> para comparar cuánto pagarías con y sin este régimen.
+      </p>
+    </div>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-8">
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">¿Qué es el régimen Beckham?</h2>
+        <p>
+          El Régimen Especial de Tributación por Impuesto sobre la Renta de No Residentes (conocido popularmente como "Ley Beckham" por el futbolista que fue uno de los primeros en beneficiarse) es un régimen fiscal especial recogido en el artículo 93 de la Ley del IRPF.
+        </p>
+        <p>
+          Permite a las personas físicas que se desplacen a España por motivos de trabajo tributar por el INRP (Impuesto sobre la Renta de No Residentes) en lugar del IRPF ordinario, aunque sean residentes fiscales en España.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Tributación: 24% fijo</h2>
+        <p>
+          El principal atractivo del régimen Beckham es el tipo impositivo:
+        </p>
+        <ul>
+          <li><strong>24% fijo</strong> sobre los primeros 600.000 € de rentas del trabajo</li>
+          <li><strong>47%</strong> sobre el exceso a partir de 600.000 €</li>
+        </ul>
+        <p>
+          En comparación, el IRPF ordinario tiene tipos marginales que van del 19% al 47-54% (según la comunidad autónoma). Para salarios altos, la diferencia puede ser de miles de euros al año.
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">¿Cuándo compensa?</h3>
+        <p>
+          El régimen Beckham empieza a ser claramente ventajoso a partir de salarios brutos superiores a 50.000-60.000 € anuales aproximadamente. Para salarios más bajos, el IRPF ordinario puede resultar más favorable gracias al mínimo personal y familiar y las reducciones por rendimientos del trabajo.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Requisitos para acogerse</h2>
+        <ol>
+          <li><strong>Desplazamiento a España</strong> como consecuencia de un contrato de trabajo, nombramiento como administrador, o actividad emprendedora.</li>
+          <li><strong>No haber sido residente fiscal</strong> en España durante los 5 ejercicios fiscales anteriores al desplazamiento.</li>
+          <li><strong>Las rentas del trabajo</strong> deben provenir de actividades realizadas efectivamente en España (se permite hasta un 15% de rentas del exterior).</li>
+          <li><strong>No obtener rentas a través de un establecimiento permanente</strong> en España.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Cómo solicitarlo</h2>
+        <p>
+          La solicitud se realiza mediante el <strong>modelo 149</strong> de la AEAT, dentro de los 6 meses siguientes a la fecha de alta en la Seguridad Social o desde el inicio de la actividad.
+        </p>
+        <p>
+          Documentación necesaria:
+        </p>
+        <ul>
+          <li>Modelo 149 cumplimentado</li>
+          <li>Copia del contrato de trabajo o documento acreditativo del desplazamiento</li>
+          <li>Copia del pasaporte o documento de identidad</li>
+          <li>Certificado de no residencia fiscal en España de los 5 ejercicios anteriores (en la práctica, una declaración responsable)</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Ventajas e inconvenientes</h2>
+
+        <h3 class="text-lg font-bold text-emerald-700 dark:text-emerald-400">Ventajas</h3>
+        <ul>
+          <li>Tipo fijo del 24% frente a tipos marginales de hasta 47-54%</li>
+          <li>Solo tributan las rentas obtenidas en España (territorialidad)</li>
+          <li>Exención del Impuesto sobre el Patrimonio por bienes en el extranjero</li>
+          <li>No obligación de informar sobre bienes en el extranjero (modelo 720)</li>
+          <li>Duración de hasta 6 ejercicios fiscales</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-red-700 dark:text-red-400">Inconvenientes</h3>
+        <ul>
+          <li>No se aplica el mínimo personal y familiar</li>
+          <li>No se pueden aplicar deducciones autonómicas ni estatales</li>
+          <li>Las ganancias patrimoniales tributan al tipo general (24%) y no a la escala del ahorro (19-28%)</li>
+          <li>Posibles problemas con convenios de doble imposición (no todos los países los reconocen para este régimen)</li>
+          <li>Para salarios bajos-medios, puede ser menos favorable que el régimen ordinario</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Ejemplo comparativo</h2>
+        <p>
+          Para un salario bruto de 80.000 € anuales, persona soltera, sin hijos, en Madrid:
+        </p>
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200 dark:border-gray-600">
+              <th class="px-3 py-2 text-left font-medium">Concepto</th>
+              <th class="px-3 py-2 text-right font-medium">Régimen general</th>
+              <th class="px-3 py-2 text-right font-medium">Beckham</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">IRPF anual (aprox.)</td>
+              <td class="px-3 py-2 text-right tabular-nums">~20.000 €</td>
+              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">~19.200 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Tipo efectivo</td>
+              <td class="px-3 py-2 text-right tabular-nums">~25%</td>
+              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">24%</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2 font-bold">Ahorro anual</td>
+              <td class="px-3 py-2 text-right tabular-nums">—</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-600">~800 €</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          La ventaja se amplía significativamente con salarios más altos. Para 150.000 €, el ahorro puede superar los 15.000 € anuales.
+        </p>
+        <p>
+          <a href="/regimen-beckham-calculadora/" class="text-brand hover:underline">Calcula tu caso exacto con nuestra calculadora Beckham</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Preguntas frecuentes</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+              <summary class="cursor-pointer px-4 py-3 font-medium text-charcoal dark:text-gray-200">
+                {faq.question}
+              </summary>
+              <div class="border-t border-gray-200 px-4 py-3 text-sm dark:border-gray-700">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+    </div>
+
+    <div class="mt-8 text-xs text-medium-gray">
+      <p>Actualizado para el ejercicio fiscal {CURRENT_FISCAL_YEAR}. Fuentes: AEAT (art. 93 Ley IRPF), BOE.</p>
+    </div>
+  </article>
+</Layout>

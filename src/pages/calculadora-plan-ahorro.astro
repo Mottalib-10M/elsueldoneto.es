@@ -1,0 +1,152 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import PlanAhorro from '../components/calculadoras/PlanAhorro';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Calculadora Plan de Ahorro: Proyecta tu Capital ${CURRENT_FISCAL_YEAR}`;
+const description = `Simula tu plan de ahorro con aportaciones mensuales. Calcula cuánto tendrás ahorrado en 5, 10 o 20 años con un tipo de interés estimado. Calculadora gratuita.`;
+
+const faqs = [
+  {
+    question: '¿Cuánto debería ahorrar al mes?',
+    answer: 'Una regla habitual es ahorrar entre un 10% y un 20% de tus ingresos netos. Pero cualquier cantidad es mejor que nada: incluso 50 € al mes durante 20 años, con un rendimiento del 5%, se convierten en más de 20.000 €.',
+  },
+  {
+    question: '¿Qué rentabilidad puedo esperar?',
+    answer: 'Depende del producto. Las cuentas remuneradas en España ofrecen entre un 2% y un 3,5% en 2026. Los fondos indexados al mercado global han dado históricamente entre un 7% y un 9% anual a largo plazo (antes de inflación).',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1="Calculadora de Plan de Ahorro"
+  calculatorName="Calculadora Plan de Ahorro"
+  path="/calculadora-plan-ahorro/"
+  faqs={faqs}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <PlanAhorro client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía del plan de ahorro: cómo construir un colchón financiero paso a paso
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        La tasa de ahorro de los hogares españoles ha oscilado históricamente entre el 5% y el 13% de la renta disponible, muy por debajo de la media europea. El problema no es solo cultural: los salarios estancados, el coste de la vivienda y una educación financiera insuficiente explican por qué la mayoría de los españoles tiene dificultades para ahorrar de forma regular. Sin embargo, construir un patrimonio a medio y largo plazo no requiere grandes ingresos. Requiere constancia y un plan.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">La regla del «págate a ti primero»</h3>
+      <p>
+        La primera barrera del ahorro es psicológica. Si esperas a fin de mes para ahorrar «lo que sobre», nunca sobra nada. La técnica más eficaz y respaldada por la investigación en economía conductual es automatizar una transferencia el día de cobro. Separas inmediatamente un porcentaje de tu nómina, idealmente entre el 10% y el 20%, hacia una cuenta de ahorro o inversión. Lo que queda en la cuenta corriente es tu presupuesto mensual. El cerebro se adapta rápidamente a vivir con menos, pero raramente inicia el ahorro si no se le «obliga» mediante la automatización.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Los tres horizontes del ahorro</h3>
+      <p>
+        Un plan de ahorro sólido distingue tres horizontes. El primero es el <strong>fondo de emergencia</strong>: entre 3 y 6 meses de gastos fijos en una cuenta de acceso inmediato. Este dinero no se invierte en productos con riesgo porque su función es cubrir imprevistos: una avería del coche, una factura médica, un periodo de desempleo. El segundo horizonte es el <strong>ahorro a medio plazo</strong> (3-7 años): vacaciones, entrada para una vivienda, cambio de coche. Aquí caben productos con algo más de rentabilidad y riesgo moderado. El tercer horizonte es el <strong>ahorro a largo plazo</strong> (10+ años): jubilación, libertad financiera. Este es el terreno donde el interés compuesto despliega todo su potencial y donde la renta variable indexada ofrece las mejores perspectivas históricas.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Cuánto ahorrar según tu edad</h3>
+      <p>
+        No existe una cifra universal, pero las directrices más citadas sugieren tener el equivalente a un año de salario ahorrado a los 30 años, tres años a los 40, y seis a ocho años a los 50. Para la jubilación, un capital que genere un 4% anual y cubra tus gastos de vida es el objetivo que plantea la regla del 4%, ampliamente utilizada en planificación financiera. Si tus gastos anuales son de 24.000 €, necesitas un patrimonio de 600.000 € para vivir exclusivamente de los rendimientos. Parece una cifra inalcanzable, pero con aportaciones constantes de 400 €/mes durante 30 años y una rentabilidad del 7%, se alcanzan los 490.000 €. Empezar pronto y ser constante vale más que empezar tarde con aportaciones grandes.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo: plan de ahorro de 250 €/mes con objetivos concretos</h3>
+      <p>
+        Carlos tiene 28 años, cobra 2.100 € netos al mes y decide ahorrar 250 € mensuales (12% de su neto). Los invierte en un fondo indexado global con una rentabilidad media estimada del 7% anual:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Edad</th>
+              <th class="px-3 py-2 text-left">Horizonte</th>
+              <th class="px-3 py-2 text-right">Aportado</th>
+              <th class="px-3 py-2 text-right">Capital acumulado</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">33 años</td><td class="px-3 py-1">5 años</td><td class="px-3 py-1 text-right">15.000 €</td><td class="px-3 py-1 text-right">17.900 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">38 años</td><td class="px-3 py-1">10 años</td><td class="px-3 py-1 text-right">30.000 €</td><td class="px-3 py-1 text-right">43.300 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">48 años</td><td class="px-3 py-1">20 años</td><td class="px-3 py-1 text-right">60.000 €</td><td class="px-3 py-1 text-right">130.500 €</td></tr>
+            <tr><td class="px-3 py-1">58 años</td><td class="px-3 py-1">30 años</td><td class="px-3 py-1 text-right">90.000 €</td><td class="px-3 py-1 text-right">304.000 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        A los 58 años, Carlos habría aportado 90.000 € de su bolsillo, pero el interés compuesto habría generado 214.000 € adicionales, más del doble de lo invertido. Si continúa hasta los 67 (jubilación), el capital superaría los 600.000 €.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Productos de ahorro disponibles en España</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Cuentas remuneradas:</strong> liquidez total, rentabilidades del 2-3,5%. Ideal para el fondo de emergencia.</li>
+        <li><strong>Depósitos a plazo:</strong> capital garantizado, plazos de 3 a 24 meses, tipos del 2,5-3,5%. Penalización por cancelación anticipada.</li>
+        <li><strong>Fondos de inversión indexados:</strong> diversificación global, comisiones bajas (0,1-0,3% anual), traspaso sin tributar. Riesgo de mercado.</li>
+        <li><strong>Planes de pensiones:</strong> aportaciones deducibles en IRPF (hasta 1.500 €/año), pero con fiscalidad desfavorable en el rescate (tributan como rendimientos del trabajo).</li>
+        <li><strong>Letras del Tesoro:</strong> emitidas por el Estado español, plazos de 3 a 12 meses, sin comisiones si se compran directamente en el Tesoro Público.</li>
+      </ul>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El error del ahorro sin objetivo: asigna cada euro a una misión</h3>
+      <p>
+        Uno de los fallos más frecuentes entre los ahorradores españoles es acumular dinero en una sola cuenta corriente sin saber para qué sirve cada euro. Marta, técnica de laboratorio en Valencia con un salario neto de 1.850 €, tenía 12.000 € «ahorrados» en su cuenta principal. Cuando se le averió el coche y necesitó 3.200 € para repararlo, sacó el dinero de esa misma cuenta, la misma donde guardaba lo que iba reservando para la entrada de un piso. Resultado: su objetivo de vivienda retrocedió medio año de golpe.
+      </p>
+      <p>
+        La solución es el sistema de <strong>buckets</strong> o sub-cuentas, un concepto popularizado por la planificación financiera anglosajona pero perfectamente aplicable en España. Consiste en abrir varias cuentas (la mayoría de bancos online permiten crear cuentas adicionales sin coste) y asignar a cada una un objetivo concreto: fondo de emergencia, entrada vivienda, vacaciones, jubilación. Cada mes, la transferencia automática desde la cuenta de nómina se reparte entre los distintos buckets. Si Marta hubiera separado su fondo de emergencia (6.000 €) en una cuenta distinta, habría cubierto la reparación sin tocar el ahorro para la vivienda. En la práctica, este método convierte una masa de dinero amorfa en un plan con propósito, y múltiples estudios de economía conductual demuestran que las personas que etiquetan su ahorro alcanzan sus metas un 30-40% más rápido que quienes acumulan sin estructura.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Inflación y ahorro: cuando ahorrar no es suficiente</h3>
+      <p>
+        Existe una trampa silenciosa que atrapa a millones de ahorradores: creer que tener el dinero en una cuenta remunerada es suficiente. Si tu cuenta te ofrece un 2,5% de interés anual pero la inflación está en el 3%, tu dinero está perdiendo un 0,5% de poder adquisitivo cada año. No en términos nominales (los números en tu cuenta suben), pero sí en términos reales: lo que puedes comprar con ese dinero disminuye. El <strong>ahorro real</strong> solo comienza cuando la rentabilidad de tu dinero supera la inflación. Es un concepto que el Banco de España ha explicado repetidamente en sus informes de estabilidad financiera: la rentabilidad nominal menos la inflación es la rentabilidad real, y es la única que importa.
+      </p>
+      <p>
+        Tomemos el caso de Javier, funcionario en Sevilla. En 2022, tenía 30.000 € en un depósito a plazo al 1,5%. Ese año, la inflación en España cerró al 5,7% (dato INE, media anual). Su depósito le generó 450 € de intereses, pero el poder adquisitivo de sus 30.000 € cayó en 1.710 € reales. Perdió 1.260 € de poder de compra neto. Para los horizontes largos, como la jubilación, esta diferencia se amplifica de forma brutal por el efecto compuesto. Por eso, la primera pregunta antes de elegir un producto de ahorro no debería ser «¿cuánto me da?» sino «¿cuánto me da por encima de la inflación?».
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tabla: ahorro mensual necesario para alcanzar 100.000 €</h3>
+      <p>
+        La siguiente tabla muestra cuánto necesitas aportar cada mes para llegar a un capital de 100.000 €, según el plazo y la rentabilidad anual estimada. Los cálculos asumen aportaciones constantes y capitalización mensual:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Plazo</th>
+              <th class="px-3 py-2 text-right">0% rentabilidad</th>
+              <th class="px-3 py-2 text-right">3% anual</th>
+              <th class="px-3 py-2 text-right">5% anual</th>
+              <th class="px-3 py-2 text-right">7% anual</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">5 años</td><td class="px-3 py-1 text-right">1.667 €</td><td class="px-3 py-1 text-right">1.548 €</td><td class="px-3 py-1 text-right">1.470 €</td><td class="px-3 py-1 text-right">1.397 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">10 años</td><td class="px-3 py-1 text-right">833 €</td><td class="px-3 py-1 text-right">715 €</td><td class="px-3 py-1 text-right">644 €</td><td class="px-3 py-1 text-right">580 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">15 años</td><td class="px-3 py-1 text-right">556 €</td><td class="px-3 py-1 text-right">437 €</td><td class="px-3 py-1 text-right">374 €</td><td class="px-3 py-1 text-right">319 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">20 años</td><td class="px-3 py-1 text-right">417 €</td><td class="px-3 py-1 text-right">305 €</td><td class="px-3 py-1 text-right">243 €</td><td class="px-3 py-1 text-right">193 €</td></tr>
+            <tr><td class="px-3 py-1">25 años</td><td class="px-3 py-1 text-right">333 €</td><td class="px-3 py-1 text-right">224 €</td><td class="px-3 py-1 text-right">168 €</td><td class="px-3 py-1 text-right">124 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        La diferencia entre ahorrar al 0% y al 7% durante 25 años es abismal: 333 € frente a 124 € al mes para el mismo objetivo de 100.000 €. El tiempo y la rentabilidad son los dos grandes aliados del ahorrador. Quien empieza con 25 años y obtiene una rentabilidad media del 7% necesita aportar menos de la mitad que alguien que empieza con 40 años al mismo tipo. Estos números refuerzan un principio que la CNMV recoge en sus guías de educación financiera: empezar pronto importa más que empezar con mucho.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Automatización y presupuesto: las herramientas que sostienen el hábito</h3>
+      <p>
+        La voluntad es un recurso limitado. Contar con la disciplina personal cada mes para hacer una transferencia manual es una receta para el fracaso. La técnica más efectiva es domiciliar transferencias automáticas el mismo día de cobro de la nómina. Si cobras el día 28, programa la transferencia al día 29: el dinero sale de la cuenta corriente antes de que puedas gastarlo. Los principales bancos en España (CaixaBank, BBVA, Sabadell, ING, Openbank) permiten programar transferencias periódicas sin coste.
+      </p>
+      <p>
+        Para decidir cuánto automatizar, la <strong>regla 50/30/20</strong> es un punto de partida útil, aunque no sagrado. Propuesta por la senadora estadounidense Elizabeth Warren y adaptada al contexto español: el 50% de los ingresos netos se destina a necesidades (vivienda, suministros, transporte, alimentación, seguros), el 30% a gastos personales (ocio, restaurantes, ropa, suscripciones) y el 20% al ahorro e inversión. Para alguien con un salario neto de 1.800 €, esto supone 900 € en necesidades, 540 € en gastos personales y 360 € en ahorro. Si tus necesidades superan el 50%, algo habitual en ciudades como Madrid o Barcelona donde solo el alquiler puede comerse el 40% del sueldo, la proporción se ajusta, pero el principio permanece: el ahorro debe ser una partida fija, no lo que sobra.
+      </p>
+      <p>
+        El presupuesto mensual es la herramienta de control que cierra el ciclo. No se trata de apuntar cada café, sino de asignar un límite a cada categoría de gasto y revisarlo una vez al mes. Aplicaciones como Fintonic (española, conecta con tus cuentas bancarias y categoriza los movimientos automáticamente) o una simple hoja de cálculo permiten detectar fugas de dinero: esos 15 € en suscripciones que ya no usas, los 200 € mensuales en comidas fuera que podrían ser 120 €, el seguro del coche que no has revisado en tres años y que otro asegurador ofrecería un 25% más barato. Pequeños ajustes de 50-100 € al mes, invertidos a largo plazo, se convierten en decenas de miles de euros gracias al interés compuesto.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fuentes</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.tesoro.es" class="text-brand hover:underline" target="_blank" rel="noopener">Tesoro Público</a> - Compra directa de Letras del Tesoro y Bonos del Estado.</li>
+        <li><a href="https://www.cnmv.es" class="text-brand hover:underline" target="_blank" rel="noopener">CNMV</a> - Registro de fondos de inversión autorizados y fichas de comisiones.</li>
+        <li><a href="https://www.bde.es/bde/es/" class="text-brand hover:underline" target="_blank" rel="noopener">Banco de España</a> - Estadísticas de depósitos y comparador de productos de ahorro.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

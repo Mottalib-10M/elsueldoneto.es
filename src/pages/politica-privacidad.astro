@@ -1,0 +1,91 @@
+---
+import Layout from '../components/layout/Layout.astro';
+import { SITE_NAME, SITE_URL, CURRENT_FISCAL_YEAR } from '../config';
+import { buildBreadcrumbSchema } from '../lib/seo';
+
+const title = 'Política de Privacidad y Protección de Datos Personales';
+const description = 'Consulta nuestra política de privacidad conforme al RGPD y la LOPDGDD. Tus datos salariales no salen de tu navegador: todos los cálculos son 100% locales.';
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Inicio', url: '/' },
+    { name: 'Política de Privacidad', url: '/politica-privacidad' },
+  ]),
+];
+---
+
+<Layout title={title} description={description} schema={schemas}>
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/" class="hover:text-brand">Inicio</a> / <span class="text-charcoal dark:text-gray-200">Política de Privacidad</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal dark:text-gray-100">Política de Privacidad</h1>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Responsable del tratamiento</h2>
+        <ul>
+          <li><strong>Responsable:</strong> {SITE_NAME}</li>
+          <li><strong>Contacto:</strong> contacto@elsueldoneto.es</li>
+          <li><strong>Sitio web:</strong> {SITE_URL}</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Datos que recopilamos</h2>
+        <p>
+          <strong>{SITE_NAME} no recopila datos personales identificativos.</strong> Las calculadoras funcionan íntegramente en tu navegador y los datos que introduces (salario, situación familiar, etc.) no se envían a ningún servidor.
+        </p>
+        <p>
+          Podemos recopilar datos anonimizados de navegación mediante cookies analíticas, como:
+        </p>
+        <ul>
+          <li>Páginas visitadas y tiempo de permanencia</li>
+          <li>Tipo de navegador y dispositivo</li>
+          <li>País y ciudad de origen (anonimizados)</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Finalidad del tratamiento</h2>
+        <p>Los datos anonimizados se utilizan exclusivamente para:</p>
+        <ul>
+          <li>Analizar el uso del sitio web para mejorar el servicio</li>
+          <li>Generar estadísticas agregadas de tráfico</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Base legal</h2>
+        <p>
+          El tratamiento de datos anonimizados de navegación se basa en el interés legítimo del responsable (art. 6.1.f RGPD) para mejorar el servicio. Las cookies analíticas requieren el consentimiento del usuario (art. 6.1.a RGPD).
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Derechos del usuario</h2>
+        <p>Conforme al RGPD y la LOPDGDD, tienes derecho a:</p>
+        <ul>
+          <li>Acceso, rectificación y supresión de tus datos</li>
+          <li>Limitación y oposición al tratamiento</li>
+          <li>Portabilidad de los datos</li>
+          <li>Retirar el consentimiento en cualquier momento</li>
+          <li>Presentar reclamación ante la AEPD (agpd.es)</li>
+        </ul>
+        <p>
+          Para ejercer tus derechos, contacta con nosotros en: contacto@elsueldoneto.es.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Conservación de datos</h2>
+        <p>
+          Los datos anonimizados de analítica se conservan durante un máximo de 26 meses. No se almacenan datos personales identificativos.
+        </p>
+      </section>
+
+      <p class="text-xs text-medium-gray">Última actualización: enero {CURRENT_FISCAL_YEAR}.</p>
+    </div>
+  </div>
+</Layout>

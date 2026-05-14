@@ -1,0 +1,242 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import Jubilacion from '../components/calculadoras/Jubilacion';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Simulador de Jubilación: Calcula tu Pensión Online ${CURRENT_FISCAL_YEAR}`;
+const description = `Calcula tu pensión de jubilación según tus años cotizados y tu base de cotización. Simulador actualizado con los tramos y requisitos vigentes en España ${CURRENT_FISCAL_YEAR}.`;
+
+const faqs = [
+  {
+    question: '¿Cuántos años hay que cotizar para cobrar la pensión de jubilación?',
+    answer: 'El mínimo legal es de 15 años cotizados (carencia genérica), de los cuales al menos 2 deben estar dentro de los 15 años inmediatamente anteriores a la jubilación (carencia específica). Con 15 años cotizados se percibe el 50% de la base reguladora.',
+  },
+  {
+    question: '¿A qué edad puedo jubilarme en 2026?',
+    answer: 'En 2026, si acreditas 38 años o más de cotización, puedes jubilarte a los 65 años. Si tienes menos de 38 años cotizados, la edad ordinaria de jubilación es de 66 años y 8 meses.',
+  },
+  {
+    question: '¿Cómo se calcula la base reguladora de la pensión?',
+    answer: 'La base reguladora se obtiene dividiendo las bases de cotización de los últimos 25 años (300 meses) entre 350. Las bases anteriores a los 24 meses previos a la jubilación se actualizan con el IPC.',
+  },
+  {
+    question: '¿Cuál es la pensión máxima de jubilación en 2025?',
+    answer: 'La pensión máxima mensual en 2025 es de 3.175,04 euros brutos, lo que equivale a 44.450,56 euros anuales repartidos en 14 pagas.',
+  },
+  {
+    question: '¿Puedo jubilarme antes de la edad ordinaria?',
+    answer: 'Sí. Existe la jubilación anticipada voluntaria (hasta 2 años antes de la edad ordinaria, con penalización del 3,26% al 4,17% por trimestre de adelanto) y la involuntaria (hasta 4 años antes, con penalización del 1,625% al 1,875% por trimestre). En ambos casos se exigen al menos 35 años cotizados para la voluntaria y 33 para la involuntaria.',
+  },
+  {
+    question: '¿Qué pasa si retraso mi jubilación?',
+    answer: 'Cada año completo que trabajes después de la edad ordinaria de jubilación genera un complemento del 4% sobre la pensión, o puedes optar por un pago único. Es lo que se conoce como jubilación demorada o activa.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1="Simulador de Jubilación"
+  calculatorName="Simulador Jubilación"
+  path="/calculadora-jubilacion/"
+  faqs={faqs}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <Jubilacion client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía completa sobre la pensión de jubilación en España: requisitos, cálculos y estrategias
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        El sistema de pensiones español es uno de los pilares fundamentales del Estado del bienestar. Se basa en un modelo de reparto, lo que significa que las cotizaciones de los trabajadores en activo financian directamente las pensiones de los jubilados actuales. No es un sistema de capitalización en el que cada persona ahorra para sí misma, sino un pacto intergeneracional: los que trabajan hoy pagan las pensiones de hoy, con la expectativa de que los trabajadores del futuro paguen las suyas. Este modelo, vigente desde la Ley General de la Seguridad Social (LGSS), ha garantizado durante décadas una cobertura amplia, pero también enfrenta retos demográficos significativos: la tasa de natalidad española es de las más bajas de Europa (1,16 hijos por mujer, dato INE 2023), la esperanza de vida supera los 83 años y la generación del baby boom (nacidos entre 1958 y 1975) comenzará a jubilarse masivamente en los próximos años. Comprender cómo funciona este sistema no es solo un ejercicio teórico, es una herramienta de planificación personal imprescindible.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Requisitos para acceder a la pensión de jubilación contributiva</h3>
+      <p>
+        Para tener derecho a una pensión de jubilación contributiva en España es necesario cumplir dos requisitos de cotización (también llamados "carencia"):
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Carencia genérica:</strong> haber cotizado un mínimo de 15 años (5.475 días) a lo largo de toda la vida laboral.</li>
+        <li><strong>Carencia específica:</strong> al menos 2 de esos 15 años deben haberse cotizado dentro de los 15 años inmediatamente anteriores a la fecha de jubilación. Este requisito busca evitar que personas que cotizaron brevemente hace décadas y no han vuelto a trabajar accedan a la pensión.</li>
+      </ul>
+      <p>
+        Si no se cumplen estos requisitos, no se tiene derecho a pensión contributiva, aunque puede accederse a prestaciones no contributivas (de cuantía muy inferior, en torno a 517 euros mensuales en 2025) siempre que se cumplan determinados requisitos de ingresos y residencia.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Edad de jubilación: progresión 2024-2027</h3>
+      <p>
+        Desde la reforma de 2011 (desarrollada por la Ley 27/2011 y modificada posteriormente por el Real Decreto-ley 2/2023), la edad ordinaria de jubilación en España depende de los años cotizados. No existe una edad única, sino dos umbrales que se van ajustando progresivamente hasta 2027:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Año</th>
+              <th class="px-3 py-2 text-right">Cotización para jubilarse a los 65</th>
+              <th class="px-3 py-2 text-right">Edad con menos cotización</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2024</td><td class="px-3 py-1 text-right">38 años o más</td><td class="px-3 py-1 text-right">66 años y 6 meses</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2025</td><td class="px-3 py-1 text-right">38 años y 3 meses o más</td><td class="px-3 py-1 text-right">66 años y 8 meses</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2026</td><td class="px-3 py-1 text-right">38 años o más</td><td class="px-3 py-1 text-right">66 años y 8 meses</td></tr>
+            <tr><td class="px-3 py-1">2027 en adelante</td><td class="px-3 py-1 text-right">38 años y 6 meses o más</td><td class="px-3 py-1 text-right">67 años</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        A partir de 2027, el sistema se estabiliza: quien tenga 38 años y 6 meses o más de cotización podrá jubilarse a los 65, y el resto deberá esperar a los 67. Este simulador utiliza la regla de 2026 como referencia, aplicando 65 años para quienes acrediten 38 o más años cotizados y 67 años (simplificación de 66 años y 8 meses) para el resto.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Cómo se calcula la base reguladora</h3>
+      <p>
+        La base reguladora es la cifra clave sobre la que se aplican los porcentajes para obtener la pensión final. Se calcula tomando las bases de cotización de los últimos 25 años (300 mensualidades), sumándolas y dividiendo el resultado entre 350 (no entre 300, porque se tienen en cuenta las 14 pagas anuales). La fórmula oficial es:
+      </p>
+      <p>
+        <strong>Base reguladora = Suma de las 300 últimas bases de cotización / 350</strong>
+      </p>
+      <p>
+        Las bases de cotización de los 24 meses inmediatamente anteriores a la jubilación se toman por su valor nominal (sin actualizar). Las bases de los meses anteriores a esos 24 se actualizan conforme a la evolución del Índice de Precios al Consumo (IPC), para compensar el efecto de la inflación. Esto es relevante porque una base de cotización de 1.500 euros de hace 20 años no tiene el mismo poder adquisitivo que 1.500 euros de hoy.
+      </p>
+      <p>
+        Es importante distinguir entre base de cotización y salario bruto. La base de cotización incluye el salario bruto mensual más la parte proporcional de pagas extraordinarias, pero tiene un tope máximo (la base máxima de cotización, que en 2025 es de 4.720,50 euros mensuales). Quien cobre un salario bruto superior a esa cifra cotiza solo hasta el tope, lo que limita su futura base reguladora y, por tanto, su pensión.
+      </p>
+      <p>
+        Este simulador simplifica el cálculo utilizando directamente la base de cotización media mensual que introduces como aproximación a la base reguladora. En la práctica, la base reguladora real puede diferir ligeramente debido a la actualización por IPC y a posibles lagunas de cotización.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Porcentaje aplicable según años cotizados</h3>
+      <p>
+        Una vez calculada la base reguladora, se le aplica un porcentaje que depende del número total de años cotizados. La escala vigente es la siguiente:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li>Con 15 años cotizados: <strong>50%</strong> de la base reguladora.</li>
+        <li>Por cada mes adicional entre el año 16 y el 25 (120 meses): <strong>+0,21% por mes</strong> (equivalente a 2,52% por año completo).</li>
+        <li>Por cada mes adicional entre el año 26 y el 36 y medio (138 meses): <strong>+0,19% por mes</strong> (equivalente a 2,28% por año completo).</li>
+        <li>Se alcanza el <strong>100%</strong> de la base reguladora a los 36 años y 6 meses de cotización.</li>
+      </ul>
+      <p>
+        La siguiente tabla resume algunos hitos clave:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Años cotizados</th>
+              <th class="px-3 py-2 text-right">Porcentaje de la base reguladora</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">15 años</td><td class="px-3 py-1 text-right">50,00%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">20 años</td><td class="px-3 py-1 text-right">62,60%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">25 años</td><td class="px-3 py-1 text-right">75,20%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">30 años</td><td class="px-3 py-1 text-right">86,60%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">35 años</td><td class="px-3 py-1 text-right">98,00%</td></tr>
+            <tr><td class="px-3 py-1">36 años y 6 meses</td><td class="px-3 py-1 text-right">100,00%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Como se puede observar, la diferencia entre cotizar 15 años (50%) y 25 años (75,20%) es enorme: cada año extra entre esos tramos añade un promedio de 2,52 puntos porcentuales. A partir de los 25 años, el incremento se reduce a 2,28 puntos por año, pero sigue siendo significativo. Llegar a los 36 años y medio permite cobrar el 100% de la base reguladora, algo que solo consiguen quienes empezaron a trabajar relativamente jóvenes y no tuvieron interrupciones prolongadas en su carrera laboral.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Jubilación anticipada: voluntaria e involuntaria</h3>
+      <p>
+        La legislación española contempla dos modalidades de jubilación anticipada, ambas con penalizaciones sobre la pensión:
+      </p>
+      <p>
+        <strong>Jubilación anticipada voluntaria:</strong> el trabajador puede adelantar su jubilación hasta un máximo de 2 años respecto a la edad ordinaria que le corresponda. Se exigen al menos 35 años cotizados. La penalización (coeficiente reductor) oscila entre el 3,26% y el 4,17% por cada trimestre de anticipación, dependiendo de los años cotizados. Con 35 años cotizados y una anticipación de 2 años (8 trimestres), la reducción puede alcanzar entre el 26% y el 33% de la pensión. Es una penalización vitalicia: se aplica durante toda la vida del pensionista.
+      </p>
+      <p>
+        <strong>Jubilación anticipada involuntaria (por despido, ERE, etc.):</strong> permite adelantar la jubilación hasta 4 años antes de la edad ordinaria. Se exigen al menos 33 años cotizados. Los coeficientes reductores son más favorables, entre el 1,625% y el 1,875% por trimestre de adelanto. Aun así, con 4 años de anticipación (16 trimestres), la reducción puede suponer entre el 26% y el 30% de la pensión.
+      </p>
+      <p>
+        En ambos casos, la pensión resultante no puede superar la cuantía que resultaría de jubilarse a la edad ordinaria. Antes de optar por la jubilación anticipada conviene hacer cálculos detallados: la diferencia entre jubilarse dos años antes y esperar puede suponer varios cientos de euros mensuales de por vida.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Jubilación demorada: incentivos por retrasar la jubilación</h3>
+      <p>
+        Para quienes deseen o puedan seguir trabajando más allá de la edad ordinaria de jubilación, el sistema ofrece incentivos por demora. Tras la reforma de 2021 (Real Decreto-ley 2/2023), las opciones son:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Porcentaje adicional:</strong> un 4% extra sobre la base reguladora por cada año completo de trabajo más allá de la edad ordinaria. Si tu pensión es del 100% de la base reguladora, cada año adicional la eleva al 104%, 108%, etc. (sin superar la pensión máxima).</li>
+        <li><strong>Pago único (cheque):</strong> una cantidad a tanto alzado que depende de los años cotizados y la base reguladora. Puede superar los 10.000 euros por año de demora en muchos casos.</li>
+        <li><strong>Fórmula mixta:</strong> combinación de porcentaje adicional (2%) y pago único parcial.</li>
+      </ul>
+      <p>
+        Además, quienes se acogen a la jubilación activa pueden compatibilizar el 100% de la pensión con el trabajo por cuenta propia o ajena, siempre que acrediten al menos un año de demora más allá de la edad ordinaria y tengan derecho al 100% de la base reguladora. Es una opción cada vez más utilizada por profesionales liberales y autónomos.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo práctico: Carmen, 42 años, 18 cotizados, base de 2.800 euros</h3>
+      <p>
+        Carmen tiene 42 años y lleva 18 años cotizando a la Seguridad Social con una base de cotización media de 2.800 euros mensuales. Prevé seguir trabajando durante 23 años más, hasta los 65.
+      </p>
+      <p>
+        <strong>Paso 1, años cotizados totales:</strong> 18 actuales + 23 futuros = 41 años cotizados al jubilarse.
+      </p>
+      <p>
+        <strong>Paso 2, edad de jubilación:</strong> con 41 años de cotización (más de 38), Carmen podría jubilarse a los 65 años.
+      </p>
+      <p>
+        <strong>Paso 3, base reguladora:</strong> simplificando, su base reguladora es su base de cotización media mensual, 2.800 euros.
+      </p>
+      <p>
+        <strong>Paso 4, porcentaje:</strong> con 41 años cotizados, Carmen supera ampliamente los 36 años y 6 meses necesarios para el 100%. Su porcentaje es el 100% de la base reguladora.
+      </p>
+      <p>
+        <strong>Paso 5, pensión mensual:</strong> 2.800 euros (100% de 2.800). Está por debajo de la pensión máxima (3.175,04 euros), así que no se aplica el tope.
+      </p>
+      <p>
+        <strong>Resultado:</strong> Carmen cobraría una pensión estimada de 2.800 euros mensuales brutos (39.200 euros anuales en 14 pagas). Su tasa de sustitución sería del 100%, lo que significa que su pensión igualaría a su último salario de cotización. Este es un escenario favorable, posible gracias a una carrera laboral larga e ininterrumpida.
+      </p>
+      <p>
+        Si Carmen tuviera solo 30 años cotizados totales en lugar de 41, su porcentaje sería del 86,60% y su pensión bajaría a 2.424,80 euros mensuales: una diferencia de 375 euros al mes (5.256 euros al año). Este ejemplo ilustra el impacto tan significativo que tienen los años cotizados sobre la pensión final.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El futuro del sistema: MEI, reformas 2023 y factor de sostenibilidad</h3>
+      <p>
+        El sistema de pensiones español afronta un desafío demográfico sin precedentes. Para reforzar su financiación, la reforma aprobada en 2023 (Ley 21/2023) introdujo varias medidas:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Mecanismo de Equidad Intergeneracional (MEI):</strong> una cotización adicional del 0,7% sobre la base de cotización (0,58% a cargo de la empresa y 0,12% del trabajador) que se destina al Fondo de Reserva de la Seguridad Social. Este porcentaje se incrementará progresivamente hasta el 1,2% en 2029. Su objetivo es acumular un colchón financiero para absorber el impacto de la jubilación masiva de la generación del baby boom.</li>
+        <li><strong>Cotización de solidaridad:</strong> a partir de 2025, los salarios que superen la base máxima de cotización tributarán un porcentaje adicional (sin generar más derechos de pensión). Empieza en el 0,92% y se elevará gradualmente hasta el 1,17% en 2045.</li>
+        <li><strong>Revalorización automática con el IPC:</strong> desde 2022, las pensiones se actualizan cada año conforme al IPC medio del periodo noviembre-noviembre del año anterior. Esto garantiza que las pensiones no pierdan poder adquisitivo con la inflación, a diferencia del antiguo Índice de Revalorización de Pensiones (IRP) que las subía por debajo del IPC.</li>
+        <li><strong>Destope progresivo de bases máximas:</strong> la base máxima de cotización subirá cada año por encima del IPC, acumulando un incremento adicional del 1,2% anual hasta 2050. Esto eleva progresivamente tanto las cotizaciones como las futuras pensiones máximas.</li>
+      </ul>
+      <p>
+        Estas reformas suponen un esfuerzo colectivo por mantener la viabilidad del sistema. Sin embargo, la incertidumbre a largo plazo persiste: las proyecciones de la Autoridad Independiente de Responsabilidad Fiscal (AIReF) estiman que el gasto en pensiones pasará del 12% del PIB actual a más del 15% en torno a 2050. Por ello, muchos expertos en planificación financiera recomiendan complementar la pensión pública con ahorro privado (planes de pensiones, fondos de inversión, inmuebles en alquiler) para garantizar un nivel de vida adecuado durante la jubilación, especialmente para quienes tengan carreras de cotización cortas o interrumpidas.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Lagunas de cotización y convenios especiales</h3>
+      <p>
+        Un aspecto que preocupa a muchos trabajadores son los periodos sin cotización (lagunas). Estos pueden producirse por desempleo no cubierto, excedencias, trabajo en el extranjero sin convenio bilateral, o simplemente por inactividad laboral. Las lagunas afectan de dos formas: reducen los años totales cotizados (lo que disminuye el porcentaje aplicable) y reducen la base reguladora (los meses sin cotización computan con la base mínima vigente en ese periodo).
+      </p>
+      <p>
+        Para paliar este efecto, existe el <strong>convenio especial con la Seguridad Social</strong>, un mecanismo que permite seguir cotizando de forma voluntaria durante periodos de inactividad. El trabajador asume el coste íntegro de la cotización (tanto la parte empresarial como la del trabajador), eligiendo una base de cotización entre la mínima y la que tenía antes de dejar de trabajar. Es especialmente útil para personas cercanas a la jubilación que necesitan completar los 15 años mínimos o alcanzar un tramo de porcentaje superior. El coste mensual oscila habitualmente entre 250 y 600 euros, dependiendo de la base elegida.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Complemento de brecha de género</h3>
+      <p>
+        Desde 2021, existe un complemento para la reducción de la brecha de género que beneficia principalmente a las mujeres (aunque también pueden solicitarlo hombres en determinadas circunstancias). Se reconoce a quienes acrediten haber sido perjudicados en su carrera profesional por el nacimiento o adopción de hijos. La cuantía en 2025 es de 33,20 euros mensuales por cada hijo, hasta un máximo de 4 hijos (132,80 euros mensuales). Este complemento se suma a la pensión calculada y no se tiene en cuenta para el tope de pensión máxima.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fiscalidad de la pensión de jubilación</h3>
+      <p>
+        La pensión de jubilación tributa en el IRPF como rendimiento del trabajo, exactamente igual que un salario. Esto significa que se le aplican las mismas tablas progresivas, con tipos marginales que van del 19% al 47% (según comunidad autónoma). No obstante, los pensionistas se benefician de una reducción por obtención de rendimientos del trabajo (igual que los asalariados) y, en muchos casos, de las deducciones autonómicas por edad avanzada o discapacidad. Para una pensión mensual de 1.500 euros (21.000 euros anuales), la retención efectiva del IRPF suele situarse en torno al 10-12%, lo que deja un neto mensual de aproximadamente 1.320-1.350 euros.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fuentes y referencias</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724" class="text-brand hover:underline" target="_blank" rel="noopener">Ley General de la Seguridad Social (LGSS)</a> - Texto refundido aprobado por Real Decreto Legislativo 8/2015.</li>
+        <li><a href="https://www.seg-social.es/wps/portal/wss/internet/Trabajadores/PrestacionesPensionesTrabajadores/10963/28393/28396" class="text-brand hover:underline" target="_blank" rel="noopener">Seguridad Social: Jubilación</a> - Portal informativo oficial con requisitos, trámites y simuladores.</li>
+        <li><a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-6967" class="text-brand hover:underline" target="_blank" rel="noopener">BOE: Real Decreto-ley 2/2023</a> - Reforma del sistema de pensiones (MEI, cotización de solidaridad, revalorización).</li>
+        <li><a href="https://www.airef.es" class="text-brand hover:underline" target="_blank" rel="noopener">AIReF</a> - Proyecciones de gasto en pensiones y sostenibilidad fiscal.</li>
+        <li><a href="https://www.ine.es" class="text-brand hover:underline" target="_blank" rel="noopener">INE</a> - Estadísticas de demografía, esperanza de vida y natalidad.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

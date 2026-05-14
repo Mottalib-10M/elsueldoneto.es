@@ -1,0 +1,110 @@
+---
+import Layout from '../components/layout/Layout.astro';
+import { CURRENT_FISCAL_YEAR } from '../config';
+import { buildWebApplicationSchema, buildBreadcrumbSchema, buildFAQSchema, type FAQItem } from '../lib/seo';
+
+interface Props {
+  title: string;
+  description: string;
+  h1: string;
+  calculatorName: string;
+  path: string;
+  ogImage?: string;
+  faqs?: FAQItem[];
+  breadcrumbs?: { name: string; url: string }[];
+  updatedDate?: string;
+  sources?: { label: string; url: string }[];
+}
+
+const {
+  title,
+  description,
+  h1,
+  calculatorName,
+  path,
+  ogImage,
+  faqs = [],
+  breadcrumbs = [
+    { name: 'Inicio', url: '/' },
+    { name: calculatorName, url: path },
+  ],
+  updatedDate = new Date().toISOString().split('T')[0],
+  sources = [
+    { label: 'AEAT', url: 'https://www.agenciatributaria.gob.es' },
+    { label: 'Seguridad Social', url: 'https://www.seg-social.es' },
+  ],
+} = Astro.props;
+
+const schemas = [
+  buildWebApplicationSchema(calculatorName, path),
+  buildBreadcrumbSchema(breadcrumbs),
+  ...(faqs.length > 0 ? [buildFAQSchema(faqs)] : []),
+];
+---
+
+<Layout title={title} description={description} ogImage={ogImage} schema={schemas}>
+  <div class="mx-auto max-w-4xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-1">
+        {breadcrumbs.map((crumb, i) => (
+          <>
+            {i > 0 && <li class="text-medium-gray">/</li>}
+            <li>
+              {i < breadcrumbs.length - 1 ? (
+                <a href={crumb.url} class="hover:text-brand">{crumb.name}</a>
+              ) : (
+                <span class="text-charcoal dark:text-gray-200">{crumb.name}</span>
+              )}
+            </li>
+          </>
+        ))}
+      </ol>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      {h1}
+    </h1>
+
+    <slot />
+
+    {faqs.length > 0 && (
+      <section class="mt-12">
+        <h2 class="mb-6 text-2xl font-bold text-charcoal dark:text-gray-100">
+          Preguntas frecuentes
+        </h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+              <summary class="cursor-pointer px-4 py-3 font-medium text-charcoal dark:text-gray-200">
+                {faq.question}
+              </summary>
+              <div class="border-t border-gray-200 px-4 py-3 text-sm text-dark-gray dark:border-gray-700 dark:text-gray-300">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <div class="mt-8 flex flex-wrap items-center gap-4 text-xs text-medium-gray">
+      <span>Actualizado para el ejercicio fiscal {CURRENT_FISCAL_YEAR}</span>
+      <span>·</span>
+      <span>Última actualización: {updatedDate}</span>
+    </div>
+
+    {sources.length > 0 && (
+      <div class="mt-4 text-xs text-medium-gray">
+        <span class="font-medium">Fuentes:</span>
+        {sources.map((source, i) => (
+          <>
+            {i > 0 && ', '}
+            <a href={source.url} class="underline hover:text-brand" target="_blank" rel="noopener">
+              {source.label}
+            </a>
+          </>
+        ))}
+      </div>
+    )}
+  </div>
+</Layout>

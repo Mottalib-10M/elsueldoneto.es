@@ -1,0 +1,167 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import Beckham from '../components/calculadoras/Beckham';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Régimen Beckham: Calculadora Sueldo Neto Expatriados ${CURRENT_FISCAL_YEAR}`;
+const description = `Simulador del Régimen Beckham ${CURRENT_FISCAL_YEAR} para trabajadores desplazados en España. Compara el IRPF al 24% fijo con el régimen general y calcula tu ahorro fiscal.`;
+
+const faqs = [
+  {
+    question: '¿Qué es el Régimen Beckham?',
+    answer: 'Es un régimen fiscal especial para trabajadores desplazados a España que permite tributar a un tipo fijo del 24% sobre la renta del trabajo (hasta 600.000 €) durante los primeros 6 años de residencia fiscal.',
+  },
+  {
+    question: '¿Quién puede acogerse al Régimen Beckham?',
+    answer: 'Trabajadores que no hayan sido residentes fiscales en España durante los 5 años anteriores, que se desplacen a España por un contrato de trabajo o como administrador de una empresa.',
+  },
+  {
+    question: '¿Merece la pena el Régimen Beckham?',
+    answer: 'Depende de tu salario. Para salarios superiores a unos 60.000 €, el tipo fijo del 24% suele ser inferior al tipo efectivo del régimen general. Para salarios más bajos, el régimen general puede ser más favorable.',
+  },
+  {
+    question: '¿El Régimen Beckham aplica a la Seguridad Social?',
+    answer: 'No. Las cotizaciones a la Seguridad Social se calculan igual en ambos regímenes. El Beckham solo afecta al IRPF.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Régimen Beckham: Calculadora para Expatriados ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Calculadora Régimen Beckham"
+  path="/regimen-beckham-calculadora/"
+  faqs={faqs}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <Beckham client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía del Régimen Beckham: fiscalidad para expatriados en España
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        El Régimen Especial para Trabajadores Desplazados, conocido popularmente como «Ley Beckham» porque el futbolista fue uno de sus primeros beneficiarios, es una de las herramientas fiscales más potentes disponibles en España para los profesionales que se trasladan al país. Regulado en el artículo 93 de la Ley del IRPF, permite tributar a un tipo fijo del 24% sobre la renta del trabajo en lugar de aplicar la escala progresiva ordinaria, cuyos tipos pueden alcanzar el 47%.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Requisitos para acogerse al régimen</h3>
+      <p>
+        No cualquiera puede solicitarlo. Hay que cumplir tres condiciones simultáneamente: no haber sido residente fiscal en España durante los 5 años anteriores al desplazamiento, trasladarse a España como consecuencia de un contrato de trabajo con una empresa española (o como administrador de una entidad), y que el desplazamiento se produzca para trabajar efectivamente en territorio español. Desde la reforma de la Ley de Startups de 2023, también pueden acogerse los emprendedores, inversores y ciertos profesionales altamente cualificados que trabajen en remoto para empresas extranjeras.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Cómo funciona la tributación</h3>
+      <p>
+        El tipo fijo del 24% se aplica sobre la renta del trabajo hasta 600.000 € anuales. El exceso tributa al 47%. Pero la ventaja va más allá del tipo reducido: el régimen trata al contribuyente como «no residente a efectos del IRPF», lo que significa que solo tributa en España por sus rentas de fuente española. Los ingresos obtenidos fuera de España (inversiones, alquileres, dividendos de otros países) quedan fuera de la base imponible española. Esto puede suponer un ahorro muy considerable para profesionales con patrimonio internacional.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">¿A partir de qué salario compensa?</h3>
+      <p>
+        La respuesta depende de la comunidad autónoma de residencia y la situación personal, pero como regla general, el régimen Beckham empieza a ser ventajoso a partir de unos 55.000-60.000 € brutos anuales para un trabajador soltero sin hijos en Madrid. Para salarios inferiores, el tipo efectivo del régimen general ya está por debajo del 24% gracias a las reducciones, mínimos personales y los tramos bajos del IRPF. A medida que el salario sube, el ahorro crece de forma exponencial: para un bruto de 120.000 €, la diferencia puede superar los 10.000 € anuales respecto al régimen ordinario.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Duración y solicitud</h3>
+      <p>
+        El régimen se aplica durante el ejercicio fiscal en que se produce el desplazamiento y los cinco siguientes, seis años en total. La solicitud se presenta ante la AEAT mediante el modelo 149 dentro de los seis meses siguientes al alta en la Seguridad Social española. Es una opción irrevocable: una vez elegido, no puedes volver al régimen general hasta que se agoten los seis años (o renuncias expresamente). Es importante tener en cuenta que al tributar como no residente, se pierde el derecho a las deducciones autonómicas y a ciertas ventajas del régimen general, como la exención de la indemnización por despido.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo: Beckham vs régimen general para 100.000 € brutos</h3>
+      <p>
+        Un ingeniero francés se traslada a Madrid con un salario de 100.000 € brutos. Veamos la comparativa:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Concepto</th>
+              <th class="px-3 py-2 text-right">Régimen Beckham</th>
+              <th class="px-3 py-2 text-right">Régimen general</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Salario bruto</td><td class="px-3 py-1 text-right">100.000 €</td><td class="px-3 py-1 text-right">100.000 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Seguridad Social</td><td class="px-3 py-1 text-right">4.495 €</td><td class="px-3 py-1 text-right">4.495 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">IRPF</td><td class="px-3 py-1 text-right font-medium text-brand">24.000 €</td><td class="px-3 py-1 text-right text-blue-600">32.800 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Tipo efectivo IRPF</td><td class="px-3 py-1 text-right">24,0%</td><td class="px-3 py-1 text-right">32,8%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1 font-medium">Neto anual</td><td class="px-3 py-1 text-right font-bold text-brand">71.505 €</td><td class="px-3 py-1 text-right font-bold text-blue-600">62.705 €</td></tr>
+            <tr class="bg-emerald-50 dark:bg-emerald-900/20"><td class="px-3 py-1 font-medium">Ahorro anual con Beckham</td><td class="px-3 py-1 text-right font-bold text-emerald-700 dark:text-emerald-400" colspan="2">8.800 €/año → 733 €/mes</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        En 6 años de régimen Beckham, este trabajador ahorra más de 52.000 € en impuestos respecto al régimen general. Para salarios inferiores a 55.000 €, la ventaja desaparece porque el tipo efectivo ordinario ya está por debajo del 24% gracias a los mínimos y reducciones.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Checklist: pasos para solicitar el Régimen Beckham</h3>
+      <ol class="list-decimal ml-4 space-y-1">
+        <li>Verificar que no has sido residente fiscal en España en los 5 años anteriores.</li>
+        <li>Obtener el contrato de trabajo o nombramiento como administrador de una empresa española.</li>
+        <li>Darte de alta en la Seguridad Social española.</li>
+        <li>Presentar el <strong>modelo 149</strong> ante la AEAT en los 6 meses siguientes al alta.</li>
+        <li>Recibir la resolución favorable de la AEAT (suele tardar 1-3 meses).</li>
+        <li>Comunicar a tu empresa que aplique la retención del 24% en lugar de la ordinaria.</li>
+        <li>Presentar la declaración anual con el <strong>modelo 151</strong> (no el 100 ordinario).</li>
+      </ol>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Obligaciones fiscales bajo el régimen Beckham</h3>
+      <p>
+        Acogerse al régimen no significa simplificar toda tu vida fiscal. Hay obligaciones específicas que conviene conocer desde el primer año. La más visible es la <strong>declaración de la renta mediante el modelo 151</strong>, que sustituye al modelo 100 ordinario. El modelo 151 tiene un formato propio que refleja la tributación como no residente: solo se declaran las rentas de fuente española, y el tipo fijo del 24% se aplica directamente sin los mínimos personales ni las reducciones por rendimientos del trabajo que sí existen en el régimen general. Ana Svensson, una directiva sueca que se trasladó a Barcelona en 2023 con un salario de 130.000 €, descubrió en su primera campaña de renta que su asesor fiscal presentó por error el modelo 100. La AEAT le requirió una declaración complementaria con el modelo 151 y le impuso un recargo del 5% por presentación fuera de plazo.
+      </p>
+      <p>
+        En cuanto al <strong>modelo 720</strong> (la declaración informativa de bienes y derechos en el extranjero), la Dirección General de Tributos ha confirmado que los contribuyentes del régimen Beckham <strong>no están obligados</strong> a presentarlo, dado que tributan como no residentes a efectos del IRPF y sus bienes fuera de España quedan fuera de la base imponible. Esto incluye cuentas bancarias en el extranjero, inmuebles, valores y seguros. Sin embargo, si el contribuyente posee bienes en España valorados por encima del umbral (normalmente 700.000 € con exención de la vivienda habitual hasta 300.000 €), sí puede estar sujeto al <strong>Impuesto sobre el Patrimonio</strong> por los bienes situados en territorio español. Los bienes fuera de España quedan exentos precisamente por la condición de tributación como no residente. Para alguien con un patrimonio internacional significativo, esta exención puede suponer un ahorro de decenas de miles de euros al año frente a un residente fiscal ordinario que tributaría por su patrimonio mundial.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Incompatibilidades y limitaciones del régimen</h3>
+      <p>
+        El tipo fijo del 24% tiene un precio: renuncias a una serie de ventajas del sistema tributario ordinario. La más relevante es que <strong>no puedes aplicar deducciones autonómicas</strong>. En comunidades como Madrid, la Comunidad Valenciana o Cataluña existen deducciones por alquiler de vivienda habitual, por inversión en empresas de nueva creación o por gastos educativos que pueden suponer un ahorro de entre 500 € y 2.000 € anuales. Con el régimen Beckham, pierdes acceso a todas ellas. Tampoco puedes aplicar la <strong>deducción por maternidad</strong> ni la <strong>reducción por tributación conjunta</strong> en caso de matrimonio.
+      </p>
+      <p>
+        Otra limitación importante afecta a la <strong>compensación de pérdidas patrimoniales</strong>. En el régimen general, si vendes acciones con pérdidas puedes compensarlas contra ganancias del mismo ejercicio o de los cuatro siguientes. Bajo el régimen Beckham, las ganancias y pérdidas patrimoniales de fuente española tributan de forma separada y las posibilidades de compensación son mucho más restringidas. Además, los <strong>dividendos procedentes de empresas extranjeras</strong> (por ejemplo, los que cobra un profesional con acciones de su antigua empresa matriz en Alemania o Estados Unidos) no tributan en España bajo este régimen, pero sí pueden tributar en el país de origen sin posibilidad de aplicar la deducción por doble imposición internacional, que es un mecanismo exclusivo del régimen general. Marcos Reiter, un ejecutivo alemán en Madrid con 40.000 € anuales en dividendos de su antigua empresa en Múnich, pagaba una retención del 26,375% en Alemania sobre esos dividendos y no podía deducir nada en España. En régimen general, habría compensado gran parte de esa retención extranjera contra su cuota del IRPF español.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Planificación de la salida: cuando se acaban los 6 años</h3>
+      <p>
+        El régimen Beckham tiene fecha de caducidad. Al finalizar el sexto ejercicio fiscal, el contribuyente pasa automáticamente al régimen general, con todos los tramos progresivos del IRPF y la obligación de declarar su renta mundial. Esta transición puede ser brusca si no se planifica. Un profesional que cobra 200.000 € brutos pasa de tributar al 24% fijo (48.000 € de IRPF) a un tipo efectivo cercano al 40% en régimen general (aproximadamente 80.000 € de IRPF en Madrid). Son 32.000 € adicionales de impuestos de un año para otro.
+      </p>
+      <p>
+        Por eso, los asesores fiscales especializados en movilidad internacional recomiendan planificar la transición con al menos 12 meses de antelación. Las <strong>stock options</strong> y los <strong>bonus diferidos</strong> son los instrumentos más sensibles. Si tu empresa te concede un paquete de stock options con vesting en el año 7, todo el beneficio tributará al tipo progresivo. En cambio, si negocias que el vesting se acelere al año 6, tributará al 24%. Para un paquete de stock options con un beneficio de 80.000 €, la diferencia puede superar los 20.000 € en impuestos. Lo mismo aplica a los bonus anuales: si puedes acordar con tu empresa que el bonus correspondiente al último año del régimen se pague antes de que termine el ejercicio fiscal del año 6, tributará al tipo reducido. Elena Moreau, una directora de marketing francesa que finalizó su periodo Beckham en diciembre de 2024, negoció con su empresa adelantar el pago de su bonus de 35.000 € de enero a diciembre, ahorrándose más de 5.000 € en IRPF solo con ese ajuste temporal.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Comparativa: 150.000 € + 50.000 € en stock options - Beckham vs régimen general (Madrid)</h3>
+      <p>
+        Veamos el caso de un profesional con un salario base de 150.000 € más 50.000 € en stock options ejercitadas durante el año, residente en Madrid:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Concepto</th>
+              <th class="px-3 py-2 text-right">Régimen Beckham</th>
+              <th class="px-3 py-2 text-right">Régimen general (Madrid)</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Salario bruto</td><td class="px-3 py-1 text-right">150.000 €</td><td class="px-3 py-1 text-right">150.000 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Stock options (ganancia)</td><td class="px-3 py-1 text-right">50.000 €</td><td class="px-3 py-1 text-right">50.000 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Base imponible total</td><td class="px-3 py-1 text-right">200.000 €</td><td class="px-3 py-1 text-right">200.000 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Seguridad Social</td><td class="px-3 py-1 text-right">4.495 €</td><td class="px-3 py-1 text-right">4.495 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">IRPF sobre salario (hasta 600.000 € al 24%)</td><td class="px-3 py-1 text-right font-medium text-brand">48.000 €</td><td class="px-3 py-1 text-right">-</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">IRPF sobre stock options (renta del trabajo al 24%)</td><td class="px-3 py-1 text-right font-medium text-brand">Incluido arriba</td><td class="px-3 py-1 text-right">-</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">IRPF total (progresivo Madrid)</td><td class="px-3 py-1 text-right">-</td><td class="px-3 py-1 text-right text-blue-600">72.370 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Tipo efectivo IRPF</td><td class="px-3 py-1 text-right">24,0%</td><td class="px-3 py-1 text-right">36,2%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1 font-medium">Neto anual</td><td class="px-3 py-1 text-right font-bold text-brand">147.505 €</td><td class="px-3 py-1 text-right font-bold text-blue-600">123.135 €</td></tr>
+            <tr class="bg-emerald-50 dark:bg-emerald-900/20"><td class="px-3 py-1 font-medium">Ahorro anual con Beckham</td><td class="px-3 py-1 text-right font-bold text-emerald-700 dark:text-emerald-400" colspan="2">24.370 €/año → 2.031 €/mes</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        En este escenario, el régimen Beckham supone un ahorro de 24.370 € anuales. A lo largo de los 6 ejercicios completos, el ahorro acumulado supera los 146.000 €, una cifra que justifica sobradamente la planificación fiscal previa al desplazamiento. Las stock options tributan como renta del trabajo dentro del régimen Beckham (al 24% fijo), mientras que en el régimen general se integran en la base general y tributan al tipo marginal, que para 200.000 € de base en Madrid alcanza el 45,5% en los tramos más altos. Es precisamente en estos perfiles (salarios altos combinados con retribución variable en acciones) donde el régimen Beckham despliega todo su potencial.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fuentes y normativa</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 35/2006, del IRPF</a>: Art. 93: régimen fiscal especial aplicable a los trabajadores, profesionales, emprendedores e inversores desplazados a territorio español.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2022-21739" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 28/2022 (Ley de Startups)</a>: Reforma que amplía los beneficiarios del régimen a emprendedores, profesionales cualificados y teletrabajadores internacionales.</li>
+        <li><a href="https://www.agenciatributaria.gob.es" class="text-brand hover:underline" target="_blank" rel="noopener">AEAT: Modelo 149</a>: Formulario de opción por el régimen y modelo 151 para la declaración.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

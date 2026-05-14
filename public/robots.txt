@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://elsueldoneto.es/sitemap-index.xml

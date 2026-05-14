@@ -1,0 +1,149 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import InteresCompuesto from '../components/calculadoras/InteresCompuesto';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Calculadora de Interés Compuesto: Simula tu Inversión ${CURRENT_FISCAL_YEAR}`;
+const description = `Calcula el interés compuesto de tu inversión con aportaciones mensuales. Simula cuánto crecerá tu capital a largo plazo con el efecto del interés compuesto.`;
+
+const faqs = [
+  {
+    question: '¿Qué es el interés compuesto?',
+    answer: 'El interés compuesto es el interés que se genera sobre el capital inicial más los intereses acumulados. Es lo que hace que las inversiones crezcan exponencialmente a largo plazo.',
+  },
+  {
+    question: '¿Con qué frecuencia se capitaliza el interés?',
+    answer: 'Esta calculadora asume capitalización mensual (12 veces al año), que es la más habitual en productos financieros españoles.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1="Calculadora de Interés Compuesto"
+  calculatorName="Calculadora Interés Compuesto"
+  path="/calculadora-interes-compuesto/"
+  faqs={faqs}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <InteresCompuesto client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía del interés compuesto: la fuerza que transforma el ahorro en patrimonio
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Albert Einstein lo llamó «la octava maravilla del mundo» (probablemente la cita sea apócrifa, pero el concepto es real). El interés compuesto es el mecanismo por el que los rendimientos de una inversión generan a su vez nuevos rendimientos. Si inviertes 10.000 € al 7% anual, el primer año ganas 700 €. El segundo año, ese 7% se aplica sobre 10.700 €, así que ganas 749 €. Al tercer año, sobre 11.449 €. El efecto parece modesto al principio, pero con el tiempo la curva se vuelve exponencial.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El factor tiempo: por qué empezar pronto importa más que la cantidad</h3>
+      <p>
+        Una persona que invierte 200 €/mes desde los 25 años hasta los 65, con una rentabilidad media del 7% anual, acumula unos 525.000 €. Si la misma persona espera a los 35 años para empezar, invirtiendo exactamente lo mismo, acumula solo 244.000 €. Diez años de retraso cuestan más de la mitad del patrimonio final, a pesar de haber invertido solo 24.000 € menos en aportaciones. La explicación es que los primeros euros invertidos son los que más tiempo tienen para «componer», es decir, generar intereses sobre intereses durante décadas. Es una lección que los planes de educación financiera en España todavía no han sabido transmitir al gran público.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">La regla del 72: un atajo mental útil</h3>
+      <p>
+        Para estimar cuánto tiempo tarda una inversión en duplicarse, basta dividir 72 entre la tasa de interés anual. Al 7%, tu dinero se duplica aproximadamente cada 10 años. Al 4%, cada 18 años. Al 10%, cada 7 años. Es una aproximación, no un cálculo exacto, pero sirve para evaluar rápidamente si una rentabilidad ofrecida es suficiente para tus objetivos. Si necesitas que tus 50.000 € se conviertan en 100.000 € en 10 años, necesitas una rentabilidad cercana al 7%, algo asumible con una cartera diversificada de renta variable, pero inalcanzable con depósitos bancarios.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El interés compuesto en el contexto español</h3>
+      <p>
+        En España, los productos de ahorro tradicionales (depósitos a plazo fijo, cuentas remuneradas) ofrecen tipos que oscilan entre el 2% y el 3,5%. A esas rentabilidades, el interés compuesto funciona, pero de forma lenta: al 3%, duplicar el capital lleva 24 años. Los fondos indexados globales, que replican índices como el MSCI World, han proporcionado históricamente rentabilidades del 7-9% anual a largo plazo. La diferencia es enorme: al 8%, 300 €/mes durante 30 años se convierten en 447.000 €; al 3%, en 175.000 €. Esos cuatro puntos porcentuales de diferencia generan casi 272.000 € adicionales, de los cuales la inmensa mayoría son intereses sobre intereses acumulados. El interés compuesto no es magia, pero es lo más parecido que existe en finanzas personales.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo: 200 €/mes durante 25 años a distintas rentabilidades</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Rentabilidad anual</th>
+              <th class="px-3 py-2 text-right">Aportado (25 años)</th>
+              <th class="px-3 py-2 text-right">Intereses generados</th>
+              <th class="px-3 py-2 text-right">Capital final</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2%</td><td class="px-3 py-1 text-right">60.000 €</td><td class="px-3 py-1 text-right">17.500 €</td><td class="px-3 py-1 text-right">77.500 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">5%</td><td class="px-3 py-1 text-right">60.000 €</td><td class="px-3 py-1 text-right">59.300 €</td><td class="px-3 py-1 text-right">119.300 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">7%</td><td class="px-3 py-1 text-right">60.000 €</td><td class="px-3 py-1 text-right">102.800 €</td><td class="px-3 py-1 text-right">162.800 €</td></tr>
+            <tr><td class="px-3 py-1">10%</td><td class="px-3 py-1 text-right">60.000 €</td><td class="px-3 py-1 text-right">205.400 €</td><td class="px-3 py-1 text-right">265.400 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Con las mismas aportaciones de 60.000 €, la diferencia entre un 2% y un 7% es de 85.300 €, generados exclusivamente por los intereses compuestos. Ese es el coste real de dejar el dinero en un producto de baja rentabilidad durante décadas.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fiscalidad de las inversiones en España</h3>
+      <p>
+        Los rendimientos de las inversiones tributan en el IRPF como rentas del ahorro. Los tipos vigentes son: 19% para los primeros 6.000 €, 21% de 6.000 a 50.000 €, 23% de 50.000 a 200.000 €, 27% de 200.000 a 300.000 €, y 28% a partir de 300.000 €. Los fondos de inversión tienen una ventaja fiscal clave: los traspasos entre fondos no tributan. Solo pagas impuestos cuando rescatas el dinero, lo que permite que el interés compuesto actúe sobre el 100% del capital sin merma fiscal intermedia.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Errores comunes al invertir que destruyen el interés compuesto</h3>
+      <p>
+        El interés compuesto solo funciona si se le deja actuar sin interrupciones. Y ahí es donde la mayoría de inversores particulares fracasan, no por elegir mal los productos, sino por cometer errores de comportamiento que cortan el mecanismo de raíz.
+      </p>
+      <p>
+        <strong>No reinvertir los dividendos.</strong> Muchos inversores cobran los dividendos en efectivo en lugar de reinvertirlos. Parece inofensivo, pero el impacto a largo plazo es brutal. Tomemos el ejemplo de Carmen, que invierte 50.000 € en un fondo que replica el IBEX 35 con una rentabilidad media del 6% anual (dividendos incluidos). Si Carmen reinvierte los dividendos, a los 25 años tiene unos 214.600 €. Si cobra los dividendos y los gasta, su capital crece solo con la revalorización de las acciones, digamos un 3,5% anual, y acaba con 119.700 €. La diferencia de 94.900 € es dinero que los dividendos reinvertidos habrían generado al acumularse dentro del fondo. Además, cada cobro de dividendo tributa al 19-28% en el IRPF (Art. 66 de la Ley 35/2006), lo que reduce aún más la cantidad disponible para reinvertir. Los fondos de acumulación evitan este problema porque reinvierten automáticamente sin generar hecho imponible.
+      </p>
+      <p>
+        <strong>Vender en pánico durante las caídas.</strong> Entre febrero y marzo de 2020, el IBEX 35 cayó un 33% en cinco semanas por la pandemia del COVID-19. Muchos inversores vendieron en mínimos, cristalizando pérdidas. Quienes mantuvieron sus posiciones recuperaron la caída en menos de dos años. El problema no es solo la pérdida inmediata: al vender, se rompe la cadena del interés compuesto. El inversor que vendió en pánico a 6.100 puntos y recompró meses después a 8.000 puntos no solo perdió un 24% en ese movimiento, sino que además pagó comisiones de venta y recompra, y posiblemente tributó por las ganancias previas que había acumulado.
+      </p>
+      <p>
+        <strong>Intentar hacer <em>market timing</em>.</strong> Consiste en intentar predecir cuándo el mercado subirá o bajará para comprar barato y vender caro. Los datos históricos demuestran que es prácticamente imposible hacerlo de forma consistente. Un estudio de J.P. Morgan analizó el S&P 500 entre 2003 y 2022: un inversor que se perdió los 10 mejores días de bolsa (de 5.036 días hábiles) obtuvo un 4,3% anual en lugar del 9,8%. Perderse solo 10 jornadas en 20 años redujo la rentabilidad a menos de la mitad. La estrategia más fiable para aprovechar el interés compuesto es la aportación periódica constante, lo que se conoce como <em>dollar cost averaging</em>: invertir la misma cantidad cada mes independientemente de cómo esté el mercado.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Inflación y rentabilidad real: el enemigo silencioso</h3>
+      <p>
+        Una simulación de interés compuesto que no tenga en cuenta la inflación genera una falsa sensación de riqueza. La rentabilidad nominal es la cifra bruta que ves en tu cuenta; la rentabilidad real es lo que queda después de descontar la subida de precios. La fórmula aproximada es sencilla: rentabilidad real ≈ rentabilidad nominal − inflación. Si un fondo rinde un 7% anual y la inflación media es del 3%, tu poder adquisitivo crece solo un 4% al año, no un 7%.
+      </p>
+      <p>
+        Pongamos números concretos. Miguel invierte 100.000 € durante 30 años al 7% nominal. Al final tiene 761.225 € en términos nominales. Pero si la inflación ha sido del 3% anual, esos 761.225 € del futuro equivalen a unos 313.700 € de hoy en poder adquisitivo. Sigue siendo un resultado excelente (ha triplicado su dinero en términos reales), pero muy diferente de lo que sugiere la cifra nominal. Por eso conviene usar esta calculadora dos veces: una con la rentabilidad nominal esperada (por ejemplo, 7%) y otra con la rentabilidad real estimada (por ejemplo, 4%) para tener ambos escenarios. En España, la inflación media entre 2000 y 2024 ha sido del 2,4% según el INE, aunque los años 2022 y 2023 registraron picos del 8,4% y 3,5% respectivamente que elevaron esa media reciente.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El coste oculto de las comisiones: la tabla que convence</h3>
+      <p>
+        Las comisiones de gestión parecen porcentajes insignificantes (0,2%, 1%, 2%), pero su efecto compuesto a lo largo de décadas es devastador. No es que te cobren ese porcentaje sobre los beneficios: te lo cobran cada año sobre el patrimonio total gestionado, lo que reduce la base sobre la que se compone el interés.
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Comisión anual</th>
+              <th class="px-3 py-2 text-right">Rentabilidad neta</th>
+              <th class="px-3 py-2 text-right">Capital final (30 años)</th>
+              <th class="px-3 py-2 text-right">Coste total de las comisiones</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700 bg-emerald-50/50 dark:bg-emerald-900/10"><td class="px-3 py-1 font-medium">0,2% (fondo indexado)</td><td class="px-3 py-1 text-right">6,8%</td><td class="px-3 py-1 text-right">719.600 €</td><td class="px-3 py-1 text-right">41.600 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">1,0% (fondo activo medio)</td><td class="px-3 py-1 text-right">6,0%</td><td class="px-3 py-1 text-right">574.300 €</td><td class="px-3 py-1 text-right">186.900 €</td></tr>
+            <tr class="bg-red-50/50 dark:bg-red-900/10"><td class="px-3 py-1">2,0% (fondo activo caro)</td><td class="px-3 py-1 text-right">5,0%</td><td class="px-3 py-1 text-right">432.200 €</td><td class="px-3 py-1 text-right">329.000 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-gray-400 mt-2">Base: 100.000 € iniciales, 7% de rentabilidad bruta, 30 años, sin aportaciones adicionales. «Coste total de las comisiones» = capital final sin comisión − capital final con comisión.</p>
+      <p>
+        La diferencia entre un fondo indexado con comisión del 0,2% y un fondo de gestión activa al 2% es de 287.400 € a 30 años, partiendo de los mismos 100.000 €. Ese dinero no se ha perdido en el mercado, se lo ha llevado la gestora. En España, la CNMV obliga a los fondos de inversión a publicar el TER (Total Expense Ratio) en el DFI (Documento de Datos Fundamentales), así que antes de contratar un fondo conviene comprobar ese dato. La Ley 35/2003 de Instituciones de Inversión Colectiva regula estos costes y fija límites máximos para las comisiones de gestión (2,25% sobre patrimonio) y de depósito (0,2%).
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Interés compuesto negativo: cuando las deudas crecen como una bola de nieve</h3>
+      <p>
+        El mismo mecanismo que multiplica las inversiones funciona en sentido contrario con las deudas. Si debes dinero y no pagas la totalidad cada mes, los intereses se acumulan sobre el saldo pendiente, que incluye los intereses anteriores no pagados. Es interés compuesto, pero en tu contra.
+      </p>
+      <p>
+        El caso más extremo en España son las tarjetas revolving. Según sentencias del Tribunal Supremo (STS 628/2015 y STS 149/2020), muchas entidades comercializaban tarjetas con TAE del 20% al 27%, que el Alto Tribunal declaró usurarias por superar ampliamente la media del mercado. Veamos un ejemplo: Laura firma una tarjeta revolving con 3.000 € de límite y una TAE del 24%. Gasta los 3.000 € y la cuota mínima mensual es de 60 € (el 2% del límite). Con esas condiciones, Laura tardaría más de 15 años en saldar la deuda y pagaría más de 7.800 € en intereses, más del doble de lo que gastó originalmente. El interés compuesto negativo es el motor de esa trampa.
+      </p>
+      <p>
+        El Banco de España publicó en 2020 una circular (Circular 4/2020) reforzando los requisitos de información en créditos revolving tras la oleada de reclamaciones. Si tienes una tarjeta de este tipo, calcula el coste total con una simulación realista: te sorprenderá comprobar que la cuota mínima está diseñada para maximizar los intereses que paga el titular, no para amortizar la deuda de forma razonable.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fuentes</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 35/2006, del IRPF</a> - Art. 66: escala de gravamen del ahorro.</li>
+        <li><a href="https://www.cnmv.es" class="text-brand hover:underline" target="_blank" rel="noopener">CNMV (Comisión Nacional del Mercado de Valores)</a> - Regulación y supervisión de fondos de inversión y productos financieros.</li>
+        <li><a href="https://www.bde.es/bde/es/" class="text-brand hover:underline" target="_blank" rel="noopener">Banco de España</a> - Estadísticas de tipos de interés de depósitos y cuentas de ahorro.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

@@ -1,0 +1,304 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import SueldoNeto from '../../components/calculadoras/SueldoNeto';
+import { CURRENT_FISCAL_YEAR, SITE_NAME } from '../../config';
+import { buildWebApplicationSchema, buildBreadcrumbSchema, buildFAQSchema, type FAQItem } from '../../lib/seo';
+import { formatEuros, formatEurosRound } from '../../lib/format-es';
+import { calcularSueldoNeto, situacionFamiliarDefecto, type DesgloseSueldo } from '../../lib/irpf-engine';
+import { comunidadesAutonomas, type CCAACodigo } from '../../data/comunidades-autonomas';
+import { allSalaryPages, getSalaryPageBySlug, getAdjacentPages, formatAmountSpanish, type SalaryPageConfig } from '../../data/salary-pages-config';
+import { seguridadSocial2026 } from '../../data/seguridad-social-2026';
+
+export function getStaticPaths() {
+  return allSalaryPages.map(page => ({
+    params: { slug: page.slug },
+    props: { page },
+  }));
+}
+
+interface Props { page: SalaryPageConfig; }
+
+const { page } = Astro.props;
+
+// Calculate default result (Madrid, soltero, 14 pagas)
+const defaultResult = calcularSueldoNeto(page.annualGross, 'MD', situacionFamiliarDefecto, 14);
+
+// Calculate for all CCAAs
+const ccaaResults = comunidadesAutonomas
+  .map(ccaa => ({
+    ccaa,
+    desglose: calcularSueldoNeto(page.annualGross, ccaa.codigo, situacionFamiliarDefecto, 14),
+  }))
+  .sort((a, b) => b.desglose.netoAnual - a.desglose.netoAnual);
+
+const maxNetoCCAA = ccaaResults[0];
+const minNetoCCAA = ccaaResults[ccaaResults.length - 1];
+
+// Family situations
+const familyScenarios = [
+  { label: 'Soltero/a, sin hijos', sit: situacionFamiliarDefecto },
+  { label: 'Casado/a, cónyuge sin ingresos', sit: { ...situacionFamiliarDefecto, conyuge: 'sin-ingresos' as const } },
+  { label: 'Con 1 hijo', sit: { ...situacionFamiliarDefecto, hijos: 1, hijosMenores3: 0 } },
+  { label: 'Con 2 hijos', sit: { ...situacionFamiliarDefecto, hijos: 2, hijosMenores3: 0 } },
+  { label: 'Con 2 hijos (1 menor de 3)', sit: { ...situacionFamiliarDefecto, hijos: 2, hijosMenores3: 1 } },
+  { label: 'Con 3 hijos', sit: { ...situacionFamiliarDefecto, hijos: 3, hijosMenores3: 0 } },
+].map(s => ({
+  ...s,
+  desglose: calcularSueldoNeto(page.annualGross, 'MD', s.sit, 14),
+}));
+
+const adjacent = getAdjacentPages(page);
+const amountFormatted = formatAmountSpanish(page.amount);
+const periodLabel = page.period === 'mes' ? 'al mes' : 'al año';
+
+// SEO
+const title = `${amountFormatted} € Brutos: Cuánto Queda Neto ${periodLabel} (${CURRENT_FISCAL_YEAR})`;
+const description = `Con ${amountFormatted} € brutos ${periodLabel} cobras ${formatEurosRound(defaultResult.netoMensual)} netos/mes en Madrid. Tabla por comunidad autónoma y situación familiar. Calculadora IRPF ${CURRENT_FISCAL_YEAR}.`;
+
+// FAQs specific to salary range
+const faqs: FAQItem[] = getFaqsForRange(page, defaultResult);
+
+function getFaqsForRange(p: SalaryPageConfig, result: DesgloseSueldo): FAQItem[] {
+  const base: FAQItem[] = [
+    {
+      question: `¿Cuánto son ${amountFormatted} € brutos ${periodLabel} en neto?`,
+      answer: `Con un salario bruto de ${amountFormatted} € ${periodLabel} (${formatEurosRound(p.annualGross)} € anuales), el sueldo neto mensual en Madrid es de aproximadamente ${formatEuros(result.netoMensual)} con 14 pagas (soltero/a, sin hijos). Esta cifra varía según tu comunidad autónoma y situación familiar.`,
+    },
+    {
+      question: `¿Cuánto IRPF se paga con ${amountFormatted} € brutos?`,
+      answer: `Con ${amountFormatted} € brutos ${periodLabel}, el IRPF total en Madrid es de ${formatEuros(result.irpfTotalAnual)} al año, lo que supone un tipo efectivo del ${(result.tipoEfectivoIRPF * 100).toFixed(1)}%. Además, se pagan ${formatEuros(result.seguridadSocialAnual)} de Seguridad Social.`,
+    },
+  ];
+
+  if (p.rangeCategory === 'bajo') {
+    base.push({
+      question: `¿Tengo que hacer la declaración de la renta con ${amountFormatted} € brutos?`,
+      answer: `Si tus únicos ingresos provienen de un solo pagador y son inferiores a 22.000 € brutos al año, en principio no estás obligado a presentar la declaración. Sin embargo, si te han retenido IRPF, puede interesarte presentarla para que Hacienda te devuelva la diferencia.`,
+    });
+  }
+
+  if (p.rangeCategory === 'medio' || p.rangeCategory === 'medio-alto') {
+    base.push({
+      question: `¿Cómo puedo reducir el IRPF con ${amountFormatted} € brutos?`,
+      answer: 'Las principales vías para reducir el IRPF son: aportaciones a planes de pensiones (deducibles hasta 1.500 €/año), deducciones por vivienda habitual (si aplican en tu CCAA), deducciones por hijos y ascendientes a cargo, y gastos de formación vinculados al puesto de trabajo.',
+    });
+  }
+
+  if (p.rangeCategory === 'alto') {
+    base.push({
+      question: `¿Merece la pena el Régimen Beckham con ${amountFormatted} € brutos?`,
+      answer: `Con ${amountFormatted} € brutos ${periodLabel}, si eres un trabajador desplazado que cumple los requisitos, el Régimen Beckham (tipo fijo del 24%) probablemente supone un ahorro significativo respecto al régimen general. Consulta nuestra calculadora de Régimen Beckham para ver la comparativa exacta.`,
+    });
+  }
+
+  base.push({
+    question: `¿Es buen sueldo ${amountFormatted} € brutos ${periodLabel} en España?`,
+    answer: getEsBuenSueldoAnswer(p),
+  });
+
+  return base;
+}
+
+function getEsBuenSueldoAnswer(p: SalaryPageConfig): string {
+  const smi = seguridadSocial2026.smiAnual14Pagas;
+  const mediana = 24_395; // INE 2024 data, approximate
+  const ratio = p.annualGross / mediana;
+
+  if (p.annualGross <= smi) {
+    return `Un salario de ${formatAmountSpanish(p.annualGross)} € brutos anuales está al nivel del Salario Mínimo Interprofesional (${formatAmountSpanish(smi)} € en ${CURRENT_FISCAL_YEAR}). Es un salario que permite cubrir necesidades básicas, pero puede resultar ajustado especialmente en grandes ciudades como Madrid o Barcelona.`;
+  }
+  if (ratio < 0.9) {
+    return `Un salario de ${formatAmountSpanish(p.annualGross)} € brutos anuales está por debajo de la mediana salarial española (~${formatAmountSpanish(mediana)} € según el INE). Es un salario habitual en sectores como comercio, hostelería o servicios, pero puede resultar ajustado en ciudades con alto coste de vida.`;
+  }
+  if (ratio < 1.3) {
+    return `Un salario de ${formatAmountSpanish(p.annualGross)} € brutos anuales está cerca de la mediana salarial española (~${formatAmountSpanish(mediana)} € según el INE). Es un salario que permite una vida cómoda en la mayoría de ciudades españolas.`;
+  }
+  if (ratio < 2) {
+    return `Un salario de ${formatAmountSpanish(p.annualGross)} € brutos anuales está significativamente por encima de la mediana salarial española (~${formatAmountSpanish(mediana)} € según el INE). Es un buen salario que coloca al contribuyente en el tramo superior de la distribución salarial.`;
+  }
+  return `Un salario de ${formatAmountSpanish(p.annualGross)} € brutos anuales es muy superior a la mediana salarial española (~${formatAmountSpanish(mediana)} € según el INE). Se sitúa entre los salarios más altos de España, habitual en puestos directivos, alta cualificación técnica o perfiles senior en grandes empresas.`;
+}
+
+const schemas = [
+  buildWebApplicationSchema(`Calculadora ${amountFormatted} € Brutos Neto`, `/sueldo/${page.slug}/`),
+  buildBreadcrumbSchema([
+    { name: 'Inicio', url: '/' },
+    { name: 'Sueldos', url: '/sueldo/' },
+    { name: `${amountFormatted} € brutos`, url: `/sueldo/${page.slug}/` },
+  ]),
+  buildFAQSchema(faqs),
+];
+---
+
+<Layout title={title} description={description} schema={schemas}>
+  <div class="mx-auto max-w-4xl px-4 py-8">
+    <!-- Breadcrumb -->
+    <nav class="mb-6 text-sm text-medium-gray" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-1">
+        <li><a href="/" class="hover:text-brand">Inicio</a></li>
+        <li>/</li>
+        <li><a href="/sueldo/" class="hover:text-brand">Sueldos</a></li>
+        <li>/</li>
+        <li class="text-charcoal dark:text-gray-200">{amountFormatted} € brutos</li>
+      </ol>
+    </nav>
+
+    <!-- H1 -->
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      ¿Cuánto son {amountFormatted} € brutos {periodLabel} en neto? ({CURRENT_FISCAL_YEAR})
+    </h1>
+
+    <!-- Hero result -->
+    <div class="mb-8 rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 p-6 text-center dark:from-gray-700 dark:to-gray-800">
+      <p class="text-sm text-gray-500 dark:text-gray-400">Con un salario bruto de {amountFormatted} € {periodLabel}, recibirás aproximadamente</p>
+      <p class="mt-2 text-5xl font-bold text-brand">{formatEuros(defaultResult.netoMensual)}</p>
+      <p class="mt-1 text-lg text-gray-600 dark:text-gray-300">netos al mes (Madrid, soltero/a, 14 pagas)</p>
+      <a href={`/?bruto=${page.annualGross}`} class="mt-4 inline-block rounded-lg bg-brand px-6 py-3 font-medium text-white transition-colors hover:bg-brand-dark">
+        Calcular mi caso exacto
+      </a>
+    </div>
+
+    <!-- Calculator embedded -->
+    <section class="mb-8">
+      <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+        <SueldoNeto client:visible initialBruto={page.annualGross} />
+      </div>
+    </section>
+
+    <!-- CCAA table -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        Sueldo neto de {amountFormatted} € brutos por comunidad autónoma
+      </h2>
+      <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-600">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-gray-50 dark:bg-gray-700">
+              <th class="px-4 py-2 text-left font-medium text-gray-500">#</th>
+              <th class="px-4 py-2 text-left font-medium text-gray-500">Comunidad</th>
+              <th class="px-4 py-2 text-right font-medium text-gray-500">Neto/mes</th>
+              <th class="px-4 py-2 text-right font-medium text-gray-500">Neto/año</th>
+              <th class="px-4 py-2 text-right font-medium text-gray-500">IRPF</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ccaaResults.map(({ ccaa, desglose }, i) => (
+              <tr class:list={[
+                'border-t border-gray-100 dark:border-gray-700',
+                i === 0 ? 'bg-emerald-50/50 dark:bg-emerald-900/10' : '',
+                i === ccaaResults.length - 1 ? 'bg-red-50/50 dark:bg-red-900/10' : '',
+              ]}>
+                <td class="px-4 py-2 tabular-nums text-gray-400">{i + 1}</td>
+                <td class="px-4 py-2 font-medium text-charcoal dark:text-gray-100">
+                  {ccaa.nombreCorto}
+                  {ccaa.esForal && <span class="ml-1 text-xs text-gray-400">(foral)</span>}
+                </td>
+                <td class="px-4 py-2 text-right tabular-nums font-medium text-charcoal dark:text-gray-100">{formatEuros(desglose.netoMensual)}</td>
+                <td class="px-4 py-2 text-right tabular-nums text-gray-600 dark:text-gray-300">{formatEuros(desglose.netoAnual)}</td>
+                <td class="px-4 py-2 text-right tabular-nums text-red-600 dark:text-red-400">{formatEuros(desglose.irpfTotalAnual)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-2 text-xs text-gray-500">
+        * Cálculo para persona soltera, sin hijos, 14 pagas. Ejercicio fiscal {CURRENT_FISCAL_YEAR}.
+      </p>
+    </section>
+
+    <!-- Family situation table -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        Neto según situación familiar (Madrid)
+      </h2>
+      <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-600">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-gray-50 dark:bg-gray-700">
+              <th class="px-4 py-2 text-left font-medium text-gray-500">Situación</th>
+              <th class="px-4 py-2 text-right font-medium text-gray-500">Neto/mes</th>
+              <th class="px-4 py-2 text-right font-medium text-gray-500">Neto/año</th>
+              <th class="px-4 py-2 text-right font-medium text-gray-500">IRPF</th>
+            </tr>
+          </thead>
+          <tbody>
+            {familyScenarios.map(({ label, desglose }) => (
+              <tr class="border-t border-gray-100 dark:border-gray-700">
+                <td class="px-4 py-2 text-gray-700 dark:text-gray-200">{label}</td>
+                <td class="px-4 py-2 text-right tabular-nums font-medium text-charcoal dark:text-gray-100">{formatEuros(desglose.netoMensual)}</td>
+                <td class="px-4 py-2 text-right tabular-nums text-gray-600 dark:text-gray-300">{formatEuros(desglose.netoAnual)}</td>
+                <td class="px-4 py-2 text-right tabular-nums text-red-600 dark:text-red-400">{formatEuros(desglose.irpfTotalAnual)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Detailed breakdown -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        Desglose de deducciones
+      </h2>
+      <div class="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
+        <table class="w-full text-sm">
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-4 py-2 font-medium text-charcoal dark:text-gray-100">Salario bruto anual</td><td class="px-4 py-2 text-right tabular-nums font-medium">{formatEuros(page.annualGross)}</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-4 py-2 text-gray-600 dark:text-gray-300">Seguridad Social ({(defaultResult.seguridadSocialAnual / page.annualGross * 100).toFixed(1)}%)</td><td class="px-4 py-2 text-right tabular-nums text-red-600">-{formatEuros(defaultResult.seguridadSocialAnual)}</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-4 py-2 text-gray-600 dark:text-gray-300">IRPF estatal</td><td class="px-4 py-2 text-right tabular-nums text-red-600">-{formatEuros(defaultResult.irpfEstatalAnual)}</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-4 py-2 text-gray-600 dark:text-gray-300">IRPF autonómico (Madrid)</td><td class="px-4 py-2 text-right tabular-nums text-red-600">-{formatEuros(defaultResult.irpfAutonomicoAnual)}</td></tr>
+            <tr class="bg-emerald-50 dark:bg-emerald-900/20"><td class="px-4 py-2 font-bold text-charcoal dark:text-gray-100">Sueldo neto anual</td><td class="px-4 py-2 text-right tabular-nums font-bold text-emerald-700 dark:text-emerald-400">{formatEuros(defaultResult.netoAnual)}</td></tr>
+            <tr class="bg-emerald-50 dark:bg-emerald-900/20"><td class="px-4 py-2 font-bold text-charcoal dark:text-gray-100">Sueldo neto mensual (14 pagas)</td><td class="px-4 py-2 text-right tabular-nums font-bold text-emerald-700 dark:text-emerald-400">{formatEuros(defaultResult.netoMensual)}</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- FAQs -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        Preguntas frecuentes
+      </h2>
+      <div class="space-y-3">
+        {faqs.map(faq => (
+          <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+            <summary class="cursor-pointer px-4 py-3 font-medium text-charcoal dark:text-gray-200">
+              {faq.question}
+            </summary>
+            <div class="border-t border-gray-200 px-4 py-3 text-sm text-dark-gray dark:border-gray-700 dark:text-gray-300">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="mb-8 rounded-xl bg-brand/5 p-6 text-center">
+      <p class="text-lg font-medium text-charcoal dark:text-gray-100">¿Quieres un cálculo más preciso?</p>
+      <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">Ajusta tu comunidad autónoma, número de hijos y situación familiar</p>
+      <a href={`/?bruto=${page.annualGross}`} class="mt-4 inline-block rounded-lg bg-brand px-6 py-3 font-medium text-white hover:bg-brand-dark">
+        Simulación detallada
+      </a>
+    </div>
+
+    <!-- Adjacent pages -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+        Sueldos similares
+      </h2>
+      <div class="flex flex-wrap gap-2">
+        {adjacent.map(p => (
+          <a href={`/sueldo/${p.slug}/`} class="rounded-full border border-gray-200 px-4 py-2 text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+            {formatAmountSpanish(p.amount)} €/{p.period === 'mes' ? 'mes' : 'año'}
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <div class="text-xs text-medium-gray">
+      <p>Actualizado para el ejercicio fiscal {CURRENT_FISCAL_YEAR}.</p>
+      <p class="mt-1">Fuentes: <a href="https://www.agenciatributaria.gob.es" class="underline hover:text-brand" target="_blank" rel="noopener">AEAT</a>, <a href="https://www.seg-social.es" class="underline hover:text-brand" target="_blank" rel="noopener">Seguridad Social</a>, <a href="https://www.ine.es" class="underline hover:text-brand" target="_blank" rel="noopener">INE</a>.</p>
+    </div>
+  </div>
+</Layout>

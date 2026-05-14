@@ -1,0 +1,161 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import TipoRetencion from '../components/calculadoras/TipoRetencion';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Calculadora Tipo de Retención IRPF ${CURRENT_FISCAL_YEAR} en tu Nómina`;
+const description = `Calcula tu porcentaje de retención IRPF en la nómina ${CURRENT_FISCAL_YEAR}. Conoce cuánto te retienen cada mes según tu salario, comunidad autónoma y situación familiar.`;
+
+const faqs = [
+  {
+    question: '¿Qué es el tipo de retención del IRPF?',
+    answer: `El tipo de retención es el porcentaje que tu empresa descuenta de tu nómina cada mes para adelantar el pago del IRPF a Hacienda. Se calcula en función de tu salario bruto, situación familiar y comunidad autónoma.`,
+  },
+  {
+    question: '¿Cómo puedo cambiar mi tipo de retención?',
+    answer: 'Puedes solicitar a tu empresa que aplique una retención mayor a la mínima obligatoria presentando el modelo 145. No se puede pedir una retención inferior a la que marca la ley.',
+  },
+  {
+    question: '¿Qué pasa si me retienen de más?',
+    answer: 'Si las retenciones aplicadas durante el año superan lo que realmente debes pagar de IRPF, Hacienda te devolverá la diferencia al hacer la declaración de la renta.',
+  },
+  {
+    question: '¿Es lo mismo retención que IRPF?',
+    answer: 'No exactamente. La retención es un pago a cuenta del IRPF que hace tu empresa cada mes. El IRPF final se calcula al hacer la declaración de la renta, y puede resultar en una devolución o un pago adicional.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Calculadora de Retención IRPF ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Tipo de Retención"
+  path="/calculadora-tipo-retencion/"
+  faqs={faqs}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <TipoRetencion client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía: la retención del IRPF en la nómina, paso a paso
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Cada mes, tu empresa retiene un porcentaje de tu nómina y lo ingresa directamente a Hacienda en tu nombre. Esa retención es un anticipo del IRPF que deberás pagar al hacer la declaración de la renta. Si la empresa retiene de más durante el año, Hacienda te devuelve la diferencia. Si retiene de menos, te tocará pagar. El tipo de retención es, por tanto, una estimación que tu empresa calcula al principio del año y que puede revisarse si cambian tus circunstancias.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Cómo determina la empresa tu porcentaje</h3>
+      <p>
+        El departamento de nóminas parte de tu salario bruto anual previsto (incluyendo complementos fijos, pluses y pagas extra) y aplica la normativa vigente: resta la Seguridad Social, los gastos deducibles y las reducciones por rendimientos del trabajo. Sobre la base resultante calcula el IRPF teórico anual usando los tramos estatales y autonómicos de tu comunidad. Ese IRPF anual se divide entre 12 nóminas ordinarias para obtener la retención mensual. Las pagas extraordinarias, si las cobras aparte, suelen ir sin retención de IRPF adicional porque ya está repercutida en las nóminas ordinarias.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El modelo 145 y cómo influir en tu retención</h3>
+      <p>
+        Al incorporarte a una empresa, firmas el modelo 145, donde comunicas tu situación personal y familiar: si tienes hijos a cargo, cónyuge con o sin ingresos, ascendientes dependientes o alguna discapacidad reconocida. Cada uno de estos datos modifica a la baja tu retención. Es obligación del trabajador comunicar cualquier cambio (nacimiento de un hijo, divorcio, fallecimiento de un ascendiente) para que la empresa ajuste la retención. Si no lo comunicas, la retención puede no reflejar tu situación real y acabarás pagando de más (o de menos) al hacer la declaración.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">¿Retención alta o baja? Qué te conviene</h3>
+      <p>
+        Hay dos corrientes de pensamiento. La primera dice «prefiero que me retengan de más y recibir una devolución en junio». Es cómodo psicológicamente, pero implica prestarle dinero a Hacienda gratis durante meses. La segunda postura defiende ajustar la retención al mínimo legal para disponer de más liquidez mensual y poder invertir o rentabilizar ese dinero. La normativa permite solicitar a la empresa una retención superior a la mínima obligatoria (nunca inferior), simplemente comunicándolo por escrito. Para la mayoría de trabajadores con una sola fuente de ingresos, la retención que aplica la empresa suele estar ajustada y la declaración sale prácticamente a cero.
+      </p>
+      <p>
+        Donde surgen los problemas es cuando hay dos pagadores en el mismo año (un cambio de empresa, por ejemplo). Cada empresa calcula la retención como si fuera el único pagador, aplicando los tramos bajos desde cero. El resultado es una retención total inferior a la que correspondería, y la declaración sale a pagar. Es la razón por la que muchos trabajadores que cambian de empleo durante el año se encuentran con un «susto» fiscal en primavera.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo: retención con un pagador vs dos pagadores</h3>
+      <p>
+        Un trabajador con 30.000 € brutos anuales en Madrid y 14 pagas tiene un tipo de retención aproximado del 15,5%. Su empresa le retiene unos 4.650 € de IRPF a lo largo del año, que coincide con el IRPF real. La declaración sale prácticamente a cero.
+      </p>
+      <p>
+        Ahora supongamos que ese mismo trabajador cambia de empleo en julio. Cobra 15.000 € en la empresa A (enero-junio) y 15.000 € en la empresa B (julio-diciembre). Cada empresa calcula la retención como si pagara solo 15.000 € anuales. A ese nivel de renta, la retención es del 7,5%, así que cada una retiene unos 1.125 €. Total retenido: 2.250 €. Pero el IRPF real sobre 30.000 € es de 4.650 €. Resultado: la declaración sale a pagar 2.400 €. Por eso, cuando cambies de empresa, valora pedirle a la nueva que aplique una retención voluntaria más alta comunicando tus ingresos previos del año.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tabla de retenciones orientativas (Madrid, soltero, 14 pagas)</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Bruto anual</th>
+              <th class="px-3 py-2 text-right">Tipo retención</th>
+              <th class="px-3 py-2 text-right">Retención mensual</th>
+              <th class="px-3 py-2 text-right">Retención anual</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">15.000 €</td><td class="px-3 py-1 text-right">2,0%</td><td class="px-3 py-1 text-right">25 €</td><td class="px-3 py-1 text-right">300 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">20.000 €</td><td class="px-3 py-1 text-right">8,5%</td><td class="px-3 py-1 text-right">142 €</td><td class="px-3 py-1 text-right">1.700 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">30.000 €</td><td class="px-3 py-1 text-right">15,5%</td><td class="px-3 py-1 text-right">388 €</td><td class="px-3 py-1 text-right">4.650 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">40.000 €</td><td class="px-3 py-1 text-right">19,6%</td><td class="px-3 py-1 text-right">653 €</td><td class="px-3 py-1 text-right">7.840 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">50.000 €</td><td class="px-3 py-1 text-right">22,8%</td><td class="px-3 py-1 text-right">950 €</td><td class="px-3 py-1 text-right">11.400 €</td></tr>
+            <tr><td class="px-3 py-1">80.000 €</td><td class="px-3 py-1 text-right">29,4%</td><td class="px-3 py-1 text-right">1.960 €</td><td class="px-3 py-1 text-right">23.500 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Regularización de retenciones a lo largo del año</h3>
+      <p>
+        La retención que ves en tu nómina de enero no tiene por qué ser la misma que en septiembre. La empresa está obligada a <strong>regularizar el tipo de retención</strong> cada vez que se produce un cambio relevante en tu situación económica o personal. El artículo 87 del Reglamento del IRPF (Real Decreto 439/2007) establece que la regularización debe realizarse, como mínimo, cuando se produzca un cambio de situación familiar comunicado por el trabajador, cuando se apruebe una subida salarial con efectos retroactivos, o cuando el trabajador perciba atrasos o cantidades no previstas al inicio del año.
+      </p>
+      <p>
+        En la práctica, esto significa que si tu empresa te sube el sueldo en julio (por ejemplo, de 35.000 € a 40.000 € brutos anuales), el departamento de nóminas recalculará la retención para los meses restantes del año. Como los primeros seis meses se retuvo sobre la base de 35.000 € (aproximadamente un 17,2%), la retención de julio a diciembre tendrá que compensar esa «infrarretención» y subirá por encima del tipo que correspondería a 40.000 € (19,6%). Es habitual que la retención suba al 22% o más en esos meses, generando cierta alarma en el trabajador que no entiende por qué cobra menos justo cuando le han subido el sueldo. Ignacio Ruiz, ingeniero de software en Barcelona, vio cómo su retención saltaba del 18% al 24% en septiembre tras una subida salarial retroactiva a enero. Su neto mensual bajó 180 € durante cuatro meses, aunque el efecto anual neto fue positivo porque cobraba más en bruto.
+      </p>
+      <p>
+        Lo mismo ocurre con los <strong>segundos pagadores</strong>. Si cambias de empresa a mitad de año y comunicas a la nueva empresa tus ingresos previos del ejercicio (algo que no es obligatorio pero sí muy recomendable), la nueva empresa incluirá esos ingresos en el cálculo y aplicará una retención más alta desde el primer mes, evitando el «susto» en la declaración de la renta. Si no los comunicas, cada empresa calcula como si fuera el único pagador y la retención total será insuficiente.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Retención efectiva detallada por tramos salariales (Madrid, soltero sin hijos, 14 pagas)</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Bruto anual</th>
+              <th class="px-3 py-2 text-right">Tipo retención (%)</th>
+              <th class="px-3 py-2 text-right">Retención mensual (14 pagas)</th>
+              <th class="px-3 py-2 text-right">Retención anual</th>
+              <th class="px-3 py-2 text-right">Neto mensual aprox.</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">20.000 €</td><td class="px-3 py-1 text-right">8,5%</td><td class="px-3 py-1 text-right">121 €</td><td class="px-3 py-1 text-right">1.700 €</td><td class="px-3 py-1 text-right">1.239 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">30.000 €</td><td class="px-3 py-1 text-right">15,5%</td><td class="px-3 py-1 text-right">332 €</td><td class="px-3 py-1 text-right">4.650 €</td><td class="px-3 py-1 text-right">1.582 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">40.000 €</td><td class="px-3 py-1 text-right">19,6%</td><td class="px-3 py-1 text-right">560 €</td><td class="px-3 py-1 text-right">7.840 €</td><td class="px-3 py-1 text-right">1.857 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">50.000 €</td><td class="px-3 py-1 text-right">22,8%</td><td class="px-3 py-1 text-right">814 €</td><td class="px-3 py-1 text-right">11.400 €</td><td class="px-3 py-1 text-right">2.098 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">60.000 €</td><td class="px-3 py-1 text-right">25,6%</td><td class="px-3 py-1 text-right">1.097 €</td><td class="px-3 py-1 text-right">15.360 €</td><td class="px-3 py-1 text-right">2.307 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">70.000 €</td><td class="px-3 py-1 text-right">27,8%</td><td class="px-3 py-1 text-right">1.390 €</td><td class="px-3 py-1 text-right">19.460 €</td><td class="px-3 py-1 text-right">2.492 €</td></tr>
+            <tr><td class="px-3 py-1">80.000 €</td><td class="px-3 py-1 text-right">29,4%</td><td class="px-3 py-1 text-right">1.680 €</td><td class="px-3 py-1 text-right">23.520 €</td><td class="px-3 py-1 text-right">2.678 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Los importes de neto mensual son aproximados y se calculan descontando la retención de IRPF y la cotización a la Seguridad Social del trabajador (contingencias comunes 4,70%, desempleo 1,55%, formación profesional 0,10%). No incluyen deducciones autonómicas que podrían reducir ligeramente el tipo efectivo final en la declaración anual.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Retenciones especiales: administradores, autónomos y capital mobiliario</h3>
+      <p>
+        No todos los rendimientos del trabajo siguen la escala general de retenciones. La normativa establece tipos fijos para determinados colectivos. Los <strong>administradores y miembros de consejos de administración</strong> están sujetos a una retención mínima del <strong>35%</strong> sobre sus retribuciones como consejeros, según el artículo 101.2 de la Ley del IRPF. Si la entidad tiene un volumen de facturación inferior a 100.000 € en el último ejercicio, el tipo se reduce al <strong>19%</strong>. Esto afecta directamente a muchos fundadores de startups y pequeñas sociedades. Laura Vega, socia y administradora de una consultora en Madrid que factura 85.000 € anuales, se asigna un sueldo de 30.000 € como administradora. Su retención es del 19% (no del 15,5% que correspondería por la escala general), porque la Ley exige ese mínimo para cargos de administración en empresas pequeñas.
+      </p>
+      <p>
+        Los <strong>profesionales autónomos</strong> que facturan a empresas aplican una retención del <strong>15%</strong> en sus facturas. Durante los tres primeros años de actividad (siempre que no hayan ejercido otra actividad profesional en el año anterior), pueden aplicar un tipo reducido del <strong>7%</strong>, comunicándolo al pagador. Daniel Fernández, diseñador gráfico recién dado de alta como autónomo en Málaga, factura 3.000 € mensuales a una agencia de publicidad. En sus facturas aplica una retención del 7% (210 €) en lugar del 15% (450 €), lo que le permite disponer de 240 € adicionales al mes durante sus primeros tres años de actividad. Los <strong>rendimientos del capital mobiliario</strong> (intereses de cuentas bancarias, dividendos de acciones españolas, rendimientos de seguros de vida) tributan a un tipo fijo del <strong>19%</strong> en concepto de retención, independientemente del importe. Este tipo se aplica en el momento del pago y se regulariza en la declaración de la renta, donde los primeros 6.000 € tributan al 19%, de 6.000 € a 50.000 € al 21%, de 50.000 € a 200.000 € al 23%, de 200.000 € a 300.000 € al 27% y el exceso al 28%.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El modelo 145: cuándo y cómo comunicar cambios al pagador</h3>
+      <p>
+        El <strong>modelo 145</strong> es el formulario oficial mediante el cual el trabajador comunica a su empresa los datos personales y familiares que determinan el cálculo de la retención. Aunque muchos trabajadores solo lo firman al incorporarse a la empresa y lo olvidan durante años, la normativa exige presentarlo en varias situaciones concretas. Según el artículo 88 del Reglamento del IRPF, estás obligado a presentar un nuevo modelo 145 cuando se produzca el <strong>inicio de la relación laboral</strong> (es el caso más obvio), un <strong>cambio de situación familiar</strong> (matrimonio, separación, viudedad), el <strong>nacimiento o adopción de un hijo</strong>, cuando un <strong>ascendiente pase a estar a tu cargo</strong> o cuando obtengas el <strong>reconocimiento de un grado de discapacidad</strong>.
+      </p>
+      <p>
+        También debe presentarse si empiezas a pagar una <strong>hipoteca por vivienda habitual contratada antes del 1 de enero de 2013</strong>, ya que estos préstamos mantienen el derecho a deducción por inversión en vivienda habitual (régimen transitorio) y eso afecta al cálculo de la retención, reduciéndola hasta en 2 puntos porcentuales. Alberto Sánchez, analista financiero en Bilbao con un bruto de 45.000 €, olvidó comunicar que tenía hipoteca anterior a 2013 y durante tres años su empresa le retuvo un 20,1% en lugar del 18,1% que le habría correspondido. Eso supuso una sobrerretención de unos 900 € anuales: dinero que le devolvía Hacienda en la declaración, pero del que no pudo disponer durante meses.
+      </p>
+      <p>
+        Las <strong>consecuencias de no comunicar los cambios</strong> varían según la dirección del error. Si no comunicas una circunstancia que reduciría tu retención (nacimiento de un hijo, hipoteca), simplemente pagas de más cada mes y recuperas el exceso en la declaración de la renta: pierdes liquidez pero no dinero. Si no comunicas una circunstancia que debería aumentar tu retención (por ejemplo, que tu cónyuge ha empezado a trabajar y ya no está «a tu cargo» fiscalmente), la retención será inferior a la debida y la declaración saldrá a pagar. En casos de información falsa o fraudulenta en el modelo 145, la responsabilidad recae sobre el trabajador, que puede enfrentarse a sanciones tributarias de entre el 35% y el 150% de la cantidad dejada de retener, conforme al artículo 205 de la Ley General Tributaria.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fuentes y normativa</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2004-4163" class="text-brand hover:underline" target="_blank" rel="noopener">Real Decreto 439/2007, Reglamento del IRPF</a>: Art. 80-89: procedimiento para determinar el importe de la retención sobre rendimientos del trabajo. Art. 87: regularización del tipo de retención. Art. 88: comunicación de datos del perceptor.</li>
+        <li><a href="https://www.agenciatributaria.gob.es" class="text-brand hover:underline" target="_blank" rel="noopener">AEAT: Modelo 145</a>. Comunicación de datos del perceptor al pagador para el cálculo de retenciones.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 35/2006, del IRPF</a>: Art. 99-101: obligación de retener e ingresar a cuenta. Art. 101.2: tipos de retención para administradores. Art. 68.1: deducción por inversión en vivienda habitual (régimen transitorio).</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2003-23186" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 58/2003, Ley General Tributaria</a>: Art. 205: infracciones y sanciones por datos falsos en comunicaciones de retenciones.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

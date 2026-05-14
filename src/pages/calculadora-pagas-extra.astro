@@ -1,0 +1,154 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import PagasExtra from '../components/calculadoras/PagasExtra';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Calculadora 12 vs 14 Pagas: Compara tu Neto Mensual ${CURRENT_FISCAL_YEAR}`;
+const description = `Compara tu sueldo neto mensual con 12 o 14 pagas en España ${CURRENT_FISCAL_YEAR}. Mismo bruto anual, diferente ingreso mensual. Calcula cuánto cobras cada mes en cada caso.`;
+
+const faqs = [
+  {
+    question: '¿Cobro más con 12 o con 14 pagas?',
+    answer: 'El salario bruto anual y el neto anual son iguales en ambos casos. La diferencia es que con 14 pagas recibes 14 nóminas al año (incluyendo las pagas extra de verano y Navidad), mientras que con 12 pagas recibes todo distribuido mensualmente.',
+  },
+  {
+    question: '¿Las pagas extra tributan diferente?',
+    answer: 'No. La retención de IRPF se calcula sobre el salario bruto anual y se distribuye entre las 12 pagas ordinarias. Las pagas extra no llevan retención adicional de IRPF (aunque sí de Seguridad Social).',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Comparador 12 vs 14 Pagas ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Calculadora Pagas Extra"
+  path="/calculadora-pagas-extra/"
+  faqs={faqs}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <PagasExtra client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía: 12 o 14 pagas, cómo funciona el sistema de nóminas en España
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        España es uno de los pocos países europeos donde la mayoría de los trabajadores cobran 14 pagas al año en lugar de 12. Esta peculiaridad tiene raíces históricas: las pagas extraordinarias, coloquialmente «la paga de verano» y «la paga de Navidad», se instauraron en la posguerra como complementos puntuales para que los trabajadores pudieran afrontar los gastos del verano y las fiestas navideñas. Con el tiempo, se consolidaron como un derecho reconocido en el Estatuto de los Trabajadores y en la mayoría de los convenios colectivos.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">¿Qué diferencia hay en dinero real?</h3>
+      <p>
+        Ninguna en el cómputo anual. Un salario bruto de 30.000 € son 30.000 € tanto con 12 como con 14 pagas. Lo que cambia es la distribución: con 14 pagas, cada nómina mensual es de unos 2.142 € brutos (30.000 ÷ 14), pero en junio y diciembre recibes una nómina adicional del mismo importe. Con 12 pagas, cobras 2.500 € brutos cada mes sin pagas extra. El neto anual resultante es idéntico, porque el IRPF se calcula siempre sobre la renta anual total.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ventajas y desventajas de cada sistema</h3>
+      <p>
+        Los defensores de las 14 pagas argumentan que las pagas extra actúan como un ahorro forzoso. Muchos trabajadores utilizan la paga de verano para financiar vacaciones y la de Navidad para cubrir los gastos de fin de año. Es un sistema que ayuda a quienes tienen dificultades para ahorrar, porque obliga a «reservar» una parte del sueldo anual para dos momentos concretos. Por contra, los partidarios de las 12 pagas prefieren disponer de la totalidad de su sueldo cada mes. Con 12 pagas, la nómina mensual es más alta, lo que facilita la planificación financiera regular y permite invertir o rentabilizar ese dinero extra todos los meses.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Cómo afecta a la retención del IRPF</h3>
+      <p>
+        Técnicamente, la retención mensual de IRPF se calcula de forma diferente según el número de pagas. Con 14 pagas, la empresa concentra toda la retención de IRPF en las 12 nóminas ordinarias; las pagas extra salen sin retención de IRPF (aunque sí con Seguridad Social). Esto significa que cada nómina ordinaria con 14 pagas lleva una retención ligeramente mayor en proporción que con 12 pagas, pero el resultado anual es idéntico. Es un detalle que genera confusión cuando los trabajadores comparan su porcentaje de retención con compañeros que tienen otro esquema de pagas.
+      </p>
+      <p>
+        Si estás negociando un contrato y te dan a elegir, la decisión es más personal que financiera: ¿prefieres tener más dinero cada mes para invertir o pagar cuotas, o valoras la disciplina de las pagas extra como colchón para gastos puntuales? No hay una respuesta correcta, solo preferencias.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo: 28.000 € brutos con 12 vs 14 pagas</h3>
+      <p>
+        Trabajador soltero en Madrid:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Concepto</th>
+              <th class="px-3 py-2 text-right">12 pagas</th>
+              <th class="px-3 py-2 text-right">14 pagas</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Bruto mensual ordinario</td><td class="px-3 py-1 text-right">2.333 €</td><td class="px-3 py-1 text-right">2.000 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Pagas extra (junio y dic.)</td><td class="px-3 py-1 text-right">-</td><td class="px-3 py-1 text-right">2.000 € × 2</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Neto mensual ordinario</td><td class="px-3 py-1 text-right font-medium">1.834 €</td><td class="px-3 py-1 text-right font-medium">1.544 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Neto paga extra</td><td class="px-3 py-1 text-right">-</td><td class="px-3 py-1 text-right">~1.870 €</td></tr>
+            <tr class="bg-emerald-50 dark:bg-emerald-900/20"><td class="px-3 py-1 font-medium">Neto anual total</td><td class="px-3 py-1 text-right font-bold">22.008 €</td><td class="px-3 py-1 text-right font-bold">22.008 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        El neto anual es idéntico. La diferencia está en que con 12 pagas cobras 290 € más al mes, pero sin las dos nóminas extra de junio y diciembre.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Prorrateo de pagas extra: ventajas, inconvenientes y cotización</h3>
+      <p>
+        El prorrateo consiste en repartir las dos pagas extraordinarias entre las 12 mensualidades, de forma que cada mes cobras una doceava parte de cada paga extra integrada en tu nómina ordinaria. El resultado es una nómina mensual más alta, pero sin los dos «picos» de junio y diciembre. Lo que muchos trabajadores desconocen es que el prorrateo no es una decisión unilateral del empleado: depende de lo que establezca el convenio colectivo. Algunos convenios obligan al abono en dos pagas, otros permiten el prorrateo, y en contratos individuales fuera de convenio se puede pactar libremente.
+      </p>
+      <p>
+        Desde el punto de vista de la cotización a la Seguridad Social, el prorrateo no cambia la cuota anual, pero sí su distribución. Con 14 pagas, la base de cotización mensual ordinaria es inferior (porque el salario mensual es menor) y las pagas extra cotizan por separado el mes en que se abonan. Con prorrateo, la base mensual es más homogénea. En la práctica, para el trabajador el resultado anual es idéntico en cotización. Sin embargo, hay un matiz relevante: si un trabajador cesa en la empresa a mitad de año (por ejemplo, en abril) y tiene las pagas prorrateadas, habrá cobrado la parte proporcional cada mes. Si tiene pagas en junio y diciembre, no habría cobrado ninguna paga extra todavía, y la empresa deberá incluir la parte devengada en el finiquito. En ambos casos, el importe total es el mismo, pero el prorrateo evita la incertidumbre de recibir un finiquito abultado frente a un cobro mensual constante.
+      </p>
+      <p>
+        La principal ventaja del prorrateo es la estabilidad financiera mensual. Dolores, técnico de laboratorio en Valencia con 26.000 € brutos, prefiere las pagas prorrateadas porque así su nómina mensual neta ronda los 1.620 € todos los meses, lo que le permite domiciliar todos los recibos sin sustos. Con 14 pagas, su nómina ordinaria baja a unos 1.380 € netos, y aunque en junio y diciembre recibe un ingreso extra de ~1.530 €, hay meses en los que le cuesta llegar a fin de mes. El inconveniente del prorrateo es la pérdida del efecto «ahorro forzoso»: sin esas dos pagas extra, es más difícil acumular un colchón para gastos extraordinarios como vacaciones, seguros anuales o el IBI.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Embargo de pagas extra</h3>
+      <p>
+        Existe una creencia popular de que las pagas extras son inembargables. Es falso. El artículo 607 de la Ley de Enjuiciamiento Civil (LEC) establece que es inembargable el salario equivalente al Salario Mínimo Interprofesional (SMI), y a partir de ahí se aplican tramos porcentuales sobre el exceso. Esta regla se aplica por igual a las nóminas ordinarias y a las pagas extraordinarias. Lo que hace la ley es sumar todos los ingresos mensuales del deudor y aplicar los tramos de embargo sobre el total.
+      </p>
+      <p>
+        Los tramos de embargo vigentes son los siguientes: del primer SMI es inembargable al 100%; del segundo SMI (la cantidad entre 1 y 2 veces el SMI) se puede embargar el 30%; entre 2 y 3 veces el SMI, el 50%; entre 3 y 4 veces el SMI, el 60%; entre 4 y 5 veces el SMI, el 75%; y por encima de 5 veces el SMI, el 90%. El juez puede reducir estos porcentajes en función de las cargas familiares del deudor.
+      </p>
+      <p>
+        Ejemplo concreto: Fernando, electricista en Málaga, tiene un embargo por una deuda impagada. Su nómina ordinaria es de 1.800 € netos y su paga extra de diciembre es de 1.650 € netos. El SMI neto mensual ronda los 1.134 € (referencia 2025, 14 pagas). En el mes de la paga extra, Fernando cobra 1.800 + 1.650 = 3.450 € netos. Los primeros 1.134 € son intocables. De los siguientes 1.134 € (hasta 2 veces el SMI) se embarga el 30%: 340,20 €. De los 1.182 € restantes (hasta 3 veces el SMI) se embarga el 50%: 591 €. El embargo total ese mes sería de 931,20 €, significativamente más que en un mes ordinario. Con pagas prorrateadas, el embargo mensual sería más uniforme.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tabla: nómina mensual con 12, 14 y 15 pagas para 28.000 € brutos</h3>
+      <p>
+        Algunos convenios colectivos, especialmente en banca, seguros y administración pública, establecen una tercera paga extra (habitualmente en marzo o septiembre), sumando 15 pagas anuales. Esta tabla muestra la distribución para un salario de 28.000 € brutos anuales de un trabajador soltero sin hijos en Madrid:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Concepto</th>
+              <th class="px-3 py-2 text-right">12 pagas</th>
+              <th class="px-3 py-2 text-right">14 pagas</th>
+              <th class="px-3 py-2 text-right">15 pagas</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Bruto mensual ordinario</td><td class="px-3 py-1 text-right">2.333 €</td><td class="px-3 py-1 text-right">2.000 €</td><td class="px-3 py-1 text-right">1.867 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Número de pagas extra</td><td class="px-3 py-1 text-right">0</td><td class="px-3 py-1 text-right">2</td><td class="px-3 py-1 text-right">3</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Bruto de cada paga extra</td><td class="px-3 py-1 text-right">-</td><td class="px-3 py-1 text-right">2.000 €</td><td class="px-3 py-1 text-right">1.867 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Neto mensual ordinario (aprox.)</td><td class="px-3 py-1 text-right font-medium">1.834 €</td><td class="px-3 py-1 text-right font-medium">1.544 €</td><td class="px-3 py-1 text-right font-medium">1.437 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Neto de cada paga extra (aprox.)</td><td class="px-3 py-1 text-right">-</td><td class="px-3 py-1 text-right">1.870 €</td><td class="px-3 py-1 text-right">1.746 €</td></tr>
+            <tr class="bg-emerald-50 dark:bg-emerald-900/20"><td class="px-3 py-1 font-medium">Neto anual total</td><td class="px-3 py-1 text-right font-bold">22.008 €</td><td class="px-3 py-1 text-right font-bold">22.008 €</td><td class="px-3 py-1 text-right font-bold">22.008 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        El neto anual es idéntico en los tres casos. La diferencia está en la percepción mensual: con 15 pagas, la nómina ordinaria es la más baja (1.437 € netos), pero el trabajador recibe tres ingresos adicionales a lo largo del año. Para alguien que tiene gastos fijos elevados (hipoteca, colegio de los hijos, etc.), las 12 pagas proporcionan el mayor flujo mensual. Para quien prefiere «colchones» periódicos, las 15 pagas ofrecen tres momentos puntuales de liquidez extra.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Pagas extra y prestaciones públicas</h3>
+      <p>
+        El sistema de pagas extra tiene implicaciones directas en varias prestaciones de la Seguridad Social que conviene conocer.
+      </p>
+      <p>
+        En la <strong>prestación por desempleo</strong>, la cuantía se calcula sobre la base reguladora, que a su vez se obtiene de las bases de cotización de los últimos 180 días trabajados. Si el trabajador tiene pagas prorrateadas, las bases mensuales ya incluyen la parte proporcional de las extras, así que el cálculo no varía. Si tiene 14 pagas, los meses de junio y diciembre generan cotizaciones adicionales que también se computan. El resultado final es equivalente, aunque en determinados supuestos marginales (como un despido justo antes de junio) el cálculo puede variar ligeramente según el software de gestión del SEPE.
+      </p>
+      <p>
+        Durante una <strong>baja por incapacidad temporal (IT)</strong>, el trabajador percibe una prestación calculada sobre su base reguladora. Las pagas extraordinarias están incluidas en esa base: se suman las bases de cotización del mes anterior a la baja (incluyendo la prorrata de pagas extra) y se dividen por el número de días. En la práctica, durante la baja el trabajador no recibe paga extra como tal (la empresa no la abona por separado), sino que está integrada en la prestación diaria de IT. Lucía, enfermera en Zaragoza con 32.000 € brutos en 14 pagas, se da de baja por IT el 15 de septiembre. Su base reguladora diaria incluirá la prorrata de las extras, lo que supone unos 87,67 €/día. Del día 4 al 20 cobra el 60% (52,60 €/día) y a partir del 21 el 75% (65,75 €/día), cantidades que ya llevan implícita la parte proporcional de las pagas extraordinarias.
+      </p>
+      <p>
+        Para la <strong>jubilación</strong>, la pensión se calcula sobre las bases de cotización de los últimos 25 años (300 meses). Las pagas extra están integradas en la base mensual de cotización, por lo que un trabajador con pagas prorrateadas y otro con 14 pagas que tengan el mismo salario bruto anual generarán la misma base reguladora de jubilación. La única precaución es verificar que la empresa cotiza correctamente por las pagas extra, ya que algunos errores de cotización (como no declarar la paga extra o declararla por un importe inferior) pueden reducir la futura pensión. Puedes comprobar tu vida laboral y bases de cotización en el portal «Tu Seguridad Social» con certificado digital o Cl@ve.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fuentes y normativa</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430" class="text-brand hover:underline" target="_blank" rel="noopener">Real Decreto Legislativo 2/2015, Estatuto de los Trabajadores</a>: Art. 31: derecho a dos gratificaciones extraordinarias al año, una en Navidad y otra según convenio.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2004-4163" class="text-brand hover:underline" target="_blank" rel="noopener">Real Decreto 439/2007, Reglamento del IRPF</a>: Art. 83: procedimiento de retención cuando hay pagas extras (retención concentrada en las 12 nóminas ordinarias).</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

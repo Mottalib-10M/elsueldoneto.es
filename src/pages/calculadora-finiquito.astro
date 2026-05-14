@@ -1,0 +1,159 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import Finiquito from '../components/calculadoras/Finiquito';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Calculadora Finiquito ${CURRENT_FISCAL_YEAR}: Calcula tu Liquidación`;
+const description = `Calcula tu finiquito en España en ${CURRENT_FISCAL_YEAR}. Incluye salario pendiente, vacaciones no disfrutadas, pagas extras proporcionales e indemnización por despido.`;
+
+const faqs = [
+  {
+    question: '¿Qué conceptos incluye el finiquito?',
+    answer: 'El finiquito incluye: los días trabajados del mes en curso, la parte proporcional de las pagas extras (si son aparte), los días de vacaciones no disfrutados, y la indemnización en caso de despido.',
+  },
+  {
+    question: '¿Cuánto es la indemnización por despido improcedente?',
+    answer: 'La indemnización por despido improcedente es de 33 días de salario por año trabajado, con un máximo de 24 mensualidades. Para contratos anteriores a febrero de 2012, los días previos computan a 45 días/año.',
+  },
+  {
+    question: '¿Tengo derecho a finiquito si me voy voluntariamente?',
+    answer: 'Sí. Aunque no tienes derecho a indemnización, sí te corresponde el finiquito por los días trabajados, vacaciones pendientes y la parte proporcional de pagas extras.',
+  },
+  {
+    question: '¿La indemnización por despido paga IRPF?',
+    answer: 'La indemnización por despido está exenta de IRPF hasta la cuantía establecida legalmente (33 días/año para improcedente, 20 días/año para objetivo). Solo tributa el exceso.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Calculadora de Finiquito ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Calculadora Finiquito"
+  path="/calculadora-finiquito/"
+  faqs={faqs}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <Finiquito client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía del finiquito: todo lo que debes saber antes de firmar
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        El finiquito es el documento que cierra la relación laboral entre una empresa y un trabajador, y es uno de los trámites más importantes, y menos comprendidos, del mundo laboral español. No importa si te vas voluntariamente, si te despiden o si termina tu contrato temporal: siempre tienes derecho a un finiquito. Y firmar sin revisarlo es un error que puede costarte miles de euros.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Los tres componentes del finiquito</h3>
+      <p>
+        Todo finiquito tiene al menos tres conceptos. El primero son los <strong>días trabajados del último mes</strong> que aún no te han pagado. Si te vas el día 15, te deben 15 días de salario. El segundo son las <strong>vacaciones no disfrutadas</strong>: si tienes derecho a 22 días laborables de vacaciones al año y solo has disfrutado 10 cuando te vas, la empresa te debe pagar los 12 días restantes (o la parte proporcional si llevas menos de un año). El tercer concepto es la <strong>parte proporcional de las pagas extraordinarias</strong>, aplicable solo si cobras en 14 pagas con las extras separadas. Si cobras con las pagas prorrateadas en 12 mensualidades, este concepto ya está incluido.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">La indemnización: cuándo y cuánto</h3>
+      <p>
+        La indemnización solo se añade al finiquito cuando la extinción del contrato es por causa ajena al trabajador. En un despido improcedente, el tipo más habitual, la indemnización es de 33 días de salario por año trabajado, con un máximo de 24 mensualidades. Para despidos objetivos (por causas económicas, técnicas, organizativas o de producción), la indemnización se reduce a 20 días por año con un máximo de 12 mensualidades. Los contratos temporales que llegan a su fin generan una indemnización menor: 12 días por año trabajado. Y las bajas voluntarias no generan derecho a indemnización, aunque sí a los demás conceptos del finiquito.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fiscalidad: qué paga IRPF y qué no</h3>
+      <p>
+        Esta es una de las cuestiones que más confusión genera. Los días trabajados, las vacaciones no disfrutadas y la parte proporcional de las pagas extra tributan como rendimientos del trabajo ordinarios, con su retención de IRPF y cotización a la Seguridad Social correspondientes. La indemnización por despido, en cambio, está exenta de IRPF hasta las cuantías legalmente establecidas. Para un despido improcedente, la exención cubre hasta 33 días por año trabajado. Solo el exceso sobre esa cuantía tributaría. Esta exención es una protección importante para el trabajador despedido y una razón más para no aceptar cantidades inferiores a la indemnización legal.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Consejos prácticos antes de firmar</h3>
+      <p>
+        Tienes derecho a solicitar la presencia de un representante legal de los trabajadores en el acto de firma del finiquito. No estás obligado a firmar en el momento: puedes pedir tiempo para revisarlo con un abogado o con un asesor laboral. Si firmas el finiquito con una cláusula de «saldo y finiquito», estás renunciando a reclamar cantidades adicionales, salvo que demuestres vicio en el consentimiento. Por ello, si tienes dudas sobre la cuantía, firma añadiendo «no conforme» junto a tu firma. Esto protege tu derecho a reclamar judicialmente si descubres errores en el cálculo.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo: finiquito por despido improcedente</h3>
+      <p>
+        Pedro lleva 4 años y 3 meses en su empresa, con un salario bruto mensual de 2.200 € en 14 pagas (30.800 €/año). Le despiden el 15 de septiembre de forma improcedente. Ha disfrutado 10 días de vacaciones de los 22 que le corresponden. Así se calcula su finiquito:
+      </p>
+      <ol class="list-decimal ml-4 space-y-1">
+        <li><strong>Días trabajados en septiembre:</strong> 15 días → 2.200 × 15/30 = 1.100 €.</li>
+        <li><strong>Vacaciones no disfrutadas:</strong> 12 días restantes → 2.200 × 12/22 = 1.200 € (proporción sobre días laborables).</li>
+        <li><strong>Paga extra proporcional:</strong> paga de Navidad devengada de julio a septiembre → 2.200 × 3/6 = 1.100 €.</li>
+        <li><strong>Subtotal liquidación:</strong> 1.100 + 1.200 + 1.100 = 3.400 € (sujeto a IRPF y SS).</li>
+        <li><strong>Indemnización por despido improcedente:</strong> 33 días × 4,25 años × (30.800/365) = 33 × 4,25 × 84,38 = <strong>11.835 €</strong> (exenta de IRPF).</li>
+        <li><strong>Total finiquito:</strong> 3.400 + 11.835 = <strong>15.235 €</strong>.</li>
+      </ol>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tabla de indemnizaciones por tipo de extinción</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Tipo de extinción</th>
+              <th class="px-3 py-2 text-right">Días/año</th>
+              <th class="px-3 py-2 text-right">Máximo</th>
+              <th class="px-3 py-2 text-right">Exenta IRPF</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Despido improcedente</td><td class="px-3 py-1 text-right">33 días</td><td class="px-3 py-1 text-right">24 mensualidades</td><td class="px-3 py-1 text-right">Sí</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Despido objetivo / ERE</td><td class="px-3 py-1 text-right">20 días</td><td class="px-3 py-1 text-right">12 mensualidades</td><td class="px-3 py-1 text-right">Sí</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Fin contrato temporal</td><td class="px-3 py-1 text-right">12 días</td><td class="px-3 py-1 text-right">-</td><td class="px-3 py-1 text-right">Sí</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Baja voluntaria</td><td class="px-3 py-1 text-right">0 días</td><td class="px-3 py-1 text-right">-</td><td class="px-3 py-1 text-right">-</td></tr>
+            <tr><td class="px-3 py-1">Despido procedente</td><td class="px-3 py-1 text-right">0 días</td><td class="px-3 py-1 text-right">-</td><td class="px-3 py-1 text-right">-</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Plazos legales y derecho a representación</h3>
+      <p>
+        La ley es clara en este punto: la empresa está obligada a entregar el finiquito y ponerlo a disposición del trabajador <strong>el último día de la relación laboral</strong>. No al día siguiente, no la semana que viene, no «cuando lo prepare el gestor». El artículo 49.2 del Estatuto de los Trabajadores establece además que el trabajador puede solicitar la presencia de un <strong>representante legal de los trabajadores</strong> (delegado de personal o miembro del comité de empresa) en el acto de firma. Si la empresa no dispone de representantes, el trabajador puede acudir acompañado de un compañero de trabajo o de un asesor. Marta Jiménez, administrativa en una PYME de Sevilla con 28.000 € brutos anuales, pidió que el delegado sindical estuviera presente cuando le entregaron el finiquito por despido objetivo. El delegado detectó que la empresa había calculado la indemnización sobre 12 pagas en lugar de 14, lo que suponía una diferencia de casi 900 €. La empresa corrigió el cálculo antes de la firma.
+      </p>
+      <p>
+        Si tras revisar el documento no estás de acuerdo con algún concepto o con la cuantía total, tienes dos opciones: negarte a firmar (la empresa deberá consignar el importe en el juzgado) o firmar añadiendo la mención <strong>«no conforme»</strong> junto a tu firma. Esta segunda opción es la más habitual porque te permite cobrar la cantidad ofrecida sin renunciar a tu derecho a reclamar judicialmente la diferencia. El plazo para interponer demanda por cantidades adeudadas es de <strong>un año</strong> desde la fecha de extinción del contrato, según el artículo 59.1 del Estatuto de los Trabajadores.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Finiquito e indemnización: dos conceptos distintos</h3>
+      <p>
+        Es frecuente confundir finiquito e indemnización, pero son conceptos completamente diferentes. El <strong>finiquito</strong> es la liquidación económica que siempre se cobra, sea cual sea la causa de la extinción del contrato: dimisión voluntaria, despido, fin de contrato temporal, jubilación o mutuo acuerdo. Incluye los días trabajados pendientes de cobro, las vacaciones no disfrutadas y la parte proporcional de las pagas extraordinarias. Se cobra siempre, sin excepción. La <strong>indemnización</strong>, en cambio, es una compensación que solo se genera en determinados tipos de extinción: despido improcedente, despido objetivo, ERE o fin de contrato temporal. Si te vas voluntariamente de la empresa, cobras finiquito pero no indemnización. Si te despiden de forma improcedente, cobras ambos conceptos.
+      </p>
+      <p>
+        La confusión entre ambos conceptos lleva a errores costosos. Roberto Navarro, comercial en una empresa de Madrid con un salario de 35.000 € en 14 pagas y 7 años de antigüedad, dimitió pensando que recibiría «el finiquito de 33 días por año». Lo que recibió fue su liquidación de 2.400 € (días trabajados, vacaciones y paga extra proporcional), pero cero de indemnización, porque la baja voluntaria no genera ese derecho. Si hubiera esperado a que la empresa le despidiera de forma improcedente, habría recibido una indemnización de aproximadamente 22.100 € adicionales. La diferencia entre entender estos conceptos y no hacerlo puede medirse en miles de euros.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo completo: finiquito desglosado línea por línea</h3>
+      <p>
+        Carmen López trabaja como contable en una empresa de Valencia. Cobra 32.000 € brutos anuales repartidos en 14 pagas (2.285,71 € brutos por paga). La empresa la despide el 15 de septiembre por causas objetivas. Le quedan 5 días de vacaciones pendientes de los 22 que le corresponden al año. Lleva 6 años y 4 meses en la empresa. La paga de verano se cobró en junio y la de Navidad se devenga de julio a diciembre.
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Concepto</th>
+              <th class="px-3 py-2 text-left">Cálculo</th>
+              <th class="px-3 py-2 text-right">Importe</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Días trabajados en septiembre (1-15)</td><td class="px-3 py-1">2.285,71 × 15/30</td><td class="px-3 py-1 text-right">1.142,86 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Vacaciones no disfrutadas (5 días)</td><td class="px-3 py-1">2.285,71 × 5/22</td><td class="px-3 py-1 text-right">519,48 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Paga extra Navidad proporcional (julio-15 sept)</td><td class="px-3 py-1">2.285,71 × 2,5/6</td><td class="px-3 py-1 text-right">952,38 €</td></tr>
+            <tr class="border-b border-gray-200 dark:border-gray-600"><td class="px-3 py-1 font-medium">Subtotal liquidación (sujeto a IRPF y SS)</td><td class="px-3 py-1"></td><td class="px-3 py-1 text-right font-medium">2.614,72 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Indemnización despido objetivo: 20 días/año</td><td class="px-3 py-1">20 × 6,33 × (32.000/365) = 20 × 6,33 × 87,67</td><td class="px-3 py-1 text-right">11.096 €</td></tr>
+            <tr class="bg-emerald-50 dark:bg-emerald-900/20"><td class="px-3 py-1 font-medium">Total finiquito</td><td class="px-3 py-1"></td><td class="px-3 py-1 text-right font-bold text-emerald-700 dark:text-emerald-400">13.710,72 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Del subtotal de liquidación (2.614,72 €) se descontará la retención de IRPF correspondiente y la cotización a la Seguridad Social. La indemnización de 11.096 € está <strong>exenta de IRPF</strong> porque no supera el límite legal de 20 días por año para despido objetivo, conforme al artículo 7.e de la Ley del IRPF.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fiscalidad detallada del finiquito</h3>
+      <p>
+        Cada componente del finiquito tiene un tratamiento fiscal diferente y conviene entenderlo para evitar sorpresas. Los <strong>días trabajados</strong>, las <strong>vacaciones no disfrutadas</strong> y la <strong>paga extra proporcional</strong> tributan exactamente igual que cualquier nómina: se consideran rendimientos del trabajo sujetos a IRPF y a cotización a la Seguridad Social. La empresa aplicará la retención de IRPF que corresponda según tu tipo de retención vigente.
+      </p>
+      <p>
+        La <strong>indemnización por despido</strong> tiene un régimen fiscal privilegiado. Según el artículo 7.e de la Ley 35/2006 del IRPF, la indemnización por despido o cese del trabajador está exenta hasta la cuantía establecida con carácter obligatorio en el Estatuto de los Trabajadores: 33 días por año para el improcedente y 20 días por año para el objetivo. Solo el exceso sobre esas cuantías tributa como rendimiento del trabajo. Existe además un <strong>límite absoluto de 180.000 €</strong> para la exención, introducido por la reforma fiscal de 2014. En la práctica, este tope solo afecta a directivos con salarios muy altos o antigüedades largas. Por ejemplo, un director financiero con 25 años de antigüedad y un salario de 120.000 € que es despedido de forma improcedente tendría derecho a una indemnización de 33 × 25 × (120.000/365) = 271.233 €. De esta cantidad, solo los primeros 180.000 € estarían exentos; los 91.233 € restantes tributarían como rendimiento del trabajo. Si la indemnización exenta supera los 300.000 €, puede aplicarse además la reducción del 30% por rendimientos con periodo de generación superior a dos años, conforme al artículo 18.2 de la Ley del IRPF, siempre que el trabajador haya permanecido en la empresa más de dos años.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fuentes y normativa</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430" class="text-brand hover:underline" target="_blank" rel="noopener">Real Decreto Legislativo 2/2015, Estatuto de los Trabajadores</a>: Art. 49 (extinción del contrato), art. 49.2 (presencia de representante legal), art. 53 (despido objetivo), art. 56 (despido improcedente), art. 59.1 (plazos de reclamación).</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 35/2006, del IRPF</a>: Art. 7.e: exención de las indemnizaciones por despido obligatorio hasta la cuantía legal, con límite de 180.000 €. Art. 18.2: reducción del 30% para rendimientos con periodo de generación superior a dos años.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2011-15936" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 36/2011, reguladora de la jurisdicción social</a>: Procedimiento de reclamación en caso de desacuerdo con el finiquito.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

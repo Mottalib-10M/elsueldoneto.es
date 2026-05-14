@@ -1,0 +1,78 @@
+---
+import Layout from '../components/layout/Layout.astro';
+import { SITE_NAME, SITE_URL, CURRENT_FISCAL_YEAR } from '../config';
+import { buildBreadcrumbSchema } from '../lib/seo';
+
+const title = 'Aviso Legal: Condiciones de Uso de Nuestro Sitio Web';
+const description = 'Consulta el aviso legal y condiciones de uso de nuestra calculadora de sueldo neto en España. Propiedad intelectual, exclusión de responsabilidad y jurisdicción';
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Inicio', url: '/' },
+    { name: 'Aviso Legal', url: '/aviso-legal' },
+  ]),
+];
+---
+
+<Layout title={title} description={description} schema={schemas}>
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/" class="hover:text-brand">Inicio</a> / <span class="text-charcoal dark:text-gray-200">Aviso Legal</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal dark:text-gray-100">Aviso Legal</h1>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Datos identificativos</h2>
+        <p>
+          En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa que el presente sitio web <strong>{SITE_URL}</strong> es titularidad de:
+        </p>
+        <ul>
+          <li><strong>Denominación:</strong> {SITE_NAME}</li>
+          <li><strong>Sitio web:</strong> {SITE_URL}</li>
+          <li><strong>Contacto:</strong> contacto@elsueldoneto.es</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Objeto del sitio web</h2>
+        <p>
+          {SITE_NAME} es un sitio web de carácter informativo que ofrece herramientas de cálculo orientativas para estimar el sueldo neto, IRPF, cotizaciones a la Seguridad Social y otros conceptos financieros y fiscales en España.
+        </p>
+        <p>
+          Los cálculos proporcionados son <strong>orientativos</strong> y no constituyen asesoramiento fiscal, financiero ni legal. Para situaciones concretas, consulte con un profesional cualificado.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Propiedad intelectual e industrial</h2>
+        <p>
+          Todos los contenidos del sitio web, incluyendo textos, gráficos, imágenes, diseño gráfico, código fuente y software, son propiedad de {SITE_NAME} o de sus legítimos titulares, y están protegidos por las leyes de propiedad intelectual e industrial.
+        </p>
+        <p>
+          Queda prohibida la reproducción, distribución, comunicación pública o transformación de los contenidos sin autorización expresa del titular.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Exclusión de responsabilidad</h2>
+        <p>
+          {SITE_NAME} no garantiza la exactitud, integridad o actualidad de los cálculos e información proporcionados. Los resultados son estimaciones basadas en la normativa fiscal vigente y pueden diferir de los importes reales.
+        </p>
+        <p>
+          El titular no será responsable de los daños o perjuicios que pudieran derivarse del uso de la información contenida en este sitio web.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Legislación aplicable y jurisdicción</h2>
+        <p>
+          Las presentes condiciones se rigen por la legislación española. Para cualquier controversia, las partes se someten a los juzgados y tribunales del domicilio del usuario, conforme a la normativa vigente.
+        </p>
+      </section>
+
+      <p class="text-xs text-medium-gray">Última actualización: enero {CURRENT_FISCAL_YEAR}.</p>
+    </div>
+  </div>
+</Layout>

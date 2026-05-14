@@ -1,0 +1,158 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import Inflacion from '../components/calculadoras/Inflacion';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Calculadora de Inflación: Impacto en tu Poder Adquisitivo`;
+const description = `Calcula cómo afecta la inflación a tu dinero. Descubre cuánto valdrá tu dinero en el futuro o cuánto necesitarás para mantener tu poder adquisitivo actual.`;
+
+const faqs = [
+  {
+    question: '¿Cuál es la inflación actual en España?',
+    answer: `La inflación en España ha variado significativamente en los últimos años. Consulta el INE (Instituto Nacional de Estadística) para los datos más recientes del IPC.`,
+  },
+  {
+    question: '¿Cómo protegerme de la inflación?',
+    answer: 'Invertir en activos que históricamente superan la inflación: fondos indexados, inmobiliario, o bonos indexados a la inflación. Mantener todo el ahorro en una cuenta sin interés es perder poder adquisitivo.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1="Calculadora de Inflación"
+  calculatorName="Calculadora Inflación"
+  path="/calculadora-inflacion/"
+  faqs={faqs}
+  sources={[
+    { label: 'INE', url: 'https://www.ine.es' },
+  ]}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <Inflacion client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía de la inflación: cómo erosiona tu poder adquisitivo y qué puedes hacer
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        La inflación es la subida generalizada y sostenida de los precios. No se refiere a que suba la gasolina una semana o la fruta un mes: es un fenómeno macroeconómico por el que el nivel general de precios de una economía aumenta con el tiempo. Su consecuencia directa es que cada euro compra menos. Con una inflación del 3% anual, 1.000 € de hoy tienen el poder adquisitivo de 970 € dentro de un año, 744 € dentro de diez y 554 € dentro de veinte. El dinero no desaparece de tu cuenta, pero su capacidad de compra se evapora lentamente.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Cómo se mide la inflación en España</h3>
+      <p>
+        El Instituto Nacional de Estadística (INE) publica mensualmente el Índice de Precios al Consumo (IPC), que mide la variación de precios de una cesta de bienes y servicios que representa el consumo medio de los hogares españoles. Esa cesta incluye desde alimentos y bebidas hasta transporte, vivienda, vestido, ocio y comunicaciones. Cada grupo tiene un peso diferente en el índice: la vivienda y los alimentos pesan más que el ocio o el vestido. El dato de inflación que se publica, por ejemplo «la inflación fue del 3,2% en mayo», es la variación interanual del IPC, es decir, cuánto han subido los precios respecto al mismo mes del año anterior.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Inflación y salarios: la carrera que casi siempre pierdes</h3>
+      <p>
+        Cuando los salarios suben al mismo ritmo que los precios, el poder adquisitivo se mantiene. Pero en la práctica, los salarios en España han tendido a subir por debajo de la inflación durante las últimas dos décadas, especialmente en periodos de crisis. Entre 2021 y 2023, con la inflación disparada por la energía y los alimentos, los salarios pactados en convenio subieron un 2-3% anual frente a una inflación que llegó al 10%. Esa brecha es una pérdida silenciosa de poder adquisitivo que muchos trabajadores no perciben porque su nómina no baja en términos nominales. El efecto acumulado a lo largo de una década puede equivaler a perder un mes entero de sueldo.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Proteger el ahorro de la inflación</h3>
+      <p>
+        Dejar el dinero en una cuenta corriente al 0% es perder poder adquisitivo cada año. Las alternativas dependen del horizonte temporal. A corto plazo, las cuentas remuneradas y los depósitos a plazo fijo pueden cubrir parcialmente la inflación; en el entorno actual, algunos ofrecen entre el 2,5% y el 3,5%. A largo plazo, la renta variable indexada ha sido históricamente el activo que mejor ha batido la inflación, con rentabilidades reales (descontada la inflación) del 5-6% anual de media. Los bonos indexados a la inflación, como los Bonos del Estado Indexados que emite el Tesoro Público español, son otra opción: su rentabilidad se ajusta automáticamente al IPC, garantizando que el capital no pierde poder adquisitivo. La elección depende del perfil de riesgo y del plazo de cada ahorrador.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo: el coste invisible de la inflación sobre 50.000 €</h3>
+      <p>
+        Imagina que tienes 50.000 € en una cuenta corriente sin intereses. Así se erosiona su poder adquisitivo con distintos niveles de inflación:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Inflación anual</th>
+              <th class="px-3 py-2 text-right">Valor real en 5 años</th>
+              <th class="px-3 py-2 text-right">Valor real en 10 años</th>
+              <th class="px-3 py-2 text-right">Valor real en 20 años</th>
+              <th class="px-3 py-2 text-right">Pérdida en 20 años</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2%</td><td class="px-3 py-1 text-right">45.290 €</td><td class="px-3 py-1 text-right">41.020 €</td><td class="px-3 py-1 text-right">33.650 €</td><td class="px-3 py-1 text-right text-red-600">−16.350 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">3%</td><td class="px-3 py-1 text-right">43.130 €</td><td class="px-3 py-1 text-right">37.200 €</td><td class="px-3 py-1 text-right">27.680 €</td><td class="px-3 py-1 text-right text-red-600">−22.320 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">5%</td><td class="px-3 py-1 text-right">39.180 €</td><td class="px-3 py-1 text-right">30.700 €</td><td class="px-3 py-1 text-right">18.840 €</td><td class="px-3 py-1 text-right text-red-600">−31.160 €</td></tr>
+            <tr><td class="px-3 py-1">8%</td><td class="px-3 py-1 text-right">34.030 €</td><td class="px-3 py-1 text-right">23.160 €</td><td class="px-3 py-1 text-right">10.730 €</td><td class="px-3 py-1 text-right text-red-600">−39.270 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Con una inflación media del 3%, tus 50.000 € perderían casi la mitad de su valor real en 20 años. El dinero sigue en tu cuenta, pero solo te permite comprar lo que 27.680 € compraban hoy.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">IPC en España: histórico reciente</h3>
+      <p>
+        La inflación en España ha sido particularmente volátil desde 2020. Tras años de inflación contenida (0,5-1,5% entre 2014 y 2020), el IPC se disparó al 6,5% en 2022 y alcanzó un pico interanual del 10,8% en julio de 2022, impulsado por los precios energéticos y la cadena de suministros post-pandemia. Desde entonces ha ido moderándose, pero la experiencia ha servido como recordatorio de que la inflación no es un riesgo teórico: es una realidad que puede erosionar significativamente los ahorros en pocos meses.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Inflación subyacente vs. inflación general: por qué importa la diferencia</h3>
+      <p>
+        El dato de inflación que aparece en los titulares, como «el IPC sube un 3,2%», es la inflación general, que incluye todos los componentes de la cesta de consumo. Pero existe otro indicador que los economistas y el Banco Central Europeo vigilan con más atención: la <strong>inflación subyacente</strong>. Esta variante excluye del cálculo los precios de la energía (electricidad, gas, carburantes) y los alimentos no elaborados (frutas, verduras, carne fresca), precisamente porque son los componentes más volátiles y sujetos a factores estacionales o geopolíticos que distorsionan la tendencia real.
+      </p>
+      <p>
+        Un ejemplo concreto lo vivimos en España entre 2021 y 2023. En julio de 2022, la inflación general alcanzó el 10,8% interanual, impulsada fundamentalmente por el precio del gas y la electricidad tras la invasión de Ucrania. Sin embargo, la inflación subyacente ese mismo mes se situaba en el 6,1%. La diferencia, casi cinco puntos, reflejaba que el grueso de la subida procedía de la energía, no de un recalentamiento generalizado de todos los precios. Cuando en 2023 los precios energéticos se moderaron, la inflación general cayó rápidamente al entorno del 3%, pero la subyacente tardó más en bajar porque los incrementos ya se habían trasladado a los precios de servicios y productos manufacturados. Por eso, para entender si la inflación está realmente controlada o solo enmascarada por una bajada puntual del petróleo, la subyacente es un termómetro mucho más fiable. El propio BCE la utiliza como referencia principal para sus decisiones de política monetaria.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">La cesta del IPC: qué se mide y cuánto pesa cada cosa</h3>
+      <p>
+        El IPC no mide «todos los precios». Mide una selección de unos 479 artículos agrupados en 12 grandes categorías, cada una con un peso que refleja su importancia en el gasto medio de los hogares españoles. Los pesos se actualizan anualmente en función de la Encuesta de Presupuestos Familiares del INE. Las categorías con mayor peso en la cesta actual son:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Alimentos y bebidas no alcohólicas:</strong> aproximadamente el 20% del total. Es la partida que más nota una familia media.</li>
+        <li><strong>Transporte:</strong> en torno al 15%, incluyendo carburantes, vehículos y transporte público.</li>
+        <li><strong>Vivienda, agua, electricidad, gas:</strong> alrededor del 13%. El alquiler real no se incluye directamente, sino a través del concepto de «alquiler imputado».</li>
+        <li><strong>Hoteles, cafés y restaurantes:</strong> cerca del 12%, una categoría con peso creciente por los hábitos de consumo.</li>
+        <li><strong>Ocio y cultura:</strong> alrededor del 8%.</li>
+        <li><strong>Vestido y calzado, mobiliario, comunicaciones</strong> y el resto de categorías se reparten el porcentaje restante.</li>
+      </ul>
+      <p>
+        El detalle importante es que tu inflación personal puede ser muy diferente de la oficial. Si eres propietario sin hipoteca, la partida de vivienda apenas te afecta. Si no tienes coche, el transporte pesa menos. Si comes fuera cinco días a la semana, la categoría de restauración pesa más en tu presupuesto que el 12% del índice oficial. Por eso, economistas como el propio servicio de estudios del Banco de España recomiendan calcular tu propio IPC personal: anota tus gastos reales por categoría durante tres meses y compara las variaciones interanuales. Es la única forma de saber cuánto te afecta la inflación a ti, no al «hogar medio».
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tabla: inflación interanual en España (2018-2025)</h3>
+      <p>
+        Evolución del IPC interanual medio en España en los últimos ocho años, según datos publicados por el INE:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Año</th>
+              <th class="px-3 py-2 text-right">IPC medio anual</th>
+              <th class="px-3 py-2 text-left">Contexto</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2018</td><td class="px-3 py-1 text-right">1,2%</td><td class="px-3 py-1">Crecimiento estable, precios energéticos contenidos</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2019</td><td class="px-3 py-1 text-right">0,8%</td><td class="px-3 py-1">Desaceleración económica, inflación baja</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2020</td><td class="px-3 py-1 text-right">−0,3%</td><td class="px-3 py-1">Pandemia COVID-19, caída del consumo y la demanda</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2021</td><td class="px-3 py-1 text-right">6,5%</td><td class="px-3 py-1">Recuperación post-COVID, crisis energética, cuellos de botella</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2022</td><td class="px-3 py-1 text-right">8,4%</td><td class="px-3 py-1">Guerra en Ucrania, energía disparada, pico del 10,8% en julio</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2023</td><td class="px-3 py-1 text-right">3,5%</td><td class="px-3 py-1">Moderación energética, subida de tipos del BCE</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2024</td><td class="px-3 py-1 text-right">2,8%</td><td class="px-3 py-1">Convergencia hacia el objetivo del 2%, alimentos aún elevados</td></tr>
+            <tr><td class="px-3 py-1">2025</td><td class="px-3 py-1 text-right">~2,5%</td><td class="px-3 py-1">Estabilización, servicios como motor residual de inflación</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        La tabla deja claro que la inflación no es un fenómeno lineal ni predecible. Entre 2018 y 2020, un ahorrador podía asumir que la inflación era «cosa del pasado». Dos años después, la subida acumulada de precios entre 2021 y 2022 superó el 15%, borrando años de estabilidad. Este tipo de volatilidad refuerza la necesidad de tener una parte del patrimonio en activos que protejan del riesgo inflacionario.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Deflación: el peligro inverso que pocos entienden</h3>
+      <p>
+        Si la inflación es una subida generalizada de precios, la <strong>deflación</strong> es lo contrario: una caída sostenida del nivel general de precios. A primera vista parece positiva («todo baja, puedo comprar más»), pero en la práctica es un fenómeno económico devastador. La razón es psicológica y se retroalimenta: si los consumidores esperan que los precios bajen mañana, aplazan sus compras hoy. Las empresas, al vender menos, reducen producción y despiden trabajadores. Los trabajadores despedidos consumen aún menos. Los precios caen más. Es lo que los economistas denominan <strong>espiral deflacionaria</strong>, y romperla es extremadamente difícil.
+      </p>
+      <p>
+        El caso de referencia es Japón. Tras el estallido de su burbuja inmobiliaria y bursátil en 1990, el país entró en un periodo prolongado de deflación o inflación cercana a cero que duró más de dos décadas, las llamadas «décadas perdidas». A pesar de tipos de interés al 0% y programas masivos de estímulo del Banco de Japón, la deflación se enquistó porque las expectativas de los consumidores y las empresas estaban ancladas en precios a la baja. España experimentó un breve episodio deflacionario en 2020 (IPC medio del −0,3%) provocado por el hundimiento de la demanda durante los confinamientos, pero duró pocos meses gracias a la intervención fiscal y monetaria coordinada. Con todo, la experiencia japonesa demuestra que la deflación puede ser más peligrosa que una inflación moderada, y es precisamente por eso que el BCE fija su objetivo de inflación en «cerca del 2%» y no en el 0%: un margen de seguridad para alejarse de la deflación.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fuentes</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736176802&menu=ultiDatos&idp=1254735976607" class="text-brand hover:underline" target="_blank" rel="noopener">INE - Índice de Precios al Consumo (IPC)</a> - Datos mensuales y series históricas de inflación en España.</li>
+        <li><a href="https://www.ecb.europa.eu/stats/macroeconomic_and_sectoral/hicp/html/index.en.html" class="text-brand hover:underline" target="_blank" rel="noopener">BCE - IAPC (Índice Armonizado de Precios de Consumo)</a> - Inflación armonizada para comparaciones en la zona euro.</li>
+        <li><a href="https://www.tesoro.es" class="text-brand hover:underline" target="_blank" rel="noopener">Tesoro Público</a> - Bonos indexados a la inflación emitidos por el Estado español.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

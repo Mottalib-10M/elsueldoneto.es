@@ -1,0 +1,228 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import Herencia from '../components/calculadoras/Herencia';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Calculadora del Impuesto de Sucesiones por CCAA ${CURRENT_FISCAL_YEAR}`;
+const description = `Calcula el impuesto de sucesiones de tu herencia según tu comunidad autónoma. Simulador con reducciones, bonificaciones y grupos de parentesco vigente en ${CURRENT_FISCAL_YEAR}.`;
+
+const faqs = [
+  {
+    question: '¿Cuánto tiempo tengo para pagar el Impuesto de Sucesiones?',
+    answer: 'El plazo es de 6 meses desde el fallecimiento del causante. Es posible solicitar una prórroga de 6 meses adicionales, siempre que se pida dentro de los 5 primeros meses desde el fallecimiento.',
+  },
+  {
+    question: '¿El Impuesto de Sucesiones es igual en toda España?',
+    answer: 'No. Aunque la normativa estatal fija una base común, cada comunidad autónoma puede establecer sus propias reducciones y bonificaciones, lo que genera diferencias muy significativas entre territorios.',
+  },
+  {
+    question: '¿Qué grupo de parentesco me corresponde como hijo del fallecido?',
+    answer: 'Si eres mayor de 21 años, perteneces al Grupo II (descendientes de 21 o más años, cónyuges y ascendientes). Si eres menor de 21, perteneces al Grupo I, con reducciones adicionales por cada año que falte hasta cumplir los 21.',
+  },
+  {
+    question: '¿Puedo renunciar a una herencia para no pagar el impuesto?',
+    answer: 'Sí. La renuncia debe hacerse ante notario y es irrevocable. Sin embargo, conviene analizar si la herencia neta (valor menos impuesto) sigue siendo positiva antes de renunciar.',
+  },
+  {
+    question: '¿La vivienda habitual del fallecido tiene algún beneficio fiscal?',
+    answer: 'Sí. La normativa estatal permite una reducción del 95% del valor de la vivienda habitual, con un límite de 122.606,47 euros, siempre que los herederos pertenezcan a los Grupos I o II y mantengan la vivienda durante al menos 10 años.',
+  },
+  {
+    question: '¿Qué es el coeficiente multiplicador?',
+    answer: 'Es un factor que se aplica sobre la cuota íntegra del impuesto y que depende de dos variables: el grupo de parentesco y el patrimonio preexistente del heredero. Cuanto más lejano sea el parentesco y mayor el patrimonio del heredero, más alto es el coeficiente.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1="Calculadora de Herencia"
+  calculatorName="Calculadora Herencia"
+  path="/calculadora-herencia/"
+  faqs={faqs}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <Herencia client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía completa del Impuesto de Sucesiones en España
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Recibir una herencia en España implica, en la mayoría de los casos, el pago de un impuesto: el Impuesto sobre Sucesiones y Donaciones (ISD). Se trata de un tributo cedido a las comunidades autónomas, lo que significa que, aunque la normativa estatal marca un marco general, cada comunidad tiene capacidad para fijar sus propias reducciones, bonificaciones y tipos impositivos. El resultado es un mapa fiscal extraordinariamente desigual: la misma herencia puede costar unos pocos cientos de euros en Madrid y decenas de miles en otra comunidad. Esta guía explica cómo funciona el impuesto, qué reducciones existen, cómo influye la comunidad autónoma y qué plazos y trámites debes cumplir.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Qué es el Impuesto sobre Sucesiones y Donaciones (ISD)</h3>
+      <p>
+        El ISD es un impuesto directo y personal que grava los incrementos patrimoniales obtenidos a título gratuito por personas físicas. En el caso de las sucesiones (herencias), el hecho imponible se produce con el fallecimiento del causante y la transmisión de sus bienes y derechos a los herederos. La base imponible es el valor neto de los bienes y derechos que cada heredero recibe, una vez descontadas las cargas y deudas deducibles (hipotecas pendientes, gastos de última enfermedad, gastos de entierro, etc.). Este impuesto está regulado por la Ley 29/1987, de 18 de diciembre, del Impuesto sobre Sucesiones y Donaciones, y por el Real Decreto 1629/1991, que aprueba su reglamento.
+      </p>
+      <p>
+        El impuesto se liquida de forma individual: cada heredero paga por la parte que le corresponde. Si un padre fallece y deja dos hijos como herederos a partes iguales, cada hijo tributa por la mitad del caudal hereditario. Esto es importante porque la escala del impuesto es progresiva: a mayor base, mayor tipo impositivo. Al dividir la herencia entre varios herederos, cada uno tributa por una base más baja y, por tanto, a un tipo medio inferior.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Los 4 grupos de parentesco y sus reducciones</h3>
+      <p>
+        La normativa estatal clasifica a los herederos en cuatro grupos en función de su relación con el fallecido. Esta clasificación determina las reducciones aplicables sobre la base imponible y el coeficiente multiplicador que se aplica sobre la cuota:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Grupo I: descendientes y adoptados menores de 21 años.</strong> Reducción de 15.956,87 euros, más 3.990,72 euros adicionales por cada año de menos que falte hasta los 21, con un máximo total de 47.858,59 euros. Es el grupo con mayor protección fiscal, pensado para proteger a los herederos mas jóvenes.</li>
+        <li><strong>Grupo II: descendientes y adoptados de 21 años o más, cónyuge, ascendientes y adoptantes.</strong> Reducción fija de 15.956,87 euros. Este es el grupo más habitual en las herencias entre padres e hijos adultos o entre cónyuges.</li>
+        <li><strong>Grupo III: colaterales de segundo y tercer grado (hermanos, tíos, sobrinos), ascendientes y descendientes por afinidad.</strong> Reducción de 7.993,46 euros. La protección fiscal se reduce considerablemente al alejarse el grado de parentesco.</li>
+        <li><strong>Grupo IV: colaterales de cuarto grado o más, extraños y personas sin parentesco.</strong> No tienen reducción por parentesco. Son quienes soportan la mayor carga fiscal.</li>
+      </ul>
+      <p>
+        Es fundamental entender que estas son las reducciones estatales mínimas. Muchas comunidades autónomas han ampliado significativamente estas reducciones, especialmente para los Grupos I y II. Por ejemplo, algunas comunidades elevan la reducción del Grupo II hasta 100.000 euros o más.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El mapa fiscal: por qué la misma herencia cuesta 500 euros en Madrid y 50.000 euros en otra comunidad</h3>
+      <p>
+        La cesión del impuesto a las comunidades autónomas ha creado una situación en la que el lugar de residencia del fallecido determina en gran medida la factura fiscal. Las diferencias son enormes y constituyen una de las desigualdades fiscales más relevantes del sistema tributario español. A continuación, una tabla comparativa de las bonificaciones que aplican las principales comunidades autónomas para herencias entre familiares cercanos (Grupos I y II):
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Comunidad Autónoma</th>
+              <th class="px-3 py-2 text-right">Bonificación Grupo I-II</th>
+              <th class="px-3 py-2 text-left">Observaciones</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Madrid</td><td class="px-3 py-1 text-right">99%</td><td class="px-3 py-1">Prácticamente eliminado para familiares directos</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Andalucía</td><td class="px-3 py-1 text-right">99%</td><td class="px-3 py-1">Desde 2019, bonificación casi total</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Canarias</td><td class="px-3 py-1 text-right">99,9%</td><td class="px-3 py-1">La bonificación más alta de España</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">C. Valenciana</td><td class="px-3 py-1 text-right">75%</td><td class="px-3 py-1">Bonificación significativa pero inferior a otras CCAA</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">País Vasco</td><td class="px-3 py-1 text-right">95%</td><td class="px-3 py-1">Régimen foral con normativa propia</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Cataluña</td><td class="px-3 py-1 text-right">Variable</td><td class="px-3 py-1">Grupo I: hasta 99%. Grupo II: aprox. 50% (según tramos)</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Galicia</td><td class="px-3 py-1 text-right">0%</td><td class="px-3 py-1">Sin bonificación general, pero con reducciones propias</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Castilla y León</td><td class="px-3 py-1 text-right">0%</td><td class="px-3 py-1">Sin bonificación general, aplica reducciones ampliadas</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Aragón</td><td class="px-3 py-1 text-right">0%</td><td class="px-3 py-1">Sin bonificación, reducciones por base imponible</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Baleares</td><td class="px-3 py-1 text-right">0%</td><td class="px-3 py-1">Sin bonificación general significativa</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Esta tabla muestra una realidad fiscal que genera un debate permanente en España. Un hijo que hereda 300.000 euros de su padre puede pagar menos de 500 euros en Madrid, unos 3.000 euros en Valencia, alrededor de 8.000 euros en Cataluña y más de 20.000 euros en comunidades sin bonificación. La diferencia es tan grande que históricamente ha motivado cambios de domicilio fiscal, aunque la normativa exige al menos 5 años de residencia continuada en una comunidad autónoma para que sea esta la que aplique su normativa.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Reducciones habituales: vivienda, empresa familiar, discapacidad y seguros de vida</h3>
+      <p>
+        Además de la reducción por parentesco, la normativa estatal contempla varias reducciones específicas que pueden disminuir significativamente la base liquidable del impuesto:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Vivienda habitual del causante:</strong> reducción del 95% del valor de la vivienda, con un límite de 122.606,47 euros por heredero, siempre que el heredero pertenezca a los Grupos I o II (descendientes, cónyuge, ascendientes) y mantenga la adquisición durante al menos 10 años. Esta reducción es una de las más relevantes en la práctica, ya que la vivienda suele ser el activo principal de la herencia. Si la vivienda vale 250.000 euros, la reducción alcanza los 122.606,47 euros (el tope máximo), lo que reduce sustancialmente la base sobre la que se calcula el impuesto.</li>
+        <li><strong>Empresa familiar o participaciones en entidades:</strong> reducción del 95% del valor de la empresa familiar o de las participaciones en entidades, siempre que se cumplan determinados requisitos (que el causante o un familiar ejerciera funciones de dirección y percibiera por ello más del 50% de sus rendimientos de trabajo y actividades económicas, y que la participación supere el 20% individualmente o el 25% en grupo familiar). El heredero debe mantener la titularidad durante 10 años.</li>
+        <li><strong>Discapacidad del heredero:</strong> reducción adicional de 47.858,59 euros para personas con discapacidad igual o superior al 33%, que se eleva a 150.253,03 euros cuando el grado de discapacidad es igual o superior al 65%. Esta reducción se suma a la reducción por parentesco y es compatible con otras reducciones.</li>
+        <li><strong>Seguros de vida:</strong> reducción del 100% del importe percibido por seguros de vida del causante, con un límite de 9.195,49 euros, aplicable a beneficiarios del Grupo I o II. Si el cónyuge cobra un seguro de vida de 30.000 euros vinculado al fallecimiento, los primeros 9.195,49 euros quedan exentos.</li>
+        <li><strong>Cantidades percibidas por beneficiarios de planes de pensiones:</strong> estas cantidades no tributan por el Impuesto de Sucesiones, sino por el IRPF del beneficiario como rendimientos del trabajo, un detalle que muchos desconocen y que conviene tener en cuenta en la planificación fiscal.</li>
+      </ul>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El proceso: plazos, modelo 650 y liquidación</h3>
+      <p>
+        Una vez se produce el fallecimiento, los herederos disponen de 6 meses para liquidar el Impuesto de Sucesiones. Este plazo puede prorrogarse 6 meses más si se solicita la prórroga dentro de los 5 primeros meses desde el fallecimiento. Es importante solicitar la prórroga a tiempo, ya que presentar el impuesto fuera de plazo conlleva recargos (del 5% al 20% según el retraso) e intereses de demora. El proceso general sigue estos pasos:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Obtener el certificado de defunción</strong> en el Registro Civil. Es el primer documento necesario y se puede solicitar presencialmente o a través de la sede electrónica del Ministerio de Justicia.</li>
+        <li><strong>Solicitar el certificado de últimas voluntades</strong> y el certificado de contratos de seguros de cobertura de fallecimiento. Estos documentos se solicitan al Ministerio de Justicia pasados 15 días hábiles desde el fallecimiento. El primero indica si el causante otorgó testamento y ante qué notario; el segundo informa de los seguros de vida contratados.</li>
+        <li><strong>Obtener copia autorizada del testamento</strong> en la notaría correspondiente. Si no hay testamento, será necesario tramitar la declaración de herederos ab intestato ante notario.</li>
+        <li><strong>Inventariar los bienes y deudas del causante:</strong> inmuebles (con su referencia catastral y valor), cuentas bancarias, vehículos, inversiones, joyas, obras de arte, deudas hipotecarias, préstamos personales, gastos de última enfermedad y gastos de sepelio.</li>
+        <li><strong>Cumplimentar y presentar el modelo 650</strong> (autoliquidación del Impuesto de Sucesiones) ante la comunidad autónoma donde residiera habitualmente el fallecido durante los últimos 5 años. Cada heredero presenta su propio modelo 650. Junto con la autoliquidación, se aporta documentación justificativa (escrituras de propiedad, extractos bancarios, certificados de saldo, etc.).</li>
+        <li><strong>Pagar el impuesto resultante.</strong> Si la cuota es elevada y el heredero no dispone de liquidez, puede solicitar el fraccionamiento del pago o incluso el aplazamiento, aportando garantías. También es posible pagar con bienes de la propia herencia en casos de patrimonio inmobiliario sin liquidez.</li>
+        <li><strong>Aceptar la herencia e inscribir los bienes</strong> en el Registro de la Propiedad (en el caso de inmuebles) y cambiar la titularidad de cuentas bancarias y vehículos.</li>
+      </ul>
+      <p>
+        La liquidación complementaria es otro aspecto que conviene conocer. Si la Administración considera que los bienes se han valorado por debajo de su valor real (especialmente los inmuebles), puede girar una comprobación de valores y exigir el pago de la diferencia. Desde 2022, con la entrada en vigor del valor de referencia catastral, las discrepancias en la valoración de inmuebles se han reducido, ya que este valor de referencia se utiliza como base mínima de tributación.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo práctico: Lucía hereda de su madre en Madrid vs Cataluña</h3>
+      <p>
+        Lucía, de 35 años, es hija única. Su madre fallece y le deja un piso valorado en 350.000 euros (que era la vivienda habitual de la madre) y 80.000 euros en cuentas bancarias. El patrimonio total de la herencia es de 430.000 euros. Lucía pertenece al Grupo II (descendiente mayor de 21 años) y su patrimonio preexistente es inferior a 402.678 euros. Veamos cómo varía el impuesto en función de la comunidad autónoma:
+      </p>
+      <p>
+        <strong>Caso 1: la madre residía en Madrid.</strong>
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li>Base imponible: 430.000 euros.</li>
+        <li>Reducción por parentesco (Grupo II): 15.956,87 euros.</li>
+        <li>Reducción por vivienda habitual (95% de 350.000, max 122.606,47): 122.606,47 euros.</li>
+        <li>Total reducciones: 138.563,34 euros.</li>
+        <li>Base liquidable: 430.000 - 138.563,34 = 291.436,66 euros.</li>
+        <li>Cuota íntegra (según escala progresiva): aproximadamente 54.900 euros.</li>
+        <li>Coeficiente multiplicador (Grupo II, patrimonio bajo): 1,0.</li>
+        <li>Cuota ajustada: 54.900 euros.</li>
+        <li>Bonificación autonómica Madrid (99%): -54.351 euros.</li>
+        <li>Total a pagar: aproximadamente <strong>549 euros</strong>.</li>
+      </ul>
+      <p>
+        <strong>Caso 2: la madre residía en Cataluña.</strong>
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li>Base imponible: 430.000 euros.</li>
+        <li>Reducción por parentesco (Grupo II): 15.956,87 euros.</li>
+        <li>Reducción por vivienda habitual: 122.606,47 euros.</li>
+        <li>Total reducciones: 138.563,34 euros.</li>
+        <li>Base liquidable: 291.436,66 euros.</li>
+        <li>Cuota íntegra: aproximadamente 54.900 euros.</li>
+        <li>Coeficiente multiplicador: 1,0.</li>
+        <li>Cuota ajustada: 54.900 euros.</li>
+        <li>Bonificación autonómica Cataluña (aprox. 50% para Grupo II): -27.450 euros.</li>
+        <li>Total a pagar: aproximadamente <strong>27.450 euros</strong>.</li>
+      </ul>
+      <p>
+        La diferencia es abismal: Lucía pagaría unos 549 euros en Madrid y aproximadamente 27.450 euros en Cataluña por la misma herencia. Esta disparidad, multiplicada por miles de casos cada año, explica la intensidad del debate político sobre la armonización del Impuesto de Sucesiones a nivel estatal. En la práctica, Lucía necesitaría disponer de casi 28.000 euros en efectivo para pagar el impuesto en Cataluña antes de poder acceder plenamente a los bienes heredados, lo que en muchos casos obliga a solicitar financiación bancaria o a vender parte de los activos heredados.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Donaciones en vida vs herencia: cuándo conviene donar antes</h3>
+      <p>
+        Una pregunta recurrente en la planificación patrimonial es si resulta más ventajoso donar los bienes en vida o esperar a que se transmitan por herencia. La respuesta depende de múltiples factores: la comunidad autónoma, el valor de los bienes, el parentesco y la naturaleza de los activos (inmuebles, dinero, participaciones empresariales). A continuación, las claves para tomar esta decisión:
+      </p>
+      <p>
+        Las donaciones tributan por el mismo Impuesto sobre Sucesiones y Donaciones, pero con algunas diferencias relevantes. En primer lugar, la donación de inmuebles genera una ganancia patrimonial en el IRPF del donante (la diferencia entre el valor de adquisición y el valor de transmisión), algo que no ocurre en las herencias, donde la ganancia patrimonial queda exenta para el causante. En segundo lugar, las bonificaciones autonómicas para donaciones suelen ser diferentes (y frecuentemente menores) que las de sucesiones. En tercer lugar, el donatario adquiere el bien con el valor fiscal de la donación, no con el valor de adquisición original, lo que puede tener implicaciones si vende el bien posteriormente.
+      </p>
+      <p>
+        <strong>Ejemplo numérico:</strong> Antonio, residente en Madrid, quiere transmitir a su hijo un piso comprado en 1995 por 60.000 euros y que ahora vale 300.000 euros.
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Si dona en vida:</strong> Antonio debe tributar en el IRPF por la ganancia patrimonial (300.000 - 60.000 = 240.000 euros, a un tipo del 26%-28% según tramos, resultan unos 60.000-65.000 euros en IRPF). Además, su hijo pagaría el Impuesto de Donaciones en Madrid (con bonificación del 99% para Grupo II), que sería una cantidad mínima. El coste total supera los 60.000 euros.</li>
+        <li><strong>Si hereda tras el fallecimiento:</strong> no hay tributación en IRPF por la ganancia patrimonial (queda exenta por fallecimiento). El hijo paga el Impuesto de Sucesiones en Madrid con bonificación del 99%. El coste total es inferior a 1.000 euros.</li>
+      </ul>
+      <p>
+        En este caso, donar en vida sería una pésima decisión fiscal, ya que el IRPF del donante por la ganancia patrimonial supone un coste enorme que la herencia evita por completo. Sin embargo, hay situaciones donde la donación puede ser ventajosa: cuando el bien tiene poca ganancia patrimonial acumulada (por ejemplo, dinero en efectivo, donde no hay plusvalía), cuando la comunidad autónoma ofrece bonificaciones similares para donaciones que para sucesiones, o cuando hay razones no fiscales para la transmisión anticipada (necesidad del beneficiario, planificación de la dependencia, evitar conflictos hereditarios).
+      </p>
+      <p>
+        La donación de dinero en efectivo es el caso más favorable: no genera plusvalía en el IRPF del donante (el valor de adquisición y el de transmisión coinciden). Si un padre en Madrid dona 200.000 euros en efectivo a su hijo, el coste fiscal se limita al Impuesto de Donaciones con la bonificación autonómica del 99%, lo que resulta en menos de 500 euros. En este supuesto concreto, la diferencia entre donar y heredar es mínima. Algunas comunidades exigen que la donación de dinero se formalice en escritura pública y que el destino sea la adquisición de vivienda habitual para aplicar las bonificaciones, por lo que conviene consultar la normativa autonómica específica antes de actuar.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">La escala progresiva del impuesto: tramos y tipos</h3>
+      <p>
+        El Impuesto de Sucesiones utiliza una escala progresiva con 16 tramos. Esto significa que no se aplica un tipo único a toda la base liquidable, sino que cada porción de la base tributa al tipo correspondiente a su tramo. Los primeros 7.993,46 euros tributan al 7,65%, los siguientes hasta 15.980,91 euros al 8,50%, y así sucesivamente hasta el último tramo, que grava las cantidades superiores a 797.555,08 euros al 34%. Esta progresividad implica que las herencias pequeñas soportan un tipo medio bajo, mientras que las grandes herencias alcanzan tipos efectivos cercanos al 30-34%.
+      </p>
+      <p>
+        Sobre la cuota resultante de aplicar esta escala se aplica el coeficiente multiplicador, que depende del grupo de parentesco y del patrimonio preexistente del heredero. Para los Grupos I y II con patrimonio preexistente inferior a 402.678,11 euros, el coeficiente es 1,0000 (no modifica la cuota). Para el Grupo III, el coeficiente oscila entre 1,5882 y 2,0000 según el patrimonio. Para el Grupo IV, va de 2,0000 a 2,4000. Este coeficiente puede duplicar o más la cuota del impuesto en herencias entre personas sin parentesco cercano.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Errores comunes al gestionar una herencia</h3>
+      <p>
+        La gestión de una herencia es un proceso que genera frecuentes errores, algunos de ellos con consecuencias económicas significativas. Estos son los más habituales:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>No solicitar la prórroga a tiempo.</strong> Si los herederos necesitan más de 6 meses (algo habitual cuando hay inmuebles que valorar, cuentas en distintas entidades o desacuerdos entre herederos), deben solicitar la prórroga dentro de los 5 primeros meses. Pasado ese plazo, ya no es posible prorrogar y el retraso conlleva recargos.</li>
+        <li><strong>Valorar los inmuebles por debajo del valor de referencia catastral.</strong> Desde 2022, el valor de referencia catastral es la base mínima de tributación para inmuebles. Declarar un valor inferior puede generar una comprobación de valores y una liquidación complementaria con intereses de demora.</li>
+        <li><strong>Olvidar deducir las deudas y cargas del causante.</strong> La hipoteca pendiente, los préstamos personales, los gastos de última enfermedad y los gastos de sepelio son deducibles de la base imponible. No incluirlos supone pagar más impuesto del necesario.</li>
+        <li><strong>Desconocer las reducciones autonómicas.</strong> Cada comunidad tiene reducciones propias que pueden ser mucho más generosas que las estatales. Utilizar solo las reducciones estatales cuando existen reducciones autonómicas superiores es un error que incrementa la factura fiscal innecesariamente.</li>
+        <li><strong>No coordinar la aceptación con la liquidez disponible.</strong> El impuesto debe pagarse antes de poder disponer de los bienes heredados (salvo el dinero en cuentas bancarias, que se puede usar parcialmente para pagar el propio impuesto). Si la herencia se compone mayoritariamente de inmuebles, el heredero puede encontrarse con una factura fiscal de miles de euros sin liquidez para afrontarla.</li>
+      </ul>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fuentes y normativa de referencia</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-1987-28141" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 29/1987, de 18 de diciembre, del Impuesto sobre Sucesiones y Donaciones</a> - Marco normativo estatal que regula el impuesto, los grupos de parentesco, las reducciones y la escala de gravamen.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-1991-30560" class="text-brand hover:underline" target="_blank" rel="noopener">Real Decreto 1629/1991, Reglamento del Impuesto sobre Sucesiones y Donaciones</a> - Desarrollo reglamentario que detalla los procedimientos de liquidación, plazos y documentación requerida.</li>
+        <li><a href="https://www.agenciatributaria.gob.es" class="text-brand hover:underline" target="_blank" rel="noopener">Agencia Estatal de Administración Tributaria (AEAT)</a> - Información general sobre el impuesto y enlaces a las administraciones autonómicas competentes.</li>
+        <li>Normativa autonómica: cada comunidad autónoma publica su normativa específica en materia de sucesiones (reducciones, bonificaciones, tipos). Consulta el portal tributario de tu comunidad para las condiciones vigentes.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

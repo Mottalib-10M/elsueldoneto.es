@@ -1,0 +1,171 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import Autonomos from '../components/calculadoras/Autonomos';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Calculadora Autónomos ${CURRENT_FISCAL_YEAR}: Cuota RETA e IRPF Gratis`;
+const description = `Calcula tu cuota de autónomos y el IRPF como trabajador por cuenta propia en ${CURRENT_FISCAL_YEAR}. Nuevo sistema de cotización por tramos de ingresos reales RETA incluido.`;
+
+const faqs = [
+  {
+    question: '¿Cómo funciona el sistema de cotización por ingresos reales?',
+    answer: `Desde 2023, los autónomos cotizan según sus ingresos netos reales (ingresos menos gastos). El sistema establece tramos de rendimientos con cuotas fijas. En ${CURRENT_FISCAL_YEAR}, las cuotas van desde 200 € hasta 530 € mensuales según el tramo.`,
+  },
+  {
+    question: '¿Qué gastos puedo deducir como autónomo?',
+    answer: 'Puedes deducir todos los gastos necesarios para tu actividad: alquiler del local, suministros, material, seguros, asesoría, formación, cuotas profesionales, vehículo (con limitaciones), y la propia cuota de autónomos.',
+  },
+  {
+    question: '¿Cuánto IRPF paga un autónomo?',
+    answer: 'Los autónomos tributan por el IRPF igual que los asalariados, pero su base imponible es el rendimiento neto (ingresos menos gastos menos cuota de autónomos). Además, deben hacer pagos fraccionados trimestrales (modelo 130).',
+  },
+  {
+    question: '¿Existe la tarifa plana para autónomos en 2026?',
+    answer: 'Sí, los nuevos autónomos pueden acogerse a una cuota reducida de 80 €/mes durante los primeros 12 meses, prorrogable otros 12 meses si los rendimientos netos son inferiores al SMI.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Calculadora para Autónomos ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Calculadora Autónomos"
+  path="/calculadora-autonomos/"
+  faqs={faqs}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <Autonomos client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía fiscal del autónomo en España: cuota, IRPF y cómo optimizar tu carga
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Ser autónomo en España implica una relación directa con la Agencia Tributaria y con la Seguridad Social que los asalariados nunca experimentan. No hay un departamento de nóminas que te calcule las retenciones ni un pagador que ingrese las cotizaciones por ti. El trabajador por cuenta propia es su propio gestor fiscal, y entender cómo funcionan los números es la diferencia entre llevar un negocio rentable y estar trabajando para pagar impuestos.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">La cuota de autónomos y el sistema de tramos por ingresos reales</h3>
+      <p>
+        Desde 2023, la cuota de autónomos se calcula en función de los rendimientos netos reales, es decir, los ingresos menos los gastos deducibles de la actividad. El sistema establece 15 tramos de rendimientos con cuotas que van desde los 200 € mensuales (para rendimientos netos inferiores a 670 € al mes) hasta los 530 € mensuales (para rendimientos superiores a 6.000 € al mes). Esto supuso un cambio radical respecto al antiguo sistema de base de cotización libre, donde cada autónomo elegía cuánto cotizar independientemente de lo que ganara. El nuevo modelo busca que quien más gana más contribuya, pero también significa que los autónomos con buena facturación pagan cuotas significativamente más altas.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El IRPF del autónomo: diferencias con el asalariado</h3>
+      <p>
+        Los autónomos tributan por el IRPF como cualquier contribuyente, pero con algunas diferencias clave. La más importante: la base imponible no es la facturación, sino el rendimiento neto: lo que queda después de restar todos los gastos deducibles necesarios para la actividad y la propia cuota de autónomos. Los gastos aceptados incluyen el alquiler del local o coworking, los suministros (electricidad, Internet), material de oficina, seguros, formación profesional, cuotas colegiales, desplazamientos, y la propia asesoría fiscal. Si trabajas desde casa, puedes deducir un porcentaje de los gastos de la vivienda proporcional a los metros cuadrados destinados a la actividad.
+      </p>
+      <p>
+        La otra diferencia fundamental son los pagos fraccionados trimestrales. Mediante el modelo 130, el autónomo ingresa cada trimestre el 20% de su rendimiento neto acumulado a cuenta del IRPF final. Estos pagos se descuentan al hacer la declaración de la renta anual. Si la declaración sale a devolver, significa que los pagos fraccionados fueron superiores al IRPF real, algo habitual cuando los gastos del último trimestre reducen significativamente el rendimiento neto final.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">La tarifa plana y otras bonificaciones</h3>
+      <p>
+        Los nuevos autónomos que se den de alta por primera vez (o que no hayan estado de alta en los dos años anteriores) pueden acogerse a la tarifa plana: 80 € mensuales durante los primeros 12 meses. Este periodo se puede prorrogar otros 12 meses si los rendimientos netos son inferiores al Salario Mínimo Interprofesional. Tras la tarifa plana, se entra en el sistema de tramos por ingresos reales. Existen bonificaciones adicionales para autónomos con discapacidad, víctimas de violencia de género, y en determinadas situaciones de conciliación familiar.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo: diseñador freelance con 42.000 € de facturación</h3>
+      <p>
+        Laura es diseñadora gráfica freelance en Madrid. Factura 42.000 € brutos al año y tiene 8.000 € de gastos deducibles (coworking, software, equipo, formación). Así queda su desglose:
+      </p>
+      <ol class="list-decimal ml-4 space-y-1">
+        <li><strong>Rendimiento neto:</strong> 42.000 − 8.000 = 34.000 €/año (2.833 €/mes).</li>
+        <li><strong>Cuota autónomos (RETA):</strong> para rendimientos netos de 2.833 €/mes, el tramo de cotización fija una cuota de aproximadamente 390 €/mes → 4.680 €/año.</li>
+        <li><strong>Base imponible IRPF:</strong> 34.000 − 4.680 = 29.320 €.</li>
+        <li><strong>IRPF (estatal + autonómico Madrid):</strong> ~5.500 €/año.</li>
+        <li><strong>Neto anual:</strong> 34.000 − 4.680 − 5.500 = 23.820 € → <strong>1.985 €/mes</strong>.</li>
+        <li><strong>Tipo efectivo total:</strong> (4.680 + 5.500) / 42.000 = 24,2% de la facturación.</li>
+      </ol>
+      <p>
+        Si Laura pudiera deducir más gastos, por ejemplo usando parte de su vivienda como oficina (gastos de suministros prorrateados), su base imponible bajaría y pagaría menos IRPF. De ahí la importancia de llevar un control riguroso de todos los gastos de la actividad.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tramos de cotización RETA por ingresos reales (selección)</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Rendimiento neto mensual</th>
+              <th class="px-3 py-2 text-right">Cuota mensual aprox.</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Hasta 670 €</td><td class="px-3 py-1 text-right">200 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">670 − 1.300 €</td><td class="px-3 py-1 text-right">230 − 267 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">1.300 − 2.030 €</td><td class="px-3 py-1 text-right">290 − 320 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2.030 − 3.620 €</td><td class="px-3 py-1 text-right">350 − 400 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">3.620 − 4.720 €</td><td class="px-3 py-1 text-right">440 − 480 €</td></tr>
+            <tr><td class="px-3 py-1">Más de 6.000 €</td><td class="px-3 py-1 text-right">530 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Gastos deducibles que muchos autónomos olvidan</h3>
+      <p>
+        La diferencia entre un autónomo que paga 6.000 € de IRPF y otro que paga 4.200 € con la misma facturación no suele estar en los ingresos, sino en los gastos que cada uno deduce. Hay tres partidas que se olvidan con frecuencia y que tienen respaldo legal claro:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li>
+          <strong>Suministros del hogar (si trabajas desde casa):</strong> El artículo 30.2.5.ª de la Ley del IRPF (Ley 35/2006) permite deducir el 30% de la parte proporcional de los suministros (electricidad, agua, gas, Internet, teléfono) correspondiente a los metros cuadrados de la vivienda dedicados a la actividad. Si tu piso tiene 80 m² y tu despacho ocupa 12 m² (el 15%), y pagas 150 € al mes en suministros, puedes deducir el 30% de esos 15%, es decir: 150 × 0,15 × 0,30 = 6,75 €/mes, unos 81 € al año. Parece poco, pero sumado a otros gastos olvidados marca la diferencia. Lo importante: debes haber comunicado a la AEAT (modelo 036/037) qué porcentaje de la vivienda destinas a la actividad.
+        </li>
+        <li>
+          <strong>Dietas sin pernocta:</strong> Cuando un autónomo se desplaza por motivos laborales y come fuera sin necesidad de dormir fuera de su municipio, puede deducir hasta 26,67 € diarios en territorio nacional y 48,08 € en el extranjero (art. 9 del Reglamento del IRPF). El requisito fundamental es que el pago se realice con tarjeta o medio electrónico en un establecimiento de hostelería. Para un consultor como Pedro, que viaja a clientes en Madrid tres días por semana, esto supone hasta 26,67 × 3 × 48 semanas = 3.840 € anuales de gasto deducible adicional.
+        </li>
+        <li>
+          <strong>Seguro de salud privado:</strong> Las primas de seguros de salud pagadas por el autónomo para sí mismo, su cónyuge e hijos menores de 25 años que convivan con él son deducibles hasta un máximo de 500 € por persona y año (1.500 € si alguno tiene discapacidad). Para una familia de tres miembros, eso son hasta 1.500 € anuales de gasto deducible que reduce directamente la base imponible del IRPF.
+        </li>
+      </ul>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Alta en el RETA: plazos, modelos y decisiones clave</h3>
+      <p>
+        El proceso de alta como autónomo tiene un plazo legal de 60 días naturales desde el inicio efectivo de la actividad. El primer paso es darse de alta en Hacienda mediante el modelo 036 (declaración censal completa) o el modelo 037 (versión simplificada, válida para la mayoría de autónomos persona física). En este momento se elige el epígrafe del IAE que corresponde a la actividad, se indica si se aplicará estimación directa simplificada o normal, y se comunica la obligación de presentar IVA (modelo 303) y pagos fraccionados de IRPF (modelo 130).
+      </p>
+      <p>
+        Simultáneamente o en un plazo máximo de 60 días, hay que darse de alta en el Régimen Especial de Trabajadores Autónomos (RETA) de la Seguridad Social. Con el nuevo sistema de cotización por ingresos reales, el autónomo debe comunicar una previsión de rendimientos netos para que se le asigne el tramo de cotización correspondiente. Si la previsión es incorrecta, la Seguridad Social regularizará al año siguiente: puedes acabar debiendo una diferencia o recibiendo una devolución. Un caso particular es la <strong>bonificación por pluriactividad</strong>: si el autónomo está también dado de alta como asalariado en el Régimen General (por ejemplo, trabaja por cuenta ajena y tiene un proyecto freelance por las tardes), puede solicitar una reducción de la base de cotización en el RETA, ya que cotiza doblemente. Esta bonificación puede suponer un ahorro de entre 1.500 € y 3.000 € anuales en cuotas, dependiendo de las bases de cotización.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tabla: coste total según nivel de facturación anual</h3>
+      <p>
+        Para visualizar la carga fiscal real del autónomo, esta tabla compara cuatro niveles de facturación asumiendo unos gastos deducibles del 30% de los ingresos brutos (un porcentaje habitual en actividades de servicios profesionales). Se muestra la cuota RETA aproximada, el IRPF estimado y el neto resultante:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Facturación bruta</th>
+              <th class="px-3 py-2 text-right">Gastos (30%)</th>
+              <th class="px-3 py-2 text-right">Rend. neto</th>
+              <th class="px-3 py-2 text-right">Cuota RETA anual</th>
+              <th class="px-3 py-2 text-right">IRPF estimado</th>
+              <th class="px-3 py-2 text-right">Neto disponible</th>
+              <th class="px-3 py-2 text-right">% carga total</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">20.000 €</td><td class="px-3 py-1 text-right">6.000 €</td><td class="px-3 py-1 text-right">14.000 €</td><td class="px-3 py-1 text-right">2.760 €</td><td class="px-3 py-1 text-right">1.380 €</td><td class="px-3 py-1 text-right">9.860 €</td><td class="px-3 py-1 text-right">20,7%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">35.000 €</td><td class="px-3 py-1 text-right">10.500 €</td><td class="px-3 py-1 text-right">24.500 €</td><td class="px-3 py-1 text-right">3.840 €</td><td class="px-3 py-1 text-right">3.680 €</td><td class="px-3 py-1 text-right">16.980 €</td><td class="px-3 py-1 text-right">21,5%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">50.000 €</td><td class="px-3 py-1 text-right">15.000 €</td><td class="px-3 py-1 text-right">35.000 €</td><td class="px-3 py-1 text-right">4.800 €</td><td class="px-3 py-1 text-right">6.250 €</td><td class="px-3 py-1 text-right">23.950 €</td><td class="px-3 py-1 text-right">22,1%</td></tr>
+            <tr><td class="px-3 py-1">80.000 €</td><td class="px-3 py-1 text-right">24.000 €</td><td class="px-3 py-1 text-right">56.000 €</td><td class="px-3 py-1 text-right">6.360 €</td><td class="px-3 py-1 text-right">13.500 €</td><td class="px-3 py-1 text-right">36.140 €</td><td class="px-3 py-1 text-right">24,8%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        El porcentaje de carga total sobre la facturación bruta (cuota RETA + IRPF) oscila entre el 20% y el 25% para estos niveles de ingresos, pero hay que tener en cuenta que el IVA repercutido (21%) no es un coste del autónomo sino un impuesto que actúa como intermediario: lo cobra a sus clientes y lo ingresa trimestralmente mediante el modelo 303. El IVA soportado en sus compras profesionales se resta. No obstante, para autónomos que prestan servicios a particulares (no a empresas), el IVA sí afecta al precio final y a la competitividad, ya que el cliente percibe el precio con IVA incluido.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Autónomo societario: cuándo compensa crear una SL</h3>
+      <p>
+        Cuando la facturación crece, muchos autónomos se plantean constituir una Sociedad Limitada (SL). La diferencia fundamental es fiscal: el autónomo persona física tributa por IRPF a tipos progresivos (hasta el 47% para rentas superiores a 300.000 €), mientras que una SL tributa por el Impuesto sobre Sociedades al tipo general del 25% (o del 23% para empresas con cifra de negocio inferior a un millón de euros). Sin embargo, la SL tiene sus propios costes. El administrador de la sociedad que posee al menos un 25% del capital (o el 33% si ejerce funciones de dirección) debe darse de alta como <strong>autónomo societario</strong>, cuya base mínima de cotización es la del grupo 1 del Régimen General (aproximadamente 1.200 €/mes), lo que se traduce en una cuota mensual de unos 370-400 €, superior a la que pagaría como autónomo persona física en tramos medios.
+      </p>
+      <p>
+        Además, la SL exige llevar contabilidad mercantil completa (Plan General Contable), presentar cuentas anuales en el Registro Mercantil, y los costes de gestoría se multiplican. Como referencia, el coste anual de gestión de una SL (asesoría, Registro Mercantil, libros contables) suele estar entre 2.000 € y 4.000 €, frente a los 800-1.500 € de un autónomo persona física. La regla general que manejan los asesores fiscales es que constituir una SL empieza a compensar cuando el rendimiento neto supera los 45.000-50.000 € anuales, porque a partir de ese nivel el tipo marginal del IRPF (37-45%) supera ampliamente el tipo de Sociedades (23-25%), y la diferencia absorbe los costes adicionales de la estructura societaria. Pero cada caso es particular: factores como la responsabilidad patrimonial limitada, la posibilidad de tener socios, o la imagen ante clientes también influyen en la decisión, más allá del puro ahorro fiscal.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fuentes y normativa</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2022-17556" class="text-brand hover:underline" target="_blank" rel="noopener">Real Decreto-ley 13/2022</a>: Nuevo sistema de cotización para autónomos por ingresos reales. Tablas de tramos y bases de cotización.</li>
+        <li><a href="https://www.seg-social.es/wps/portal/wss/internet/Trabajadores/CotizacionRecaudacionTrabajadores" class="text-brand hover:underline" target="_blank" rel="noopener">Seguridad Social: RETA</a>: Régimen Especial de Trabajadores Autónomos, cuotas vigentes.</li>
+        <li><a href="https://www.agenciatributaria.gob.es" class="text-brand hover:underline" target="_blank" rel="noopener">AEAT: Modelo 130</a>: Pago fraccionado trimestral del IRPF para actividades económicas en estimación directa.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 35/2006, del IRPF</a>: Art. 28-30: determinación del rendimiento neto de actividades económicas.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

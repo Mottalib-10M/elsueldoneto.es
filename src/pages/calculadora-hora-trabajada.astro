@@ -1,0 +1,147 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import HoraTrabajada from '../components/calculadoras/HoraTrabajada';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Calculadora del Precio por Hora Trabajada ${CURRENT_FISCAL_YEAR} España`;
+const description = `Descubre cuánto ganas por hora trabajada en España en ${CURRENT_FISCAL_YEAR}. Convierte tu salario anual o mensual a una tarifa por hora bruta y neta de forma instantánea.`;
+
+const faqs = [
+  {
+    question: '¿Cómo se calcula el precio por hora trabajada?',
+    answer: 'Se divide el salario anual entre las horas efectivamente trabajadas al año. Hay que descontar las semanas de vacaciones y los días festivos de las 52 semanas del año.',
+  },
+  {
+    question: '¿Cuántas horas trabaja un empleado al año en España?',
+    answer: 'Con una jornada de 40 horas semanales, 5 semanas de vacaciones y 14 festivos, un trabajador en España trabaja aproximadamente 1.760 horas al año.',
+  },
+  {
+    question: '¿El salario mínimo por hora es legal en España?',
+    answer: `Con un SMI de 1.221 €/mes en 14 pagas (17.094 €/año) y 1.760 horas laborables, el salario mínimo por hora en ${CURRENT_FISCAL_YEAR} es aproximadamente 9,71 € brutos.`,
+  },
+  {
+    question: '¿Qué diferencia hay entre hora bruta y hora neta?',
+    answer: 'La hora bruta se calcula sobre el salario antes de impuestos. La hora neta descuenta el IRPF y la Seguridad Social, reflejando lo que realmente percibes por cada hora trabajada.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Calculadora de Precio por Hora Trabajada ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Hora Trabajada"
+  path="/calculadora-hora-trabajada/"
+  faqs={faqs}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <HoraTrabajada client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía: cómo calcular el precio real de tu hora de trabajo
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        El salario anual es la métrica estándar en los contratos, pero dice poco sobre el valor real de tu tiempo. Un trabajador que cobra 30.000 € brutos con una jornada de 40 horas semanales no percibe lo mismo por hora que otro con el mismo sueldo pero una jornada de 37,5 horas. El cálculo de la tarifa por hora trabajada pone ambos en la misma escala y permite comparaciones que el salario anual no ofrece.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El cálculo: de 52 semanas a horas efectivas</h3>
+      <p>
+        Un año tiene 52 semanas, pero un trabajador no trabaja las 52. Hay que restar las semanas de vacaciones, cuyo mínimo legal en España son 30 días naturales, equivalentes a unas 4,3 semanas, aunque muchos convenios dan 22-25 días laborables (entre 4,4 y 5 semanas). También se restan los festivos: España tiene 14 días festivos anuales (nacionales, autonómicos y locales), lo que equivale a 2,8 semanas de trabajo a 5 días por semana. Con una jornada estándar de 40 horas, 5 semanas de vacaciones y 14 festivos, las horas efectivas anuales rondan las 1.744. Un salario de 30.000 € brutos entre 1.744 horas da una tarifa bruta de 17,20 €/hora.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">¿Por qué importa conocer tu tarifa horaria?</h3>
+      <p>
+        La tarifa por hora es la única forma de comparar ofertas de trabajo que tienen jornadas diferentes. Un puesto con 35.000 € y 37,5 horas semanales paga más por hora que uno de 38.000 € con 45 horas semanales. También es útil para evaluar las horas extra: en España, las horas extraordinarias deben compensarse con descanso equivalente o con un pago que, en muchos convenios, es un 25% superior a la hora ordinaria. Si no sabes tu tarifa base, no puedes verificar que te paguen correctamente las extras.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">La tarifa neta: lo que realmente te llevas</h3>
+      <p>
+        La tarifa bruta no cuenta toda la historia. Después de impuestos y cotizaciones, un trabajador con 30.000 € brutos en Madrid y 14 pagas se queda con unos 23.400 € netos anuales. Divididos entre las mismas 1.744 horas, la tarifa neta baja a 13,42 €/hora. Esos casi 4 € de diferencia por hora son los que se van a la Seguridad Social y a Hacienda. Para trabajadores con salarios más altos, la brecha entre tarifa bruta y neta se amplía por la progresividad del IRPF: a 60.000 € brutos, la diferencia por hora puede superar los 8 €.
+      </p>
+      <p>
+        Para los freelance y autónomos que cobran por horas, este cálculo funciona a la inversa: si necesitas cobrar el equivalente a un salario neto de 2.000 €/mes, tu tarifa por hora debe cubrir no solo ese neto, sino también la cuota de autónomos, el IRPF, las vacaciones que tú mismo financias, los días de enfermedad sin cobertura completa, y los periodos sin facturación entre proyectos.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo: 35.000 € brutos, jornada de 38,5 horas</h3>
+      <p>
+        Marcos trabaja en una consultora en Barcelona con 35.000 € brutos anuales, jornada de 38,5 horas semanales, 23 días de vacaciones y 14 festivos:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li>Semanas laborables: 52 − 4,6 (vacaciones) = 47,4 semanas.</li>
+        <li>Horas por festivos: 14 × 7,7 h/día = 107,8 horas.</li>
+        <li>Horas efectivas anuales: 47,4 × 38,5 − 107,8 = <strong>1.717 horas</strong>.</li>
+        <li>Tarifa bruta por hora: 35.000 / 1.717 = <strong>20,38 €/hora</strong>.</li>
+        <li>Neto anual aproximado (Cataluña, soltero): ~26.200 €.</li>
+        <li>Tarifa neta por hora: 26.200 / 1.717 = <strong>15,26 €/hora</strong>.</li>
+      </ul>
+      <p>
+        Si Marcos compara con una oferta de 40.000 € pero con jornada de 45 horas semanales, la tarifa bruta sería 40.000 / 1.967 = 20,34 €/hora, prácticamente igual. El salario más alto no se traduce en mejor valor por hora cuando la jornada es más larga.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">La jornada laboral en España: marco legal y reforma</h3>
+      <p>
+        El artículo 34 del Estatuto de los Trabajadores establece que la jornada máxima ordinaria es de 40 horas semanales de trabajo efectivo de promedio en cómputo anual. Esto significa que la empresa puede distribuir las horas de forma irregular a lo largo del año (por ejemplo, 42 horas en temporada alta y 38 en temporada baja), siempre que la media anual no supere las 40 horas. Esta flexibilidad es habitual en sectores como hostelería, comercio y agricultura, donde la carga de trabajo fluctúa con las estaciones.
+      </p>
+      <p>
+        Además, el artículo 34.2 permite que, mediante convenio colectivo o acuerdo con los representantes de los trabajadores, la empresa distribuya de manera irregular hasta un 10% de la jornada anual. En una jornada de 1.826 horas anuales (40 h × 45,65 semanas efectivas), eso supone 182 horas que la empresa puede mover de unos meses a otros sin necesidad de pacto individual. Eso sí, el trabajador debe conocer con al menos 5 días de antelación el día y la hora de la prestación de trabajo resultante de esa distribución irregular.
+      </p>
+      <p>
+        La reforma de la jornada laboral a 37,5 horas semanales ha sido uno de los debates laborales más relevantes en España durante los últimos años. La reducción legal de jornada sin reducción salarial supondría que un trabajador a tiempo completo pasaría de unas 1.760 horas anuales efectivas a unas 1.653 horas. Para un salario de 30.000 € brutos, la tarifa bruta por hora subiría de 17,05 €/hora a 18,15 €/hora, un incremento real del 6,5% en el valor de cada hora trabajada, sin que la nómina varíe. Ese salto es particularmente significativo para los trabajadores con salarios más bajos: con el SMI y una jornada de 37,5 horas, la tarifa bruta por hora pasaría de 9,71 € a 10,34 €.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Horas extraordinarias: límites, compensación y registro</h3>
+      <p>
+        El artículo 35 del Estatuto de los Trabajadores fija un límite de 80 horas extraordinarias al año por trabajador. Este tope es imperativo: no puede superarse por convenio colectivo ni por acuerdo individual. Las horas que excedan la jornada pactada pero se realicen dentro de la distribución irregular del artículo 34.2 no computan como horas extra, lo que en la práctica genera zonas grises que conviene vigilar.
+      </p>
+      <p>
+        La compensación mínima por hora extraordinaria es la misma que por hora ordinaria. Dicho de otro modo, el Estatuto no obliga a pagar un plus por las horas extra, aunque sí lo hacen la mayoría de los convenios colectivos, que suelen fijar un recargo del 25% al 75% sobre la hora ordinaria. Lo que sí permite la ley es sustituir la retribución económica por tiempo de descanso compensatorio dentro de los 4 meses siguientes. Muchas empresas prefieren esta opción porque no incrementa los costes salariales. Raúl, programador en una empresa de Madrid con 40.000 € brutos y jornada de 40 horas, tiene una tarifa bruta ordinaria de 22,73 €/hora. Su convenio fija las extras con un recargo del 50%, así que cada hora extra le sale a 34,10 € brutos. Si hace 80 horas extra al año (el máximo legal), cobra 2.728 € brutos adicionales.
+      </p>
+      <p>
+        Desde la entrada en vigor del Real Decreto-ley 8/2019, de 8 de marzo, todas las empresas están obligadas a llevar un registro diario de la jornada de cada trabajador, incluyendo la hora de inicio y finalización. Este registro debe conservarse durante 4 años y estar a disposición de los trabajadores, sus representantes legales y la Inspección de Trabajo. La ausencia de registro o su manipulación puede acarrear sanciones para la empresa de entre 751 € y 7.500 € según la gravedad. Para el trabajador, el registro de jornada es una herramienta fundamental para acreditar horas extra no retribuidas: si tu fichaje dice que has trabajado 9,5 horas y tu contrato establece 8, tienes un documento oficial que respalda tu reclamación.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tabla comparativa: tarifa por hora según salario y jornada</h3>
+      <p>
+        Esta tabla muestra la tarifa bruta por hora trabajada para cuatro niveles salariales, comparando la jornada actual de 40 horas semanales con la propuesta de 37,5 horas. El cálculo asume 5 semanas de vacaciones y 14 festivos anuales:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Salario bruto anual</th>
+              <th class="px-3 py-2 text-right">€/hora (40 h/semana)</th>
+              <th class="px-3 py-2 text-right">€/hora (37,5 h/semana)</th>
+              <th class="px-3 py-2 text-right">Diferencia</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">20.000 €</td><td class="px-3 py-1 text-right">11,36 €</td><td class="px-3 py-1 text-right">12,10 €</td><td class="px-3 py-1 text-right text-emerald-600 dark:text-emerald-400">+0,74 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">30.000 €</td><td class="px-3 py-1 text-right">17,05 €</td><td class="px-3 py-1 text-right">18,15 €</td><td class="px-3 py-1 text-right text-emerald-600 dark:text-emerald-400">+1,10 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">40.000 €</td><td class="px-3 py-1 text-right">22,73 €</td><td class="px-3 py-1 text-right">24,20 €</td><td class="px-3 py-1 text-right text-emerald-600 dark:text-emerald-400">+1,47 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">50.000 €</td><td class="px-3 py-1 text-right">28,41 €</td><td class="px-3 py-1 text-right">30,25 €</td><td class="px-3 py-1 text-right text-emerald-600 dark:text-emerald-400">+1,84 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Las horas efectivas anuales utilizadas son 1.760 para la jornada de 40 horas y 1.653 para la de 37,5 horas. La reducción de jornada supone un incremento del valor hora del 6,5% en todos los tramos, lo que equivale a una subida salarial encubierta sin coste para la nómina del trabajador. Para alguien con 20.000 € brutos, cada hora de trabajo pasa a valer 74 céntimos más; para alguien con 50.000 €, la diferencia es de 1,84 € por hora.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Coste hora para la empresa vs tarifa hora del trabajador</h3>
+      <p>
+        Cuando un trabajador calcula su tarifa por hora, obtiene lo que él percibe. Pero la empresa paga bastante más por cada hora de trabajo, porque sobre el salario bruto se aplican las cotizaciones empresariales a la Seguridad Social, que suponen aproximadamente un 30% adicional del salario bruto. Este porcentaje incluye la contingencia por enfermedad común (23,60%), desempleo (5,50% para contratos indefinidos o 6,70% para temporales), FOGASA (0,20%) y formación profesional (0,60%).
+      </p>
+      <p>
+        Veamos el caso de Ana, diseñadora gráfica en Bilbao con 35.000 € brutos anuales y jornada de 40 horas semanales. Su tarifa bruta por hora es de 19,89 € (35.000 / 1.760 horas). Pero la empresa, además del salario, abona a la Seguridad Social un 30,4% adicional: 35.000 × 0,304 = 10.640 € anuales. El coste total para la empresa es de 45.640 €, lo que arroja un coste empresa por hora de 25,93 €. La diferencia entre lo que Ana percibe por hora (19,89 € brutos, unos 15 € netos) y lo que la empresa paga por esa misma hora (25,93 €) es de 10,93 €, más de un 70% de recargo sobre el neto del trabajador.
+      </p>
+      <p>
+        Esta diferencia es clave para los autónomos que fijan tarifas por hora. Si un freelance quiere equiparar sus ingresos netos a los de un asalariado con 35.000 € brutos, no puede cobrar 20 €/hora: necesita cubrir la cuota de autónomos (unos 300-400 €/mes en los primeros años con tarifa reducida, y entre 200 y 590 € según tramos con el nuevo sistema de cotización por ingresos reales), las vacaciones que él mismo financia (no cobra por los días que no trabaja), los periodos de baja por enfermedad donde la prestación es inferior al 100%, y una provisión para meses sin clientes. Un cálculo realista sitúa la tarifa mínima del freelance equivalente en torno a los 30-35 €/hora para igualar los 15 € netos por hora del asalariado. Ignorar este cálculo es uno de los errores más frecuentes entre los nuevos autónomos en España.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fuentes</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430" class="text-brand hover:underline" target="_blank" rel="noopener">Estatuto de los Trabajadores</a> - Art. 34 (jornada máxima de 40 h/semana de media anual), art. 38 (vacaciones mínimas de 30 días naturales).</li>
+        <li><a href="https://www.boe.es/buscar/doc.php?id=BOE-A-2024-22126" class="text-brand hover:underline" target="_blank" rel="noopener">BOE - Calendario de festivos nacionales</a> - 14 festivos anuales (8 nacionales + 2 autonómicos + 2 locales + 2 adicionales).</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

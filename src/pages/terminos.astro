@@ -1,0 +1,79 @@
+---
+import Layout from '../components/layout/Layout.astro';
+import { SITE_NAME, SITE_URL, CURRENT_FISCAL_YEAR } from '../config';
+import { buildBreadcrumbSchema } from '../lib/seo';
+
+const title = 'Términos de Uso: Condiciones del Servicio y Calculadoras';
+const description = 'Lee los términos y condiciones de uso de nuestras calculadoras de sueldo neto e IRPF en España. Naturaleza del servicio, uso permitido y responsabilidad legal.';
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Inicio', url: '/' },
+    { name: 'Términos de Uso', url: '/terminos' },
+  ]),
+];
+---
+
+<Layout title={title} description={description} schema={schemas}>
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/" class="hover:text-brand">Inicio</a> / <span class="text-charcoal dark:text-gray-200">Términos de Uso</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal dark:text-gray-100">Términos de Uso</h1>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Aceptación de los términos</h2>
+        <p>
+          Al acceder y utilizar {SITE_URL}, aceptas estos términos de uso en su totalidad. Si no estás de acuerdo, no debes utilizar este sitio web.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Naturaleza del servicio</h2>
+        <p>
+          {SITE_NAME} proporciona calculadoras y herramientas de estimación fiscal y financiera con carácter informativo y orientativo. Los resultados:
+        </p>
+        <ul>
+          <li>Son aproximaciones basadas en la normativa fiscal vigente</li>
+          <li><strong>No constituyen asesoramiento fiscal, financiero ni legal</strong></li>
+          <li>Pueden diferir de los importes oficiales calculados por la AEAT</li>
+          <li>No tienen en cuenta todas las circunstancias particulares de cada contribuyente</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Uso permitido</h2>
+        <p>Puedes utilizar este sitio web para:</p>
+        <ul>
+          <li>Consultar estimaciones de sueldo neto, IRPF y otras herramientas disponibles</li>
+          <li>Compartir enlaces a las calculadoras y resultados</li>
+          <li>Uso personal y profesional no comercial</li>
+        </ul>
+        <p>No está permitido:</p>
+        <ul>
+          <li>Reproducir, copiar o redistribuir el contenido con fines comerciales sin autorización</li>
+          <li>Realizar scraping, crawling automatizado masivo o ataques al servidor</li>
+          <li>Utilizar el sitio para fines ilegales o contrarios a la buena fe</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Limitación de responsabilidad</h2>
+        <p>
+          {SITE_NAME} no se responsabiliza de las decisiones que los usuarios tomen basándose en los resultados de las calculadoras. Para decisiones financieras o fiscales importantes, consulta siempre con un asesor fiscal o financiero cualificado.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Modificaciones</h2>
+        <p>
+          Nos reservamos el derecho de modificar estos términos en cualquier momento. Las modificaciones serán efectivas desde su publicación en esta página.
+        </p>
+      </section>
+
+      <p class="text-xs text-medium-gray">Última actualización: enero {CURRENT_FISCAL_YEAR}.</p>
+    </div>
+  </div>
+</Layout>

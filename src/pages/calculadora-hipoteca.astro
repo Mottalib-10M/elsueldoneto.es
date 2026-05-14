@@ -1,0 +1,247 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import Hipoteca from '../components/calculadoras/Hipoteca';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Calculadora de Hipoteca: Cuota Mensual y Gastos ${CURRENT_FISCAL_YEAR}`;
+const description = `Calcula la cuota mensual de tu hipoteca, el total de intereses y todos los gastos de compra. Simulador hipotecario online gratuito y actualizado para ${CURRENT_FISCAL_YEAR}.`;
+
+const faqs = [
+  {
+    question: '¿Cuánto dinero necesito ahorrar para comprar una casa?',
+    answer: 'Como mínimo, necesitas el 20% del precio de la vivienda (ya que los bancos financian hasta el 80%) más los gastos de compra, que oscilan entre el 10% y el 13% del precio según la comunidad autónoma. En total, conviene tener ahorrado entre el 30% y el 33% del precio del inmueble.',
+  },
+  {
+    question: '¿Qué diferencia hay entre hipoteca fija y variable?',
+    answer: 'En una hipoteca a tipo fijo la cuota no cambia durante toda la vida del préstamo. En una hipoteca variable, la cuota se revisa periódicamente (cada 6 o 12 meses) en función del Euríbor. La hipoteca fija ofrece estabilidad y previsibilidad, mientras que la variable puede resultar más barata si el Euríbor baja, pero más cara si sube.',
+  },
+  {
+    question: '¿Qué es el Euríbor y cómo afecta a mi hipoteca?',
+    answer: 'El Euríbor (Euro Interbank Offered Rate) es el tipo de interés al que los bancos europeos se prestan dinero entre sí. Es el índice de referencia más utilizado para las hipotecas variables en España. Cuando el Euríbor sube, la cuota de tu hipoteca variable también sube en la siguiente revisión, y viceversa.',
+  },
+  {
+    question: '¿Puedo amortizar mi hipoteca anticipadamente?',
+    answer: 'Sí. La Ley 5/2019 de contratos de crédito inmobiliario regula la amortización anticipada. Para hipotecas a tipo variable, la comisión máxima es del 0,25% del capital amortizado (durante los primeros 3 años) o del 0,15% (entre el año 3 y el 5). Para hipotecas a tipo fijo, la comisión máxima es del 2% durante los primeros 10 años y del 1,5% a partir del décimo año.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1="Calculadora de Hipoteca"
+  calculatorName="Calculadora Hipoteca"
+  path="/calculadora-hipoteca/"
+  faqs={faqs}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <Hipoteca client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía completa sobre hipotecas en España: todo lo que necesitas saber antes de firmar
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Comprar una vivienda es, para la mayoría de personas, la decisión financiera más importante de su vida. En España, más del 60% de las compras de vivienda se financian con una hipoteca, un préstamo a largo plazo garantizado por el propio inmueble. Entender cómo funciona una hipoteca, qué tipos existen, qué gastos implica y cómo se calcula la cuota mensual es fundamental para tomar una decisión informada y evitar sorpresas desagradables. En esta guía explicamos de forma clara y detallada todo lo que necesitas saber sobre las hipotecas en el mercado español.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Qué es una hipoteca y cómo funciona en España</h3>
+      <p>
+        Una hipoteca es un préstamo que concede una entidad financiera para la compra de un inmueble, utilizando ese mismo inmueble como garantía. Si el prestatario deja de pagar las cuotas, el banco puede ejecutar la hipoteca y quedarse con la vivienda para recuperar el capital prestado. Este mecanismo de garantía real es lo que permite que los tipos de interés hipotecarios sean significativamente más bajos que los de los préstamos personales: el riesgo para el banco es menor porque, en caso de impago, tiene un activo real que respalda la operación.
+      </p>
+      <p>
+        El funcionamiento básico es sencillo. El banco presta una cantidad de dinero (el capital hipotecario) que el comprador devuelve en cuotas mensuales durante un plazo determinado (habitualmente entre 15 y 30 años). Cada cuota incluye una parte de capital (que reduce la deuda) y otra parte de intereses (que es el coste del préstamo). En España, la inmensa mayoría de hipotecas utilizan el sistema francés de amortización, que se caracteriza por cuotas constantes. Dentro de esa cuota fija, al principio la proporción de intereses es muy alta y la de capital muy baja. Conforme avanza el préstamo, la proporción se invierte progresivamente.
+      </p>
+      <p>
+        Para calcular la cuota mensual de una hipoteca con el sistema francés se utiliza la fórmula: M = C x r(1+r)^n / ((1+r)^n - 1), donde C es el capital prestado, r es el tipo de interés mensual (tipo anual dividido entre 12) y n es el número total de cuotas (plazo en años multiplicado por 12). Esta calculadora aplica esta fórmula automáticamente para que puedas simular distintos escenarios.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tipos de hipoteca: fija, variable y mixta</h3>
+      <p>
+        En el mercado hipotecario español existen tres grandes modalidades, cada una con sus ventajas e inconvenientes.
+      </p>
+      <p>
+        La <strong>hipoteca a tipo fijo</strong> mantiene el mismo tipo de interés durante toda la vida del préstamo. La cuota mensual no varía nunca, independientemente de lo que haga el Euríbor o los tipos de interés del Banco Central Europeo. En el mercado español de 2024 y 2025, los tipos fijos se sitúan entre el 2,5% y el 3,5% TAE para los perfiles con mejor solvencia, aunque pueden superar el 4% para plazos muy largos o perfiles de mayor riesgo. La principal ventaja es la tranquilidad: sabes exactamente cuánto vas a pagar cada mes durante 20 o 30 años. El inconveniente es que, si los tipos de interés bajan significativamente, seguirás pagando el tipo fijo pactado.
+      </p>
+      <p>
+        La <strong>hipoteca a tipo variable</strong> se referencia a un índice, que en España es casi siempre el Euríbor a 12 meses, más un diferencial fijo que pactas con el banco. Por ejemplo, "Euríbor + 0,80%". La cuota se revisa periódicamente, normalmente cada 6 o 12 meses, en función de la evolución del Euríbor. Si el Euríbor sube, tu cuota sube. Si baja, tu cuota baja. Históricamente, las hipotecas variables han resultado más baratas que las fijas en periodos largos, pero generan incertidumbre. Quien firmó una hipoteca variable al Euríbor + 0,50% en 2020, cuando el Euríbor estaba en negativo, vio cómo su cuota se disparaba en 2022 y 2023 al subir el Euríbor por encima del 4%.
+      </p>
+      <p>
+        La <strong>hipoteca mixta</strong> combina ambos sistemas. Durante un periodo inicial (habitualmente entre 3 y 10 años), el tipo es fijo. A partir de ahí, pasa a variable referenciado al Euríbor más un diferencial. Es una solución intermedia que ofrece estabilidad durante los primeros años (cuando la cuota pesa más en el presupuesto familiar) y luego se beneficia de posibles bajadas del Euríbor. En el mercado actual, las hipotecas mixtas suelen ofrecer un tipo fijo inicial entre el 2% y el 2,8% durante los primeros 3 a 5 años, y luego Euríbor + 0,60% a 1,00%.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">La regla del 80/20: cuánto financia el banco</h3>
+      <p>
+        Los bancos españoles no financian el 100% del precio de compra. La norma general es que financian un máximo del 80% del valor de tasación del inmueble (que puede coincidir o no con el precio de compra). Esto significa que el comprador debe aportar, como mínimo, el 20% restante de su bolsillo. A esta cantidad hay que sumarle los gastos de compraventa, que se estiman entre el 10% y el 13% del precio según la comunidad autónoma.
+      </p>
+      <p>
+        En la práctica, para comprar una vivienda de 250.000 euros necesitas tener ahorrados, como mínimo, unos 75.000 a 82.000 euros: 50.000 euros de entrada (20% del precio) y entre 25.000 y 32.000 euros para cubrir los gastos. Este es uno de los mayores obstáculos para los compradores jóvenes en España, donde el precio de la vivienda ha subido significativamente en los últimos años mientras los salarios se han mantenido relativamente estables.
+      </p>
+      <p>
+        Existen excepciones. Algunas entidades ofrecen hipotecas que financian hasta el 90% o incluso el 100% del valor de tasación, pero suelen exigir condiciones más estrictas: avales adicionales (normalmente de los padres del comprador), tipos de interés más altos, o que se trate de inmuebles propiedad del propio banco. La financiación de más del 80% también conlleva un mayor coste total porque se pagan intereses sobre una cantidad superior y, en muchos casos, el banco exige un seguro de impago hipotecario que encarece la operación.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Gastos de compra de vivienda en España</h3>
+      <p>
+        Además del precio de la vivienda y la entrada, la compra genera una serie de gastos que el comprador debe asumir. Estos gastos varían según se trate de vivienda nueva (primera transmisión) o de segunda mano, y según la comunidad autónoma.
+      </p>
+      <p>
+        Para <strong>vivienda de segunda mano</strong>, el impuesto principal es el ITP (Impuesto de Transmisiones Patrimoniales), cuyo tipo varía por comunidades autónomas:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Comunidad Autónoma</th>
+              <th class="px-3 py-2 text-right">Tipo general ITP</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Andalucía</td><td class="px-3 py-1 text-right">7%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Aragón</td><td class="px-3 py-1 text-right">8%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Asturias</td><td class="px-3 py-1 text-right">8%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Baleares</td><td class="px-3 py-1 text-right">8%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Canarias</td><td class="px-3 py-1 text-right">6,5%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Cantabria</td><td class="px-3 py-1 text-right">10%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Castilla-La Mancha</td><td class="px-3 py-1 text-right">9%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Castilla y León</td><td class="px-3 py-1 text-right">8%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Cataluña</td><td class="px-3 py-1 text-right">10%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Comunidad de Madrid</td><td class="px-3 py-1 text-right">6%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Comunidad Valenciana</td><td class="px-3 py-1 text-right">10%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Extremadura</td><td class="px-3 py-1 text-right">8%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Galicia</td><td class="px-3 py-1 text-right">9%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">La Rioja</td><td class="px-3 py-1 text-right">7%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Murcia</td><td class="px-3 py-1 text-right">8%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Navarra</td><td class="px-3 py-1 text-right">6%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">País Vasco</td><td class="px-3 py-1 text-right">4%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Muchas comunidades ofrecen tipos reducidos para jóvenes menores de 35 años, familias numerosas o viviendas de bajo valor. Por ejemplo, Madrid aplica un 6% general, pero reduce al 4% para menores de 35 años que compren su vivienda habitual.
+      </p>
+      <p>
+        Para <strong>vivienda de obra nueva</strong> (primera transmisión del promotor), no se paga ITP sino IVA al 10% sobre el precio de compra, más el AJD (Actos Jurídicos Documentados), cuyo tipo varía entre el 0,5% y el 1,5% según la comunidad autónoma.
+      </p>
+      <p>
+        A los impuestos se suman otros gastos comunes a ambos tipos de compra:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Notaría:</strong> los honorarios notariales están regulados por arancel y dependen del precio de la escritura. Para una compraventa de 200.000 a 300.000 euros, el coste suele situarse entre 600 y 1.000 euros.</li>
+        <li><strong>Registro de la Propiedad:</strong> la inscripción en el registro también tiene aranceles regulados. El coste habitual oscila entre 300 y 600 euros.</li>
+        <li><strong>Gestoría:</strong> aunque no es obligatoria, la mayoría de compradores contratan una gestoría para tramitar la liquidación de impuestos y la inscripción en el registro. El coste ronda los 300 a 500 euros.</li>
+        <li><strong>Tasación:</strong> el banco exige una tasación oficial del inmueble realizada por una sociedad homologada. El coste suele ser de 250 a 500 euros, dependiendo del tipo y ubicación de la vivienda.</li>
+      </ul>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo comparativo: hipoteca de 200.000 euros a 25 años</h3>
+      <p>
+        La siguiente tabla muestra cómo varía la cuota mensual, el total de intereses y el total pagado para una hipoteca de 200.000 euros a 25 años según el tipo de interés aplicado:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Tipo de interés</th>
+              <th class="px-3 py-2 text-right">Cuota mensual</th>
+              <th class="px-3 py-2 text-right">Total intereses</th>
+              <th class="px-3 py-2 text-right">Total pagado</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2,00%</td><td class="px-3 py-1 text-right">847,73 €</td><td class="px-3 py-1 text-right">54.318,52 €</td><td class="px-3 py-1 text-right">254.318,52 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">3,00%</td><td class="px-3 py-1 text-right">948,42 €</td><td class="px-3 py-1 text-right">84.525,86 €</td><td class="px-3 py-1 text-right">284.525,86 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">4,00%</td><td class="px-3 py-1 text-right">1.055,68 €</td><td class="px-3 py-1 text-right">116.702,10 €</td><td class="px-3 py-1 text-right">316.702,10 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">5,00%</td><td class="px-3 py-1 text-right">1.169,18 €</td><td class="px-3 py-1 text-right">150.754,49 €</td><td class="px-3 py-1 text-right">350.754,49 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        La diferencia es enorme. Entre un 2% y un 5%, la cuota mensual aumenta un 38% (de 847 a 1.169 euros), pero el total de intereses casi se triplica (de 54.318 a 150.754 euros). Cada punto porcentual adicional de interés supone, en una hipoteca de 200.000 euros a 25 años, entre 30.000 y 35.000 euros más en intereses totales. Por eso es tan importante negociar el tipo de interés y comparar ofertas de distintas entidades antes de firmar.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Amortización anticipada: total y parcial</h3>
+      <p>
+        Cualquier titular de una hipoteca en España tiene derecho a amortizar anticipadamente, ya sea de forma total (cancelando toda la deuda) o parcial (adelantando una cantidad que reduce el capital pendiente). Al amortizar parcialmente, el banco ofrece dos opciones: reducir la cuota mensual manteniendo el plazo, o reducir el plazo manteniendo la cuota. Desde el punto de vista financiero, reducir plazo es casi siempre más ventajoso porque se pagan menos intereses totales. Sin embargo, reducir cuota puede ser preferible para quien necesita aliviar su presupuesto mensual.
+      </p>
+      <p>
+        La <strong>Ley 5/2019 de contratos de crédito inmobiliario</strong> regula las comisiones máximas que el banco puede cobrar por amortización anticipada. Para hipotecas a tipo variable, la comisión máxima es del 0,25% del capital amortizado si se amortiza durante los primeros 3 años, y del 0,15% si se amortiza entre el tercer y el quinto año. A partir del quinto año, la entidad no puede cobrar comisión alguna. Para hipotecas a tipo fijo, la comisión máxima es del 2% durante los primeros 10 años, y del 1,5% a partir del año 10. En cualquier caso, el importe de la comisión no puede superar la pérdida financiera que sufre la entidad por la amortización anticipada.
+      </p>
+      <p>
+        Un ejemplo práctico: si tienes una hipoteca variable y amortizas 20.000 euros en el segundo año, la comisión máxima será de 50 euros (0,25% de 20.000). Si tienes una hipoteca fija y amortizas 20.000 euros en el quinto año, la comisión máxima será de 400 euros (2% de 20.000). Conviene revisar tu escritura de préstamo hipotecario para comprobar las condiciones exactas, ya que muchas hipotecas firmadas antes de 2019 pueden tener cláusulas de amortización diferentes (aunque siempre dentro de los límites legales vigentes en el momento de la firma).
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El Euríbor: qué es y cómo afecta a las hipotecas variables</h3>
+      <p>
+        El Euríbor (Euro Interbank Offered Rate) es el tipo de interés al que los grandes bancos de la zona euro se prestan dinero entre sí a un plazo determinado. El más utilizado como referencia hipotecaria es el Euríbor a 12 meses. Cada día hábil se publica un valor del Euríbor, y al final de cada mes se calcula la media mensual. Esa media mensual es la que se utiliza para actualizar las hipotecas variables en la fecha de revisión.
+      </p>
+      <p>
+        El Euríbor depende fundamentalmente de la política monetaria del Banco Central Europeo (BCE). Cuando el BCE sube los tipos de interés oficiales para controlar la inflación, el Euríbor sube. Cuando los baja para estimular la economía, el Euríbor baja. Su evolución reciente ha sido muy volátil:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>2016-2021:</strong> el Euríbor se mantuvo en terreno negativo (entre -0,50% y -0,01%), resultado de la política de tipos cero del BCE. Quien firmó una hipoteca variable durante este periodo disfrutó de cuotas históricamente bajas.</li>
+        <li><strong>2022:</strong> el BCE inició una subida agresiva de tipos para combatir la inflación. El Euríbor pasó de -0,48% en enero a +3,02% en diciembre, su mayor subida anual en la historia.</li>
+        <li><strong>2023:</strong> el Euríbor alcanzó su pico en torno al 4,16% en octubre de 2023, provocando subidas de cuota de 200 a 400 euros mensuales para muchas familias.</li>
+        <li><strong>2024-2025:</strong> con la inflación en descenso, el BCE comenzó a recortar tipos y el Euríbor inició una bajada gradual, situándose entre el 2% y el 2,5% a finales de 2024 y principios de 2025.</li>
+      </ul>
+      <p>
+        Para una hipoteca de 200.000 euros a 25 años referenciada al Euríbor + 0,80%, la diferencia entre un Euríbor del 0% y un Euríbor del 4% es de unos 430 euros mensuales de cuota. Esta volatilidad es el principal riesgo de las hipotecas variables y el motivo por el que muchos compradores optan por el tipo fijo, aun sabiendo que puede resultar algo más caro a largo plazo.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo concreto: Pablo y Elena compran un piso en Valencia</h3>
+      <p>
+        Pablo y Elena quieren comprar un piso de segunda mano en Valencia por 280.000 euros. Han conseguido ahorrar 70.000 euros entre los dos. Veamos su situación financiera paso a paso.
+      </p>
+      <p>
+        <strong>Capital hipotecario:</strong> 280.000 - 70.000 = 210.000 euros. Esto supone financiar el 75% del precio, dentro del límite del 80% que aplican los bancos, por lo que no deberían tener problemas para obtener la hipoteca si su solvencia es adecuada.
+      </p>
+      <p>
+        <strong>Gastos de compra en la Comunidad Valenciana:</strong>
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li>ITP al 10%: 280.000 x 10% = 28.000 euros</li>
+        <li>Notaría: aproximadamente 900 euros</li>
+        <li>Registro de la Propiedad: aproximadamente 450 euros</li>
+        <li>Gestoría: aproximadamente 400 euros</li>
+        <li>Tasación: aproximadamente 350 euros</li>
+        <li><strong>Total gastos: 30.100 euros</strong></li>
+      </ul>
+      <p>
+        <strong>Ahorro necesario total:</strong> 70.000 (entrada) + 30.100 (gastos) = 100.100 euros. Pablo y Elena tienen 70.000 euros, por lo que les faltan unos 30.100 euros para cubrir los gastos. Tienen varias opciones: seguir ahorrando unos meses más, pedir ayuda familiar para los gastos, o buscar una hipoteca que financie un porcentaje mayor. Si alguno de ellos es menor de 35 años, podrían beneficiarse de un tipo reducido de ITP en la Comunidad Valenciana (8% en lugar de 10% para jóvenes, lo que ahorraría 5.600 euros en impuestos).
+      </p>
+      <p>
+        <strong>Hipoteca:</strong> contratan una hipoteca fija de 210.000 euros a 30 años al 2,90%. La cuota mensual resultante es de 874,78 euros. El total de intereses a lo largo de 30 años asciende a 104.920,26 euros, y el total pagado será de 314.920,26 euros. Si optan por reducir el plazo a 25 años, la cuota sube a 985,32 euros, pero los intereses bajan a 85.595,42 euros, un ahorro de casi 19.325 euros. Pablo cobra 2.200 euros netos y Elena 1.800 euros netos. La cuota de 985 euros supone el 24,6% de sus ingresos conjuntos (4.000 euros), dentro del 35% que recomiendan los expertos como máximo. Podrían permitirse el plazo de 25 años sin comprometer excesivamente su presupuesto.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Consejos prácticos antes de contratar una hipoteca</h3>
+      <p>
+        Antes de firmar una hipoteca, conviene tener en cuenta una serie de recomendaciones que pueden ahorrarte mucho dinero y quebraderos de cabeza:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Compara al menos 3 ofertas:</strong> los tipos de interés y las condiciones pueden variar significativamente entre entidades. Utiliza la FEIN (Ficha Europea de Información Normalizada) que el banco está obligado a entregarte para comparar ofertas en igualdad de condiciones.</li>
+        <li><strong>Negocia las vinculaciones:</strong> los bancos ofrecen bonificaciones en el tipo de interés a cambio de contratar productos adicionales (seguro de hogar, seguro de vida, domiciliación de nómina, tarjetas). Calcula si las bonificaciones compensan el coste de los productos vinculados. A veces es más barato contratar el seguro por tu cuenta y aceptar un tipo ligeramente superior.</li>
+        <li><strong>No te endeudes más del 35%:</strong> la regla general de los expertos financieros es que la suma de todas tus cuotas de préstamos (hipoteca, coche, tarjetas) no supere el 35% de tus ingresos netos. Superar este umbral te deja sin margen para imprevistos.</li>
+        <li><strong>Ten en cuenta los gastos de mantenimiento:</strong> además de la cuota hipotecaria, ser propietario implica pagar comunidad, IBI, seguros, derramas y reparaciones. Un presupuesto realista debe incluir todos estos gastos.</li>
+        <li><strong>Revisa la cláusula de suelo y techo:</strong> aunque las cláusulas suelo fueron declaradas abusivas por el Tribunal Supremo en 2013, algunas hipotecas antiguas todavía las contienen. Si estás subrogando una hipoteca existente, comprueba que no tenga este tipo de cláusulas.</li>
+        <li><strong>Considera la amortización anticipada:</strong> si tu situación económica lo permite, destinar parte de la paga extra o de los ahorros a amortizar la hipoteca puede ahorrarte miles de euros en intereses. El ahorro es mayor cuanto antes realices la amortización.</li>
+      </ul>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">La FEIN y el acta notarial de transparencia</h3>
+      <p>
+        Desde la entrada en vigor de la Ley 5/2019, el proceso de contratación hipotecaria incluye garantías adicionales de transparencia. El banco debe entregar la FEIN (Ficha Europea de Información Normalizada) con al menos 10 días de antelación a la firma. Este documento vinculante recoge todas las condiciones del préstamo: importe, plazo, tipo de interés, cuota mensual, TAE, comisiones y gastos. Además, el comprador debe acudir al notario (sin la presencia del banco) al menos un día antes de la firma para recibir asesoramiento gratuito y firmar un acta de transparencia. En este acta, el notario verifica que el comprador entiende todas las condiciones del préstamo y responde a sus dudas. Solo después de firmar el acta se puede proceder a la firma de la escritura de préstamo hipotecario.
+      </p>
+      <p>
+        Estas medidas fueron introducidas para evitar situaciones como las que se produjeron durante la burbuja inmobiliaria de 2005 a 2008, cuando muchos compradores firmaron hipotecas con cláusulas abusivas (suelo, multidivisa, IRPH) sin entender plenamente sus implicaciones.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fuentes y referencias</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2019-5765" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 5/2019, de 15 de marzo, reguladora de los contratos de crédito inmobiliario (BOE)</a> - Regula la transparencia hipotecaria, las comisiones de amortización anticipada, la FEIN y el acta notarial de transparencia.</li>
+        <li><a href="https://www.bde.es/bde/es/" class="text-brand hover:underline" target="_blank" rel="noopener">Banco de España</a> - Portal del cliente bancario con información sobre tipos de interés, Euríbor, reclamaciones y simuladores hipotecarios oficiales.</li>
+        <li><a href="https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736152838&menu=ultiDatos&idp=1254735576757" class="text-brand hover:underline" target="_blank" rel="noopener">INE: Estadística de Hipotecas</a> - Datos oficiales sobre el número de hipotecas constituidas, importes medios y tipos de interés en España.</li>
+        <li><a href="https://www.bde.es/wbe/es/estadisticas/compartida/tipos-interes-euribor/" class="text-brand hover:underline" target="_blank" rel="noopener">Euríbor: histórico de tipos de interés (Banco de España)</a> - Series históricas del Euríbor a 12 meses, el índice de referencia para la mayoría de hipotecas variables en España.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

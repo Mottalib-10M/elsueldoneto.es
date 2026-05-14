@@ -1,0 +1,235 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import PlusvaliaMunicipal from '../components/calculadoras/PlusvaliaMunicipal';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Calculadora de Plusvalía Municipal (IIVTNU) Online ${CURRENT_FISCAL_YEAR}`;
+const description = `Calcula la plusvalía municipal por la venta de tu vivienda o herencia. Compara el método objetivo y real tras la sentencia del TC. Simulador gratuito ${CURRENT_FISCAL_YEAR}.`;
+
+const faqs = [
+  {
+    question: '¿Qué es la plusvalía municipal?',
+    answer: `La plusvalía municipal, oficialmente denominada Impuesto sobre el Incremento de Valor de los Terrenos de Naturaleza Urbana (IIVTNU), es un impuesto local que grava el incremento de valor que experimenta el suelo urbano cuando se transmite la propiedad, ya sea por compraventa, herencia o donación.`,
+  },
+  {
+    question: '¿Quién paga la plusvalía municipal en una compraventa?',
+    answer: 'En una compraventa, el sujeto pasivo (obligado al pago) es el vendedor. En herencias, paga el heredero. En donaciones, paga el donatario (quien recibe la donación). El plazo para liquidar el impuesto es de 30 días hábiles desde la transmisión, salvo en herencias, donde el plazo es de 6 meses desde el fallecimiento (prorrogable otros 6 meses).',
+  },
+  {
+    question: '¿Se paga plusvalía municipal si vendo con pérdidas?',
+    answer: 'No. Desde la sentencia del Tribunal Constitucional 59/2017, confirmada y ampliada por la STC 182/2021, si no existe un incremento real de valor del terreno, no se genera el hecho imponible y, por tanto, no hay obligación de pagar el impuesto. Deberás acreditar la pérdida aportando las escrituras de compra y venta.',
+  },
+  {
+    question: '¿Qué dos métodos de cálculo existen tras el RDL 26/2021?',
+    answer: 'Desde noviembre de 2021, existen dos métodos: el método objetivo (que multiplica el valor catastral del suelo por un coeficiente según los años de tenencia) y el método real (que calcula la ganancia efectiva atribuible al suelo). El contribuyente puede elegir el que le resulte más favorable, es decir, el que arroje una cuota inferior.',
+  },
+  {
+    question: '¿Dónde encuentro el valor catastral del suelo de mi vivienda?',
+    answer: 'El valor catastral del suelo aparece en el recibo del IBI (Impuesto sobre Bienes Inmuebles) que emite tu ayuntamiento cada año. También puedes consultarlo en la Sede Electrónica del Catastro (www.sedecatastro.gob.es) con tu certificado digital o Cl@ve.',
+  },
+  {
+    question: '¿Puedo reclamar si pagué plusvalía municipal por una venta con pérdidas antes de 2021?',
+    answer: 'Sí, puedes solicitar la rectificación de la autoliquidación y la devolución de ingresos indebidos dentro del plazo de prescripción de 4 años desde que realizaste el pago. Necesitarás presentar un escrito ante tu ayuntamiento aportando las escrituras que acrediten la pérdida patrimonial.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1="Calculadora de Plusvalía Municipal"
+  calculatorName="Plusvalía Municipal"
+  path="/calculadora-plusvalia-municipal/"
+  faqs={faqs}
+  sources={[
+    { label: 'RDL 26/2021', url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2021-17718' },
+    { label: 'LRHL (art. 104-110)', url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2004-4214' },
+    { label: 'STC 182/2021', url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-2021-17806' },
+    { label: 'STC 59/2017', url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-2017-5765' },
+  ]}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <PlusvaliaMunicipal client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía completa sobre la plusvalía municipal en España
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        La plusvalía municipal es uno de los impuestos locales que más confusión genera entre los contribuyentes españoles. Su nombre oficial, Impuesto sobre el Incremento de Valor de los Terrenos de Naturaleza Urbana (IIVTNU), ya anticipa su objeto: gravar el incremento de valor que experimenta el suelo urbano cada vez que se transmite la propiedad de un inmueble. Da igual si la transmisión se produce por compraventa, por herencia, por donación o por cualquier otro título: siempre que un terreno urbano cambie de manos y haya existido un incremento de valor, el ayuntamiento correspondiente puede exigir este tributo.
+      </p>
+      <p>
+        Durante décadas, el sistema de cálculo de la plusvalía municipal se basó exclusivamente en el valor catastral del suelo y en unos coeficientes fijados por cada ayuntamiento. El problema fundamental era que el impuesto presumía que el suelo siempre se revalorizaba con el paso del tiempo, sin tener en cuenta la realidad del mercado inmobiliario. Cuando estalló la crisis de 2008, miles de propietarios se vieron obligados a vender sus viviendas por debajo del precio de compra y, aun así, el ayuntamiento les exigía el pago de la plusvalía municipal. Este absurdo jurídico desencadenó una oleada de recursos judiciales que terminarían cambiando por completo la normativa del impuesto.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">La sentencia del Tribunal Constitucional 182/2021</h3>
+      <p>
+        El 26 de octubre de 2021, el Tribunal Constitucional dictó la sentencia 182/2021, que declaró inconstitucionales y nulos los artículos 107.1 (segundo párrafo), 107.2.a) y 107.4 del Texto Refundido de la Ley Reguladora de las Haciendas Locales (TRLRHL). Estos preceptos contenían la fórmula de cálculo de la base imponible del impuesto. La razón principal fue que el sistema de estimación objetiva era contrario al principio de capacidad económica del artículo 31.1 de la Constitución, ya que podía gravar incrementos de valor ficticios o inexistentes.
+      </p>
+      <p>
+        Esta sentencia no fue la primera en cuestionar la plusvalía municipal. Ya en 2017, la STC 59/2017 había declarado inconstitucional el impuesto cuando se aplicaba a transmisiones con pérdidas patrimoniales. Es decir, si vendías tu casa por menos de lo que pagaste, no podían obligarte a pagar la plusvalía. Sin embargo, la sentencia de 2017 solo cubría los casos de pérdidas evidentes. La STC 182/2021 fue mucho más contundente: anuló directamente el mecanismo de cálculo, dejando al impuesto sin fórmula aplicable. Esto obligó al Gobierno a aprobar con urgencia una reforma legislativa en menos de dos semanas.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Los dos métodos de cálculo tras el RDL 26/2021</h3>
+      <p>
+        El 9 de noviembre de 2021 entró en vigor el Real Decreto-ley 26/2021, que introdujo un nuevo sistema de cálculo con dos métodos alternativos. La gran novedad es que el contribuyente puede elegir el método que le resulte más favorable, es decir, el que arroje una cuota tributaria inferior. Los dos métodos son:
+      </p>
+      <p>
+        <strong>Método objetivo (estimación por coeficientes).</strong> Este método mantiene la lógica del antiguo cálculo, pero con coeficientes actualizados y revisables anualmente. Se multiplica el valor catastral del suelo en el momento de la transmisión por un coeficiente que depende del número de años transcurridos desde la adquisición del inmueble. El resultado es la base imponible, sobre la cual se aplica el tipo impositivo fijado por cada ayuntamiento (con un máximo legal del 30%). Los coeficientes están diseñados para reflejar la evolución media del mercado inmobiliario y se recogen en la tabla del artículo 107 del TRLRHL reformado.
+      </p>
+      <p>
+        <strong>Método real (ganancia efectiva).</strong> Este método calcula la plusvalía a partir de la diferencia entre el valor de transmisión y el valor de adquisición del inmueble. A esa ganancia total se le aplica el porcentaje que el valor catastral del suelo representa sobre el valor catastral total, para obtener la ganancia atribuible exclusivamente al suelo. El resultado es la base imponible real, sobre la que se aplica el mismo tipo impositivo municipal. Si la transmisión se realiza con pérdidas (el precio de venta es inferior al de compra), la base imponible es cero y no se paga nada.
+      </p>
+      <p>
+        La posibilidad de elegir método es fundamental. En situaciones donde el mercado inmobiliario ha subido mucho, puede que el método objetivo arroje una cuota menor que el cálculo basado en la ganancia real. En cambio, en zonas donde los precios apenas se han movido o la ganancia es modesta, el método real suele ser más ventajoso. La calculadora de esta página compara ambos métodos automáticamente para que puedas identificar cuál te conviene.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tabla de coeficientes por años de tenencia</h3>
+      <p>
+        Los coeficientes máximos que pueden aplicar los ayuntamientos, según el número de años completos de tenencia del inmueble, son los siguientes (conforme al RDL 26/2021 y sus actualizaciones posteriores mediante Ley de Presupuestos):
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Años de tenencia</th>
+              <th class="px-3 py-2 text-right">Coeficiente máximo</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">1 año</td><td class="px-3 py-1 text-right">0,14</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2 años</td><td class="px-3 py-1 text-right">0,13</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">3 años</td><td class="px-3 py-1 text-right">0,15</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">4 años</td><td class="px-3 py-1 text-right">0,17</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">5 años</td><td class="px-3 py-1 text-right">0,17</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">6 años</td><td class="px-3 py-1 text-right">0,16</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">7 años</td><td class="px-3 py-1 text-right">0,12</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">8 años</td><td class="px-3 py-1 text-right">0,10</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">9 años</td><td class="px-3 py-1 text-right">0,09</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">10 años</td><td class="px-3 py-1 text-right">0,08</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">11 años</td><td class="px-3 py-1 text-right">0,08</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">12 años</td><td class="px-3 py-1 text-right">0,08</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">13 años</td><td class="px-3 py-1 text-right">0,08</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">14 años</td><td class="px-3 py-1 text-right">0,10</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">15 años</td><td class="px-3 py-1 text-right">0,12</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">16 años</td><td class="px-3 py-1 text-right">0,16</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">17 años</td><td class="px-3 py-1 text-right">0,20</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">18 años</td><td class="px-3 py-1 text-right">0,26</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">19 años</td><td class="px-3 py-1 text-right">0,36</td></tr>
+            <tr><td class="px-3 py-1">20 años o más</td><td class="px-3 py-1 text-right">0,45</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-gray-400 mt-2">
+        Estos son los coeficientes máximos legales. Cada ayuntamiento puede aplicar coeficientes iguales o inferiores. Los coeficientes pueden actualizarse anualmente mediante la Ley de Presupuestos Generales del Estado.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Cuándo NO se paga plusvalía municipal</h3>
+      <p>
+        Existen varios supuestos en los que no nace la obligación de pagar este impuesto o en los que la ley establece una exención:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Venta con pérdidas.</strong> Desde la STC 59/2017, si no hay incremento real de valor del terreno (es decir, si el precio de venta es inferior al de compra), no se genera el hecho imponible. La STC 182/2021 reforzó este criterio. Tras el RDL 26/2021, si el contribuyente demuestra que no hubo ganancia, queda excluido del impuesto. Para acreditar la pérdida, basta con presentar las escrituras de compra y de venta en las que consten los precios de ambas operaciones.</li>
+        <li><strong>Dación en pago de vivienda habitual.</strong> La Ley 1/2013, de medidas para reforzar la protección a los deudores hipotecarios, estableció una exención de la plusvalía municipal cuando el propietario entrega su vivienda habitual al banco (dación en pago) para saldar la deuda hipotecaria, siempre que se cumplan determinados requisitos de vulnerabilidad económica. Esta exención busca proteger a las familias que pierden su casa por no poder afrontar la hipoteca.</li>
+        <li><strong>Transmisiones entre cónyuges por sentencia judicial.</strong> Las adjudicaciones de bienes inmuebles realizadas a favor de uno de los cónyuges como consecuencia de la disolución de la sociedad conyugal (por divorcio o separación judicial) están no sujetas al impuesto, conforme al artículo 104.3 del TRLRHL.</li>
+        <li><strong>Aportaciones a la sociedad conyugal.</strong> Las aportaciones de bienes y derechos realizadas por los cónyuges a la sociedad conyugal tampoco generan obligación tributaria por este impuesto.</li>
+        <li><strong>Operaciones protegidas por el régimen de neutralidad fiscal.</strong> Las fusiones, escisiones y aportaciones de ramas de actividad acogidas al régimen especial del Capítulo VII del Título VII de la Ley del Impuesto sobre Sociedades gozan de no sujeción a la plusvalía municipal.</li>
+      </ul>
+      <p>
+        En todos estos casos, el contribuyente debe presentar igualmente la declaración o comunicación al ayuntamiento indicando que la operación no está sujeta o está exenta, aportando la documentación acreditativa correspondiente. No presentar la declaración, incluso cuando no hay que pagar, puede dar lugar a sanciones por incumplimiento formal.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Quién paga la plusvalía municipal</h3>
+      <p>
+        La Ley establece quién es el sujeto pasivo (es decir, quién tiene la obligación legal de pagar) en función del tipo de transmisión:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Compraventa.</strong> Paga el vendedor, ya que es quien obtiene la contraprestación económica y, en principio, se beneficia del incremento de valor. Es habitual que en la práctica se pacte en el contrato privado que los gastos se repartan, pero ante el ayuntamiento el obligado tributario siempre es el vendedor. Si el vendedor es una persona no residente en España, la obligación recae sobre el comprador como sustituto del contribuyente.</li>
+        <li><strong>Herencia.</strong> Paga el heredero o legatario que recibe el inmueble. El plazo para liquidar el impuesto es de 6 meses desde la fecha de fallecimiento del causante, ampliable por otros 6 meses si se solicita la prórroga dentro de los primeros 6 meses. Este plazo más generoso reconoce la complejidad administrativa que suele acompañar a los procesos sucesorios.</li>
+        <li><strong>Donación.</strong> Paga el donatario, es decir, la persona que recibe el inmueble como regalo. El plazo es de 30 días hábiles desde la fecha de la escritura de donación.</li>
+      </ul>
+      <p>
+        En todos los casos, el plazo general para compraventas y donaciones es de 30 días hábiles desde la fecha de la escritura pública. El incumplimiento del plazo genera recargos: un 5% si se presenta fuera de plazo pero dentro de los 3 meses siguientes, un 10% entre 3 y 6 meses, un 15% entre 6 y 12 meses, y un 20% más intereses de demora a partir de los 12 meses.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo práctico: la venta del piso de Alejandro</h3>
+      <p>
+        Alejandro compró un piso en Madrid en 2014 por 165.000 euros. Según su recibo del IBI, el valor catastral del suelo es de 52.000 euros. En 2025 vende el piso por 230.000 euros. Han transcurrido 11 años de tenencia. El tipo impositivo de su ayuntamiento es del 29%. Veamos el cálculo por ambos métodos:
+      </p>
+      <p>
+        <strong>Método objetivo.</strong> El coeficiente para 11 años de tenencia es 0,08. La base imponible se calcula multiplicando el valor catastral del suelo por el coeficiente: 52.000 x 0,08 = 4.160 euros. La cuota tributaria es: 4.160 x 29% = 1.206,40 euros.
+      </p>
+      <p>
+        <strong>Método real.</strong> La ganancia total del inmueble es: 230.000 - 165.000 = 65.000 euros. La ganancia atribuible al suelo (aplicando el porcentaje simplificado del 40%) es: 65.000 x 0,40 = 26.000 euros. La cuota tributaria es: 26.000 x 29% = 7.540 euros.
+      </p>
+      <p>
+        En este caso, el método objetivo arroja una cuota de 1.206,40 euros frente a los 7.540 euros del método real. Alejandro debería elegir el método objetivo, ya que le resulta considerablemente más favorable. Esto suele ocurrir cuando la ganancia real del inmueble es elevada pero el valor catastral del suelo es relativamente bajo, algo habitual en muchas ciudades españolas donde los valores catastrales no se han actualizado al mismo ritmo que los precios de mercado.
+      </p>
+      <p>
+        Si, en cambio, Alejandro hubiera vendido por 170.000 euros (con una ganancia de solo 5.000 euros), la situación se invertiría: el método real arrojaría una cuota de solo 580 euros (5.000 x 0,40 x 29%), frente a los 1.206,40 euros del método objetivo. En ese escenario, el método real sería más ventajoso.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Cómo se determina el valor catastral del suelo</h3>
+      <p>
+        El valor catastral del suelo es un dato que asigna la Dirección General del Catastro a cada parcela urbana. No coincide con el precio de mercado del terreno: suele ser significativamente inferior. Este valor aparece desglosado en el recibo del IBI, donde se muestra por separado el valor catastral del suelo y el valor catastral de la construcción. La suma de ambos es el valor catastral total del inmueble.
+      </p>
+      <p>
+        Los valores catastrales se actualizan mediante ponencias de valores que aprueba la Dirección General del Catastro, y que cada municipio puede solicitar cuando lo considere oportuno. Además, la Ley de Presupuestos Generales del Estado puede establecer coeficientes de actualización anual. En la práctica, muchos municipios llevan décadas sin revisar sus ponencias, por lo que sus valores catastrales pueden estar muy por debajo del valor real de mercado. Esto tiene un impacto directo en la plusvalía municipal: cuanto más bajo sea el valor catastral del suelo, menor será la base imponible por el método objetivo.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Cómo reclamar si ya pagaste plusvalía con pérdidas (antes de 2021)</h3>
+      <p>
+        Si vendiste un inmueble antes de la reforma de noviembre de 2021 y pagaste plusvalía municipal a pesar de haber vendido con pérdidas, puedes solicitar la devolución de lo pagado indebidamente. El procedimiento es el siguiente:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Plazo.</strong> Dispones de 4 años desde la fecha en que realizaste el pago para solicitar la rectificación de la autoliquidación (o, si fue una liquidación del ayuntamiento, para interponer recurso). Pasado ese plazo, la obligación tributaria prescribe y ya no es posible reclamar.</li>
+        <li><strong>Documentación necesaria.</strong> Deberás reunir las escrituras de compra y de venta del inmueble, el justificante del pago de la plusvalía municipal, y cualquier otro documento que acredite que la transmisión se realizó con pérdidas (por ejemplo, tasaciones bancarias si las hubiera).</li>
+        <li><strong>Presentación del escrito.</strong> El procedimiento consiste en presentar un escrito de solicitud de rectificación de autoliquidación y devolución de ingresos indebidos ante el ayuntamiento que recaudó el impuesto. En el escrito se debe indicar claramente que la transmisión se realizó sin ganancia patrimonial, invocando la STC 59/2017 (para ventas con pérdidas) o la STC 182/2021 (si la cuota era desproporcionada respecto a la ganancia real).</li>
+        <li><strong>Resolución y recursos.</strong> El ayuntamiento tiene un plazo de 6 meses para resolver. Si desestima la solicitud o no contesta en plazo (silencio administrativo negativo), puedes interponer recurso de reposición ante el propio ayuntamiento o reclamación económico-administrativa ante el tribunal correspondiente, y en última instancia recurso contencioso-administrativo ante los juzgados.</li>
+      </ul>
+      <p>
+        Es importante destacar que la STC 182/2021 declaró que sus efectos no eran retroactivos para situaciones firmes (es decir, para liquidaciones que no fueron recurridas en plazo y que ya habían adquirido firmeza). Sin embargo, si tu autoliquidación aún estaba dentro del plazo de 4 años para solicitar rectificación, la mayoría de los tribunales han admitido las reclamaciones basándose en la jurisprudencia previa de la STC 59/2017.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Diferencias entre municipios</h3>
+      <p>
+        La plusvalía municipal es un impuesto de titularidad municipal, lo que significa que cada ayuntamiento tiene potestad para regular determinados aspectos dentro de los límites que marca la ley estatal. Las principales variables que cambian de un municipio a otro son:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>El tipo impositivo.</strong> La ley fija un máximo del 30%, pero cada ayuntamiento puede establecer un tipo inferior. Ciudades grandes como Madrid, Barcelona o Valencia suelen aplicar tipos cercanos al máximo, mientras que algunos municipios pequeños fijan tipos más bajos para atraer residentes.</li>
+        <li><strong>Los coeficientes de cada periodo.</strong> Aunque la ley fija los coeficientes máximos por años de tenencia, los ayuntamientos pueden aplicar coeficientes inferiores. En la práctica, la mayoría de los municipios grandes aplican los coeficientes máximos.</li>
+        <li><strong>Bonificaciones voluntarias.</strong> Algunos ayuntamientos establecen bonificaciones en la cuota para determinados supuestos, como transmisiones mortis causa a favor del cónyuge o descendientes directos, transmisiones de vivienda habitual, o transmisiones realizadas por personas con discapacidad.</li>
+        <li><strong>Sistema de gestión.</strong> Algunos ayuntamientos gestionan el impuesto mediante autoliquidación (el contribuyente calcula y paga), mientras que otros lo hacen mediante liquidación administrativa (el ayuntamiento calcula y envía la carta de pago). El sistema de gestión afecta a los plazos y al procedimiento de reclamación.</li>
+      </ul>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Plusvalía municipal en herencias y donaciones</h3>
+      <p>
+        La plusvalía municipal no solo se aplica a las compraventas. En las herencias, el valor de adquisición que se toma como referencia para el método real es el que conste en la escritura de aceptación de herencia o, en su defecto, el valor declarado a efectos del Impuesto de Sucesiones. El valor de transmisión, si el heredero vende posteriormente, será el precio de venta. Pero si el heredero no vende y simplemente recibe el inmueble, la plusvalía se calcula tomando como valor de adquisición el que tenía el causante (el fallecido) en el momento de comprar originalmente el inmueble, y como valor de transmisión el valor declarado en la herencia.
+      </p>
+      <p>
+        En las donaciones ocurre algo similar: el valor de adquisición es el que tenía el donante y el de transmisión es el que se declara en la escritura de donación. Es importante que el valor declarado en la donación sea coherente con el valor de mercado, ya que tanto Hacienda como el ayuntamiento pueden comprobar y corregir valores declarados por debajo del valor real.
+      </p>
+      <p>
+        Un aspecto relevante en las herencias es que los herederos suelen desconocer el precio original de compra del inmueble por parte del fallecido, especialmente si la adquisición se produjo hace muchas décadas. En estos casos, puede ser necesario solicitar una copia de la escritura original en el Registro de la Propiedad o en el archivo del notario que la otorgó. Si el inmueble fue adquirido antes de 1994, cuando aún se escrituraba en pesetas, la conversión a euros debe realizarse aplicando el tipo de cambio oficial (1 euro = 166,386 pesetas).
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Relación con otros impuestos de la venta de inmuebles</h3>
+      <p>
+        La plusvalía municipal no es el único impuesto que grava la venta de un inmueble. El vendedor también debe declarar la ganancia patrimonial en su declaración de IRPF, donde tributará al tipo del ahorro (entre el 19% y el 28%, según el tramo). No hay que confundir ambos impuestos: el IRPF grava la ganancia total del contribuyente, mientras que la plusvalía municipal grava exclusivamente el incremento de valor del suelo urbano y se paga al ayuntamiento. Son dos impuestos distintos, gestionados por administraciones diferentes (estatal y local), y ambos son exigibles simultáneamente.
+      </p>
+      <p>
+        El comprador, por su parte, deberá pagar el Impuesto de Transmisiones Patrimoniales (ITP) si se trata de una vivienda de segunda mano, o el IVA más el Impuesto de Actos Jurídicos Documentados (AJD) si es una vivienda nueva adquirida directamente al promotor. Estos impuestos recaen sobre el comprador y no tienen relación directa con la plusvalía municipal, que siempre corresponde al vendedor.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Normativa y fuentes</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2021-17718" class="text-brand hover:underline" target="_blank" rel="noopener">Real Decreto-ley 26/2021, de 8 de noviembre</a>: adapta el TRLRHL a la jurisprudencia del Tribunal Constitucional e introduce el doble método de cálculo.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2004-4214" class="text-brand hover:underline" target="_blank" rel="noopener">Real Decreto Legislativo 2/2004 (TRLRHL), artículos 104 a 110</a>: regulación completa del IIVTNU, incluyendo hecho imponible, sujeto pasivo, base imponible, tipo de gravamen y gestión del impuesto.</li>
+        <li><a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2021-17806" class="text-brand hover:underline" target="_blank" rel="noopener">STC 182/2021, de 26 de octubre</a>: declaró inconstitucionales y nulos los preceptos del TRLRHL que regulaban el cálculo de la base imponible.</li>
+        <li><a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2017-5765" class="text-brand hover:underline" target="_blank" rel="noopener">STC 59/2017, de 11 de mayo</a>: primera sentencia que declaró inconstitucional la plusvalía municipal cuando se aplicaba a transmisiones con pérdidas patrimoniales acreditadas.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

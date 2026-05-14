@@ -1,0 +1,135 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import IRPF from '../components/calculadoras/IRPF';
+import { CURRENT_FISCAL_YEAR } from '../config';
+
+const title = `Calculadora IRPF ${CURRENT_FISCAL_YEAR}: Tramos y Tipo Efectivo Gratis`;
+const description = `Calcula tu IRPF ${CURRENT_FISCAL_YEAR} con desglose por tramos estatales y autonómicos. Compara el impuesto entre comunidades autónomas y descubre tu tipo efectivo real.`;
+
+const faqs = [
+  {
+    question: '¿Qué es el IRPF y cómo se calcula?',
+    answer: `El IRPF (Impuesto sobre la Renta de las Personas Físicas) es un impuesto progresivo que grava la renta de los contribuyentes en España. Se divide en una parte estatal y otra autonómica, y se aplica por tramos: cuanto más ganas, mayor porcentaje se aplica a la parte que supera cada umbral.`,
+  },
+  {
+    question: '¿Cuántos tramos tiene el IRPF en 2026?',
+    answer: `La escala estatal del IRPF tiene 6 tramos en ${CURRENT_FISCAL_YEAR}, con tipos que van del 9,5% al 24,5%. Cada comunidad autónoma añade su propia escala con diferentes tramos y tipos.`,
+  },
+  {
+    question: '¿En qué comunidad se paga menos IRPF?',
+    answer: 'Madrid tiene los tipos autonómicos más bajos de España, seguida generalmente por Castilla y León y La Rioja. En el extremo opuesto, la Comunidad Valenciana y Cataluña tienen los tipos más altos para rentas elevadas.',
+  },
+  {
+    question: '¿Qué es el mínimo personal y familiar?',
+    answer: 'Es la parte de la renta que se considera necesaria para vivir y no se grava. En 2026, el mínimo personal es de 5.550 €, y aumenta por hijos, ascendientes a cargo, discapacidad y edad del contribuyente.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Calculadora IRPF ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Calculadora IRPF"
+  path="/calculadora-irpf/"
+  faqs={faqs}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <IRPF client:load />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guía completa del IRPF en España
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        El IRPF es el principal impuesto que pagan los asalariados en España y, sin embargo, la mayoría de los trabajadores no sabe exactamente cómo se calcula. El nombre ya da una pista: «Impuesto sobre la Renta de las Personas Físicas». Grava los ingresos que obtienes durante un año: no solo tu sueldo, sino también rendimientos de ahorros, alquileres o ganancias patrimoniales. Pero para la inmensa mayoría de los contribuyentes, la nómina es la fuente principal.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El sistema de tramos progresivos</h3>
+      <p>
+        España aplica un sistema de tramos progresivos: los primeros euros que ganas tributan a un tipo bajo, y solo la parte que supera cada umbral tributa al tipo siguiente. Esto genera confusiones habituales. Cuando alguien dice «estoy en el tramo del 37%», no significa que pague el 37% de todo su sueldo. Significa que los euros que superan determinado umbral se gravan a ese porcentaje, mientras los anteriores siguen tributando a tipos inferiores.
+      </p>
+      <p>
+        La escala estatal vigente tiene seis tramos que van del 9,5% al 24,5%. A eso se suma la escala autonómica, que varía en cada comunidad. La suma de ambas es lo que realmente se paga. Para un salario de 30.000 € brutos, el tipo efectivo final (lo que realmente pagas sobre tu base imponible) suele rondar el 15-16%, muy lejos de los tipos marginales máximos que aparecen en los titulares.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">De bruto a base imponible: las reducciones previas</h3>
+      <p>
+        Antes de aplicar los tramos hay varias reducciones. Primero se restan las cotizaciones a la Seguridad Social (6,35% del bruto, con un tope en la base máxima de cotización). Después, los gastos deducibles del trabajo, fijados en 2.000 € anuales para la generalidad de los contribuyentes. Y si el rendimiento neto del trabajo es inferior a 19.747,50 €, existe una reducción adicional que va de 7.302 € a 0 € de forma decreciente. Esta reducción es la que consigue que los trabajadores con rentas más bajas apenas paguen IRPF.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El mínimo personal y familiar</h3>
+      <p>
+        La legislación establece una cantidad mínima exenta para cubrir las necesidades vitales del contribuyente y su familia. El mínimo personal general es de 5.550 €, que sube a 6.700 € a partir de los 65 años. Por cada hijo se añaden cantidades adicionales: 2.400 € por el primero, 2.700 € por el segundo, 4.000 € por el tercero, y 4.500 € por el cuarto y siguientes. Los hijos menores de 3 años generan 2.800 € adicionales. Estas cantidades no se «restan del sueldo», sino que se calcula la cuota tributaria que corresponde a ese mínimo y se descuenta de la cuota total. El efecto práctico es un ahorro fiscal que depende del tipo marginal de cada contribuyente.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Diferencias entre comunidades autónomas</h3>
+      <p>
+        La escala autonómica es donde aparecen las mayores diferencias territoriales. Madrid aplica tipos que van del 8,5% al 20,5%, mientras que Cataluña llega al 25,5% en su último tramo. Para un salario medio de 30.000 € la diferencia es modesta (unos 300-400 € anuales), pero se amplía de forma significativa a medida que sube la renta. En salarios de 80.000 € la brecha entre la comunidad más barata y la más cara puede superar los 3.000 €. País Vasco y Navarra tienen un sistema completamente propio con escalas únicas y reglas diferentes, lo que hace que la comparación directa sea más compleja.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo práctico: IRPF de un salario de 40.000 € en Madrid</h3>
+      <p>
+        Tomemos un trabajador soltero sin hijos con 40.000 € brutos anuales en Madrid:
+      </p>
+      <ol class="list-decimal ml-4 space-y-1">
+        <li><strong>Seguridad Social:</strong> 6,35% × 40.000 = 2.540 €.</li>
+        <li><strong>Rendimiento neto del trabajo:</strong> 40.000 − 2.540 − 2.000 (gastos deducibles) = 35.460 €. Sin reducción adicional al superar 19.747,50 €.</li>
+        <li><strong>Base imponible:</strong> 35.460 €.</li>
+        <li><strong>Cuota estatal:</strong> Se aplica la escala del art. 63 de la Ley 35/2006:
+          <ul class="list-disc ml-4 mt-1">
+            <li>Hasta 12.450 €: 9,5% → 1.182,75 €</li>
+            <li>De 12.450 a 20.200 € (7.750 €): 12% → 930,00 €</li>
+            <li>De 20.200 a 35.200 € (15.000 €): 15% → 2.250,00 €</li>
+            <li>De 35.200 a 35.460 € (260 €): 18,5% → 48,10 €</li>
+            <li>Subtotal: 4.410,85 €</li>
+          </ul>
+        </li>
+        <li><strong>Cuota del mínimo personal (estatal):</strong> 5.550 € × 9,5% = 527,25 €.</li>
+        <li><strong>IRPF estatal neto:</strong> 4.410,85 − 527,25 = 3.883,60 €.</li>
+        <li><strong>Cuota autonómica (Madrid):</strong> siguiendo la escala madrileña con el mismo proceso, resulta en torno a 3.935 €, menos el mínimo personal autonómico.</li>
+        <li><strong>IRPF total aproximado:</strong> 7.820 €/año, lo que supone un tipo efectivo del 19,6% sobre el bruto.</li>
+      </ol>
+      <p>
+        Este mismo salario en Cataluña generaría un IRPF total de unos 8.550 €, y en Andalucía de unos 8.100 €. La diferencia entre la comunidad más barata (Madrid) y la más cara puede alcanzar los 730 € anuales para este nivel de renta.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tramos estatales del IRPF vigentes</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Base imponible</th>
+              <th class="px-3 py-2 text-right">Tipo estatal</th>
+              <th class="px-3 py-2 text-right">Cuota acumulada</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">0 − 12.450 €</td><td class="px-3 py-1 text-right">9,50%</td><td class="px-3 py-1 text-right">1.182,75 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">12.450 − 20.200 €</td><td class="px-3 py-1 text-right">12,00%</td><td class="px-3 py-1 text-right">2.112,75 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">20.200 − 35.200 €</td><td class="px-3 py-1 text-right">15,00%</td><td class="px-3 py-1 text-right">4.362,75 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">35.200 − 60.000 €</td><td class="px-3 py-1 text-right">18,50%</td><td class="px-3 py-1 text-right">8.950,75 €</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">60.000 − 300.000 €</td><td class="px-3 py-1 text-right">22,50%</td><td class="px-3 py-1 text-right">62.950,75 €</td></tr>
+            <tr><td class="px-3 py-1">Más de 300.000 €</td><td class="px-3 py-1 text-right">24,50%</td><td class="px-3 py-1 text-right">-</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-gray-400 mt-2">A estos tipos se suma la escala autonómica de cada comunidad. La cuota total es la suma de ambas escalas.</p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Deducciones que muchos contribuyentes olvidan</h3>
+      <p>
+        Cada año, miles de declaraciones de la renta se presentan sin aplicar deducciones a las que el contribuyente tiene pleno derecho. La deducción por maternidad permite a las madres trabajadoras con hijos menores de 3 años descontar 1.200 € al año por cada hijo (100 € al mes que se pueden cobrar de forma anticipada). Marta, administrativa en Sevilla con un hijo de 18 meses, solicitó el cobro anticipado y recibe 100 €/mes directamente del Tesoro Público mientras trabaja. La deducción por familia numerosa asciende a 1.200 € anuales en la categoría general y a 2.400 € en la especial (cinco o más hijos). Y la deducción por inversión en vivienda habitual (suprimida en 2013) sigue vigente para quienes firmaron su hipoteca antes del 1 de enero de 2013, permitiendo deducir hasta el 15% de las cantidades pagadas con un máximo de 9.040 € anuales.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Errores frecuentes en la declaración de la renta</h3>
+      <p>
+        El error más habitual es no declarar correctamente los ingresos cuando se ha tenido más de un pagador. Si durante el año cambiaste de empresa y el segundo pagador te abonó más de 1.500 €, el umbral para estar obligado a declarar baja de 22.000 € a 15.876 €. Muchos contribuyentes no lo saben y se llevan un requerimiento de Hacienda meses después. Otro fallo creciente es omitir las ganancias por venta de criptomonedas: la AEAT cruza datos con las plataformas de intercambio y cualquier operación con beneficio tributa en la base del ahorro, al 19-28% según el importe. Por último, las deducciones autonómicas pasan desapercibidas con frecuencia: Andalucía permite deducir hasta 500 € por alquiler de vivienda habitual para menores de 35 años; la Comunitat Valenciana ofrece 100 € por compra de material escolar; y Madrid mantiene una deducción de 1.000 € por arrendamiento para menores de 35 años con rentas inferiores a 25.620 €. Revisar la ficha autonómica antes de confirmar el borrador puede suponer un ahorro de varios cientos de euros.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Normativa y fuentes</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 35/2006, del IRPF</a>: Art. 63 (escala estatal), art. 57-61 (mínimo personal y familiar), art. 19-20 (rendimientos del trabajo).</li>
+        <li><a href="https://www.agenciatributaria.gob.es/AEAT.sede/procedimientoini/GC27.shtml" class="text-brand hover:underline" target="_blank" rel="noopener">AEAT: Retenciones e ingresos a cuenta del IRPF</a>. Guía oficial de cálculo de retenciones.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2004-4163" class="text-brand hover:underline" target="_blank" rel="noopener">Real Decreto 439/2007, Reglamento del IRPF</a>: Desarrollo reglamentario con tablas de retenciones y procedimiento de cálculo.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>
