@@ -1,0 +1,405 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
+import { buildBreadcrumbSchema, buildFAQSchema } from '../../lib/seo';
+
+const title = 'Cuotas de Autónomos en España 2026: Tabla por Ingresos Reales';
+const description = 'Tabla completa de cuotas de autónomos en España 2026 por tramos de ingresos reales. Tarifa plana, gastos deducibles, IRPF y ejemplo práctico actualizado.';
+
+const faqs = [
+  {
+    question: '¿Cuánto paga un autónomo en España en 2026?',
+    answer: `Depende de sus rendimientos netos. En ${CURRENT_FISCAL_YEAR}, las cuotas mensuales van desde 200 € para quienes ingresan menos de 670 € netos al mes, hasta 590 € para rendimientos superiores a 6.000 € mensuales. El sistema se basa en 15 tramos de ingresos reales.`,
+  },
+  {
+    question: '¿Qué es la tarifa plana de autónomos y cuánto dura?',
+    answer: 'La tarifa plana es una cuota reducida de 80 € al mes durante los primeros 12 meses de actividad. Se puede prorrogar otros 12 meses (hasta 24 en total) si los rendimientos netos del autónomo no superan el Salario Mínimo Interprofesional. Solo aplica a nuevos autónomos o quienes no hayan estado de alta en los 2 años anteriores.',
+  },
+  {
+    question: '¿Cómo se calculan los rendimientos netos de un autónomo?',
+    answer: 'Los rendimientos netos se calculan restando a los ingresos totales (facturación) los gastos deducibles de la actividad (alquiler, suministros, material, seguros, cuota de autónomos, etc.). A ese resultado se le aplica además una deducción genérica del 7% por gastos de difícil justificación.',
+  },
+  {
+    question: '¿Un autónomo puede cambiar de tramo de cotización durante el año?',
+    answer: 'Sí. Los autónomos pueden modificar su base de cotización hasta 6 veces al año, con efectos en los meses de marzo, mayo, julio, septiembre, noviembre y enero del año siguiente. Esto permite ajustar la cuota si los ingresos varían a lo largo del ejercicio.',
+  },
+];
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Inicio', url: '/' },
+    { name: 'Guías', url: '/guias/' },
+    { name: 'Cuotas de autónomos', url: '/guias/cuotas-autonomos-espana/' },
+  ]),
+  buildFAQSchema(faqs),
+];
+---
+
+<Layout title={title} description={description} ogType="article" schema={schemas}>
+  <article class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/" class="hover:text-brand">Inicio</a> /
+      <a href="/guias/" class="hover:text-brand">Guías</a> /
+      <span class="text-charcoal dark:text-gray-200">Cuotas de Autónomos</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      Cuotas de Autónomos en España ({CURRENT_FISCAL_YEAR}): Tabla Completa por Ingresos Reales
+    </h1>
+
+    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+      Desde 2023, los trabajadores autónomos en España cotizan a la Seguridad Social en función de sus ingresos reales. Esta guía te explica cómo funciona el nuevo sistema de cotización por tramos del RETA, cuánto pagarás en {CURRENT_FISCAL_YEAR} y cómo calcular tu cuota exacta.
+    </p>
+
+    <div class="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">
+      <p class="font-medium text-blue-800 dark:text-blue-300">
+        Usa nuestra <a href="/calculadora-autonomos/" class="underline">calculadora de autónomos</a> para obtener tu cuota y sueldo neto al instante.
+      </p>
+    </div>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-8">
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">1. El nuevo sistema de cotización por ingresos reales (RETA)</h2>
+        <p>
+          El Real Decreto-ley 13/2022 estableció un cambio radical en la forma en que los autónomos cotizan a la Seguridad Social en España. Desde enero de 2023, se abandonó el sistema de libre elección de base de cotización y se implantó un modelo progresivo basado en los <strong>rendimientos netos reales</strong> del trabajador por cuenta propia.
+        </p>
+        <p>
+          El sistema divide los rendimientos netos mensuales en <strong>15 tramos</strong>, cada uno con una base de cotización mínima y máxima, y por tanto una cuota mínima asociada. El despliegue completo está previsto para 2025, con ajustes anuales que continúan en {CURRENT_FISCAL_YEAR}.
+        </p>
+        <p>
+          Los objetivos principales de esta reforma son:
+        </p>
+        <ul>
+          <li><strong>Equidad contributiva:</strong> que cada autónomo cotice en proporción a lo que realmente gana, no por una base elegida arbitrariamente.</li>
+          <li><strong>Mejora de prestaciones:</strong> al cotizar por bases más ajustadas a los ingresos, mejoran las prestaciones futuras (jubilación, incapacidad temporal, cese de actividad).</li>
+          <li><strong>Sostenibilidad del sistema:</strong> reducir la infracotización de autónomos con ingresos altos que elegían la base mínima.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">2. Tabla de cuotas de autónomos {CURRENT_FISCAL_YEAR}: los 15 tramos</h2>
+        <p>
+          La siguiente tabla muestra los tramos de rendimientos netos mensuales, las bases de cotización y las cuotas mensuales mínimas aproximadas para {CURRENT_FISCAL_YEAR}. El tipo de cotización general del RETA es del 31,30%.
+        </p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-gray-200 dark:border-gray-600">
+                <th class="px-3 py-2 text-left font-medium">Tramo</th>
+                <th class="px-3 py-2 text-left font-medium">Rendimientos netos (€/mes)</th>
+                <th class="px-3 py-2 text-right font-medium">Base mínima (€/mes)</th>
+                <th class="px-3 py-2 text-right font-medium">Cuota mínima (€/mes)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2">1</td>
+                <td class="px-3 py-2">≤ 670 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">653,59 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">200 €</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2">2</td>
+                <td class="px-3 py-2">670,01 – 900 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">735,29 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">230 €</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2">3</td>
+                <td class="px-3 py-2">900,01 – 1.166,70 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">816,99 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">260 €</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2">4</td>
+                <td class="px-3 py-2">1.166,71 – 1.300 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">872,55 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">275 €</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2">5</td>
+                <td class="px-3 py-2">1.300,01 – 1.500 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">958,36 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">291 €</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2">6</td>
+                <td class="px-3 py-2">1.500,01 – 1.700 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">958,36 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">294 €</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2">7</td>
+                <td class="px-3 py-2">1.700,01 – 1.850 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">1.013,07 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">310 €</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2">8</td>
+                <td class="px-3 py-2">1.850,01 – 2.030 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">1.029,41 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">320 €</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2">9</td>
+                <td class="px-3 py-2">2.030,01 – 2.330 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">1.045,75 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">330 €</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2">10</td>
+                <td class="px-3 py-2">2.330,01 – 2.760 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">1.078,43 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">340 €</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2">11</td>
+                <td class="px-3 py-2">2.760,01 – 3.190 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">1.143,79 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">360 €</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2">12</td>
+                <td class="px-3 py-2">3.190,01 – 3.620 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">1.209,15 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">380 €</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2">13</td>
+                <td class="px-3 py-2">3.620,01 – 4.050 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">1.274,51 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">400 €</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2">14</td>
+                <td class="px-3 py-2">4.050,01 – 6.000 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">1.372,55 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">430 €</td>
+              </tr>
+              <tr>
+                <td class="px-3 py-2">15</td>
+                <td class="px-3 py-2">> 6.000 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">1.883,70 €</td>
+                <td class="px-3 py-2 text-right tabular-nums">590 €</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Estas cuotas incluyen contingencias comunes, contingencias profesionales, cese de actividad, formación profesional y MEI. El autónomo puede elegir una base de cotización entre la mínima y la máxima de su tramo.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">3. Cómo determinar tu tramo: rendimientos netos</h2>
+        <p>
+          Para saber en qué tramo te encuentras, necesitas calcular tus <strong>rendimientos netos mensuales</strong>. El proceso es el siguiente:
+        </p>
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Paso 1: Calcula tus ingresos totales anuales</h3>
+        <p>
+          Suma toda tu facturación bruta del año (sin IVA). Esto incluye todas las facturas emitidas a clientes, tanto nacionales como intracomunitarios, con o sin retención de IRPF.
+        </p>
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Paso 2: Resta los gastos deducibles</h3>
+        <p>
+          Deduce todos los gastos necesarios para el desarrollo de tu actividad (los detallamos en la siguiente sección). El resultado es tu <strong>rendimiento neto previo</strong>.
+        </p>
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Paso 3: Aplica la deducción por gastos de difícil justificación</h3>
+        <p>
+          Si tributas en estimación directa simplificada (la mayoría de autónomos), puedes deducir un <strong>7% adicional</strong> sobre el rendimiento neto previo (3,5% para autónomos societarios). Este porcentaje cubre gastos menores difíciles de documentar.
+        </p>
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Paso 4: Divide entre 12</h3>
+        <p>
+          El resultado final dividido entre 12 meses es tu rendimiento neto mensual, que determina tu tramo de cotización.
+        </p>
+        <div class="rounded-lg bg-gray-100 p-4 font-mono text-sm dark:bg-gray-800">
+          Rendimiento neto mensual = (Ingresos − Gastos deducibles) × 0,93 ÷ 12
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">4. Gastos deducibles para autónomos</h2>
+        <p>
+          Los gastos deducibles reducen tu rendimiento neto y, por tanto, tu tramo de cotización y tu IRPF. Los principales gastos que puedes deducir son:
+        </p>
+        <ul>
+          <li><strong>Cuota de autónomos:</strong> la propia cuota mensual del RETA es deducible al 100%.</li>
+          <li><strong>Alquiler del local o coworking:</strong> si desarrollas tu actividad fuera de casa, el alquiler del espacio de trabajo es deducible íntegramente.</li>
+          <li><strong>Suministros (si trabajas desde casa):</strong> puedes deducir el 30% de la parte proporcional de los gastos de agua, electricidad, gas e internet correspondientes a los metros cuadrados dedicados a la actividad.</li>
+          <li><strong>Material y equipos:</strong> ordenadores, software, mobiliario de oficina, herramientas y cualquier material necesario para tu trabajo.</li>
+          <li><strong>Teléfono móvil e internet:</strong> si tienes una línea exclusiva para la actividad, es deducible al 100%. Si es mixta (personal y profesional), solo la parte proporcional.</li>
+          <li><strong>Gestoría y asesoría fiscal:</strong> los honorarios de tu gestor o asesor fiscal son deducibles.</li>
+          <li><strong>Seguros:</strong> seguro de responsabilidad civil, seguro de salud (hasta 500 €/año por persona, 1.500 € si hay discapacidad) y otros seguros vinculados a la actividad.</li>
+          <li><strong>Formación:</strong> cursos, congresos, libros y suscripciones directamente relacionados con tu actividad profesional.</li>
+          <li><strong>Dietas y desplazamientos:</strong> gastos de manutención en establecimientos de hostelería (máximo 26,67 €/día en España, 48,08 € en el extranjero) y gastos de transporte vinculados a la actividad.</li>
+          <li><strong>Amortizaciones:</strong> si has comprado un bien de inversión (vehículo, equipo, maquinaria), puedes deducir su coste repartido a lo largo de su vida útil según las tablas de amortización oficiales.</li>
+        </ul>
+        <p>
+          Es fundamental guardar todas las facturas y justificantes. La AEAT puede solicitar documentación que acredite la vinculación del gasto con la actividad económica.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">5. IRPF para autónomos: retenciones y estimación directa</h2>
+        <p>
+          Además de la cuota del RETA, los autónomos deben pagar el <strong>Impuesto sobre la Renta de las Personas Físicas (IRPF)</strong>. A diferencia de los asalariados, los autónomos no tienen una empresa que les practique la retención automática, por lo que deben gestionar sus pagos fraccionados.
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Retenciones en facturas</h3>
+        <p>
+          Cuando un autónomo factura a otro profesional o empresa, se aplica una retención de IRPF en la factura. El tipo general es del <strong>15%</strong>. Los nuevos autónomos (durante el año de alta y los dos siguientes) pueden aplicar una retención reducida del <strong>7%</strong>.
+        </p>
+        <p>
+          Estas retenciones son pagos a cuenta del IRPF: se descuentan de lo que debes pagar en la declaración de la renta. Si facturas a particulares, no hay retención y deberás presentar pagos fraccionados trimestrales (modelo 130).
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Estimación directa simplificada</h3>
+        <p>
+          La mayoría de autónomos tributan en <strong>estimación directa simplificada</strong>. En este régimen, el rendimiento neto se calcula como la diferencia entre ingresos y gastos deducibles, con la deducción adicional del 7% por gastos de difícil justificación. Es el régimen que se aplica por defecto si la cifra de negocio no supera los 600.000 €/año.
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Pagos fraccionados trimestrales (modelo 130)</h3>
+        <p>
+          Cada trimestre, el autónomo debe declarar el 20% de su rendimiento neto acumulado, descontando las retenciones ya practicadas y los pagos fraccionados anteriores. Los plazos son: abril (1T), julio (2T), octubre (3T) y enero del año siguiente (4T).
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">6. Tarifa plana para nuevos autónomos</h2>
+        <p>
+          La <strong>tarifa plana</strong> es una bonificación que permite a los nuevos autónomos pagar una cuota reducida de <strong>80 € al mes</strong> durante los primeros 12 meses de actividad. Esta cuota se mantiene independientemente de los ingresos del autónomo durante ese periodo.
+        </p>
+        <p>
+          Tras los primeros 12 meses, se puede <strong>prorrogar otros 12 meses</strong> (hasta un total de 24 meses con tarifa reducida) siempre que los rendimientos netos del autónomo sean inferiores al <strong>Salario Mínimo Interprofesional (SMI)</strong> vigente.
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Requisitos para acogerse a la tarifa plana</h3>
+        <ul>
+          <li><strong>No haber estado de alta como autónomo</strong> en los 2 años anteriores (3 años si ya disfrutaste anteriormente de la tarifa plana).</li>
+          <li><strong>No ser autónomo colaborador</strong> (familiar del titular de un negocio).</li>
+          <li><strong>No tener deudas pendientes</strong> con la Seguridad Social ni con Hacienda.</li>
+        </ul>
+        <p>
+          La tarifa plana es compatible con trabajar por cuenta ajena simultáneamente (autónomo pluriactividad), aunque en ese caso existen bonificaciones específicas adicionales.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">7. Ejemplo práctico: autónomo con 40.000 € de facturación</h2>
+        <p>
+          Veamos un caso real: un diseñador freelance que ha facturado 40.000 € brutos (sin IVA) en {CURRENT_FISCAL_YEAR}, con 8.000 € de gastos deducibles.
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Cálculo de la cuota del RETA</h3>
+        <table class="w-full text-sm">
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Facturación bruta anual</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">40.000,00 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Gastos deducibles</td>
+              <td class="px-3 py-2 text-right tabular-nums text-amber-600">− 8.000,00 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Rendimiento neto previo</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">32.000,00 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Deducción 7% difícil justificación</td>
+              <td class="px-3 py-2 text-right tabular-nums text-amber-600">− 2.240,00 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Rendimiento neto definitivo anual</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">29.760,00 €</td>
+            </tr>
+            <tr class="border-t-2 border-gray-300 dark:border-gray-600">
+              <td class="px-3 py-2 font-bold">Rendimiento neto mensual</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold">2.480,00 €</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Con 2.480 € de rendimiento neto mensual, nuestro autónomo se sitúa en el <strong>tramo 10</strong> (2.330,01 – 2.760 €), con una cuota mínima de <strong>340 €/mes</strong>, lo que supone <strong>4.080 €/año</strong> en cuotas del RETA.
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Cálculo del IRPF (estimación directa simplificada)</h3>
+        <table class="w-full text-sm">
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Rendimiento neto (antes de SS)</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">29.760,00 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Cuota autónomos (deducible)</td>
+              <td class="px-3 py-2 text-right tabular-nums text-amber-600">− 4.080,00 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Base imponible general (aprox.)</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">25.680,00 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">IRPF estimado (aprox. 17-18%)</td>
+              <td class="px-3 py-2 text-right tabular-nums text-red-600">− ~4.600 €</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Resumen: del bruto al neto</h3>
+        <table class="w-full text-sm">
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Facturación bruta</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">40.000 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Gastos de actividad</td>
+              <td class="px-3 py-2 text-right tabular-nums text-amber-600">− 8.000 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Cuota RETA anual</td>
+              <td class="px-3 py-2 text-right tabular-nums text-amber-600">− 4.080 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">IRPF estimado</td>
+              <td class="px-3 py-2 text-right tabular-nums text-red-600">− ~4.600 €</td>
+            </tr>
+            <tr class="border-t-2 border-gray-300 dark:border-gray-600">
+              <td class="px-3 py-2 font-bold">Neto anual disponible</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">~23.320 €</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2 font-bold">Neto mensual disponible</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">~1.943 €</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          De los 40.000 € facturados, el autónomo conserva aproximadamente 23.320 € netos, un <strong>58,3% del total facturado</strong>. El resto se destina a gastos de actividad (20%), cuotas del RETA (10,2%) e IRPF (11,5%).
+        </p>
+        <p>
+          <a href="/calculadora-autonomos/" class="text-brand hover:underline">Calcula tu caso exacto con nuestra calculadora de autónomos</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Preguntas frecuentes</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+              <summary class="cursor-pointer px-4 py-3 font-medium text-charcoal dark:text-gray-200">
+                {faq.question}
+              </summary>
+              <div class="border-t border-gray-200 px-4 py-3 text-sm dark:border-gray-700">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+    </div>
+
+    <div class="mt-8 text-xs text-medium-gray">
+      <p>Actualizado para el ejercicio fiscal {CURRENT_FISCAL_YEAR}. Fuentes: AEAT, Seguridad Social, BOE, Real Decreto-ley 13/2022.</p>
+    </div>
+  </article>
+</Layout>

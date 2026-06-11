@@ -1,0 +1,238 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import ComparadorComunidades from '../../components/calculadoras/ComparadorComunidades';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+
+const title = `Regional Tax Comparison Spain ${CURRENT_FISCAL_YEAR}: All Regions`;
+const description = `Compare your net salary across all 17 Spanish autonomous communities ${CURRENT_FISCAL_YEAR}. See how regional IRPF rates affect your take-home pay and find the lowest-tax region.`;
+
+const faqs = [
+  { question: 'How much does the region affect my net salary?', answer: 'The regional component of IRPF can create differences of €1,000 to €3,000+ per year in net salary for the same gross amount. The impact grows with income: at €25,000 gross the regional difference might be €500, while at €80,000 it can exceed €3,500 between the lowest and highest-tax regions.' },
+  { question: 'Which is the cheapest region for taxes in Spain?', answer: `Madrid consistently offers the lowest regional IRPF rates, making it the most tax-friendly region for salaried workers. Castilla y León and La Rioja also have competitive rates. Note that the Basque Country and Navarre operate separate tax systems (régimen foral) with their own rates.` },
+  { question: "Can I choose which region's tax rates apply to me?", answer: 'Your tax region is determined by your fiscal domicile — where you live most of the year (183+ days). You cannot choose a different region for tax purposes. If you move regions, the new rates apply from the next tax year, or from the current year if you spend the majority of it in the new region.' },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Regional Tax Comparison ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Regional Comparison"
+  path="/en/regional-comparison/"
+  faqs={faqs}
+  locale="en"
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <ComparadorComunidades client:load lang="en" />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      How regional taxes vary across Spain
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spain's decentralised fiscal system means that income tax is shared between the central government and the autonomous communities. While the state portion of IRPF is identical everywhere (except the Basque Country and Navarre, which have their own complete tax systems), each of the 17 autonomous communities sets its own regional tax brackets and rates.
+      </p>
+      <p>
+        This creates meaningful differences in take-home pay depending on where you live. For workers considering a relocation within Spain, or expats deciding where to settle, comparing the regional tax impact on your specific salary level is a crucial factor alongside cost of living, job opportunities and quality of life.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Regional tax differences at a glance
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        The following table shows the approximate annual net salary difference for a single worker earning 40,000 EUR gross per year, compared to the national average. The figures illustrate the regional component of IRPF only and do not account for local deductions, cost of living, or other factors.
+      </p>
+      <div class="overflow-x-auto mt-4 mb-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left font-semibold">Autonomous community</th>
+              <th class="px-4 py-2 text-right font-semibold">Approx. annual net vs. average</th>
+              <th class="px-4 py-2 text-left font-semibold">Tax level</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Madrid</td>
+              <td class="px-4 py-2 text-right">+500 to +800 EUR</td>
+              <td class="px-4 py-2">Low</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Castilla y Leon</td>
+              <td class="px-4 py-2 text-right">+200 to +400 EUR</td>
+              <td class="px-4 py-2">Low-Medium</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">La Rioja</td>
+              <td class="px-4 py-2 text-right">+100 to +300 EUR</td>
+              <td class="px-4 py-2">Low-Medium</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Andalusia</td>
+              <td class="px-4 py-2 text-right">+100 to +250 EUR</td>
+              <td class="px-4 py-2">Low-Medium</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Galicia</td>
+              <td class="px-4 py-2 text-right">0 to +100 EUR</td>
+              <td class="px-4 py-2">Medium</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Cantabria</td>
+              <td class="px-4 py-2 text-right">0 to +100 EUR</td>
+              <td class="px-4 py-2">Medium</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Aragon</td>
+              <td class="px-4 py-2 text-right">0 to -100 EUR</td>
+              <td class="px-4 py-2">Medium</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Castilla-La Mancha</td>
+              <td class="px-4 py-2 text-right">0 to -100 EUR</td>
+              <td class="px-4 py-2">Medium</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Extremadura</td>
+              <td class="px-4 py-2 text-right">-50 to -200 EUR</td>
+              <td class="px-4 py-2">Medium</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Murcia</td>
+              <td class="px-4 py-2 text-right">-50 to -200 EUR</td>
+              <td class="px-4 py-2">Medium</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Balearic Islands</td>
+              <td class="px-4 py-2 text-right">-100 to -300 EUR</td>
+              <td class="px-4 py-2">Medium-High</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Asturias</td>
+              <td class="px-4 py-2 text-right">-100 to -300 EUR</td>
+              <td class="px-4 py-2">Medium-High</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Canary Islands</td>
+              <td class="px-4 py-2 text-right">-100 to -300 EUR</td>
+              <td class="px-4 py-2">Medium-High</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Catalonia</td>
+              <td class="px-4 py-2 text-right">-200 to -500 EUR</td>
+              <td class="px-4 py-2">High</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Valencian Community</td>
+              <td class="px-4 py-2 text-right">-300 to -600 EUR</td>
+              <td class="px-4 py-2">High</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Basque Country *</td>
+              <td class="px-4 py-2 text-right">Separate system</td>
+              <td class="px-4 py-2">Foral regime</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Navarre *</td>
+              <td class="px-4 py-2 text-right">Separate system</td>
+              <td class="px-4 py-2">Foral regime</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        <em>* The Basque Country and Navarre operate their own complete tax systems (see below). Direct comparisons require separate analysis.</em>
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      The foral regimes: Basque Country and Navarre
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spain's fiscal decentralization includes two unique cases: the Basque Country (Pais Vasco) and Navarre. These regions operate under foral regimes (regimenes forales), meaning they have the constitutional right to collect and manage their own taxes independently of the central government. This arrangement dates back centuries and is rooted in historical agreements between these territories and the Spanish Crown.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">Basque Country: the Concierto Economico</h3>
+      <p>
+        The three Basque provinces (Alava, Bizkaia, and Gipuzkoa) each have their own tax authority (Diputacion Foral) that sets income tax rates, brackets, and deductions independently. The tax brackets differ from the common regime and from each other. In general, Basque tax rates for moderate incomes (30,000 to 50,000 EUR) tend to be somewhat similar to the common regime, but with different personal deductions and family allowances. For higher incomes, the Basque system can be slightly more favorable. The Basque Country then pays a quota (the cupo) to the central government for shared services like defense and foreign affairs.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">Navarre: the Convenio Economico</h3>
+      <p>
+        Navarre similarly manages its own tax system under the Convenio Economico. The Navarrese tax brackets and rates are set by the regional parliament and differ from both the common regime and the Basque provinces. Navarre tends to have slightly higher rates for medium incomes but offers generous deductions for families, housing, and certain investments that can offset this difference.
+      </p>
+      <p>
+        If you are an expat considering moving to either the Basque Country or Navarre, it is important to consult their specific tax rules, as the calculators for the common regime do not directly apply. Our regional comparison tool handles these foral regimes separately for accurate results.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Historical context of fiscal decentralization in Spain
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spain's current system of shared taxation between the state and the autonomous communities was established by the 1978 Constitution and refined through subsequent organic laws. The Constitution recognized the right of regions to financial autonomy, leading to a system where 50% of IRPF revenue is assigned to the community where the taxpayer resides, along with 50% of VAT revenue and a portion of excise duties.
+      </p>
+      <p>
+        This decentralization means that autonomous communities have progressively gained the power to set their own tax brackets for the regional portion of IRPF, introduce regional deductions (for housing, birth of children, education, and more), and even modify the tax base to some extent. Over time, this has led to increasing divergence in effective tax rates across regions, with some communities choosing to lower rates to attract residents and economic activity, while others maintain higher rates to fund more extensive public services.
+      </p>
+      <p>
+        The debate over regional tax competition is ongoing. Proponents argue that it allows communities to experiment with policies and gives citizens a choice. Critics contend that it creates inequities between regions and complicates the tax system unnecessarily. For workers and expats, the practical consequence is clear: where you live materially affects your take-home pay.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      How to change your fiscal domicile
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Your fiscal domicile (domicilio fiscal) determines which region's tax rates apply to you. It is based on where you spend the majority of the tax year (more than 183 days). Changing your fiscal domicile requires an actual, genuine relocation, not merely registering a new address. Here is what the process involves:
+      </p>
+      <ol class="list-decimal ml-4 space-y-2 mt-2">
+        <li><strong>Move your actual residence:</strong> You must physically relocate to the new community and live there for the majority of the year.</li>
+        <li><strong>Register on the municipal census (padron):</strong> Visit the town hall (ayuntamiento) of your new city and register your address on the padron municipal. This is the primary administrative proof of your residence.</li>
+        <li><strong>Update your tax address with the AEAT:</strong> File Form 030 (Modelo 030) with the Tax Agency to update your fiscal domicile. This can be done online through the AEAT website with a digital certificate.</li>
+        <li><strong>Notify your employer:</strong> Your employer needs your updated address to apply the correct regional withholding rates on your payslip.</li>
+      </ol>
+      <p>
+        Note that the tax authorities can challenge changes of fiscal domicile that appear to be motivated solely by tax avoidance without genuine relocation. If the AEAT determines that your actual center of economic or personal activity remains in the original community, they may reassign your fiscal domicile retroactively.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Practical implications for remote workers choosing where to live
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        The rise of remote work has given many professionals the freedom to choose where they live without being tied to a specific office location. For remote workers in Spain, this opens up an interesting opportunity: you can select your region based not only on lifestyle preferences but also on the tax impact on your salary.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">A case study: remote worker earning 55,000 EUR</h3>
+      <p>
+        Consider a remote software developer earning 55,000 EUR gross per year, single, no children. If this worker lives in Madrid, they benefit from the lowest regional IRPF rates in Spain, potentially saving over 1,000 EUR per year compared to living in Valencia or Catalonia. However, Madrid also has significantly higher housing costs, which may more than offset the tax savings.
+      </p>
+      <p>
+        Alternatively, a region like Castilla y Leon offers tax rates close to Madrid's but with dramatically lower living costs. Cities like Valladolid, Leon, or Salamanca provide good infrastructure, cultural amenities, and high-speed internet at a fraction of Madrid or Barcelona rental prices. For a remote worker, the combination of lower taxes and lower cost of living can result in substantially more disposable income.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">Beyond income tax: other regional taxes</h3>
+      <p>
+        While IRPF is the most significant regional tax variation, other taxes also differ by community. Wealth tax (Impuesto sobre el Patrimonio) varies widely: Madrid effectively eliminates it with a 100% bonus, while Catalonia applies it with a high top rate. Inheritance and gift tax also varies enormously. If you have significant assets or expect to receive an inheritance, these additional regional tax differences should factor into your decision.
+      </p>
+      <p>
+        Our regional comparison tool focuses on the IRPF differences, which are the most relevant for salaried workers. For a complete fiscal picture, especially if you have investments, property, or other assets, consulting a tax advisor who understands the specific regulations of your chosen community is highly recommended.
+      </p>
+    </div>
+  </section>
+</CalculadoraLayout>

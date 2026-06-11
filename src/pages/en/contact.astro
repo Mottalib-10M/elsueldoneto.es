@@ -1,0 +1,73 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
+import { buildBreadcrumbSchema } from '../../lib/seo';
+
+const title = `Contact Us - ${SITE_NAME} | Spanish Tax Calculator Support`;
+const description = 'Get in touch with the El Sueldo Neto team. Report calculation issues, suggest new features for our Spanish salary calculators, or ask about taxes in Spain.';
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Home', url: '/en/' },
+    { name: 'Contact', url: '/en/contact/' },
+  ]),
+];
+---
+
+<Layout title={title} description={description} schema={schemas} locale="en">
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/en/" class="hover:text-brand">Home</a> / <span class="text-charcoal dark:text-gray-200">Contact</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">Contact Us</h1>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <p>
+        Have a question about how Spanish taxes work? Spotted an error in one of our calculators? We would love to hear from you. Drop us an email and we will get back to you as soon as possible.
+      </p>
+
+      <div class="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+        <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">Get in Touch</h2>
+        <p class="mb-4">
+          The quickest way to reach us is by email:
+        </p>
+        <a
+          href="mailto:contacto@elsueldoneto.es"
+          class="inline-flex items-center gap-2 rounded-lg bg-brand px-6 py-3 font-medium text-white transition-colors hover:bg-red-700"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+          </svg>
+          contacto@elsueldoneto.es
+        </a>
+      </div>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">What Can We Help With?</h2>
+        <ul>
+          <li><strong>Calculation discrepancies:</strong> If you notice a significant difference between our results and the official AEAT tax simulator, please let us know so we can investigate and fix it.</li>
+          <li><strong>Feature requests:</strong> Have an idea for a new calculator or an improvement to an existing one? We are always looking for ways to make our tools more useful.</li>
+          <li><strong>Tax data updates:</strong> If you are aware of changes to IRPF brackets, Social Security contributions, or regional tax rates that we have not yet incorporated, we appreciate the heads-up.</li>
+          <li><strong>Partnerships:</strong> Interested in editorial or technical collaboration? We are open to working with tax professionals, financial advisors, and content creators.</li>
+          <li><strong>Translation and language:</strong> Found an awkward phrasing or error in our English content? We want our site to read naturally for English speakers in Spain.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Response Times</h2>
+        <p>
+          We are a small, dedicated team, so we typically reply within one to three business days. If your inquiry is about a calculation error, including the salary figure, employment type, and autonomous community you used will help us reproduce and resolve the issue faster.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Important Notice</h2>
+        <p>
+          {SITE_NAME} provides informational tools and educational content only. We do not offer personalised tax, legal, or financial advice. For questions about your individual tax situation, we recommend consulting a qualified tax advisor (<em>asesor fiscal</em>) or the <a href="https://www.agenciatributaria.gob.es" target="_blank" rel="noopener" class="text-brand hover:underline">Spanish Tax Agency (AEAT)</a> directly.
+        </p>
+      </section>
+    </div>
+  </div>
+</Layout>

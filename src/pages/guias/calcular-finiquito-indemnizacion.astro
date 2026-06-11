@@ -1,0 +1,313 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
+import { buildBreadcrumbSchema, buildFAQSchema } from '../../lib/seo';
+
+const title = `Cómo Calcular tu Finiquito e Indemnización en España ${CURRENT_FISCAL_YEAR}`;
+const description = 'Aprende a calcular tu finiquito e indemnización por despido en España. Despido improcedente, objetivo, fin de contrato, vacaciones, IRPF y ejemplo práctico.';
+
+const faqs = [
+  {
+    question: '¿Cuál es la diferencia entre finiquito e indemnización?',
+    answer: 'El finiquito es la liquidación de las cantidades pendientes que la empresa te debe al finalizar la relación laboral (días trabajados, vacaciones no disfrutadas, pagas extra proporcionales). Se cobra siempre, sea cual sea el motivo de la baja. La indemnización es una compensación adicional que solo se cobra en determinados supuestos, como despido improcedente, despido objetivo o fin de contrato temporal.',
+  },
+  {
+    question: '¿La indemnización por despido paga IRPF?',
+    answer: 'La indemnización por despido está exenta de IRPF hasta los límites legales establecidos en el Estatuto de los Trabajadores: 33 días por año trabajado con un máximo de 24 mensualidades para despido improcedente, y 20 días por año con un máximo de 12 mensualidades para despido objetivo. El exceso sobre estos límites sí tributa.',
+  },
+  {
+    question: '¿Cuántos días tengo para firmar el finiquito?',
+    answer: 'No existe un plazo legal obligatorio para firmar el finiquito. Sin embargo, es recomendable no firmar en el momento si no estás seguro de que las cantidades sean correctas. Puedes firmarlo con la coletilla "no conforme" para reservarte el derecho a reclamar. Tienes un plazo de 1 año para reclamar cantidades del finiquito ante el juzgado de lo social.',
+  },
+  {
+    question: '¿Tengo derecho a indemnización si me voy voluntariamente?',
+    answer: 'No. La baja voluntaria no genera derecho a indemnización. Solo recibirás el finiquito con los días trabajados no cobrados, vacaciones pendientes y la parte proporcional de pagas extras. Tampoco tendrás derecho a prestación por desempleo, salvo que acumules desempleo de relaciones laborales anteriores.',
+  },
+];
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Inicio', url: '/' },
+    { name: 'Guías', url: '/guias/' },
+    { name: 'Calcular finiquito e indemnización', url: '/guias/calcular-finiquito-indemnizacion/' },
+  ]),
+  buildFAQSchema(faqs),
+];
+---
+
+<Layout title={title} description={description} ogType="article" schema={schemas}>
+  <article class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/" class="hover:text-brand">Inicio</a> /
+      <a href="/guias/" class="hover:text-brand">Guías</a> /
+      <span class="text-charcoal dark:text-gray-200">Finiquito e Indemnización</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      Cómo Calcular tu Finiquito e Indemnización en España ({CURRENT_FISCAL_YEAR})
+    </h1>
+
+    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+      Cuando finaliza una relación laboral, ya sea por despido, fin de contrato o baja voluntaria, la empresa debe abonarte un finiquito. En algunos casos, también tienes derecho a una indemnización. Esta guía te explica paso a paso cómo calcular cada concepto, qué impuestos se aplican y cuánto deberías recibir.
+    </p>
+
+    <div class="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">
+      <p class="font-medium text-blue-800 dark:text-blue-300">
+        Usa nuestra <a href="/calculadora-finiquito/" class="underline">calculadora de finiquito</a> para obtener tu resultado al instante, o calcula tu <a href="/calculadora-paro/" class="underline">prestación por desempleo</a>.
+      </p>
+    </div>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-8">
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">1. Finiquito vs. indemnización: no es lo mismo</h2>
+        <p>
+          Es muy habitual confundir ambos conceptos, pero son cosas distintas:
+        </p>
+        <ul>
+          <li><strong>Finiquito (liquidación):</strong> son las cantidades que la empresa te adeuda por el trabajo ya realizado. Se cobra <strong>siempre</strong>, independientemente del motivo de la finalización del contrato: despido, baja voluntaria, fin de contrato temporal o jubilación.</li>
+          <li><strong>Indemnización:</strong> es una compensación económica adicional que la ley establece para determinados tipos de extinción del contrato. <strong>No se cobra siempre.</strong> Solo procede en despidos (improcedentes u objetivos), fin de contratos temporales, y otros supuestos específicos regulados en el Estatuto de los Trabajadores.</li>
+        </ul>
+        <p>
+          En la práctica, cuando te despiden recibes ambas cosas: el finiquito más la indemnización correspondiente. Si te vas voluntariamente, solo recibes el finiquito.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">2. Componentes del finiquito</h2>
+        <p>
+          El finiquito se compone de tres elementos principales:
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Días trabajados y no cobrados</h3>
+        <p>
+          Son los días del mes en curso que has trabajado pero que aún no has cobrado. Por ejemplo, si tu contrato finaliza el 15 de marzo, te corresponden 15 días de salario de ese mes.
+        </p>
+        <div class="rounded-lg bg-gray-100 p-4 font-mono text-sm dark:bg-gray-800">
+          Días trabajados = (Salario bruto mensual / días del mes) x días trabajados
+        </div>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Vacaciones no disfrutadas</h3>
+        <p>
+          Todo trabajador tiene derecho a 30 días naturales de vacaciones al año (22 días laborables en la mayoría de convenios). Si al finalizar el contrato no has disfrutado todas las vacaciones que te corresponden proporcionalmente, la empresa debe compensártelas económicamente.
+        </p>
+        <div class="rounded-lg bg-gray-100 p-4 font-mono text-sm dark:bg-gray-800">
+          Vacaciones pendientes = (Días de vacaciones anuales / 365) x días trabajados en el año − días ya disfrutados
+        </div>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Parte proporcional de pagas extraordinarias</h3>
+        <p>
+          Si cobras en 14 pagas (la situación más habitual en España), las pagas extras se devengan día a día. Si te vas antes de la fecha de cobro (normalmente junio y diciembre), te corresponde la parte proporcional devengada hasta la fecha de cese.
+        </p>
+        <div class="rounded-lg bg-gray-100 p-4 font-mono text-sm dark:bg-gray-800">
+          Paga extra proporcional = (Importe paga extra / días del periodo de devengo) x días devengados
+        </div>
+        <p>
+          Si tus pagas extras están prorrateadas (cobras 12 pagas iguales), este concepto ya está incluido en tu nómina mensual y no aparecerá en el finiquito.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">3. Tipos de indemnización por despido</h2>
+        <p>
+          La cuantía de la indemnización varía según el tipo de extinción del contrato. En {CURRENT_FISCAL_YEAR}, los importes son los siguientes:
+        </p>
+
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200 dark:border-gray-600">
+              <th class="px-3 py-2 text-left font-medium">Tipo de extinción</th>
+              <th class="px-3 py-2 text-right font-medium">Indemnización</th>
+              <th class="px-3 py-2 text-right font-medium">Tope máximo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Despido improcedente</td>
+              <td class="px-3 py-2 text-right tabular-nums">33 días/año</td>
+              <td class="px-3 py-2 text-right tabular-nums">24 mensualidades</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Despido objetivo (causas económicas, técnicas, organizativas o de producción)</td>
+              <td class="px-3 py-2 text-right tabular-nums">20 días/año</td>
+              <td class="px-3 py-2 text-right tabular-nums">12 mensualidades</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Fin de contrato temporal</td>
+              <td class="px-3 py-2 text-right tabular-nums">12 días/año</td>
+              <td class="px-3 py-2 text-right tabular-nums">—</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Despido disciplinario procedente</td>
+              <td class="px-3 py-2 text-right tabular-nums">0 días</td>
+              <td class="px-3 py-2 text-right tabular-nums">—</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2">Baja voluntaria</td>
+              <td class="px-3 py-2 text-right tabular-nums">0 días</td>
+              <td class="px-3 py-2 text-right tabular-nums">—</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          Para contratos anteriores al 12 de febrero de 2012, la indemnización por despido improcedente era de 45 días/año con un máximo de 42 mensualidades. Si tu contrato es anterior a esa fecha, el cálculo se realiza en dos tramos.
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Cómo se calcula la indemnización</h3>
+        <p>
+          La fórmula general es:
+        </p>
+        <div class="rounded-lg bg-gray-100 p-4 font-mono text-sm dark:bg-gray-800">
+          Indemnización = (Salario diario x días por año) x años trabajados
+        </div>
+        <p>
+          El <strong>salario diario</strong> se calcula dividiendo el salario bruto anual (incluyendo pagas extras, pluses fijos y otros complementos salariales) entre 365 días. Los periodos inferiores a un año se prorratean por meses completos, y las fracciones de mes se computan como un mes entero.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">4. Ejemplo práctico: despido improcedente</h2>
+        <p>
+          Supongamos un trabajador con estas condiciones:
+        </p>
+        <ul>
+          <li>Salario bruto anual: <strong>30.000 €</strong> (14 pagas)</li>
+          <li>Antigüedad: <strong>5 años</strong> (contrato posterior al 12/02/2012)</li>
+          <li>Tipo de despido: <strong>improcedente</strong></li>
+          <li>Fecha de cese: <strong>15 de septiembre de {CURRENT_FISCAL_YEAR}</strong></li>
+          <li>Vacaciones disfrutadas en el año: <strong>10 días</strong></li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Cálculo del finiquito</h3>
+        <table class="w-full text-sm">
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Días trabajados en septiembre (15 días)</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">1.071,43 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Vacaciones no disfrutadas (~9,5 días pendientes)</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">780,82 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Paga extra de diciembre (proporcional sept.)</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">1.608,22 €</td>
+            </tr>
+            <tr class="border-t-2 border-gray-300 dark:border-gray-600">
+              <td class="px-3 py-2 font-bold">Total finiquito (bruto)</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">~3.460 €</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Cálculo de la indemnización</h3>
+        <table class="w-full text-sm">
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Salario diario (30.000 € / 365)</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">82,19 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Días de indemnización (33 x 5 años)</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">165 días</td>
+            </tr>
+            <tr class="border-t-2 border-gray-300 dark:border-gray-600">
+              <td class="px-3 py-2 font-bold">Total indemnización</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">13.561,64 €</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          En total, este trabajador recibiría aproximadamente <strong>17.021 €</strong> (finiquito + indemnización). La indemnización estaría exenta de IRPF al no superar el límite legal.
+        </p>
+        <p>
+          <a href="/calculadora-finiquito/" class="text-brand hover:underline">Calcula tu caso exacto con nuestra calculadora de finiquito</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">5. Tratamiento fiscal: IRPF en finiquito e indemnización</h2>
+        <p>
+          Es fundamental entender que el finiquito y la indemnización reciben un tratamiento fiscal muy diferente:
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">El finiquito tributa como salario</h3>
+        <p>
+          Los conceptos del finiquito (días trabajados, vacaciones, pagas extras) son rendimientos del trabajo y <strong>tributan igual que tu nómina</strong>. La empresa debe practicar retención de IRPF y cotización a la Seguridad Social sobre estos importes.
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">La indemnización puede estar exenta de IRPF</h3>
+        <p>
+          La indemnización por despido está <strong>exenta de IRPF</strong> hasta los límites establecidos legalmente en el Estatuto de los Trabajadores:
+        </p>
+        <ul>
+          <li><strong>Despido improcedente:</strong> exenta hasta 33 días/año con máximo de 24 mensualidades</li>
+          <li><strong>Despido objetivo:</strong> exenta hasta 20 días/año con máximo de 12 mensualidades</li>
+          <li><strong>Fin de contrato temporal:</strong> exenta hasta 12 días/año</li>
+        </ul>
+        <p>
+          Existe un <strong>límite absoluto de exención de 180.000 €</strong>. Si la indemnización supera esta cantidad, el exceso tributa como rendimiento del trabajo.
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">El preaviso de 15 días</h3>
+        <p>
+          En el despido objetivo, la empresa debe dar un <strong>preaviso de 15 días</strong>. Si no lo cumple, debe compensarte con el salario correspondiente a esos días. Esta cantidad <strong>no está exenta</strong> y tributa como rendimiento del trabajo.
+        </p>
+        <p>
+          Asimismo, si como trabajador decides irte voluntariamente, generalmente el convenio colectivo establece un preaviso (habitualmente de 15 días). Si no lo cumples, la empresa puede descontarte esos días del finiquito.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">6. Tras el despido: la prestación por desempleo</h2>
+        <p>
+          Si te han despedido (improcedente u objetivo) o tu contrato temporal ha finalizado, tendrás derecho a la <strong>prestación por desempleo</strong> siempre que hayas cotizado al menos 360 días en los últimos 6 años.
+        </p>
+        <p>
+          La cuantía del paro es el 70% de tu base reguladora durante los primeros 180 días, y el 50% a partir del día 181. Existen topes máximos según el número de hijos.
+        </p>
+        <p>
+          <a href="/calculadora-paro/" class="text-brand hover:underline">Calcula tu prestación por desempleo con nuestra calculadora</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">7. Cuándo necesitas un abogado laboralista</h2>
+        <p>
+          En muchos casos puedes calcular y verificar tu finiquito e indemnización por tu cuenta. Sin embargo, es recomendable consultar con un abogado laboralista en las siguientes situaciones:
+        </p>
+        <ul>
+          <li><strong>Discrepancias en las cantidades:</strong> si las cifras que ofrece la empresa no coinciden con tus cálculos, un profesional puede verificarlas y reclamar la diferencia.</li>
+          <li><strong>Despido improcedente no reconocido:</strong> si la empresa te despide disciplinariamente y crees que las causas no son reales, puedes impugnar el despido ante el juzgado de lo social.</li>
+          <li><strong>Contratos anteriores a 2012:</strong> el cálculo con dos tramos (45 días + 33 días) puede ser complejo y es fácil cometer errores.</li>
+          <li><strong>Acoso laboral o vulneración de derechos:</strong> si el despido se produce en un contexto de acoso o represalia, podrías tener derecho a una indemnización adicional por daños y perjuicios.</li>
+          <li><strong>Directivos o altos cargos:</strong> los contratos de alta dirección tienen un régimen indemnizatorio especial que puede diferir significativamente del régimen general.</li>
+        </ul>
+        <p>
+          Recuerda que el plazo para impugnar un despido es de <strong>20 días hábiles</strong> desde la fecha de efectos del despido. Es un plazo de caducidad (no se interrumpe), por lo que es importante actuar con rapidez.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Preguntas frecuentes</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+              <summary class="cursor-pointer px-4 py-3 font-medium text-charcoal dark:text-gray-200">
+                {faq.question}
+              </summary>
+              <div class="border-t border-gray-200 px-4 py-3 text-sm dark:border-gray-700">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+    </div>
+
+    <div class="mt-8 text-xs text-medium-gray">
+      <p>Actualizado para el ejercicio fiscal {CURRENT_FISCAL_YEAR}. Fuentes: Estatuto de los Trabajadores (arts. 49, 50, 53, 55, 56), AEAT, BOE.</p>
+    </div>
+  </article>
+</Layout>

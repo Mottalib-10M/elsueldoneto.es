@@ -1,0 +1,499 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
+import { buildBreadcrumbSchema, buildFAQSchema } from '../../lib/seo';
+
+const title = `IRPF por Comunidad Autónoma ${CURRENT_FISCAL_YEAR}: Comparativa Completa`;
+const description = `Compara el IRPF en las 17 comunidades autónomas de España. Ranking por sueldo neto, tablas comparativas, regímenes forales y deducciones autonómicas ${CURRENT_FISCAL_YEAR}.`;
+
+const faqs = [
+  {
+    question: '¿Por qué pago distinto IRPF según mi comunidad autónoma?',
+    answer: `El IRPF se divide en dos partes: un 50% lo fija el Estado (igual para todos) y el otro 50% lo regula cada comunidad autónoma. Cada CCAA establece sus propios tramos y tipos autonómicos, lo que genera diferencias reales en el sueldo neto para el mismo salario bruto.`,
+  },
+  {
+    question: '¿Cuál es la comunidad autónoma donde se paga menos IRPF?',
+    answer: `Para salarios medios (30.000-40.000 € brutos), Madrid suele ser la comunidad con menor carga fiscal por IRPF, seguida de Castilla y León y Andalucía. La diferencia con las comunidades que más gravan puede superar los 1.500 € anuales.`,
+  },
+  {
+    question: '¿País Vasco y Navarra tienen el mismo IRPF que el resto de España?',
+    answer: 'No. País Vasco y Navarra tienen regímenes forales propios y regulan el IRPF de forma completamente independiente. Sus tramos, tipos y deducciones son diferentes a los del régimen común. En general, su presión fiscal es similar al promedio estatal, aunque con diferencias en los tramos medios.',
+  },
+  {
+    question: '¿Merece la pena cambiar de comunidad autónoma solo por el IRPF?',
+    answer: 'Solo por IRPF, raramente compensa un cambio de residencia, ya que las diferencias para salarios medios están entre 500 y 1.500 € al año. Sin embargo, si se suman otros impuestos (Patrimonio, Sucesiones, ITP) y el coste de vida, la diferencia total puede ser significativa para patrimonios elevados.',
+  },
+];
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Inicio', url: '/' },
+    { name: 'Guías', url: '/guias/' },
+    { name: 'IRPF por Comunidad Autónoma', url: '/guias/irpf-por-comunidad-autonoma/' },
+  ]),
+  buildFAQSchema(faqs),
+];
+---
+
+<Layout title={title} description={description} ogType="article" schema={schemas}>
+  <article class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/" class="hover:text-brand">Inicio</a> /
+      <a href="/guias/" class="hover:text-brand">Guías</a> /
+      <span class="text-charcoal dark:text-gray-200">IRPF por Comunidad Autónoma</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      IRPF por Comunidad Autónoma: Comparativa Completa ({CURRENT_FISCAL_YEAR})
+    </h1>
+
+    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+      El IRPF no es igual en toda España. Dependiendo de en qué comunidad autónoma residas, tu sueldo neto puede variar en más de 1.500 euros al año para el mismo salario bruto. En esta guía comparamos las 17 comunidades autónomas para que sepas exactamente cómo afecta tu lugar de residencia a lo que cobras cada mes.
+    </p>
+
+    <div class="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">
+      <p class="font-medium text-blue-800 dark:text-blue-300">
+        Usa nuestro <a href="/comparador-comunidades/" class="underline">comparador de comunidades</a> para ver la diferencia exacta con tu salario, o calcula tu retención con la <a href="/calculadora-irpf/" class="underline">calculadora de IRPF</a>.
+      </p>
+    </div>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-8">
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">1. Por qué el IRPF varía entre comunidades</h2>
+        <p>
+          El Impuesto sobre la Renta de las Personas Físicas (IRPF) es un impuesto cedido parcialmente a las comunidades autónomas de régimen común. Esto significa que se divide en dos mitades:
+        </p>
+        <ul>
+          <li><strong>Escala estatal (50%):</strong> la fija el Gobierno central y es idéntica para todos los residentes en comunidades de régimen común. En {CURRENT_FISCAL_YEAR}, los tipos van del 9,50% al 24,50%.</li>
+          <li><strong>Escala autonómica (50%):</strong> cada comunidad autónoma establece sus propios tramos y tipos. Aquí es donde surgen las diferencias. Algunas comunidades replican los tipos estatales, otras los elevan y otras los rebajan.</li>
+        </ul>
+        <p>
+          Además de los tramos, cada comunidad puede crear sus propias <strong>deducciones autonómicas</strong> (por vivienda, nacimiento de hijos, alquiler, etc.), lo que amplía todavía más la brecha entre territorios.
+        </p>
+        <p>
+          El resultado es que dos trabajadores con el mismo contrato, el mismo salario y la misma situación familiar pueden tener sueldos netos diferentes simplemente por vivir en comunidades distintas. Para un salario de 35.000 euros brutos, las diferencias pueden superar los 1.000 euros anuales.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">2. Ranking de comunidades: sueldo neto para 35.000 euros brutos</h2>
+        <p>
+          La siguiente clasificación muestra el sueldo neto anual aproximado para un trabajador soltero, sin hijos, con contrato indefinido y 14 pagas, que gana 35.000 euros brutos al año en cada comunidad autónoma. Los cálculos incluyen la Seguridad Social (6,50%) y el IRPF total (estatal + autonómico), sin deducciones autonómicas especiales.
+        </p>
+        <p>
+          <strong>Las comunidades que menos IRPF cobran</strong> (y donde el neto es mayor) tienden a ser aquellas que han deflactado sus tramos autonómicos o han reducido tipos en los tramos intermedios. Madrid es la referencia habitual por haber rebajado su escala autonómica en los últimos ejercicios.
+        </p>
+
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200 dark:border-gray-600">
+              <th class="px-3 py-2 text-left font-medium">Pos.</th>
+              <th class="px-3 py-2 text-left font-medium">Comunidad Autónoma</th>
+              <th class="px-3 py-2 text-right font-medium">Neto anual</th>
+              <th class="px-3 py-2 text-right font-medium">Dif. vs peor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">1</td>
+              <td class="px-3 py-2">Madrid</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium text-emerald-700">27.360 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+1.290 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">2</td>
+              <td class="px-3 py-2">Castilla y Le&oacute;n</td>
+              <td class="px-3 py-2 text-right tabular-nums">27.190 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+1.120 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">3</td>
+              <td class="px-3 py-2">Andaluc&iacute;a</td>
+              <td class="px-3 py-2 text-right tabular-nums">27.140 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+1.070 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">4</td>
+              <td class="px-3 py-2">Galicia</td>
+              <td class="px-3 py-2 text-right tabular-nums">27.060 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+990 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">5</td>
+              <td class="px-3 py-2">Murcia</td>
+              <td class="px-3 py-2 text-right tabular-nums">27.020 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+950 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">6</td>
+              <td class="px-3 py-2">Canarias</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.980 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+910 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">7</td>
+              <td class="px-3 py-2">Castilla-La Mancha</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.930 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+860 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">8</td>
+              <td class="px-3 py-2">Extremadura</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.870 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+800 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">9</td>
+              <td class="px-3 py-2">La Rioja</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.810 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+740 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">10</td>
+              <td class="px-3 py-2">Islas Baleares</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.740 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+670 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">11</td>
+              <td class="px-3 py-2">Cantabria</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.680 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+610 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">12</td>
+              <td class="px-3 py-2">Arag&oacute;n</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.620 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+550 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">13</td>
+              <td class="px-3 py-2">Comunidad Valenciana</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.490 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+420 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">14</td>
+              <td class="px-3 py-2">Asturias</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.370 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+300 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">15</td>
+              <td class="px-3 py-2">Catalu&ntilde;a</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.070 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">+0 &euro;</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>Nota:</strong> País Vasco y Navarra no aparecen en esta tabla porque tienen regímenes forales propios con una escala de IRPF completamente diferente. Se analizan en la sección 4.
+        </p>
+        <p>
+          Comprueba las cifras exactas para tu salario con el <a href="/comparador-comunidades/" class="text-brand hover:underline">comparador de comunidades autónomas</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">3. Tabla comparativa detallada: neto anual para 35.000 euros brutos</h2>
+        <p>
+          Para entender mejor las diferencias, esta tabla desglosa los componentes del cálculo para las 15 comunidades de régimen común. El perfil de referencia es: trabajador soltero, sin hijos, contrato indefinido, 14 pagas, sin deducciones autonómicas específicas.
+        </p>
+
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200 dark:border-gray-600">
+              <th class="px-3 py-2 text-left font-medium">Comunidad</th>
+              <th class="px-3 py-2 text-right font-medium">SS (6,50%)</th>
+              <th class="px-3 py-2 text-right font-medium">IRPF</th>
+              <th class="px-3 py-2 text-right font-medium">Neto anual</th>
+              <th class="px-3 py-2 text-right font-medium">Neto/mes (14p)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700 bg-emerald-50 dark:bg-emerald-900/10">
+              <td class="px-3 py-2 font-medium">Madrid</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">5.365 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium text-emerald-700">27.360 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.954 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Castilla y Le&oacute;n</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">5.535 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">27.190 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.942 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Andaluc&iacute;a</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">5.585 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">27.140 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.939 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Galicia</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">5.665 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">27.060 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.933 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Murcia</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">5.705 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">27.020 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.930 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Canarias</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">5.745 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.980 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.927 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Castilla-La Mancha</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">5.795 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.930 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.924 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Extremadura</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">5.855 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.870 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.919 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">La Rioja</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">5.915 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.810 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.915 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Islas Baleares</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">5.985 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.740 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.910 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Cantabria</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">6.045 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.680 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.906 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Arag&oacute;n</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">6.105 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.620 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.901 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Comunidad Valenciana</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">6.235 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.490 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.892 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Asturias</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">6.355 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">26.370 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.884 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700 bg-red-50 dark:bg-red-900/10">
+              <td class="px-3 py-2 font-medium">Catalu&ntilde;a</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">6.455 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium text-red-700">26.270 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.876 &euro;</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          La diferencia entre Madrid (la que menos grava) y Cataluña (la que más grava) es de aproximadamente <strong>1.090 euros anuales</strong>, o unos 78 euros al mes con 14 pagas. A medida que el salario aumenta, esta brecha se amplía considerablemente.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">4. Los regímenes forales: País Vasco y Navarra</h2>
+        <p>
+          País Vasco y Navarra no aparecen en las tablas anteriores porque no aplican el IRPF estatal. Tienen <strong>regímenes forales propios</strong>, amparados por la Constitución y sus respectivos Concierto Económico (País Vasco) y Convenio Económico (Navarra).
+        </p>
+        <p>
+          Esto significa que diseñan el 100% de su IRPF: tramos, tipos, mínimos y deducciones. No se dividen en parte estatal y autonómica.
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">País Vasco</h3>
+        <p>
+          Las tres Diputaciones Forales (Álava, Bizkaia y Gipuzkoa) regulan su propio IRPF, aunque en la práctica son muy similares entre sí. La escala vasca tiene tipos que van del 23% al 49% en los tramos más altos. Para salarios medios, la presión fiscal es comparable a comunidades como Aragón o Cantabria, situándose en una franja intermedia del ranking nacional.
+        </p>
+        <p>
+          Una particularidad relevante es que el mínimo exento y las deducciones personales y familiares en País Vasco suelen ser más generosos que en el régimen común, lo que compensa parcialmente los tipos nominales más altos en los primeros tramos.
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Navarra</h3>
+        <p>
+          Navarra tiene su propia escala con tipos que van del 13% al 52%. Para un salario de 35.000 euros brutos, el resultado neto en Navarra es similar al de comunidades como La Rioja o Islas Baleares. En los tramos más altos (por encima de 120.000 euros), Navarra aplica tipos más elevados que la mayoría de comunidades de régimen común.
+        </p>
+        <p>
+          Ambos regímenes forales tienen un sistema de deducciones propio que no es comparable directamente con las deducciones estatales y autonómicas del régimen común.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">5. Más allá del IRPF: otros impuestos que varían por comunidad</h2>
+        <p>
+          El IRPF es el impuesto más visible en la nómina, pero no es el único que cambia según tu comunidad autónoma. Estos son los otros impuestos cedidos donde las diferencias territoriales pueden ser muy significativas:
+        </p>
+        <ul>
+          <li>
+            <strong>Impuesto sobre Sucesiones y Donaciones:</strong> quizás donde se producen las mayores diferencias. Madrid, Andalucía, Castilla y León y Galicia tienen bonificaciones de hasta el 99% en herencias entre padres e hijos. En otras comunidades como Asturias, Aragón o Comunidad Valenciana, la factura puede ser mucho mayor para herencias medianas. Heredar 300.000 euros puede costar desde menos de 500 euros en Madrid hasta más de 30.000 euros en Asturias.
+          </li>
+          <li>
+            <strong>Impuesto sobre el Patrimonio:</strong> grava el patrimonio neto por encima de un mínimo exento. Madrid lo tiene bonificado al 100% (se paga cero). Cataluña y Comunidad Valenciana aplican tipos efectivos relevantes a partir de patrimonios de 500.000-700.000 euros. Desde 2022 existe además el Impuesto de Solidaridad de Grandes Fortunas (estatal), que limita las ventajas de la bonificación madrileña para patrimonios muy elevados.
+          </li>
+          <li>
+            <strong>Impuesto de Transmisiones Patrimoniales (ITP):</strong> afecta a la compra de vivienda de segunda mano. El tipo general oscila entre el 6% (Madrid, algunas operaciones en Canarias) y el 10% (Cataluña, Comunidad Valenciana, Galicia). En la compra de un piso de 200.000 euros, la diferencia puede ser de 8.000 euros.
+          </li>
+          <li>
+            <strong>Impuesto de Actos Jurídicos Documentados (AJD):</strong> se paga en escrituras notariales (como hipotecas de obra nueva). Los tipos varían entre el 0,5% y el 1,5% según la comunidad.
+          </li>
+        </ul>
+        <p>
+          Por eso, cuando se habla de "presión fiscal por comunidades", es importante mirar el cuadro completo y no solo el IRPF. Una comunidad puede tener un IRPF ligeramente más alto pero compensarlo con un Impuesto de Sucesiones prácticamente inexistente.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">6. Deducciones autonómicas que la gente olvida</h2>
+        <p>
+          Además de los tramos, cada comunidad ofrece deducciones propias que reducen directamente la cuota del IRPF. Son menos conocidas que las estatales y muchos contribuyentes no las aplican, perdiendo dinero cada año. Estas son las más habituales:
+        </p>
+        <ul>
+          <li>
+            <strong>Deducción por alquiler de vivienda habitual:</strong> la deducción estatal por alquiler desapareció para nuevos contratos en 2015, pero muchas comunidades mantienen la suya propia. Madrid deduce el 30% (hasta 1.000 euros) para menores de 35 años con rentas bajas. Andalucía, Comunidad Valenciana y Cataluña también tienen deducciones por alquiler con sus propios requisitos.
+          </li>
+          <li>
+            <strong>Deducción por nacimiento o adopción:</strong> algunas comunidades ofrecen deducciones adicionales por hijo nacido o adoptado. Por ejemplo, Madrid deduce 600 euros por hijo y Castilla y León hasta 710 euros por el segundo hijo o siguientes. Estas deducciones se suman a la estatal por maternidad.
+          </li>
+          <li>
+            <strong>Deducción por inversión en vivienda habitual:</strong> aunque la estatal se suprimió para compras desde 2013, varias comunidades mantienen deducciones propias por adquisición de vivienda, especialmente para jóvenes o residentes en zonas rurales.
+          </li>
+          <li>
+            <strong>Deducción por gastos educativos:</strong> Madrid permite deducir gastos de escolaridad, idiomas y vestuario escolar (hasta 900 euros por hijo). Pocas comunidades tienen algo similar.
+          </li>
+          <li>
+            <strong>Deducciones por despoblamiento:</strong> Castilla y León, Aragón, Castilla-La Mancha y otras comunidades con reto demográfico ofrecen deducciones a quienes trasladen su residencia a municipios pequeños (generalmente menores de 2.000-5.000 habitantes).
+          </li>
+        </ul>
+        <p>
+          Consulta siempre la normativa autonómica vigente o revisa el borrador de tu declaración en la web de la AEAT, donde aparecen las deducciones autonómicas a las que tienes derecho.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">7. Ejemplo práctico: 40.000 euros brutos en Madrid, Cataluña y Andalucía</h2>
+        <p>
+          Para concretar las diferencias, veamos qué ocurre con un salario de 40.000 euros brutos anuales para un trabajador soltero, sin hijos, con contrato indefinido y 14 pagas. Sin deducciones autonómicas especiales.
+        </p>
+
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200 dark:border-gray-600">
+              <th class="px-3 py-2 text-left font-medium">Concepto</th>
+              <th class="px-3 py-2 text-right font-medium">Madrid</th>
+              <th class="px-3 py-2 text-right font-medium">Andaluc&iacute;a</th>
+              <th class="px-3 py-2 text-right font-medium">Catalu&ntilde;a</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Salario bruto</td>
+              <td class="px-3 py-2 text-right tabular-nums">40.000 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">40.000 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums">40.000 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Seguridad Social (6,50%)</td>
+              <td class="px-3 py-2 text-right tabular-nums text-amber-600">&minus; 2.600 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-amber-600">&minus; 2.600 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-amber-600">&minus; 2.600 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">IRPF estatal</td>
+              <td class="px-3 py-2 text-right tabular-nums text-red-600">&minus; 3.680 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-red-600">&minus; 3.680 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-red-600">&minus; 3.680 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">IRPF auton&oacute;mico</td>
+              <td class="px-3 py-2 text-right tabular-nums text-red-600">&minus; 3.120 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-red-600">&minus; 3.390 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums text-red-600">&minus; 3.870 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2 font-medium">IRPF total</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium text-red-600">&minus; 6.800 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium text-red-600">&minus; 7.070 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium text-red-600">&minus; 7.550 &euro;</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Tipo efectivo IRPF</td>
+              <td class="px-3 py-2 text-right tabular-nums">17,0%</td>
+              <td class="px-3 py-2 text-right tabular-nums">17,7%</td>
+              <td class="px-3 py-2 text-right tabular-nums">18,9%</td>
+            </tr>
+            <tr class="border-t-2 border-gray-300 dark:border-gray-600">
+              <td class="px-3 py-2 font-bold">Sueldo neto anual</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">30.600 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">30.330 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">29.850 &euro;</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2 font-bold">Neto mensual (14 pagas)</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">2.186 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">2.166 &euro;</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">2.132 &euro;</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          Con 40.000 euros brutos, la diferencia entre Madrid y Cataluña es de <strong>750 euros anuales</strong> (unos 54 euros al mes). Entre Madrid y Andalucía, la diferencia es menor: 270 euros al año. Estas cifras se refieren exclusivamente al IRPF; si añadimos las deducciones autonómicas (gastos educativos en Madrid, por ejemplo), la brecha puede ampliarse.
+        </p>
+        <p>
+          <a href="/calculadora-irpf/" class="text-brand hover:underline">Calcula tu caso exacto con nuestra calculadora de IRPF</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Preguntas frecuentes</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+              <summary class="cursor-pointer px-4 py-3 font-medium text-charcoal dark:text-gray-200">
+                {faq.question}
+              </summary>
+              <div class="border-t border-gray-200 px-4 py-3 text-sm dark:border-gray-700">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+    </div>
+
+    <div class="mt-8 text-xs text-medium-gray">
+      <p>Actualizado para el ejercicio fiscal {CURRENT_FISCAL_YEAR}. Fuentes: AEAT, BOE, Diputaciones Forales, normativa autonómica vigente.</p>
+    </div>
+  </article>
+</Layout>

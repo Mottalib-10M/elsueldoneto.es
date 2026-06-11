@@ -1,0 +1,70 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import { SITE_NAME, SITE_URL } from '../../config';
+import { buildBreadcrumbSchema } from '../../lib/seo';
+
+const title = `Privacy Policy - ${SITE_NAME} | Data Protection Info`;
+const description = `Privacy policy for ${SITE_NAME}. Learn how we handle your personal data, what cookies we use, your GDPR rights, data retention periods and how to contact us.`;
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Home', url: '/en/' },
+    { name: 'Privacy Policy', url: '/en/privacy-policy/' },
+  ]),
+];
+---
+
+<Layout title={title} description={description} schema={schemas} locale="en">
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/en/" class="hover:text-brand">Home</a> / <span class="text-charcoal dark:text-gray-200">Privacy Policy</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">Privacy Policy</h1>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <p>
+        At <strong>{SITE_NAME}</strong> ({SITE_URL}), we are committed to protecting your privacy and complying with the General Data Protection Regulation (GDPR - EU Regulation 2016/679) and the Spanish Organic Law 3/2018 on Personal Data Protection and Digital Rights (LOPDGDD).
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Data Controller</h2>
+      <p>
+        The data controller for this website is {SITE_NAME}. For any privacy-related inquiries, please use the contact channels available on our <a href="/en/contact/" class="text-brand hover:underline">contact page</a>.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">What Data We Collect</h2>
+      <p>
+        Our salary calculator tools process all calculations directly in your browser. We do not collect, store, or transmit any salary, tax, or financial data you enter into our calculators. We may collect the following data through other means:
+      </p>
+      <ul class="list-disc pl-6 space-y-1">
+        <li><strong>Analytics data:</strong> anonymized usage statistics such as pages visited, browser type, device type, and approximate geographic location (country/region level only).</li>
+        <li><strong>Contact form data:</strong> if you contact us, we collect your name, email address, and message content solely to respond to your inquiry.</li>
+        <li><strong>Cookie data:</strong> technical and analytics cookies as described in our <a href="/en/cookie-policy/" class="text-brand hover:underline">cookie policy</a>.</li>
+      </ul>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Legal Basis for Processing</h2>
+      <p>
+        We process personal data based on: (a) your consent, which you may withdraw at any time; (b) our legitimate interest in improving our services and understanding how our website is used; and (c) compliance with legal obligations where applicable.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Your Rights</h2>
+      <p>
+        Under the GDPR, you have the right to access, rectify, erase, restrict processing, data portability, and object to processing of your personal data. You also have the right to lodge a complaint with the Spanish Data Protection Agency (AEPD) at <a href="https://www.aepd.es" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">www.aepd.es</a>. To exercise any of these rights, please contact us through our <a href="/en/contact/" class="text-brand hover:underline">contact page</a>.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Data Retention</h2>
+      <p>
+        Analytics data is retained for a maximum of 26 months. Contact form data is retained only for as long as necessary to resolve your inquiry, after which it is deleted. We do not sell, trade, or transfer your personal data to third parties except as required by law.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Data Security</h2>
+      <p>
+        We implement appropriate technical and organizational measures to protect your personal data against unauthorized access, alteration, disclosure, or destruction. This website is served over HTTPS to ensure encrypted data transmission.
+      </p>
+
+      <p class="text-sm text-medium-gray">
+        This privacy policy was last updated in January {new Date().getFullYear()}.
+      </p>
+    </div>
+  </div>
+</Layout>

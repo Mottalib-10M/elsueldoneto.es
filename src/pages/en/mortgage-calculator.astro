@@ -1,0 +1,203 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import Hipoteca from '../../components/calculadoras/Hipoteca';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+
+const title = `Mortgage Calculator Spain ${CURRENT_FISCAL_YEAR}: Monthly Payments`;
+const description = `Calculate your monthly mortgage payment, total interest and buying costs in Spain ${CURRENT_FISCAL_YEAR}. Free simulator for expats comparing fixed, variable and mixed rates.`;
+
+const faqs = [
+  {
+    question: 'How much deposit do I need to buy a home in Spain?',
+    answer: 'Spanish banks typically lend up to 80% of the property\'s appraised value, so you need at least a 20% deposit. On top of that, buying costs (taxes, notary, registry, gestoría) range from 10% to 13% of the purchase price depending on the autonomous community. In total, budget for roughly 30-33% of the property price in savings.',
+  },
+  {
+    question: 'What is the difference between a fixed and variable mortgage in Spain?',
+    answer: 'A fixed-rate mortgage (hipoteca fija) keeps the same interest rate and monthly payment for the entire term. A variable-rate mortgage (hipoteca variable) is linked to the Euribor — the rate is revised every 6 or 12 months, so your payment goes up when Euribor rises and down when it falls. Fixed mortgages offer predictability; variable mortgages carry interest rate risk but can be cheaper when rates are low.',
+  },
+  {
+    question: 'What is Euribor and how does it affect my mortgage?',
+    answer: 'Euribor (Euro Interbank Offered Rate) is the interest rate at which major European banks lend to each other. The 12-month Euribor is the most common benchmark for variable mortgages in Spain. Your mortgage rate is typically Euribor plus a fixed spread (e.g. Euribor + 0.80%). When the ECB raises interest rates to combat inflation, Euribor rises and your variable mortgage payment increases at the next review.',
+  },
+  {
+    question: 'Can I make early repayments on my Spanish mortgage?',
+    answer: 'Yes. Under Law 5/2019 on real estate credit contracts, the maximum early repayment fee for variable mortgages is 0.25% of the capital repaid in the first 3 years and 0.15% between years 3 and 5, with no fee after year 5. For fixed mortgages, the maximum fee is 2% during the first 10 years and 1.5% thereafter. Early repayment — especially reducing the term — can save you thousands in total interest.',
+  },
+  {
+    question: 'What taxes do I pay when buying a home in Spain?',
+    answer: 'For second-hand (resale) properties, you pay ITP (Impuesto de Transmisiones Patrimoniales), which varies by region from 4% (Basque Country) to 10% (Catalonia, Valencia, Cantabria). For new-build properties bought from a developer, you pay 10% VAT (IVA) plus AJD (Stamp Duty) at 0.5%-1.5% depending on the community. Additional costs include notary, property registry, gestoría, and property appraisal.',
+  },
+  {
+    question: 'Can foreigners get a mortgage in Spain?',
+    answer: 'Yes, but conditions may differ. Non-residents typically receive financing of up to 60-70% of the appraised value (versus 80% for residents), and interest rates may be slightly higher. You will need a NIE (foreigner identification number), proof of income, tax returns from your home country, and a Spanish bank account. Some banks specialise in mortgages for foreign buyers.',
+  },
+  {
+    question: 'What is the FEIN and the notarial transparency act?',
+    answer: 'Since Law 5/2019, the bank must provide the FEIN (Ficha Europea de Informacion Normalizada) — a binding document with all loan conditions — at least 10 days before signing. The borrower must also visit the notary (without the bank present) at least one day before signing to receive free independent advice and sign a transparency act. These measures protect consumers from abusive clauses.',
+  },
+  {
+    question: 'What monthly payment can I afford?',
+    answer: 'Financial experts recommend that total debt repayments (mortgage, car loans, credit cards) should not exceed 30-35% of your net household income. For example, if your combined take-home pay is €4,000 per month, your mortgage payment should ideally stay below €1,200-€1,400. Remember to factor in community fees, IBI (property tax), insurance, and maintenance costs on top of the mortgage.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Mortgage Calculator Spain ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Mortgage Calculator"
+  path="/en/mortgage-calculator/"
+  faqs={faqs}
+  locale="en"
+  sources={[
+    { label: 'Law 5/2019 (BOE)', url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2019-5765' },
+    { label: 'Banco de Espana', url: 'https://www.bde.es/bde/es/' },
+    { label: 'INE: Mortgage Statistics', url: 'https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736152838&menu=ultiDatos&idp=1254735576757' },
+  ]}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <Hipoteca client:load lang="en" />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Complete guide to mortgages in Spain for expats and residents
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Buying a home is the single largest financial decision most people make. In Spain, over 60% of property purchases are financed with a mortgage — a long-term loan secured against the property itself. Whether you are a Spanish resident, a British expat on the Costa del Sol, or a digital nomad who has fallen in love with Barcelona, understanding how Spanish mortgages work is essential before you sign anything. This guide covers everything you need to know: types of mortgage, how monthly payments are calculated, buying costs by region, and practical tips for negotiating the best deal.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">How mortgages work in Spain</h3>
+      <p>
+        A mortgage (hipoteca) is a loan from a bank to purchase a property, with the property itself serving as collateral. If the borrower defaults on payments, the bank can repossess the home. This real-asset guarantee is why mortgage interest rates are significantly lower than personal loan rates — the risk to the bank is lower.
+      </p>
+      <p>
+        The vast majority of Spanish mortgages use the French amortisation system, which features constant monthly payments. Each payment consists of an interest portion and a capital portion. In the early years, most of the payment goes towards interest; as the loan matures, the capital portion grows. The monthly payment is calculated using the formula: M = C x r(1+r)^n / ((1+r)^n - 1), where C is the loan amount, r is the monthly interest rate, and n is the total number of payments. This calculator applies this formula automatically.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Fixed, variable and mixed: choosing the right type</h3>
+      <p>
+        <strong>Fixed-rate mortgages</strong> maintain the same interest rate for the entire loan term. Your monthly payment never changes, regardless of what happens to Euribor or ECB policy rates. In the current Spanish market, fixed rates typically range from 2.5% to 3.5% TAE for well-qualified borrowers, though they can exceed 4% for longer terms or higher-risk profiles. The advantage is certainty; the downside is that you won't benefit if market rates drop significantly.
+      </p>
+      <p>
+        <strong>Variable-rate mortgages</strong> are referenced to the 12-month Euribor plus a fixed spread negotiated with the bank (e.g. Euribor + 0.80%). The payment is reviewed every 6 or 12 months based on the latest Euribor average. Historically, variable mortgages have been cheaper than fixed over long periods, but they carry real risk. Borrowers who signed at Euribor + 0.50% in 2020, when Euribor was negative, saw their payments jump by €200-400 per month when Euribor surged above 4% in 2023.
+      </p>
+      <p>
+        <strong>Mixed mortgages</strong> combine both approaches. A fixed rate applies for an initial period (typically 3-10 years), after which the rate switches to Euribor plus a spread. This offers stability during the early years — when the financial burden is heaviest — and potential savings if Euribor falls later. Current mixed offerings typically feature initial fixed rates of 2.0%-2.8% for the first 3-5 years, then Euribor + 0.60% to 1.00%.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">The 80/20 rule: how much will the bank lend?</h3>
+      <p>
+        Spanish banks generally finance up to 80% of the appraised value of the property (which may differ from the purchase price). The buyer must provide the remaining 20% from savings, plus buying costs of 10-13% of the price.
+      </p>
+      <p>
+        For a €250,000 property, you would need approximately €75,000-€82,000 in savings: €50,000 as a deposit (20%) and €25,000-€32,000 for taxes and costs. This is one of the biggest barriers for first-time buyers in Spain, where property prices have risen substantially while salaries have remained relatively flat.
+      </p>
+      <p>
+        Some banks offer mortgages covering 90% or even 100% of the value, but these usually require additional guarantees (such as parental guarantees), higher interest rates, or the property to be from the bank's own repossessed stock.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Buying costs by type of property</h3>
+      <p>
+        For <strong>resale (second-hand) properties</strong>, the main tax is ITP (Impuesto de Transmisiones Patrimoniales). Rates vary by autonomous community:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Autonomous Community</th>
+              <th class="px-3 py-2 text-right">General ITP rate</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Andalusia</td><td class="px-3 py-1 text-right">7%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Aragon</td><td class="px-3 py-1 text-right">8%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Asturias</td><td class="px-3 py-1 text-right">8%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Balearic Islands</td><td class="px-3 py-1 text-right">8%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Canary Islands</td><td class="px-3 py-1 text-right">6.5%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Cantabria</td><td class="px-3 py-1 text-right">10%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Castilla-La Mancha</td><td class="px-3 py-1 text-right">9%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Castilla y Leon</td><td class="px-3 py-1 text-right">8%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Catalonia</td><td class="px-3 py-1 text-right">10%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Madrid</td><td class="px-3 py-1 text-right">6%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Valencia</td><td class="px-3 py-1 text-right">10%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Extremadura</td><td class="px-3 py-1 text-right">8%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Galicia</td><td class="px-3 py-1 text-right">9%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">La Rioja</td><td class="px-3 py-1 text-right">7%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Murcia</td><td class="px-3 py-1 text-right">8%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Navarre</td><td class="px-3 py-1 text-right">6%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Basque Country</td><td class="px-3 py-1 text-right">4%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Many regions offer reduced rates for buyers under 35, large families, or lower-value properties. Madrid, for example, charges 6% generally but reduces this to 4% for under-35s purchasing their primary home.
+      </p>
+      <p>
+        For <strong>new-build properties</strong> (first sale from the developer), the buyer pays 10% VAT (IVA) instead of ITP, plus Stamp Duty (AJD) at 0.5%-1.5% depending on the region.
+      </p>
+      <p>
+        Additional costs common to both types include:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Notary fees:</strong> regulated by official tariffs, typically €600-€1,000 for a purchase in the €200,000-€300,000 range.</li>
+        <li><strong>Property Registry:</strong> inscription fees of approximately €300-€600.</li>
+        <li><strong>Gestoría (administrative agent):</strong> handles tax filings and registry paperwork, usually €300-€500.</li>
+        <li><strong>Property appraisal:</strong> required by the bank, performed by an approved company, typically €250-€500.</li>
+      </ul>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">How much difference does the interest rate make?</h3>
+      <p>
+        The following table illustrates the impact of interest rates on a €200,000 mortgage over 25 years:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Interest rate</th>
+              <th class="px-3 py-2 text-right">Monthly payment</th>
+              <th class="px-3 py-2 text-right">Total interest</th>
+              <th class="px-3 py-2 text-right">Total paid</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2.00%</td><td class="px-3 py-1 text-right">€847.73</td><td class="px-3 py-1 text-right">€54,319</td><td class="px-3 py-1 text-right">€254,319</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">3.00%</td><td class="px-3 py-1 text-right">€948.42</td><td class="px-3 py-1 text-right">€84,526</td><td class="px-3 py-1 text-right">€284,526</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">4.00%</td><td class="px-3 py-1 text-right">€1,055.68</td><td class="px-3 py-1 text-right">€116,702</td><td class="px-3 py-1 text-right">€316,702</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">5.00%</td><td class="px-3 py-1 text-right">€1,169.18</td><td class="px-3 py-1 text-right">€150,754</td><td class="px-3 py-1 text-right">€350,754</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The difference is striking. Between 2% and 5%, the monthly payment rises by 38%, but total interest nearly triples — from €54,319 to €150,754. Each additional percentage point costs roughly €30,000-€35,000 in total interest over the life of the loan. This underscores the importance of comparing offers from multiple banks and negotiating the rate.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Early repayment: reducing term vs. reducing payment</h3>
+      <p>
+        Any mortgage holder in Spain has the right to make early repayments, either partial (reducing the outstanding balance) or total (paying off the loan entirely). When making a partial repayment, the bank offers two options: reduce the monthly payment while keeping the same term, or reduce the term while keeping the same payment. From a purely financial perspective, reducing the term almost always saves more money because you pay less total interest. However, reducing the payment may be preferable if you need to ease your monthly budget.
+      </p>
+      <p>
+        Under <strong>Law 5/2019</strong>, the maximum early repayment fees are: for variable mortgages, 0.25% of the capital repaid in the first 3 years and 0.15% between years 3-5 (no fee after year 5); for fixed mortgages, 2% in the first 10 years and 1.5% thereafter. In no case can the fee exceed the bank's actual financial loss from the early repayment.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Practical tips for getting the best mortgage in Spain</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Compare at least 3 offers:</strong> rates and conditions vary significantly between banks. Use the FEIN (the standardised European information sheet) to make like-for-like comparisons.</li>
+        <li><strong>Negotiate bundled products:</strong> banks offer rate discounts for taking out insurance, domiciling your salary, using their credit cards, etc. Calculate whether the discount outweighs the cost of these products — sometimes it's cheaper to arrange insurance independently and accept a slightly higher rate.</li>
+        <li><strong>Keep total debt below 30-35% of income:</strong> this is the widely recommended ceiling for all loan repayments combined. Exceeding it leaves no buffer for unexpected expenses.</li>
+        <li><strong>Factor in ownership costs:</strong> beyond the mortgage, property ownership in Spain means paying community fees, IBI (property tax), home insurance, and covering maintenance and potential special assessments (derramas).</li>
+        <li><strong>Consider overpayments:</strong> directing part of your annual bonus or savings towards early mortgage repayment can save thousands in interest. The savings are greatest when made in the early years of the loan.</li>
+        <li><strong>Use a mortgage broker:</strong> particularly useful for non-residents or self-employed applicants. Brokers have relationships with multiple banks and can often secure better terms than you would get walking into a branch.</li>
+      </ul>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Sources and references</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2019-5765" class="text-brand hover:underline" target="_blank" rel="noopener">Law 5/2019 on real estate credit contracts (BOE)</a> — Regulates mortgage transparency, early repayment fees, the FEIN, and the notarial transparency act.</li>
+        <li><a href="https://www.bde.es/bde/es/" class="text-brand hover:underline" target="_blank" rel="noopener">Banco de Espana</a> — Official banking client portal with interest rate data, Euribor history, complaints procedures, and mortgage simulators.</li>
+        <li><a href="https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736152838&menu=ultiDatos&idp=1254735576757" class="text-brand hover:underline" target="_blank" rel="noopener">INE: Mortgage Statistics</a> — Official data on mortgage volumes, average amounts, and interest rates in Spain.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

@@ -1,0 +1,224 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import Autonomos from '../../components/calculadoras/Autonomos';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+
+const title = `Self-Employed Tax Calculator Spain ${CURRENT_FISCAL_YEAR}: Autónomo`;
+const description = `Calculate your net income as self-employed (autónomo) in Spain ${CURRENT_FISCAL_YEAR}. Includes Social Security contributions by income bracket, IRPF and deductible expenses.`;
+
+const faqs = [
+  { question: 'How much do self-employed workers pay in Social Security?', answer: `Since 2023, Spain uses an income-based contribution system for self-employed workers (autónomos). In ${CURRENT_FISCAL_YEAR}, monthly contributions range from approximately €230 for the lowest net income bracket (under €670/month) to over €530 for earnings above €6,000/month, spread across 15 tranches.` },
+  { question: 'What taxes do autónomos pay in Spain?', answer: `Self-employed workers pay quarterly IRPF instalments (modelo 130), typically 20% of net profit. They also charge and remit VAT (IVA) quarterly via modelo 303, and pay Social Security contributions monthly. Annual income is declared in the Renta filing, where the progressive IRPF rates apply.` },
+  { question: 'What is the flat-rate tarifa plana for new autónomos?', answer: `New self-employed workers can access a reduced Social Security contribution of €80/month during their first 12 months (extendable to 24 months if net income stays below the minimum wage). This replaces the previous €60 flat rate and applies in ${CURRENT_FISCAL_YEAR}.` },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Self-Employed (Autónomo) Calculator ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Self-Employed Calculator"
+  path="/en/self-employed-calculator/"
+  faqs={faqs}
+  locale="en"
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <Autonomos client:load lang="en" />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guide to self-employment taxes in Spain
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Being self-employed (autónomo) in Spain involves a different tax and contribution structure compared to salaried employees. While employees have their taxes automatically withheld, autónomos must manage quarterly tax filings, VAT declarations and monthly Social Security payments themselves.
+      </p>
+      <p>
+        The biggest change in recent years is the shift to income-based Social Security contributions. Instead of choosing your own contribution base, your payments are now determined by your actual net income, divided into 15 tranches. This means lower earners pay less than before, while high earners pay significantly more. Our calculator reflects the current tranche system and helps you estimate your true take-home income.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      The income-based contribution system explained
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Since January 2023, Spain replaced the old system — where autónomos chose their own contribution base — with a progressive system based on actual net income. Your net rendimiento (net income after deductible expenses) determines which of 15 tranches you fall into, and each tranche has a fixed contribution range. The system is being phased in over nine years, with rates adjusting annually through 2031.
+      </p>
+      <div class="overflow-x-auto my-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left">Monthly net income</th>
+              <th class="px-4 py-2 text-left">Minimum base</th>
+              <th class="px-4 py-2 text-left">Maximum base</th>
+              <th class="px-4 py-2 text-left">Approx. monthly contribution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">≤ €670</td><td class="px-4 py-2">€735.29</td><td class="px-4 py-2">€816.98</td><td class="px-4 py-2">€230 – €256</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€670 – €900</td><td class="px-4 py-2">€816.98</td><td class="px-4 py-2">€900</td><td class="px-4 py-2">€256 – €282</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€900 – €1,166.70</td><td class="px-4 py-2">€872.55</td><td class="px-4 py-2">€1,166.70</td><td class="px-4 py-2">€274 – €365</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€1,166.70 – €1,300</td><td class="px-4 py-2">€950.98</td><td class="px-4 py-2">€1,300</td><td class="px-4 py-2">€298 – €407</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€1,300 – €1,500</td><td class="px-4 py-2">€960.78</td><td class="px-4 py-2">€1,500</td><td class="px-4 py-2">€301 – €470</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€1,500 – €1,700</td><td class="px-4 py-2">€960.78</td><td class="px-4 py-2">€1,700</td><td class="px-4 py-2">€301 – €532</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€1,700 – €1,850</td><td class="px-4 py-2">€1,045.75</td><td class="px-4 py-2">€1,850</td><td class="px-4 py-2">€328 – €579</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€1,850 – €2,030</td><td class="px-4 py-2">€1,062.09</td><td class="px-4 py-2">€2,030</td><td class="px-4 py-2">€333 – €636</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€2,030 – €2,330</td><td class="px-4 py-2">€1,078.43</td><td class="px-4 py-2">€2,330</td><td class="px-4 py-2">€338 – €730</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€2,330 – €2,760</td><td class="px-4 py-2">€1,111.11</td><td class="px-4 py-2">€2,760</td><td class="px-4 py-2">€348 – €864</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€2,760 – €3,190</td><td class="px-4 py-2">€1,176.47</td><td class="px-4 py-2">€3,190</td><td class="px-4 py-2">€368 – €999</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€3,190 – €3,620</td><td class="px-4 py-2">€1,274.51</td><td class="px-4 py-2">€3,620</td><td class="px-4 py-2">€399 – €1,134</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€3,620 – €4,050</td><td class="px-4 py-2">€1,372.55</td><td class="px-4 py-2">€4,050</td><td class="px-4 py-2">€430 – €1,268</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€4,050 – €6,000</td><td class="px-4 py-2">€1,633.99</td><td class="px-4 py-2">€4,495.50</td><td class="px-4 py-2">€512 – €1,408</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">≥ €6,000</td><td class="px-4 py-2">€1,633.99</td><td class="px-4 py-2">€4,495.50</td><td class="px-4 py-2">€512 – €1,408</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        You can choose any contribution base within the minimum and maximum for your tranche. Most autónomos opt for the minimum base to keep costs down, though contributing more builds a higher future pension. The contribution rate for self-employed workers is approximately 31.30% of the chosen base, covering common contingencies, professional contingencies, cessation of activity, and vocational training.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      Deductible expenses for autónomos
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Understanding which expenses you can deduct is critical for minimizing your tax bill as a self-employed worker in Spain. Deductible expenses reduce your net income, which in turn lowers both your IRPF liability and your Social Security contributions (since they are now income-based).
+      </p>
+      <p>
+        <strong>Social Security contributions:</strong> The monthly cuota you pay is fully deductible from your income for IRPF purposes. For many autónomos, this is one of the largest annual deductions.
+      </p>
+      <p>
+        <strong>Office and workspace costs:</strong> If you rent a dedicated office or co-working space, the full rent is deductible. If you work from home, you can deduct 30% of the proportional share of household expenses (utilities, internet, property tax) corresponding to the percentage of your home used exclusively for work.
+      </p>
+      <p>
+        <strong>Professional supplies and equipment:</strong> Computers, software licenses, office furniture, and professional tools are deductible. Items costing less than €300 can be deducted in full in the year of purchase; more expensive items must be depreciated over their useful life.
+      </p>
+      <p>
+        <strong>Professional services:</strong> Fees paid to accountants (gestorías), lawyers, and other professionals directly related to your activity are fully deductible.
+      </p>
+      <p>
+        <strong>Travel and transport:</strong> Business travel expenses, including flights, hotels, and car mileage for client visits, are deductible when properly documented and clearly linked to your professional activity.
+      </p>
+      <p>
+        <strong>Meals:</strong> Daily meal expenses of up to €26.67 within Spain (€48.08 abroad) are deductible when travelling for business, provided payment is made electronically and you have receipts.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      Quarterly tax obligations: Modelo 130 and Modelo 303
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Unlike employees whose taxes are withheld automatically, autónomos must file quarterly tax returns. Missing a deadline results in automatic surcharges, so careful calendar management is essential.
+      </p>
+      <p>
+        <strong>Modelo 130 (quarterly IRPF instalment):</strong> Filed during the first 20 days of January, April, July, and October. You pay 20% of your accumulated net profit (income minus deductible expenses) for the year so far, minus any previous payments on account already made that year. This means the April filing covers January to March profits, while the October filing covers January to September. The annual income tax return then settles the final amount.
+      </p>
+      <p>
+        <strong>Modelo 303 (quarterly VAT return):</strong> Filed on the same schedule. You declare the VAT (IVA) you have charged to clients and subtract the VAT you have paid on business expenses. The difference is remitted to the Tax Agency. Standard VAT in Spain is 21%, with reduced rates of 10% and 4% for certain activities. If your input VAT exceeds output VAT in a quarter, you can carry the balance forward or request a refund in the annual summary.
+      </p>
+      <p>
+        <strong>Modelo 390 (annual VAT summary):</strong> Filed in January of the following year, this summarizes all four quarterly VAT returns. While it contains no new information, it serves as a reconciliation document for the Tax Agency.
+      </p>
+      <p>
+        <strong>Modelo 100/Declaración de la Renta (annual IRPF return):</strong> Filed between April and June. This is your comprehensive annual income tax declaration, where all income sources, deductions, and quarterly payments are reconciled. Any overpayment through Modelo 130 instalments is refunded.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      Employed vs self-employed: a side-by-side comparison
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Many professionals in Spain face the choice between employment and self-employment. The following comparison shows the approximate annual net income for each option at the same gross income level, helping you understand the true financial difference.
+      </p>
+      <div class="overflow-x-auto my-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left">Gross income</th>
+              <th class="px-4 py-2 text-left">Net as employee</th>
+              <th class="px-4 py-2 text-left">Net as autónomo</th>
+              <th class="px-4 py-2 text-left">Difference</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€20,000</td><td class="px-4 py-2">€17,150</td><td class="px-4 py-2">€14,440</td><td class="px-4 py-2">-€2,710</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€35,000</td><td class="px-4 py-2">€27,115</td><td class="px-4 py-2">€24,080</td><td class="px-4 py-2">-€3,035</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€50,000</td><td class="px-4 py-2">€36,950</td><td class="px-4 py-2">€33,420</td><td class="px-4 py-2">-€3,530</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€80,000</td><td class="px-4 py-2">€54,998</td><td class="px-4 py-2">€52,310</td><td class="px-4 py-2">-€2,688</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        At most income levels, employees take home more net income than autónomos, mainly because employee Social Security contributions are lower (6.47% vs roughly 31.30% of the chosen base for self-employed). However, autónomos can deduct business expenses, which can narrow or even reverse the gap depending on legitimate deductible costs. Additionally, autónomos with the tarifa plana or who bill significantly more than a comparable salary can come out ahead.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      The tarifa plana for new autónomos
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spain offers a generous incentive for new self-employed workers: the <em>tarifa plana</em>, or flat-rate Social Security contribution. Under the current rules, new autónomos pay just <strong>€80 per month</strong> during their first 12 months of activity. This flat rate replaces the income-based contribution entirely during the initial period.
+      </p>
+      <p>
+        If your net income remains below the minimum interprofessional wage (SMI) at the end of the first 12 months, the €80 flat rate can be extended for an additional 12 months, bringing the total discounted period to 24 months. After the flat-rate period ends, you transition to the standard income-based contribution system.
+      </p>
+      <p>
+        To qualify, you must not have been registered as an autónomo in the preceding two years (three years if you previously received the flat rate). This makes the tarifa plana particularly attractive for expats starting freelance careers in Spain, as most newcomers easily meet the non-registration requirement. The savings are substantial: instead of paying €230-€400 per month in contributions, you pay just €80, saving between €1,800 and €3,840 in the first year alone.
+      </p>
+    </div>
+  </section>
+</CalculadoraLayout>

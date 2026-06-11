@@ -1,0 +1,266 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import TipoRetencion from '../../components/calculadoras/TipoRetencion';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+
+const title = `IRPF Withholding Rate Calculator Spain ${CURRENT_FISCAL_YEAR}`;
+const description = `Calculate your IRPF withholding rate (tipo de retención) in Spain ${CURRENT_FISCAL_YEAR}. Find the exact percentage your employer should deduct from your payslip each month.`;
+
+const faqs = [
+  { question: 'What is the IRPF withholding rate?', answer: `The withholding rate (tipo de retención) is the percentage of gross salary your employer deducts each month as an advance payment of your income tax. It's calculated based on your annual gross salary, family situation, contract type and autonomous community. The goal is that total withholdings match your annual IRPF liability.` },
+  { question: 'Can I ask my employer to change my withholding rate?', answer: 'You can request a higher withholding rate (to avoid owing money at tax time), but you cannot request a rate below the legal minimum. You must submit Form 145 to your employer to communicate changes in your personal or family situation that affect the rate.' },
+  { question: 'What happens if my withholding rate is too low?', answer: 'If too little tax was withheld during the year, you will owe the difference when filing your annual tax return (Renta). This can result in a payment due in June. Conversely, if too much was withheld, you receive a refund.' },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Withholding Rate Calculator ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Withholding Rate Calculator"
+  path="/en/withholding-rate-calculator/"
+  faqs={faqs}
+  locale="en"
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <TipoRetencion client:load lang="en" />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      How payroll withholding works in Spain
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Every Spanish employer is required to withhold a percentage of your gross salary as an advance payment towards your annual income tax (IRPF). This withholding rate is not arbitrary — it's calculated using a specific algorithm defined by the Tax Agency (Agencia Tributaria) that considers your gross salary, contract type, number of pay periods, family situation and region.
+      </p>
+      <p>
+        Understanding your withholding rate helps you verify your payslip is correct and anticipate whether your annual tax return will result in a refund or a payment. New employees and those with significant life changes (marriage, children, mortgage) should pay particular attention to ensure their rate is properly adjusted.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      How the withholding rate is calculated step by step
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        The IRPF withholding calculation follows a specific algorithm defined in the Reglamento del IRPF (Royal Decree 439/2007). Your employer's payroll department (or their payroll software) must apply this algorithm each time your circumstances change. Here is a simplified version of the process:
+      </p>
+      <ol class="list-decimal ml-4 space-y-2 mt-2">
+        <li><strong>Determine total annual pay:</strong> Start with your gross annual salary, including base salary, supplements, and in-kind benefits. Add the estimated variable pay (commissions, bonuses) if applicable.</li>
+        <li><strong>Subtract Social Security contributions:</strong> Deduct the employee's share of Social Security (general contingencies, unemployment, training, and MEI) from the gross to find the net taxable base for withholding purposes.</li>
+        <li><strong>Apply personal and family deductions:</strong> Subtract the personal minimum (currently 5,550 EUR for under 65), plus deductions for dependent children (2,400 EUR for the first child, 2,700 EUR for the second, etc.), ascendants, and disability.</li>
+        <li><strong>Calculate the theoretical tax:</strong> Apply the combined state and regional IRPF brackets to the resulting amount. This gives the theoretical annual IRPF liability.</li>
+        <li><strong>Derive the withholding rate:</strong> Divide the theoretical tax by the total annual pay (before Social Security deduction). The result, expressed as a percentage, is your withholding rate. This is the percentage shown on each monthly payslip.</li>
+      </ol>
+      <p>
+        The resulting rate is rounded to two decimal places and applied uniformly to every payslip for the remainder of the year, unless your circumstances change.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Form 145: communicating your personal situation
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Form 145 (Modelo 145) is the official document you submit to your employer to communicate the personal and family details that affect your withholding rate. It is not filed with the tax authorities directly; your employer uses the information to calculate the correct withholding percentage.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">When to submit Form 145</h3>
+      <ul class="list-disc ml-4 space-y-2 mt-2">
+        <li><strong>When starting a new job:</strong> Your employer should ask you to complete it during onboarding. If they do not, request it proactively.</li>
+        <li><strong>When your personal situation changes:</strong> Marriage, divorce, birth of a child, a child reaching 25 years of age, a dependent's disability, or purchasing a primary residence with a mortgage (for pre-2013 mortgages only).</li>
+        <li><strong>At the start of each year:</strong> It is good practice to confirm or update your Form 145 annually, even if nothing has changed, to ensure your rate is accurate.</li>
+      </ul>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">Key fields on Form 145</h3>
+      <p>
+        The form captures your marital status (single, married), whether your spouse earns more or less than 1,500 EUR per year, the number and ages of dependent children, dependent ascendants (parents over 65 living with you), and any disability percentages for yourself or dependents. Each of these inputs reduces your withholding rate by increasing the tax-free personal allowance.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Situations that change your withholding rate
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Many life events can alter your withholding rate. Here are the most common ones and their approximate impact:
+      </p>
+      <div class="overflow-x-auto mt-4 mb-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left font-semibold">Life event</th>
+              <th class="px-4 py-2 text-left font-semibold">Effect on withholding</th>
+              <th class="px-4 py-2 text-left font-semibold">Approximate impact</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Marriage (spouse earns under 1,500 EUR/year)</td>
+              <td class="px-4 py-2">Rate decreases</td>
+              <td class="px-4 py-2">-0.5 to -2 percentage points</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Birth of first child</td>
+              <td class="px-4 py-2">Rate decreases</td>
+              <td class="px-4 py-2">-0.5 to -1.5 percentage points</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Birth of second child</td>
+              <td class="px-4 py-2">Rate decreases further</td>
+              <td class="px-4 py-2">-0.3 to -1 percentage point</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Worker disability (33%+)</td>
+              <td class="px-4 py-2">Rate decreases</td>
+              <td class="px-4 py-2">-1 to -3 percentage points</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Worker disability (65%+)</td>
+              <td class="px-4 py-2">Rate decreases significantly</td>
+              <td class="px-4 py-2">-2 to -5 percentage points</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Dependent parent over 75</td>
+              <td class="px-4 py-2">Rate decreases</td>
+              <td class="px-4 py-2">-0.3 to -1 percentage point</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Salary increase mid-year</td>
+              <td class="px-4 py-2">Rate increases</td>
+              <td class="px-4 py-2">Varies with amount</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Remember that the exact impact depends on your salary level. Higher earners see a smaller percentage change for the same deduction because the additional allowance represents a smaller proportion of their total income.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Regularization: what happens when your rate changes mid-year
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        When your personal circumstances change during the year, or when you receive a salary increase, your employer must recalculate your withholding rate. This is called regularization (regularizacion). The new rate is applied to the remaining payslips of the year, and it may be higher or lower than the previous rate to ensure the total annual withholding matches the correct amount.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">Example of mid-year regularization</h3>
+      <p>
+        Suppose your withholding rate was 18% from January to June, and in July you have a baby. After submitting an updated Form 145, your rate drops to, say, 16.5%. However, the new rate might temporarily be set even lower (perhaps 15%) for the remaining six months to compensate for the slightly higher withholding in the first half of the year. This ensures you are not over-withheld for the full year.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">Salary increase regularization</h3>
+      <p>
+        If you receive a raise in September, your employer recalculates based on the new projected annual salary. Since the withholding for January through August was based on a lower salary, the rate for September through December may jump noticeably to catch up. This can be surprising on your payslip, but it prevents a large tax bill when you file your annual return.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Approximate withholding rates by salary level
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        The following table shows approximate IRPF withholding rates for a single worker with no children, using the common regime (not Basque Country or Navarre). These are estimates and may vary slightly by autonomous community:
+      </p>
+      <div class="overflow-x-auto mt-4 mb-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left font-semibold">Annual gross salary</th>
+              <th class="px-4 py-2 text-right font-semibold">Approx. withholding rate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">15,000 EUR</td>
+              <td class="px-4 py-2 text-right">~2 - 5%</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">20,000 EUR</td>
+              <td class="px-4 py-2 text-right">~8 - 11%</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">25,000 EUR</td>
+              <td class="px-4 py-2 text-right">~12 - 14%</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">30,000 EUR</td>
+              <td class="px-4 py-2 text-right">~14 - 16%</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">40,000 EUR</td>
+              <td class="px-4 py-2 text-right">~18 - 20%</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">50,000 EUR</td>
+              <td class="px-4 py-2 text-right">~21 - 24%</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">60,000 EUR</td>
+              <td class="px-4 py-2 text-right">~24 - 27%</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">80,000 EUR</td>
+              <td class="px-4 py-2 text-right">~28 - 31%</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">100,000 EUR</td>
+              <td class="px-4 py-2 text-right">~31 - 34%</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">150,000 EUR</td>
+              <td class="px-4 py-2 text-right">~35 - 38%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        These ranges reflect the variation between regions. Madrid sits at the lower end, while Catalonia and Valencia tend toward the higher end for the same salary.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Common mistakes with withholding rates
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Here are the most frequent errors workers and employers make regarding IRPF withholding:
+      </p>
+      <ul class="list-disc ml-4 space-y-2 mt-2">
+        <li><strong>Not submitting Form 145:</strong> Without this form, your employer applies the default rate assuming no dependents and single status, which may result in over-withholding.</li>
+        <li><strong>Forgetting to update after life changes:</strong> Having a baby, getting married, or a dependent turning 25 or passing away all affect your rate. Delays in updating mean months of incorrect withholding.</li>
+        <li><strong>Confusing withholding rate with effective tax rate:</strong> The withholding rate is an estimate. Your actual effective tax rate is determined when you file your annual return (declaracion de la renta). Small discrepancies are normal and result in either a small refund or a small payment.</li>
+        <li><strong>Requesting an excessively high rate:</strong> Some workers request a higher rate to guarantee a refund. While this is allowed, it amounts to giving the government an interest-free loan. The money would generally serve you better in a savings account.</li>
+        <li><strong>Multiple employers:</strong> If you have two jobs simultaneously, each employer calculates withholding independently. This often leads to under-withholding because neither employer accounts for the combined income pushing you into higher brackets. You may owe money at tax time.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Tips for expats managing their withholding rate
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        If you are new to working in Spain, the withholding system may feel unfamiliar. Here are some practical tips specifically for international workers:
+      </p>
+      <ul class="list-disc ml-4 space-y-2 mt-2">
+        <li><strong>Verify your rate early:</strong> Check your first payslip carefully and compare the withholding rate against our calculator. If there is a significant discrepancy, contact your HR department immediately. Errors caught early are much easier to correct than discovering them at tax time.</li>
+        <li><strong>Understand the annual return obligation:</strong> If your gross salary exceeds 22,000 EUR from a single employer (or 15,876 EUR from multiple employers), you are generally required to file an annual tax return (declaracion de la renta) between April and June of the following year. This is when any over- or under-withholding is settled.</li>
+        <li><strong>Keep your Form 145 updated:</strong> When your family situation changes, do not wait for your employer to ask. Proactively submit an updated Form 145 to ensure you are not paying more tax than necessary throughout the year.</li>
+        <li><strong>Beckham Law considerations:</strong> If you qualify for the Beckham Law (special regime for displaced workers under Article 93 LIRPF), your withholding rate is a flat 24% on the first 600,000 EUR of income, which is significantly lower than the standard progressive rates for high earners. Make sure your employer applies this correctly if you have been granted the regime.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

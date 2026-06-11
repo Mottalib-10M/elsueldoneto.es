@@ -185,7 +185,229 @@ const schemas = [
       </section>
 
       <section>
-        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">5. 12 pagas vs 14 pagas</h2>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">5. Ejemplo detallado paso a paso: salario de 35.000 €</h2>
+        <p>
+          Veamos con total detalle cómo se calcula el sueldo neto de un trabajador con un salario bruto anual de 35.000 €, soltero, sin hijos, con contrato indefinido en Madrid, cobrando en 14 pagas.
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Paso 1: Calcular la cotización a la Seguridad Social</h3>
+        <p>
+          Aplicamos el 6,50% sobre el salario bruto anual:
+        </p>
+        <div class="rounded-lg bg-gray-100 p-4 font-mono text-sm dark:bg-gray-800">
+          35.000 € × 6,50% = 2.275 €/año (162,50 €/mes en 14 pagas)
+        </div>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Paso 2: Determinar la base imponible del IRPF</h3>
+        <p>
+          A los rendimientos del trabajo (35.000 €) le restamos las cotizaciones del trabajador y los gastos deducibles:
+        </p>
+        <table class="w-full text-sm">
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Rendimientos íntegros del trabajo</td>
+              <td class="px-3 py-2 text-right tabular-nums">35.000,00 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Cotizaciones a la Seguridad Social</td>
+              <td class="px-3 py-2 text-right tabular-nums text-amber-600">− 2.275,00 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Otros gastos deducibles (art. 19.2 LIRPF)</td>
+              <td class="px-3 py-2 text-right tabular-nums text-amber-600">− 2.000,00 €</td>
+            </tr>
+            <tr class="border-t-2 border-gray-300 dark:border-gray-600">
+              <td class="px-3 py-2 font-bold">Rendimiento neto del trabajo</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold">30.725,00 €</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Como el rendimiento neto supera los 19.747,50 €, no se aplica la reducción adicional por rendimientos del trabajo. La base imponible general queda en 30.725 €.
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Paso 3: Aplicar la escala progresiva del IRPF</h3>
+        <p>
+          Restamos el mínimo personal (5.550 €) para obtener la base liquidable: 30.725 − 5.550 = 25.175 €. Ahora aplicamos los tramos estatales y autonómicos (Madrid):
+        </p>
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200 dark:border-gray-600">
+              <th class="px-3 py-2 text-left font-medium">Tramo</th>
+              <th class="px-3 py-2 text-right font-medium">Base</th>
+              <th class="px-3 py-2 text-right font-medium">Tipo total</th>
+              <th class="px-3 py-2 text-right font-medium">Cuota</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">0 – 12.450 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">12.450 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">19,00%</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.365,50 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">12.450 – 20.200 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">7.750 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">24,00%</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.860,00 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">20.200 – 25.175 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">4.975 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">30,00%</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.492,50 €</td>
+            </tr>
+            <tr class="border-t-2 border-gray-300 dark:border-gray-600">
+              <td class="px-3 py-2 font-bold" colspan="3">Cuota IRPF total</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold">5.718,00 €</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Paso 4: Resultado final</h3>
+        <table class="w-full text-sm">
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Salario bruto anual</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">35.000,00 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Seguridad Social (6,50%)</td>
+              <td class="px-3 py-2 text-right tabular-nums text-amber-600">− 2.275,00 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">IRPF (16,34%)</td>
+              <td class="px-3 py-2 text-right tabular-nums text-red-600">− 5.718,00 €</td>
+            </tr>
+            <tr class="border-t-2 border-gray-300 dark:border-gray-600">
+              <td class="px-3 py-2 font-bold">Sueldo neto anual</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">27.007,00 €</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2 font-bold">Sueldo neto mensual (14 pagas)</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">1.929,07 €</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          El tipo efectivo total de retención (IRPF + SS) es del 22,84%, lo que significa que de cada 100 € brutos, el trabajador recibe aproximadamente 77,16 € netos.
+        </p>
+        <p>
+          Es importante tener en cuenta que este cálculo es específico para la Comunidad de Madrid. En otras comunidades autónomas como Cataluña, Andalucía o la Comunidad Valenciana, los tramos autonómicos del IRPF pueden variar significativamente, alterando la cuota final. Por ejemplo, para este mismo salario de 35.000 €, la diferencia entre la comunidad con menor presión fiscal y la de mayor presión puede llegar a superar los 600 € anuales. Siempre es recomendable utilizar nuestra calculadora para obtener el resultado exacto según tu comunidad autónoma.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">6. Cómo afecta la situación familiar al sueldo neto</h2>
+        <p>
+          Tu situación personal y familiar tiene un impacto directo en la retención del IRPF. A continuación, te mostramos cómo varía el neto mensual para un salario de 35.000 € brutos anuales en función de diferentes circunstancias:
+        </p>
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200 dark:border-gray-600">
+              <th class="px-3 py-2 text-left font-medium">Situación</th>
+              <th class="px-3 py-2 text-right font-medium">IRPF aprox.</th>
+              <th class="px-3 py-2 text-right font-medium">Neto mensual (14p)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Soltero/a, sin hijos</td>
+              <td class="px-3 py-2 text-right tabular-nums">16,34%</td>
+              <td class="px-3 py-2 text-right tabular-nums">~1.929 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Casado/a, cónyuge sin ingresos</td>
+              <td class="px-3 py-2 text-right tabular-nums">13,50%</td>
+              <td class="px-3 py-2 text-right tabular-nums">~2.000 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Casado/a, 1 hijo menor de 3 años</td>
+              <td class="px-3 py-2 text-right tabular-nums">12,10%</td>
+              <td class="px-3 py-2 text-right tabular-nums">~2.035 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Casado/a, 2 hijos</td>
+              <td class="px-3 py-2 text-right tabular-nums">11,20%</td>
+              <td class="px-3 py-2 text-right tabular-nums">~2.057 €</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2">Familia numerosa (3+ hijos)</td>
+              <td class="px-3 py-2 text-right tabular-nums">9,80%</td>
+              <td class="px-3 py-2 text-right tabular-nums">~2.092 €</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          La diferencia entre un contribuyente soltero sin hijos y una familia numerosa puede superar los 160 € mensuales para el mismo salario bruto. El mínimo por descendientes (2.400 € por el primer hijo, 2.700 € por el segundo, 4.000 € por el tercero y 4.500 € a partir del cuarto) reduce directamente la cuota del IRPF. Además, los hijos menores de 3 años incrementan el mínimo en 2.800 € adicionales.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">7. Anatomía de una nómina: qué significa cada línea</h2>
+        <p>
+          Entender tu nómina es clave para verificar que tu sueldo neto es correcto. Estos son los apartados principales que encontrarás en cualquier nómina española:
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Devengos (lo que ganas)</h3>
+        <ul>
+          <li><strong>Salario base:</strong> la retribución fija pactada en tu contrato, según convenio colectivo o acuerdo individual.</li>
+          <li><strong>Complementos salariales:</strong> antigüedad, nocturnidad, peligrosidad, idiomas, productividad, etc. Cotizan a la Seguridad Social.</li>
+          <li><strong>Prorrata de pagas extras:</strong> si tu empresa paga en 12 mensualidades, aquí aparece la parte proporcional de las pagas extras incluida cada mes.</li>
+          <li><strong>Horas extraordinarias:</strong> si las hay, se suman a los devengos y cotizan con un tipo especial.</li>
+          <li><strong>Percepciones no salariales:</strong> dietas, gastos de transporte, indemnizaciones. No cotizan a la SS hasta ciertos límites.</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Deducciones (lo que te descuentan)</h3>
+        <ul>
+          <li><strong>Contingencias comunes (4,70%):</strong> cubre prestaciones por enfermedad, maternidad, jubilación e incapacidad.</li>
+          <li><strong>Desempleo (1,55%):</strong> financia la prestación por desempleo en caso de perder el trabajo.</li>
+          <li><strong>Formación profesional (0,10%):</strong> contribución para la formación continua de los trabajadores.</li>
+          <li><strong>MEI (0,15%):</strong> Mecanismo de Equidad Intergeneracional, creado para reforzar la hucha de las pensiones.</li>
+          <li><strong>Retención IRPF:</strong> el porcentaje de retención a cuenta del impuesto sobre la renta, que tu empresa ingresa directamente a Hacienda.</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Líquido a percibir</h3>
+        <p>
+          Es la diferencia entre el total de devengos y el total de deducciones. Esta cifra es lo que realmente se ingresa en tu cuenta bancaria cada mes: tu sueldo neto.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">8. Consejos para maximizar tu sueldo neto legalmente</h2>
+        <p>
+          Existen varias estrategias legales que pueden ayudarte a aumentar la cantidad que recibes cada mes sin cambiar tu salario bruto:
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Retribución flexible (en especie)</h3>
+        <p>
+          La retribución flexible permite destinar parte de tu salario bruto a productos y servicios con ventajas fiscales. Los más habituales son:
+        </p>
+        <ul>
+          <li><strong>Ticket restaurante:</strong> hasta 11 €/día laborable están exentos de IRPF (unos 2.420 €/año).</li>
+          <li><strong>Seguro médico privado:</strong> hasta 500 €/año por asegurado (cónyuge e hijos incluidos) están exentos.</li>
+          <li><strong>Ticket guardería:</strong> totalmente exento de IRPF, sin límite. Ideal para familias con hijos menores de 3 años.</li>
+          <li><strong>Ticket transporte:</strong> hasta 1.500 €/año exentos para transporte público (metro, autobús, tren).</li>
+          <li><strong>Formación:</strong> los cursos de formación vinculados al puesto de trabajo están exentos sin límite.</li>
+        </ul>
+        <p>
+          Un trabajador que aproveche al máximo estos beneficios puede ahorrar entre 1.000 y 3.000 € anuales en IRPF.
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Aportaciones a planes de pensiones</h3>
+        <p>
+          Las aportaciones a planes de pensiones de empleo reducen la base imponible del IRPF. El límite conjunto de aportaciones del empleado y la empresa es de 8.500 €/año (con un máximo de 1.500 € del trabajador si la empresa no aporta). Esto puede suponer un ahorro fiscal relevante, especialmente para contribuyentes con tipos marginales altos.
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Declaración conjunta vs. individual</h3>
+        <p>
+          Si tu cónyuge no trabaja o tiene ingresos muy bajos, la declaración conjunta del IRPF puede resultar más favorable gracias a la reducción adicional de 3.400 € en la base imponible. Sin embargo, para parejas con ingresos similares, la declaración individual suele ser más ventajosa. Conviene simular ambas opciones con el programa Renta Web de la AEAT.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">9. 12 pagas vs 14 pagas</h2>
         <p>
           En España, lo más habitual es cobrar en 14 pagas: 12 mensualidades ordinarias más 2 pagas extraordinarias (normalmente en junio y diciembre). Algunas empresas prorratean las pagas extras, pagando 12 mensualidades más altas.
         </p>

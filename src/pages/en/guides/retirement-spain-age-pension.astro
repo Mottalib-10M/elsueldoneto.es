@@ -1,0 +1,264 @@
+---
+import Layout from '../../../components/layout/Layout.astro';
+import { CURRENT_FISCAL_YEAR } from '../../../config';
+import { buildBreadcrumbSchema, buildFAQSchema } from '../../../lib/seo';
+
+const title = `Retirement in Spain ${CURRENT_FISCAL_YEAR}: Age, Pension & Rules`;
+const description = `Complete guide to retirement in Spain: retirement age, pension calculation, regulatory base, contribution years, early retirement options and partial retirement.`;
+
+const faqs = [
+  { question: 'What is the retirement age in Spain?', answer: `In ${CURRENT_FISCAL_YEAR}, the ordinary retirement age is 65 if you have contributed at least 38 years and 3 months, or 66 years and 8 months with fewer contribution years. The age is gradually increasing toward 67 by 2027 for those with less than 38.5 years of contributions.` },
+  { question: 'How is the retirement pension calculated?', answer: 'Your pension is based on the regulatory base, calculated from your contribution bases during the last 25 years (300 months). The highest bases are summed and divided by 350. A percentage is then applied based on your total years of contributions: 50% at 15 years, scaling up to 100% at 36 years and 6 months.' },
+  { question: 'Can I retire early in Spain?', answer: 'Yes, voluntary early retirement is possible up to 2 years before the ordinary age if you have at least 35 years of contributions. Involuntary early retirement (due to company restructuring) allows retiring up to 4 years early with at least 33 years of contributions. Reduction coefficients apply in both cases.' },
+];
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Home', url: '/en/' },
+    { name: 'Guides', url: '/en/guides/' },
+    { name: 'Retirement in Spain', url: '/en/guides/retirement-spain-age-pension/' },
+  ]),
+  buildFAQSchema(faqs, 'en'),
+];
+---
+
+<Layout title={title} description={description} schema={schemas} locale="en">
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/en/" class="hover:text-brand">Home</a> /
+      <a href="/en/guides/" class="hover:text-brand">Guides</a> /
+      <span class="text-charcoal dark:text-gray-200">Retirement in Spain</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      Retirement in Spain: Age, Pension & Calculation ({CURRENT_FISCAL_YEAR})
+    </h1>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <p>
+        Spain's public pension system is one of the most generous in Europe, but understanding its rules requires navigating retirement ages, contribution periods, and regulatory base calculations. Whether you are planning ahead or approaching retirement, this guide covers the key factors that determine how much pension you will receive and when you can start collecting it.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Retirement Age</h2>
+      <p>
+        Spain is in the middle of a gradual transition toward a retirement age of 67. In {CURRENT_FISCAL_YEAR}, you can retire at 65 if you have accumulated at least 38 years and 3 months of contributions. If your contribution history is shorter, the ordinary retirement age rises to 66 years and 8 months. This transition, mandated by the 2011 reform, will be complete by 2027. You can check your exact retirement age using the Social Security portal (<em>Tu Seguridad Social</em>).
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Regulatory Base and Pension Amount</h2>
+      <p>
+        Your pension amount starts with the <em>base reguladora</em> (regulatory base), which averages your contribution bases over the last 25 years (300 months). The sum of those 300 monthly bases is divided by 350 to produce the monthly regulatory base. A percentage is then applied based on your total contribution years: 15 years grants 50% of the base, and additional months gradually increase the percentage until reaching 100% at 36 years and 6 months. The maximum pension in {CURRENT_FISCAL_YEAR} is approximately €3,175 per month (paid in 14 installments).
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Early and Partial Retirement</h2>
+      <p>
+        Voluntary early retirement is available up to two years before your ordinary retirement age if you have at least 35 years of contributions. The pension is reduced by a coefficient for each quarter you retire early, ranging from 1.625% to 2% per quarter depending on your total contributions. Involuntary early retirement (due to company closure or collective layoffs) allows retiring up to four years early with 33 years of contributions and smaller reduction coefficients. Partial retirement is another option, allowing you to reduce your working hours while receiving a proportional pension, typically combined with a relief contract for a younger worker.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Retirement Age Transition Table (2024-2027)</h2>
+      <p>
+        Spain is phasing in a higher retirement age between 2013 and 2027. The following table shows the ordinary retirement age based on the year of retirement and total contribution years:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-gray-300 dark:border-gray-600">
+              <th class="py-2 pr-4 text-left font-semibold">Year</th>
+              <th class="py-2 pr-4 text-right font-semibold">With 38+ Years Contributed</th>
+              <th class="py-2 text-right font-semibold">With Fewer Years</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">2024</td>
+              <td class="py-2 pr-4 text-right">65 years</td>
+              <td class="py-2 text-right">66 years, 6 months</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">2025</td>
+              <td class="py-2 pr-4 text-right">65 years</td>
+              <td class="py-2 text-right">66 years, 8 months</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">2026</td>
+              <td class="py-2 pr-4 text-right">65 years</td>
+              <td class="py-2 text-right">66 years, 10 months</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">2027+</td>
+              <td class="py-2 pr-4 text-right">65 years</td>
+              <td class="py-2 text-right">67 years</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        From 2027 onward, the system stabilizes: you retire at 65 if you have at least 38 years and 6 months of contributions, or at 67 if you have fewer. The exact threshold for contribution years to qualify for the lower age has been gradually increasing and settles at 38 years and 6 months.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Pension Calculation Example</h2>
+      <p>
+        Let us work through a practical example. Consider a worker who retires in {CURRENT_FISCAL_YEAR} at age 65 with 37 years of contributions and an average monthly contribution base of €2,800 over the last 25 years:
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Step 1: Calculate the Regulatory Base</h3>
+      <p>
+        Sum the contribution bases for the last 300 months (25 years). The last 24 months are taken at face value, while months 25 through 300 are inflation-adjusted using CPI. Assuming an average base of €2,800/month:
+      </p>
+      <ul>
+        <li>Sum of 300 monthly bases: €2,800 x 300 = €840,000</li>
+        <li>Regulatory base: €840,000 / 350 = €2,400/month</li>
+      </ul>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Step 2: Apply the Contribution Percentage</h3>
+      <p>
+        With 37 years of contributions, the percentage applied to the regulatory base is approximately 97.32%. The scale works as follows: 15 years gives 50%, and each additional month adds a small increment until reaching 100% at 36 years and 6 months or more. Since this worker has 37 years (exceeding the 36.5-year threshold), they receive 100%:
+      </p>
+      <ul>
+        <li>Monthly pension: €2,400 x 100% = €2,400/month</li>
+        <li>Annual pension (14 payments): €2,400 x 14 = €33,600/year</li>
+      </ul>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Maximum and Minimum Pension Amounts</h2>
+      <p>
+        The Spanish pension system sets both a floor and a ceiling. The following table shows the approximate monthly amounts for {CURRENT_FISCAL_YEAR} (paid in 14 installments):
+      </p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-gray-300 dark:border-gray-600">
+              <th class="py-2 pr-4 text-left font-semibold">Pension Type</th>
+              <th class="py-2 pr-4 text-right font-semibold">Minimum (with spouse)</th>
+              <th class="py-2 pr-4 text-right font-semibold">Minimum (no spouse)</th>
+              <th class="py-2 text-right font-semibold">Maximum</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Retirement (65+, 15+ years)</td>
+              <td class="py-2 pr-4 text-right">€1,033/month</td>
+              <td class="py-2 pr-4 text-right">€835/month</td>
+              <td class="py-2 text-right">€3,175/month</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Retirement (under 65)</td>
+              <td class="py-2 pr-4 text-right">€966/month</td>
+              <td class="py-2 pr-4 text-right">€781/month</td>
+              <td class="py-2 text-right">€3,175/month</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Widowhood (over 65)</td>
+              <td class="py-2 pr-4 text-right">--</td>
+              <td class="py-2 pr-4 text-right">€835/month</td>
+              <td class="py-2 text-right">€3,175/month</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Orphan pension (per child)</td>
+              <td class="py-2 pr-4 text-right">--</td>
+              <td class="py-2 pr-4 text-right">€256/month</td>
+              <td class="py-2 text-right">€3,175/month</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Minimum pensions are updated annually in line with inflation (CPI). If your calculated pension falls below the minimum, it is topped up to the minimum amount, provided you meet specific income requirements. The maximum pension cap applies regardless of how high your contribution base was, which is an important consideration for high earners.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Survivors' Pensions</h2>
+      <p>
+        Spain's Social Security system provides several types of survivors' pensions for family members of deceased workers or pensioners:
+      </p>
+      <ul>
+        <li><strong>Widowhood pension (<em>pension de viudedad</em>):</strong> The surviving spouse receives 52% of the deceased's regulatory base, which can increase to 60% or even 70% in cases of low income, family responsibilities, or age over 65. Common-law partners may also qualify if they meet specific cohabitation and income requirements.</li>
+        <li><strong>Orphan pension (<em>pension de orfandad</em>):</strong> Each child under 21 (or under 25 if unemployed) receives 20% of the regulatory base. In cases where both parents have died, the percentage increases. The combined total of widowhood and orphan pensions cannot exceed 100% of the regulatory base.</li>
+        <li><strong>Pension for family members (<em>pension en favor de familiares</em>):</strong> In the absence of a spouse or children, dependent grandchildren, siblings, parents, or grandparents who lived with and depended financially on the deceased may qualify for 20% of the regulatory base.</li>
+      </ul>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Pensions for Expats: Contributions in Multiple Countries</h2>
+      <p>
+        If you have worked in multiple EU/EEA countries, your pension rights are coordinated under European regulations (EC 883/2004). Each country where you have contributed calculates a partial pension based on the years you contributed there, but using the total career across all countries to determine your eligibility percentage. This means:
+      </p>
+      <ul>
+        <li><strong>Aggregation of periods:</strong> If you need 15 years of contributions to qualify in Spain but only contributed 8 years there, Spain will count your years in other EU countries to meet the 15-year threshold. You then receive a pension proportional to your 8 years in Spain.</li>
+        <li><strong>Pro-rata calculation:</strong> Each country calculates what your pension would be if all your career had been in that country (the theoretical amount), then reduces it in proportion to the time you actually contributed there (the pro-rata amount). You receive the pro-rata amount from each country.</li>
+        <li><strong>Non-EU bilateral agreements:</strong> Spain has Social Security agreements with many non-EU countries, including the United States, Canada, Australia, Japan, and most Latin American countries. These agreements similarly allow aggregation of contribution periods, though the exact rules vary by treaty.</li>
+        <li><strong>Where to apply:</strong> You apply for your pension in the country where you live. That country's Social Security office coordinates with the other countries to calculate your entitlement from each one.</li>
+      </ul>
+      <p>
+        For expats who have spent portions of their career in different countries, this coordination system is essential. It prevents the loss of pension rights due to mobility and ensures that every year of contributions counts, regardless of where it was earned.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">The MEI: Sustainability Reform</h2>
+      <p>
+        The Intergenerational Equity Mechanism (<em>Mecanismo de Equidad Intergeneracional</em>, or MEI) was introduced in 2023 as part of Spain's pension sustainability reform. It is an additional Social Security contribution of 0.70% split between employer (0.58%) and employee (0.12%), applied on top of existing contribution rates. The MEI replaces the earlier Sustainability Factor that was never implemented due to political opposition.
+      </p>
+      <p>
+        The funds collected through the MEI are directed to a reserve fund designed to cover projected pension shortfalls between 2032 and 2050, when the baby boomer generation will be fully retired. The MEI rate is scheduled to increase gradually, reaching 1.2% by 2029. If the reserve fund proves insufficient, the rate could be further increased, or alternative measures (such as adjusting pension growth or contribution bases) would be implemented.
+      </p>
+      <p>
+        For workers, the MEI adds a small but noticeable cost. On a salary of €35,000, the employee MEI contribution is approximately €42 per year. While modest individually, the mechanism is designed to accumulate substantial reserves over the next decade to ensure pension sustainability for future retirees.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Early Retirement Requirements Summary</h2>
+      <p>
+        The following table summarizes the key requirements for each type of early retirement:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-gray-300 dark:border-gray-600">
+              <th class="py-2 pr-4 text-left font-semibold">Type</th>
+              <th class="py-2 pr-4 text-right font-semibold">Max Years Early</th>
+              <th class="py-2 pr-4 text-right font-semibold">Min. Contributions</th>
+              <th class="py-2 text-right font-semibold">Reduction per Quarter</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Voluntary</td>
+              <td class="py-2 pr-4 text-right">2 years</td>
+              <td class="py-2 pr-4 text-right">35 years</td>
+              <td class="py-2 text-right">1.625% - 2.00%</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Involuntary (ERE/restructuring)</td>
+              <td class="py-2 pr-4 text-right">4 years</td>
+              <td class="py-2 pr-4 text-right">33 years</td>
+              <td class="py-2 text-right">1.50% - 1.875%</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Arduous or hazardous work</td>
+              <td class="py-2 pr-4 text-right">Varies</td>
+              <td class="py-2 pr-4 text-right">15 years (in that role)</td>
+              <td class="py-2 text-right">Varies by sector</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Disability (65%+)</td>
+              <td class="py-2 pr-4 text-right">No limit</td>
+              <td class="py-2 pr-4 text-right">15 years</td>
+              <td class="py-2 text-right">No reduction</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The reduction coefficients mean that early retirement permanently lowers your pension. For voluntary early retirement at 2 years before the ordinary age with 35 years of contributions, the reduction is approximately 1.875% per quarter, or 15% total. This can translate to several hundred euros per month less for the rest of your life, so the decision should be carefully modeled.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Delayed Retirement Bonus</h2>
+      <p>
+        Workers who continue working beyond the ordinary retirement age can benefit from a delayed retirement supplement. For each complete year worked past your ordinary retirement age, your eventual pension increases by a percentage that depends on your total contribution years: 2% per year with fewer than 25 years of contributions, 2.75% with 25 to 37 years, and 4% with more than 37 years. Alternatively, you can choose to receive a one-time lump sum payment upon eventual retirement instead of the permanent percentage increase. This incentive makes delaying retirement financially attractive, especially for workers who are healthy and enjoy their work. For a worker with 38 years of contributions and a calculated pension of €2,400/month, delaying retirement by two years would add 8% (4% x 2), raising the pension to €2,592/month for life.
+      </p>
+    </div>
+
+    <section class="mt-10">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {faqs.map(faq => (
+          <details class="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
+            <summary class="cursor-pointer font-semibold text-charcoal dark:text-gray-100">{faq.question}</summary>
+            <p class="mt-2 text-sm text-dark-gray dark:text-gray-300">{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </div>
+</Layout>

@@ -1,0 +1,221 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import Paro from '../../components/calculadoras/Paro';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+
+const title = `Unemployment Benefit Calculator Spain ${CURRENT_FISCAL_YEAR}`;
+const description = `Calculate your unemployment benefit (prestación por desempleo) in Spain ${CURRENT_FISCAL_YEAR}. Find out how much you'll receive and for how long based on your contribution history.`;
+
+const faqs = [
+  { question: 'How is unemployment benefit calculated in Spain?', answer: `Unemployment benefit is based on your average contribution base over the last 180 days worked. You receive 70% of that base for the first 180 days, then 50% from day 181 onwards. In ${CURRENT_FISCAL_YEAR}, the minimum is around €560/month (no children) or €750/month (with children), and the maximum is approximately €1,575/month (no children).` },
+  { question: 'How long can I receive unemployment benefit?', answer: 'Duration depends on your contribution history over the last 6 years: from 4 months (for 360 days contributed) up to a maximum of 24 months (for 2,160+ days contributed). For every 360 days contributed, you receive 120 days of benefit.' },
+  { question: 'Do I qualify for unemployment benefit if I resign?', answer: 'Generally no. Voluntary resignation does not qualify for contributory unemployment benefit. However, there are exceptions: if you resign due to a substantial change in working conditions, unpaid wages, or workplace harassment, you may be able to claim. You should seek legal advice before resigning.' },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Unemployment Benefit Calculator ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Unemployment Benefit Calculator"
+  path="/en/unemployment-calculator/"
+  faqs={faqs}
+  locale="en"
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <Paro client:load lang="en" />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      How unemployment benefits work in Spain
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spain's unemployment protection system (prestación por desempleo) provides income support to workers who lose their jobs involuntarily. The benefit amount is calculated as a percentage of your recent contribution base, not your last salary, which is an important distinction. Your contributions over the past 6 years determine both the amount and the duration of your benefit.
+      </p>
+      <p>
+        The system has floor and ceiling amounts that are updated annually. Even high earners are capped at approximately €1,575/month (without dependants), while lower earners are guaranteed a minimum amount. Understanding your entitlement before leaving a job can help you plan your finances during the transition period.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      Benefit duration based on contribution history
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        The length of time you can receive contributory unemployment benefit (prestación por desempleo) depends directly on how many days you have contributed to Social Security over the last six years. The ratio is straightforward: for every 360 days of contributions, you receive 120 days of benefit. Below is the complete duration table.
+      </p>
+      <div class="overflow-x-auto my-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left">Days contributed (last 6 years)</th>
+              <th class="px-4 py-2 text-left">Benefit duration (days)</th>
+              <th class="px-4 py-2 text-left">Benefit duration (months)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">360 – 539</td><td class="px-4 py-2">120</td><td class="px-4 py-2">4</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">540 – 719</td><td class="px-4 py-2">180</td><td class="px-4 py-2">6</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">720 – 899</td><td class="px-4 py-2">240</td><td class="px-4 py-2">8</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">900 – 1,079</td><td class="px-4 py-2">300</td><td class="px-4 py-2">10</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">1,080 – 1,259</td><td class="px-4 py-2">360</td><td class="px-4 py-2">12</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">1,260 – 1,439</td><td class="px-4 py-2">420</td><td class="px-4 py-2">14</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">1,440 – 1,619</td><td class="px-4 py-2">480</td><td class="px-4 py-2">16</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">1,620 – 1,799</td><td class="px-4 py-2">540</td><td class="px-4 py-2">18</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">1,800 – 1,979</td><td class="px-4 py-2">600</td><td class="px-4 py-2">20</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">1,980 – 2,159</td><td class="px-4 py-2">660</td><td class="px-4 py-2">22</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">2,160+</td><td class="px-4 py-2">720</td><td class="px-4 py-2">24</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The minimum contribution requirement is 360 days within the six-year lookback period. If you have contributed fewer than 360 days, you do not qualify for the contributory benefit, though you may be eligible for the non-contributory subsidio (explained below). For expats who have worked in other EU countries, contributions made in those countries may count toward the Spanish threshold under EU regulation 883/2004 — you will need a U1 form from your previous country's employment office to prove this.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      How the regulatory base is calculated
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        The amount of your unemployment benefit is not based on your last salary but on your <strong>base reguladora</strong> (regulatory base). This is calculated as the average of your contribution bases over the last 180 days (6 months) before you became unemployed, excluding overtime contributions.
+      </p>
+      <p>
+        The contribution base is the amount on which your Social Security contributions were calculated each month. For most workers, this is close to their gross monthly salary, but it is capped at the maximum contribution base (approximately €4,720/month) and cannot fall below the minimum base. Pagas extra are included in the contribution base if they are prorated across all months.
+      </p>
+      <p>
+        Once the regulatory base is established, the benefit percentage is applied: <strong>70% for the first 180 days</strong>, then <strong>50% from day 181 onwards</strong>. For instance, if your regulatory base is €2,500/month, you would receive €1,750/month during the first six months, then €1,250/month thereafter — subject to the minimum and maximum limits.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      Minimum and maximum benefit amounts
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spain sets floor and ceiling amounts for unemployment benefits, updated annually in line with the IPREM (Indicador Público de Renta de Efectos Múltiples). The amounts depend on whether the beneficiary has dependent children.
+      </p>
+      <div class="overflow-x-auto my-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left">Situation</th>
+              <th class="px-4 py-2 text-left">Minimum (monthly)</th>
+              <th class="px-4 py-2 text-left">Maximum (monthly)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">No dependent children</td><td class="px-4 py-2">~€560</td><td class="px-4 py-2">~€1,575</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">1 dependent child</td><td class="px-4 py-2">~€750</td><td class="px-4 py-2">~€1,800</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">2+ dependent children</td><td class="px-4 py-2">~€750</td><td class="px-4 py-2">~€2,025</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        These thresholds mean that higher earners will receive proportionally less of their previous salary as a percentage, while lower earners are protected by the minimum floor. A worker earning €60,000 gross who loses their job would be capped at roughly €1,575/month (without children) despite their regulatory base supporting a higher theoretical amount. Conversely, a minimum-wage worker would receive at least €560/month even if 70% of their regulatory base falls below that level.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      Prestación vs subsidio: contributory and non-contributory benefits
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spain's unemployment protection system has two main tiers that serve different populations and circumstances.
+      </p>
+      <p>
+        <strong>Prestación por desempleo (contributory benefit):</strong> This is the primary unemployment benefit described throughout this page. It requires at least 360 days of contributions in the last six years, is linked to your contribution base, and lasts between 4 and 24 months. It is subject to IRPF taxation (withholding is usually low due to the reduced income level) and Social Security contributions are paid on your behalf during this period, protecting your pension and healthcare entitlements.
+      </p>
+      <p>
+        <strong>Subsidio por desempleo (non-contributory assistance):</strong> This is a lower-level safety net for workers who do not qualify for the contributory benefit or who have exhausted it. The subsidio pays a flat amount equal to 80% of the IPREM (approximately €480/month). Eligibility criteria are stricter: you must demonstrate insufficient income (generally below 75% of the SMI), and duration varies between 6 and 30 months depending on your situation. Specific categories include workers over 45 who have exhausted contributory benefits, workers over 52 approaching retirement, those with family responsibilities, and emigrants returning to Spain.
+      </p>
+      <p>
+        For expats, the distinction matters primarily in terms of planning. If you are considering leaving Spain after losing a job, be aware that unemployment benefits generally cannot be exported outside the EU. Within the EU, you can transfer your benefit to another member state for up to three months under certain conditions, using the U2 form.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      Rights and obligations while receiving benefits
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Receiving unemployment benefit in Spain comes with specific obligations that must be followed to avoid suspension or loss of your entitlement.
+      </p>
+      <p>
+        <strong>Active job search:</strong> You must actively seek employment and be able to prove it. This includes registering for job offers, attending interviews, and participating in training programmes offered by your regional employment service. Refusing a "suitable" job offer (one matching your qualifications and within reasonable commuting distance) can result in benefit suspension.
+      </p>
+      <p>
+        <strong>Signing on (sellado):</strong> You must renew your registration as a job seeker at regular intervals set by your employment office, typically every three months. Missing a signing appointment without justification can suspend your benefit. Most regions now allow online renewal through the SEPE website or regional employment portals.
+      </p>
+      <p>
+        <strong>Declaring income changes:</strong> If you start part-time work, freelance activity, or receive other income, you must declare it immediately. In some cases, part-time employment is compatible with a reduced benefit payment. Failure to declare income constitutes fraud and can result in full repayment demands plus penalties.
+      </p>
+      <p>
+        <strong>Staying in Spain:</strong> Beneficiaries must remain available in the Spanish job market. Leaving Spain for more than 15 calendar days per year (or 15 consecutive days) without authorization results in benefit suspension. Authorised absences for family emergencies, medical treatment, or job interviews abroad may be granted on request.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      How to apply: the SEPE process step by step
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Applying for unemployment benefit in Spain involves two parallel registrations that must be completed promptly after your employment ends.
+      </p>
+      <p>
+        <strong>Step 1: Register as a job seeker (demandante de empleo).</strong> Within 15 working days of your last day of employment, you must register at your regional employment office (Servicio Público de Empleo). In most regions, this can be done online through the regional employment portal. You will need your NIE/DNI, your Social Security number, and documentation of your employment history.
+      </p>
+      <p>
+        <strong>Step 2: Apply for unemployment benefit at SEPE.</strong> Simultaneously or immediately after, you must submit your benefit application through SEPE (Servicio Público de Empleo Estatal). This can be done online at sede.sepe.gob.es with a digital certificate, Cl@ve PIN, or electronic DNI. You will need your employer's certificate of company (certificado de empresa), which details your contribution bases and the reason for termination. Your employer is legally obligated to provide this document.
+      </p>
+      <p>
+        <strong>Step 3: Await resolution.</strong> SEPE will process your application and notify you of the approved benefit amount and duration, typically within 15 days. Benefits are paid monthly, with the first payment usually arriving approximately one month after the approval date.
+      </p>
+      <p>
+        <strong>Important deadline:</strong> If you apply more than 15 working days after your employment ends, you will still receive the benefit, but you will lose the days between the 15th day and your application date. For example, if you wait 30 working days to apply, you lose approximately two weeks of benefit. There is no way to recover these lost days, so prompt action is essential.
+      </p>
+    </div>
+  </section>
+</CalculadoraLayout>

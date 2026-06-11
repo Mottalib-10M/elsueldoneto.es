@@ -1,4 +1,5 @@
-import { SITE_URL, SITE_LANG, CURRENT_FISCAL_YEAR } from '../config';
+import { SITE_URL, SITE_NAME, CURRENT_FISCAL_YEAR } from '../config';
+import { LANG_MAP, type Locale } from '../i18n';
 
 export interface SEOProps {
   title: string;
@@ -23,22 +24,7 @@ export function validateDescription(description: string): boolean {
   return description.length >= 150 && description.length <= 160;
 }
 
-export interface SchemaWebApplication {
-  '@context': 'https://schema.org';
-  '@type': 'WebApplication';
-  name: string;
-  url: string;
-  applicationCategory: string;
-  operatingSystem: string;
-  offers: {
-    '@type': 'Offer';
-    price: '0';
-    priceCurrency: 'EUR';
-  };
-  inLanguage: typeof SITE_LANG;
-}
-
-export function buildWebApplicationSchema(name: string, url: string): SchemaWebApplication {
+export function buildWebApplicationSchema(name: string, url: string, locale: Locale = 'es') {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
@@ -51,7 +37,8 @@ export function buildWebApplicationSchema(name: string, url: string): SchemaWebA
       price: '0',
       priceCurrency: 'EUR',
     },
-    inLanguage: SITE_LANG,
+    inLanguage: LANG_MAP[locale],
+    availableLanguage: ['es-ES', 'en-GB'],
   };
 }
 
@@ -60,7 +47,7 @@ export interface FAQItem {
   answer: string;
 }
 
-export function buildFAQSchema(items: FAQItem[]) {
+export function buildFAQSchema(items: FAQItem[], locale: Locale = 'es') {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -72,7 +59,7 @@ export function buildFAQSchema(items: FAQItem[]) {
         text: item.answer,
       },
     })),
-    inLanguage: SITE_LANG,
+    inLanguage: LANG_MAP[locale],
   };
 }
 
@@ -86,5 +73,80 @@ export function buildBreadcrumbSchema(items: { name: string; url: string }[]) {
       name: item.name,
       item: buildCanonical(item.url),
     })),
+  };
+}
+
+export function buildOrganizationSchema(locale: Locale = 'es') {
+  const isEn = locale === 'en';
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: `${SITE_URL}/favicon-512.png`,
+    description: isEn
+      ? `Free tax and financial calculators for Spain, updated for fiscal year ${CURRENT_FISCAL_YEAR}.`
+      : `Calculadoras fiscales y financieras gratuitas para España, actualizadas para el ejercicio fiscal ${CURRENT_FISCAL_YEAR}.`,
+    foundingDate: '2025',
+    sameAs: [],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      email: 'contacto@elsueldoneto.es',
+      contactType: 'customer service',
+      availableLanguage: ['Spanish', 'English'],
+    },
+  };
+}
+
+export interface PersonSchemaProps {
+  name: string;
+  jobTitle: string;
+  description: string;
+  alumniOf?: { name: string; url?: string }[];
+  knowsAbout?: string[];
+  url?: string;
+}
+
+export function buildPersonSchema(props: PersonSchemaProps) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: props.name,
+    jobTitle: props.jobTitle,
+    description: props.description,
+    url: props.url || `${SITE_URL}/sobre-nosotros/`,
+    worksFor: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    ...(props.alumniOf && {
+      alumniOf: props.alumniOf.map((a) => ({
+        '@type': 'EducationalOrganization',
+        name: a.name,
+        ...(a.url && { url: a.url }),
+      })),
+    }),
+    ...(props.knowsAbout && { knowsAbout: props.knowsAbout }),
+  };
+}
+
+export function buildWebSiteSchema(locale: Locale = 'es') {
+  const isEn = locale === 'en';
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE_NAME,
+    url: SITE_URL,
+    inLanguage: LANG_MAP[locale],
+    description: isEn
+      ? `Net salary, income tax, mortgage and more calculators for Spain ${CURRENT_FISCAL_YEAR}.`
+      : `Calculadoras de sueldo neto, IRPF, hipoteca y más para España ${CURRENT_FISCAL_YEAR}.`,
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    availableLanguage: ['es-ES', 'en-GB'],
   };
 }

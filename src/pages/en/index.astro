@@ -1,0 +1,182 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import SueldoNeto from '../../components/calculadoras/SueldoNeto';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+import { buildWebApplicationSchema, buildBreadcrumbSchema, buildFAQSchema } from '../../lib/seo';
+
+const title = `Net Salary Calculator Spain ${CURRENT_FISCAL_YEAR}: Gross to Net`;
+const description = `Calculate your net salary in Spain ${CURRENT_FISCAL_YEAR}. Find your income tax (IRPF) by autonomous community, Social Security contributions and family deductions.`;
+
+const faqs = [
+  {
+    question: 'How is net salary calculated in Spain?',
+    answer: `Net salary is obtained by subtracting two items from gross salary: Social Security contributions (6.50% for employees in ${CURRENT_FISCAL_YEAR}) and income tax withholding (IRPF), which depends on your taxable base, autonomous community and family situation. Formula: Net = Gross − Social Security − IRPF.`,
+  },
+  {
+    question: 'How much income tax is paid on a €30,000 gross salary?',
+    answer: 'For a single worker with no children in Madrid earning €30,000 gross per year with 14 pay periods, the approximate IRPF is around €4,645, resulting in an effective tax rate of 15.5%. Adding Social Security (€1,905), the annual net is approximately €23,450 (€1,675/month in 14 payments).',
+  },
+  {
+    question: 'Which autonomous community has the lowest income tax?',
+    answer: 'Madrid applies the lowest regional tax rates in Spain. The difference with the highest-tax regions (such as Catalonia or Valencia) can exceed €2,000 per year for the same gross salary. The Basque Country and Navarre have their own separate tax systems.',
+  },
+  {
+    question: 'Is it better to receive 12 or 14 pay periods?',
+    answer: 'The annual net is identical with 12 or 14 payments. The difference is distribution: with 14 payments you receive 12 regular monthly payments plus 2 bonus payments (June and December). With 12 payments, the same annual amount is spread equally each month. The choice does not affect taxes.',
+  },
+  {
+    question: 'How much does an employee contribute to Social Security?',
+    answer: `In ${CURRENT_FISCAL_YEAR}, employees contribute 6.50% of their contribution base: 4.70% for common contingencies, 1.55% for unemployment (permanent contract), 0.10% for professional training and 0.15% for the Intergenerational Equity Mechanism (MEI). The maximum contribution base is €5,101.20/month.`,
+  },
+];
+
+const schemas = [
+  buildWebApplicationSchema(`Net Salary Calculator ${CURRENT_FISCAL_YEAR}`, '/en/', 'en'),
+  buildBreadcrumbSchema([{ name: 'Net Salary Calculator', url: '/en/' }]),
+  buildFAQSchema(faqs, 'en'),
+];
+---
+
+<Layout title={title} description={description} schema={schemas} locale="en">
+  <section class="bg-light-gray py-12 dark:bg-gray-800">
+    <div class="mx-auto max-w-4xl px-4 text-center">
+      <h1 class="mb-4 text-3xl font-bold text-charcoal md:text-5xl dark:text-gray-100">
+        <span class="text-brand">Net Salary</span> Calculator Spain {CURRENT_FISCAL_YEAR}
+      </h1>
+      <p class="mx-auto max-w-2xl text-lg text-dark-gray dark:text-gray-300">
+        Calculate your net salary in seconds. Income tax (IRPF) by autonomous community,
+        Social Security contributions and family deductions.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 py-8">
+    <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+      <SueldoNeto client:load lang="en" />
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 py-8">
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">What is net salary and how is it calculated in Spain?</h2>
+      <p>
+        Net salary is the amount a worker actually receives in their bank account each month, after taxes and mandatory contributions have been deducted. The gap between the gross salary stated in your contract and what you actually take home can surprise first-time employees in Spain: that difference typically ranges between 20% and 40% of gross, depending on your income bracket, autonomous community and personal circumstances.
+      </p>
+      <p>
+        Two major deductions create this gap. The first is <strong>Social Security</strong>, accounting for 6.50% of gross salary covering common contingencies, unemployment, professional training and the Intergenerational Equity Mechanism (MEI). The second, and more variable, is <strong>IRPF</strong> (Impuesto sobre la Renta de las Personas Físicas — Personal Income Tax), a progressive tax applied in brackets. This means the first €12,450 of taxable income is taxed at a different rate than the next €7,750, and so on up to the maximum rate of 47% for income exceeding €300,000.
+      </p>
+      <p>
+        What many people don't realise is that IRPF is not applied directly to gross salary. First, Social Security contributions are subtracted, along with deductible work expenses (€2,000 per year), and in some cases an additional reduction for employment income for earnings below €19,747.50. The personal and family minimum — a tax-exempt amount depending on whether you have children, dependent ascendants or a recognised disability — is then applied against the resulting taxable base.
+      </p>
+      <p>
+        Another determining factor is your <strong>autonomous community</strong>. IRPF is split between a national scale (the same throughout Spain, except the Basque Country and Navarre) and a regional scale that each autonomous government sets independently. The difference can exceed €2,000 per year for the same gross salary. Madrid applies the lowest regional rates, while Catalonia and Valencia are at the opposite end for higher incomes.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Worked example: €30,000 gross salary in Madrid</h3>
+      <p>
+        Let's walk through the net salary calculation for a single worker, no children, earning €30,000 gross per year in Madrid with 14 pay periods:
+      </p>
+      <ol class="list-decimal ml-4 space-y-1">
+        <li><strong>Social Security:</strong> 6.50% × €30,000 = €1,950/year (common contingencies, unemployment, training, MEI).</li>
+        <li><strong>Deductible work expenses:</strong> Fixed €2,000 per Art. 19.2 of the IRPF Act.</li>
+        <li><strong>Net employment income:</strong> €30,000 − €1,950 − €2,000 = €26,050. As this exceeds €19,747.50, no additional employment income reduction applies.</li>
+        <li><strong>Personal minimum:</strong> €5,550 (taxpayer under 65 with no dependants).</li>
+        <li><strong>State IRPF:</strong> Approximately €2,760 after applying bracket rates and deducting the minimum's tax credit.</li>
+        <li><strong>Regional IRPF (Madrid):</strong> Approximately €1,885.</li>
+        <li><strong>Total IRPF:</strong> €2,760 + €1,885 = €4,645/year.</li>
+        <li><strong>Annual net:</strong> €30,000 − €1,950 − €4,645 = €23,405.</li>
+        <li><strong>Monthly net (14 payments):</strong> €23,405 ÷ 14 ≈ €1,672/month.</li>
+      </ol>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Reference table: gross to net in Madrid ({CURRENT_FISCAL_YEAR}, single, 14 payments)</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Annual gross</th>
+              <th class="px-3 py-2 text-right">SS (6.50%)</th>
+              <th class="px-3 py-2 text-right">IRPF (approx.)</th>
+              <th class="px-3 py-2 text-right">Annual net</th>
+              <th class="px-3 py-2 text-right">Monthly net</th>
+              <th class="px-3 py-2 text-right">Effective rate</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">€18,000</td><td class="px-3 py-1 text-right">€1,170</td><td class="px-3 py-1 text-right">€1,250</td><td class="px-3 py-1 text-right">€15,580</td><td class="px-3 py-1 text-right">€1,113</td><td class="px-3 py-1 text-right">13.4%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">€25,000</td><td class="px-3 py-1 text-right">€1,625</td><td class="px-3 py-1 text-right">€3,150</td><td class="px-3 py-1 text-right">€20,225</td><td class="px-3 py-1 text-right">€1,445</td><td class="px-3 py-1 text-right">19.1%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">€30,000</td><td class="px-3 py-1 text-right">€1,950</td><td class="px-3 py-1 text-right">€4,645</td><td class="px-3 py-1 text-right">€23,405</td><td class="px-3 py-1 text-right">€1,672</td><td class="px-3 py-1 text-right">22.0%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">€40,000</td><td class="px-3 py-1 text-right">€2,600</td><td class="px-3 py-1 text-right">€7,820</td><td class="px-3 py-1 text-right">€29,580</td><td class="px-3 py-1 text-right">€2,113</td><td class="px-3 py-1 text-right">26.1%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">€50,000</td><td class="px-3 py-1 text-right">€3,250</td><td class="px-3 py-1 text-right">€11,400</td><td class="px-3 py-1 text-right">€35,350</td><td class="px-3 py-1 text-right">€2,525</td><td class="px-3 py-1 text-right">29.3%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">€60,000</td><td class="px-3 py-1 text-right">€3,900</td><td class="px-3 py-1 text-right">€15,300</td><td class="px-3 py-1 text-right">€40,800</td><td class="px-3 py-1 text-right">€2,914</td><td class="px-3 py-1 text-right">32.0%</td></tr>
+            <tr><td class="px-3 py-1">€80,000</td><td class="px-3 py-1 text-right">€4,495</td><td class="px-3 py-1 text-right">€23,500</td><td class="px-3 py-1 text-right">€52,005</td><td class="px-3 py-1 text-right">€3,715</td><td class="px-3 py-1 text-right">35.0%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-gray-400 mt-2">Indicative values calculated for a single worker, no children, general regime. Exact amounts may vary depending on personal circumstances.</p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 py-8">
+    <h2 class="mb-6 text-2xl font-bold text-charcoal dark:text-gray-100">
+      Frequently asked questions about net salary
+    </h2>
+    <div class="space-y-4">
+      {faqs.map((faq) => (
+        <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+          <summary class="cursor-pointer px-4 py-3 font-medium text-charcoal dark:text-gray-200">
+            {faq.question}
+          </summary>
+          <div class="border-t border-gray-200 px-4 py-3 text-sm text-dark-gray dark:border-gray-700 dark:text-gray-300">
+            <p>{faq.answer}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 py-8">
+    <h2 class="mb-6 text-2xl font-bold text-charcoal dark:text-gray-100">
+      Other calculators
+    </h2>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {[
+        { href: '/en/irpf-calculator/', title: 'Income Tax Calculator', desc: 'Calculate your IRPF with bracket breakdown' },
+        { href: '/en/regional-comparison/', title: 'Regional Comparison', desc: 'Compare your net salary across all 17 regions' },
+        { href: '/en/gross-salary-calculator/', title: 'Gross Salary', desc: 'Find the gross salary needed for a target net' },
+        { href: '/en/beckham-law-calculator/', title: 'Beckham Law', desc: 'Tax simulator for relocated workers' },
+        { href: '/en/self-employed-calculator/', title: 'Self-Employed', desc: 'Calculate your net income as autónomo' },
+        { href: '/en/severance-calculator/', title: 'Severance Pay', desc: 'Calculate your severance and settlement' },
+      ].map(({ href, title, desc }) => (
+        <a href={href} class="group rounded-lg border border-gray-200 p-4 transition-all hover:border-brand hover:shadow-md dark:border-gray-700 dark:hover:border-brand">
+          <h3 class="font-semibold text-charcoal group-hover:text-brand dark:text-gray-100">{title}</h3>
+          <p class="mt-1 text-sm text-medium-gray">{desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-4 py-8">
+    <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+      Most consulted salaries
+    </h2>
+    <div class="flex flex-wrap gap-2">
+      {[
+        { amount: '1500', period: 'month', esSlug: '1500-euros-brutos-al-mes' },
+        { amount: '2000', period: 'month', esSlug: '2000-euros-brutos-al-mes' },
+        { amount: '25000', period: 'year', esSlug: '25000-euros-brutos-al-año' },
+        { amount: '30000', period: 'year', esSlug: '30000-euros-brutos-al-año' },
+        { amount: '40000', period: 'year', esSlug: '40000-euros-brutos-al-año' },
+        { amount: '50000', period: 'year', esSlug: '50000-euros-brutos-al-año' },
+        { amount: '60000', period: 'year', esSlug: '60000-euros-brutos-al-año' },
+        { amount: '80000', period: 'year', esSlug: '80000-euros-brutos-al-año' },
+      ].map(({ amount, period }) => (
+        <a
+          href={`/en/salary/${amount}-euros-gross-per-${period}/`}
+          class="rounded-full border border-gray-200 px-4 py-2 text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300"
+        >
+          €{Number(amount).toLocaleString('en-GB')}/{period}
+        </a>
+      ))}
+    </div>
+  </section>
+</Layout>

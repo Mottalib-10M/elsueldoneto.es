@@ -1,0 +1,248 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import PagasExtra from '../../components/calculadoras/PagasExtra';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+
+const title = `Extra Pay Calculator Spain ${CURRENT_FISCAL_YEAR}: Bonus Payments`;
+const description = `Calculate your extra pay (pagas extraordinarias) in Spain ${CURRENT_FISCAL_YEAR}. Understand the difference between 12 and 14 pay periods and how bonus payments are prorated.`;
+
+const faqs = [
+  { question: 'What are pagas extraordinarias in Spain?', answer: 'Pagas extraordinarias are bonus payments that Spanish workers receive in addition to their monthly salary. By law, workers are entitled to at least two per year, typically paid in June and December. They can be prorated (included in monthly salary as 12 payments) or paid separately (14 payments).' },
+  { question: 'How are extra payments calculated when leaving a job?', answer: 'When you leave a job, you are entitled to the proportional part of extra payments accrued since the last payment date. If your June paga covers January to June and you leave in March, you receive 3/6 of the full paga amount.' },
+  { question: 'Do extra payments affect my IRPF rate?', answer: 'No. Whether you receive 12 or 14 payments, your annual IRPF is identical. The tax is calculated on the total annual income regardless of how it is distributed across the year. The withholding rate on each payslip adjusts accordingly.' },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Extra Pay (Pagas Extra) Calculator ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Extra Pay Calculator"
+  path="/en/extra-pay-calculator/"
+  faqs={faqs}
+  locale="en"
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <PagasExtra client:load lang="en" />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Understanding extra payments in Spain
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spain's system of extra payments (pagas extraordinarias) is unique compared to most European countries. All employees are legally entitled to at least two bonus payments per year, essentially splitting the annual salary into 14 instalments rather than 12. These are typically disbursed in June and December, coinciding with the summer holiday season and Christmas.
+      </p>
+      <p>
+        Many workers opt to have their extra payments prorated into 12 equal monthly instalments instead. While the total annual compensation is identical either way, the choice can affect monthly budgeting and cash flow. This calculator helps you understand the difference and calculate the exact amounts in each scenario.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      How pagas extra work: the June and December schedule
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        The Workers' Statute (Estatuto de los Trabajadores, Article 31) guarantees every employee in Spain a minimum of two extraordinary payments per year. The standard schedule pays these in June and December, though some collective agreements (convenios colectivos) may establish a third paga in March or distribute them at different times.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">The June paga extra</h3>
+      <p>
+        The summer paga extra typically covers the period from January 1 to June 30. It is usually paid alongside the June payslip, often appearing as a separate line or even a separate bank transfer. For most collective agreements, this payment equals one full month of base salary plus any salary supplements specified in the agreement, though not all supplements are included in the paga calculation.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">The December paga extra</h3>
+      <p>
+        The Christmas paga covers July 1 to December 31 and is paid alongside the December payslip. This is the payment most workers look forward to, as it arrives just before the holiday season and is often used for Christmas shopping, travel, or end-of-year expenses. Combined with the regular December salary, it effectively means workers receive a double payment in December.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">Third and fourth pagas</h3>
+      <p>
+        Some collective agreements, particularly in sectors like banking, insurance, and certain public administrations, include a third paga extra in March (known as the paga de beneficios or profit-sharing bonus). In rare cases, a fourth paga may also exist, resulting in 16 payments per year. These additional payments are entirely dependent on the collective agreement and are not required by law.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Proration explained with practical examples
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Proration (prorrateo) means spreading the extra payments evenly across all 12 months. Instead of receiving a bonus lump sum in June and December, the equivalent amount is added to each monthly payslip. This is a common option that many employers offer, and some companies apply it by default.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">Example: 14 payments vs. 12 payments</h3>
+      <p>
+        Imagine your annual gross salary is 28,000 EUR. Here is how the numbers break down under each system:
+      </p>
+      <div class="overflow-x-auto mt-4 mb-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left font-semibold">Concept</th>
+              <th class="px-4 py-2 text-right font-semibold">14 payments</th>
+              <th class="px-4 py-2 text-right font-semibold">12 payments (prorated)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Monthly gross salary</td>
+              <td class="px-4 py-2 text-right">2,000 EUR</td>
+              <td class="px-4 py-2 text-right">2,333.33 EUR</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">June paga extra</td>
+              <td class="px-4 py-2 text-right">2,000 EUR</td>
+              <td class="px-4 py-2 text-right">0 EUR (included)</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">December paga extra</td>
+              <td class="px-4 py-2 text-right">2,000 EUR</td>
+              <td class="px-4 py-2 text-right">0 EUR (included)</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700 font-semibold">
+              <td class="px-4 py-2">Annual total</td>
+              <td class="px-4 py-2 text-right">28,000 EUR</td>
+              <td class="px-4 py-2 text-right">28,000 EUR</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        As you can see, the annual total is identical. The difference is purely about cash flow. With 14 payments, you receive 2,000 EUR per month for 12 months and then two separate 2,000 EUR bonuses. With proration, you receive 2,333.33 EUR every single month, giving you a higher and more predictable monthly income but no lump-sum bonuses.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      How extra payments affect your monthly budget
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        The choice between 12 and 14 payments has important implications for household budgeting. Workers who receive 14 payments must budget based on their lower monthly amount (in our example, 2,000 EUR gross), because the extra payments should not be relied upon for regular monthly expenses like rent, utilities, and groceries.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">Advantages of 14 payments</h3>
+      <p>
+        Receiving pagas extra as separate lump sums encourages a form of forced saving. Many workers use the June bonus for summer holidays and the December bonus for Christmas gifts, end-of-year bills, or topping up their savings. Psychologically, receiving a large bonus can feel more rewarding and can provide a financial cushion for larger expenses that do not fit into the regular monthly budget.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">Advantages of 12 payments (proration)</h3>
+      <p>
+        On the other hand, proration results in a higher monthly take-home pay, making it easier to cover fixed costs. If your rent is 900 EUR per month, receiving 2,333 EUR gross rather than 2,000 EUR gross gives you significantly more breathing room. This option is often preferred by workers with tight monthly budgets, those paying mortgages, or anyone who prefers consistent cash flow and manages their own savings independently.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Collective agreement variations
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        While the law sets a minimum of two extra payments, collective agreements (convenios colectivos) can modify several aspects of how they work. Here are the most common variations:
+      </p>
+      <ul class="list-disc ml-4 space-y-2 mt-2">
+        <li><strong>Timing:</strong> Some agreements pay in July instead of June, or in November instead of December. The specific month is defined in each sector's agreement.</li>
+        <li><strong>Amount:</strong> The paga does not always equal a full month's salary. Some agreements define it as base salary only, excluding supplements like seniority, night shift bonuses, or transport allowances. Others include all salary components.</li>
+        <li><strong>Additional pagas:</strong> As mentioned, some sectors provide three or four extra payments per year, which further reduces the monthly amount under 14-payment or 15/16-payment structures.</li>
+        <li><strong>Proration rules:</strong> Certain agreements mandate proration and do not allow workers to choose the 14-payment option. Others mandate 14 payments with no proration possible.</li>
+      </ul>
+      <p>
+        It is essential to check your specific collective agreement (available on the BOE website or from your employer's HR department) to understand exactly how your pagas extra are structured.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Tax withholding implications
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        A common misconception is that choosing 12 or 14 payments changes your total tax burden. It does not. The annual IRPF liability is calculated on total annual gross income, regardless of how that income is distributed across the year. What does change, however, is the withholding rate applied to each payslip.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">How the withholding adjusts</h3>
+      <p>
+        When you receive 14 payments, your employer applies the IRPF withholding rate to each of the 14 payments. The rate is calculated so that 14 withholdings add up to the correct annual amount. When you switch to 12 payments, each payslip is larger, so the same withholding percentage is applied but to a bigger base. The result is that each monthly deduction is higher, but you have fewer total deductions. The net effect is zero: you pay exactly the same total IRPF either way.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">Social Security contributions</h3>
+      <p>
+        Social Security contributions are not affected by the 12 vs. 14 payment choice in the same way. Social Security is calculated on the contribution base, which includes prorated pagas. Whether you receive them separately or as part of your monthly salary, the contribution base remains the same, and your monthly Social Security deduction stays unchanged.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Practical example: switching from 14 to 12 payments
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Let us walk through a detailed example for a worker earning 35,000 EUR annual gross salary, single with no children, working in Madrid:
+      </p>
+      <div class="overflow-x-auto mt-4 mb-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left font-semibold">Item</th>
+              <th class="px-4 py-2 text-right font-semibold">14 payments</th>
+              <th class="px-4 py-2 text-right font-semibold">12 payments</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Monthly gross</td>
+              <td class="px-4 py-2 text-right">2,500 EUR</td>
+              <td class="px-4 py-2 text-right">2,916.67 EUR</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Monthly Social Security (~6.47%)</td>
+              <td class="px-4 py-2 text-right">~189 EUR</td>
+              <td class="px-4 py-2 text-right">~189 EUR</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Monthly IRPF withholding</td>
+              <td class="px-4 py-2 text-right">~365 EUR</td>
+              <td class="px-4 py-2 text-right">~426 EUR</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Monthly net pay</td>
+              <td class="px-4 py-2 text-right">~1,946 EUR</td>
+              <td class="px-4 py-2 text-right">~2,302 EUR</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">June/December bonus (net)</td>
+              <td class="px-4 py-2 text-right">~1,946 EUR each</td>
+              <td class="px-4 py-2 text-right">0 EUR</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700 font-semibold">
+              <td class="px-4 py-2">Annual net pay</td>
+              <td class="px-4 py-2 text-right">~27,244 EUR</td>
+              <td class="px-4 py-2 text-right">~27,244 EUR (approx.)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The key takeaway is that switching from 14 to 12 payments raises your regular monthly net by approximately 356 EUR in this example, but you lose the two bonus payments of nearly 1,946 EUR each. Over the full year, you end up with essentially the same total net income.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Tips for expats navigating the paga extra system
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        If you are new to working in Spain, the paga extra system can be confusing. Here are some practical tips:
+      </p>
+      <ul class="list-disc ml-4 space-y-2 mt-2">
+        <li><strong>Check your contract carefully:</strong> Your employment contract should specify whether extra payments are prorated or paid separately. If it is not clear, ask your HR department before signing.</li>
+        <li><strong>Understand your finiquito:</strong> When leaving a job, your final settlement (finiquito) will include the proportional part of any unearned pagas extra. Make sure you verify this amount against your start date and the applicable accrual period.</li>
+        <li><strong>Budget for the right scenario:</strong> If you are on 14 payments, base your monthly budget on the lower monthly amount. Treat the pagas extra as savings or use them for planned larger expenses.</li>
+        <li><strong>Negotiate wisely:</strong> When discussing salary offers, always clarify whether the quoted figure is the total annual gross or a monthly figure. A monthly figure of 2,500 EUR on 14 payments means 35,000 EUR annual, while on 12 payments it means 30,000 EUR annual. This distinction can lead to significant misunderstandings.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

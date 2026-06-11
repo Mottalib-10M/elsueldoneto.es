@@ -1,0 +1,572 @@
+---
+import Layout from '../../../components/layout/Layout.astro';
+import SueldoNeto from '../../../components/calculadoras/SueldoNeto';
+import { CURRENT_FISCAL_YEAR, SITE_NAME } from '../../../config';
+import { buildWebApplicationSchema, buildBreadcrumbSchema, buildFAQSchema, type FAQItem } from '../../../lib/seo';
+import { formatEuros, formatEurosRound } from '../../../lib/format-es';
+import { calcularSueldoNeto, situacionFamiliarDefecto, type DesgloseSueldo } from '../../../lib/irpf-engine';
+import { comunidadesAutonomas, type CCAACodigo } from '../../../data/comunidades-autonomas';
+import { allSalaryPagesEn, getSalaryPageBySlugEn, getAdjacentPagesEn, formatAmountEnglish, type SalaryPageConfigEn } from '../../../data/salary-pages-config-en';
+import { seguridadSocial2026 } from '../../../data/seguridad-social-2026';
+
+export function getStaticPaths() {
+  return allSalaryPagesEn.map(page => ({
+    params: { slug: page.slug },
+    props: { page },
+  }));
+}
+
+interface Props { page: SalaryPageConfigEn; }
+
+const { page } = Astro.props;
+
+// Calculate default result (Madrid, single, 14 payments)
+const defaultResult = calcularSueldoNeto(page.annualGross, 'MD', situacionFamiliarDefecto, 14);
+
+// Calculate for all CCAAs
+const ccaaResults = comunidadesAutonomas
+  .map(ccaa => ({
+    ccaa,
+    desglose: calcularSueldoNeto(page.annualGross, ccaa.codigo, situacionFamiliarDefecto, 14),
+  }))
+  .sort((a, b) => b.desglose.netoAnual - a.desglose.netoAnual);
+
+// Family situations
+const familyScenarios = [
+  { label: 'Single, no children', sit: situacionFamiliarDefecto },
+  { label: 'Married, spouse without income', sit: { ...situacionFamiliarDefecto, conyuge: 'sin-ingresos' as const } },
+  { label: '1 child', sit: { ...situacionFamiliarDefecto, hijos: 1, hijosMenores3: 0 } },
+  { label: '2 children', sit: { ...situacionFamiliarDefecto, hijos: 2, hijosMenores3: 0 } },
+  { label: '2 children (1 under 3)', sit: { ...situacionFamiliarDefecto, hijos: 2, hijosMenores3: 1 } },
+  { label: '3 children', sit: { ...situacionFamiliarDefecto, hijos: 3, hijosMenores3: 0 } },
+].map(s => ({
+  ...s,
+  desglose: calcularSueldoNeto(page.annualGross, 'MD', s.sit, 14),
+}));
+
+const adjacent = getAdjacentPagesEn(page);
+const amountFormatted = formatAmountEnglish(page.amount);
+const periodLabel = page.period === 'month' ? 'per month' : 'per year';
+
+// SEO
+const title = `€${amountFormatted} Gross: How Much Net ${periodLabel} (${CURRENT_FISCAL_YEAR})`;
+const description = `With €${amountFormatted} gross ${periodLabel} you take home ${formatEurosRound(defaultResult.netoMensual)} net/month in Madrid. Table by autonomous community and family situation. IRPF calculator ${CURRENT_FISCAL_YEAR}.`;
+
+// FAQs
+const faqs: FAQItem[] = getFaqsForRange(page, defaultResult);
+
+function getFaqsForRange(p: SalaryPageConfigEn, result: DesgloseSueldo): FAQItem[] {
+  const base: FAQItem[] = [
+    {
+      question: `How much is €${amountFormatted} gross ${periodLabel} in net?`,
+      answer: `With a gross salary of €${amountFormatted} ${periodLabel} (€${formatAmountEnglish(p.annualGross)} per year), the monthly net salary in Madrid is approximately ${formatEuros(result.netoMensual)} with 14 payments (single, no children). This figure varies by autonomous community and family situation.`,
+    },
+    {
+      question: `How much income tax is paid on €${amountFormatted} gross?`,
+      answer: `With €${amountFormatted} gross ${periodLabel}, the total IRPF in Madrid is ${formatEuros(result.irpfTotalAnual)} per year, an effective rate of ${(result.tipoEfectivoIRPF * 100).toFixed(1)}%. Additionally, ${formatEuros(result.seguridadSocialAnual)} is paid in Social Security contributions.`,
+    },
+  ];
+
+  if (p.rangeCategory === 'low') {
+    base.push({
+      question: `Do I need to file a tax return with €${amountFormatted} gross?`,
+      answer: `If your only income comes from a single employer and is below €22,000 gross per year, you are generally not required to file. However, if IRPF has been withheld, it may be worth filing to get a refund from the tax office.`,
+    });
+  }
+
+  if (p.rangeCategory === 'mid' || p.rangeCategory === 'mid-high') {
+    base.push({
+      question: `How can I reduce my income tax with €${amountFormatted} gross?`,
+      answer: 'The main ways to reduce IRPF include: pension plan contributions (deductible up to €1,500/year), housing deductions (if applicable in your region), deductions for children and dependent ascendants, and work-related training expenses.',
+    });
+  }
+
+  if (p.rangeCategory === 'high') {
+    base.push({
+      question: `Is the Beckham Law worth it with €${amountFormatted} gross?`,
+      answer: `With €${amountFormatted} gross ${periodLabel}, if you are a relocated worker who meets the requirements, the Beckham Law (24% flat rate) likely offers significant savings versus the regular regime. Check our Beckham Law calculator for the exact comparison.`,
+    });
+  }
+
+  base.push({
+    question: `Is €${amountFormatted} gross ${periodLabel} a good salary in Spain?`,
+    answer: getIsGoodSalaryAnswer(p),
+  });
+
+  return base;
+}
+
+function getIsGoodSalaryAnswer(p: SalaryPageConfigEn): string {
+  const smi = seguridadSocial2026.smiAnual14Pagas;
+  const median = 24_395;
+  const ratio = p.annualGross / median;
+
+  if (p.annualGross <= smi) {
+    return `A salary of €${formatAmountEnglish(p.annualGross)} gross per year is at the level of the Minimum Wage (SMI: €${formatAmountEnglish(smi)} in ${CURRENT_FISCAL_YEAR}). It covers basic needs but can be tight in major cities like Madrid or Barcelona.`;
+  }
+  if (ratio < 0.9) {
+    return `A salary of €${formatAmountEnglish(p.annualGross)} gross per year is below the Spanish median salary (~€${formatAmountEnglish(median)} according to INE). It is common in sectors such as retail, hospitality or services, but can be tight in cities with high living costs.`;
+  }
+  if (ratio < 1.3) {
+    return `A salary of €${formatAmountEnglish(p.annualGross)} gross per year is close to the Spanish median salary (~€${formatAmountEnglish(median)} according to INE). It allows a comfortable life in most Spanish cities.`;
+  }
+  if (ratio < 2) {
+    return `A salary of €${formatAmountEnglish(p.annualGross)} gross per year is significantly above the Spanish median salary (~€${formatAmountEnglish(median)} according to INE). It is a good salary that places the taxpayer in the upper portion of the salary distribution.`;
+  }
+  return `A salary of €${formatAmountEnglish(p.annualGross)} gross per year is well above the Spanish median salary (~€${formatAmountEnglish(median)} according to INE). It ranks among the highest salaries in Spain, typical in management, highly skilled technical or senior roles at large companies.`;
+}
+
+// Additional computed data for expanded content sections
+const totalDeductions = defaultResult.seguridadSocialAnual + defaultResult.irpfTotalAnual;
+const totalDeductionPercent = (totalDeductions / page.annualGross * 100).toFixed(1);
+const monthlyNetAfterRent800 = defaultResult.netoMensual - 800;
+const monthlyNetAfterRent1200 = defaultResult.netoMensual - 1200;
+const dailyNet = defaultResult.netoAnual / 365;
+const hourlyNet = defaultResult.netoAnual / (52 * 40); // 40h/week, 52 weeks
+const bestCCAA = ccaaResults[0];
+const worstCCAA = ccaaResults[ccaaResults.length - 1];
+const ccaaDifference = bestCCAA.desglose.netoAnual - worstCCAA.desglose.netoAnual;
+const irpfPercentEffective = (defaultResult.tipoEfectivoIRPF * 100).toFixed(1);
+const totalEffectivePercent = (defaultResult.tipoEfectivoTotal * 100).toFixed(1);
+const ssMensualPercent = (defaultResult.seguridadSocialAnual / page.annualGross * 100).toFixed(1);
+const median = 24_395;
+const ratioToMedian = (page.annualGross / median * 100).toFixed(0);
+
+// Next salary milestone calculation (for career progression section)
+const nextMilestone = page.annualGross < 25_000 ? 25_000
+  : page.annualGross < 30_000 ? 30_000
+  : page.annualGross < 40_000 ? 40_000
+  : page.annualGross < 50_000 ? 50_000
+  : page.annualGross < 60_000 ? 60_000
+  : page.annualGross < 80_000 ? 80_000
+  : page.annualGross < 100_000 ? 100_000
+  : 120_000;
+
+const nextMilestoneResult = calcularSueldoNeto(nextMilestone, 'MD', situacionFamiliarDefecto, 14);
+const salaryIncrease = nextMilestone - page.annualGross;
+const netIncrease = nextMilestoneResult.netoAnual - defaultResult.netoAnual;
+const marginalRetention = salaryIncrease > 0 ? ((1 - netIncrease / salaryIncrease) * 100).toFixed(1) : '0';
+
+// Cost of living context helper
+function getCostOfLivingContext(annualGross: number): string {
+  if (annualGross <= 20_000) return 'tight, especially in large cities. Budget carefully for housing and essentials';
+  if (annualGross <= 30_000) return 'manageable in most Spanish cities, though Madrid and Barcelona will require careful budgeting';
+  if (annualGross <= 45_000) return 'comfortable in most of Spain, including mid-range living in Madrid and Barcelona';
+  if (annualGross <= 65_000) return 'very comfortable across Spain, with room for savings, travel, and a good quality of life';
+  return 'excellent, placing you among the highest earners and allowing a premium lifestyle anywhere in Spain';
+}
+
+function getTaxTips(rangeCategory: string): string[] {
+  const tips: string[] = [
+    'Ensure your employer applies all applicable personal and family allowances (mínimo personal y familiar) correctly in your IRPF withholding.',
+    'Keep receipts for work-related union fees and professional association dues, as these are deductible.',
+  ];
+
+  if (rangeCategory === 'low' || rangeCategory === 'mid-low') {
+    tips.push(
+      'Check if you qualify for the "reducción por rendimientos del trabajo" (employment income reduction), which significantly lowers taxable income for lower salaries.',
+      'If your annual income is below €22,000 from a single employer, you may not be required to file a tax return, but filing voluntarily could result in a refund.',
+      'Look into regional deductions for rent payments. Many autonomous communities offer tax breaks for tenants with lower incomes.',
+    );
+  }
+
+  if (rangeCategory === 'mid' || rangeCategory === 'mid-high') {
+    tips.push(
+      'Contribute to a pension plan (plan de pensiones). You can deduct up to €1,500 per year from your taxable income, or up to €8,500 if your employer also contributes.',
+      'If you have a mortgage on your primary residence purchased before 2013, you can still claim the transitional mortgage deduction.',
+      'Consider salary sacrifice arrangements (retribución flexible) for childcare vouchers, restaurant vouchers (up to €11/day), transport passes, or health insurance. These are exempt from IRPF.',
+      'If you work from home, negotiate a remote work agreement so your employer covers a portion of utilities, which may have tax advantages.',
+    );
+  }
+
+  if (rangeCategory === 'high') {
+    tips.push(
+      'Evaluate whether the Beckham Law (Régimen de Impatriados) applies to you. If you have moved to Spain recently, a flat 24% rate on income up to €600,000 could save you thousands.',
+      'Maximize pension plan contributions (€1,500 personal + employer contributions up to €8,500 combined).',
+      'Consider salary sacrifice arrangements (retribución flexible) for health insurance, childcare, and meal vouchers to reduce your taxable income.',
+      'If you earn investment income, consider tax-efficient vehicles available in Spain. Consult a tax advisor about the best structure for your situation.',
+      'At this income level, choosing your autonomous community wisely can make a significant difference. Madrid, for instance, has consistently lower regional IRPF rates.',
+    );
+  }
+
+  return tips;
+}
+
+const taxTips = getTaxTips(page.rangeCategory);
+const costOfLivingContext = getCostOfLivingContext(page.annualGross);
+
+const schemas = [
+  buildWebApplicationSchema(`Calculator €${amountFormatted} Gross Net`, `/en/salary/${page.slug}/`, 'en'),
+  buildBreadcrumbSchema([
+    { name: 'Home', url: '/en/' },
+    { name: 'Salaries', url: '/en/salary/' },
+    { name: `€${amountFormatted} gross`, url: `/en/salary/${page.slug}/` },
+  ]),
+  buildFAQSchema(faqs, 'en'),
+];
+---
+
+<Layout title={title} description={description} schema={schemas} locale="en">
+  <div class="mx-auto max-w-4xl px-4 py-8">
+    <!-- Breadcrumb -->
+    <nav class="mb-6 text-sm text-medium-gray" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-1">
+        <li><a href="/en/" class="hover:text-brand">Home</a></li>
+        <li>/</li>
+        <li><a href="/en/salary/" class="hover:text-brand">Salaries</a></li>
+        <li>/</li>
+        <li class="text-charcoal dark:text-gray-200">€{amountFormatted} gross</li>
+      </ol>
+    </nav>
+
+    <!-- H1 -->
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      How much is €{amountFormatted} gross {periodLabel} in net? ({CURRENT_FISCAL_YEAR})
+    </h1>
+
+    <!-- Hero result -->
+    <div class="mb-8 rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 p-6 text-center dark:from-gray-700 dark:to-gray-800">
+      <p class="text-sm text-gray-500 dark:text-gray-400">With a gross salary of €{amountFormatted} {periodLabel}, you will receive approximately</p>
+      <p class="mt-2 text-5xl font-bold text-brand">{formatEuros(defaultResult.netoMensual)}</p>
+      <p class="mt-1 text-lg text-gray-600 dark:text-gray-300">net per month (Madrid, single, 14 payments)</p>
+      <a href={`/en/?bruto=${page.annualGross}`} class="mt-4 inline-block rounded-lg bg-brand px-6 py-3 font-medium text-white transition-colors hover:bg-brand-dark">
+        Calculate my exact case
+      </a>
+    </div>
+
+    <!-- Calculator embedded -->
+    <section class="mb-8">
+      <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+        <SueldoNeto client:visible initialBruto={page.annualGross} />
+      </div>
+    </section>
+
+    <!-- CCAA table -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        Net salary of €{amountFormatted} gross by autonomous community
+      </h2>
+      <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-600">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-gray-50 dark:bg-gray-700">
+              <th class="px-4 py-2 text-left font-medium text-gray-500">#</th>
+              <th class="px-4 py-2 text-left font-medium text-gray-500">Region</th>
+              <th class="px-4 py-2 text-right font-medium text-gray-500">Net/month</th>
+              <th class="px-4 py-2 text-right font-medium text-gray-500">Net/year</th>
+              <th class="px-4 py-2 text-right font-medium text-gray-500">IRPF</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ccaaResults.map(({ ccaa, desglose }, i) => (
+              <tr class:list={[
+                'border-t border-gray-100 dark:border-gray-700',
+                i === 0 ? 'bg-emerald-50/50 dark:bg-emerald-900/10' : '',
+                i === ccaaResults.length - 1 ? 'bg-red-50/50 dark:bg-red-900/10' : '',
+              ]}>
+                <td class="px-4 py-2 tabular-nums text-gray-400">{i + 1}</td>
+                <td class="px-4 py-2 font-medium text-charcoal dark:text-gray-100">
+                  {ccaa.nombreCorto}
+                  {ccaa.esForal && <span class="ml-1 text-xs text-gray-400">(foral)</span>}
+                </td>
+                <td class="px-4 py-2 text-right tabular-nums font-medium text-charcoal dark:text-gray-100">{formatEuros(desglose.netoMensual)}</td>
+                <td class="px-4 py-2 text-right tabular-nums text-gray-600 dark:text-gray-300">{formatEuros(desglose.netoAnual)}</td>
+                <td class="px-4 py-2 text-right tabular-nums text-red-600 dark:text-red-400">{formatEuros(desglose.irpfTotalAnual)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-2 text-xs text-gray-500">
+        * Calculated for a single person, no children, 14 payments. Fiscal year {CURRENT_FISCAL_YEAR}.
+      </p>
+    </section>
+
+    <!-- Family situation table -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        Net by family situation (Madrid)
+      </h2>
+      <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-600">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-gray-50 dark:bg-gray-700">
+              <th class="px-4 py-2 text-left font-medium text-gray-500">Situation</th>
+              <th class="px-4 py-2 text-right font-medium text-gray-500">Net/month</th>
+              <th class="px-4 py-2 text-right font-medium text-gray-500">Net/year</th>
+              <th class="px-4 py-2 text-right font-medium text-gray-500">IRPF</th>
+            </tr>
+          </thead>
+          <tbody>
+            {familyScenarios.map(({ label, desglose }) => (
+              <tr class="border-t border-gray-100 dark:border-gray-700">
+                <td class="px-4 py-2 text-gray-700 dark:text-gray-200">{label}</td>
+                <td class="px-4 py-2 text-right tabular-nums font-medium text-charcoal dark:text-gray-100">{formatEuros(desglose.netoMensual)}</td>
+                <td class="px-4 py-2 text-right tabular-nums text-gray-600 dark:text-gray-300">{formatEuros(desglose.netoAnual)}</td>
+                <td class="px-4 py-2 text-right tabular-nums text-red-600 dark:text-red-400">{formatEuros(desglose.irpfTotalAnual)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Detailed breakdown -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        Deductions breakdown
+      </h2>
+      <div class="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
+        <table class="w-full text-sm">
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-4 py-2 font-medium text-charcoal dark:text-gray-100">Annual gross salary</td><td class="px-4 py-2 text-right tabular-nums font-medium">{formatEuros(page.annualGross)}</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-4 py-2 text-gray-600 dark:text-gray-300">Social Security ({(defaultResult.seguridadSocialAnual / page.annualGross * 100).toFixed(1)}%)</td><td class="px-4 py-2 text-right tabular-nums text-red-600">-{formatEuros(defaultResult.seguridadSocialAnual)}</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-4 py-2 text-gray-600 dark:text-gray-300">State IRPF</td><td class="px-4 py-2 text-right tabular-nums text-red-600">-{formatEuros(defaultResult.irpfEstatalAnual)}</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-4 py-2 text-gray-600 dark:text-gray-300">Regional IRPF (Madrid)</td><td class="px-4 py-2 text-right tabular-nums text-red-600">-{formatEuros(defaultResult.irpfAutonomicoAnual)}</td></tr>
+            <tr class="bg-emerald-50 dark:bg-emerald-900/20"><td class="px-4 py-2 font-bold text-charcoal dark:text-gray-100">Annual net salary</td><td class="px-4 py-2 text-right tabular-nums font-bold text-emerald-700 dark:text-emerald-400">{formatEuros(defaultResult.netoAnual)}</td></tr>
+            <tr class="bg-emerald-50 dark:bg-emerald-900/20"><td class="px-4 py-2 font-bold text-charcoal dark:text-gray-100">Monthly net salary (14 payments)</td><td class="px-4 py-2 text-right tabular-nums font-bold text-emerald-700 dark:text-emerald-400">{formatEuros(defaultResult.netoMensual)}</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- What does this salary mean in practice? -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        What does a salary of &euro;{amountFormatted} gross {periodLabel} really mean?
+      </h2>
+      <div class="prose prose-gray max-w-none dark:prose-invert">
+        <p>
+          Understanding what &euro;{amountFormatted} gross {periodLabel} translates to in real, spendable income is essential for anyone
+          planning their finances in Spain. After all mandatory deductions, your &euro;{formatEuros(page.annualGross)} annual gross
+          becomes approximately <strong>{formatEuros(defaultResult.netoAnual)}</strong> net per year, or <strong>{formatEuros(defaultResult.netoMensual)}</strong> net
+          per month when spread across 14 payments (the standard in Spain, where you receive two extra payments in June and December).
+        </p>
+        <p>
+          That means for every euro you earn gross, you actually keep about <strong>{(defaultResult.netoAnual / page.annualGross * 100).toFixed(0)} cents</strong> after
+          taxes and Social Security contributions. Your total deductions amount to {formatEuros(totalDeductions)} per year ({totalDeductionPercent}% of your gross),
+          split between Social Security ({ssMensualPercent}%) and IRPF income tax ({irpfPercentEffective}% effective rate).
+        </p>
+        <p>
+          To put this into daily terms, your net salary works out to roughly <strong>{formatEuros(dailyNet)} per day</strong> or
+          about <strong>{formatEuros(hourlyNet)} per hour</strong> assuming a standard 40-hour work week. This hourly figure is
+          particularly useful when comparing with job offers that quote hourly rates, which is common for expats coming from countries
+          like the UK, the US, or Germany.
+        </p>
+        <h3 class="text-lg font-semibold">Cost of living context</h3>
+        <p>
+          With a net monthly income of {formatEuros(defaultResult.netoMensual)}, your purchasing power in Spain
+          is {costOfLivingContext}. Spain remains significantly more affordable than many Northern European countries,
+          with lower costs for food, dining out, healthcare, and leisure activities.
+        </p>
+        <p>
+          Housing is typically the largest expense. In Madrid or Barcelona, expect to pay between &euro;800 and &euro;1,200 per month
+          for a one-bedroom apartment in a decent area. After rent at &euro;800, you would have roughly <strong>{formatEuros(monthlyNetAfterRent800)}</strong> left
+          for other expenses. In a more expensive area with &euro;1,200 rent, that drops to <strong>{formatEuros(monthlyNetAfterRent1200)}</strong>.
+          In smaller cities such as Valencia, Malaga, Seville, or Zaragoza, rent can be 30-50% lower, stretching your salary considerably further.
+        </p>
+        <p>
+          As a reference point, the Spanish median salary is approximately &euro;{formatAmountEnglish(median)} gross per year according
+          to the INE (National Statistics Institute). Your salary of &euro;{formatAmountEnglish(page.annualGross)} represents <strong>{ratioToMedian}%</strong> of
+          that median, which gives you a clear picture of where you stand relative to the general workforce.
+        </p>
+      </div>
+    </section>
+
+    <!-- How this salary compares across Spain -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        How &euro;{amountFormatted} gross compares across Spanish regions
+      </h2>
+      <div class="prose prose-gray max-w-none dark:prose-invert">
+        <p>
+          Spain's income tax system is split between the state (which sets a national rate) and the autonomous communities (which set
+          their own regional rates). This means that two workers earning exactly &euro;{amountFormatted} {periodLabel} can take home
+          different amounts depending on where they are registered as tax residents. Your tax residence is determined by where you
+          live for the majority of the year, not where your employer is based.
+        </p>
+        <p>
+          At &euro;{amountFormatted} gross {periodLabel}, the best-paying region is currently <strong>{bestCCAA.ccaa.nombreCorto}</strong>,
+          where you would take home {formatEuros(bestCCAA.desglose.netoMensual)} net per month. The region with the highest tax burden
+          is <strong>{worstCCAA.ccaa.nombreCorto}</strong>, where the monthly net drops to {formatEuros(worstCCAA.desglose.netoMensual)}.
+          That is a difference of <strong>{formatEuros(ccaaDifference)} per year</strong> in net income, simply based on where you live.
+        </p>
+        <p>
+          However, choosing where to live should not be based solely on tax rates. Lower-tax regions like Madrid may have higher housing
+          costs that offset the tax savings. Regions like Navarra and the Basque Country operate under their own foral tax regimes, which
+          can produce different results. Meanwhile, regions with higher taxes often offer more extensive public services, healthcare
+          facilities, or education options. Always consider the full picture when deciding where to establish your tax residence in Spain.
+        </p>
+      </div>
+    </section>
+
+    <!-- Tax optimization tips -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        How to maximize your net salary at &euro;{amountFormatted} gross
+      </h2>
+      <div class="prose prose-gray max-w-none dark:prose-invert">
+        <p>
+          While you cannot avoid paying income tax and Social Security in Spain, there are several legal strategies to reduce your tax
+          burden and keep more of your &euro;{amountFormatted} {periodLabel}. Here are the most relevant tips for your salary range:
+        </p>
+        <ul class="space-y-2">
+          {taxTips.map(tip => (
+            <li>{tip}</li>
+          ))}
+        </ul>
+        <h3 class="text-lg font-semibold">Understanding the 14-payment system</h3>
+        <p>
+          In Spain, most employment contracts include 14 annual payments rather than 12. This means your monthly gross is calculated as
+          &euro;{formatAmountEnglish(page.annualGross)} / 14 = <strong>{formatEuros(page.annualGross / 14)}</strong> per payment.
+          The two extra payments (pagas extraordinarias) are typically paid in June and December. Some companies allow you to prorate
+          these extra payments across 12 months instead, which gives a higher monthly amount but no extra lump sums. Financially, the
+          total annual amount is the same, but the distribution can affect your cash flow planning.
+        </p>
+        <h3 class="text-lg font-semibold">Double-checking your payslip</h3>
+        <p>
+          Every month, review your nomina (payslip) to ensure your IRPF withholding rate is correct. Employers calculate your withholding
+          based on the information you provide on Form 145 (Modelo 145), which includes your family situation, disability status, mortgage
+          deductions, and other factors. If your circumstances change (marriage, birth of a child, change of residence), update this form
+          immediately to avoid paying too much or too little tax throughout the year. An incorrect withholding rate does not change what
+          you ultimately owe, but it affects your cash flow and the size of your tax refund or payment when you file the annual declaration.
+        </p>
+      </div>
+    </section>
+
+    <!-- Career progression and next milestone -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        Career progression: from &euro;{amountFormatted} to &euro;{formatAmountEnglish(nextMilestone)} gross
+      </h2>
+      <div class="prose prose-gray max-w-none dark:prose-invert">
+        {page.annualGross < nextMilestone ? (
+          <>
+            <p>
+              If you are considering your next career move or negotiating a raise, it helps to understand exactly how much of an increase
+              you would actually keep. Moving from &euro;{formatAmountEnglish(page.annualGross)} to &euro;{formatAmountEnglish(nextMilestone)} gross
+              per year represents a gross increase of &euro;{formatAmountEnglish(salaryIncrease)}.
+            </p>
+            <p>
+              However, due to Spain's progressive tax system, you would not keep all of that increase. Of the additional &euro;{formatAmountEnglish(salaryIncrease)},
+              approximately <strong>{formatEuros(netIncrease)}</strong> would reach your pocket as additional net income. The remaining {marginalRetention}%
+              would go to higher IRPF and Social Security contributions.
+            </p>
+            <p>
+              At the &euro;{formatAmountEnglish(nextMilestone)} level, your monthly net salary in Madrid would be <strong>{formatEuros(nextMilestoneResult.netoMensual)}</strong> (compared
+              to your current {formatEuros(defaultResult.netoMensual)}), and your effective IRPF rate would rise
+              from {irpfPercentEffective}% to {(nextMilestoneResult.tipoEfectivoIRPF * 100).toFixed(1)}%.
+            </p>
+            <p>
+              This marginal retention rate of {marginalRetention}% is important for salary negotiations. When discussing a raise with your
+              employer, knowing that you keep roughly {(100 - parseFloat(marginalRetention)).toFixed(0)} cents of every additional euro helps
+              you set realistic expectations and negotiate effectively. It also means that non-monetary benefits (flexible working, extra
+              holiday days, training budgets, or salary-in-kind like health insurance) can sometimes deliver more value per euro of employer cost.
+            </p>
+          </>
+        ) : (
+          <p>
+            At &euro;{amountFormatted} gross per year, you are already at one of the highest salary levels in Spain. At this point,
+            marginal tax rates are at their maximum, and additional gross income above this level will be taxed at the top
+            marginal rate. For further income optimization, consider consulting a tax advisor about investment structures,
+            the Beckham Law (if applicable), and other strategies specific to high earners in Spain.
+          </p>
+        )}
+      </div>
+    </section>
+
+    <!-- Detailed tax calculation explanation -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        How your tax is calculated step by step
+      </h2>
+      <div class="prose prose-gray max-w-none dark:prose-invert">
+        <p>
+          Spain uses a progressive income tax system called IRPF (Impuesto sobre la Renta de las Personas Fisicas). Here is how the calculation
+          works for a gross salary of &euro;{amountFormatted} {periodLabel}:
+        </p>
+        <ol>
+          <li>
+            <strong>Start with gross salary:</strong> &euro;{formatEuros(page.annualGross)} per year.
+          </li>
+          <li>
+            <strong>Deduct Social Security contributions:</strong> As an employee on a permanent contract, you contribute 6.50% of your gross
+            salary to Social Security (covering common contingencies at 4.70%, unemployment at 1.55%, professional training at 0.10%, and
+            the intergenerational equity mechanism at 0.15%). This amounts to {formatEuros(defaultResult.seguridadSocialAnual)} per year.
+          </li>
+          <li>
+            <strong>Calculate taxable income (base imponible):</strong> Your gross salary minus Social Security contributions,
+            minus the employment income reduction (reduccion por rendimientos del trabajo), gives your taxable
+            base of approximately {formatEuros(defaultResult.baseImponible)}.
+          </li>
+          <li>
+            <strong>Apply personal and family allowances:</strong> The minimum personal allowance (minimo personal) of {formatEuros(defaultResult.minimoPersonalFamiliar)} is
+            subtracted from the taxable base before applying the tax brackets. Additional allowances apply for children, elderly dependants, and disability.
+          </li>
+          <li>
+            <strong>Apply IRPF tax brackets:</strong> The tax is calculated in two parts. The state portion uses national brackets, while the
+            regional portion uses brackets set by your autonomous community. For Madrid, this results in {formatEuros(defaultResult.irpfEstatalAnual)} (state)
+            + {formatEuros(defaultResult.irpfAutonomicoAnual)} (regional) = <strong>{formatEuros(defaultResult.irpfTotalAnual)}</strong> total IRPF.
+          </li>
+          <li>
+            <strong>Final net salary:</strong> Gross ({formatEuros(page.annualGross)}) minus Social Security ({formatEuros(defaultResult.seguridadSocialAnual)})
+            minus IRPF ({formatEuros(defaultResult.irpfTotalAnual)}) = <strong>{formatEuros(defaultResult.netoAnual)}</strong> net per year,
+            or <strong>{formatEuros(defaultResult.netoMensual)}</strong> per month across 14 payments.
+          </li>
+        </ol>
+        <p>
+          Your overall effective tax rate (including both IRPF and Social Security) is <strong>{totalEffectivePercent}%</strong>. This is
+          considerably lower than your marginal rate because Spain's progressive system taxes only the income within each bracket at that
+          bracket's rate, not your entire income. Many people confuse marginal and effective rates, leading them to overestimate their tax burden.
+        </p>
+      </div>
+    </section>
+
+    <!-- FAQs -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        Frequently asked questions
+      </h2>
+      <div class="space-y-3">
+        {faqs.map(faq => (
+          <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+            <summary class="cursor-pointer px-4 py-3 font-medium text-charcoal dark:text-gray-200">
+              {faq.question}
+            </summary>
+            <div class="border-t border-gray-200 px-4 py-3 text-sm text-dark-gray dark:border-gray-700 dark:text-gray-300">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="mb-8 rounded-xl bg-brand/5 p-6 text-center">
+      <p class="text-lg font-medium text-charcoal dark:text-gray-100">Want a more precise calculation?</p>
+      <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">Adjust your autonomous community, number of children and family situation</p>
+      <a href={`/en/?bruto=${page.annualGross}`} class="mt-4 inline-block rounded-lg bg-brand px-6 py-3 font-medium text-white hover:bg-brand-dark">
+        Detailed simulation
+      </a>
+    </div>
+
+    <!-- Adjacent pages -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+        Similar salaries
+      </h2>
+      <div class="flex flex-wrap gap-2">
+        {adjacent.map(p => (
+          <a href={`/en/salary/${p.slug}/`} class="rounded-full border border-gray-200 px-4 py-2 text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+            €{formatAmountEnglish(p.amount)}/{p.period === 'month' ? 'month' : 'year'}
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <div class="text-xs text-medium-gray">
+      <p>Updated for fiscal year {CURRENT_FISCAL_YEAR}.</p>
+      <p class="mt-1">Sources: <a href="https://www.agenciatributaria.gob.es" class="underline hover:text-brand" target="_blank" rel="noopener">AEAT</a>, <a href="https://www.seg-social.es" class="underline hover:text-brand" target="_blank" rel="noopener">Social Security</a>, <a href="https://www.ine.es" class="underline hover:text-brand" target="_blank" rel="noopener">INE</a>.</p>
+    </div>
+  </div>
+</Layout>

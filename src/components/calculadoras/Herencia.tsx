@@ -176,12 +176,26 @@ function calcularHerencia(
   };
 }
 
-export default function Herencia() {
+interface HerenciaProps {
+  lang?: 'es' | 'en';
+}
+
+export default function Herencia({ lang = 'es' }: HerenciaProps) {
+  const l = lang === 'en';
   const [valor, setValor] = useState('200000');
   const [ccaa, setCcaa] = useState<ComunidadAutonoma>('madrid');
   const [grupo, setGrupo] = useState<GrupoParentesco>('II');
   const [patrimonio, setPatrimonio] = useState('0');
   const [viviendaHabitual, setViviendaHabitual] = useState(false);
+
+  const GRUPOS_I18N: { value: GrupoParentesco; label: string }[] = l
+    ? [
+        { value: 'I', label: 'Group I: descendants under 21' },
+        { value: 'II', label: 'Group II: descendants 21+, spouse, ascendants' },
+        { value: 'III', label: 'Group III: siblings, uncles, nephews' },
+        { value: 'IV', label: 'Group IV: others (no close kinship)' },
+      ]
+    : GRUPOS;
 
   const valorNum = Number(valor) || 0;
   const patrimonioNum = Number(patrimonio) || 0;
@@ -196,7 +210,7 @@ export default function Herencia() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <CampoEntrada
           id="her-valor"
-          label="Valor de la herencia"
+          label={l ? 'Inheritance value' : 'Valor de la herencia'}
           value={valor}
           onChange={setValor}
           min={0}
@@ -209,7 +223,7 @@ export default function Herencia() {
             htmlFor="her-ccaa"
             className="mb-1 flex-1 text-sm font-medium text-gray-700 dark:text-gray-300"
           >
-            Comunidad Autónoma
+            {l ? 'Autonomous Community' : 'Comunidad Autónoma'}
           </label>
           <div>
             <select
@@ -232,7 +246,7 @@ export default function Herencia() {
             htmlFor="her-grupo"
             className="mb-1 flex-1 text-sm font-medium text-gray-700 dark:text-gray-300"
           >
-            Grupo de parentesco
+            {l ? 'Kinship group' : 'Grupo de parentesco'}
           </label>
           <div>
             <select
@@ -241,7 +255,7 @@ export default function Herencia() {
               onChange={(e) => setGrupo(e.target.value as GrupoParentesco)}
               className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
             >
-              {GRUPOS.map((g) => (
+              {GRUPOS_I18N.map((g) => (
                 <option key={g.value} value={g.value}>
                   {g.label}
                 </option>
@@ -252,18 +266,18 @@ export default function Herencia() {
         </div>
         <CampoEntrada
           id="her-patrimonio"
-          label="Patrimonio preexistente del heredero"
+          label={l ? "Heir's pre-existing assets" : 'Patrimonio preexistente del heredero'}
           value={patrimonio}
           onChange={setPatrimonio}
           min={0}
           max={50000000}
           step={10000}
           suffix="€"
-          helpText="Patrimonio neto del heredero antes de recibir la herencia"
+          helpText={l ? "Heir's net assets before receiving the inheritance" : 'Patrimonio neto del heredero antes de recibir la herencia'}
         />
         <div className="flex h-full flex-col">
           <label className="mb-1 flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">
-            Vivienda habitual
+            {l ? 'Primary residence' : 'Vivienda habitual'}
           </label>
           <div>
             <div className="flex items-center gap-2">
@@ -285,7 +299,7 @@ export default function Herencia() {
                 />
               </button>
               <span className="text-sm text-gray-600 dark:text-gray-300">
-                {viviendaHabitual ? 'Sí' : 'No'}
+                {viviendaHabitual ? (l ? 'Yes' : 'Sí') : 'No'}
               </span>
             </div>
             <p className="mt-1 text-xs text-gray-500">{'\u00A0'}</p>
@@ -298,7 +312,7 @@ export default function Herencia() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 p-5 text-center dark:from-gray-700 dark:to-gray-800">
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                Valor herencia
+                {l ? 'Inheritance value' : 'Valor herencia'}
               </p>
               <p className="mt-1 text-2xl font-bold text-charcoal dark:text-gray-100">
                 {formatEuros(resultado.valorHerencia)}
@@ -306,7 +320,7 @@ export default function Herencia() {
             </div>
             <div className="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-5 text-center dark:from-blue-900/30 dark:to-blue-900/10">
               <p className="text-sm font-medium text-blue-600 dark:text-blue-400">
-                Reducciones aplicadas
+                {l ? 'Reductions applied' : 'Reducciones aplicadas'}
               </p>
               <p className="mt-1 text-2xl font-bold text-blue-700 dark:text-blue-300">
                 {formatEuros(resultado.totalReducciones)}
@@ -314,7 +328,7 @@ export default function Herencia() {
             </div>
             <div className="rounded-xl bg-gradient-to-br from-amber-50 to-amber-100 p-5 text-center dark:from-amber-900/30 dark:to-amber-900/10">
               <p className="text-sm font-medium text-amber-600 dark:text-amber-400">
-                Cuota antes bonificación
+                {l ? 'Tax before rebate' : 'Cuota antes bonificación'}
               </p>
               <p className="mt-1 text-2xl font-bold text-amber-700 dark:text-amber-300">
                 {formatEuros(resultado.cuotaAjustada)}
@@ -334,7 +348,7 @@ export default function Herencia() {
                     : 'text-red-600 dark:text-red-400'
                 }`}
               >
-                A pagar
+                {l ? 'Tax due' : 'A pagar'}
               </p>
               <p
                 className={`mt-1 text-2xl font-bold ${
@@ -353,17 +367,17 @@ export default function Herencia() {
               <thead>
                 <tr className="bg-gray-50 dark:bg-gray-700">
                   <th className="px-4 py-2 text-left font-medium text-gray-500">
-                    Concepto
+                    {l ? 'Item' : 'Concepto'}
                   </th>
                   <th className="px-4 py-2 text-right font-medium text-gray-500">
-                    Importe
+                    {l ? 'Amount' : 'Importe'}
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
                   <td className="px-4 py-2 text-gray-600 dark:text-gray-300">
-                    Valor de la herencia
+                    {l ? 'Inheritance value' : 'Valor de la herencia'}
                   </td>
                   <td className="px-4 py-2 text-right tabular-nums font-medium">
                     {formatEuros(resultado.valorHerencia)}
@@ -371,7 +385,7 @@ export default function Herencia() {
                 </tr>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
                   <td className="px-4 py-2 text-gray-600 dark:text-gray-300">
-                    Reducción por parentesco ({grupo === 'I' ? 'Grupo I' : grupo === 'II' ? 'Grupo II' : grupo === 'III' ? 'Grupo III' : 'Grupo IV'})
+                    {l ? 'Kinship reduction' : 'Reducción por parentesco'} ({l ? 'Group' : 'Grupo'} {grupo})
                   </td>
                   <td className="px-4 py-2 text-right tabular-nums font-medium text-blue-600 dark:text-blue-400">
                     -{formatEuros(resultado.reduccionParentesco)}
@@ -380,7 +394,7 @@ export default function Herencia() {
                 {resultado.reduccionVivienda > 0 && (
                   <tr className="border-t border-gray-100 dark:border-gray-700">
                     <td className="px-4 py-2 text-gray-600 dark:text-gray-300">
-                      Reducción vivienda habitual (95%, max 122.606 €)
+                      {l ? 'Primary residence reduction (95%, max 122,606 €)' : 'Reducción vivienda habitual (95%, max 122.606 €)'}
                     </td>
                     <td className="px-4 py-2 text-right tabular-nums font-medium text-blue-600 dark:text-blue-400">
                       -{formatEuros(resultado.reduccionVivienda)}
@@ -389,7 +403,7 @@ export default function Herencia() {
                 )}
                 <tr className="border-t border-gray-100 dark:border-gray-700">
                   <td className="px-4 py-2 font-semibold text-charcoal dark:text-gray-100">
-                    Base liquidable
+                    {l ? 'Taxable base' : 'Base liquidable'}
                   </td>
                   <td className="px-4 py-2 text-right tabular-nums font-semibold">
                     {formatEuros(resultado.baseLiquidable)}
@@ -397,7 +411,7 @@ export default function Herencia() {
                 </tr>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
                   <td className="px-4 py-2 text-gray-600 dark:text-gray-300">
-                    Cuota íntegra (escala progresiva)
+                    {l ? 'Base tax (progressive scale)' : 'Cuota íntegra (escala progresiva)'}
                   </td>
                   <td className="px-4 py-2 text-right tabular-nums font-medium">
                     {formatEuros(resultado.cuotaIntegra)}
@@ -405,7 +419,7 @@ export default function Herencia() {
                 </tr>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
                   <td className="px-4 py-2 text-gray-600 dark:text-gray-300">
-                    Coeficiente multiplicador (x{resultado.coeficiente.toFixed(4)})
+                    {l ? 'Multiplier coefficient' : 'Coeficiente multiplicador'} (x{resultado.coeficiente.toFixed(4)})
                   </td>
                   <td className="px-4 py-2 text-right tabular-nums font-medium">
                     {formatEuros(resultado.cuotaAjustada)}
@@ -414,7 +428,7 @@ export default function Herencia() {
                 {resultado.bonificacion > 0 && (
                   <tr className="border-t border-gray-100 dark:border-gray-700">
                     <td className="px-4 py-2 text-gray-600 dark:text-gray-300">
-                      Bonificación autonómica ({(resultado.bonificacion * 100).toFixed(1)}%)
+                      {l ? 'Regional rebate' : 'Bonificación autonómica'} ({(resultado.bonificacion * 100).toFixed(1)}%)
                     </td>
                     <td className="px-4 py-2 text-right tabular-nums font-medium text-emerald-600 dark:text-emerald-400">
                       -{formatEuros(resultado.cuotaAjustada * resultado.bonificacion)}
@@ -423,7 +437,7 @@ export default function Herencia() {
                 )}
                 <tr className="border-t-2 border-gray-300 dark:border-gray-600">
                   <td className="px-4 py-2 font-bold text-charcoal dark:text-gray-100">
-                    Total a pagar
+                    {l ? 'Total tax due' : 'Total a pagar'}
                   </td>
                   <td
                     className={`px-4 py-2 text-right tabular-nums font-bold ${
@@ -440,7 +454,9 @@ export default function Herencia() {
           </div>
 
           <p className="text-xs text-medium-gray">
-            Cálculo orientativo basado en la normativa estatal y bonificaciones autonómicas simplificadas. Las comunidades autónomas pueden aplicar reducciones y bonificaciones adicionales. Consulta con un profesional para tu caso concreto.
+            {l
+              ? 'Approximate calculation based on national regulations and simplified regional rebates. Autonomous communities may apply additional reductions and rebates. Consult a professional for your specific case.'
+              : 'Cálculo orientativo basado en la normativa estatal y bonificaciones autonómicas simplificadas. Las comunidades autónomas pueden aplicar reducciones y bonificaciones adicionales. Consulta con un profesional para tu caso concreto.'}
           </p>
         </>
       )}

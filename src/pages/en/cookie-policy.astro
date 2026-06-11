@@ -1,0 +1,65 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import { SITE_NAME, SITE_URL } from '../../config';
+import { buildBreadcrumbSchema } from '../../lib/seo';
+
+const title = `Cookie Policy - ${SITE_NAME} | How We Use Cookies`;
+const description = `Cookie policy for ${SITE_NAME}. Understand what cookies we use, their purpose, duration, how to manage your preferences and how to disable cookies in your browser.`;
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Home', url: '/en/' },
+    { name: 'Cookie Policy', url: '/en/cookie-policy/' },
+  ]),
+];
+---
+
+<Layout title={title} description={description} schema={schemas} locale="en">
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/en/" class="hover:text-brand">Home</a> / <span class="text-charcoal dark:text-gray-200">Cookie Policy</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">Cookie Policy</h1>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <p>
+        This cookie policy explains how <strong>{SITE_NAME}</strong> ({SITE_URL}) uses cookies and similar technologies. By continuing to browse this website, you accept the use of cookies as described below, in accordance with Article 22.2 of the LSSI-CE and the GDPR.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">What Are Cookies?</h2>
+      <p>
+        Cookies are small text files that are stored on your device (computer, tablet, or smartphone) when you visit a website. They are widely used to make websites function correctly, improve user experience, and provide information to website owners. Cookies can be first-party (set by us) or third-party (set by other services we use).
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Types of Cookies We Use</h2>
+
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Strictly Necessary Cookies</h3>
+      <p>
+        These cookies are essential for the website to function properly. They include cookies that remember your cookie consent preferences and theme settings (light/dark mode). These cookies do not collect personal information and cannot be disabled.
+      </p>
+
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Analytics Cookies</h3>
+      <p>
+        We use analytics cookies to understand how visitors interact with our website, which pages are most popular, and how users navigate between pages. This data is collected anonymously and helps us improve the website. These cookies are only set with your consent.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Managing Your Cookie Preferences</h2>
+      <p>
+        You can manage your cookie preferences at any time by clicking the cookie settings link in the website footer. You can also configure your browser to reject or delete cookies. Please note that disabling certain cookies may affect the functionality of the website.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">How to Disable Cookies in Your Browser</h2>
+      <ul class="list-disc pl-6 space-y-1">
+        <li><strong>Chrome:</strong> Settings &gt; Privacy and Security &gt; Cookies and other site data</li>
+        <li><strong>Firefox:</strong> Settings &gt; Privacy &amp; Security &gt; Cookies and Site Data</li>
+        <li><strong>Safari:</strong> Preferences &gt; Privacy &gt; Manage Website Data</li>
+        <li><strong>Edge:</strong> Settings &gt; Cookies and Site Permissions &gt; Cookies and site data</li>
+      </ul>
+
+      <p class="text-sm text-medium-gray">
+        This cookie policy was last updated in January {new Date().getFullYear()}.
+      </p>
+    </div>
+  </div>
+</Layout>

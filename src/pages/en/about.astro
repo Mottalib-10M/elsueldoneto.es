@@ -1,0 +1,224 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import { SITE_NAME, SITE_URL, CURRENT_FISCAL_YEAR } from '../../config';
+import { buildBreadcrumbSchema, buildPersonSchema, buildOrganizationSchema } from '../../lib/seo';
+
+const title = `About Us - ${SITE_NAME} | Free Spanish Salary & Tax Calculators`;
+const description = 'Learn about El Sueldo Neto, the free salary calculator for Spain. Built for locals and expats, with IRPF, Social Security and regional tax data updated yearly.';
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Home', url: '/en/' },
+    { name: 'About Us', url: '/en/about/' },
+  ]),
+  buildOrganizationSchema('en'),
+  buildPersonSchema({
+    name: 'Mottalib Radif',
+    jobTitle: 'Founder of El Sueldo Neto',
+    description: 'MBA graduate from INSEAD with a passion for personal finance and Spanish taxation.',
+    url: `${SITE_URL}/en/about/`,
+    alumniOf: [
+      { name: 'INSEAD', url: 'https://www.insead.edu' },
+    ],
+    knowsAbout: [
+      'Spanish taxation',
+      'IRPF (income tax)',
+      'Social Security contributions',
+      'Personal finance',
+      'Financial planning',
+      'Beckham Law',
+    ],
+  }),
+];
+---
+
+<Layout title={title} description={description} schema={schemas} locale="en">
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/en/" class="hover:text-brand">Home</a> / <span class="text-charcoal dark:text-gray-200">About Us</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">About {SITE_NAME}</h1>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <p class="text-lg">
+        {SITE_NAME} exists to answer one straightforward question: <strong>how much will I actually take home after taxes in Spain?</strong> Whether you are a Spanish national, an expat negotiating a relocation package, or a freelancer weighing your options, our calculators give you a clear, reliable answer in seconds.
+      </p>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Who Is Behind This Project</h2>
+        <div class="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+          <div class="flex items-start gap-4">
+            <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-brand/10 text-2xl font-bold text-brand">
+              MR
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Mottalib Radif</h3>
+              <p class="text-sm font-medium text-brand">Founder of {SITE_NAME}</p>
+              <p class="mt-1 text-sm text-medium-gray">MBA &mdash; INSEAD</p>
+            </div>
+          </div>
+          <p class="mt-4">
+            Mottalib founded {SITE_NAME} after realising that most workers in Spain lacked access to trustworthy, transparent, and free tools for understanding their payslips. With a background in business and finance from <a href="https://www.insead.edu" target="_blank" rel="noopener" class="text-brand hover:underline">INSEAD</a>, one of the world's leading business schools, he set out to build tax calculators that combine official data with a user experience anyone can follow.
+          </p>
+          <p class="mt-2">
+            His goal is simple: pair the precision of data published by the <a href="https://www.agenciatributaria.gob.es" target="_blank" rel="noopener" class="text-brand hover:underline">Spanish Tax Agency (AEAT)</a> and <a href="https://www.seg-social.es" target="_blank" rel="noopener" class="text-brand hover:underline">Social Security</a> with a fast, intuitive interface that respects your privacy.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Our Mission</h2>
+        <p>
+          We believe every worker has the right to know exactly how much they will earn before accepting a job offer, negotiating a raise, or planning their household budget. Spanish payroll taxes are notoriously complex &mdash; national IRPF brackets, regional tax rates that vary across 17 autonomous communities, Social Security contributions, the Beckham Law for inbound workers &mdash; and the official resources are almost entirely in Spanish.
+        </p>
+        <p>
+          That is why we built a suite of <strong>more than 27 free calculators</strong>, updated every fiscal year, covering everything from a basic gross-to-net salary calculation to specialised tools like the autonomous community comparison, the Beckham Law simulator, the severance pay calculator, the mortgage estimator, and the retirement planner. And because we know Spain attracts talent from all over the world, we offer the site in both <strong>Spanish and English</strong>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">How We Ensure Accuracy</h2>
+        <p>
+          Every calculator follows a rigorous development process:
+        </p>
+        <ol class="list-decimal ml-4 space-y-2">
+          <li><strong>Official data sourcing:</strong> We extract IRPF tax brackets, Social Security contribution rates, the minimum wage (SMI), and regional scales directly from legislation published in the <em>Bolet&iacute;n Oficial del Estado</em> (BOE) and the AEAT.</li>
+          <li><strong>Algorithm implementation:</strong> Our calculation engine follows the rules set out in Law 35/2006 (IRPF), Royal Legislative Decree 8/2015 (Social Security), and all current regional regulations.</li>
+          <li><strong>Cross-verification:</strong> We compare our results against the <a href="https://www2.agenciatributaria.gob.es/wlpl/PRET-R200/index.zul" target="_blank" rel="noopener" class="text-brand hover:underline">AEAT's official withholding simulator</a>, targeting a maximum deviation of 5 EUR per month in most scenarios.</li>
+          <li><strong>Annual updates:</strong> At the start of each fiscal year, we review every parameter: national and regional IRPF brackets, contribution bases and ceilings, SMI, MEI rates, and self-employed (RETA) quotas.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Official Sources We Rely On</h2>
+        <p>
+          Our calculators draw exclusively from current Spanish tax and employment law. Here are the primary sources:
+        </p>
+        <div class="space-y-3 mt-4">
+          <a href="https://www.agenciatributaria.gob.es" target="_blank" rel="noopener" class="flex items-start gap-3 rounded-lg border border-gray-200 p-4 transition-colors hover:border-brand dark:border-gray-700">
+            <div>
+              <span class="font-semibold text-charcoal dark:text-gray-100">Spanish Tax Agency (AEAT)</span>
+              <p class="text-sm text-medium-gray">Withholding tables, tax forms, binding rulings, and the official IRPF withholding simulator.</p>
+            </div>
+          </a>
+          <a href="https://www.seg-social.es" target="_blank" rel="noopener" class="flex items-start gap-3 rounded-lg border border-gray-200 p-4 transition-colors hover:border-brand dark:border-gray-700">
+            <div>
+              <span class="font-semibold text-charcoal dark:text-gray-100">Social Security (Seguridad Social)</span>
+              <p class="text-sm text-medium-gray">Contribution bases and rates, minimum and maximum thresholds, and self-employed (RETA) quotas.</p>
+            </div>
+          </a>
+          <a href="https://www.boe.es" target="_blank" rel="noopener" class="flex items-start gap-3 rounded-lg border border-gray-200 p-4 transition-colors hover:border-brand dark:border-gray-700">
+            <div>
+              <span class="font-semibold text-charcoal dark:text-gray-100">Official State Gazette (BOE)</span>
+              <p class="text-sm text-medium-gray">Laws and royal decrees: IRPF Law 35/2006, Workers' Statute RDL 2/2015, General Social Security Law.</p>
+            </div>
+          </a>
+          <a href="https://www.hacienda.gob.es/es-ES/Areas%20Tematicas/Financiacion%20Autonomica/Paginas/Financiacion%20Autonomica.aspx" target="_blank" rel="noopener" class="flex items-start gap-3 rounded-lg border border-gray-200 p-4 transition-colors hover:border-brand dark:border-gray-700">
+            <div>
+              <span class="font-semibold text-charcoal dark:text-gray-100">Ministry of Finance &mdash; Regional Funding</span>
+              <p class="text-sm text-medium-gray">Regional IRPF scales, local deductions, and tax regulations for all 17 autonomous communities.</p>
+            </div>
+          </a>
+        </div>
+
+        <h3 class="mt-6 text-lg font-semibold text-charcoal dark:text-gray-100">Key Legislation</h3>
+        <ul class="list-disc ml-4 space-y-1">
+          <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" target="_blank" rel="noopener" class="text-brand hover:underline">Law 35/2006 (IRPF)</a> &mdash; comprehensive income tax regulation, national brackets, and allowable deductions.</li>
+          <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430" target="_blank" rel="noopener" class="text-brand hover:underline">Royal Legislative Decree 2/2015 (Workers' Statute)</a> &mdash; bonus pay rules, salary structure, and contract termination.</li>
+          <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724" target="_blank" rel="noopener" class="text-brand hover:underline">Royal Legislative Decree 8/2015 (General Social Security Law)</a> &mdash; general regime, contributions, unemployment and retirement benefits.</li>
+          <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2022-17556" target="_blank" rel="noopener" class="text-brand hover:underline">Royal Decree-Law 13/2022</a> &mdash; new self-employed contribution system based on actual income.</li>
+          <li><a href="https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI34.shtml" target="_blank" rel="noopener" class="text-brand hover:underline">AEAT &mdash; Special Regime for Displaced Workers (Art. 93 LIRPF)</a> &mdash; the Beckham Law for inbound workers.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Built for Privacy</h2>
+        <p>
+          Every calculation runs <strong>entirely in your browser</strong>. We never send your salary data, personal details, or financial information to any server. We do not use third-party advertising trackers or sell data to anyone. Your privacy is not a footnote &mdash; it is a core design principle.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">For Everyone in Spain</h2>
+        <p>
+          Spain is home to millions of foreign residents, digital nomads, and international professionals. Many of them face the same challenge: making sense of a tax system documented almost exclusively in Spanish. {SITE_NAME} bridges that gap by providing full English-language coverage of the same tools and guides available to Spanish speakers, so no one has to guess what their net pay will be.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Fiscal Year {CURRENT_FISCAL_YEAR}</h2>
+        <p>
+          This version of the site is fully updated for fiscal year {CURRENT_FISCAL_YEAR}, incorporating the latest national and regional IRPF brackets (all 17 autonomous communities plus the Basque Country and Navarre foral regimes), Social Security contribution rates, the Intergenerational Equity Mechanism (MEI), self-employed RETA quotas by income, and the current minimum interprofessional wage (SMI).
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Our Methodology: How Each Calculator Is Built</h2>
+        <p>
+          Transparency is at the heart of what we do. Here is a closer look at the methodology behind our calculators and the steps we take to ensure reliability:
+        </p>
+        <h3 class="mt-4 text-lg font-semibold text-charcoal dark:text-gray-100">Data collection and verification</h3>
+        <p>
+          At the start of each fiscal year, our team reviews every relevant regulatory publication from the BOE, the AEAT, and each of the 17 autonomous community tax agencies. We extract the exact IRPF brackets (both state and regional portions), Social Security contribution rates and ceilings, the MEI rate, the SMI, and all applicable deductions. Each data point is cross-referenced against at least two official sources to eliminate transcription errors.
+        </p>
+        <h3 class="mt-4 text-lg font-semibold text-charcoal dark:text-gray-100">Algorithm development</h3>
+        <p>
+          Our calculation engine implements the full IRPF withholding algorithm as defined in the Reglamento del IRPF (Royal Decree 439/2007), including personal minimums, family deductions, pension contributions, disability allowances, and the complexity of handling 12 versus 14 pay periods. For Social Security, we model the contribution groups, the minimum and maximum bases, and the specific rates for general contingencies, unemployment, vocational training, and the Intergenerational Equity Mechanism.
+        </p>
+        <h3 class="mt-4 text-lg font-semibold text-charcoal dark:text-gray-100">Testing and validation</h3>
+        <p>
+          Every calculator undergoes rigorous testing before publication. We run hundreds of test cases covering a range of salary levels (from SMI to over 200,000 EUR), family configurations (single, married with various numbers of children), contract types (indefinite, temporary), and all 17 autonomous communities plus the three Basque provinces and Navarre. Results are compared against the AEAT's official withholding simulator, and we target a maximum deviation of 5 EUR per month for the standard net salary calculator.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Technology Stack</h2>
+        <p>
+          {SITE_NAME} is built with a modern, performance-oriented technology stack designed for speed, accessibility, and privacy:
+        </p>
+        <ul class="list-disc ml-4 space-y-2 mt-2">
+          <li><strong>Astro:</strong> Our site is built with Astro, a modern static site generator that delivers lightning-fast page loads by shipping minimal JavaScript to the browser. Pages are pre-rendered at build time, ensuring instant load times and excellent SEO performance.</li>
+          <li><strong>React:</strong> Interactive calculator components are built with React for a responsive, dynamic user experience. These components hydrate on the client side only when needed, keeping initial page loads fast.</li>
+          <li><strong>TypeScript:</strong> All calculation logic is written in TypeScript, providing type safety and reducing the risk of bugs in our tax computation algorithms.</li>
+          <li><strong>Tailwind CSS:</strong> Our responsive design is powered by Tailwind CSS, ensuring the site looks great and works perfectly on devices of all sizes, from mobile phones to desktop monitors.</li>
+          <li><strong>Client-side computation:</strong> Every calculation runs entirely in your browser. No salary data, personal information, or calculation results are ever transmitted to our servers or any third party. This architecture guarantees complete privacy by design.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Designed for the Expat Community</h2>
+        <p>
+          The English version of {SITE_NAME} was specifically designed to serve the needs of the growing expat community in Spain. We recognised that while there are many Spanish-language tax resources available, English speakers face a significant information gap when trying to understand their payslips, evaluate job offers, or plan their finances in Spain.
+        </p>
+        <h3 class="mt-4 text-lg font-semibold text-charcoal dark:text-gray-100">What makes our English version different</h3>
+        <p>
+          Rather than simply translating the Spanish site word for word, we adapted the content for an international audience. This means including explanations of concepts that Spanish workers take for granted (such as pagas extra, the convenio colectivo system, and how the padron works), providing comparisons with tax systems in other countries, and using clear terminology that avoids untranslated jargon wherever possible. Where Spanish terms are unavoidable (such as IRPF, autonomo, or finiquito), we always provide the English equivalent on first use.
+        </p>
+        <p>
+          Our guides cover topics that are especially relevant to expats, including the Beckham Law for inbound workers, the process of obtaining an NIE and registering with Social Security, understanding your first Spanish payslip, and navigating the annual tax return (declaracion de la renta) as a foreign resident.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Future Plans</h2>
+        <p>
+          We are continuously working to improve {SITE_NAME} and expand its capabilities. Here is what we have planned:
+        </p>
+        <ul class="list-disc ml-4 space-y-2 mt-2">
+          <li><strong>More specialised calculators:</strong> We plan to add tools for capital gains tax on property sales, rental income tax for non-residents, and a comprehensive Beckham Law vs. general regime comparison tool.</li>
+          <li><strong>Payslip analyser:</strong> An upcoming feature that will allow you to input the values from your payslip and verify that each deduction (Social Security, IRPF, and any salary in kind) has been correctly calculated by your employer.</li>
+          <li><strong>Historical comparison:</strong> A tool to compare your net salary across different fiscal years, showing how changes in tax brackets, contribution rates, and the SMI have affected your take-home pay over time.</li>
+          <li><strong>Community-driven improvements:</strong> We welcome feedback from our users. If you notice a discrepancy, have a suggestion for a new calculator, or want to report an issue, you can reach out to us through the contact channels on the site. Every piece of feedback is reviewed and helps us improve.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Important Disclaimer</h2>
+        <p>
+          The results provided by our calculators are <strong>estimates for informational purposes only</strong> and do not constitute professional tax, legal, or financial advice. For complex tax matters such as filing your annual return, wealth planning, or choosing a self-employment regime, we strongly recommend consulting a qualified tax advisor (<em>asesor fiscal</em>).
+        </p>
+      </section>
+    </div>
+  </div>
+</Layout>

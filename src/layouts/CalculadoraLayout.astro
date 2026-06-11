@@ -2,6 +2,8 @@
 import Layout from '../components/layout/Layout.astro';
 import { CURRENT_FISCAL_YEAR } from '../config';
 import { buildWebApplicationSchema, buildBreadcrumbSchema, buildFAQSchema, type FAQItem } from '../lib/seo';
+import { getLocaleFromPath, t } from '../i18n';
+import type { Locale } from '../i18n/types';
 
 interface Props {
   title: string;
@@ -14,6 +16,7 @@ interface Props {
   breadcrumbs?: { name: string; url: string }[];
   updatedDate?: string;
   sources?: { label: string; url: string }[];
+  locale?: Locale;
 }
 
 const {
@@ -24,25 +27,29 @@ const {
   path,
   ogImage,
   faqs = [],
-  breadcrumbs = [
-    { name: 'Inicio', url: '/' },
-    { name: calculatorName, url: path },
-  ],
   updatedDate = new Date().toISOString().split('T')[0],
   sources = [
     { label: 'AEAT', url: 'https://www.agenciatributaria.gob.es' },
     { label: 'Seguridad Social', url: 'https://www.seg-social.es' },
   ],
+  locale: localeProp,
 } = Astro.props;
 
+const locale = localeProp || getLocaleFromPath(Astro.url.pathname);
+
+const breadcrumbs = Astro.props.breadcrumbs || [
+  { name: t(locale, 'breadcrumbHome'), url: t(locale, 'homeHref') },
+  { name: calculatorName, url: path },
+];
+
 const schemas = [
-  buildWebApplicationSchema(calculatorName, path),
+  buildWebApplicationSchema(calculatorName, path, locale),
   buildBreadcrumbSchema(breadcrumbs),
-  ...(faqs.length > 0 ? [buildFAQSchema(faqs)] : []),
+  ...(faqs.length > 0 ? [buildFAQSchema(faqs, locale)] : []),
 ];
 ---
 
-<Layout title={title} description={description} ogImage={ogImage} schema={schemas}>
+<Layout title={title} description={description} ogImage={ogImage} schema={schemas} locale={locale}>
   <div class="mx-auto max-w-4xl px-4 py-8">
     <nav class="mb-6 text-sm text-medium-gray" aria-label="Breadcrumb">
       <ol class="flex items-center gap-1">
@@ -70,7 +77,7 @@ const schemas = [
     {faqs.length > 0 && (
       <section class="mt-12">
         <h2 class="mb-6 text-2xl font-bold text-charcoal dark:text-gray-100">
-          Preguntas frecuentes
+          {t(locale, 'faqTitle')}
         </h2>
         <div class="space-y-4">
           {faqs.map((faq) => (
@@ -88,14 +95,14 @@ const schemas = [
     )}
 
     <div class="mt-8 flex flex-wrap items-center gap-4 text-xs text-medium-gray">
-      <span>Actualizado para el ejercicio fiscal {CURRENT_FISCAL_YEAR}</span>
+      <span>{t(locale, 'updatedForFiscalYear')} {CURRENT_FISCAL_YEAR}</span>
       <span>·</span>
-      <span>Última actualización: {updatedDate}</span>
+      <span>{t(locale, 'lastUpdate')} {updatedDate}</span>
     </div>
 
     {sources.length > 0 && (
       <div class="mt-4 text-xs text-medium-gray">
-        <span class="font-medium">Fuentes:</span>
+        <span class="font-medium">{t(locale, 'sourcesLabel')}</span>
         {sources.map((source, i) => (
           <>
             {i > 0 && ', '}

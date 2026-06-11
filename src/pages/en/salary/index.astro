@@ -1,0 +1,98 @@
+---
+import Layout from '../../../components/layout/Layout.astro';
+import { CURRENT_FISCAL_YEAR } from '../../../config';
+import { buildBreadcrumbSchema } from '../../../lib/seo';
+import { allSalaryPagesEn, formatAmountEnglish } from '../../../data/salary-pages-config-en';
+import { calcularSueldoNeto, situacionFamiliarDefecto } from '../../../lib/irpf-engine';
+import { formatEuros } from '../../../lib/format-es';
+
+const title = `Gross to Net Salary Table Spain ${CURRENT_FISCAL_YEAR}: All Amounts`;
+const description = `Check how much net salary you keep from each gross amount in Spain ${CURRENT_FISCAL_YEAR}. Complete table of gross to net salaries by month and year with IRPF breakdown.`;
+
+const monthlyPages = allSalaryPagesEn.filter(p => p.period === 'month');
+const annualPages = allSalaryPagesEn.filter(p => p.period === 'year');
+
+function getNet(annualGross: number): number {
+  return calcularSueldoNeto(annualGross, 'MD', situacionFamiliarDefecto, 14).netoMensual;
+}
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Home', url: '/en/' },
+    { name: 'Salaries', url: '/en/salary/' },
+  ]),
+];
+---
+
+<Layout title={title} description={description} schema={schemas} locale="en">
+  <div class="mx-auto max-w-4xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/en/" class="hover:text-brand">Home</a> / <span class="text-charcoal dark:text-gray-200">Salaries</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      Gross to Net Salary Table in Spain ({CURRENT_FISCAL_YEAR})
+    </h1>
+
+    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+      Check the approximate net salary for the most searched gross amounts in Spain.
+      Each link leads to a detailed page with breakdown by autonomous community and family situation.
+    </p>
+
+    <section class="mb-10">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">By monthly salary</h2>
+      <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-600">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-gray-50 dark:bg-gray-700">
+              <th class="px-4 py-2 text-left font-medium text-gray-500">Gross/month</th>
+              <th class="px-4 py-2 text-right font-medium text-gray-500">≈ Net/month (Madrid)</th>
+              <th class="px-4 py-2 text-right font-medium text-gray-500">Gross/year</th>
+              <th class="px-4 py-2 text-left font-medium text-gray-500"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {monthlyPages.map(p => (
+              <tr class="border-t border-gray-100 dark:border-gray-700">
+                <td class="px-4 py-2 font-medium text-charcoal dark:text-gray-100">€{formatAmountEnglish(p.amount)}</td>
+                <td class="px-4 py-2 text-right tabular-nums font-medium text-emerald-700 dark:text-emerald-400">{formatEuros(getNet(p.annualGross))}</td>
+                <td class="px-4 py-2 text-right tabular-nums text-gray-500">€{formatAmountEnglish(p.annualGross)}</td>
+                <td class="px-4 py-2"><a href={`/en/salary/${p.slug}/`} class="text-brand hover:underline">Details</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">By annual salary</h2>
+      <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-600">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-gray-50 dark:bg-gray-700">
+              <th class="px-4 py-2 text-left font-medium text-gray-500">Gross/year</th>
+              <th class="px-4 py-2 text-right font-medium text-gray-500">≈ Net/month (Madrid)</th>
+              <th class="px-4 py-2 text-right font-medium text-gray-500">≈ Gross/month</th>
+              <th class="px-4 py-2 text-left font-medium text-gray-500"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {annualPages.map(p => (
+              <tr class="border-t border-gray-100 dark:border-gray-700">
+                <td class="px-4 py-2 font-medium text-charcoal dark:text-gray-100">€{formatAmountEnglish(p.amount)}</td>
+                <td class="px-4 py-2 text-right tabular-nums font-medium text-emerald-700 dark:text-emerald-400">{formatEuros(getNet(p.annualGross))}</td>
+                <td class="px-4 py-2 text-right tabular-nums text-gray-500">€{formatAmountEnglish(Math.round(p.annualGross / 14))}</td>
+                <td class="px-4 py-2"><a href={`/en/salary/${p.slug}/`} class="text-brand hover:underline">Details</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="text-xs text-medium-gray">
+      <p>Calculated for a single person, no children, Madrid, 14 payments. Fiscal year {CURRENT_FISCAL_YEAR}.</p>
+    </div>
+  </div>
+</Layout>

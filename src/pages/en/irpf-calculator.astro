@@ -1,0 +1,190 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import IRPF from '../../components/calculadoras/IRPF';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+
+const title = `Income Tax Calculator Spain ${CURRENT_FISCAL_YEAR}: IRPF Brackets`;
+const description = `Calculate your Spanish income tax (IRPF) ${CURRENT_FISCAL_YEAR} with state and regional bracket breakdown. Compare tax across autonomous communities and find your effective rate.`;
+
+const faqs = [
+  { question: 'What is IRPF and how is it calculated?', answer: `IRPF (Impuesto sobre la Renta de las Personas Físicas) is Spain's progressive personal income tax. It's split into a state component and a regional component, applied in brackets: the more you earn, the higher the rate on the portion exceeding each threshold.` },
+  { question: `How many IRPF brackets are there in ${CURRENT_FISCAL_YEAR}?`, answer: `The state IRPF scale has 6 brackets in ${CURRENT_FISCAL_YEAR}, with rates ranging from 9.5% to 24.5%. Each autonomous community adds its own scale with different brackets and rates.` },
+  { question: 'Which region pays the least income tax?', answer: 'Madrid has the lowest regional tax rates in Spain, generally followed by Castilla y León and La Rioja. At the other end, Valencia and Catalonia have the highest rates for high earners.' },
+  { question: 'What is the personal and family minimum?', answer: `It's the portion of income considered necessary for living expenses and not subject to tax. In ${CURRENT_FISCAL_YEAR}, the personal minimum is €5,550, increasing for children, dependent ascendants, disability and taxpayer age.` },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Income Tax (IRPF) Calculator ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Income Tax Calculator"
+  path="/en/irpf-calculator/"
+  faqs={faqs}
+  locale="en"
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <IRPF client:load lang="en" />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Complete guide to income tax in Spain
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        IRPF is the main tax paid by salaried workers in Spain, yet most employees don't know exactly how it's calculated. It taxes all income earned during the year: not just your salary, but also savings returns, rental income and capital gains. For the vast majority of taxpayers, however, payroll income is the primary source.
+      </p>
+      <p>
+        Spain uses a progressive bracket system: the first euros you earn are taxed at a low rate, and only the amount exceeding each threshold is taxed at the next rate. The state scale has six brackets ranging from 9.5% to 24.5%, plus a regional scale that varies by autonomous community. For a €30,000 gross salary, the effective total rate typically falls around 15-16%, far from the maximum marginal rates seen in headlines.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      IRPF state brackets explained
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        The state portion of IRPF accounts for roughly half of the total income tax you pay. Each autonomous community then applies its own complementary scale. Together, the combined marginal rates for general taxable income range from approximately 19% at the bottom to as much as 54% in some regions for income above €300,000. Below is the current state scale that applies uniformly across Spain.
+      </p>
+      <div class="overflow-x-auto my-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left">Taxable income bracket</th>
+              <th class="px-4 py-2 text-left">State rate</th>
+              <th class="px-4 py-2 text-left">Typical regional rate</th>
+              <th class="px-4 py-2 text-left">Combined marginal rate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€0 – €12,450</td><td class="px-4 py-2">9.50%</td><td class="px-4 py-2">9.50%</td><td class="px-4 py-2">19.00%</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€12,450 – €20,200</td><td class="px-4 py-2">12.00%</td><td class="px-4 py-2">12.00%</td><td class="px-4 py-2">24.00%</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€20,200 – €35,200</td><td class="px-4 py-2">15.00%</td><td class="px-4 py-2">15.00%</td><td class="px-4 py-2">30.00%</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€35,200 – €60,000</td><td class="px-4 py-2">18.50%</td><td class="px-4 py-2">18.50%</td><td class="px-4 py-2">37.00%</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€60,000 – €300,000</td><td class="px-4 py-2">22.50%</td><td class="px-4 py-2">22.50%</td><td class="px-4 py-2">45.00%</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Above €300,000</td><td class="px-4 py-2">24.50%</td><td class="px-4 py-2">22.50–29.50%</td><td class="px-4 py-2">47.00–54.00%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Note that the "typical regional rate" column uses the common scale set by the central government as a reference. Some communities — particularly Madrid, Castilla y Leon, and Andalusia — have lowered their regional brackets, while others like Valencia, Catalonia, and Asturias have increased theirs. This is why two people earning identical salaries can face notably different tax bills depending on where they file their return.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      IRPF calculation examples at different salary levels
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Understanding IRPF in theory is one thing; seeing actual numbers brings it to life. Below are worked examples for three common salary levels, assuming a single taxpayer with no children, filing in Madrid with the standard personal minimum of €5,550. Social Security contributions are deducted before IRPF is calculated, reducing the taxable base.
+      </p>
+
+      <h4 class="font-semibold mt-4">Example 1: €25,000 gross annual salary</h4>
+      <p>
+        Social Security contributions (approximately 6.47%) come to around €1,618. This leaves a taxable base of roughly €23,382. After applying the personal minimum of €5,550, the first €5,550 generates zero effective tax, the next €6,900 (up to €12,450) is taxed at 19%, the portion from €12,450 to €20,200 at 24%, and the remaining €3,182 at 30%. The total IRPF comes to approximately €3,271, giving an effective tax rate of about 13.1%. Your net annual take-home would be around €20,111, or roughly €1,437 per month on 14 payments.
+      </p>
+
+      <h4 class="font-semibold mt-4">Example 2: €40,000 gross annual salary</h4>
+      <p>
+        Social Security deductions total roughly €2,588, reducing the taxable base to about €37,412. After the personal minimum, the progressive brackets apply: 19% on the first €12,450, 24% on the €7,750 between €12,450 and €20,200, 30% on the €15,000 between €20,200 and €35,200, and 37% on the remaining €2,212 above €35,200. Total IRPF reaches approximately €7,528, for an effective rate of about 18.8%. Monthly net on 14 payments would be around €2,135.
+      </p>
+
+      <h4 class="font-semibold mt-4">Example 3: €60,000 gross annual salary</h4>
+      <p>
+        With Social Security contributions capped at the maximum base, the deduction is approximately €3,486. The taxable base lands near €56,514. After the personal minimum, you pass through all five lower brackets and begin paying 37% and even 45% on the upper portions. Total IRPF is approximately €13,758, producing an effective rate of about 22.9%. Monthly net on 14 payments would be around €3,054. This illustrates how the progressive system works: even though the marginal rate hits 37% and 45%, the overall effective rate stays well below those headline figures.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      How deductions and the personal minimum work
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spain's IRPF system provides a set of personal and family deductions that reduce the tax base before the brackets are applied. The most important is the <strong>mínimo personal</strong> (personal minimum), set at €5,550 per year for all taxpayers. This amount is effectively tax-free, as the tax generated by this portion of income is subtracted from your total tax liability.
+      </p>
+      <p>
+        For taxpayers over 65 years old, the personal minimum increases by €1,150 (to €6,700), and for those over 75, it rises by an additional €1,400 (to €8,100 total). These age-based increases recognise the higher living costs typically faced by older taxpayers.
+      </p>
+      <p>
+        <strong>Children:</strong> Each dependent child under 25 (who earns less than €8,000/year and lives with the taxpayer) adds to the minimum. The first child adds €2,400, the second €2,700, the third €4,000, and each subsequent child €4,500. Children under three add an extra €2,800 each. For families, these deductions can significantly reduce the effective tax rate.
+      </p>
+      <p>
+        <strong>Dependent ascendants:</strong> If you support a parent or grandparent over 65 who earns less than €8,000/year and lives with you (or is in a care institution you pay for), you can add €1,150 to your minimum. If the ascendant is over 75, the addition is €2,550.
+      </p>
+      <p>
+        <strong>Disability:</strong> Taxpayers with a recognised disability of 33% or more can add €3,000 to their minimum (€9,000 for disability of 65% or more). The same additions apply for disabled dependants. These adjustments ensure that the tax system accommodates the additional financial burden of disability.
+      </p>
+      <p>
+        Beyond the personal minimum, other deductions include contributions to pension plans (up to €1,500/year or €8,500 with employer contributions), donations to qualifying charities, mortgage interest for properties purchased before 2013, and costs related to work such as union dues and contributions to professional associations.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      Spain's IRPF compared to other EU countries
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        How does Spain's income tax compare to other major European economies? The answer depends on the salary level. At lower incomes, Spain's effective rates are competitive — often lower than France, Germany, or Belgium. At higher incomes, however, Spain's top marginal rates (especially in high-tax regions) place it among the higher-taxed countries.
+      </p>
+      <div class="overflow-x-auto my-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left">Country</th>
+              <th class="px-4 py-2 text-left">Top marginal rate</th>
+              <th class="px-4 py-2 text-left">Effective rate at €50,000</th>
+              <th class="px-4 py-2 text-left">Number of brackets</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Spain (Madrid)</td><td class="px-4 py-2">45.5%</td><td class="px-4 py-2">~20%</td><td class="px-4 py-2">6 (state) + regional</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Spain (Catalonia)</td><td class="px-4 py-2">50.0%</td><td class="px-4 py-2">~22%</td><td class="px-4 py-2">6 (state) + regional</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Germany</td><td class="px-4 py-2">45.0%</td><td class="px-4 py-2">~25%</td><td class="px-4 py-2">Progressive formula</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">France</td><td class="px-4 py-2">45.0%</td><td class="px-4 py-2">~22%</td><td class="px-4 py-2">5</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Italy</td><td class="px-4 py-2">43.0%</td><td class="px-4 py-2">~27%</td><td class="px-4 py-2">4</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Portugal</td><td class="px-4 py-2">48.0%</td><td class="px-4 py-2">~24%</td><td class="px-4 py-2">9</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Netherlands</td><td class="px-4 py-2">49.5%</td><td class="px-4 py-2">~28%</td><td class="px-4 py-2">3</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        These figures are approximate and depend on personal circumstances, deductions, and local surcharges. Germany's progressive formula (rather than discrete brackets) and France's household quotient system make direct comparisons imperfect. Still, the table illustrates that Spain offers a relatively moderate tax burden at average salaries, becoming heavier only at income levels above €60,000 in high-tax regions. For expats relocating to Spain, the Beckham Law regime can further reduce the effective rate to a flat 24%, making Spain one of the most tax-friendly destinations in western Europe for qualifying professionals.
+      </p>
+    </div>
+  </section>
+</CalculadoraLayout>

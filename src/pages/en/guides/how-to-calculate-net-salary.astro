@@ -1,0 +1,256 @@
+---
+import Layout from '../../../components/layout/Layout.astro';
+import { CURRENT_FISCAL_YEAR } from '../../../config';
+import { buildBreadcrumbSchema, buildFAQSchema } from '../../../lib/seo';
+
+const title = `How to Calculate Net Salary in Spain ${CURRENT_FISCAL_YEAR}`;
+const description = `Learn how to calculate your net salary in Spain step by step. Understand IRPF withholdings, Social Security contributions, personal allowances and deductions.`;
+
+const faqs = [
+  { question: 'What percentage of my gross salary goes to Social Security?', answer: 'Employees contribute approximately 6.47% of their gross salary to Social Security: 4.70% for common contingencies, 1.55% for unemployment, 0.10% for vocational training, and 0.12% for the MEI (Intergenerational Equity Mechanism).' },
+  { question: 'What is the personal minimum (mínimo personal)?', answer: 'The personal minimum is a tax-free allowance of €5,550 per year for most taxpayers. It increases for taxpayers over 65 (€6,700) and over 75 (€8,100). Additional allowances apply for dependent children and ascendants.' },
+  { question: 'How is the IRPF withholding rate determined?', answer: 'Your employer calculates your IRPF withholding based on your gross salary, personal and family situation (marital status, children, disability), contract type, and the applicable state and regional tax brackets.' },
+];
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Home', url: '/en/' },
+    { name: 'Guides', url: '/en/guides/' },
+    { name: 'Net Salary Calculation', url: '/en/guides/how-to-calculate-net-salary/' },
+  ]),
+  buildFAQSchema(faqs, 'en'),
+];
+---
+
+<Layout title={title} description={description} schema={schemas} locale="en">
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/en/" class="hover:text-brand">Home</a> /
+      <a href="/en/guides/" class="hover:text-brand">Guides</a> /
+      <span class="text-charcoal dark:text-gray-200">Net Salary Calculation</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      How to Calculate Net Salary in Spain ({CURRENT_FISCAL_YEAR})
+    </h1>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <p>
+        Understanding how your gross salary translates to net pay in Spain requires knowledge of two main deductions: Social Security contributions and IRPF (personal income tax) withholdings. While your payslip shows the final number, knowing how it is calculated helps you negotiate better and plan your finances.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Step 1: Deduct Social Security Contributions</h2>
+      <p>
+        Every employee in Spain contributes roughly 6.47% of their gross salary to Social Security. This covers common contingencies (4.70%), unemployment insurance (1.55%), vocational training (0.10%), and the Intergenerational Equity Mechanism or MEI (0.12%). These contributions are capped at the maximum contribution base, which is reviewed annually. For {CURRENT_FISCAL_YEAR}, the maximum base is set by the General State Budget.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Step 2: Calculate the IRPF Withholding</h2>
+      <p>
+        IRPF is a progressive tax applied to your taxable income after Social Security deductions and personal allowances. Spain uses six state-level tax brackets ranging from 19% to 47%. Each autonomous community can modify the regional portion, which accounts for roughly half of the total IRPF bill. Your employer estimates your annual tax liability and divides it evenly across your paychecks, whether you receive 12 or 14 payments per year.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Step 3: Apply the Personal Minimum</h2>
+      <p>
+        Before calculating the final IRPF, the tax authorities apply the mínimo personal y familiar. The base personal allowance is €5,550 per year, with increases for taxpayers over 65 or 75 and additional deductions for each dependent child or ascendant. This effectively makes the first portion of your income tax-free, reducing your overall tax burden.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Complete Walkthrough: €35,000 Gross Salary Example</h2>
+      <p>
+        Let us work through a full calculation for a single worker with no children earning €35,000 gross per year in a standard 12-payment arrangement, registered in Madrid.
+      </p>
+
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Social Security Deductions</h3>
+      <p>
+        The first deduction from gross salary is Social Security. We apply the standard employee rates to the full €35,000:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-gray-300 dark:border-gray-600">
+              <th class="py-2 pr-4 text-left font-semibold">Concept</th>
+              <th class="py-2 pr-4 text-right font-semibold">Rate</th>
+              <th class="py-2 text-right font-semibold">Annual Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Common contingencies</td>
+              <td class="py-2 pr-4 text-right">4.70%</td>
+              <td class="py-2 text-right">€1,645.00</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Unemployment</td>
+              <td class="py-2 pr-4 text-right">1.55%</td>
+              <td class="py-2 text-right">€542.50</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Vocational training (FP)</td>
+              <td class="py-2 pr-4 text-right">0.10%</td>
+              <td class="py-2 text-right">€35.00</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">MEI (Intergenerational Equity)</td>
+              <td class="py-2 pr-4 text-right">0.12%</td>
+              <td class="py-2 text-right">€42.00</td>
+            </tr>
+            <tr class="font-semibold">
+              <td class="py-2 pr-4">Total employee Social Security</td>
+              <td class="py-2 pr-4 text-right">6.47%</td>
+              <td class="py-2 text-right">€2,264.50</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        After Social Security, the taxable income for IRPF purposes is €35,000 - €2,264.50 = €32,735.50.
+      </p>
+
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">IRPF Calculation Using Tax Brackets</h3>
+      <p>
+        The combined state and regional brackets (using Madrid's rates, which are among the lowest) are applied progressively. Here is the full IRPF bracket table showing both state and Madrid regional rates:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-gray-300 dark:border-gray-600">
+              <th class="py-2 pr-4 text-left font-semibold">Taxable Income</th>
+              <th class="py-2 pr-4 text-right font-semibold">State Rate</th>
+              <th class="py-2 pr-4 text-right font-semibold">Madrid Rate</th>
+              <th class="py-2 text-right font-semibold">Combined</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Up to €12,450</td>
+              <td class="py-2 pr-4 text-right">9.50%</td>
+              <td class="py-2 pr-4 text-right">9.50%</td>
+              <td class="py-2 text-right">19.00%</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">€12,450 - €17,707</td>
+              <td class="py-2 pr-4 text-right">12.00%</td>
+              <td class="py-2 pr-4 text-right">10.70%</td>
+              <td class="py-2 text-right">22.70%</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">€17,707 - €20,200</td>
+              <td class="py-2 pr-4 text-right">12.00%</td>
+              <td class="py-2 pr-4 text-right">10.70%</td>
+              <td class="py-2 text-right">22.70%</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">€20,200 - €35,200</td>
+              <td class="py-2 pr-4 text-right">15.00%</td>
+              <td class="py-2 pr-4 text-right">13.30%</td>
+              <td class="py-2 text-right">28.30%</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">€35,200 - €53,407</td>
+              <td class="py-2 pr-4 text-right">18.50%</td>
+              <td class="py-2 pr-4 text-right">17.90%</td>
+              <td class="py-2 text-right">36.40%</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Over €53,407</td>
+              <td class="py-2 pr-4 text-right">22.50%</td>
+              <td class="py-2 pr-4 text-right">21.00%</td>
+              <td class="py-2 text-right">43.50%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Applying these brackets to €32,735.50 of taxable income (after subtracting the personal minimum effect), the total IRPF withholding comes to approximately €5,290 per year. This gives a withholding rate of about 15.1% of gross salary.
+      </p>
+
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Final Net Salary Result</h3>
+      <p>
+        Putting it all together for our €35,000 example:
+      </p>
+      <ul>
+        <li>Gross annual salary: €35,000.00</li>
+        <li>Social Security deductions: -€2,264.50</li>
+        <li>IRPF withholding: -€5,290.00</li>
+        <li><strong>Net annual salary: approximately €27,445.50</strong></li>
+        <li><strong>Net monthly salary (12 payments): approximately €2,287.13</strong></li>
+      </ul>
+      <p>
+        This means you take home about 78.4% of your gross salary. If you receive 14 payments (with two extra pagas), the monthly net figure would be lower but you receive two additional payments in June and December.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Anatomy of a Spanish Payslip (Nomina)</h2>
+      <p>
+        Your Spanish payslip, or <em>nomina</em>, is the official document that breaks down your compensation every month. Understanding each section helps you verify that your employer is paying correctly. A standard nomina contains the following sections:
+      </p>
+      <ul>
+        <li><strong>Header:</strong> Your personal details, company information, Social Security number, professional category, contract type, and seniority date.</li>
+        <li><strong>Devengos (Accruals):</strong> This is the earnings section. It lists your base salary (<em>salario base</em>), seniority supplements (<em>antigueedad</em>), transport or meal allowances, overtime, and any other compensation. The sum of all devengos is your total gross pay for the month.</li>
+        <li><strong>Deducciones (Deductions):</strong> This section lists everything subtracted from your gross. You will see lines for common contingencies (4.70%), unemployment (1.55%), vocational training (0.10%), MEI (0.12%), and your IRPF withholding percentage. The IRPF rate shown is your annualized effective withholding rate, not your marginal bracket.</li>
+        <li><strong>Liquido total a percibir:</strong> The net amount you receive. This is your gross minus all deductions, which is the amount deposited into your bank account.</li>
+        <li><strong>Company contributions section:</strong> At the bottom, some payslips show what your employer pays to Social Security on your behalf (roughly 30% of your gross), though this does not reduce your take-home pay.</li>
+      </ul>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">The Role of Personal and Family Deductions</h2>
+      <p>
+        The personal minimum (<em>minimo personal y familiar</em>) plays a crucial role in reducing your IRPF. Beyond the base €5,550 allowance, you can benefit from additional reductions for your family situation:
+      </p>
+      <ul>
+        <li><strong>First child under 25:</strong> €2,400 per year</li>
+        <li><strong>Second child:</strong> €2,700 per year</li>
+        <li><strong>Third child:</strong> €4,000 per year</li>
+        <li><strong>Fourth and subsequent children:</strong> €4,500 per year</li>
+        <li><strong>Children under 3:</strong> an additional €2,800 on top of the amounts above</li>
+        <li><strong>Dependent ascendants over 65:</strong> €1,150 per year (€2,550 if over 75)</li>
+        <li><strong>Disability allowances:</strong> between €3,000 and €12,000 depending on the degree of disability</li>
+      </ul>
+      <p>
+        For example, a married worker filing individually with two children (ages 2 and 5) would add €2,400 + €2,700 + €2,800 (for the child under 3) = €7,900 to the base €5,550, giving a total personal minimum of €13,450. This is applied at the lowest bracket rates (19%), resulting in roughly €2,555 less tax per year compared to a single worker with no dependents.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">12 vs. 14 Payments: Which Is Better?</h2>
+      <p>
+        Many Spanish companies offer the choice between receiving your annual salary in 12 or 14 monthly payments. The two extra payments (<em>pagas extraordinarias</em>) are traditionally paid in June and December. In terms of annual net salary, the total is identical regardless of the payment structure. The IRPF withholding is calculated on the annual total and spread accordingly. However, receiving 14 payments can help with budgeting by providing lump sums twice a year that many workers use for holidays or Christmas expenses. Some prefer 12 payments for simplicity and higher monthly cash flow.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Tips for Maximizing Your Net Salary Legally</h2>
+      <p>
+        There are several legitimate strategies to increase your take-home pay without changing your gross salary:
+      </p>
+      <ul>
+        <li><strong>Salary in kind (retribucion flexible):</strong> Ask your employer about benefits like restaurant vouchers (up to €11/day tax-free), transport passes (up to €1,500/year tax-free), childcare vouchers, health insurance (tax-free for premiums up to €500/person), and training courses. These reduce your taxable base without reducing your real compensation.</li>
+        <li><strong>Report your family situation correctly:</strong> Make sure your employer has your updated Form 145 reflecting your children, disability status, or ascendants. This adjusts your IRPF withholding so you keep more each month instead of waiting for a tax refund.</li>
+        <li><strong>Pension plan contributions:</strong> Contributions to a company pension plan (plan de empleo) reduce your taxable base up to €8,500 per year, which can significantly lower your IRPF.</li>
+        <li><strong>Mortgage deduction (if applicable):</strong> If you purchased your primary residence before January 1, 2013, you may still be entitled to a 15% deduction on up to €9,040 of annual mortgage payments.</li>
+        <li><strong>Regional deductions:</strong> Many autonomous communities offer deductions for rent, childcare, educational expenses, energy-efficient home improvements, or donations. Check your community's specific catalogue of deductions when filing your annual return.</li>
+      </ul>
+      <p>
+        By combining salary in kind with accurate family declarations, a worker earning €35,000 can increase their net monthly pay by €100-€200 per month without any change to their contract.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">What Happens When You File Your Annual Tax Return</h2>
+      <p>
+        Every year between April and June, all Spanish taxpayers must file their annual income tax return (<em>declaracion de la renta</em>, Model 100). The Tax Agency (AEAT) provides a draft (<em>borrador</em>) based on the information reported by your employer and financial institutions. In many cases, the draft is accurate, but you should always review it carefully, especially if you have additional income sources, rental properties, or deductions the AEAT may not be aware of.
+      </p>
+      <p>
+        The outcome of your annual return is either a refund (<em>a devolver</em>) or an additional payment (<em>a ingresar</em>). If your employer withheld more IRPF during the year than your actual tax liability, you get a refund. This commonly happens when you have children, a mortgage deduction, or charitable donations that were not reflected in your monthly withholdings. Conversely, if your withholdings were too low (for example, because you changed jobs mid-year and each employer applied lower withholding rates), you will owe additional tax. Understanding this annual reconciliation cycle is crucial for avoiding surprises and managing your cash flow effectively throughout the year.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Special Considerations for Expats and New Arrivals</h2>
+      <p>
+        If you arrive in Spain partway through the year, your IRPF calculation for that first year is prorated. Your employer calculates the withholding based on your expected annual earnings from the start date to December 31, not on a full twelve-month basis. This means your withholding percentage may look higher or lower than expected depending on your start date. Additionally, if you qualify for the Beckham Law (flat 24% tax on Spanish income), the calculation is entirely different, and you should ensure your employer applies the correct withholding from your first payslip. Foreign income earned before moving to Spain is generally not taxable in Spain for that transition year, provided you were not yet a tax resident. However, once you become a Spanish tax resident (by spending more than 183 days in the country), you are subject to worldwide taxation from that point forward, and your annual return must include global income.
+      </p>
+    </div>
+
+    <section class="mt-10">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {faqs.map(faq => (
+          <details class="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
+            <summary class="cursor-pointer font-semibold text-charcoal dark:text-gray-100">{faq.question}</summary>
+            <p class="mt-2 text-sm text-dark-gray dark:text-gray-300">{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </div>
+</Layout>

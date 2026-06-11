@@ -5,7 +5,8 @@ import { formatEuros, formatPercent } from '../../lib/format-es';
 import CampoSalario from '../ui/CampoSalario';
 import SelectorCCAA from '../ui/SelectorCCAA';
 
-export default function Beckham() {
+export default function Beckham({ lang = 'es' }: { lang?: 'es' | 'en' }) {
+  const l = lang === 'en';
   const [brutoAnual, setBrutoAnual] = useState('80000');
   const [ccaa, setCCAA] = useState<CCAACodigo>('MD');
 
@@ -24,21 +25,21 @@ export default function Beckham() {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
-        <CampoSalario id="beck-bruto" label="Salario bruto" value={brutoAnual} onChange={setBrutoAnual} min={0} max={2000000} step={1000} divisor={14} />
-        <SelectorCCAA value={ccaa} onChange={setCCAA} id="beck-ccaa" />
+        <CampoSalario id="beck-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={2000000} step={1000} divisor={14} lang={lang} />
+        <SelectorCCAA value={ccaa} onChange={setCCAA} id="beck-ccaa" lang={lang} />
       </div>
 
       {brutoNum > 0 && (
         <div className="space-y-4">
           <div className={`rounded-xl p-6 text-center ${mereceLaPena ? 'bg-emerald-50 dark:bg-emerald-900/20' : 'bg-amber-50 dark:bg-amber-900/20'}`}>
             <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
-              {mereceLaPena ? 'Beckham te ahorra' : 'Beckham te cuesta más'}
+              {mereceLaPena ? (l ? 'Beckham Law saves you' : 'Beckham te ahorra') : (l ? 'Beckham Law costs you more' : 'Beckham te cuesta más')}
             </p>
             <p className={`mt-1 text-4xl font-bold ${mereceLaPena ? 'text-emerald-700 dark:text-emerald-300' : 'text-amber-700 dark:text-amber-300'}`}>
-              {formatEuros(Math.abs(resultado.ahorro))}/año
+              {formatEuros(Math.abs(resultado.ahorro))}/{l ? 'year' : 'año'}
             </p>
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              {mereceLaPena ? `${formatEuros(Math.abs(resultado.ahorro) / 12)}/mes de ahorro` : 'El régimen general es más favorable'}
+              {mereceLaPena ? (l ? `${formatEuros(Math.abs(resultado.ahorro) / 12)}/month in savings` : `${formatEuros(Math.abs(resultado.ahorro) / 12)}/mes de ahorro`) : (l ? 'The standard regime is more favourable' : 'El régimen general es más favorable')}
             </p>
           </div>
 
@@ -48,31 +49,31 @@ export default function Beckham() {
                 <tr className="bg-gray-50 dark:bg-gray-700">
                   <th className="px-4 py-2 text-left font-medium text-gray-500"></th>
                   <th className="px-4 py-2 text-right font-medium text-brand">Beckham</th>
-                  <th className="px-4 py-2 text-right font-medium text-blue-600 dark:text-blue-400">Régimen general</th>
+                  <th className="px-4 py-2 text-right font-medium text-blue-600 dark:text-blue-400">{l ? 'Standard regime' : 'Régimen general'}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
-                  <td className="px-4 py-2 text-gray-600 dark:text-gray-300">IRPF anual</td>
+                  <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Annual IRPF' : 'IRPF anual'}</td>
                   <td className="px-4 py-2 text-right tabular-nums font-medium text-brand">{formatEuros(resultado.beckham.irpfAnual)}</td>
                   <td className="px-4 py-2 text-right tabular-nums font-medium text-blue-600 dark:text-blue-400">{formatEuros(resultado.normal.irpfTotalAnual)}</td>
                 </tr>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
-                  <td className="px-4 py-2 text-gray-600 dark:text-gray-300">Tipo efectivo IRPF</td>
+                  <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Effective IRPF rate' : 'Tipo efectivo IRPF'}</td>
                   <td className="px-4 py-2 text-right tabular-nums text-brand">{formatPercent(resultado.beckham.tipoEfectivo)}</td>
                   <td className="px-4 py-2 text-right tabular-nums text-blue-600 dark:text-blue-400">{formatPercent(resultado.normal.tipoEfectivoIRPF)}</td>
                 </tr>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
-                  <td className="px-4 py-2 text-gray-600 dark:text-gray-300">Seguridad Social</td>
-                  <td className="px-4 py-2 text-right tabular-nums text-gray-600 dark:text-gray-300" colSpan={2}>{formatEuros(resultado.ss)} (igual en ambos)</td>
+                  <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Social Security' : 'Seguridad Social'}</td>
+                  <td className="px-4 py-2 text-right tabular-nums text-gray-600 dark:text-gray-300" colSpan={2}>{formatEuros(resultado.ss)} {l ? '(same in both)' : '(igual en ambos)'}</td>
                 </tr>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
-                  <td className="px-4 py-2 text-gray-600 dark:text-gray-300">Neto anual</td>
+                  <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Annual net' : 'Neto anual'}</td>
                   <td className="px-4 py-2 text-right tabular-nums font-bold text-brand">{formatEuros(resultado.beckham.netoAnual)}</td>
                   <td className="px-4 py-2 text-right tabular-nums font-bold text-blue-600 dark:text-blue-400">{formatEuros(resultado.normal.netoAnual)}</td>
                 </tr>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
-                  <td className="px-4 py-2 text-gray-600 dark:text-gray-300">Neto mensual (14 pagas)</td>
+                  <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Monthly net (14 payments)' : 'Neto mensual (14 pagas)'}</td>
                   <td className="px-4 py-2 text-right tabular-nums font-bold text-brand">{formatEuros(resultado.beckham.netoAnual / 14)}</td>
                   <td className="px-4 py-2 text-right tabular-nums font-bold text-blue-600 dark:text-blue-400">{formatEuros(resultado.normal.netoMensual)}</td>
                 </tr>

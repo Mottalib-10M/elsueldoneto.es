@@ -101,7 +101,8 @@ function calcularPlusvalia(
   };
 }
 
-export default function PlusvaliaMunicipal() {
+export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en' }) {
+  const l = lang === 'en';
   const [valorCatastralSuelo, setValorCatastralSuelo] = useState('80000');
   const [precioCompra, setPrecioCompra] = useState('180000');
   const [precioVenta, setPrecioVenta] = useState('250000');
@@ -130,18 +131,18 @@ export default function PlusvaliaMunicipal() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <CampoEntrada
           id="plv-catastral"
-          label="Valor catastral del suelo"
+          label={l ? 'Cadastral land value' : 'Valor catastral del suelo'}
           value={valorCatastralSuelo}
           onChange={setValorCatastralSuelo}
           min={0}
           max={5000000}
           step={1000}
           suffix="€"
-          helpText="Consulta tu recibo del IBI"
+          helpText={l ? 'Check your property tax bill (IBI)' : 'Consulta tu recibo del IBI'}
         />
         <CampoEntrada
           id="plv-compra"
-          label="Precio de compra del inmueble"
+          label={l ? 'Property purchase price' : 'Precio de compra del inmueble'}
           value={precioCompra}
           onChange={setPrecioCompra}
           min={0}
@@ -151,7 +152,7 @@ export default function PlusvaliaMunicipal() {
         />
         <CampoEntrada
           id="plv-venta"
-          label="Precio de venta del inmueble"
+          label={l ? 'Property sale price' : 'Precio de venta del inmueble'}
           value={precioVenta}
           onChange={setPrecioVenta}
           min={0}
@@ -161,24 +162,24 @@ export default function PlusvaliaMunicipal() {
         />
         <CampoEntrada
           id="plv-anios"
-          label="Años de tenencia"
+          label={l ? 'Years of ownership' : 'Años de tenencia'}
           value={aniosTenencia}
           onChange={setAniosTenencia}
           min={1}
           max={20}
           step={1}
-          suffix="años"
+          suffix={l ? 'years' : 'años'}
         />
         <CampoEntrada
           id="plv-tipo"
-          label="Tipo impositivo municipal"
+          label={l ? 'Municipal tax rate' : 'Tipo impositivo municipal'}
           value={tipoImpositivo}
           onChange={setTipoImpositivo}
           min={0}
           max={30}
           step={1}
           suffix="%"
-          helpText="Máximo legal: 30%"
+          helpText={l ? 'Legal maximum: 30%' : 'Máximo legal: 30%'}
         />
       </div>
 
@@ -188,10 +189,12 @@ export default function PlusvaliaMunicipal() {
           {resultado.ventaConPerdidas && (
             <div className="rounded-lg border border-emerald-300 bg-emerald-50 p-4 dark:border-emerald-700 dark:bg-emerald-900/20">
               <p className="font-semibold text-emerald-700 dark:text-emerald-400">
-                No sujeto a plusvalia municipal (venta sin ganancia)
+                {l ? 'Not subject to municipal capital gains tax (sale at no gain)' : 'No sujeto a plusvalia municipal (venta sin ganancia)'}
               </p>
               <p className="mt-1 text-sm text-emerald-600 dark:text-emerald-300">
-                Desde la STC 59/2017 y su confirmacion en la STC 182/2021, si no existe incremento de valor del terreno no se genera el impuesto.
+                {l
+                  ? 'Since Constitutional Court ruling STC 59/2017 and its confirmation in STC 182/2021, if there is no increase in land value, the tax is not applicable.'
+                  : 'Desde la STC 59/2017 y su confirmacion en la STC 182/2021, si no existe incremento de valor del terreno no se genera el impuesto.'}
               </p>
             </div>
           )}
@@ -208,33 +211,33 @@ export default function PlusvaliaMunicipal() {
             >
               <div className="mb-3 flex items-center justify-between">
                 <h3 className="text-base font-bold text-charcoal dark:text-gray-100">
-                  Metodo objetivo
+                  {l ? 'Objective method' : 'Metodo objetivo'}
                 </h3>
                 {resultado.metodoFavorable === 'objetivo' && !resultado.ventaConPerdidas && (
                   <span className="rounded-full bg-brand/10 px-2 py-0.5 text-xs font-semibold text-brand">
-                    Mas favorable
+                    {l ? 'Most favorable' : 'Mas favorable'}
                   </span>
                 )}
               </div>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">Valor catastral suelo</span>
+                  <span className="text-gray-600 dark:text-gray-400">{l ? 'Cadastral land value' : 'Valor catastral suelo'}</span>
                   <span className="tabular-nums font-medium">{formatEuros(valorCatastralSueloNum)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">Coeficiente ({aniosTenenciaNum} {aniosTenenciaNum === 1 ? 'ano' : 'anos'})</span>
+                  <span className="text-gray-600 dark:text-gray-400">{l ? `Coefficient (${aniosTenenciaNum} ${aniosTenenciaNum === 1 ? 'year' : 'years'})` : `Coeficiente (${aniosTenenciaNum} ${aniosTenenciaNum === 1 ? 'ano' : 'anos'})`}</span>
                   <span className="tabular-nums font-medium">{resultado.coeficiente.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between border-t border-gray-200 pt-2 dark:border-gray-600">
-                  <span className="font-semibold text-charcoal dark:text-gray-100">Base imponible</span>
+                  <span className="font-semibold text-charcoal dark:text-gray-100">{l ? 'Tax base' : 'Base imponible'}</span>
                   <span className="tabular-nums font-semibold">{formatEuros(resultado.baseObjetivo)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">Tipo impositivo</span>
+                  <span className="text-gray-600 dark:text-gray-400">{l ? 'Tax rate' : 'Tipo impositivo'}</span>
                   <span className="tabular-nums font-medium">{tipoImpositivoNum}%</span>
                 </div>
                 <div className="flex justify-between border-t-2 border-gray-300 pt-2 dark:border-gray-500">
-                  <span className="font-bold text-charcoal dark:text-gray-100">Cuota</span>
+                  <span className="font-bold text-charcoal dark:text-gray-100">{l ? 'Tax amount' : 'Cuota'}</span>
                   <span className="tabular-nums text-lg font-bold text-charcoal dark:text-gray-100">
                     {formatEuros(resultado.cuotaObjetivo)}
                   </span>
@@ -252,35 +255,35 @@ export default function PlusvaliaMunicipal() {
             >
               <div className="mb-3 flex items-center justify-between">
                 <h3 className="text-base font-bold text-charcoal dark:text-gray-100">
-                  Metodo real
+                  {l ? 'Actual method' : 'Metodo real'}
                 </h3>
                 {resultado.metodoFavorable === 'real' && !resultado.ventaConPerdidas && (
                   <span className="rounded-full bg-brand/10 px-2 py-0.5 text-xs font-semibold text-brand">
-                    Mas favorable
+                    {l ? 'Most favorable' : 'Mas favorable'}
                   </span>
                 )}
               </div>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">Ganancia del inmueble</span>
+                  <span className="text-gray-600 dark:text-gray-400">{l ? 'Property gain' : 'Ganancia del inmueble'}</span>
                   <span className={`tabular-nums font-medium ${resultado.gananciaInmueble < 0 ? 'text-red-600 dark:text-red-400' : ''}`}>
                     {formatEuros(resultado.gananciaInmueble)}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">Ganancia atribuible al suelo (40%)</span>
+                  <span className="text-gray-600 dark:text-gray-400">{l ? 'Gain attributable to land (40%)' : 'Ganancia atribuible al suelo (40%)'}</span>
                   <span className="tabular-nums font-medium">{formatEuros(resultado.gananciaSuelo)}</span>
                 </div>
                 <div className="flex justify-between border-t border-gray-200 pt-2 dark:border-gray-600">
-                  <span className="font-semibold text-charcoal dark:text-gray-100">Base imponible</span>
+                  <span className="font-semibold text-charcoal dark:text-gray-100">{l ? 'Tax base' : 'Base imponible'}</span>
                   <span className="tabular-nums font-semibold">{formatEuros(resultado.baseReal)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">Tipo impositivo</span>
+                  <span className="text-gray-600 dark:text-gray-400">{l ? 'Tax rate' : 'Tipo impositivo'}</span>
                   <span className="tabular-nums font-medium">{tipoImpositivoNum}%</span>
                 </div>
                 <div className="flex justify-between border-t-2 border-gray-300 pt-2 dark:border-gray-500">
-                  <span className="font-bold text-charcoal dark:text-gray-100">Cuota</span>
+                  <span className="font-bold text-charcoal dark:text-gray-100">{l ? 'Tax amount' : 'Cuota'}</span>
                   <span className={`tabular-nums text-lg font-bold ${resultado.ventaConPerdidas ? 'text-emerald-600 dark:text-emerald-400' : 'text-charcoal dark:text-gray-100'}`}>
                     {resultado.ventaConPerdidas ? '0,00 €' : formatEuros(resultado.cuotaReal)}
                   </span>
@@ -305,8 +308,10 @@ export default function PlusvaliaMunicipal() {
               }`}
             >
               {resultado.ventaConPerdidas
-                ? 'No sujeto a plusvalia municipal'
-                : `A pagar (${resultado.metodoFavorable === 'objetivo' ? 'metodo objetivo' : 'metodo real'})`}
+                ? (l ? 'Not subject to municipal capital gains tax' : 'No sujeto a plusvalia municipal')
+                : (l
+                    ? `Amount due (${resultado.metodoFavorable === 'objetivo' ? 'objective method' : 'actual method'})`
+                    : `A pagar (${resultado.metodoFavorable === 'objetivo' ? 'metodo objetivo' : 'metodo real'})`)}
             </p>
             <p
               className={`mt-1 text-2xl font-bold ${
@@ -319,7 +324,7 @@ export default function PlusvaliaMunicipal() {
             </p>
             {!resultado.ventaConPerdidas && (
               <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                El contribuyente puede elegir el metodo que resulte mas favorable (RDL 26/2021)
+                {l ? 'The taxpayer may choose the most favorable method (RDL 26/2021)' : 'El contribuyente puede elegir el metodo que resulte mas favorable (RDL 26/2021)'}
               </p>
             )}
           </div>
@@ -329,24 +334,24 @@ export default function PlusvaliaMunicipal() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-gray-50 dark:bg-gray-700">
-                  <th className="px-4 py-2 text-left font-medium text-gray-500">Concepto</th>
-                  <th className="px-4 py-2 text-right font-medium text-gray-500">M. objetivo</th>
-                  <th className="px-4 py-2 text-right font-medium text-gray-500">M. real</th>
+                  <th className="px-4 py-2 text-left font-medium text-gray-500">{l ? 'Item' : 'Concepto'}</th>
+                  <th className="px-4 py-2 text-right font-medium text-gray-500">{l ? 'Objective' : 'M. objetivo'}</th>
+                  <th className="px-4 py-2 text-right font-medium text-gray-500">{l ? 'Actual' : 'M. real'}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
-                  <td className="px-4 py-2 text-gray-600 dark:text-gray-300">Base imponible</td>
+                  <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Tax base' : 'Base imponible'}</td>
                   <td className="px-4 py-2 text-right tabular-nums font-medium">{formatEuros(resultado.baseObjetivo)}</td>
                   <td className="px-4 py-2 text-right tabular-nums font-medium">{formatEuros(resultado.baseReal)}</td>
                 </tr>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
-                  <td className="px-4 py-2 text-gray-600 dark:text-gray-300">Tipo impositivo</td>
+                  <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Tax rate' : 'Tipo impositivo'}</td>
                   <td className="px-4 py-2 text-right tabular-nums">{tipoImpositivoNum}%</td>
                   <td className="px-4 py-2 text-right tabular-nums">{tipoImpositivoNum}%</td>
                 </tr>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
-                  <td className="px-4 py-2 font-semibold text-charcoal dark:text-gray-100">Cuota tributaria</td>
+                  <td className="px-4 py-2 font-semibold text-charcoal dark:text-gray-100">{l ? 'Tax liability' : 'Cuota tributaria'}</td>
                   <td className={`px-4 py-2 text-right tabular-nums font-semibold ${resultado.metodoFavorable === 'objetivo' && !resultado.ventaConPerdidas ? 'text-brand' : ''}`}>
                     {formatEuros(resultado.cuotaObjetivo)}
                   </td>
@@ -355,7 +360,7 @@ export default function PlusvaliaMunicipal() {
                   </td>
                 </tr>
                 <tr className="border-t-2 border-gray-300 dark:border-gray-600">
-                  <td className="px-4 py-2 font-bold text-charcoal dark:text-gray-100">A pagar (mas favorable)</td>
+                  <td className="px-4 py-2 font-bold text-charcoal dark:text-gray-100">{l ? 'Amount due (most favorable)' : 'A pagar (mas favorable)'}</td>
                   <td colSpan={2} className="px-4 py-2 text-right tabular-nums text-lg font-bold text-brand">
                     {formatEuros(resultado.cuotaFinal)}
                   </td>
@@ -365,7 +370,9 @@ export default function PlusvaliaMunicipal() {
           </div>
 
           <p className="text-xs text-medium-gray">
-            Calculo orientativo. El porcentaje de suelo sobre el valor total (40%) es una estimacion simplificada. El valor real depende de los datos catastrales de cada inmueble. Cada ayuntamiento puede fijar coeficientes y tipos inferiores a los maximos legales. Consulta con tu ayuntamiento o un asesor fiscal para tu caso concreto.
+            {l
+              ? 'Approximate calculation. The land-to-total-value ratio (40%) is a simplified estimate. The actual value depends on each property\'s cadastral data. Each municipality may set coefficients and rates below the legal maximums. Consult your local council or a tax advisor for your specific case.'
+              : 'Calculo orientativo. El porcentaje de suelo sobre el valor total (40%) es una estimacion simplificada. El valor real depende de los datos catastrales de cada inmueble. Cada ayuntamiento puede fijar coeficientes y tipos inferiores a los maximos legales. Consulta con tu ayuntamiento o un asesor fiscal para tu caso concreto.'}
           </p>
         </>
       )}

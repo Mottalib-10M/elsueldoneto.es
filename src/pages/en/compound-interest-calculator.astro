@@ -1,0 +1,156 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import InteresCompuesto from '../../components/calculadoras/InteresCompuesto';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+
+const title = `Compound Interest Calculator Spain ${CURRENT_FISCAL_YEAR}: Investment Simulator`;
+const description = `Calculate compound interest on your investment with monthly contributions. Simulate how your capital grows over time with the power of compounding. Free tool for ${CURRENT_FISCAL_YEAR}.`;
+
+const faqs = [
+  {
+    question: 'What is compound interest and how does it work?',
+    answer: 'Compound interest is interest calculated on both the initial principal and the accumulated interest from previous periods. Unlike simple interest, which only earns on the original amount, compound interest creates exponential growth over time. If you invest 10,000 EUR at 7% annually, you earn 700 EUR the first year. The second year, 7% applies to 10,700 EUR, earning 749 EUR. This snowball effect accelerates dramatically over decades.',
+  },
+  {
+    question: 'How often is interest compounded in this calculator?',
+    answer: 'This calculator assumes monthly compounding (12 times per year), which is the most common frequency used in Spanish financial products, including savings accounts, fixed-term deposits and investment funds. Monthly compounding produces slightly higher returns than annual compounding because interest begins earning interest sooner within each year.',
+  },
+  {
+    question: 'What is the Rule of 72?',
+    answer: 'The Rule of 72 is a quick mental shortcut to estimate how long it takes for an investment to double. Simply divide 72 by the annual interest rate. At 7%, your money doubles roughly every 10 years. At 4%, every 18 years. At 10%, every 7 years. It is an approximation, not an exact calculation, but it is useful for quickly evaluating whether a given return is sufficient for your goals.',
+  },
+  {
+    question: 'What returns can I expect investing in Spain?',
+    answer: `In ${CURRENT_FISCAL_YEAR}, traditional savings products in Spain (fixed-term deposits, high-yield savings accounts) offer between 2% and 3.5%. Global index funds tracking indices like the MSCI World have historically delivered 7-9% annual returns over the long term before inflation. The difference in compounded wealth over 20-30 years is enormous.`,
+  },
+  {
+    question: 'How are investment returns taxed in Spain?',
+    answer: `Investment returns in Spain are taxed as savings income (rentas del ahorro) under IRPF. The ${CURRENT_FISCAL_YEAR} rates are: 19% on the first 6,000 EUR, 21% from 6,000 to 50,000 EUR, 23% from 50,000 to 200,000 EUR, 27% from 200,000 to 300,000 EUR, and 28% above 300,000 EUR. Transfers between investment funds (traspasos) are tax-free, allowing compound interest to work on 100% of your capital without interim tax drag.`,
+  },
+  {
+    question: 'Why does starting early matter so much?',
+    answer: 'Time is the most powerful variable in compound interest. Someone investing 200 EUR per month from age 25 to 65 at 7% annually accumulates roughly 525,000 EUR. If the same person waits until age 35, investing the same amount at the same rate, they accumulate only 244,000 EUR. Ten years of delay costs more than half the final wealth, despite contributing just 24,000 EUR less in total.',
+  },
+  {
+    question: 'How do management fees affect compound interest?',
+    answer: 'Fees are charged annually on your total assets, reducing the base on which interest compounds. Over 30 years, the difference between a 0.2% fee (typical index fund) and a 2% fee (expensive actively managed fund) on an initial 100,000 EUR at 7% gross return is approximately 287,000 EUR. That money does not go to market losses — it goes to the fund manager.',
+  },
+  {
+    question: 'Should I account for inflation in my projections?',
+    answer: 'Yes. The nominal return is the gross figure you see in your account; the real return is what remains after subtracting inflation. If a fund returns 7% annually and average inflation is 3%, your purchasing power grows at only 4% per year. Run this calculator twice — once with nominal return (e.g. 7%) and once with estimated real return (e.g. 4%) — to see both scenarios.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Compound Interest Calculator ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Compound Interest Calculator"
+  path="/en/compound-interest-calculator/"
+  faqs={faqs}
+  locale="en"
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <InteresCompuesto client:load lang="en" />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Complete guide to compound interest: the force that turns savings into wealth
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Compound interest is the mechanism by which the returns on an investment generate further returns of their own. If you invest 10,000 EUR at 7% annually, the first year you earn 700 EUR. The second year, that 7% applies to 10,700 EUR, so you earn 749 EUR. By the third year, the base is 11,449 EUR. The effect seems modest at first, but over time the growth curve becomes exponential. This is not a theoretical curiosity — it is the single most important concept in personal finance and long-term wealth building.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Time matters more than amount: the power of starting early</h3>
+      <p>
+        Consider two investors. Investor A contributes 200 EUR per month starting at age 25 and continues until age 65, earning an average 7% annual return. They contribute a total of 96,000 EUR and accumulate roughly 525,000 EUR. Investor B waits until age 35 to start, contributing the same 200 EUR per month at the same 7% return. They contribute 72,000 EUR and end up with approximately 244,000 EUR. Ten years of delay — just 24,000 EUR less in contributions — costs over 280,000 EUR in final wealth. The earliest euros invested have the longest time to compound, and each decade of compounding roughly doubles the effect.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Compound interest in the Spanish context</h3>
+      <p>
+        In Spain, traditional savings products such as fixed-term deposits and high-interest savings accounts offer rates between 2% and 3.5%. At these returns, compound interest works, but slowly: at 3%, doubling your capital takes 24 years. Global index funds, which replicate indices like the MSCI World, have historically delivered 7-9% annual returns over the long term. The difference over time is staggering: at 8%, investing 300 EUR per month for 30 years produces approximately 447,000 EUR. At 3%, the same contributions yield just 175,000 EUR. Those five percentage points create an additional 272,000 EUR, the vast majority of which is compound interest on accumulated interest. It is not magic, but it is the closest thing to it in personal finance.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Example: 200 EUR/month over 25 years at different rates</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Annual return</th>
+              <th class="px-3 py-2 text-right">Total contributed (25 yrs)</th>
+              <th class="px-3 py-2 text-right">Interest earned</th>
+              <th class="px-3 py-2 text-right">Final capital</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2%</td><td class="px-3 py-1 text-right">60,000 EUR</td><td class="px-3 py-1 text-right">17,500 EUR</td><td class="px-3 py-1 text-right">77,500 EUR</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">5%</td><td class="px-3 py-1 text-right">60,000 EUR</td><td class="px-3 py-1 text-right">59,300 EUR</td><td class="px-3 py-1 text-right">119,300 EUR</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">7%</td><td class="px-3 py-1 text-right">60,000 EUR</td><td class="px-3 py-1 text-right">102,800 EUR</td><td class="px-3 py-1 text-right">162,800 EUR</td></tr>
+            <tr><td class="px-3 py-1">10%</td><td class="px-3 py-1 text-right">60,000 EUR</td><td class="px-3 py-1 text-right">205,400 EUR</td><td class="px-3 py-1 text-right">265,400 EUR</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        With the same 60,000 EUR in contributions, the difference between 2% and 7% is 85,300 EUR — generated exclusively by compound interest on prior interest. That is the real cost of leaving your money in a low-yield product for decades.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Investment tax treatment in Spain</h3>
+      <p>
+        Investment gains in Spain are taxed as savings income (rentas del ahorro) under personal income tax (IRPF). The progressive rates are: 19% on the first 6,000 EUR, 21% from 6,000 to 50,000 EUR, 23% from 50,000 to 200,000 EUR, 27% from 200,000 to 300,000 EUR, and 28% above 300,000 EUR. Spanish-domiciled investment funds offer a crucial tax advantage: transfers between funds (traspasos) are not taxed. You only pay tax when you withdraw the money, allowing compound interest to work on 100% of your capital without interim tax drag. This makes fund-to-fund transfers a powerful tool for long-term investors in Spain.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">The hidden cost of fees: a table that speaks for itself</h3>
+      <p>
+        Management fees may seem like tiny percentages — 0.2%, 1%, 2% — but their compounded effect over decades is devastating. These fees are not charged on your profits; they are charged every year on your total managed assets, reducing the base on which interest compounds.
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Annual fee</th>
+              <th class="px-3 py-2 text-right">Net return</th>
+              <th class="px-3 py-2 text-right">Final capital (30 yrs)</th>
+              <th class="px-3 py-2 text-right">Total cost of fees</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700 bg-emerald-50/50 dark:bg-emerald-900/10"><td class="px-3 py-1 font-medium">0.2% (index fund)</td><td class="px-3 py-1 text-right">6.8%</td><td class="px-3 py-1 text-right">719,600 EUR</td><td class="px-3 py-1 text-right">41,600 EUR</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">1.0% (average active fund)</td><td class="px-3 py-1 text-right">6.0%</td><td class="px-3 py-1 text-right">574,300 EUR</td><td class="px-3 py-1 text-right">186,900 EUR</td></tr>
+            <tr class="bg-red-50/50 dark:bg-red-900/10"><td class="px-3 py-1">2.0% (expensive active fund)</td><td class="px-3 py-1 text-right">5.0%</td><td class="px-3 py-1 text-right">432,200 EUR</td><td class="px-3 py-1 text-right">329,000 EUR</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-gray-400 mt-2">Basis: 100,000 EUR initial investment, 7% gross return, 30 years, no additional contributions. "Total cost of fees" = final capital without fees minus final capital with fees.</p>
+      <p>
+        The gap between a 0.2% index fund and a 2% actively managed fund is 287,400 EUR over 30 years, starting from the same 100,000 EUR. That money was not lost to markets — it went to the fund manager. In Spain, the CNMV requires all investment funds to publish their TER (Total Expense Ratio) in the KID (Key Information Document), so always check this figure before investing.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Common mistakes that destroy compound interest</h3>
+      <p>
+        Compound interest only works if you let it operate without interruption. Most individual investors fail not because they pick bad products, but because of behavioural errors that break the compounding chain.
+      </p>
+      <p>
+        <strong>Not reinvesting dividends.</strong> Many investors take dividend payments in cash rather than reinvesting them. Over 25 years, the difference between reinvesting and spending dividends on a 50,000 EUR investment at 6% can exceed 90,000 EUR. In Spain, each dividend payment is taxed at 19-28%, further reducing the amount available for reinvestment. Accumulation funds (fondos de acumulacion) avoid this problem by automatically reinvesting without triggering a taxable event.
+      </p>
+      <p>
+        <strong>Panic selling during downturns.</strong> Between February and March 2020, the IBEX 35 fell 33% in five weeks due to the COVID-19 pandemic. Investors who sold at the bottom locked in losses. Those who held recovered the decline within two years. When you sell in a panic, you break the compounding chain. The investor who sold at 6,100 points and rebought months later at 8,000 points did not just lose 24% on that trade — they also paid transaction fees and potentially triggered tax on previously accumulated gains.
+      </p>
+      <p>
+        <strong>Attempting market timing.</strong> This means trying to predict when markets will rise or fall in order to buy low and sell high. Historical data shows this is nearly impossible to do consistently. A J.P. Morgan study analysing the S&P 500 from 2003 to 2022 found that an investor who missed just the 10 best trading days (out of 5,036) earned 4.3% annually instead of 9.8%. Missing 10 sessions in 20 years cut the return by more than half. The most reliable strategy for harnessing compound interest is consistent periodic investment — investing the same amount every month regardless of market conditions.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Inflation and real returns: the silent enemy</h3>
+      <p>
+        A compound interest projection that ignores inflation creates a false sense of wealth. Nominal return is the gross figure you see in your account; real return is what remains after subtracting the rise in prices. The approximate formula is straightforward: real return = nominal return - inflation. If a fund returns 7% per year and average inflation is 3%, your purchasing power grows at only 4% per year, not 7%. In Spain, average inflation between 2000 and 2024 was approximately 2.4% according to the INE, though the years 2022 and 2023 saw spikes of 8.4% and 3.5% respectively. Always run your projections in both nominal and real terms to get the complete picture.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Sources</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 35/2006, IRPF</a> — Art. 66: savings income tax brackets.</li>
+        <li><a href="https://www.cnmv.es" class="text-brand hover:underline" target="_blank" rel="noopener">CNMV (National Securities Market Commission)</a> — Regulation and supervision of investment funds and financial products in Spain.</li>
+        <li><a href="https://www.bde.es/bde/es/" class="text-brand hover:underline" target="_blank" rel="noopener">Bank of Spain (Banco de Espana)</a> — Statistics on deposit rates and savings account interest rates.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

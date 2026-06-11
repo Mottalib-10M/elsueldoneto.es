@@ -1,0 +1,183 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import PlusvaliaMunicipal from '../../components/calculadoras/PlusvaliaMunicipal';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+
+const title = `Plusvalia Municipal Calculator Spain ${CURRENT_FISCAL_YEAR}: IIVTNU`;
+const description = `Calculate plusvalia municipal (IIVTNU) on selling, inheriting or donating property in Spain ${CURRENT_FISCAL_YEAR}. Compare objective and real methods after the TC ruling.`;
+
+const faqs = [
+  {
+    question: 'What is plusvalia municipal in Spain?',
+    answer: `Plusvalia municipal — officially named Impuesto sobre el Incremento de Valor de los Terrenos de Naturaleza Urbana (IIVTNU) — is a local tax levied by Spanish town halls. It taxes the increase in urban land value that occurs during the period a property is owned. It applies whenever ownership is transferred, whether by sale, inheritance, or donation.`,
+  },
+  {
+    question: 'Who pays the plusvalia municipal?',
+    answer: 'In a sale, the seller is legally responsible for paying the tax. In an inheritance, the heir pays. In a donation, the recipient (donatario) pays. If the seller is a non-resident, the buyer becomes the substitute taxpayer and is liable for the payment. The filing deadline is 30 working days from the notarial deed for sales and donations, and 6 months from the date of death for inheritances (extendable by a further 6 months).',
+  },
+  {
+    question: 'Do I pay plusvalia municipal if I sell at a loss?',
+    answer: 'No. Since the Constitutional Court rulings STC 59/2017 and STC 182/2021, if there is no real increase in the value of the land — that is, if the sale price is lower than the purchase price — the tax is not payable. You must provide the deeds of purchase and sale to prove the loss.',
+  },
+  {
+    question: 'What are the two calculation methods for plusvalia municipal?',
+    answer: 'Since the reform introduced by Royal Decree-Law 26/2021, there are two methods: the objective method (cadastral land value multiplied by a coefficient based on years of ownership) and the real method (based on the actual gain attributable to the land). You may choose whichever produces the lower tax bill.',
+  },
+  {
+    question: 'Where can I find my cadastral land value?',
+    answer: 'The cadastral land value (valor catastral del suelo) appears on your annual IBI (property tax) receipt, which is issued by your local council. It is shown separately from the construction value. You can also look it up online at the Sede Electrónica del Catastro (sedecatastro.gob.es) using a digital certificate or Cl@ve.',
+  },
+  {
+    question: 'Can I claim a refund if I paid plusvalia on a loss-making sale before 2021?',
+    answer: 'Potentially, yes. If you paid plusvalia municipal on a sale that resulted in a loss, you can request a rectification and refund of undue payments within the 4-year statute of limitations from the date of payment. You need to file a written request with your town hall, attaching the purchase and sale deeds as evidence of the loss. If the self-assessment has already become final (no challenge was filed within the deadline), recovery is more difficult.',
+  },
+  {
+    question: 'How does the objective method coefficient table work?',
+    answer: `The objective method uses maximum coefficients set by law for each year of ownership (from 1 to 20+ years). For example, the coefficient for 10 years is 0.08 and for 20 years or more it is 0.45. The coefficient is multiplied by the cadastral land value to produce the tax base, and the council's tax rate (maximum 30%) is then applied. Each town hall can adopt these maximum coefficients or set lower ones.`,
+  },
+  {
+    question: 'Does plusvalia municipal apply to inherited property?',
+    answer: 'Yes. When property is inherited, the plusvalia municipal is calculated based on the increase in land value from the date the deceased originally acquired the property to the date of death. The heir is responsible for paying the tax. The acquisition value for the real method is the price the deceased paid, while the transfer value is the amount declared in the inheritance tax return.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Plusvalia Municipal Calculator Spain ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Plusvalia Municipal Calculator"
+  path="/en/capital-gains-tax-calculator/"
+  faqs={faqs}
+  locale="en"
+  sources={[
+    { label: 'RDL 26/2021', url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2021-17718' },
+    { label: 'LRHL (art. 104-110)', url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2004-4214' },
+    { label: 'STC 182/2021', url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-2021-17806' },
+  ]}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <PlusvaliaMunicipal client:load lang="en" />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Complete guide to plusvalia municipal in Spain
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Plusvalia municipal is one of the most misunderstood taxes that property owners face in Spain. Officially called the Impuesto sobre el Incremento de Valor de los Terrenos de Naturaleza Urbana (IIVTNU), it is a local tax levied by town halls whenever urban land changes hands — whether through a sale, inheritance, donation, or any other transfer of ownership. The tax targets the increase in land value during the seller's (or previous owner's) period of ownership, not the profit on the property as a whole. This distinction is crucial and frequently confuses foreign property owners in Spain.
+      </p>
+      <p>
+        For decades, the calculation assumed that land always increased in value over time. When the 2008 financial crisis proved this assumption catastrophically wrong — with many owners forced to sell at a loss yet still facing plusvalia bills — a wave of legal challenges eventually reached Spain's Constitutional Court, fundamentally changing how the tax is calculated.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">The Constitutional Court ruling that changed everything</h3>
+      <p>
+        On 26 October 2021, the Constitutional Court issued ruling STC 182/2021, declaring unconstitutional the provisions of the Local Tax Law that regulated the calculation of the tax base. The court found that the objective estimation system violated the constitutional principle of ability to pay (capacidad economica), as it could tax fictitious or non-existent increases in land value.
+      </p>
+      <p>
+        This was not the first challenge. In 2017, ruling STC 59/2017 had already established that the tax could not be levied when a property was sold at a loss. However, the 2021 ruling went much further: it struck down the entire calculation mechanism, leaving the tax without a usable formula. The government had to pass emergency legislation (Royal Decree-Law 26/2021) within two weeks to fill the gap.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Two calculation methods since November 2021</h3>
+      <p>
+        The reform introduced two alternative methods, and the taxpayer may choose whichever produces a lower bill:
+      </p>
+      <p>
+        <strong>Objective method (coefficient-based).</strong> This method retains the logic of the old system but with updated coefficients that are reviewed annually. The cadastral land value at the time of transfer is multiplied by a coefficient that depends on the number of full years of ownership. The result is the tax base, to which the town hall's tax rate is applied (up to a legal maximum of 30%).
+      </p>
+      <p>
+        <strong>Real method (actual gain).</strong> This method calculates the gain from the difference between the sale price and the purchase price, then attributes a portion to the land based on the ratio of cadastral land value to total cadastral value. The resulting amount is the tax base, to which the same municipal tax rate applies. If the sale produces a loss, the tax base is zero and nothing is owed.
+      </p>
+      <p>
+        In practice, when the property market has risen sharply, the objective method often produces a lower bill because cadastral values tend to lag behind market prices. Conversely, when the actual gain is modest, the real method is usually more advantageous. This calculator compares both methods automatically so you can identify the better option.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Maximum coefficients by years of ownership</h3>
+      <p>
+        The maximum coefficients that town halls can apply under the objective method, by complete years of ownership, are as follows:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Years of ownership</th>
+              <th class="px-3 py-2 text-right">Maximum coefficient</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">1 year</td><td class="px-3 py-1 text-right">0.14</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2 years</td><td class="px-3 py-1 text-right">0.13</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">3 years</td><td class="px-3 py-1 text-right">0.15</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">4 years</td><td class="px-3 py-1 text-right">0.17</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">5 years</td><td class="px-3 py-1 text-right">0.17</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">6 years</td><td class="px-3 py-1 text-right">0.16</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">7 years</td><td class="px-3 py-1 text-right">0.12</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">8 years</td><td class="px-3 py-1 text-right">0.10</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">9 years</td><td class="px-3 py-1 text-right">0.09</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">10 years</td><td class="px-3 py-1 text-right">0.08</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">11 years</td><td class="px-3 py-1 text-right">0.08</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">12 years</td><td class="px-3 py-1 text-right">0.08</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">13 years</td><td class="px-3 py-1 text-right">0.08</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">14 years</td><td class="px-3 py-1 text-right">0.10</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">15 years</td><td class="px-3 py-1 text-right">0.12</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">16 years</td><td class="px-3 py-1 text-right">0.16</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">17 years</td><td class="px-3 py-1 text-right">0.20</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">18 years</td><td class="px-3 py-1 text-right">0.26</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">19 years</td><td class="px-3 py-1 text-right">0.36</td></tr>
+            <tr><td class="px-3 py-1">20 years or more</td><td class="px-3 py-1 text-right">0.45</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-gray-400 mt-2">
+        These are the legal maximum coefficients. Each town hall may apply equal or lower values. Coefficients can be updated annually through the national budget law (Ley de Presupuestos Generales del Estado).
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">When you do NOT pay plusvalia municipal</h3>
+      <p>
+        Several situations result in no liability for this tax:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Sale at a loss.</strong> If the sale price is lower than the purchase price, no tax is payable. You must provide the deeds to prove the loss.</li>
+        <li><strong>Dation in payment of a primary residence.</strong> When a homeowner surrenders their main home to the bank to cancel the mortgage, the tax is waived under certain vulnerability conditions (Ley 1/2013).</li>
+        <li><strong>Transfers between spouses due to divorce.</strong> Property allocated to one spouse as part of a divorce or legal separation is not subject to the tax.</li>
+        <li><strong>Contributions to marital property.</strong> Assets contributed by spouses to the marital estate are also exempt.</li>
+        <li><strong>Corporate restructuring operations.</strong> Mergers, spin-offs, and branch-of-activity contributions under the tax neutrality regime are not subject to plusvalia municipal.</li>
+      </ul>
+      <p>
+        Even when no tax is due, you must still file a declaration with the town hall, attaching the relevant documentation. Failure to file — even when the amount payable is zero — can result in formal penalties.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Practical example: selling a flat after 11 years</h3>
+      <p>
+        Sarah bought a flat in Madrid in 2014 for €165,000. Her IBI receipt shows a cadastral land value of €52,000. In {CURRENT_FISCAL_YEAR} she sells for €230,000, having owned the property for 11 years. Her town hall applies a tax rate of 29%.
+      </p>
+      <p>
+        <strong>Objective method:</strong> The coefficient for 11 years is 0.08. Tax base = €52,000 x 0.08 = €4,160. Tax due = €4,160 x 29% = <strong>€1,206.40</strong>.
+      </p>
+      <p>
+        <strong>Real method:</strong> Total gain = €230,000 - €165,000 = €65,000. Assuming the land represents 40% of the total cadastral value, the gain attributable to land = €65,000 x 0.40 = €26,000. Tax due = €26,000 x 29% = <strong>€7,540</strong>.
+      </p>
+      <p>
+        The objective method produces a bill of €1,206.40 versus €7,540 under the real method. Sarah should choose the objective method, which is considerably more favourable. This outcome is typical when the actual gain is substantial but the cadastral land value is relatively low — a common situation in many Spanish cities where cadastral values have not been revised to reflect current market prices.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Important notes for expats and foreign property owners</h3>
+      <p>
+        If you are a non-resident selling Spanish property, bear in mind that the plusvalia municipal is separate from and in addition to the capital gains tax (IRPF or non-resident income tax). The buyer is obligated to withhold 3% of the sale price and remit it to the Tax Agency as an advance on your IRPF, but the plusvalia municipal is an entirely separate local tax payable directly to the town hall. Make sure to account for both obligations in your financial planning.
+      </p>
+      <p>
+        If the property is in a rural area (suelo rustico), the plusvalia municipal does not apply — it only taxes urban land. However, this is determined by the cadastral classification of the land, not by its appearance or location. Some properties in areas that appear rural are classified as urban for tax purposes, so it is worth checking your IBI receipt or the Catastro website.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Sources and legislation</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2021-17718" class="text-brand hover:underline" target="_blank" rel="noopener">Royal Decree-Law 26/2021</a> — Adapts the local tax law to the Constitutional Court jurisprudence and introduces the dual calculation method.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2004-4214" class="text-brand hover:underline" target="_blank" rel="noopener">Local Tax Law (RDL 2/2004), articles 104-110</a> — Full regulation of plusvalia municipal: taxable event, taxpayer, tax base, tax rate, and administration.</li>
+        <li><a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2021-17806" class="text-brand hover:underline" target="_blank" rel="noopener">STC 182/2021</a> — Constitutional Court ruling declaring the previous calculation method unconstitutional.</li>
+        <li><a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2017-5765" class="text-brand hover:underline" target="_blank" rel="noopener">STC 59/2017</a> — First ruling establishing that the tax cannot be levied when there is no real increase in land value.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

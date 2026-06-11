@@ -1,0 +1,52 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import { SITE_NAME, SITE_URL } from '../../config';
+import { buildBreadcrumbSchema } from '../../lib/seo';
+
+const title = `Legal Notice - ${SITE_NAME} | Website Legal Information`;
+const description = `Legal notice for ${SITE_NAME}. Information about the website owner, intellectual property rights, applicable legislation, liability limitations and user obligations.`;
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Home', url: '/en/' },
+    { name: 'Legal Notice', url: '/en/legal-notice/' },
+  ]),
+];
+---
+
+<Layout title={title} description={description} schema={schemas} locale="en">
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/en/" class="hover:text-brand">Home</a> / <span class="text-charcoal dark:text-gray-200">Legal Notice</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">Legal Notice</h1>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Website Identification</h2>
+      <p>
+        In compliance with the duty of information set forth in Article 10 of Law 34/2002 on Information Society Services and Electronic Commerce (LSSI-CE), the following details are provided: this website, <strong>{SITE_URL}</strong>, is operated under the brand name <strong>{SITE_NAME}</strong>. For any inquiries, users may contact us through the channels provided on the <a href="/en/contact/" class="text-brand hover:underline">contact page</a>.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Intellectual Property</h2>
+      <p>
+        All content on this website, including but not limited to text, graphics, images, logos, icons, software, and the design and source code, is the property of {SITE_NAME} or its licensors and is protected by Spanish and international intellectual property laws. Reproduction, distribution, public communication, or transformation of any content without express written authorization is strictly prohibited.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Limitation of Liability</h2>
+      <p>
+        {SITE_NAME} provides financial calculation tools and informational content for educational purposes only. The calculations and information provided do not constitute professional tax, legal, or financial advice. While we strive for accuracy, we cannot guarantee that all information is current, complete, or error-free. Users should consult qualified professionals for decisions regarding their specific financial situations. {SITE_NAME} shall not be held liable for any damages arising from the use or inability to use this website.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Applicable Law and Jurisdiction</h2>
+      <p>
+        This legal notice is governed by Spanish law. Any disputes arising from the use of this website shall be submitted to the courts and tribunals of the domicile of the website owner, unless otherwise required by applicable consumer protection legislation.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Links to Third Parties</h2>
+      <p>
+        This website may contain links to third-party websites. {SITE_NAME} is not responsible for the content, privacy practices, or availability of these external sites. The inclusion of any link does not imply endorsement or affiliation with the linked website.
+      </p>
+    </div>
+  </div>
+</Layout>

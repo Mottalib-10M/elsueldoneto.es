@@ -1,0 +1,343 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
+import { buildBreadcrumbSchema, buildFAQSchema } from '../../lib/seo';
+
+const title = `Jubilación en España ${CURRENT_FISCAL_YEAR}: Edad, Pensión y Cómo se Calcula`;
+const description = 'Guía completa sobre la jubilación en España: edad de retiro, cálculo de la pensión, jubilación anticipada, parcial y activa. Con ejemplo práctico actualizado.';
+
+const faqs = [
+  {
+    question: '¿A qué edad me puedo jubilar en España en 2026?',
+    answer: `En 2026, la edad ordinaria de jubilación es de 66 años y 8 meses. Sin embargo, si has cotizado 38 años o más, puedes jubilarte a los 65 años con el 100% de tu pensión.`,
+  },
+  {
+    question: '¿Cuántos años hay que cotizar para cobrar el 100% de la pensión?',
+    answer: 'Necesitas al menos 36 años y 6 meses cotizados para cobrar el 100% de la base reguladora. Con 15 años cotizados (mínimo exigido) cobrarías el 50%. Cada mes adicional entre 15 y 36,5 años incrementa el porcentaje gradualmente.',
+  },
+  {
+    question: '¿Puedo jubilarme antes de los 66 años y 8 meses?',
+    answer: 'Sí, existe la jubilación anticipada. Si es voluntaria, puedes adelantarla hasta 2 años antes de la edad ordinaria, con un mínimo de 35 años cotizados y penalizaciones de entre el 2% y el 3,26% por trimestre anticipado. Si es involuntaria (despido, ERE), puedes adelantarla hasta 4 años con penalizaciones menores.',
+  },
+  {
+    question: '¿Qué es el complemento por brecha de género?',
+    answer: 'Es una cantidad adicional que se suma a la pensión por cada hijo, destinada a compensar la brecha de género en las pensiones. En 2026, el importe es de aproximadamente 33,20 € mensuales por hijo. Pueden solicitarlo tanto mujeres como hombres, aunque se concede al progenitor cuya pensión resulte perjudicada por la interrupción de su carrera laboral.',
+  },
+];
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Inicio', url: '/' },
+    { name: 'Guías', url: '/guias/' },
+    { name: 'Jubilación en España', url: '/guias/jubilacion-espana-edad-pension/' },
+  ]),
+  buildFAQSchema(faqs),
+];
+---
+
+<Layout title={title} description={description} ogType="article" schema={schemas}>
+  <article class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/" class="hover:text-brand">Inicio</a> /
+      <a href="/guias/" class="hover:text-brand">Guías</a> /
+      <span class="text-charcoal dark:text-gray-200">Jubilación en España</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      Jubilación en España: Edad, Pensión y Cómo se Calcula ({CURRENT_FISCAL_YEAR})
+    </h1>
+
+    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+      Saber cuándo podrás jubilarte y cuánto cobrarás de pensión es clave para planificar tu futuro financiero. En esta guía te explicamos todo lo que necesitas saber sobre la jubilación en España: edad legal, cálculo de la pensión, jubilación anticipada y mucho más.
+    </p>
+
+    <div class="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">
+      <p class="font-medium text-blue-800 dark:text-blue-300">
+        Usa nuestra <a href="/calculadora-jubilacion/" class="underline">calculadora de jubilación</a> para estimar tu pensión de forma personalizada.
+      </p>
+    </div>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-8">
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">1. Edad de jubilación en {CURRENT_FISCAL_YEAR}</h2>
+        <p>
+          La reforma del sistema de pensiones de 2011 estableció un aumento progresivo de la edad de jubilación hasta los 67 años en 2027. En {CURRENT_FISCAL_YEAR}, la edad ordinaria de jubilación depende de los años cotizados:
+        </p>
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200 dark:border-gray-600">
+              <th class="px-3 py-2 text-left font-medium">Años cotizados</th>
+              <th class="px-3 py-2 text-right font-medium">Edad de jubilación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">38 años o más</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium text-emerald-700">65 años</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2">Menos de 38 años</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">66 años y 8 meses</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          El requisito mínimo para acceder a una pensión contributiva de jubilación es haber cotizado al menos <strong>15 años</strong>, de los cuales al menos 2 deben estar dentro de los 15 años inmediatamente anteriores al momento de la jubilación.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">2. Cómo se calcula la pensión: la base reguladora</h2>
+        <p>
+          La pensión de jubilación no se calcula directamente sobre tu último salario, sino sobre la llamada <strong>base reguladora</strong>. Esta se obtiene a partir de las bases de cotización de los <strong>últimos 25 años</strong> (300 meses) de tu vida laboral.
+        </p>
+        <p>La fórmula es:</p>
+        <div class="rounded-lg bg-gray-100 p-4 font-mono text-sm dark:bg-gray-800">
+          Base reguladora = Suma de bases de cotización de 300 meses / 350
+        </div>
+        <p>
+          Se divide entre 350 (y no entre 300) porque se incluyen 14 pagas anuales: 300 meses equivalen a 25 años x 14 pagas = 350 mensualidades.
+        </p>
+        <p>
+          Las bases de cotización de los 24 meses inmediatamente anteriores a la jubilación se toman por su valor nominal. Las anteriores se actualizan según el IPC para reflejar el poder adquisitivo real. Si hay lagunas de cotización (periodos sin cotizar), los primeros 48 meses se integran con la base mínima de cotización y el resto con el 50% de dicha base mínima.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">3. Porcentaje según años cotizados</h2>
+        <p>
+          Una vez calculada la base reguladora, se aplica un porcentaje que depende de los años cotizados. Este porcentaje determina qué parte de la base reguladora cobrarás como pensión:
+        </p>
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200 dark:border-gray-600">
+              <th class="px-3 py-2 text-left font-medium">Años cotizados</th>
+              <th class="px-3 py-2 text-right font-medium">Porcentaje de la base reguladora</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">15 años (mínimo)</td>
+              <td class="px-3 py-2 text-right tabular-nums">50%</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">16 a 25 años</td>
+              <td class="px-3 py-2 text-right tabular-nums">+0,21% por mes adicional (2,52%/año)</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">25 a 36,5 años</td>
+              <td class="px-3 py-2 text-right tabular-nums">+0,19% por mes adicional (2,28%/año)</td>
+            </tr>
+            <tr class="border-t-2 border-gray-300 dark:border-gray-600">
+              <td class="px-3 py-2 font-bold">36 años y 6 meses o más</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">100%</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Es decir, con 15 años cotizados cobras la mitad de tu base reguladora, y necesitas al menos 36 años y medio para alcanzar el 100%.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">4. Pensiones máximas y mínimas en {CURRENT_FISCAL_YEAR}</h2>
+        <p>
+          La Seguridad Social establece cada año unos topes para las pensiones contributivas:
+        </p>
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200 dark:border-gray-600">
+              <th class="px-3 py-2 text-left font-medium">Concepto</th>
+              <th class="px-3 py-2 text-right font-medium">Importe mensual (14 pagas)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Pensión máxima</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">3.267,60 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Pensión mínima (con cónyuge a cargo, +65 años)</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.033,20 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Pensión mínima (sin cónyuge, +65 años)</td>
+              <td class="px-3 py-2 text-right tabular-nums">838,80 €</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2">Pensión mínima (con cónyuge no a cargo, +65 años)</td>
+              <td class="px-3 py-2 text-right tabular-nums">795,60 €</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Si la pensión que te corresponde es inferior a la mínima, recibes un <strong>complemento a mínimos</strong> siempre que no superes determinados límites de ingresos. Si es superior a la máxima, se cobra el tope máximo.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">5. Jubilación anticipada: voluntaria e involuntaria</h2>
+        <p>
+          No siempre es necesario esperar a la edad ordinaria. Existen dos modalidades de jubilación anticipada, cada una con sus propios requisitos y penalizaciones:
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Jubilación anticipada voluntaria</h3>
+        <ul>
+          <li><strong>Adelanto máximo:</strong> 2 años antes de la edad ordinaria</li>
+          <li><strong>Cotización mínima:</strong> 35 años efectivos</li>
+          <li><strong>Penalización:</strong> entre el 2% y el 3,26% por cada trimestre de adelanto, según los años cotizados. A más años cotizados, menor penalización</li>
+          <li>La pensión resultante no puede superar la pensión máxima reducida en un 0,50% por trimestre anticipado</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Jubilación anticipada involuntaria</h3>
+        <p>
+          Se aplica cuando el cese laboral se produce por causa no imputable al trabajador (despido, ERE, extinción por causas objetivas, etc.):
+        </p>
+        <ul>
+          <li><strong>Adelanto máximo:</strong> 4 años antes de la edad ordinaria</li>
+          <li><strong>Cotización mínima:</strong> 33 años efectivos</li>
+          <li><strong>Penalización:</strong> entre el 1,625% y el 2,81% por trimestre, según años cotizados. Las penalizaciones son menores que en la voluntaria</li>
+          <li>Es necesario estar inscrito como demandante de empleo al menos 6 meses antes de la solicitud</li>
+        </ul>
+
+        <p>
+          En ambos casos, la penalización es permanente: se aplica sobre toda la vida de la pensión, no solo durante los años anticipados.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">6. Jubilación parcial y jubilación activa</h2>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Jubilación parcial</h3>
+        <p>
+          La jubilación parcial permite reducir tu jornada laboral entre un 25% y un 50% (o hasta un 75% si la empresa contrata un relevista a jornada completa), cobrando la parte proporcional de tu pensión mientras sigues trabajando a tiempo parcial. Requisitos principales:
+        </p>
+        <ul>
+          <li>Tener al menos 33 años cotizados (o la edad ordinaria de jubilación si no hay contrato de relevo)</li>
+          <li>Antigüedad mínima de 6 años en la empresa</li>
+          <li>El contrato debe ser a jornada completa</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Jubilación activa</h3>
+        <p>
+          La jubilación activa permite compatibilizar el cobro del <strong>50% de la pensión</strong> con un trabajo por cuenta propia o ajena. Si tienes al menos un trabajador contratado por cuenta ajena, el porcentaje compatible sube al <strong>100%</strong> de la pensión. Requisitos:
+        </p>
+        <ul>
+          <li>Haber accedido a la jubilación a la edad ordinaria (no anticipada)</li>
+          <li>El porcentaje aplicable a la base reguladora debe alcanzar el 100%</li>
+          <li>Al menos 1 año transcurrido desde la fecha de jubilación</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">7. Complemento por brecha de género</h2>
+        <p>
+          Desde febrero de 2021, las pensiones contributivas incluyen un <strong>complemento por brecha de género</strong> destinado a reducir la diferencia entre las pensiones de hombres y mujeres. En {CURRENT_FISCAL_YEAR}, el importe es de aproximadamente <strong>33,20 € mensuales por cada hijo</strong> (14 pagas).
+        </p>
+        <p>
+          Pueden solicitarlo tanto hombres como mujeres, aunque se concede al progenitor que acredite un perjuicio en su carrera profesional por el nacimiento o adopción. En la práctica, si ambos progenitores lo solicitan, se concede a la mujer salvo que el hombre demuestre un perjuicio mayor. Ejemplos de importes:
+        </p>
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200 dark:border-gray-600">
+              <th class="px-3 py-2 text-left font-medium">Número de hijos</th>
+              <th class="px-3 py-2 text-right font-medium">Complemento mensual</th>
+              <th class="px-3 py-2 text-right font-medium">Complemento anual (14 pagas)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">1 hijo</td>
+              <td class="px-3 py-2 text-right tabular-nums">33,20 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">464,80 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">2 hijos</td>
+              <td class="px-3 py-2 text-right tabular-nums">66,40 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">929,60 €</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2">3 hijos</td>
+              <td class="px-3 py-2 text-right tabular-nums">99,60 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.394,40 €</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">8. Ejemplo práctico: 35 años cotizados, base media de 2.500 €</h2>
+        <p>
+          Veamos un ejemplo concreto de un trabajador que se jubila en {CURRENT_FISCAL_YEAR} con 35 años cotizados y una base de cotización media de 2.500 € mensuales:
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Paso 1: Base reguladora</h3>
+        <div class="rounded-lg bg-gray-100 p-4 font-mono text-sm dark:bg-gray-800">
+          Base reguladora = (2.500 € x 300 meses) / 350 = 2.142,86 €/mes
+        </div>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Paso 2: Porcentaje por años cotizados</h3>
+        <p>
+          Con 35 años cotizados (420 meses), el porcentaje se calcula así:
+        </p>
+        <ul>
+          <li>Primeros 15 años: <strong>50%</strong></li>
+          <li>Del año 16 al 25 (120 meses): 120 x 0,21% = <strong>25,20%</strong></li>
+          <li>Del año 25 al 35 (120 meses): 120 x 0,19% = <strong>22,80%</strong></li>
+          <li>Total: 50% + 25,20% + 22,80% = <strong>98%</strong></li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Paso 3: Pensión resultante</h3>
+        <table class="w-full text-sm">
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Base reguladora</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">2.142,86 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Porcentaje aplicable (35 años)</td>
+              <td class="px-3 py-2 text-right tabular-nums">98%</td>
+            </tr>
+            <tr class="border-t-2 border-gray-300 dark:border-gray-600">
+              <td class="px-3 py-2 font-bold">Pensión mensual bruta</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">2.100,00 €</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2 font-bold">Pensión anual bruta (14 pagas)</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">29.400,00 €</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          A esta cantidad habría que restarle la retención de IRPF (las pensiones tributan como rendimientos del trabajo) y, en su caso, sumarle el complemento por brecha de género si corresponde. La retención de IRPF sobre una pensión de 29.400 € anuales suele estar en torno al 12-14%.
+        </p>
+        <p>
+          Si este trabajador hubiera cotizado 36 años y 6 meses, el porcentaje sería del 100% y la pensión ascendería a 2.142,86 €/mes.
+        </p>
+        <p>
+          <a href="/calculadora-jubilacion/" class="text-brand hover:underline">Calcula tu pensión estimada con nuestra calculadora de jubilación</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Preguntas frecuentes</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+              <summary class="cursor-pointer px-4 py-3 font-medium text-charcoal dark:text-gray-200">
+                {faq.question}
+              </summary>
+              <div class="border-t border-gray-200 px-4 py-3 text-sm dark:border-gray-700">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+    </div>
+
+    <div class="mt-8 text-xs text-medium-gray">
+      <p>Actualizado para el ejercicio fiscal {CURRENT_FISCAL_YEAR}. Fuentes: Ley General de la Seguridad Social (RDL 8/2015), Seguridad Social, BOE.</p>
+    </div>
+  </article>
+</Layout>

@@ -21,3 +21,6 @@ export const CURRENT_FISCAL_YEAR = 2026 as const;
 
 export const TAGLINE = "Tu sueldo neto, sin sorpresas" as const;
 export const TAGLINE_SHORT = "De bruto a neto, claro y rápido" as const;
+
+export const TAGLINE_EN = "Your net salary, no surprises" as const;
+export const TAGLINE_SHORT_EN = "From gross to net, clear and fast" as const;

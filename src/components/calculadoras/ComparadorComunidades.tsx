@@ -4,7 +4,12 @@ import { comunidadesAutonomas, type CCAACodigo } from '../../data/comunidades-au
 import { formatEuros, formatPercent } from '../../lib/format-es';
 import CampoSalario from '../ui/CampoSalario';
 
-export default function ComparadorComunidades() {
+interface ComparadorComunidadesProps {
+  lang?: 'es' | 'en';
+}
+
+export default function ComparadorComunidades({ lang = 'es' }: ComparadorComunidadesProps) {
+  const l = lang === 'en';
   const [brutoAnual, setBrutoAnual] = useState('30000');
   const [pagas, setPagas] = useState<12 | 14>(14);
 
@@ -25,13 +30,13 @@ export default function ComparadorComunidades() {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
-        <CampoSalario id="comp-bruto" label="Salario bruto" value={brutoAnual} onChange={setBrutoAnual} min={0} max={1000000} step={1000} divisor={pagas} />
+        <CampoSalario id="comp-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={1000000} step={1000} divisor={pagas} lang={lang} />
         <div className="flex h-full flex-col">
-          <label className="mb-1 flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">Número de pagas</label>
+          <label className="mb-1 flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">{l ? 'Number of payments' : 'Número de pagas'}</label>
           <div>
             <div className="flex gap-2">
               {([14, 12] as const).map(p => (
-                <button key={p} onClick={() => setPagas(p)} className={`flex-1 rounded-lg border px-4 py-2 text-sm font-medium ${pagas === p ? 'border-brand bg-brand/10 text-brand' : 'border-gray-300 text-gray-600 hover:border-gray-400 dark:border-gray-600 dark:text-gray-300'}`}>{p} pagas</button>
+                <button key={p} onClick={() => setPagas(p)} className={`flex-1 rounded-lg border px-4 py-2 text-sm font-medium ${pagas === p ? 'border-brand bg-brand/10 text-brand' : 'border-gray-300 text-gray-600 hover:border-gray-400 dark:border-gray-600 dark:text-gray-300'}`}>{p} {l ? 'payments' : 'pagas'}</button>
               ))}
             </div>
             <p className="mt-1 text-xs text-gray-500">{'\u00A0'}</p>
@@ -43,15 +48,15 @@ export default function ComparadorComunidades() {
         <>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-xl bg-emerald-50 p-4 text-center dark:bg-emerald-900/20">
-              <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400">Mayor neto</p>
+              <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400">{l ? 'Highest net' : 'Mayor neto'}</p>
               <p className="text-lg font-bold text-emerald-700 dark:text-emerald-300">{resultados[0]?.ccaa.nombreCorto}</p>
-              <p className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">{formatEuros(maxNeto / pagas)}/mes</p>
+              <p className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">{formatEuros(maxNeto / pagas)}/{l ? 'mo' : 'mes'}</p>
             </div>
             <div className="rounded-xl bg-red-50 p-4 text-center dark:bg-red-900/20">
-              <p className="text-xs font-medium text-red-600 dark:text-red-400">Menor neto</p>
+              <p className="text-xs font-medium text-red-600 dark:text-red-400">{l ? 'Lowest net' : 'Menor neto'}</p>
               <p className="text-lg font-bold text-red-700 dark:text-red-300">{resultados[resultados.length - 1]?.ccaa.nombreCorto}</p>
-              <p className="text-2xl font-bold text-red-700 dark:text-red-300">{formatEuros(minNeto / pagas)}/mes</p>
-              <p className="text-sm text-red-600 dark:text-red-400">Diferencia: {formatEuros((maxNeto - minNeto) / 12)}/mes</p>
+              <p className="text-2xl font-bold text-red-700 dark:text-red-300">{formatEuros(minNeto / pagas)}/{l ? 'mo' : 'mes'}</p>
+              <p className="text-sm text-red-600 dark:text-red-400">{l ? 'Difference' : 'Diferencia'}: {formatEuros((maxNeto - minNeto) / 12)}/{l ? 'mo' : 'mes'}</p>
             </div>
           </div>
 
@@ -60,11 +65,11 @@ export default function ComparadorComunidades() {
               <thead>
                 <tr className="bg-gray-50 dark:bg-gray-700">
                   <th className="px-4 py-2 text-left font-medium text-gray-500 dark:text-gray-400">#</th>
-                  <th className="px-4 py-2 text-left font-medium text-gray-500 dark:text-gray-400">Comunidad</th>
-                  <th className="px-4 py-2 text-right font-medium text-gray-500 dark:text-gray-400">Neto/mes</th>
-                  <th className="px-4 py-2 text-right font-medium text-gray-500 dark:text-gray-400">Neto/año</th>
+                  <th className="px-4 py-2 text-left font-medium text-gray-500 dark:text-gray-400">{l ? 'Region' : 'Comunidad'}</th>
+                  <th className="px-4 py-2 text-right font-medium text-gray-500 dark:text-gray-400">{l ? 'Net/mo' : 'Neto/mes'}</th>
+                  <th className="px-4 py-2 text-right font-medium text-gray-500 dark:text-gray-400">{l ? 'Net/year' : 'Neto/año'}</th>
                   <th className="px-4 py-2 text-right font-medium text-gray-500 dark:text-gray-400">IRPF</th>
-                  <th className="px-4 py-2 text-right font-medium text-gray-500 dark:text-gray-400">Tipo ef.</th>
+                  <th className="px-4 py-2 text-right font-medium text-gray-500 dark:text-gray-400">{l ? 'Eff. rate' : 'Tipo ef.'}</th>
                   <th className="hidden px-4 py-2 md:table-cell"></th>
                 </tr>
               </thead>

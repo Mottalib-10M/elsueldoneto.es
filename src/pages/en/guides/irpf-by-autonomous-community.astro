@@ -1,0 +1,235 @@
+---
+import Layout from '../../../components/layout/Layout.astro';
+import { CURRENT_FISCAL_YEAR } from '../../../config';
+import { buildBreadcrumbSchema, buildFAQSchema } from '../../../lib/seo';
+
+const title = `IRPF by Autonomous Community ${CURRENT_FISCAL_YEAR}: Comparison`;
+const description = `Compare IRPF rates across all 17 Spanish autonomous communities. See how Madrid, Catalonia, Andalusia and others differ in tax brackets and net salary impact.`;
+
+const faqs = [
+  { question: 'Which autonomous community has the lowest IRPF?', answer: 'Madrid consistently offers the lowest regional IRPF rates in Spain. For a typical salary of €30,000-€50,000, a taxpayer in Madrid may save between €500 and €1,500 per year compared to higher-tax communities like Catalonia, Valencia, or Asturias.' },
+  { question: 'How do the Basque Country and Navarra differ?', answer: 'The Basque Country (Bizkaia, Gipuzkoa, Araba) and Navarra operate under foral tax regimes with their own complete and independent IRPF systems. Their bracket structures, rates, and deductions are entirely separate from the common state system, and they tend to be slightly more favorable for middle-income earners.' },
+  { question: 'Does my autonomous community affect my Social Security contributions?', answer: 'No. Social Security contributions are set at the national level and are the same regardless of where you live. Only the IRPF regional portion varies by community, along with certain regional deductions for housing, childcare, or disability.' },
+];
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Home', url: '/en/' },
+    { name: 'Guides', url: '/en/guides/' },
+    { name: 'IRPF by Community', url: '/en/guides/irpf-by-autonomous-community/' },
+  ]),
+  buildFAQSchema(faqs, 'en'),
+];
+---
+
+<Layout title={title} description={description} schema={schemas} locale="en">
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/en/" class="hover:text-brand">Home</a> /
+      <a href="/en/guides/" class="hover:text-brand">Guides</a> /
+      <span class="text-charcoal dark:text-gray-200">IRPF by Community</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      IRPF by Autonomous Community: Full Comparison ({CURRENT_FISCAL_YEAR})
+    </h1>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <p>
+        One of the most debated aspects of Spanish taxation is how much your take-home pay varies depending on where you live. Since each autonomous community sets its own regional IRPF brackets, two workers earning the same gross salary can receive noticeably different net pay. This guide ranks the communities, explains the foral regimes of the Basque Country and Navarra, and provides a practical comparison between Madrid and Catalonia.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Community Rankings by Net Salary</h2>
+      <p>
+        For a gross salary of €35,000, the communities typically rank as follows from highest to lowest net salary: Madrid, Canary Islands, Andalusia (after its recent rate cuts), Castilla y León, and Galicia at the top. In the middle are communities like Aragón, Murcia, and Castilla-La Mancha. At the higher end of taxation sit Catalonia, Valencia, Asturias, and La Rioja. The differences for a €35,000 salary may seem modest (€300-€800 per year), but they grow significantly at higher income levels, reaching several thousand euros per year for salaries above €80,000.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Foral Regimes: Basque Country and Navarra</h2>
+      <p>
+        The Basque Country and Navarra operate entirely separate tax systems under historic agreements (<em>Concierto Económico</em> and <em>Convenio Económico</em>). These foral regimes have their own IRPF brackets, deductions, and allowances. Generally, the Basque provinces offer more favorable treatment for middle-income earners through wider brackets and higher personal allowances, although top marginal rates can be similar to or even higher than the common regime. Navarra sits somewhere in between, with its own unique deductions for housing and family.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Practical Example: Madrid vs. Catalonia</h2>
+      <p>
+        Consider a single worker with no children earning €45,000 gross per year. In Madrid, the combined state and regional IRPF rate tops out at about 43.50% for the highest bracket, compared to approximately 48% in Catalonia. After applying all brackets and the personal minimum, the Madrid worker would pay roughly €700-€900 less in IRPF annually. Additionally, Madrid has no regional wealth tax, while Catalonia applies one above €500,000 in assets. For high earners or those with significant savings, the cumulative difference can be substantial over a career.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Complete Regional Comparison at €40,000 Gross Salary</h2>
+      <p>
+        The following table shows the approximate annual IRPF bill and resulting net salary for a single worker with no dependents earning €40,000 gross in each of Spain's 17 autonomous communities (excluding the foral regimes). Social Security deductions of €2,588 are already factored in, leaving a taxable base of approximately €37,412:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-gray-300 dark:border-gray-600">
+              <th class="py-2 pr-4 text-left font-semibold">Autonomous Community</th>
+              <th class="py-2 pr-4 text-right font-semibold">Annual IRPF</th>
+              <th class="py-2 pr-4 text-right font-semibold">Net Annual Salary</th>
+              <th class="py-2 text-right font-semibold">Difference vs. Madrid</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Madrid</td>
+              <td class="py-2 pr-4 text-right">€7,350</td>
+              <td class="py-2 pr-4 text-right">€30,062</td>
+              <td class="py-2 text-right">--</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Canary Islands</td>
+              <td class="py-2 pr-4 text-right">€7,510</td>
+              <td class="py-2 pr-4 text-right">€29,902</td>
+              <td class="py-2 text-right">-€160</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Andalusia</td>
+              <td class="py-2 pr-4 text-right">€7,580</td>
+              <td class="py-2 pr-4 text-right">€29,832</td>
+              <td class="py-2 text-right">-€230</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Castilla y Leon</td>
+              <td class="py-2 pr-4 text-right">€7,620</td>
+              <td class="py-2 pr-4 text-right">€29,792</td>
+              <td class="py-2 text-right">-€270</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Galicia</td>
+              <td class="py-2 pr-4 text-right">€7,660</td>
+              <td class="py-2 pr-4 text-right">€29,752</td>
+              <td class="py-2 text-right">-€310</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Murcia</td>
+              <td class="py-2 pr-4 text-right">€7,700</td>
+              <td class="py-2 pr-4 text-right">€29,712</td>
+              <td class="py-2 text-right">-€350</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Aragon</td>
+              <td class="py-2 pr-4 text-right">€7,740</td>
+              <td class="py-2 pr-4 text-right">€29,672</td>
+              <td class="py-2 text-right">-€390</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Castilla-La Mancha</td>
+              <td class="py-2 pr-4 text-right">€7,760</td>
+              <td class="py-2 pr-4 text-right">€29,652</td>
+              <td class="py-2 text-right">-€410</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Extremadura</td>
+              <td class="py-2 pr-4 text-right">€7,810</td>
+              <td class="py-2 pr-4 text-right">€29,602</td>
+              <td class="py-2 text-right">-€460</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Balearic Islands</td>
+              <td class="py-2 pr-4 text-right">€7,830</td>
+              <td class="py-2 pr-4 text-right">€29,582</td>
+              <td class="py-2 text-right">-€480</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Cantabria</td>
+              <td class="py-2 pr-4 text-right">€7,850</td>
+              <td class="py-2 pr-4 text-right">€29,562</td>
+              <td class="py-2 text-right">-€500</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">La Rioja</td>
+              <td class="py-2 pr-4 text-right">€7,880</td>
+              <td class="py-2 pr-4 text-right">€29,532</td>
+              <td class="py-2 text-right">-€530</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Asturias</td>
+              <td class="py-2 pr-4 text-right">€7,920</td>
+              <td class="py-2 pr-4 text-right">€29,492</td>
+              <td class="py-2 text-right">-€570</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Catalonia</td>
+              <td class="py-2 pr-4 text-right">€7,980</td>
+              <td class="py-2 pr-4 text-right">€29,432</td>
+              <td class="py-2 text-right">-€630</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Valencia</td>
+              <td class="py-2 pr-4 text-right">€8,050</td>
+              <td class="py-2 pr-4 text-right">€29,362</td>
+              <td class="py-2 text-right">-€700</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        At €40,000 gross, the difference between Madrid (the lowest-taxed community) and Valencia (among the highest) is approximately €700 per year. While this may seem modest, the gap widens dramatically at higher salaries. At €80,000 gross, the difference can exceed €2,000 per year, and at €120,000 it can surpass €4,000.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">The Foral Regimes Explained: Basque Country and Navarre</h2>
+      <p>
+        The Basque Country (comprising the provinces of Bizkaia, Gipuzkoa, and Araba/Alava) and Navarre operate under special fiscal agreements with the Spanish state that predate the Constitution. These are not simply different regional rates layered onto the state system; they are entirely independent tax systems with their own legislation, brackets, deductions, and administration.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Basque Country (<em>Concierto Economico</em>)</h3>
+      <p>
+        Each of the three Basque provinces has its own tax authority (<em>Hacienda Foral</em>) and sets its own IRPF rates. The brackets tend to be wider than the common regime, which benefits middle-income earners. For example, Bizkaia uses a structure where the first €17,360 is taxed at 23%, the next segment up to €32,960 at 28%, the portion from €32,960 to €48,960 at 35%, and income above €48,960 at rates climbing to 49%. The personal minimum allowances are generally higher than in the common regime, and there are additional deductions for housing purchases that are no longer available in most other communities. However, the top marginal rate can actually be slightly higher than in Madrid.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Navarre (<em>Convenio Economico</em>)</h3>
+      <p>
+        Navarre operates its own complete tax system with its own bracket structure. The rates are generally competitive for middle incomes, with a top marginal rate of around 49% for income above €300,000. Navarre offers distinctive deductions such as generous housing purchase deductions, childcare deductions that are more favorable than the common regime, and specific incentives for investment in local businesses. The personal minimum in Navarre is also structured differently, using a fixed reduction from the tax base rather than applying the minimum at the lowest bracket rate.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Regional Deductions That Vary by Community</h2>
+      <p>
+        Beyond the different bracket rates, each autonomous community offers its own catalogue of tax deductions that can materially affect your final tax bill. Here are some of the most impactful deductions that vary by region:
+      </p>
+      <ul>
+        <li><strong>Rental housing deduction:</strong> Available in Madrid (20% of rent up to €1,000), Andalusia (15% up to €600), Catalonia (10% for young or low-income tenants), and several other communities. Not available at all in some regions.</li>
+        <li><strong>Childcare and school expenses:</strong> Madrid offers deductions for nursery school (20% of expenses), school uniforms, and school supplies. Catalonia allows a deduction for children in childcare. Valencia has deductions for textbook purchases and language instruction.</li>
+        <li><strong>Home purchase or renovation:</strong> While the state-level deduction was eliminated for purchases after 2013, several communities (Basque Country, Navarre, some others) maintain their own home-purchase deductions that can reduce IRPF by up to €1,530 per year.</li>
+        <li><strong>Energy efficiency improvements:</strong> Several regions offer deductions for installing solar panels, improving insulation, or purchasing electric vehicles. These can range from 10% to 50% of the investment, depending on the community.</li>
+        <li><strong>Donations and investments:</strong> Many communities incentivize donations to local charities, cultural institutions, or investments in regional businesses with deductions ranging from 15% to 30% of the amount donated or invested.</li>
+      </ul>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">The Fiscal Harmonization Debate</h2>
+      <p>
+        The growing gap between regional tax rates has fueled an ongoing political debate about fiscal harmonization. Proponents of harmonization argue that the current system creates unfair competition between regions, with wealthier communities like Madrid able to offer lower rates because they already have a larger tax base and higher property values. They contend that this "fiscal dumping" drains tax revenue from less wealthy regions and undermines public services.
+      </p>
+      <p>
+        Opponents of harmonization, particularly in Madrid and the Basque Country, argue that fiscal autonomy is a constitutional right and that tax competition encourages efficiency in public spending. Madrid's regional government maintains that its lower rates attract businesses and workers, generating more overall revenue despite the lower percentage. The Basque Country and Navarre argue that their foral systems are protected by historical rights recognized in the Constitution and are not subject to harmonization.
+      </p>
+      <p>
+        As of {CURRENT_FISCAL_YEAR}, no harmonization legislation has been passed at the national level, though the debate continues in every election cycle. For expats, this means that choosing where to register your tax residence remains a legitimate and impactful financial decision.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Practical Advice for Choosing Where to Register</h2>
+      <p>
+        Your tax residence is determined by where you actually live for the majority of the year (more than 183 days), not where your employer is based. However, if you have flexibility in where to establish residence, consider the following:
+      </p>
+      <ul>
+        <li><strong>Run the numbers at your salary level:</strong> The regional differences are minimal at low salaries but substantial at high incomes. If you earn over €60,000, the choice of community can affect your net salary by €1,000-€3,000 per year.</li>
+        <li><strong>Factor in the cost of living:</strong> Madrid may have the lowest IRPF, but it also has the highest housing costs. A lower IRPF bill may be offset by higher rent or mortgage payments. Andalusia and Valencia offer lower living costs that can compensate for slightly higher taxes.</li>
+        <li><strong>Consider regional deductions:</strong> If you are renting, have young children, or plan to buy property, certain communities offer deductions that could be more valuable than a slightly lower marginal rate.</li>
+        <li><strong>Think about Wealth Tax:</strong> If you have significant assets, Madrid's complete bonification of the Wealth Tax (effectively eliminating it) can be worth thousands of euros per year. Most other communities apply Wealth Tax on net assets above €700,000.</li>
+        <li><strong>Do not game the system:</strong> The tax authority (AEAT) actively investigates cases where taxpayers claim residence in a low-tax community while actually living elsewhere. False declarations carry severe penalties, including surcharges and potential criminal prosecution.</li>
+      </ul>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Impact at Higher Salary Levels</h2>
+      <p>
+        The regional differences become far more pronounced at higher income levels. For a worker earning €80,000 gross per year, the annual IRPF difference between Madrid and Valencia can exceed €2,100. At €120,000, the gap widens to approximately €3,800-€4,200. For someone earning €200,000, the cumulative difference over a 10-year career between Madrid and a high-tax community like Catalonia or Valencia can reach €40,000 or more. These are substantial sums that can affect major financial decisions such as retirement savings, property purchases, or investment strategies. For high earners, it is worth consulting a tax advisor who can model the specific numbers for your situation, taking into account not just IRPF but also the Wealth Tax, which Madrid fully exempts and most other communities charge on net assets above €700,000.
+      </p>
+    </div>
+
+    <section class="mt-10">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {faqs.map(faq => (
+          <details class="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
+            <summary class="cursor-pointer font-semibold text-charcoal dark:text-gray-100">{faq.question}</summary>
+            <p class="mt-2 text-sm text-dark-gray dark:text-gray-300">{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </div>
+</Layout>

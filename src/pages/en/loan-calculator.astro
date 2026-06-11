@@ -1,0 +1,140 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import Prestamo from '../../components/calculadoras/Prestamo';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+
+const title = `Loan Calculator Spain ${CURRENT_FISCAL_YEAR}: Monthly Payment & Amortisation`;
+const description = `Calculate your personal loan monthly payment, total interest and full amortisation schedule in Spain. Free simulator with French amortisation system updated ${CURRENT_FISCAL_YEAR}.`;
+
+const faqs = [
+  {
+    question: 'What is the difference between TIN and TAE in Spain?',
+    answer: 'TIN (Tipo de Interes Nominal) is the nominal interest rate the bank charges on the loan principal. TAE (Tasa Anual Equivalente) is the Annual Equivalent Rate that includes TIN plus all fees, commissions and mandatory insurance. Spanish law requires all banks to advertise the TAE, making it the only reliable figure for comparing loan offers from different lenders.',
+  },
+  {
+    question: 'How does the French amortisation system work?',
+    answer: 'Nearly all personal loans in Spain use the French amortisation system. It produces fixed monthly payments throughout the loan term. In each payment, the interest portion starts high and decreases over time, while the principal portion starts low and increases. This means early repayment saves proportionally more interest than repaying near the end of the term.',
+  },
+  {
+    question: 'What is a typical personal loan interest rate in Spain?',
+    answer: `In ${CURRENT_FISCAL_YEAR}, personal loan TAE rates in Spain typically range from 5% to 12%, depending on the lender, the borrower's credit profile, and the loan purpose. Purpose-linked loans (car, home improvement) tend to offer 5-8% TAE, while general-purpose loans sit at 7-12%. Always compare TAE, not TIN, across offers.`,
+  },
+  {
+    question: 'How much can I borrow with a personal loan in Spain?',
+    answer: 'Spanish banks generally require that all your debt payments (including any mortgage) do not exceed 35-40% of your net monthly income. For example, if you earn 2,000 EUR net per month and already pay 400 EUR on a mortgage, your available capacity for a new loan is around 400-500 EUR per month in repayments.',
+  },
+  {
+    question: 'Can I repay a personal loan early in Spain?',
+    answer: 'Yes. Under Ley 16/2011, you have the right to repay any personal loan early, either partially or in full. The maximum early repayment fee is 1% of the amount repaid if more than one year remains, or 0.5% if less than one year remains. No contractual clause can override these legal limits.',
+  },
+  {
+    question: 'What is the cooling-off period for loans in Spain?',
+    answer: 'Spanish consumer credit law gives you a 14-day withdrawal right (derecho de desistimiento) after signing a personal loan contract. You can cancel the loan within this period without penalty or explanation. You only need to return the principal plus any interest accrued during those days.',
+  },
+  {
+    question: 'What are revolving credit cards and why are they risky?',
+    answer: 'Revolving credit cards in Spain charge TAE rates typically between 18% and 27%. The Spanish Supreme Court ruled in 2020 that many revolving card interest rates are usurious. If you have a revolving card with a TAE above 20%, you may be able to reclaim excess interest paid. These products use compound interest against you, making debts grow exponentially.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Loan Calculator Spain ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Loan Calculator"
+  path="/en/loan-calculator/"
+  faqs={faqs}
+  locale="en"
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <Prestamo client:load lang="en" />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guide to personal loans in Spain: what expats and residents need to know
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        A personal loan (prestamo personal) in Spain is an unsecured credit agreement where a bank lends you a sum of money that you repay over a fixed term with interest. Unlike a mortgage, a personal loan is not backed by property — your creditworthiness is the guarantee. This is why personal loan interest rates are always higher than mortgage rates: the lender takes on more risk and charges accordingly. Personal loans are commonly used for car purchases, home renovations, education, and bridging short-term financial needs.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">The French amortisation system explained</h3>
+      <p>
+        The vast majority of personal loans in Spain use the French amortisation system (sistema frances). Its defining feature is a constant monthly payment throughout the life of the loan. However, within that fixed payment, the proportion of interest versus principal changes: in the early months you pay mostly interest and little principal, and by the end the proportion reverses. This has a practical consequence: if you make an early repayment in the first months, you save proportionally more interest than if you repay near the end, because the interest component is larger at the beginning.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">TIN vs TAE: the two numbers you must compare</h3>
+      <p>
+        The TIN (Tipo de Interes Nominal) is the pure interest percentage applied to the outstanding principal. But the true cost of a loan goes beyond TIN: there are arrangement fees (comision de apertura), study fees, mandatory linked insurance, and other charges that increase the cost. The TAE (Tasa Anual Equivalente) is the figure that incorporates all these costs, allowing you to compare loans from different banks on equal terms. By law, all Spanish bank advertising must display the TAE. A loan with a TIN of 5% but high fees might have a TAE of 7%, while another with a TIN of 5.5% and no fees could be cheaper overall in TAE terms.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">How much can you borrow?</h3>
+      <p>
+        Spanish financial institutions generally apply a rule that your loan payment, together with all other debts, should not exceed 35-40% of your net monthly income. If you earn 2,500 EUR net per month and already pay 400 EUR on a mortgage, your additional borrowing capacity is around 500-600 EUR per month in repayments. Typical terms range from 12 to 96 months. A longer term means a lower monthly payment but more total interest. A 10,000 EUR loan at 7% TAE costs 1,116 EUR in interest over 3 years but 1,881 EUR over 5 years. The comfort of a lower monthly payment comes at a significantly higher total cost.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Example: 15,000 EUR car loan at 6.5% over 5 years</h3>
+      <p>
+        Sarah, a British expat working in Madrid, needs to finance a second-hand car for 15,000 EUR with a personal loan at 6.5% TIN over 60 months:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Monthly payment:</strong> 293.27 EUR (constant for 60 months).</li>
+        <li><strong>Total paid:</strong> 293.27 x 60 = 17,596.20 EUR.</li>
+        <li><strong>Total interest:</strong> 17,596.20 - 15,000 = <strong>2,596.20 EUR</strong>.</li>
+        <li>In the first month, 81.25 EUR goes to interest and 212.02 EUR to principal.</li>
+        <li>In the final month, only 1.59 EUR goes to interest and 291.68 EUR to principal.</li>
+      </ul>
+      <p>
+        If Sarah shortened the term to 3 years (36 months), her monthly payment would rise to 459.52 EUR, but total interest would drop to 1,542.72 EUR — saving over 1,000 EUR compared to the 5-year term.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Comparison table: 10,000 EUR at different terms (7% TAE)</h3>
+      <p>
+        To visualise how the loan term impacts total cost, here is a 10,000 EUR loan at 7% TAE using the French amortisation system:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Term</th>
+              <th class="px-3 py-2 text-right">Monthly payment</th>
+              <th class="px-3 py-2 text-right">Total interest</th>
+              <th class="px-3 py-2 text-right">Total paid</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">24 months (2 years)</td><td class="px-3 py-1 text-right">447.73 EUR</td><td class="px-3 py-1 text-right">745.52 EUR</td><td class="px-3 py-1 text-right">10,745.52 EUR</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">36 months (3 years)</td><td class="px-3 py-1 text-right">308.77 EUR</td><td class="px-3 py-1 text-right">1,115.72 EUR</td><td class="px-3 py-1 text-right">11,115.72 EUR</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">48 months (4 years)</td><td class="px-3 py-1 text-right">239.46 EUR</td><td class="px-3 py-1 text-right">1,494.08 EUR</td><td class="px-3 py-1 text-right">11,494.08 EUR</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">60 months (5 years)</td><td class="px-3 py-1 text-right">198.01 EUR</td><td class="px-3 py-1 text-right">1,880.60 EUR</td><td class="px-3 py-1 text-right">11,880.60 EUR</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The difference is striking: going from 2 to 5 years nearly halves the monthly payment (from 448 EUR to 198 EUR), but total interest more than doubles (from 746 EUR to 1,881 EUR). The right choice depends on your monthly budget and your tolerance for total cost. As a rule of thumb, choose the shortest term whose monthly payment fits comfortably within your budget — ideally no more than 20% of your net income.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Early repayment: your rights as a borrower</h3>
+      <p>
+        Under Spanish consumer credit law (Ley 16/2011), every borrower has the right to repay a personal loan early, either in full or partially. The maximum fee the bank can charge is 1% of the amount repaid if more than one year remains on the loan, or 0.5% if less than one year remains. Additionally, the fee can never exceed the total interest you would have paid during the remaining term. This makes early repayment particularly attractive during the first years of the loan, when the interest component in each payment is at its highest.
+      </p>
+      <p>
+        When does early repayment make sense? As a general rule, if your loan TAE exceeds the after-tax return you are getting on your savings, then every euro you repay early effectively "earns" you the difference. For instance, if your loan TAE is 7% and your savings account pays 2.5% after tax, each euro of early repayment gives you an effective 4.5% return risk-free.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Consumer rights you should know about</h3>
+      <p>
+        Spanish law provides several important protections for loan borrowers. The <strong>14-day withdrawal right</strong> (derecho de desistimiento) allows you to cancel a personal loan within 14 calendar days of signing, without penalty or explanation. You only need to return the principal and interest accrued during those days. This is particularly useful if you signed a point-of-sale finance agreement on impulse and want to reconsider.
+      </p>
+      <p>
+        Before signing, the lender must provide you with the European Standardised Information Sheet (Informacion Normalizada Europea), a standardised document summarising the loan conditions: TAE, monthly payment, total amount payable, commissions and linked insurance. If the bank did not provide this before you signed, or if the contract TAE does not match the advertised rate, you may have grounds for a complaint. The Bank of Spain operates a free complaints service, though its resolutions are not legally binding.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Sources</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2007-20555" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 16/2011, consumer credit contracts</a> — Pre-contractual information obligations, TAE calculation and 14-day withdrawal right.</li>
+        <li><a href="https://www.bde.es/bde/es/" class="text-brand hover:underline" target="_blank" rel="noopener">Bank of Spain (Banco de Espana)</a> — Consumer banking portal with interest rate comparisons and complaint procedures.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2019-5765" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 5/2019, mortgage credit contracts</a> — Transparency standards (TAE, FEIN) that influence all Spanish credit regulation.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

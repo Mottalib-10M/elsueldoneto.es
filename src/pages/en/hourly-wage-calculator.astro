@@ -1,0 +1,200 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import HoraTrabajada from '../../components/calculadoras/HoraTrabajada';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+
+const title = `Hourly Wage Calculator Spain ${CURRENT_FISCAL_YEAR}: Per Hour`;
+const description = `Convert your annual or monthly salary to an hourly rate in Spain ${CURRENT_FISCAL_YEAR}. Factor in working hours, holidays and pay periods to find your true hourly wage.`;
+
+const faqs = [
+  { question: 'How do I calculate my hourly wage from annual salary?', answer: `Divide your annual gross salary by the total number of effective working hours per year. In Spain, the standard maximum is 1,826 hours/year (40 hours/week × 45.65 weeks after holidays). For example, €30,000 gross ÷ 1,826 hours = €16.43/hour gross.` },
+  { question: 'What is the minimum hourly wage in Spain?', answer: `The minimum wage (SMI) in ${CURRENT_FISCAL_YEAR} is €1,184/month in 14 payments (€16,576/year). Divided by standard annual hours, this works out to approximately €9.08/hour gross. The net hourly rate is slightly lower after Social Security contributions.` },
+  { question: 'Does the number of pay periods affect my hourly rate?', answer: 'No, the hourly rate is the same whether you receive 12 or 14 payments. The annual gross is identical in both cases — only the monthly distribution changes. Your hourly rate is always annual gross divided by annual working hours.' },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Hourly Wage Calculator ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Hourly Wage Calculator"
+  path="/en/hourly-wage-calculator/"
+  faqs={faqs}
+  locale="en"
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <HoraTrabajada client:load lang="en" />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      How to calculate your real hourly wage
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Knowing your true hourly wage is essential for comparing job offers, evaluating overtime compensation, and understanding the real value of your time. In Spain, most employment contracts state annual or monthly salaries, making it easy to lose sight of what you earn per hour of work.
+      </p>
+      <p>
+        The calculation accounts for public holidays (14 nationally plus regional holidays), paid annual leave (minimum 22 working days by law), and your weekly working hours. A full-time worker on a 40-hour week typically works around 1,826 effective hours per year, though this varies slightly by calendar year and collective agreement.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      How annual working hours are calculated in Spain
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spain's Workers' Statute (Estatuto de los Trabajadores) sets the maximum ordinary working time at <strong>40 hours per week on an annual average</strong> and <strong>1,826 hours per year</strong>. This annual maximum is derived from the weekly limit minus the time lost to holidays and rest days. Understanding the exact calculation helps you verify your contract and payslip.
+      </p>
+      <p>
+        The formula works as follows: A year has 365 days. Subtracting 52 Sundays, 52 Saturdays (for Monday-to-Friday workers), 14 public holidays, and 22 working days of annual leave gives approximately 225 effective working days. At 8 hours per day, this yields 1,800 hours. The exact number varies each year depending on how public holidays fall (some may coincide with weekends), which is why you will see figures ranging from 1,780 to 1,826 hours depending on the source and year.
+      </p>
+      <p>
+        Many collective agreements (convenios colectivos) set even lower limits. For example, the banking sector agreement establishes approximately 1,700 annual hours, while some industrial agreements set 1,750 hours. If your collective agreement specifies fewer hours than the legal maximum, the agreement's figure applies, effectively increasing your hourly rate for the same annual salary.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      Hourly rate comparison at different salary levels
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        The following table converts common Spanish salaries to their hourly equivalents, showing both gross and approximate net rates. Net figures assume a single taxpayer in Madrid with 14 payments and standard deductions, using 1,800 effective working hours per year.
+      </p>
+      <div class="overflow-x-auto my-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left">Annual gross salary</th>
+              <th class="px-4 py-2 text-left">Gross hourly rate</th>
+              <th class="px-4 py-2 text-left">Approx. net hourly rate</th>
+              <th class="px-4 py-2 text-left">Monthly gross (14 pays)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€16,576 (SMI)</td><td class="px-4 py-2">€9.21</td><td class="px-4 py-2">€8.11</td><td class="px-4 py-2">€1,184</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€20,000</td><td class="px-4 py-2">€11.11</td><td class="px-4 py-2">€9.53</td><td class="px-4 py-2">€1,429</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€25,000</td><td class="px-4 py-2">€13.89</td><td class="px-4 py-2">€11.17</td><td class="px-4 py-2">€1,786</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€30,000</td><td class="px-4 py-2">€16.67</td><td class="px-4 py-2">€12.87</td><td class="px-4 py-2">€2,143</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€40,000</td><td class="px-4 py-2">€22.22</td><td class="px-4 py-2">€16.57</td><td class="px-4 py-2">€2,857</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€50,000</td><td class="px-4 py-2">€27.78</td><td class="px-4 py-2">€20.08</td><td class="px-4 py-2">€3,571</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€60,000</td><td class="px-4 py-2">€33.33</td><td class="px-4 py-2">€23.20</td><td class="px-4 py-2">€4,286</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€80,000</td><td class="px-4 py-2">€44.44</td><td class="px-4 py-2">€29.72</td><td class="px-4 py-2">€5,714</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The gap between gross and net hourly rates widens as salary increases, reflecting Spain's progressive tax system. At the minimum wage, you keep about 88% of your gross hourly rate, while at €80,000 you keep around 67%. This table is particularly useful for freelancers setting their rates — you need to charge significantly more than your desired net hourly rate to account for taxes and Social Security.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      Overtime rules in Spain
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Overtime (horas extraordinarias) in Spain is regulated by Article 35 of the Workers' Statute and subject to important limits and compensation rules that every worker should understand.
+      </p>
+      <p>
+        <strong>Annual cap:</strong> The maximum overtime allowed is <strong>80 hours per year</strong>. This limit is strictly enforced, and employers must maintain a daily record of working hours (registro de jornada), introduced by Royal Decree-Law 8/2019. Workers who exceed this limit — or whose employers fail to record their hours — can file complaints with the Labour Inspectorate.
+      </p>
+      <p>
+        <strong>Compensation:</strong> Overtime must be compensated either with additional pay or with equivalent time off within four months. The Workers' Statute does not set a mandatory overtime premium, but most collective agreements establish that overtime hours must be paid at a rate <strong>at least 75% above the standard hourly rate</strong>. If no collective agreement applies, the minimum compensation is the same as the regular hourly rate (no premium), but time off in lieu is more common in practice.
+      </p>
+      <p>
+        <strong>Forced overtime:</strong> Overtime is generally voluntary — your employer cannot force you to work overtime except in cases of force majeure (emergencies, disaster prevention, urgent repairs). Refusing voluntary overtime cannot be grounds for disciplinary action or dismissal.
+      </p>
+      <p>
+        <strong>Exceptions:</strong> Overtime for force majeure (preventing or repairing extraordinary damage) does not count toward the 80-hour annual limit. Part-time workers are generally prohibited from working overtime, though they may work complementary hours (horas complementarias) up to limits established in their contract.
+      </p>
+      <p>
+        To calculate what your overtime hour is worth, take your gross hourly rate and apply the premium from your collective agreement. For example, a worker earning €30,000 gross (€16.67/hour) with a 75% overtime premium would earn approximately €29.17 gross per overtime hour.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      The 37.5-hour work week proposal
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spain has been actively debating a reduction in the standard working week from 40 hours to <strong>37.5 hours</strong>, without any reduction in pay. This proposal, championed by the Ministry of Labour, would represent one of the most significant changes to Spanish working conditions in decades.
+      </p>
+      <p>
+        If implemented, the reform would reduce annual working hours from approximately 1,800 to around 1,690 hours. For workers, this effectively increases the hourly rate without changing their salary. A worker earning €30,000 annually would see their gross hourly rate rise from €16.67 to approximately €17.75 — a 6.5% increase in the value of each working hour.
+      </p>
+      <p>
+        The proposal has faced resistance from employer organisations, particularly small and medium enterprises that argue the increased per-hour labour cost could reduce competitiveness and employment. Supporters point to studies suggesting that reduced working hours can maintain or even improve productivity while enhancing worker wellbeing.
+      </p>
+      <p>
+        For expats evaluating job offers in Spain, this potential reform is worth monitoring. If the 37.5-hour week becomes law, existing employment contracts would need to be adjusted, and any job offer negotiated in the meantime should clarify whether the stated salary assumes a 40-hour or 37.5-hour work week.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      How holidays and leave affect your hourly rate
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spain is relatively generous with paid time off, which has a direct impact on your effective hourly rate. The more paid non-working days you have, the higher your true hourly compensation for the hours you actually work.
+      </p>
+      <p>
+        <strong>Annual leave:</strong> All workers are entitled to a minimum of 30 calendar days (approximately 22 working days) of paid holiday per year. Many collective agreements and individual contracts offer more — 23 to 25 working days is common in many sectors. Some agreements also grant additional days based on seniority (for example, one extra day for every five years of service).
+      </p>
+      <p>
+        <strong>Public holidays:</strong> Spain has 14 annual public holidays: 8 are national (set by the central government), 2 are set by each autonomous community, and 2 are set by each municipality. When a national holiday falls on a Sunday, it is typically moved to the following Monday, though this varies by year and region.
+      </p>
+      <p>
+        <strong>Paid leave (permisos retribuidos):</strong> Beyond annual holiday, workers are entitled to paid leave for specific life events: 15 calendar days for marriage, 5 days for serious illness or death of a close family member, 1 day for moving house, and time necessary for prenatal exams. These paid absences further reduce your effective annual working hours.
+      </p>
+      <p>
+        When you factor in all these entitlements, the gap between your contractual hourly rate and your real hourly compensation narrows significantly. A worker who takes all 22 days of holiday plus benefits from 14 public holidays has approximately 36 paid non-working days per year. At 8 hours per day, that represents 288 hours of compensation received without working — roughly 16% of the year's total paid hours. Your effective hourly rate, considering only hours actually worked, is therefore about 16% higher than the simple division of annual salary by total paid hours suggests.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      Minimum wage hourly breakdown
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spain's minimum interprofessional wage (Salario Mínimo Interprofesional, or SMI) is set annually by the government. For 2025, the SMI stands at <strong>€1,184 per month in 14 payments</strong>, equivalent to <strong>€16,576 per year</strong>. Understanding this figure on an hourly basis provides context for evaluating wages across different contract types.
+      </p>
+      <p>
+        Dividing the annual SMI by standard working hours: €16,576 / 1,800 hours = <strong>€9.21 gross per hour</strong>. After employee Social Security contributions (approximately 6.47%) and minimal IRPF withholding (often 2% or less at this income level), the net hourly rate is approximately <strong>€8.11</strong>.
+      </p>
+      <p>
+        For context, Spain's minimum hourly wage compares as follows within the EU: France sets its SMIC at approximately €11.65 gross per hour, Germany's Mindestlohn is €12.82 per hour, and Portugal's minimum wage translates to roughly €4.85 per hour. Spain sits in the middle of the pack among western European nations, though its lower cost of living — particularly outside Madrid and Barcelona — means purchasing power is relatively stronger than the raw number suggests.
+      </p>
+      <p>
+        Workers paid at or near the minimum wage should pay particular attention to their contract's weekly hours. A full-time contract at minimum wage on a 40-hour week yields €9.21/hour, but a reduced-hours contract paying the same monthly amount for fewer hours effectively pays more per hour. Conversely, if you are working more than 40 hours but only being paid for 40, you are being underpaid and should raise this with your employer or the labour inspectorate.
+      </p>
+    </div>
+  </section>
+</CalculadoraLayout>

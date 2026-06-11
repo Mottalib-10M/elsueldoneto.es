@@ -1,0 +1,70 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import { SITE_NAME, SITE_URL } from '../../config';
+import { buildBreadcrumbSchema } from '../../lib/seo';
+
+const title = `Terms of Use - ${SITE_NAME} | Website Usage Conditions`;
+const description = `Terms of use for ${SITE_NAME}. Read about website usage conditions, user responsibilities, content accuracy disclaimer, intellectual property and liability limits.`;
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Home', url: '/en/' },
+    { name: 'Terms of Use', url: '/en/terms/' },
+  ]),
+];
+---
+
+<Layout title={title} description={description} schema={schemas} locale="en">
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/en/" class="hover:text-brand">Home</a> / <span class="text-charcoal dark:text-gray-200">Terms of Use</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">Terms of Use</h1>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <p>
+        Welcome to <strong>{SITE_NAME}</strong> ({SITE_URL}). By accessing and using this website, you agree to be bound by the following terms and conditions. If you do not agree with any part of these terms, please do not use this website.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Purpose of the Website</h2>
+      <p>
+        {SITE_NAME} provides free online tools for calculating net salary, tax withholdings, and other financial estimates related to Spanish taxation. The website also publishes informational guides about the Spanish tax system. All tools and content are provided for informational and educational purposes only and do not constitute professional tax, legal, or financial advice.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Accuracy of Calculations</h2>
+      <p>
+        While we make every effort to ensure the accuracy of our calculators and content based on current Spanish legislation, we cannot guarantee that results are error-free or reflect the latest regulatory changes. Tax legislation is subject to frequent amendments, and individual circumstances can affect actual outcomes. Users should verify calculations with qualified tax advisors or official sources such as the Agencia Tributaria (AEAT) before making financial decisions.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">User Responsibilities</h2>
+      <p>
+        Users agree to use this website in a lawful manner and in accordance with these terms. Users shall not: (a) use the website for any illegal or unauthorized purpose; (b) attempt to gain unauthorized access to any part of the website, its servers, or any connected systems; (c) reproduce, distribute, or modify any content without prior written authorization; or (d) use automated systems to extract data from the website (scraping) without express permission.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Intellectual Property</h2>
+      <p>
+        All content, design, code, logos, and trademarks on this website are the property of {SITE_NAME} or its licensors and are protected by intellectual property laws. Users may access and use the website for personal, non-commercial purposes only. Any other use requires prior written consent.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Limitation of Liability</h2>
+      <p>
+        {SITE_NAME} shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising from the use of or inability to use this website, including but not limited to damages resulting from reliance on calculation results or informational content. The website is provided on an "as is" and "as available" basis without warranties of any kind.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Modifications</h2>
+      <p>
+        We reserve the right to modify these terms at any time without prior notice. Changes will take effect immediately upon publication on this page. Continued use of the website after any modifications constitutes acceptance of the updated terms.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Governing Law</h2>
+      <p>
+        These terms are governed by and construed in accordance with Spanish law. Any disputes arising from the use of this website shall be submitted to the competent courts of Spain.
+      </p>
+
+      <p class="text-sm text-medium-gray">
+        These terms of use were last updated in January {new Date().getFullYear()}.
+      </p>
+    </div>
+  </div>
+</Layout>

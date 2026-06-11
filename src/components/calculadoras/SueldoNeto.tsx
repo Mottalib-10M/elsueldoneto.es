@@ -10,13 +10,16 @@ interface SueldoNetoProps {
   initialBruto?: number;
   initialCCAA?: CCAACodigo;
   initialPagas?: 12 | 14;
+  lang?: 'es' | 'en';
 }
 
 export default function SueldoNeto({
   initialBruto = 30_000,
   initialCCAA = 'MD',
   initialPagas = 14,
+  lang = 'es',
 }: SueldoNetoProps) {
+  const l = lang === 'en';
   const [brutoAnual, setBrutoAnual] = useState(String(initialBruto));
   const [ccaa, setCCAA] = useState<CCAACodigo>(initialCCAA);
   const [pagas, setPagas] = useState<12 | 14>(initialPagas);
@@ -72,21 +75,22 @@ export default function SueldoNeto({
     <div className="space-y-6">
       <CampoSalario
         id="bruto-anual"
-        label="Salario bruto"
+        label={l ? 'Gross salary' : 'Salario bruto'}
         value={brutoAnual}
         onChange={setBrutoAnual}
         divisor={pagas}
         min={0}
         max={1_000_000}
         step={100}
+        lang={lang}
       />
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <SelectorCCAA value={ccaa} onChange={setCCAA} />
+        <SelectorCCAA value={ccaa} onChange={setCCAA} lang={lang} />
 
         <div className="flex h-full flex-col">
           <label className="mb-1 flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">
-            Número de pagas
+            {l ? 'Number of payments' : 'Número de pagas'}
           </label>
           <div>
             <div className="flex gap-2">
@@ -100,7 +104,7 @@ export default function SueldoNeto({
                       : 'border-gray-300 text-gray-600 hover:border-gray-400 dark:border-gray-600 dark:text-gray-300'
                   }`}
                 >
-                  {p} pagas
+                  {p} {l ? 'payments' : 'pagas'}
                 </button>
               ))}
             </div>
@@ -117,7 +121,7 @@ export default function SueldoNeto({
               onClick={() => setShowFamiliar(!showFamiliar)}
               className="flex w-full items-center justify-between rounded-lg border border-gray-200 px-4 py-2 text-sm text-gray-600 transition-colors hover:border-gray-400 dark:border-gray-600 dark:text-gray-300"
             >
-              <span>Situación familiar</span>
+              <span>{l ? 'Family situation' : 'Situación familiar'}</span>
               <svg
                 className={`h-4 w-4 transition-transform ${showFamiliar ? 'rotate-180' : ''}`}
                 fill="none"
@@ -137,10 +141,11 @@ export default function SueldoNeto({
         <SelectorSituacionFamiliar
           value={situacion}
           onChange={setSituacion}
+          lang={lang}
         />
       )}
 
-      <PanelResultado resultado={resultado} />
+      <PanelResultado resultado={resultado} lang={lang} />
     </div>
   );
 }

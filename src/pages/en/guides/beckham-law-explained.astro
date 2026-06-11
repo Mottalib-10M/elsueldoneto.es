@@ -1,0 +1,196 @@
+---
+import Layout from '../../../components/layout/Layout.astro';
+import { CURRENT_FISCAL_YEAR } from '../../../config';
+import { buildBreadcrumbSchema, buildFAQSchema } from '../../../lib/seo';
+
+const title = `Beckham Law Spain ${CURRENT_FISCAL_YEAR}: Complete Tax Guide`;
+const description = `Everything about Spain's Beckham Law: flat 24% income tax for expats, eligibility requirements, application process, advantages, drawbacks and key deadlines.`;
+
+const faqs = [
+  { question: 'What is the Beckham Law flat tax rate?', answer: 'Under the Beckham Law (Régimen de Impatriados), qualifying taxpayers pay a flat 24% on Spanish-sourced income up to €600,000. Income above that threshold is taxed at 47%. Foreign-sourced income (except employment income) is generally exempt.' },
+  { question: 'Who qualifies for the Beckham Law?', answer: 'You must not have been a Spanish tax resident during the five tax years prior to your move. You must relocate to Spain due to an employment contract, a director appointment (with ownership limits), or to carry out entrepreneurial activity. You must register within six months of starting work in Spain.' },
+  { question: 'How long does the Beckham Law last?', answer: 'The special tax regime applies for the year of arrival plus the following five tax years, giving a maximum of six years of preferential taxation. After that period, you move to the standard progressive IRPF regime.' },
+  { question: 'Can I apply the Beckham Law if I am self-employed?', answer: 'Since the 2023 Startups Law reform, certain self-employed individuals, entrepreneurs, and highly qualified professionals providing services to startups can also apply for the regime, provided they meet specific requirements regarding innovative activity and income composition.' },
+];
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Home', url: '/en/' },
+    { name: 'Guides', url: '/en/guides/' },
+    { name: 'Beckham Law', url: '/en/guides/beckham-law-explained/' },
+  ]),
+  buildFAQSchema(faqs, 'en'),
+];
+---
+
+<Layout title={title} description={description} schema={schemas} locale="en">
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/en/" class="hover:text-brand">Home</a> /
+      <a href="/en/guides/" class="hover:text-brand">Guides</a> /
+      <span class="text-charcoal dark:text-gray-200">Beckham Law</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      Beckham Law in Spain: Complete Guide ({CURRENT_FISCAL_YEAR})
+    </h1>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <p>
+        The Beckham Law, officially known as the Special Regime for Inbound Workers (<em>Régimen Especial de Trabajadores Desplazados</em>, Article 93 of the IRPF Law), allows qualifying individuals who move to Spain to pay a flat 24% tax on their Spanish-sourced income instead of the standard progressive rates that can reach up to 47%. Named informally after footballer David Beckham, who benefited from this regime when he joined Real Madrid, it remains one of the most attractive fiscal incentives for expats relocating to Spain.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Eligibility Requirements</h2>
+      <p>
+        To qualify, you must not have been a tax resident in Spain during the five years preceding your relocation. You need a valid reason for moving: an employment contract with a Spanish entity, a director role (provided you own less than 25% of the company), or, since the 2023 Startups Law, an entrepreneurial or innovative professional activity. You must formally apply to the Tax Agency (AEAT) using Form 149 within six months of registering with Social Security or starting your activity.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Tax Treatment and Duration</h2>
+      <p>
+        Under this regime, you are treated as a non-resident for tax purposes even though you live in Spain. Spanish-sourced employment income up to €600,000 is taxed at a flat 24%, and any excess is taxed at 47%. Dividends, interest, and capital gains from Spanish sources are taxed at the standard savings rates (19%-28%). Crucially, foreign-sourced non-employment income is generally exempt. The regime lasts for the year of arrival plus the following five tax years. However, you will not benefit from double taxation treaties since you file as a non-resident under this regime, which can be a disadvantage if you have significant income from your home country.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Advantages and Drawbacks</h2>
+      <p>
+        The main advantage is clear: significant tax savings for high earners. Someone earning €100,000 under the Beckham Law pays roughly 24% effective tax, compared to approximately 35-40% under the normal IRPF regime. You also avoid the Wealth Tax on foreign assets and are exempt from the obligation to declare overseas assets via Form 720. However, the drawbacks include the inability to apply standard personal and family deductions, exclusion from double taxation treaty benefits, and the fact that your spouse cannot file a joint return. It is essential to model both scenarios before committing.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Detailed Eligibility Checklist</h2>
+      <p>
+        Before applying, verify that you satisfy every one of the following conditions. Missing even one will result in your application being denied:
+      </p>
+      <ul>
+        <li><strong>Non-residency history:</strong> You must not have been a Spanish tax resident during the five complete tax years immediately before the year of your relocation. If you lived in Spain for even one year during this window, you are disqualified.</li>
+        <li><strong>Valid trigger for relocation:</strong> You must move to Spain as a result of one of the following: (a) an employment contract with a Spanish company or a Spanish branch of a foreign company, (b) an appointment as a director or board member of a company in which you hold less than 25% equity, or (c) since the 2023 reform, to carry out an entrepreneurial, innovative, or highly qualified professional activity.</li>
+        <li><strong>Spanish-sourced income requirement:</strong> The majority of your income must not come from a Spanish permanent establishment. Specifically, income from a permanent establishment in Spain should not exceed 15% of all employment income.</li>
+        <li><strong>Timely application:</strong> You must submit Form 149 to the AEAT within six months of your Social Security registration date or the start of your activity in Spain.</li>
+        <li><strong>Effective relocation:</strong> You must actually move to Spain and become a tax resident (spending more than 183 days per year in the country, or having your center of vital interests there).</li>
+      </ul>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Application Timeline and Process</h2>
+      <p>
+        The application process is straightforward but requires careful attention to deadlines. Here is the step-by-step timeline:
+      </p>
+      <ul>
+        <li><strong>Step 1 -- Arrive and register:</strong> Obtain your NIE (foreigner identification number), sign your employment contract, and register with Social Security. Your employer handles Social Security registration in most cases.</li>
+        <li><strong>Step 2 -- Submit Form 149:</strong> Within six months of your Social Security registration date, file Form 149 (Comunicacion de la opcion / renuncia / exclusion del regimen especial) with the AEAT. You can file it electronically with a digital certificate or in person at a tax office.</li>
+        <li><strong>Step 3 -- Receive confirmation:</strong> The AEAT typically responds within one to three months. You will receive Form 149 stamped with the date of acceptance. Keep this document, as it is your proof of eligibility.</li>
+        <li><strong>Step 4 -- File taxes under the regime:</strong> Each year, instead of the standard IRPF return (Model 100), you file Model 151 between April and June. Your employer should apply the flat 24% withholding from your first payslip.</li>
+        <li><strong>Step 5 -- End of regime:</strong> After six tax years (year of arrival plus five), you automatically revert to the standard IRPF system. No separate filing is needed for the transition.</li>
+      </ul>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Tax Savings Comparison at Different Salary Levels</h2>
+      <p>
+        The following table compares the approximate annual tax bill under the Beckham Law (flat 24%) versus the standard progressive IRPF regime for a single worker with no children registered in Madrid. Social Security contributions are excluded for clarity:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-gray-300 dark:border-gray-600">
+              <th class="py-2 pr-4 text-left font-semibold">Gross Salary</th>
+              <th class="py-2 pr-4 text-right font-semibold">Beckham Law Tax</th>
+              <th class="py-2 pr-4 text-right font-semibold">Standard IRPF Tax</th>
+              <th class="py-2 pr-4 text-right font-semibold">Annual Savings</th>
+              <th class="py-2 text-right font-semibold">6-Year Savings</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">€40,000</td>
+              <td class="py-2 pr-4 text-right">€9,600</td>
+              <td class="py-2 pr-4 text-right">€8,500</td>
+              <td class="py-2 pr-4 text-right text-red-600">-€1,100</td>
+              <td class="py-2 text-right text-red-600">-€6,600</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">€60,000</td>
+              <td class="py-2 pr-4 text-right">€14,400</td>
+              <td class="py-2 pr-4 text-right">€15,200</td>
+              <td class="py-2 pr-4 text-right">€800</td>
+              <td class="py-2 text-right">€4,800</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">€80,000</td>
+              <td class="py-2 pr-4 text-right">€19,200</td>
+              <td class="py-2 pr-4 text-right">€23,100</td>
+              <td class="py-2 pr-4 text-right">€3,900</td>
+              <td class="py-2 text-right">€23,400</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">€100,000</td>
+              <td class="py-2 pr-4 text-right">€24,000</td>
+              <td class="py-2 pr-4 text-right">€31,500</td>
+              <td class="py-2 pr-4 text-right">€7,500</td>
+              <td class="py-2 text-right">€45,000</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">€150,000</td>
+              <td class="py-2 pr-4 text-right">€36,000</td>
+              <td class="py-2 pr-4 text-right">€52,800</td>
+              <td class="py-2 pr-4 text-right">€16,800</td>
+              <td class="py-2 text-right">€100,800</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        As the table shows, the Beckham Law actually costs money at lower salaries (below roughly €55,000) because the flat 24% rate exceeds what the progressive system would charge, and you lose personal and family deductions. The breakeven point shifts depending on your community of residence and family situation.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Interaction with Wealth Tax and Solidarity Tax</h2>
+      <p>
+        One of the often-overlooked benefits of the Beckham Law is its impact on wealth taxation. Under the regime, you are taxed as a non-resident for IRPF purposes, which means only your assets located in Spain are subject to the Spanish Wealth Tax (<em>Impuesto sobre el Patrimonio</em>). Foreign real estate, overseas bank accounts, investments held abroad, and other non-Spanish assets fall outside the scope. This is particularly valuable for high-net-worth individuals who may have substantial portfolios outside Spain. Additionally, you are not required to file the Model 720 informative declaration of overseas assets, which carries severe penalties for late or incorrect filing under the standard regime. The Temporary Solidarity Tax on Great Fortunes (<em>Impuesto Temporal de Solidaridad de las Grandes Fortunas</em>), introduced in 2023, also only applies to Spanish-sited assets under this regime.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">The 2023 Startups Law Expansion</h2>
+      <p>
+        Law 28/2022, commonly called the Startups Law (<em>Ley de Startups</em>), significantly broadened the scope of the Beckham Law. Before this reform, only employees and company directors could apply. The new law extends eligibility to:
+      </p>
+      <ul>
+        <li><strong>Entrepreneurs:</strong> Individuals who move to Spain to develop an innovative entrepreneurial activity, provided they obtain a favorable report from ENISA (the national innovation agency).</li>
+        <li><strong>Highly qualified professionals:</strong> Workers providing services to startup companies or engaging in training, research, and development activities.</li>
+        <li><strong>Remote workers (digital nomads):</strong> Individuals working remotely for foreign employers, provided they meet the general non-residency requirement and obtain the appropriate visa.</li>
+      </ul>
+      <p>
+        The reform also reduced the prior non-residency requirement from ten years to five years, making it accessible to a much larger pool of applicants. Furthermore, the regime now applies to the taxpayer's spouse and children under 25 (or any age if disabled) who move to Spain, provided their income is lower than the primary applicant's. This family extension can result in significant additional savings for expatriate families.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Common Pitfalls and Mistakes</h2>
+      <p>
+        Even qualified applicants can run into problems. Here are the most common pitfalls to avoid:
+      </p>
+      <ul>
+        <li><strong>Missing the six-month deadline:</strong> The single most common reason for rejection. Count from your Social Security registration date, not from when you physically arrived or signed your contract.</li>
+        <li><strong>Prior tax residency:</strong> Spending more than 183 days in Spain in any of the five preceding years disqualifies you. Holidays and business trips count toward this total.</li>
+        <li><strong>Failing to model the numbers:</strong> At salaries below €55,000, the flat 24% rate may actually be higher than your progressive rate, especially if you have children or other deductions. Always run both scenarios.</li>
+        <li><strong>Double taxation treaty conflicts:</strong> Because you are taxed as a non-resident, you cannot benefit from most treaties. If you receive income from your home country that would normally be exempted or credited under a treaty, you could end up paying tax twice.</li>
+        <li><strong>Forgetting capital gains treatment:</strong> Spanish-sourced capital gains (such as selling property in Spain) are taxed at standard savings rates (19%-28%), not at the flat 24%. Many applicants mistakenly assume the flat rate covers everything.</li>
+        <li><strong>Not planning the exit:</strong> When the six-year period ends, the jump to progressive rates can be significant. Start planning at least one year before the transition to optimize your compensation structure.</li>
+      </ul>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Tax Planning Strategies Under the Beckham Law</h2>
+      <p>
+        To maximize the benefits of the regime, consider the following strategies:
+      </p>
+      <ul>
+        <li><strong>Front-load compensation:</strong> If possible, negotiate higher salary or bonuses during the six-year window when the 24% rate applies, and defer deferred compensation or pension contributions to after the regime ends.</li>
+        <li><strong>Keep investments outside Spain:</strong> Since foreign-sourced non-employment income is generally exempt and foreign assets are excluded from Wealth Tax, maintaining your investment portfolio abroad is more tax-efficient during the regime.</li>
+        <li><strong>Coordinate with your spouse:</strong> Since the 2023 reform, your spouse can also apply for the regime. If both partners qualify, the family tax savings can be doubled.</li>
+        <li><strong>Plan property purchases carefully:</strong> Buying property in Spain subjects the asset to Wealth Tax and any capital gains on sale to Spanish taxation. Consider whether renting might be more tax-efficient during the regime period.</li>
+        <li><strong>Consult a cross-border tax advisor:</strong> The interaction between Spanish tax law, your home country's tax system, and applicable treaties creates complexity that generic advice cannot address. A specialist advisor familiar with both jurisdictions is strongly recommended.</li>
+      </ul>
+    </div>
+
+    <section class="mt-10">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {faqs.map(faq => (
+          <details class="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
+            <summary class="cursor-pointer font-semibold text-charcoal dark:text-gray-100">{faq.question}</summary>
+            <p class="mt-2 text-sm text-dark-gray dark:text-gray-300">{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </div>
+</Layout>

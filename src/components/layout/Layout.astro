@@ -1,8 +1,10 @@
 ---
 import Header from './Header.astro';
 import Footer from './Footer.astro';
-import { SITE_NAME, SITE_URL, SITE_LANG, SITE_LOCALE, BRAND_COLOR } from '../../config';
-import { buildCanonical } from '../../lib/seo';
+import { SITE_NAME, SITE_URL, BRAND_COLOR } from '../../config';
+import { buildCanonical, buildOrganizationSchema, buildWebSiteSchema } from '../../lib/seo';
+import { getLocaleFromPath, getHreflangUrls, LANG_MAP, OG_LOCALE_MAP } from '../../i18n';
+import type { Locale } from '../../i18n/types';
 import '../../styles/global.css';
 
 interface Props {
@@ -13,6 +15,7 @@ interface Props {
   ogType?: 'website' | 'article';
   noindex?: boolean;
   schema?: object | object[];
+  locale?: Locale;
 }
 
 const {
@@ -23,26 +26,56 @@ const {
   ogType = 'website',
   noindex = false,
   schema,
+  locale: localeProp,
 } = Astro.props;
+
+const locale = localeProp || getLocaleFromPath(Astro.url.pathname);
+const lang = LANG_MAP[locale];
+const ogLocale = OG_LOCALE_MAP[locale];
+const alternateOgLocale = locale === 'es' ? OG_LOCALE_MAP.en : OG_LOCALE_MAP.es;
 
 const canonicalUrl = canonical || buildCanonical(Astro.url.pathname);
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${SITE_URL}${ogImage}`;
 
-const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+const pageSchemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+const isHomepage = Astro.url.pathname === '/' || Astro.url.pathname === '' || Astro.url.pathname === '/en/' || Astro.url.pathname === '/en';
+
+// Add Organization + WebSite schemas on the homepage
+const schemas = isHomepage
+  ? [buildOrganizationSchema(locale), buildWebSiteSchema(locale), ...pageSchemas]
+  : pageSchemas;
+
+// Hreflang
+const hreflang = getHreflangUrls(Astro.url.pathname);
 ---
 
 <!doctype html>
-<html lang={SITE_LANG}>
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Google Site Verification – replace content with your actual code from Search Console -->
+    <meta name="google-site-verification" content="REPLACE_WITH_YOUR_GOOGLE_VERIFICATION_CODE" />
 
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
 
     {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- hreflang -->
+    {hreflang && (
+      <>
+        <link rel="alternate" hreflang="es" href={`${SITE_URL}${hreflang.es}`} />
+        <link rel="alternate" hreflang="en" href={`${SITE_URL}${hreflang.en}`} />
+        <link rel="alternate" hreflang="x-default" href={`${SITE_URL}${hreflang.es}`} />
+      </>
+    )}
+
+    <!-- Preconnect to critical origins -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -58,7 +91,8 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImageUrl} />
-    <meta property="og:locale" content={SITE_LOCALE} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={alternateOgLocale} />
     <meta property="og:site_name" content={SITE_NAME} />
 
     <!-- Twitter Card -->
@@ -71,12 +105,21 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     {schemas.map((s) => (
       <script type="application/ld+json" set:html={JSON.stringify(s)} />
     ))}
+
+    <!-- Google Analytics (GA4) – replace G-XXXXXXXXXX with your actual Measurement ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
   </head>
   <body class="flex min-h-screen flex-col">
-    <Header />
+    <Header locale={locale} />
     <main class="flex-1">
       <slot />
     </main>
-    <Footer />
+    <Footer locale={locale} />
   </body>
 </html>

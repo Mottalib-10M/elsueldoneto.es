@@ -1,0 +1,235 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import Jubilacion from '../../components/calculadoras/Jubilacion';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+
+const title = `Retirement Pension Calculator Spain ${CURRENT_FISCAL_YEAR}: Estimate`;
+const description = `Estimate your Spanish state pension based on contribution years and salary. Updated retirement calculator with ${CURRENT_FISCAL_YEAR} rules, early retirement and delayed retirement options.`;
+
+const faqs = [
+  {
+    question: 'How many years do I need to contribute to receive a Spanish state pension?',
+    answer: `The minimum is 15 years of contributions to the Social Security system (cotizacion), of which at least 2 must fall within the 15 years immediately preceding retirement. With exactly 15 years of contributions, you receive 50% of the regulatory base (base reguladora). You need 36.5 years of contributions to receive the full 100%.`,
+  },
+  {
+    question: 'At what age can I retire in Spain?',
+    answer: `In ${CURRENT_FISCAL_YEAR}, if you have 38 or more years of contributions, you can retire at 65. With fewer years, the ordinary retirement age is 66 years and 8 months. From 2027 onwards, the system stabilises at 65 (with 38.5+ years contributed) or 67 (with fewer years).`,
+  },
+  {
+    question: 'How is the regulatory base (base reguladora) calculated?',
+    answer: 'The regulatory base is calculated by dividing the sum of your contribution bases for the last 25 years (300 months) by 350 (not 300, because the formula accounts for 14 annual payments). Contribution bases from more than 24 months before retirement are adjusted for inflation (CPI). Note that there is a maximum contribution base — currently €4,720.50/month — which caps both what you pay into the system and what you can receive.',
+  },
+  {
+    question: 'What is the maximum pension in Spain?',
+    answer: `The maximum monthly pension in ${CURRENT_FISCAL_YEAR} is approximately €3,175.04 gross, which equals €44,450.56 per year across 14 payments (12 monthly plus 2 extra payments in June and December). Even if your regulatory base would produce a higher pension, this ceiling applies.`,
+  },
+  {
+    question: 'Can I retire early in Spain?',
+    answer: 'Yes, under two modalities. Voluntary early retirement allows you to retire up to 2 years before your ordinary retirement age, but requires at least 35 years of contributions and applies a permanent reduction of 3.26%-4.17% per quarter of early retirement. Involuntary early retirement (due to redundancy, ERE, etc.) allows up to 4 years early with at least 33 years of contributions, with lower reduction coefficients of 1.625%-1.875% per quarter.',
+  },
+  {
+    question: 'What incentives exist for delaying retirement?',
+    answer: 'Each full year you work beyond your ordinary retirement age earns a 4% bonus on top of your pension, or you can opt for a lump-sum payment (which can exceed €10,000 per year of delay). There is also a mixed option combining a 2% bonus with a partial lump sum. Since the 2023 reform, you can also combine 100% of your pension with continued employment (jubilacion activa) if you have at least one year of delay and 100% of the regulatory base.',
+  },
+  {
+    question: 'Do expats who have worked in multiple countries qualify for a Spanish pension?',
+    answer: 'Yes, through EU regulations and bilateral Social Security agreements. Contributions made in other EU/EEA countries or countries with bilateral agreements (including the UK, USA, Canada, and many Latin American nations) can be aggregated to meet Spain\'s minimum contribution requirements. Each country then pays a proportional share (pro-rata) of the pension based on the time contributed in that country.',
+  },
+  {
+    question: 'Is the Spanish state pension taxed?',
+    answer: 'Yes. Retirement pensions are taxed as employment income (rendimiento del trabajo) under IRPF, using the same progressive brackets as salaries. However, pensioners benefit from the standard employment income reduction and, in many regions, additional deductions for age or disability. For a monthly pension of €1,500, the effective IRPF withholding is typically around 10-12%.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Retirement Pension Calculator Spain ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Retirement Calculator"
+  path="/en/retirement-calculator/"
+  faqs={faqs}
+  locale="en"
+  sources={[
+    { label: 'Social Security Law (LGSS)', url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724' },
+    { label: 'Seguridad Social: Retirement', url: 'https://www.seg-social.es/wps/portal/wss/internet/Trabajadores/PrestacionesPensionesTrabajadores/10963/28393/28396' },
+    { label: 'RDL 2/2023 (Pension Reform)', url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-6967' },
+  ]}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <Jubilacion client:load lang="en" />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Complete guide to the state pension in Spain
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spain's public pension system is a pay-as-you-go (reparto) model: contributions from today's workers directly fund today's pensions, rather than being saved in individual accounts. This intergenerational pact has provided broad coverage for decades, but it faces mounting demographic pressure. Spain's birth rate is among the lowest in Europe (1.16 children per woman, INE 2023), life expectancy exceeds 83 years, and the baby boom generation (born 1958-1975) will begin retiring en masse over the coming years. For anyone working in Spain — whether a lifetime resident or a recently arrived expat — understanding how this system works is not academic: it is essential for personal financial planning.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Qualifying for a contributory retirement pension</h3>
+      <p>
+        To receive a contributory retirement pension in Spain, you must meet two minimum contribution requirements:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>General minimum (carencia generica):</strong> at least 15 years (5,475 days) of contributions throughout your entire working life.</li>
+        <li><strong>Specific minimum (carencia especifica):</strong> at least 2 of those 15 years must have been contributed within the 15 years immediately preceding retirement. This prevents people who contributed briefly decades ago and never worked again from accessing the pension.</li>
+      </ul>
+      <p>
+        If you do not meet these requirements, you may qualify for a non-contributory pension (significantly lower, around €517/month in 2025), subject to income and residency conditions.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Retirement age: the transition to 2027</h3>
+      <p>
+        Since the 2011 reform (developed by Law 27/2011 and later modified by Royal Decree-Law 2/2023), Spain's ordinary retirement age depends on how many years you have contributed. Two thresholds are being gradually adjusted until 2027:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Year</th>
+              <th class="px-3 py-2 text-right">Contributions to retire at 65</th>
+              <th class="px-3 py-2 text-right">Age with fewer contributions</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2024</td><td class="px-3 py-1 text-right">38 years or more</td><td class="px-3 py-1 text-right">66 years 6 months</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2025</td><td class="px-3 py-1 text-right">38 years 3 months+</td><td class="px-3 py-1 text-right">66 years 8 months</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2026</td><td class="px-3 py-1 text-right">38 years or more</td><td class="px-3 py-1 text-right">66 years 8 months</td></tr>
+            <tr><td class="px-3 py-1">2027 onwards</td><td class="px-3 py-1 text-right">38 years 6 months+</td><td class="px-3 py-1 text-right">67 years</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        From 2027, the system stabilises: those with 38 years and 6 months or more of contributions can retire at 65; everyone else must wait until 67.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">How the regulatory base is calculated</h3>
+      <p>
+        The regulatory base (base reguladora) is the key figure from which your pension is derived. It is calculated by taking your contribution bases for the last 25 years (300 monthly payments), adding them up, and dividing by 350 (not 300, because the formula accounts for the 14 annual payments that include two bonus payments). The official formula is:
+      </p>
+      <p>
+        <strong>Regulatory base = Sum of the last 300 contribution bases / 350</strong>
+      </p>
+      <p>
+        Contribution bases from the 24 months immediately before retirement are taken at face value. Those from earlier months are adjusted by the Consumer Price Index (CPI) to account for inflation. This matters because a contribution base of €1,500 from 20 years ago has different purchasing power than €1,500 today.
+      </p>
+      <p>
+        It is important to distinguish between contribution base and gross salary. The contribution base includes gross monthly salary plus the proportional share of bonus payments, but is capped at the maximum contribution base (€4,720.50/month in 2025). Earners above this cap contribute only up to the ceiling, which limits their future regulatory base and pension.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Pension percentage by years of contribution</h3>
+      <p>
+        Once the regulatory base is determined, a percentage is applied based on total years of contribution:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li>15 years of contributions: <strong>50%</strong> of the regulatory base.</li>
+        <li>Each additional month from year 16 to year 25 (120 months): <strong>+0.21% per month</strong> (2.52% per full year).</li>
+        <li>Each additional month from year 26 to year 36.5 (138 months): <strong>+0.19% per month</strong> (2.28% per full year).</li>
+        <li><strong>100%</strong> of the regulatory base is reached at 36 years and 6 months of contributions.</li>
+      </ul>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Years contributed</th>
+              <th class="px-3 py-2 text-right">% of regulatory base</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">15 years</td><td class="px-3 py-1 text-right">50.00%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">20 years</td><td class="px-3 py-1 text-right">62.60%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">25 years</td><td class="px-3 py-1 text-right">75.20%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">30 years</td><td class="px-3 py-1 text-right">86.60%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">35 years</td><td class="px-3 py-1 text-right">98.00%</td></tr>
+            <tr><td class="px-3 py-1">36 years 6 months</td><td class="px-3 py-1 text-right">100.00%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The gap between 15 years (50%) and 25 years (75.20%) is enormous: each extra year adds an average of 2.52 percentage points. Beyond 25 years the increment slows to 2.28 points per year, but remains significant. Reaching 36.5 years for the full 100% requires starting work relatively young with few career interruptions.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Early retirement: voluntary and involuntary</h3>
+      <p>
+        Spanish law provides two early retirement pathways, both with permanent reductions to the pension:
+      </p>
+      <p>
+        <strong>Voluntary early retirement</strong> allows retirement up to 2 years before the ordinary age, requiring at least 35 years of contributions. The reduction ranges from 3.26% to 4.17% per quarter of anticipation, depending on total years contributed. With 35 years of contributions and 2 years of early retirement (8 quarters), the reduction can reach 26-33% of the pension — and it is permanent, applying for life.
+      </p>
+      <p>
+        <strong>Involuntary early retirement</strong> (triggered by redundancy, company restructuring, etc.) allows up to 4 years of early retirement with at least 33 years of contributions. The reduction coefficients are lower — 1.625% to 1.875% per quarter — but even so, 4 years early can mean a 26-30% cut.
+      </p>
+      <p>
+        Before opting for early retirement, it is worth running detailed calculations. The difference between retiring two years early and waiting can amount to several hundred euros per month for the rest of your life.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Delayed retirement: incentives for working longer</h3>
+      <p>
+        For those who can and wish to continue working past the ordinary retirement age, the system offers attractive incentives. Following the 2023 reform (RDL 2/2023), the options include:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Percentage bonus:</strong> an additional 4% of the regulatory base for each full year of work beyond the ordinary age. If your pension is already at 100%, each extra year increases it to 104%, 108%, etc. (subject to the maximum pension ceiling).</li>
+        <li><strong>Lump-sum payment:</strong> a one-off payment that depends on years contributed and the regulatory base. It can exceed €10,000 per year of delay in many cases.</li>
+        <li><strong>Mixed formula:</strong> a combination of a 2% annual bonus plus a partial lump sum.</li>
+      </ul>
+      <p>
+        Additionally, through the jubilacion activa mechanism, you can combine 100% of your pension with employment (either salaried or self-employed), provided you have at least one year of delay beyond the ordinary age and are entitled to 100% of the regulatory base.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Practical example: an expat planning retirement in Spain</h3>
+      <p>
+        Mark, a 45-year-old British national, has been working in Spain for 12 years with an average monthly contribution base of €3,000. He previously worked 10 years in the UK. He plans to continue working in Spain until age 65.
+      </p>
+      <p>
+        <strong>Total contribution years at 65:</strong> 12 current + 20 future (Spain) + 10 (UK, via EU coordination) = 42 years. With 42 years, Mark can retire at 65.
+      </p>
+      <p>
+        <strong>Pension percentage:</strong> 42 years far exceeds the 36.5 years needed for 100%, so Mark qualifies for 100% of the regulatory base.
+      </p>
+      <p>
+        <strong>Spanish pension portion:</strong> Spain will pay a pro-rata share based on 32 years of Spanish contributions out of 42 total. The regulatory base (simplified) is €3,000. The Spanish pension would be approximately: €3,000 x 100% x (32/42) = <strong>€2,285.71/month</strong>.
+      </p>
+      <p>
+        The UK would separately pay a State Pension based on Mark's 10 years of UK National Insurance contributions. Together, the two pensions would provide Mark's total retirement income. This example illustrates why understanding contribution aggregation across countries is crucial for expats.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">The future of the system: MEI, 2023 reforms, and sustainability</h3>
+      <p>
+        Spain's pension system faces unprecedented demographic challenges. To shore up its finances, the 2023 reform (Law 21/2023) introduced several measures:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Intergenerational Equity Mechanism (MEI):</strong> an additional contribution of 0.7% on the contribution base (0.58% employer, 0.12% employee), rising progressively to 1.2% by 2029. The funds go to the Social Security Reserve Fund to absorb the baby boom retirement wave.</li>
+        <li><strong>Solidarity contribution:</strong> from 2025, earnings above the maximum contribution base attract an additional levy (starting at 0.92%, rising to 1.17% by 2045) without generating additional pension rights.</li>
+        <li><strong>Automatic CPI revaluation:</strong> since 2022, pensions are adjusted annually in line with CPI, ensuring they maintain purchasing power. This replaced the previous system that often raised pensions below inflation.</li>
+        <li><strong>Progressive uncapping of maximum bases:</strong> the maximum contribution base will increase above CPI each year, accumulating an additional 1.2% annually until 2050, gradually raising both contributions and future maximum pensions.</li>
+      </ul>
+      <p>
+        Despite these reforms, long-term uncertainty remains. The independent fiscal authority AIReF projects that pension spending will rise from around 12% of GDP to over 15% by 2050. Many financial planners recommend supplementing the state pension with private savings — pension plans, investment funds, rental property — particularly for those with short or interrupted contribution records.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Contribution gaps and special agreements</h3>
+      <p>
+        Periods without contributions (lagunas de cotizacion) — caused by unemployment not covered by benefits, career breaks, time spent working abroad without a bilateral agreement, or periods of inactivity — affect your pension in two ways: they reduce your total contribution years (lowering the applicable percentage) and reduce the regulatory base (months without contributions count at the minimum base for that period).
+      </p>
+      <p>
+        To mitigate this, Spain offers the <strong>convenio especial</strong> (special agreement with Social Security), allowing voluntary contributions during periods of inactivity. You bear the full cost of both the employee and employer contributions, choosing a base between the minimum and your pre-inactivity level. This is particularly useful for people close to retirement who need to complete the 15-year minimum or reach a higher percentage bracket. Monthly costs typically range from €250 to €600 depending on the chosen base.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Taxation of pensions</h3>
+      <p>
+        Retirement pensions in Spain are taxed as employment income under IRPF, using the same progressive brackets as salaries — with marginal rates ranging from 19% to 47% depending on the autonomous community. Pensioners benefit from the standard employment income reduction and, in many regions, from age-related or disability-related deductions. For a monthly pension of €1,500 (€21,000/year), the effective IRPF withholding typically falls between 10-12%, leaving a net monthly income of approximately €1,320-€1,350.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Sources and references</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724" class="text-brand hover:underline" target="_blank" rel="noopener">General Social Security Law (LGSS)</a> — Consolidated text approved by Royal Legislative Decree 8/2015, covering retirement pension requirements and calculation.</li>
+        <li><a href="https://www.seg-social.es/wps/portal/wss/internet/Trabajadores/PrestacionesPensionesTrabajadores/10963/28393/28396" class="text-brand hover:underline" target="_blank" rel="noopener">Social Security: Retirement</a> — Official information portal with requirements, procedures, and simulators.</li>
+        <li><a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-6967" class="text-brand hover:underline" target="_blank" rel="noopener">RDL 2/2023 Pension Reform</a> — Introduces the MEI, solidarity contribution, CPI revaluation, and delayed retirement incentives.</li>
+        <li><a href="https://www.airef.es" class="text-brand hover:underline" target="_blank" rel="noopener">AIReF</a> — Independent projections on pension spending and fiscal sustainability.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

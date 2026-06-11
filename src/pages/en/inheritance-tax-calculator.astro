@@ -1,0 +1,303 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import Herencia from '../../components/calculadoras/Herencia';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+
+const title = `Inheritance Tax Calculator Spain ${CURRENT_FISCAL_YEAR}: Estimate`;
+const description = `Estimate inheritance and gift tax (Impuesto de Sucesiones y Donaciones) in Spain ${CURRENT_FISCAL_YEAR}. Rates vary dramatically by autonomous community and family relationship.`;
+
+const faqs = [
+  { question: 'How does inheritance tax work in Spain?', answer: 'Inheritance tax in Spain (Impuesto de Sucesiones y Donaciones) is paid by the heir, not the estate. The rate depends on the inherited amount, the family relationship to the deceased, the heir\'s pre-existing wealth, and crucially, the autonomous community where the deceased lived. Rates can range from near 0% to over 30%.' },
+  { question: 'Which regions have the lowest inheritance tax?', answer: 'Madrid, Andalusia and several other communities offer bonuses of 99-100% for close family members (Group I and II: children, spouses, parents), effectively eliminating the tax. Regions like Asturias and Castilla y León apply higher effective rates for larger inheritances.' },
+  { question: 'Do non-residents pay inheritance tax in Spain?', answer: 'Yes. Non-residents inheriting Spanish assets pay inheritance tax in Spain. Since 2015, non-EU residents can apply the most favourable regional regulations. EU/EEA residents already had this right. The tax is filed using modelo 650 with the central Tax Agency.' },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Inheritance Tax Calculator ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Inheritance Tax Calculator"
+  path="/en/inheritance-tax-calculator/"
+  faqs={faqs}
+  locale="en"
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <Herencia client:load lang="en" />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Guide to inheritance tax in Spain
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Inheritance and gift tax in Spain is one of the most regionally variable taxes in the country. While the base rates are set nationally, each autonomous community can — and does — apply its own reductions, bonuses and exemptions. The result is that inheriting the same amount can cost virtually nothing in Madrid while generating a significant tax bill in other regions.
+      </p>
+      <p>
+        For expats and non-residents with assets in Spain, understanding this tax is particularly important for estate planning. The applicable regulations depend on where the deceased was resident, the type of assets inherited, and the family relationship. Professional advice is recommended for complex estates, but this calculator provides a solid initial estimate.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Kinship groups explained
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spanish inheritance tax applies different treatment depending on the relationship between the heir and the deceased. Heirs are classified into four kinship groups (grupos de parentesco), each with different tax-free allowances and, in many regions, different bonus percentages:
+      </p>
+      <div class="overflow-x-auto mt-4 mb-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left font-semibold">Group</th>
+              <th class="px-4 py-2 text-left font-semibold">Relationship</th>
+              <th class="px-4 py-2 text-right font-semibold">State-level allowance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2 font-semibold">Group I</td>
+              <td class="px-4 py-2">Descendants (children, grandchildren) under 21</td>
+              <td class="px-4 py-2 text-right">15,956.87 EUR + 3,990.72 EUR per year under 21 (max 47,858.59 EUR)</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2 font-semibold">Group II</td>
+              <td class="px-4 py-2">Descendants 21+, spouses, ascendants (parents, grandparents)</td>
+              <td class="px-4 py-2 text-right">15,956.87 EUR</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2 font-semibold">Group III</td>
+              <td class="px-4 py-2">Siblings, aunts/uncles, nephews/nieces, in-laws</td>
+              <td class="px-4 py-2 text-right">7,993.46 EUR</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2 font-semibold">Group IV</td>
+              <td class="px-4 py-2">All other heirs (unrelated individuals, distant relatives)</td>
+              <td class="px-4 py-2 text-right">0 EUR</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        These state-level allowances are the baseline. Most autonomous communities significantly increase these allowances for Groups I and II, and some extend additional benefits to Group III as well. The kinship group also affects the multiplier coefficient applied to the base tax, with more distant relatives facing multipliers of up to 2.4 times the calculated tax.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Regional bonuses comparison
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        The most dramatic variation in inheritance tax across Spain comes from regional bonuses (bonificaciones). Many autonomous communities offer substantial reductions for close family members, effectively reducing or eliminating the tax. Here is a summary of bonuses for Group II heirs (adult children, spouses, parents):
+      </p>
+      <div class="overflow-x-auto mt-4 mb-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left font-semibold">Region</th>
+              <th class="px-4 py-2 text-right font-semibold">Bonus for Group II</th>
+              <th class="px-4 py-2 text-left font-semibold">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Madrid</td>
+              <td class="px-4 py-2 text-right">99%</td>
+              <td class="px-4 py-2">Near-total elimination for close family</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Andalusia</td>
+              <td class="px-4 py-2 text-right">99%</td>
+              <td class="px-4 py-2">For inheritances up to 1 million EUR per heir</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Cantabria</td>
+              <td class="px-4 py-2 text-right">99%</td>
+              <td class="px-4 py-2">Close family members</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Extremadura</td>
+              <td class="px-4 py-2 text-right">99%</td>
+              <td class="px-4 py-2">Close family members</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Murcia</td>
+              <td class="px-4 py-2 text-right">99%</td>
+              <td class="px-4 py-2">Close family members</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">La Rioja</td>
+              <td class="px-4 py-2 text-right">99%</td>
+              <td class="px-4 py-2">Close family members</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Galicia</td>
+              <td class="px-4 py-2 text-right">Up to 99%</td>
+              <td class="px-4 py-2">Graduated by inheritance amount</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Castilla y Leon</td>
+              <td class="px-4 py-2 text-right">99%</td>
+              <td class="px-4 py-2">Close family members</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Valencian Community</td>
+              <td class="px-4 py-2 text-right">50-75%</td>
+              <td class="px-4 py-2">Graduated, lower for larger amounts</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Catalonia</td>
+              <td class="px-4 py-2 text-right">20-99%</td>
+              <td class="px-4 py-2">Varies by amount; higher allowances instead</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Asturias</td>
+              <td class="px-4 py-2 text-right">Limited</td>
+              <td class="px-4 py-2">Among the highest effective rates</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        This table makes clear why the region of the deceased's residence is perhaps the single most important factor in determining the final tax bill. The difference between inheriting in Madrid (virtually no tax for close family) versus a region with limited bonuses can amount to tens of thousands of euros.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Step-by-step calculation example
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Let us walk through a concrete example. Maria, age 35, inherits 250,000 EUR from her mother who lived in a region with no regional bonus. Maria has no disability and her pre-existing wealth is under 402,678 EUR.
+      </p>
+      <ol class="list-decimal ml-4 space-y-2 mt-2">
+        <li><strong>Gross inheritance:</strong> 250,000 EUR.</li>
+        <li><strong>Apply Group II allowance:</strong> 250,000 - 15,956.87 = 234,043.13 EUR (taxable base).</li>
+        <li><strong>Apply the national tax brackets:</strong> The state-level rates range from 7.65% on the first 7,993.46 EUR to progressively higher rates on amounts above that. For a taxable base of 234,043.13 EUR, the calculated tax would be approximately 54,000 - 58,000 EUR before multipliers.</li>
+        <li><strong>Apply the pre-existing wealth multiplier:</strong> Since Maria's pre-existing wealth is under 402,678 EUR and she is in Group II, the multiplier is 1.0000 (no increase).</li>
+        <li><strong>Final tax:</strong> Approximately 55,000 EUR (before any regional bonus).</li>
+      </ol>
+      <p>
+        If Maria's mother had lived in Madrid, a 99% bonus would reduce this to approximately 550 EUR. If she lived in a region without generous bonuses, Maria would owe the full amount. This example illustrates the enormous impact of regional regulations.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Non-resident inheritance rules
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Inheritance tax applies not only to Spanish residents but also to non-residents who inherit Spanish assets (such as property, bank accounts, or shares in Spanish companies). The rules for non-residents have evolved significantly:
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">EU/EEA residents</h3>
+      <p>
+        Following a landmark European Court of Justice ruling in 2014, EU and EEA residents inheriting Spanish assets can apply the most favorable regional regulations. This means they can benefit from the same bonuses and allowances as if they were resident in the relevant autonomous community. This was a major change, as previously non-residents were subject to the less favorable state-level rules.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">Non-EU residents</h3>
+      <p>
+        Since 2015, Spain extended this right to non-EU residents as well, following additional legal challenges. Non-EU residents inheriting Spanish assets can now also apply the most favorable regional regulations. The applicable region is determined by the location of the highest-value Spanish assets being inherited, or by the deceased's region of residence if the heir chooses.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">Filing requirements</h3>
+      <p>
+        Non-residents must file the inheritance tax return (Modelo 650) with the central AEAT office in Madrid (Delegacion Central de Grandes Contribuyentes or the non-resident department), not with the regional tax authority. The filing deadline is six months from the date of death, with the possibility of requesting a six-month extension within the first five months.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Double taxation treaties and international considerations
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spain has relatively few double taxation treaties specifically covering inheritance and gift tax. As of the current fiscal year, treaties exist only with France, Greece, and Sweden. For residents of other countries, this can create situations of double taxation where both Spain and the heir's home country claim the right to tax the same inheritance.
+      </p>
+      <p>
+        In the absence of a specific treaty, many countries offer unilateral relief. For example, the United Kingdom allows a credit for foreign inheritance tax paid against UK inheritance tax liability. US citizens may claim a foreign tax credit on their US estate tax return. However, the mechanics are complex, and full relief is not always guaranteed.
+      </p>
+      <p>
+        Expats with assets in multiple countries should seek professional advice from a cross-border tax specialist. Key considerations include which country has primary taxing rights, whether credits or exemptions apply, and whether restructuring asset ownership (e.g., through a Spanish company or trust) could mitigate double taxation.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Estate planning tips for expats in Spain
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Proactive estate planning can significantly reduce the inheritance tax burden for your heirs. Here are practical strategies that expats in Spain should consider:
+      </p>
+      <ul class="list-disc ml-4 space-y-2 mt-2">
+        <li><strong>Choose your region wisely:</strong> If you have flexibility in where you establish your fiscal domicile, regions with generous inheritance tax bonuses (like Madrid) can save your heirs tens of thousands of euros.</li>
+        <li><strong>Make a Spanish will:</strong> Having a Spanish will (testamento) that specifically covers your Spanish assets streamlines the inheritance process and avoids delays. It can coexist with a will in your home country covering non-Spanish assets.</li>
+        <li><strong>Consider lifetime gifts:</strong> In many regions, the gift tax (impuesto de donaciones) offers similar or even better bonuses than inheritance tax. Making lifetime gifts can be tax-efficient, though this requires careful planning (see below).</li>
+        <li><strong>Life insurance policies:</strong> Life insurance payouts to beneficiaries benefit from additional allowances (up to 9,195.49 EUR per beneficiary at the state level, and higher in many regions) and can be an efficient way to pass wealth.</li>
+        <li><strong>Review your pre-existing wealth:</strong> The multiplier coefficient increases the tax for heirs with significant pre-existing wealth. Understanding this factor helps in structuring inheritances to minimise the overall tax bill across multiple heirs.</li>
+        <li><strong>Use the family business exemption:</strong> If you own a qualifying family business in Spain, a 95% reduction on the inherited business value may apply, subject to conditions including maintaining the business for at least ten years after inheritance.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Donation vs. inheritance: which is more tax-efficient?
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Both donations (gifts during your lifetime) and inheritances (transfers after death) are covered by the same tax (Impuesto de Sucesiones y Donaciones), but they are taxed differently in practice:
+      </p>
+      <div class="overflow-x-auto mt-4 mb-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left font-semibold">Factor</th>
+              <th class="px-4 py-2 text-left font-semibold">Inheritance</th>
+              <th class="px-4 py-2 text-left font-semibold">Donation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Applicable region</td>
+              <td class="px-4 py-2">Where the deceased lived</td>
+              <td class="px-4 py-2">Where the recipient lives</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Regional bonuses</td>
+              <td class="px-4 py-2">Usually generous (99% in many regions)</td>
+              <td class="px-4 py-2">Often lower or more restricted</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">IRPF impact on donor</td>
+              <td class="px-4 py-2">None (deceased has no further tax liability)</td>
+              <td class="px-4 py-2">Donor may owe capital gains tax on appreciated assets</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Timing</td>
+              <td class="px-4 py-2">6 months after death to file</td>
+              <td class="px-4 py-2">30 days after the donation to file</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">Flexibility</td>
+              <td class="px-4 py-2">Limited (depends on will and succession law)</td>
+              <td class="px-4 py-2">Full (donor chooses what, when, and how much)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        In regions with generous inheritance bonuses but less generous donation bonuses, it may be more tax-efficient to wait and let assets pass through inheritance. However, if the donor is elderly and the recipient lives in a region with good donation bonuses, lifetime gifts may be preferable, especially for assets that have not appreciated significantly (avoiding the capital gains issue). Each situation requires individual analysis, and professional advice is strongly recommended.
+      </p>
+    </div>
+  </section>
+</CalculadoraLayout>

@@ -4,17 +4,18 @@ interface SelectorCCAAProps {
   value: CCAACodigo;
   onChange: (ccaa: CCAACodigo) => void;
   id?: string;
+  lang?: 'es' | 'en';
 }
 
 const ccaaOrdenadas = [...comunidadesAutonomas].sort((a, b) =>
   a.nombre.localeCompare(b.nombre, 'es')
 );
 
-export default function SelectorCCAA({ value, onChange, id = 'ccaa' }: SelectorCCAAProps) {
+export default function SelectorCCAA({ value, onChange, id = 'ccaa', lang = 'es' }: SelectorCCAAProps) {
   return (
     <div className="flex h-full flex-col">
       <label htmlFor={id} className="mb-1 flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">
-        Comunidad Autónoma
+        {lang === 'en' ? 'Autonomous Community' : 'Comunidad Autónoma'}
       </label>
       <div>
         <select

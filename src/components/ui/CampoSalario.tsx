@@ -12,6 +12,7 @@ interface CampoSalarioProps {
   max?: number;
   step?: number;
   helpText?: string;
+  lang?: 'es' | 'en';
 }
 
 export default function CampoSalario({
@@ -23,6 +24,7 @@ export default function CampoSalario({
   min = 0,
   max = 1_000_000,
   step = 100,
+  lang = 'es',
 }: CampoSalarioProps) {
   const [modo, setModo] = useState<ModoSalario>('anual');
   const [mensual, setMensual] = useState(() =>
@@ -109,15 +111,15 @@ export default function CampoSalario({
                   : 'bg-white text-gray-600 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
               }`}
             >
-              {m === 'anual' ? '/año' : '/mes'}
+              {m === 'anual' ? (lang === 'en' ? '/year' : '/año') : (lang === 'en' ? '/month' : '/mes')}
             </button>
           ))}
         </div>
       </div>
       <p className="text-xs text-gray-500 dark:text-gray-400">
         {modo === 'anual'
-          ? `${mensualNum.toLocaleString('es-ES', { maximumFractionDigits: 2 }).replace(/\./g, '\u00A0')} €/mes`
-          : `${annualNum.toLocaleString('es-ES', { maximumFractionDigits: 2 }).replace(/\./g, '\u00A0')} €/año`}
+          ? `${mensualNum.toLocaleString('es-ES', { maximumFractionDigits: 2 }).replace(/\./g, '\u00A0')} ${lang === 'en' ? '€/month' : '€/mes'}`
+          : `${annualNum.toLocaleString('es-ES', { maximumFractionDigits: 2 }).replace(/\./g, '\u00A0')} ${lang === 'en' ? '€/year' : '€/año'}`}
       </p>
     </div>
   );

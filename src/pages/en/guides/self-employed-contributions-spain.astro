@@ -1,0 +1,342 @@
+---
+import Layout from '../../../components/layout/Layout.astro';
+import { CURRENT_FISCAL_YEAR } from '../../../config';
+import { buildBreadcrumbSchema, buildFAQSchema } from '../../../lib/seo';
+
+const title = `Self-Employed Contributions Spain ${CURRENT_FISCAL_YEAR} Guide`;
+const description = `Complete guide to autónomo contributions in Spain: the 15 income brackets, monthly quotas, flat rate for new freelancers, deductible expenses and IRPF filing.`;
+
+const faqs = [
+  { question: 'How much do self-employed workers pay in Social Security?', answer: `Since 2023, self-employed contributions in Spain are based on real net income. There are 15 brackets, with monthly quotas ranging from approximately €230 for the lowest earners (under €670/month net) to over €530 for those earning above €6,000/month net. The exact amounts are updated each year.` },
+  { question: 'What is the flat rate (tarifa plana) for new autónomos?', answer: 'New self-employed workers who have not been registered as autónomos in the previous two years can benefit from a flat rate of €80/month during their first 12 months. This can be extended for another 12 months if net income remains below the minimum wage.' },
+  { question: 'What expenses can autónomos deduct?', answer: 'Common deductible expenses include Social Security contributions, professional supplies, office rent, internet and phone bills (proportional to business use), professional training, accounting and legal fees, travel expenses, and depreciation of business assets. All expenses must be properly documented with valid invoices.' },
+];
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Home', url: '/en/' },
+    { name: 'Guides', url: '/en/guides/' },
+    { name: 'Self-Employed Contributions', url: '/en/guides/self-employed-contributions-spain/' },
+  ]),
+  buildFAQSchema(faqs, 'en'),
+];
+---
+
+<Layout title={title} description={description} schema={schemas} locale="en">
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/en/" class="hover:text-brand">Home</a> /
+      <a href="/en/guides/" class="hover:text-brand">Guides</a> /
+      <span class="text-charcoal dark:text-gray-200">Self-Employed Contributions</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      Self-Employed Contributions in Spain ({CURRENT_FISCAL_YEAR})
+    </h1>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <p>
+        Being self-employed (<em>autónomo</em>) in Spain means managing your own Social Security contributions, IRPF payments, and VAT filings. Since the 2023 reform, contributions are based on real net income rather than a freely chosen base, bringing the system closer to how employees are taxed. This guide explains the new bracket system, the flat rate for beginners, and the expenses you can deduct.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">The 15 Contribution Brackets</h2>
+      <p>
+        The new system divides autónomo net monthly income into 15 brackets. Net income is calculated as gross revenue minus deductible expenses, with an additional flat 7% deduction for general expenses (3% for corporate autónomos). Each bracket has a minimum and maximum contribution base, and you pay roughly 31.2% of your chosen base within that range. For example, someone earning between €1,300 and €1,500 net per month in {CURRENT_FISCAL_YEAR} would have a minimum base around €950 and pay approximately €296/month. The system incentivizes accurate income reporting, as Social Security reconciles your estimated contributions with your actual tax return.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">The Flat Rate for New Freelancers</h2>
+      <p>
+        If you register as autónomo for the first time or have not been registered in the previous two years, you qualify for the <em>tarifa plana</em>: a flat contribution of €80/month for the first 12 months. If your net income stays below the minimum wage (<em>SMI</em>) after the first year, the flat rate extends for an additional 12 months. This is one of the most significant incentives the Spanish government offers to encourage entrepreneurship.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Deductible Expenses and IRPF</h2>
+      <p>
+        Autónomos must file quarterly IRPF prepayments (Model 130) and an annual tax return. Common deductible expenses include Social Security contributions, workspace costs, supplies, professional services, training, travel, and asset depreciation. Keeping meticulous records is essential, as the Tax Agency (AEAT) can request supporting documentation. Most autónomos also charge 21% VAT on their invoices, which they remit quarterly via Model 303 after deducting VAT paid on business expenses.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Full Contribution Bracket Table (All 15 Tranches)</h2>
+      <p>
+        The following table shows the 15 income tranches for self-employed workers in {CURRENT_FISCAL_YEAR}, with the corresponding minimum and maximum contribution bases and approximate monthly quotas:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-gray-300 dark:border-gray-600">
+              <th class="py-2 pr-4 text-left font-semibold">Tranche</th>
+              <th class="py-2 pr-4 text-left font-semibold">Net Monthly Income</th>
+              <th class="py-2 pr-4 text-right font-semibold">Min. Base</th>
+              <th class="py-2 pr-4 text-right font-semibold">Max. Base</th>
+              <th class="py-2 text-right font-semibold">Approx. Monthly Quota</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">1</td>
+              <td class="py-2 pr-4">Up to €670</td>
+              <td class="py-2 pr-4 text-right">€735.29</td>
+              <td class="py-2 pr-4 text-right">€816.98</td>
+              <td class="py-2 text-right">€230</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">2</td>
+              <td class="py-2 pr-4">€670 - €900</td>
+              <td class="py-2 pr-4 text-right">€816.99</td>
+              <td class="py-2 pr-4 text-right">€900.00</td>
+              <td class="py-2 text-right">€260</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">3</td>
+              <td class="py-2 pr-4">€900 - €1,166.70</td>
+              <td class="py-2 pr-4 text-right">€872.55</td>
+              <td class="py-2 pr-4 text-right">€1,166.70</td>
+              <td class="py-2 text-right">€275</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">4</td>
+              <td class="py-2 pr-4">€1,166.70 - €1,300</td>
+              <td class="py-2 pr-4 text-right">€950.98</td>
+              <td class="py-2 pr-4 text-right">€1,300.00</td>
+              <td class="py-2 text-right">€291</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">5</td>
+              <td class="py-2 pr-4">€1,300 - €1,500</td>
+              <td class="py-2 pr-4 text-right">€960.78</td>
+              <td class="py-2 pr-4 text-right">€1,500.00</td>
+              <td class="py-2 text-right">€294</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">6</td>
+              <td class="py-2 pr-4">€1,500 - €1,700</td>
+              <td class="py-2 pr-4 text-right">€960.78</td>
+              <td class="py-2 pr-4 text-right">€1,700.00</td>
+              <td class="py-2 text-right">€294</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">7</td>
+              <td class="py-2 pr-4">€1,700 - €1,850</td>
+              <td class="py-2 pr-4 text-right">€1,013.07</td>
+              <td class="py-2 pr-4 text-right">€1,850.00</td>
+              <td class="py-2 text-right">€310</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">8</td>
+              <td class="py-2 pr-4">€1,850 - €2,030</td>
+              <td class="py-2 pr-4 text-right">€1,029.41</td>
+              <td class="py-2 pr-4 text-right">€2,030.00</td>
+              <td class="py-2 text-right">€315</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">9</td>
+              <td class="py-2 pr-4">€2,030 - €2,330</td>
+              <td class="py-2 pr-4 text-right">€1,045.75</td>
+              <td class="py-2 pr-4 text-right">€2,330.00</td>
+              <td class="py-2 text-right">€320</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">10</td>
+              <td class="py-2 pr-4">€2,330 - €2,760</td>
+              <td class="py-2 pr-4 text-right">€1,078.43</td>
+              <td class="py-2 pr-4 text-right">€2,760.00</td>
+              <td class="py-2 text-right">€330</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">11</td>
+              <td class="py-2 pr-4">€2,760 - €3,190</td>
+              <td class="py-2 pr-4 text-right">€1,143.79</td>
+              <td class="py-2 pr-4 text-right">€3,190.00</td>
+              <td class="py-2 text-right">€350</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">12</td>
+              <td class="py-2 pr-4">€3,190 - €3,620</td>
+              <td class="py-2 pr-4 text-right">€1,209.15</td>
+              <td class="py-2 pr-4 text-right">€3,620.00</td>
+              <td class="py-2 text-right">€370</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">13</td>
+              <td class="py-2 pr-4">€3,620 - €4,050</td>
+              <td class="py-2 pr-4 text-right">€1,274.51</td>
+              <td class="py-2 pr-4 text-right">€4,050.00</td>
+              <td class="py-2 text-right">€390</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">14</td>
+              <td class="py-2 pr-4">€4,050 - €6,000</td>
+              <td class="py-2 pr-4 text-right">€1,372.55</td>
+              <td class="py-2 pr-4 text-right">€4,495.50</td>
+              <td class="py-2 text-right">€420</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">15</td>
+              <td class="py-2 pr-4">Over €6,000</td>
+              <td class="py-2 pr-4 text-right">€1,633.99</td>
+              <td class="py-2 pr-4 text-right">€4,495.50</td>
+              <td class="py-2 text-right">€500+</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Note that the quotas shown are approximations based on the minimum contribution base for each tranche. You can choose a higher base within each tranche's range to build higher Social Security entitlements (pension, sick leave benefits), but this increases your monthly cost.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Practical Examples at Different Income Levels</h2>
+      <p>
+        To illustrate how the system works in practice, here are three scenarios showing the full cost picture for a freelancer:
+      </p>
+
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Scenario 1: Freelance Designer earning €1,800/month net</h3>
+      <ul>
+        <li>Income tranche: 7 (€1,700 - €1,850)</li>
+        <li>Monthly Social Security quota: approximately €310</li>
+        <li>Annual Social Security cost: €3,720</li>
+        <li>IRPF quarterly prepayment (20% of net profit after expenses): approximately €900/quarter</li>
+        <li>After Social Security and estimated IRPF, net take-home: approximately €1,180/month</li>
+      </ul>
+
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Scenario 2: IT Consultant earning €3,500/month net</h3>
+      <ul>
+        <li>Income tranche: 11 (€2,760 - €3,190) or 12 (€3,190 - €3,620) depending on deductions</li>
+        <li>Monthly Social Security quota: approximately €350-€370</li>
+        <li>Annual Social Security cost: €4,200-€4,440</li>
+        <li>IRPF quarterly prepayment: approximately €1,750/quarter</li>
+        <li>After all costs, net take-home: approximately €2,300/month</li>
+      </ul>
+
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Scenario 3: Senior Developer earning €6,500/month net</h3>
+      <ul>
+        <li>Income tranche: 15 (over €6,000)</li>
+        <li>Monthly Social Security quota: approximately €500+</li>
+        <li>Annual Social Security cost: €6,000+</li>
+        <li>IRPF quarterly prepayment: approximately €3,250/quarter</li>
+        <li>After all costs, net take-home: approximately €3,750/month</li>
+      </ul>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Autonomo vs. Employee: Cost Comparison</h2>
+      <p>
+        A common question among expats is whether it is better to work as an autonomo or as an employee. The differences are significant:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-gray-300 dark:border-gray-600">
+              <th class="py-2 pr-4 text-left font-semibold">Factor</th>
+              <th class="py-2 pr-4 text-left font-semibold">Employee</th>
+              <th class="py-2 text-left font-semibold">Autonomo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Social Security rate (employee/autonomo share)</td>
+              <td class="py-2 pr-4">6.47% of gross</td>
+              <td class="py-2 text-left">~31.2% of chosen base</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Employer Social Security cost</td>
+              <td class="py-2 pr-4">~30% of gross (paid by employer)</td>
+              <td class="py-2 text-left">N/A (you pay everything)</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">IRPF payment</td>
+              <td class="py-2 pr-4">Withheld monthly by employer</td>
+              <td class="py-2 text-left">Quarterly prepayments (Model 130)</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Expense deductions</td>
+              <td class="py-2 pr-4">Limited (fixed €2,000 + Social Security)</td>
+              <td class="py-2 text-left">All legitimate business expenses</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Unemployment coverage</td>
+              <td class="py-2 pr-4">Full unemployment benefits</td>
+              <td class="py-2 text-left">Limited cessation benefit</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Sick leave</td>
+              <td class="py-2 pr-4">From day 4 (covered by employer days 4-15)</td>
+              <td class="py-2 text-left">From day 4 (covered by Social Security)</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Paid vacation</td>
+              <td class="py-2 pr-4">30 calendar days minimum</td>
+              <td class="py-2 text-left">No guaranteed paid vacation</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        As a general rule, to earn the same net income as an employee on €40,000 gross, a freelancer would need to bill approximately €55,000-€60,000, accounting for the higher Social Security burden, loss of employer-paid benefits, and the need to cover vacations and sick days. However, freelancers benefit from greater flexibility and the ability to deduct legitimate business expenses.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Tarifa Plana: Detailed Eligibility and Extension</h2>
+      <p>
+        The flat rate (<em>tarifa plana</em>) of €80/month is available to new autonomos who meet these conditions:
+      </p>
+      <ul>
+        <li>You have not been registered as autonomo in the preceding 2 years (or 3 years if you previously benefited from the tarifa plana).</li>
+        <li>You do not have outstanding debts with Social Security or the Tax Agency.</li>
+        <li>You are not a collaborating family member (<em>autonomo colaborador</em>) of another self-employed worker.</li>
+      </ul>
+      <p>
+        The €80/month rate applies for the first 12 months. After that, if your net income in the previous year was below the minimum wage (<em>SMI</em>, approximately €1,134/month in {CURRENT_FISCAL_YEAR}), the flat rate extends for an additional 12 months. After the flat-rate period ends, you transition to the income-based bracket system described above, paying the quota corresponding to your actual net income.
+      </p>
+      <p>
+        Certain autonomous communities (such as Madrid, Andalusia, and Murcia) offer additional top-up subsidies that can reduce the effective cost to near zero during the first year. Check your community's entrepreneurship incentives, as these change frequently.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">How to Change Your Contribution Base</h2>
+      <p>
+        Under the income-based system, you are required to declare your expected net income and can adjust your contribution base up to six times per year. Changes take effect on the following dates:
+      </p>
+      <ul>
+        <li><strong>Request by February 28:</strong> takes effect March 1</li>
+        <li><strong>Request by April 30:</strong> takes effect May 1</li>
+        <li><strong>Request by June 30:</strong> takes effect July 1</li>
+        <li><strong>Request by August 31:</strong> takes effect September 1</li>
+        <li><strong>Request by October 31:</strong> takes effect November 1</li>
+        <li><strong>Request by December 31:</strong> takes effect January 1</li>
+      </ul>
+      <p>
+        Changes are submitted through the IMPORTASS portal (Social Security's online platform). At the end of each fiscal year, Social Security compares your estimated income with the actual net income reported on your tax return (Model 100). If you underestimated your income, you will receive a bill for the difference. If you overestimated, you will receive a refund. This reconciliation process, called <em>regularizacion</em>, typically occurs in the second half of the year following the tax year.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Transition from Flat-Rate to Income-Based System</h2>
+      <p>
+        Before 2023, autonomos could freely choose any contribution base between the minimum (around €960/month) and maximum (around €4,495/month), regardless of their actual income. This meant many freelancers chose the minimum base to save money, even if they earned well above it. The result was artificially low pension entitlements and an unsustainable system.
+      </p>
+      <p>
+        The 2023 reform introduced the income-based system with a transition period of three years (2023-2025). During this transition, the bracket ranges and bases are adjusted annually to gradually align contributions with real income. From 2026 onward, the system is expected to be fully implemented, though further adjustments may be introduced based on fiscal needs. The key takeaway for autonomos is that you can no longer choose to pay the minimum if your income places you in a higher bracket; Social Security will reconcile your contributions at the end of each year and demand the difference.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Benefits Covered by Your Contributions</h2>
+      <p>
+        Self-employed contributions cover a range of benefits that many autonomos are not fully aware of. Your monthly quota entitles you to:
+      </p>
+      <ul>
+        <li><strong>Public healthcare:</strong> Full access to the Spanish public health system (SNS) for you and your dependents, identical to the coverage employees receive.</li>
+        <li><strong>Sick leave (<em>incapacidad temporal</em>):</strong> From the fourth day of illness, you receive approximately 60% of your contribution base (increasing to 75% from day 21). Unlike employees, no one covers the first three days.</li>
+        <li><strong>Maternity and paternity leave:</strong> Self-employed parents receive the same 16 weeks of paid leave as employees, calculated at 100% of their contribution base. Both mothers and fathers qualify for the full duration.</li>
+        <li><strong>Retirement pension:</strong> Your future pension is calculated based on your contribution bases during your career, following the same formula as for employees. Higher contributions mean a higher pension.</li>
+        <li><strong>Cessation of activity benefit (<em>cese de actividad</em>):</strong> Often called "unemployment for autonomos," this benefit pays approximately 70% of your average contribution base for up to 24 months if you are forced to stop your activity for legitimate reasons (loss of major clients, economic losses, force majeure).</li>
+        <li><strong>Permanent disability pension:</strong> If you become permanently unable to work, you receive a pension based on your contribution base and the degree of disability.</li>
+      </ul>
+      <p>
+        Understanding these benefits is important because they directly depend on your contribution base. A freelancer who consistently contributes on the minimum base will receive substantially lower sick leave, maternity pay, and eventual retirement pension than one who contributes on a base that reflects their actual earnings. This is a key trade-off that every autonomo should consider when choosing their contribution level.
+      </p>
+    </div>
+
+    <section class="mt-10">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {faqs.map(faq => (
+          <details class="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
+            <summary class="cursor-pointer font-semibold text-charcoal dark:text-gray-100">{faq.question}</summary>
+            <p class="mt-2 text-sm text-dark-gray dark:text-gray-300">{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </div>
+</Layout>

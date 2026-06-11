@@ -1,0 +1,408 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
+import { buildBreadcrumbSchema, buildFAQSchema } from '../../lib/seo';
+
+const title = 'Tramos del IRPF en España 2026: Tablas y Tipos por Comunidad';
+const description = 'Conoce los tramos del IRPF en España para 2026: tablas estatales y autonómicas, tipos marginales y efectivos por comunidad, ejemplos prácticos y cálculos.';
+
+const faqs = [
+  {
+    question: '¿Cuántos tramos de IRPF hay en España en 2026?',
+    answer: `La escala estatal del IRPF en ${CURRENT_FISCAL_YEAR} tiene 6 tramos, con tipos que van del 9,5% al 24,5%. A estos se suman los tramos autonómicos que fija cada comunidad, resultando en tipos totales que oscilan entre el 19% y el 49-54% según la comunidad y el nivel de renta.`,
+  },
+  {
+    question: '¿Qué diferencia hay entre tipo marginal y tipo efectivo?',
+    answer: 'El tipo marginal es el porcentaje que se aplica al último euro que ganas (el del tramo más alto que alcanzas). El tipo efectivo es el porcentaje real que pagas sobre toda tu renta, y siempre es inferior al marginal porque los primeros euros tributan a tipos más bajos.',
+  },
+  {
+    question: '¿En qué comunidad autónoma se paga menos IRPF?',
+    answer: `En ${CURRENT_FISCAL_YEAR}, Madrid es la comunidad de régimen común donde se paga menos IRPF para la mayoría de niveles de renta, gracias a sus tramos autonómicos más reducidos. La diferencia con las comunidades con tipos más altos puede superar los 2.000 euros al año para salarios medios-altos.`,
+  },
+  {
+    question: '¿El IRPF se aplica sobre el sueldo bruto directamente?',
+    answer: 'No. El IRPF se calcula sobre la base imponible, que se obtiene restando al salario bruto las cotizaciones a la Seguridad Social (6,50%), los gastos deducibles del trabajo (2.000 euros) y, en su caso, la reducción por rendimientos del trabajo. Después se descuenta el mínimo personal y familiar.',
+  },
+];
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Inicio', url: '/' },
+    { name: 'Guías', url: '/guias/' },
+    { name: 'Tramos del IRPF', url: '/guias/tramos-irpf-espana/' },
+  ]),
+  buildFAQSchema(faqs),
+];
+---
+
+<Layout title={title} description={description} ogType="article" schema={schemas}>
+  <article class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/" class="hover:text-brand">Inicio</a> /
+      <a href="/guias/" class="hover:text-brand">Guías</a> /
+      <span class="text-charcoal dark:text-gray-200">Tramos del IRPF</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      Tramos del IRPF en España ({CURRENT_FISCAL_YEAR}): Tablas y Tipos por Comunidad
+    </h1>
+
+    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+      El IRPF es un impuesto progresivo: no pagas el mismo porcentaje por todo tu salario. Cada tramo de renta tributa a un tipo diferente. En esta guía te explicamos cómo funcionan los tramos, las tablas actualizadas para {CURRENT_FISCAL_YEAR} y cómo varía la carga fiscal según tu comunidad autónoma.
+    </p>
+
+    <div class="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">
+      <p class="font-medium text-blue-800 dark:text-blue-300">
+        Calcula tu IRPF exacto con nuestra <a href="/calculadora-irpf/" class="underline">calculadora de IRPF</a> o compara el impacto entre comunidades con el <a href="/comparador-comunidades/" class="underline">comparador de comunidades</a>.
+      </p>
+    </div>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-8">
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">1. ¿Qué son los tramos del IRPF y cómo funciona la tributación progresiva?</h2>
+        <p>
+          El Impuesto sobre la Renta de las Personas Físicas (IRPF) es el principal impuesto que afecta a tu salario en España. Una de las confusiones más habituales es creer que si "subes de tramo" pagarás más por toda tu renta. <strong>Esto es falso.</strong>
+        </p>
+        <p>
+          El IRPF funciona con un sistema de tributación progresiva por tramos (o escalones). Esto significa que tu renta se divide en porciones y cada porción se grava a un tipo distinto:
+        </p>
+        <ul>
+          <li>Los primeros euros que ganas tributan al tipo más bajo.</li>
+          <li>Conforme tu renta aumenta, solo la parte que excede del tramo anterior pasa al siguiente tipo.</li>
+          <li>Subir de tramo <strong>nunca</strong> hace que pagues más por la renta que ya tributaba en tramos inferiores.</li>
+        </ul>
+        <p>
+          Este diseño busca que quienes más ganan contribuyan proporcionalmente más, pero de forma gradual. El resultado es que el tipo efectivo (lo que realmente pagas) siempre es inferior al tipo marginal (el del tramo más alto que alcanzas).
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">2. Tramos estatales del IRPF en {CURRENT_FISCAL_YEAR}</h2>
+        <p>
+          El IRPF se compone de dos escalas que se suman: la estatal (común en toda España, salvo Navarra y País Vasco que tienen régimen foral) y la autonómica (que fija cada comunidad). La escala estatal vigente en {CURRENT_FISCAL_YEAR}, según la Ley 35/2006 del IRPF y sus modificaciones publicadas en el BOE, es la siguiente:
+        </p>
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200 dark:border-gray-600">
+              <th class="px-3 py-2 text-left font-medium">Base liquidable</th>
+              <th class="px-3 py-2 text-right font-medium">Tipo estatal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Hasta 12.450 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">9,50%</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">12.450 – 20.200 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">12,00%</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">20.200 – 35.200 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">15,00%</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">35.200 – 60.000 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">18,50%</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">60.000 – 300.000 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">22,50%</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2">Más de 300.000 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">24,50%</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Esta escala se aplica sobre la base liquidable general, es decir, después de restar las cotizaciones a la Seguridad Social, los gastos deducibles (2.000 €) y, en su caso, la reducción por rendimientos del trabajo.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">3. Tramos autonómicos: cómo se suman a los estatales</h2>
+        <p>
+          Cada comunidad autónoma de régimen común fija su propia escala de tramos autonómicos, que se suma a la estatal. El resultado es el <strong>tipo total</strong> que efectivamente pagas en cada tramo.
+        </p>
+        <p>
+          Por ejemplo, si la escala estatal grava el primer tramo al 9,50% y tu comunidad aplica un 9,00% autonómico para ese mismo tramo, el tipo total será del 18,50%. En la práctica, los tipos totales para los primeros euros de renta suelen estar entre el 18,50% y el 20%, y para rentas muy altas pueden alcanzar el 47% al 54% según la comunidad.
+        </p>
+        <p>
+          Las comunidades con <strong>competencia normativa plena</strong> son las de régimen común. País Vasco (Álava, Bizkaia, Gipuzkoa) y Navarra tienen sus propios impuestos y escalas completamente distintas (régimen foral).
+        </p>
+        <p>
+          Puedes ver las diferencias exactas entre comunidades con nuestro <a href="/comparador-comunidades/" class="text-brand hover:underline">comparador de comunidades autónomas</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">4. Tipos totales (marginal máximo) por comunidad autónoma</h2>
+        <p>
+          La siguiente tabla muestra los tipos marginales totales aproximados (estatal + autonómico) para distintos niveles de renta en las principales comunidades de régimen común. Estos tipos reflejan el gravamen del tramo más alto que se alcanza:
+        </p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-gray-200 dark:border-gray-600">
+                <th class="px-3 py-2 text-left font-medium">Comunidad</th>
+                <th class="px-3 py-2 text-right font-medium">Hasta 20.200 €</th>
+                <th class="px-3 py-2 text-right font-medium">20.200 – 35.200 €</th>
+                <th class="px-3 py-2 text-right font-medium">35.200 – 60.000 €</th>
+                <th class="px-3 py-2 text-right font-medium">Tipo máximo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2 font-medium">Madrid</td>
+                <td class="px-3 py-2 text-right tabular-nums">20,50%</td>
+                <td class="px-3 py-2 text-right tabular-nums">28,84%</td>
+                <td class="px-3 py-2 text-right tabular-nums">35,15%</td>
+                <td class="px-3 py-2 text-right tabular-nums font-medium text-emerald-600">45,50%</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2 font-medium">Andalucía</td>
+                <td class="px-3 py-2 text-right tabular-nums">22,00%</td>
+                <td class="px-3 py-2 text-right tabular-nums">30,00%</td>
+                <td class="px-3 py-2 text-right tabular-nums">37,00%</td>
+                <td class="px-3 py-2 text-right tabular-nums">47,00%</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2 font-medium">Cataluña</td>
+                <td class="px-3 py-2 text-right tabular-nums">21,50%</td>
+                <td class="px-3 py-2 text-right tabular-nums">30,00%</td>
+                <td class="px-3 py-2 text-right tabular-nums">37,00%</td>
+                <td class="px-3 py-2 text-right tabular-nums">50,00%</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2 font-medium">C. Valenciana</td>
+                <td class="px-3 py-2 text-right tabular-nums">23,00%</td>
+                <td class="px-3 py-2 text-right tabular-nums">30,00%</td>
+                <td class="px-3 py-2 text-right tabular-nums">38,00%</td>
+                <td class="px-3 py-2 text-right tabular-nums font-medium text-red-600">54,00%</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2 font-medium">Galicia</td>
+                <td class="px-3 py-2 text-right tabular-nums">22,50%</td>
+                <td class="px-3 py-2 text-right tabular-nums">30,00%</td>
+                <td class="px-3 py-2 text-right tabular-nums">37,50%</td>
+                <td class="px-3 py-2 text-right tabular-nums">47,00%</td>
+              </tr>
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2 font-medium">Castilla y León</td>
+                <td class="px-3 py-2 text-right tabular-nums">22,00%</td>
+                <td class="px-3 py-2 text-right tabular-nums">30,00%</td>
+                <td class="px-3 py-2 text-right tabular-nums">37,00%</td>
+                <td class="px-3 py-2 text-right tabular-nums">46,00%</td>
+              </tr>
+              <tr>
+                <td class="px-3 py-2 font-medium">Aragón</td>
+                <td class="px-3 py-2 text-right tabular-nums">22,00%</td>
+                <td class="px-3 py-2 text-right tabular-nums">30,00%</td>
+                <td class="px-3 py-2 text-right tabular-nums">37,00%</td>
+                <td class="px-3 py-2 text-right tabular-nums">47,50%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Como se observa, <strong>Madrid tiene los tipos más bajos</strong> de las comunidades de régimen común, con un máximo del 45,50%. En el otro extremo, la <strong>Comunidad Valenciana alcanza el 54%</strong> para rentas muy elevadas. Para la mayoría de trabajadores con salarios entre 25.000 y 60.000 euros, la diferencia práctica entre comunidades suele estar entre 500 y 2.500 euros anuales.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">5. Tipo efectivo vs. tipo marginal: la diferencia clave</h2>
+        <p>
+          Estos dos conceptos generan mucha confusión. Vamos a aclararlos:
+        </p>
+        <ul>
+          <li><strong>Tipo marginal:</strong> es el porcentaje que se aplica al último euro de tu renta. Si ganas 40.000 € de base liquidable, tu tipo marginal es el del tramo 35.200 – 60.000 € (aproximadamente un 37% sumando estatal y autonómico). Pero esto <strong>no significa</strong> que pagues el 37% sobre los 40.000 €.</li>
+          <li><strong>Tipo efectivo:</strong> es el porcentaje real que pagas de impuestos sobre toda tu renta. Se calcula dividiendo la cuota íntegra total entre tu base liquidable. Siempre es <strong>menor</strong> que el tipo marginal, porque los primeros euros tributan a tipos más bajos.</li>
+        </ul>
+        <p>
+          Un ejemplo rápido: con 40.000 € de base liquidable en Madrid, tu tipo marginal puede rondar el 35%, pero tu tipo efectivo estará en torno al 22-24%. Es decir, de cada 100 € de renta, Hacienda se queda con 22-24 € de media, no con 35 €.
+        </p>
+        <p>
+          Por eso, <strong>nunca debes rechazar un aumento de sueldo por miedo a "subir de tramo"</strong>. El nuevo tramo solo se aplica a la cantidad que excede del límite anterior. Siempre cobrarás más neto si tu bruto aumenta.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">6. El mínimo personal y familiar</h2>
+        <p>
+          Antes de aplicar los tramos, la normativa del IRPF establece un <strong>mínimo personal y familiar</strong>: la parte de la renta que se considera necesaria para cubrir las necesidades básicas del contribuyente y su familia. Este mínimo no queda exento directamente, sino que se le aplican los mismos tramos y el resultado se resta de la cuota íntegra.
+        </p>
+        <p>
+          En {CURRENT_FISCAL_YEAR}, los importes principales del mínimo son:
+        </p>
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200 dark:border-gray-600">
+              <th class="px-3 py-2 text-left font-medium">Concepto</th>
+              <th class="px-3 py-2 text-right font-medium">Importe anual</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Mínimo del contribuyente</td>
+              <td class="px-3 py-2 text-right tabular-nums">5.550 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Contribuyente mayor de 65 años</td>
+              <td class="px-3 py-2 text-right tabular-nums">+ 1.150 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Contribuyente mayor de 75 años</td>
+              <td class="px-3 py-2 text-right tabular-nums">+ 1.400 € adicionales</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Primer hijo</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.400 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Segundo hijo</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.700 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Tercer hijo</td>
+              <td class="px-3 py-2 text-right tabular-nums">4.000 €</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2">Cuarto hijo y sucesivos</td>
+              <td class="px-3 py-2 text-right tabular-nums">4.500 €</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Además, los hijos menores de 3 años generan un incremento adicional de 2.800 €. El efecto práctico es que un contribuyente soltero sin hijos "ahorra" unos 1.050 € de IRPF gracias al mínimo personal, y una familia con dos hijos puede ahorrar más de 2.000 €.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">7. Ejemplo práctico: 40.000 € brutos anuales</h2>
+        <p>
+          Veamos paso a paso cómo se aplican los tramos para un trabajador soltero, sin hijos, en Madrid, con un salario bruto de 40.000 € anuales:
+        </p>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Paso 1: Calcular la base liquidable</h3>
+        <table class="w-full text-sm">
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Salario bruto anual</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">40.000,00 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Seguridad Social (6,50%)</td>
+              <td class="px-3 py-2 text-right tabular-nums text-amber-600">− 2.600,00 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Gastos deducibles</td>
+              <td class="px-3 py-2 text-right tabular-nums text-amber-600">− 2.000,00 €</td>
+            </tr>
+            <tr class="border-t-2 border-gray-300 dark:border-gray-600">
+              <td class="px-3 py-2 font-bold">Base liquidable general (aprox.)</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold">35.400,00 €</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Paso 2: Aplicar los tramos (escala estatal)</h3>
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-200 dark:border-gray-600">
+              <th class="px-3 py-2 text-left font-medium">Tramo</th>
+              <th class="px-3 py-2 text-right font-medium">Base</th>
+              <th class="px-3 py-2 text-right font-medium">Tipo</th>
+              <th class="px-3 py-2 text-right font-medium">Cuota</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">0 – 12.450 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">12.450 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">9,50%</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.182,75 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">12.450 – 20.200 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">7.750 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">12,00%</td>
+              <td class="px-3 py-2 text-right tabular-nums">930,00 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">20.200 – 35.200 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">15.000 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">15,00%</td>
+              <td class="px-3 py-2 text-right tabular-nums">2.250,00 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">35.200 – 35.400 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">200 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">18,50%</td>
+              <td class="px-3 py-2 text-right tabular-nums">37,00 €</td>
+            </tr>
+            <tr class="border-t-2 border-gray-300 dark:border-gray-600">
+              <td class="px-3 py-2 font-bold" colspan="3">Total cuota estatal</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold">4.399,75 €</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Paso 3: Sumar cuota autonómica y restar mínimo</h3>
+        <p>
+          A la cuota estatal se le suma la cuota autonómica (calculada con los tramos de Madrid, de importe similar). Después se resta el ahorro por el mínimo personal (5.550 €). El resultado aproximado para este caso:
+        </p>
+        <table class="w-full text-sm">
+          <tbody>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Cuota íntegra total (estatal + autonómica)</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">~8.350 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Ahorro por mínimo personal</td>
+              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">− ~1.050 €</td>
+            </tr>
+            <tr class="border-t-2 border-gray-300 dark:border-gray-600">
+              <td class="px-3 py-2 font-bold">IRPF anual (aprox.)</td>
+              <td class="px-3 py-2 text-right tabular-nums font-bold text-red-600">~7.300 €</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Tipo efectivo de IRPF</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">~18,3%</td>
+            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Tipo marginal</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">~35,2%</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          El resultado final: de 40.000 € brutos, tras descontar SS (~2.600 €) e IRPF (~7.300 €), el sueldo neto anual ronda los <strong>30.100 €</strong>, o unos <strong>2.150 € netos al mes</strong> con 14 pagas.
+        </p>
+        <p>
+          <a href="/" class="text-brand hover:underline">Calcula tu caso exacto con nuestra calculadora de sueldo neto</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Preguntas frecuentes</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+              <summary class="cursor-pointer px-4 py-3 font-medium text-charcoal dark:text-gray-200">
+                {faq.question}
+              </summary>
+              <div class="border-t border-gray-200 px-4 py-3 text-sm dark:border-gray-700">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+    </div>
+
+    <div class="mt-8 text-xs text-medium-gray">
+      <p>Actualizado para el ejercicio fiscal {CURRENT_FISCAL_YEAR}. Fuentes: AEAT, Ley 35/2006 del IRPF, BOE. Los tipos autonómicos pueden variar; consulta la normativa de tu comunidad.</p>
+    </div>
+  </article>
+</Layout>

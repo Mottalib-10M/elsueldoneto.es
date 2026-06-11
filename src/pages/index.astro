@@ -2,14 +2,38 @@
 import Layout from '../components/layout/Layout.astro';
 import SueldoNeto from '../components/calculadoras/SueldoNeto';
 import { CURRENT_FISCAL_YEAR } from '../config';
-import { buildWebApplicationSchema, buildBreadcrumbSchema } from '../lib/seo';
+import { buildWebApplicationSchema, buildBreadcrumbSchema, buildFAQSchema } from '../lib/seo';
 
 const title = `Calculadora Sueldo Neto ${CURRENT_FISCAL_YEAR}: De Bruto a Neto España`;
 const description = `Calcula tu sueldo neto en España en ${CURRENT_FISCAL_YEAR}. Descubre tu IRPF por comunidad autónoma, Seguridad Social y deducciones familiares. Resultado exacto en segundos.`;
 
+const faqs = [
+  {
+    question: '¿Cómo se calcula el sueldo neto en España?',
+    answer: `El sueldo neto se obtiene restando al salario bruto dos conceptos: las cotizaciones a la Seguridad Social (6,50% para empleados por cuenta ajena en ${CURRENT_FISCAL_YEAR}) y la retención del IRPF, que depende de tu base imponible, comunidad autónoma y situación familiar. La fórmula es: Neto = Bruto − Seguridad Social − IRPF.`,
+  },
+  {
+    question: '¿Cuánto IRPF se paga por un sueldo de 30.000 € brutos?',
+    answer: 'Para un trabajador soltero, sin hijos, en Madrid con 14 pagas, el IRPF aproximado sobre 30.000 € brutos anuales es de unos 4.645 €, lo que supone un tipo efectivo de IRPF del 15,5%. Sumando la Seguridad Social (1.905 €), el neto anual ronda los 23.450 € (1.675 €/mes en 14 pagas).',
+  },
+  {
+    question: '¿Qué comunidad autónoma tiene el IRPF más bajo?',
+    answer: 'Madrid aplica los tipos autonómicos más bajos de España. La diferencia con las comunidades con mayor presión fiscal (como Cataluña o la Comunidad Valenciana) puede superar los 2.000 € anuales para un mismo salario bruto. País Vasco y Navarra tienen regímenes forales con sus propias escalas.',
+  },
+  {
+    question: '¿Es mejor cobrar en 12 o en 14 pagas?',
+    answer: 'El neto anual es idéntico con 12 o 14 pagas. La diferencia es la distribución: con 14 pagas recibes 12 mensualidades más bajas y 2 pagas extraordinarias (junio y diciembre). Con 12 pagas, el importe mensual es más alto pero no hay extras. La elección no afecta a los impuestos.',
+  },
+  {
+    question: '¿Cuánto cotiza un trabajador a la Seguridad Social?',
+    answer: `En ${CURRENT_FISCAL_YEAR}, el empleado por cuenta ajena cotiza un 6,50% de su base de cotización: 4,70% por contingencias comunes, 1,55% por desempleo (contrato indefinido), 0,10% por formación profesional y 0,15% por el Mecanismo de Equidad Intergeneracional (MEI). La base de cotización tiene un tope máximo de 5.101,20 €/mes.`,
+  },
+];
+
 const schemas = [
   buildWebApplicationSchema(`Calculadora Sueldo Neto ${CURRENT_FISCAL_YEAR}`, '/'),
   buildBreadcrumbSchema([{ name: 'Calculadora Sueldo Neto', url: '/' }]),
+  buildFAQSchema(faqs),
 ];
 ---
 
@@ -39,7 +63,7 @@ const schemas = [
         El sueldo neto es la cantidad que un trabajador recibe en su cuenta bancaria cada mes, una vez descontados los impuestos y las cotizaciones obligatorias. La diferencia entre el salario bruto que aparece en tu contrato y lo que realmente cobras puede sorprender a quien firma su primer contrato laboral: en España, esa diferencia ronda entre el 20% y el 40% del bruto, dependiendo del tramo de renta, la comunidad autónoma y la situación personal del trabajador.
       </p>
       <p>
-        Dos grandes conceptos se comen esa diferencia. El primero es la <strong>Seguridad Social</strong>, que supone un 6,35% fijo del salario bruto para contingencias comunes, desempleo y formación profesional. El segundo, y más variable, es el <strong>IRPF</strong> (Impuesto sobre la Renta de las Personas Físicas), un impuesto progresivo que se aplica por tramos. Esto significa que los primeros 12.450 € de base imponible tributan a un tipo diferente que los siguientes 7.750 €, y así sucesivamente hasta alcanzar el tipo máximo del 47% para rentas superiores a 300.000 €.
+        Dos grandes conceptos se comen esa diferencia. El primero es la <strong>Seguridad Social</strong>, que supone un 6,50% del salario bruto para contingencias comunes, desempleo, formación profesional y MEI. El segundo, y más variable, es el <strong>IRPF</strong> (Impuesto sobre la Renta de las Personas Físicas), un impuesto progresivo que se aplica por tramos. Esto significa que los primeros 12.450 € de base imponible tributan a un tipo diferente que los siguientes 7.750 €, y así sucesivamente hasta alcanzar el tipo máximo del 47% para rentas superiores a 300.000 €.
       </p>
       <p>
         Lo que mucha gente desconoce es que el IRPF no se aplica directamente sobre el bruto. Antes hay que restar las cotizaciones a la Seguridad Social, los gastos deducibles del trabajo (2.000 € anuales), y en algunos casos una reducción adicional por rendimientos del trabajo para rentas inferiores a 19.747,50 €. Sobre esa base imponible reducida se aplica el mínimo personal y familiar, una cantidad exenta de impuestos que depende de si tienes hijos, ascendientes a cargo o alguna discapacidad reconocida.
@@ -56,27 +80,27 @@ const schemas = [
         Veamos paso a paso cómo se calcula el neto de un trabajador soltero, sin hijos, con un salario bruto de 30.000 € anuales en la Comunidad de Madrid y 14 pagas:
       </p>
       <ol class="list-decimal ml-4 space-y-1">
-        <li><strong>Seguridad Social:</strong> 6,35% × 30.000 € = 1.905 €/año. Es la primera deducción y se aplica sobre el bruto total.</li>
+        <li><strong>Seguridad Social:</strong> 6,50% × 30.000 € = 1.950 €/año (incluye contingencias comunes, desempleo, FP y MEI).</li>
         <li><strong>Gastos deducibles del trabajo:</strong> 2.000 € fijos según el art. 19.2 de la Ley del IRPF.</li>
-        <li><strong>Rendimiento neto del trabajo:</strong> 30.000 − 1.905 − 2.000 = 26.095 €. Como supera los 19.747,50 €, no aplica la reducción adicional por rendimientos del trabajo.</li>
+        <li><strong>Rendimiento neto del trabajo:</strong> 30.000 − 1.950 − 2.000 = 26.050 €. Como supera los 19.747,50 €, no aplica la reducción adicional por rendimientos del trabajo.</li>
         <li><strong>Mínimo personal:</strong> 5.550 € (contribuyente menor de 65 años sin cargas familiares).</li>
         <li><strong>IRPF estatal:</strong> se calcula aplicando los tramos del art. 63 de la Ley 35/2006 a la base imponible, descontando la cuota del mínimo personal. Resultado aproximado: 2.760 €.</li>
         <li><strong>IRPF autonómico (Madrid):</strong> escala aprobada por la Ley 3/2023 de la CAM. Resultado aproximado: 1.885 €.</li>
         <li><strong>IRPF total:</strong> 2.760 + 1.885 = 4.645 €/año.</li>
-        <li><strong>Neto anual:</strong> 30.000 − 1.905 − 4.645 = 23.450 €.</li>
-        <li><strong>Neto mensual (14 pagas):</strong> 23.450 ÷ 14 ≈ 1.675 €/mes.</li>
+        <li><strong>Neto anual:</strong> 30.000 − 1.950 − 4.645 = 23.405 €.</li>
+        <li><strong>Neto mensual (14 pagas):</strong> 23.405 ÷ 14 ≈ 1.672 €/mes.</li>
       </ol>
       <p>
-        En este ejemplo, el tipo efectivo total (IRPF + SS sobre bruto) es del 21,8%. Esto significa que de cada 100 € brutos, el trabajador se lleva 78,20 € a su cuenta. Si este mismo trabajador viviera en Cataluña con el mismo bruto, su IRPF autonómico sería unos 350 € más alto, y su neto mensual bajaría a unos 1.650 €.
+        En este ejemplo, el tipo efectivo total (IRPF + SS sobre bruto) es del 22%. Esto significa que de cada 100 € brutos, el trabajador se lleva 78 € a su cuenta. Si este mismo trabajador viviera en Cataluña con el mismo bruto, su IRPF autonómico sería unos 350 € más alto, y su neto mensual bajaría a unos 1.647 €.
       </p>
 
-      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tabla de referencia: bruto a neto en Madrid (2026, soltero, 14 pagas)</h3>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tabla de referencia: bruto a neto en Madrid ({CURRENT_FISCAL_YEAR}, soltero, 14 pagas)</h3>
       <div class="overflow-x-auto">
         <table class="w-full text-sm border-collapse my-4">
           <thead>
             <tr class="border-b-2 border-gray-300 dark:border-gray-600">
               <th class="px-3 py-2 text-left">Bruto anual</th>
-              <th class="px-3 py-2 text-right">SS (6,35%)</th>
+              <th class="px-3 py-2 text-right">SS (6,50%)</th>
               <th class="px-3 py-2 text-right">IRPF aprox.</th>
               <th class="px-3 py-2 text-right">Neto anual</th>
               <th class="px-3 py-2 text-right">Neto/mes (14p)</th>
@@ -84,12 +108,12 @@ const schemas = [
             </tr>
           </thead>
           <tbody class="tabular-nums">
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">18.000 €</td><td class="px-3 py-1 text-right">1.143 €</td><td class="px-3 py-1 text-right">1.250 €</td><td class="px-3 py-1 text-right">15.607 €</td><td class="px-3 py-1 text-right">1.115 €</td><td class="px-3 py-1 text-right">13,3%</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">25.000 €</td><td class="px-3 py-1 text-right">1.588 €</td><td class="px-3 py-1 text-right">3.150 €</td><td class="px-3 py-1 text-right">20.262 €</td><td class="px-3 py-1 text-right">1.447 €</td><td class="px-3 py-1 text-right">19,0%</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">30.000 €</td><td class="px-3 py-1 text-right">1.905 €</td><td class="px-3 py-1 text-right">4.645 €</td><td class="px-3 py-1 text-right">23.450 €</td><td class="px-3 py-1 text-right">1.675 €</td><td class="px-3 py-1 text-right">21,8%</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">40.000 €</td><td class="px-3 py-1 text-right">2.540 €</td><td class="px-3 py-1 text-right">7.820 €</td><td class="px-3 py-1 text-right">29.640 €</td><td class="px-3 py-1 text-right">2.117 €</td><td class="px-3 py-1 text-right">25,9%</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">50.000 €</td><td class="px-3 py-1 text-right">3.175 €</td><td class="px-3 py-1 text-right">11.400 €</td><td class="px-3 py-1 text-right">35.425 €</td><td class="px-3 py-1 text-right">2.530 €</td><td class="px-3 py-1 text-right">29,2%</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">60.000 €</td><td class="px-3 py-1 text-right">3.810 €</td><td class="px-3 py-1 text-right">15.300 €</td><td class="px-3 py-1 text-right">40.890 €</td><td class="px-3 py-1 text-right">2.921 €</td><td class="px-3 py-1 text-right">31,9%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">18.000 €</td><td class="px-3 py-1 text-right">1.170 €</td><td class="px-3 py-1 text-right">1.250 €</td><td class="px-3 py-1 text-right">15.580 €</td><td class="px-3 py-1 text-right">1.113 €</td><td class="px-3 py-1 text-right">13,4%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">25.000 €</td><td class="px-3 py-1 text-right">1.625 €</td><td class="px-3 py-1 text-right">3.150 €</td><td class="px-3 py-1 text-right">20.225 €</td><td class="px-3 py-1 text-right">1.445 €</td><td class="px-3 py-1 text-right">19,1%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">30.000 €</td><td class="px-3 py-1 text-right">1.950 €</td><td class="px-3 py-1 text-right">4.645 €</td><td class="px-3 py-1 text-right">23.405 €</td><td class="px-3 py-1 text-right">1.672 €</td><td class="px-3 py-1 text-right">22,0%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">40.000 €</td><td class="px-3 py-1 text-right">2.600 €</td><td class="px-3 py-1 text-right">7.820 €</td><td class="px-3 py-1 text-right">29.580 €</td><td class="px-3 py-1 text-right">2.113 €</td><td class="px-3 py-1 text-right">26,1%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">50.000 €</td><td class="px-3 py-1 text-right">3.250 €</td><td class="px-3 py-1 text-right">11.400 €</td><td class="px-3 py-1 text-right">35.350 €</td><td class="px-3 py-1 text-right">2.525 €</td><td class="px-3 py-1 text-right">29,3%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">60.000 €</td><td class="px-3 py-1 text-right">3.900 €</td><td class="px-3 py-1 text-right">15.300 €</td><td class="px-3 py-1 text-right">40.800 €</td><td class="px-3 py-1 text-right">2.914 €</td><td class="px-3 py-1 text-right">32,0%</td></tr>
             <tr><td class="px-3 py-1">80.000 €</td><td class="px-3 py-1 text-right">4.495 €</td><td class="px-3 py-1 text-right">23.500 €</td><td class="px-3 py-1 text-right">52.005 €</td><td class="px-3 py-1 text-right">3.715 €</td><td class="px-3 py-1 text-right">35,0%</td></tr>
           </tbody>
         </table>
@@ -98,16 +122,35 @@ const schemas = [
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El Salario Mínimo Interprofesional y su efecto en la nómina</h3>
       <p>
-        El SMI en 2025 se fijó en 1.134 € mensuales en 14 pagas, lo que equivale a 15.876 € brutos anuales. Es el suelo salarial que ningún contrato a jornada completa puede perforar. Su impacto fiscal es notable: un trabajador que cobra exactamente el SMI prácticamente no paga IRPF, gracias a la combinación de la reducción por rendimientos del trabajo (art. 20 de la Ley 35/2006) y el mínimo personal de 5.550 €. La base imponible resultante queda tan baja que la cuota tributaria es próxima a cero. Sin embargo, las cotizaciones a la Seguridad Social sí se aplican íntegramente: el 6,35% sobre 15.876 € supone unos 1.008 € anuales que el trabajador aporta de su nómina. Así, alguien como David, reponedor en un supermercado de Murcia con contrato al SMI, cobra en limpio unos 14.800 € netos al año (alrededor de 1.057 € en 14 pagas). Cada subida del SMI eleva también la base mínima de cotización, lo que incrementa ligeramente el coste de Seguridad Social tanto para el trabajador como para la empresa.
+        El SMI en {CURRENT_FISCAL_YEAR} se sitúa en 1.221 € mensuales en 14 pagas, lo que equivale a 17.094 € brutos anuales. Es el suelo salarial que ningún contrato a jornada completa puede perforar. Su impacto fiscal es notable: un trabajador que cobra exactamente el SMI prácticamente no paga IRPF, gracias a la combinación de la reducción por rendimientos del trabajo (art. 20 de la Ley 35/2006) y el mínimo personal de 5.550 €. La base imponible resultante queda tan baja que la cuota tributaria es próxima a cero. Sin embargo, las cotizaciones a la Seguridad Social sí se aplican íntegramente: el 6,50% sobre 17.094 € supone unos 1.111 € anuales que el trabajador aporta de su nómina. Así, alguien como David, reponedor en un supermercado de Murcia con contrato al SMI, cobra en limpio unos 15.983 € netos al año (alrededor de 1.142 € en 14 pagas). Cada subida del SMI eleva también la base mínima de cotización, lo que incrementa ligeramente el coste de Seguridad Social tanto para el trabajador como para la empresa.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Normativa y fuentes oficiales</h3>
       <ul class="list-disc ml-4 space-y-2">
         <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 35/2006, de 28 de noviembre, del IRPF</a>: Boletín Oficial del Estado. Regulación completa del impuesto, tramos estatales y reducciones.</li>
         <li><a href="https://www.agenciatributaria.gob.es" class="text-brand hover:underline" target="_blank" rel="noopener">Agencia Tributaria (AEAT)</a>: Tablas de retenciones, modelos fiscales y consultas vinculantes.</li>
-        <li><a href="https://www.seg-social.es/wps/portal/wss/internet/Trabajadores/CotizacionRecworkeraudacionTrabajadores/36537" class="text-brand hover:underline" target="_blank" rel="noopener">Seguridad Social: Bases y tipos de cotización</a>. Detalle de los porcentajes de cotización del trabajador y la empresa.</li>
+        <li><a href="https://www.seg-social.es/wps/portal/wss/internet/Trabajadores/CotizacionRecaudacionTrabajadores/36537" class="text-brand hover:underline" target="_blank" rel="noopener">Seguridad Social: Bases y tipos de cotización</a>. Detalle de los porcentajes de cotización del trabajador y la empresa.</li>
         <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430" class="text-brand hover:underline" target="_blank" rel="noopener">Real Decreto Legislativo 2/2015, Estatuto de los Trabajadores</a>: Regulación sobre pagas extraordinarias (art. 31) y estructura salarial.</li>
       </ul>
+    </div>
+  </section>
+
+  <!-- FAQ Section for Rich Results -->
+  <section class="mx-auto max-w-4xl px-4 py-8">
+    <h2 class="mb-6 text-2xl font-bold text-charcoal dark:text-gray-100">
+      Preguntas frecuentes sobre el sueldo neto
+    </h2>
+    <div class="space-y-4">
+      {faqs.map((faq) => (
+        <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+          <summary class="cursor-pointer px-4 py-3 font-medium text-charcoal dark:text-gray-200">
+            {faq.question}
+          </summary>
+          <div class="border-t border-gray-200 px-4 py-3 text-sm text-dark-gray dark:border-gray-700 dark:text-gray-300">
+            <p>{faq.answer}</p>
+          </div>
+        </details>
+      ))}
     </div>
   </section>
 

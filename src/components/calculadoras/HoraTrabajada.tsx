@@ -5,7 +5,12 @@ import { formatEuros } from '../../lib/format-es';
 import CampoSalario from '../ui/CampoSalario';
 import CampoEntrada from '../ui/CampoEntrada';
 
-export default function HoraTrabajada() {
+interface HoraTrabajadaProps {
+  lang?: 'es' | 'en';
+}
+
+export default function HoraTrabajada({ lang = 'es' }: HoraTrabajadaProps) {
+  const l = lang === 'en';
   const [brutoAnual, setBrutoAnual] = useState('30000');
   const [horas, setHoras] = useState('40');
   const [vacaciones, setVacaciones] = useState('5');
@@ -32,24 +37,24 @@ export default function HoraTrabajada() {
 
   return (
     <div className="space-y-6">
-      <CampoSalario id="ht-bruto" label="Salario bruto" value={brutoAnual} onChange={setBrutoAnual} min={0} max={300000} step={1000} divisor={14} />
+      <CampoSalario id="ht-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={300000} step={1000} divisor={14} lang={lang} />
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <CampoEntrada id="ht-horas" label="Horas/semana" value={horas} onChange={setHoras} min={1} max={60} step={1} suffix="h/semana" />
-        <CampoEntrada id="ht-vacaciones" label="Semanas vacaciones" value={vacaciones} onChange={setVacaciones} min={0} max={10} step={1} suffix="semanas" />
-        <CampoEntrada id="ht-festivos" label="Días festivos/año" value={festivos} onChange={setFestivos} min={0} max={20} step={1} suffix="días" />
+        <CampoEntrada id="ht-horas" label={l ? 'Hours/week' : 'Horas/semana'} value={horas} onChange={setHoras} min={1} max={60} step={1} suffix={l ? 'h/week' : 'h/semana'} />
+        <CampoEntrada id="ht-vacaciones" label={l ? 'Weeks of vacation' : 'Semanas vacaciones'} value={vacaciones} onChange={setVacaciones} min={0} max={10} step={1} suffix={l ? 'weeks' : 'semanas'} />
+        <CampoEntrada id="ht-festivos" label={l ? 'Public holidays/year' : 'Días festivos/año'} value={festivos} onChange={setFestivos} min={0} max={20} step={1} suffix={l ? 'days' : 'días'} />
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-6 text-center dark:from-blue-900/30 dark:to-blue-900/10">
-          <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Hora bruta</p>
+          <p className="text-sm font-medium text-blue-600 dark:text-blue-400">{l ? 'Gross hourly rate' : 'Hora bruta'}</p>
           <p className="mt-1 text-4xl font-bold text-blue-700 dark:text-blue-300">{formatEuros(resultado.tarifaBruta)}</p>
-          <p className="mt-1 text-xs text-blue-600 dark:text-blue-400">/hora trabajada</p>
+          <p className="mt-1 text-xs text-blue-600 dark:text-blue-400">/{l ? 'hour worked' : 'hora trabajada'}</p>
         </div>
         <div className="rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100 p-6 text-center dark:from-emerald-900/30 dark:to-emerald-900/10">
-          <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">Hora neta (aprox.)</p>
+          <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">{l ? 'Net hourly rate (approx.)' : 'Hora neta (aprox.)'}</p>
           <p className="mt-1 text-4xl font-bold text-emerald-700 dark:text-emerald-300">{formatEuros(resultado.tarifaNeta)}</p>
-          <p className="mt-1 text-xs text-emerald-600 dark:text-emerald-400">/hora trabajada (Madrid, soltero)</p>
+          <p className="mt-1 text-xs text-emerald-600 dark:text-emerald-400">/{l ? 'hour worked (Madrid, single)' : 'hora trabajada (Madrid, soltero)'}</p>
         </div>
       </div>
 
@@ -57,23 +62,23 @@ export default function HoraTrabajada() {
         <table className="w-full text-sm">
           <tbody>
             <tr className="border-b border-gray-100 dark:border-gray-700">
-              <td className="px-4 py-2 text-gray-600 dark:text-gray-300">Salario bruto anual</td>
+              <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Annual gross salary' : 'Salario bruto anual'}</td>
               <td className="px-4 py-2 text-right tabular-nums font-medium">{formatEuros(brutoNum)}</td>
             </tr>
             <tr className="border-b border-gray-100 dark:border-gray-700">
-              <td className="px-4 py-2 text-gray-600 dark:text-gray-300">Horas trabajadas al año</td>
+              <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Hours worked per year' : 'Horas trabajadas al año'}</td>
               <td className="px-4 py-2 text-right tabular-nums font-medium">{resultado.horasAnuales.toFixed(0)} h</td>
             </tr>
             <tr className="border-b border-gray-100 dark:border-gray-700">
-              <td className="px-4 py-2 text-gray-600 dark:text-gray-300">Tarifa hora bruta</td>
+              <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Gross hourly rate' : 'Tarifa hora bruta'}</td>
               <td className="px-4 py-2 text-right tabular-nums font-medium text-blue-600">{formatEuros(resultado.tarifaBruta)}</td>
             </tr>
             <tr className="border-b border-gray-100 dark:border-gray-700">
-              <td className="px-4 py-2 text-gray-600 dark:text-gray-300">Tarifa hora neta (aprox.)</td>
+              <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Net hourly rate (approx.)' : 'Tarifa hora neta (aprox.)'}</td>
               <td className="px-4 py-2 text-right tabular-nums font-medium text-emerald-600">{formatEuros(resultado.tarifaNeta)}</td>
             </tr>
             <tr>
-              <td className="px-4 py-2 text-gray-600 dark:text-gray-300">Sueldo neto mensual (14 pagas)</td>
+              <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Monthly net salary (14 payments)' : 'Sueldo neto mensual (14 pagas)'}</td>
               <td className="px-4 py-2 text-right tabular-nums font-bold text-emerald-700 dark:text-emerald-400">{formatEuros(resultado.netoMensual)}</td>
             </tr>
           </tbody>

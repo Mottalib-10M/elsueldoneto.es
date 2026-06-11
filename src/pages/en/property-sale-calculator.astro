@@ -1,0 +1,182 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import VentaVivienda from '../../components/calculadoras/VentaVivienda';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+
+const title = `Property Sale Tax Calculator Spain ${CURRENT_FISCAL_YEAR}: IRPF`;
+const description = `Calculate taxes on selling property in Spain ${CURRENT_FISCAL_YEAR}. Estimate capital gains tax (IRPF) and plusvalia municipal on your home sale. Free calculator for expats.`;
+
+const faqs = [
+  {
+    question: 'What taxes do I pay when selling a property in Spain?',
+    answer: `When you sell a property in Spain, you face two main taxes: IRPF on the capital gain (the profit from the sale, taxed at savings rates from 19% to 28%) and plusvalia municipal, a local council tax on the increase in land value. Together, these can represent a significant cost that you should factor into your sale price.`,
+  },
+  {
+    question: 'How is capital gains tax calculated on a Spanish property sale?',
+    answer: `Capital gains tax is calculated on the difference between the transfer value (sale price minus selling costs like estate agent fees) and the acquisition value (purchase price plus buying costs like transfer tax, notary, and registry fees, plus documented improvements). The resulting gain is taxed using Spain's savings tax brackets: 19% on the first €6,000, 21% on €6,001-€50,000, 23% on €50,001-€200,000, 27% on €200,001-€300,000, and 28% above €300,000.`,
+  },
+  {
+    question: 'Can I avoid capital gains tax by reinvesting in another home?',
+    answer: 'Yes. If the property you sold was your primary residence (vivienda habitual) and you reinvest the full sale proceeds in purchasing another primary residence within two years, the capital gain is fully exempt from IRPF. If you reinvest only part of the proceeds, the exemption applies proportionally. Note that this exemption does not apply to plusvalia municipal — you still owe that regardless.',
+  },
+  {
+    question: 'Are sellers over 65 exempt from capital gains tax in Spain?',
+    answer: 'Yes. Sellers aged 65 or over who sell their primary residence are fully exempt from IRPF on the capital gain, with no requirement to reinvest. Additionally, since 2015, sellers over 65 can also be exempt on the sale of any asset (not just the main home) if they invest the proceeds in a life annuity (renta vitalicia) within six months, up to a maximum of €240,000.',
+  },
+  {
+    question: 'What is plusvalia municipal and how does it work?',
+    answer: `Plusvalia municipal (officially IIVTNU) is a local tax levied by your town hall on the increase in urban land value during your period of ownership. Since the Constitutional Court ruling (STC 182/2021), if you sell at a loss, you do not owe this tax. There are two calculation methods — the objective method (based on cadastral land value and holding period coefficients) and the real method (based on actual gain) — and you may choose whichever is more favourable.`,
+  },
+  {
+    question: 'What expenses can I deduct to reduce my capital gain?',
+    answer: `On the purchase side, you can deduct: transfer tax (ITP) or VAT paid, notary fees, property registry fees, and gestoría fees. On the sale side, you can deduct: estate agent commission, energy performance certificate, and mortgage cancellation costs. Home improvements that added value (backed by invoices) also increase the acquisition value. Routine maintenance and repairs do not qualify.`,
+  },
+  {
+    question: 'How is a property sale taxed if I inherited the home?',
+    answer: `When selling an inherited property, your acquisition value is the amount declared in the inheritance tax return (Impuesto de Sucesiones), plus any costs associated with the inheritance (the inheritance tax itself, notary fees, registry fees). The capital gain is then calculated as the difference between the sale price and this acquisition value. Properties acquired before 31 December 1994 may benefit from reduction coefficients (coeficientes de abatimiento) that can significantly lower the taxable gain.`,
+  },
+  {
+    question: 'When do I need to declare and pay these taxes?',
+    answer: `The capital gains tax is declared in your annual income tax return (declaración de la renta) for the year of the sale. If you sell in ${CURRENT_FISCAL_YEAR}, you declare it in the tax campaign of April-June ${CURRENT_FISCAL_YEAR + 1}. Plusvalia municipal must be filed and paid within 30 working days of the notarial deed of sale. Missing these deadlines results in surcharges.`,
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Property Sale Tax Calculator Spain ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Property Sale Tax Calculator"
+  path="/en/property-sale-calculator/"
+  faqs={faqs}
+  locale="en"
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <VentaVivienda client:load lang="en" />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Complete guide to taxes on selling property in Spain
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Selling property in Spain is not just a matter of agreeing a price and signing at the notary. Two distinct taxes apply to the seller: income tax (IRPF) on the capital gain and plusvalia municipal, a local council levy on the increase in urban land value. For foreign residents and expats, understanding these taxes before listing your property is essential for setting realistic expectations and avoiding unwelcome surprises when the tax bill arrives.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">How capital gains are calculated</h3>
+      <p>
+        The capital gain (ganancia patrimonial) is the difference between the transfer value and the acquisition value. The transfer value equals the sale price minus any costs inherent to the sale that the seller has paid — typically the estate agent's commission, the energy performance certificate, and the costs of cancelling the mortgage at the land registry. The acquisition value equals the original purchase price plus buying costs (transfer tax or VAT, notary, registry, gestoría) and any documented home improvements.
+      </p>
+      <p>
+        In formula terms:
+      </p>
+      <p>
+        <strong>Capital gain = Transfer value - Acquisition value</strong>
+      </p>
+      <p>
+        Where:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Transfer value</strong> = Sale price - Selling costs (agent fees, energy certificate, mortgage cancellation).</li>
+        <li><strong>Acquisition value</strong> = Purchase price + Buying costs (ITP/VAT, notary, registry, gestoría) + Documented improvements.</li>
+      </ul>
+      <p>
+        If the result is negative, there is no taxable gain and no IRPF is due. The loss can be offset against capital gains of the same type in the same tax year or the following four years — particularly relevant if you sell multiple properties over time.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Spain's savings tax brackets</h3>
+      <p>
+        Capital gains from property sales fall under the savings income base (base del ahorro) rather than the general income base. This means they are taxed using a specific progressive scale. For fiscal year {CURRENT_FISCAL_YEAR}, the brackets are:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Savings income bracket</th>
+              <th class="px-3 py-2 text-right">Tax rate</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Up to €6,000</td><td class="px-3 py-1 text-right">19%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">€6,001 to €50,000</td><td class="px-3 py-1 text-right">21%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">€50,001 to €200,000</td><td class="px-3 py-1 text-right">23%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">€200,001 to €300,000</td><td class="px-3 py-1 text-right">27%</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Over €300,000</td><td class="px-3 py-1 text-right">28%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The scale is progressive: each bracket applies only to the portion of the gain falling within it. For example, on a €70,000 gain, the first €6,000 is taxed at 19%, the next €44,000 at 21%, and the final €20,000 at 23%, giving a total IRPF bill of €14,980 and an effective rate of 21.4%.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Exemptions: when you don't pay IRPF</h3>
+      <p>
+        Spanish tax law provides several situations where capital gains from a property sale are fully or partially exempt:
+      </p>
+      <p>
+        <strong>Reinvestment in a primary residence.</strong> If the property sold was your habitual home (vivienda habitual — you must have lived there for at least three years) and you reinvest the full sale proceeds in purchasing another primary residence within two years, the gain is entirely exempt. Partial reinvestment triggers a proportional exemption. For example, if you sell for €250,000 and reinvest €200,000, 80% of the gain is exempt.
+      </p>
+      <p>
+        <strong>Sellers aged 65 and over.</strong> If you are 65 or older at the time of sale and the property is your primary residence, the entire gain is exempt with no reinvestment requirement. Furthermore, since 2015, sellers over 65 can also claim an exemption on the sale of any asset if they use the proceeds to purchase a life annuity (renta vitalicia) within six months, up to €240,000.
+      </p>
+      <p>
+        <strong>Dation in payment (dación en pago).</strong> When a homeowner surrenders their primary residence to the bank to cancel the mortgage, any resulting gain is exempt provided the debtor has no other sufficient assets to satisfy the debt.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Plusvalia municipal: the local land value tax</h3>
+      <p>
+        The plusvalia municipal (Impuesto sobre el Incremento del Valor de los Terrenos de Naturaleza Urbana, or IIVTNU) is a local tax levied by your town hall. It taxes the increase in the value of urban land during the time you owned the property. Following the Constitutional Court ruling STC 182/2021, two calculation methods now exist, and taxpayers may choose whichever produces a lower bill:
+      </p>
+      <p>
+        <strong>Objective method:</strong> The cadastral land value is multiplied by a coefficient based on the number of full years of ownership. The result is the tax base, to which the local council's tax rate is applied (maximum 30%).
+      </p>
+      <p>
+        <strong>Real method:</strong> The actual gain on the property is calculated, and the portion attributable to land (determined by the ratio of land value to total cadastral value) is used as the tax base. The council's tax rate then applies.
+      </p>
+      <p>
+        If you sell at a loss — that is, the sale price is lower than the purchase price — you owe no plusvalia municipal. The deadline to file and pay is 30 working days from the date of the notarial deed.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Practical example: selling a flat in Madrid</h3>
+      <p>
+        James, a British expat, bought a flat in Madrid in 2015 for €195,000. Purchase costs included ITP at 6% (€11,700), notary (€850), registry (€450), and gestoría (€300) — total buying costs of €13,300. He also renovated the kitchen and bathroom for €12,000 (invoiced).
+      </p>
+      <p>
+        In {CURRENT_FISCAL_YEAR}, James sells the flat for €285,000. He paid an estate agent 3% commission (€8,550), plus the energy certificate (€150) and mortgage cancellation at the registry (€600) — total selling costs of €9,300.
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li>Acquisition value = €195,000 + €13,300 + €12,000 = <strong>€220,300</strong></li>
+        <li>Transfer value = €285,000 - €9,300 = <strong>€275,700</strong></li>
+        <li>Capital gain = €275,700 - €220,300 = <strong>€55,400</strong></li>
+      </ul>
+      <p>
+        Applying the savings tax brackets:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li>First €6,000 at 19% = €1,140</li>
+        <li>Next €44,000 (€6,001-€50,000) at 21% = €9,240</li>
+        <li>Final €5,400 (€50,001-€55,400) at 23% = €1,242</li>
+        <li><strong>Total IRPF = €11,622</strong></li>
+      </ul>
+      <p>
+        For the plusvalia municipal, assuming a cadastral land value of €40,000, a coefficient of 0.12 for ten years of ownership, and a council tax rate of 30%: the tax base would be €4,800, producing a plusvalia bill of <strong>€1,440</strong>. James's total estimated tax liability would be €11,622 + €1,440 = <strong>€13,062</strong>.
+      </p>
+      <p>
+        If James reinvested the full sale price in a new primary residence within two years, the €11,622 IRPF bill would be exempt — leaving only the €1,440 plusvalia to pay.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Key considerations for non-resident sellers</h3>
+      <p>
+        Non-residents selling Spanish property face the same capital gains tax, but with an important difference: the buyer is legally required to withhold 3% of the sale price and pay it directly to the Tax Agency (Agencia Tributaria) as an advance payment on the seller's behalf. If the actual tax due is less than the 3% withheld, the non-resident seller can claim a refund by filing modelo 210. Non-residents cannot claim the reinvestment exemption for primary residence, as the property is not considered their habitual home in Spain unless they can prove fiscal residence.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Sources</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" class="text-brand hover:underline" target="_blank" rel="noopener">IRPF Law (Ley 35/2006), articles 33-38</a> — Regulation of capital gains, the savings tax scale, and primary residence reinvestment exemptions.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2004-4214" class="text-brand hover:underline" target="_blank" rel="noopener">Local Tax Law (RDL 2/2004), articles 104-110</a> — Regulation of plusvalia municipal (IIVTNU), including the two calculation methods introduced by RDL 26/2021.</li>
+        <li><a href="https://www.agenciatributaria.gob.es" class="text-brand hover:underline" target="_blank" rel="noopener">Agencia Tributaria (AEAT)</a> — Official taxpayer portal with income tax manuals, binding rulings, and filing tools.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

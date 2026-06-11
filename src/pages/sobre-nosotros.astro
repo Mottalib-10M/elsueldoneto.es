@@ -1,7 +1,7 @@
 ---
 import Layout from '../components/layout/Layout.astro';
-import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../config';
-import { buildBreadcrumbSchema } from '../lib/seo';
+import { SITE_NAME, SITE_URL, CURRENT_FISCAL_YEAR } from '../config';
+import { buildBreadcrumbSchema, buildPersonSchema, buildOrganizationSchema } from '../lib/seo';
 
 const title = 'Sobre Nosotros: Calculadora de Sueldo Neto en España';
 const description = 'Conoce al equipo detrás de la calculadora de sueldo neto en España. Datos fiscales actualizados de IRPF, Seguridad Social y todas las comunidades autónomas.';
@@ -11,6 +11,22 @@ const schemas = [
     { name: 'Inicio', url: '/' },
     { name: 'Sobre Nosotros', url: '/sobre-nosotros' },
   ]),
+  buildOrganizationSchema(),
+  buildPersonSchema({
+    name: 'Mottalib Radif',
+    jobTitle: 'Fundador de El Sueldo Neto',
+    description: 'Titulado con un MBA del INSEAD, apasionado de las finanzas personales y la fiscalidad española.',
+    alumniOf: [
+      { name: 'INSEAD', url: 'https://www.insead.edu' },
+    ],
+    knowsAbout: [
+      'Fiscalidad española',
+      'IRPF',
+      'Seguridad Social',
+      'Finanzas personales',
+      'Planificación financiera',
+    ],
+  }),
 ];
 ---
 
@@ -28,44 +44,114 @@ const schemas = [
       </p>
 
       <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Quién está detrás</h2>
+        <div class="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+          <div class="flex items-start gap-4">
+            <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-brand/10 text-2xl font-bold text-brand">
+              MR
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Mottalib Radif</h3>
+              <p class="text-sm font-medium text-brand">Fundador de {SITE_NAME}</p>
+              <p class="mt-1 text-sm text-medium-gray">MBA — INSEAD</p>
+            </div>
+          </div>
+          <p class="mt-4">
+            Apasionado de las finanzas personales y la fiscalidad, Mottalib fundó {SITE_NAME} tras constatar que la mayoría de trabajadores en España no disponen de herramientas fiables, transparentes y gratuitas para entender su nómina. Con una formación en gestión empresarial y finanzas adquirida en el <a href="https://www.insead.edu" target="_blank" rel="noopener" class="text-brand hover:underline">INSEAD</a> (una de las principales escuelas de negocios del mundo), decidió aplicar ese rigor analítico a la creación de calculadoras fiscales accesibles para todos.
+          </p>
+          <p class="mt-2">
+            Su enfoque: combinar la precisión de los datos oficiales de la <a href="https://www.agenciatributaria.gob.es" target="_blank" rel="noopener" class="text-brand hover:underline">Agencia Tributaria</a> y la <a href="https://www.seg-social.es" target="_blank" rel="noopener" class="text-brand hover:underline">Seguridad Social</a> con una experiencia de usuario clara, rápida y respetuosa de la privacidad.
+          </p>
+        </div>
+      </section>
+
+      <section>
         <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Nuestra misión</h2>
         <p>
           Creemos que todo trabajador tiene derecho a saber cuánto va a cobrar realmente antes de aceptar una oferta de trabajo, negociar un salario o planificar sus finanzas personales.
         </p>
         <p>
-          Por eso hemos creado una suite de calculadoras gratuitas, actualizadas cada año fiscal, que cubren desde el cálculo básico de sueldo neto hasta herramientas más avanzadas como el comparador por comunidades autónomas, la simulación del régimen Beckham o la calculadora de finiquito.
+          Por eso hemos creado una suite de <strong>más de 27 calculadoras gratuitas</strong>, actualizadas cada año fiscal, que cubren desde el cálculo básico de sueldo neto hasta herramientas más avanzadas como el comparador por comunidades autónomas, la simulación del régimen Beckham, la calculadora de finiquito, la hipoteca o la planificación de la jubilación.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Precisión y fuentes</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Metodología y rigor</h2>
         <p>
-          Nuestros cálculos se basan en la normativa fiscal vigente publicada en el BOE, los datos oficiales de la Agencia Tributaria (AEAT) y la Seguridad Social. Actualizamos los tramos del IRPF, las cotizaciones a la Seguridad Social y el SMI cada año fiscal.
+          Cada calculadora sigue un proceso de desarrollo riguroso:
         </p>
+        <ol class="list-decimal ml-4 space-y-2">
+          <li><strong>Recopilación de datos oficiales:</strong> extraemos los tramos del IRPF, las cotizaciones a la Seguridad Social, el SMI y las escalas autonómicas directamente de las fuentes legales publicadas en el BOE y la AEAT.</li>
+          <li><strong>Implementación del motor de cálculo:</strong> codificamos los algoritmos fiscales siguiendo la Ley 35/2006 del IRPF, el Real Decreto Legislativo 8/2015 de la Seguridad Social y la normativa autonómica vigente.</li>
+          <li><strong>Verificación cruzada:</strong> comparamos los resultados con el <a href="https://www2.agenciatributaria.gob.es/wlpl/PRET-R200/index.zul" target="_blank" rel="noopener" class="text-brand hover:underline">simulador oficial de retenciones de la AEAT</a> para garantizar una diferencia máxima de 5 €/mes en la mayoría de los casos.</li>
+          <li><strong>Actualización anual:</strong> al inicio de cada ejercicio fiscal, revisamos todos los parámetros: tramos IRPF (estatales y autonómicos), bases de cotización, SMI, tipos MEI y cuotas RETA.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Fuentes oficiales</h2>
         <p>
-          Nuestro objetivo es que los resultados se ajusten al simulador oficial de la AEAT con una diferencia máxima de 5 €/mes para la mayoría de los casos.
+          Nuestros cálculos se basan exclusivamente en la normativa fiscal y laboral vigente. Estas son las fuentes que alimentan nuestras calculadoras:
         </p>
-        <p>
-          Fuentes principales:
-        </p>
-        <ul>
-          <li><a href="https://www.agenciatributaria.gob.es" target="_blank" rel="noopener" class="text-brand hover:underline">Agencia Tributaria (AEAT)</a></li>
-          <li><a href="https://www.seg-social.es" target="_blank" rel="noopener" class="text-brand hover:underline">Seguridad Social</a></li>
-          <li><a href="https://www.boe.es" target="_blank" rel="noopener" class="text-brand hover:underline">Boletín Oficial del Estado (BOE)</a></li>
+        <div class="space-y-3 mt-4">
+          <a href="https://www.agenciatributaria.gob.es" target="_blank" rel="noopener" class="flex items-start gap-3 rounded-lg border border-gray-200 p-4 transition-colors hover:border-brand dark:border-gray-700">
+            <span class="text-2xl">🏛️</span>
+            <div>
+              <span class="font-semibold text-charcoal dark:text-gray-100">Agencia Tributaria (AEAT)</span>
+              <p class="text-sm text-medium-gray">Tablas de retenciones, modelos fiscales, consultas vinculantes y simulador oficial de retenciones IRPF.</p>
+            </div>
+          </a>
+          <a href="https://www.seg-social.es" target="_blank" rel="noopener" class="flex items-start gap-3 rounded-lg border border-gray-200 p-4 transition-colors hover:border-brand dark:border-gray-700">
+            <span class="text-2xl">🛡️</span>
+            <div>
+              <span class="font-semibold text-charcoal dark:text-gray-100">Seguridad Social</span>
+              <p class="text-sm text-medium-gray">Bases y tipos de cotización, topes máximos/mínimos, cuotas RETA para autónomos.</p>
+            </div>
+          </a>
+          <a href="https://www.boe.es" target="_blank" rel="noopener" class="flex items-start gap-3 rounded-lg border border-gray-200 p-4 transition-colors hover:border-brand dark:border-gray-700">
+            <span class="text-2xl">📜</span>
+            <div>
+              <span class="font-semibold text-charcoal dark:text-gray-100">Boletín Oficial del Estado (BOE)</span>
+              <p class="text-sm text-medium-gray">Leyes y reales decretos: Ley 35/2006 del IRPF, RDL 2/2015 Estatuto de los Trabajadores, Ley General de la Seguridad Social.</p>
+            </div>
+          </a>
+          <a href="https://www.hacienda.gob.es/es-ES/Areas%20Tematicas/Financiacion%20Autonomica/Paginas/Financiacion%20Autonomica.aspx" target="_blank" rel="noopener" class="flex items-start gap-3 rounded-lg border border-gray-200 p-4 transition-colors hover:border-brand dark:border-gray-700">
+            <span class="text-2xl">🗺️</span>
+            <div>
+              <span class="font-semibold text-charcoal dark:text-gray-100">Ministerio de Hacienda — Financiación Autonómica</span>
+              <p class="text-sm text-medium-gray">Escalas autonómicas del IRPF, deducciones regionales y normativa de las 17 comunidades autónomas.</p>
+            </div>
+          </a>
+        </div>
+
+        <h3 class="mt-6 text-lg font-semibold text-charcoal dark:text-gray-100">Normativa de referencia</h3>
+        <ul class="list-disc ml-4 space-y-1">
+          <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" target="_blank" rel="noopener" class="text-brand hover:underline">Ley 35/2006, de 28 de noviembre, del IRPF</a> — regulación completa del impuesto, tramos estatales y reducciones.</li>
+          <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430" target="_blank" rel="noopener" class="text-brand hover:underline">Real Decreto Legislativo 2/2015 — Estatuto de los Trabajadores</a> — pagas extraordinarias, estructura salarial, extinción del contrato.</li>
+          <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724" target="_blank" rel="noopener" class="text-brand hover:underline">Real Decreto Legislativo 8/2015 — Ley General de la Seguridad Social</a> — régimen general, cotizaciones, prestaciones por desempleo y jubilación.</li>
+          <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2022-17556" target="_blank" rel="noopener" class="text-brand hover:underline">Real Decreto-ley 13/2022</a> — nuevo sistema de cotización de autónomos por ingresos reales.</li>
+          <li><a href="https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI34.shtml" target="_blank" rel="noopener" class="text-brand hover:underline">AEAT — Régimen especial de trabajadores desplazados (art. 93 LIRPF)</a> — normativa del régimen Beckham.</li>
         </ul>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Privacidad</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Privacidad ante todo</h2>
         <p>
-          Todas nuestras calculadoras funcionan íntegramente en tu navegador. <strong>No enviamos tus datos salariales ni personales a ningún servidor.</strong> Tu privacidad es una prioridad absoluta.
+          Todas nuestras calculadoras funcionan <strong>íntegramente en tu navegador</strong>. No enviamos tus datos salariales ni personales a ningún servidor. No utilizamos cookies de terceros ni rastreadores publicitarios. Tu privacidad es una prioridad absoluta.
         </p>
       </section>
 
       <section>
         <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Ejercicio fiscal {CURRENT_FISCAL_YEAR}</h2>
         <p>
-          Esta versión del sitio está actualizada para el ejercicio fiscal {CURRENT_FISCAL_YEAR}, con los tramos de IRPF (estatal y autonómico), las cotizaciones a la Seguridad Social y el Salario Mínimo Interprofesional vigentes.
+          Esta versión del sitio está actualizada para el ejercicio fiscal {CURRENT_FISCAL_YEAR}, con los tramos de IRPF (estatal y autonómico de las 17 comunidades + regímenes forales de País Vasco y Navarra), las cotizaciones a la Seguridad Social, el Mecanismo de Equidad Intergeneracional (MEI), las cuotas RETA por ingresos reales y el Salario Mínimo Interprofesional vigentes.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Aviso importante</h2>
+        <p>
+          Los resultados proporcionados por nuestras calculadoras son <strong>orientativos</strong> y no constituyen asesoramiento fiscal, laboral ni financiero profesional. Para decisiones fiscales complejas (declaración de la renta, planificación patrimonial, régimen de autónomos…), recomendamos consultar con un asesor fiscal colegiado.
         </p>
       </section>
     </div>

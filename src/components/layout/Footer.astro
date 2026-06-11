@@ -1,109 +1,53 @@
 ---
 import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
+import { getFooterSections, t } from '../../i18n';
+import type { Locale } from '../../i18n/types';
 
-const calculadoras = [
-  { href: '/', label: 'Sueldo Neto' },
-  { href: '/calculadora-irpf/', label: 'IRPF' },
-  { href: '/calculadora-salario-bruto/', label: 'Salario Bruto' },
-  { href: '/comparador-comunidades/', label: 'Comparador CCAA' },
-  { href: '/calculadora-autonomos/', label: 'Autónomos' },
-  { href: '/regimen-beckham-calculadora/', label: 'Régimen Beckham' },
-  { href: '/calculadora-tipo-retencion/', label: 'Tipo de Retención' },
-  { href: '/calculadora-finiquito/', label: 'Finiquito' },
-  { href: '/calculadora-paro/', label: 'Paro' },
-  { href: '/calculadora-hora-trabajada/', label: 'Hora Trabajada' },
-  { href: '/calculadora-pagas-extra/', label: 'Pagas Extra' },
-];
+interface Props {
+  locale?: Locale;
+}
 
-const financieras = [
-  { href: '/calculadora-prestamo/', label: 'Préstamo' },
-  { href: '/calculadora-interes-compuesto/', label: 'Interés Compuesto' },
-  { href: '/calculadora-plan-ahorro/', label: 'Plan de Ahorro' },
-  { href: '/calculadora-inflacion/', label: 'Inflación' },
-  { href: '/calculadora-hipoteca/', label: 'Hipoteca' },
-  { href: '/calculadora-herencia/', label: 'Herencia' },
-  { href: '/calculadora-jubilacion/', label: 'Jubilación' },
-  { href: '/calculadora-iva/', label: 'IVA' },
-  { href: '/calculadora-venta-vivienda/', label: 'Venta Vivienda' },
-  { href: '/calculadora-plusvalia-municipal/', label: 'Plusvalía Municipal' },
-];
-
-const legal = [
-  { href: '/aviso-legal/', label: 'Aviso Legal' },
-  { href: '/politica-privacidad/', label: 'Política de Privacidad' },
-  { href: '/politica-cookies/', label: 'Política de Cookies' },
-  { href: '/terminos/', label: 'Términos de Uso' },
-  { href: '/contacto/', label: 'Contacto' },
-  { href: '/sobre-nosotros/', label: 'Sobre Nosotros' },
-];
+const locale: Locale = Astro.props.locale || 'es';
+const sections = getFooterSections(locale);
+const homeHref = t(locale, 'homeHref');
 ---
 
 <footer class="border-t border-gray-200 bg-light-gray dark:border-gray-700 dark:bg-gray-900">
   <div class="mx-auto max-w-6xl px-4 py-12">
     <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
       <div>
-        <a href="/" class="mb-4 inline-block text-lg font-bold">
-          <span class="text-charcoal dark:text-gray-100">El Sueldo </span>
-          <span class="text-brand">Neto</span>
+        <a href={homeHref} class="mb-4 inline-block text-lg font-bold">
+          <span class="text-charcoal dark:text-gray-100">{t(locale, 'brandLeft')} </span>
+          <span class="text-brand">{t(locale, 'brandRight')}</span>
         </a>
         <p class="text-sm text-medium-gray">
-          Calculadora de sueldo neto actualizada para el ejercicio fiscal {CURRENT_FISCAL_YEAR}.
-          Resultados orientativos basados en la normativa vigente.
+          {t(locale, 'footerDescription')} {CURRENT_FISCAL_YEAR}.
         </p>
       </div>
 
-      <div>
-        <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-charcoal dark:text-gray-200">
-          Calculadoras Sueldo
-        </h3>
-        <ul class="space-y-2">
-          {calculadoras.map(({ href, label }) => (
-            <li>
-              <a href={href} class="text-sm text-medium-gray transition-colors hover:text-brand">
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div>
-        <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-charcoal dark:text-gray-200">
-          Calculadoras Financieras
-        </h3>
-        <ul class="space-y-2">
-          {financieras.map(({ href, label }) => (
-            <li>
-              <a href={href} class="text-sm text-medium-gray transition-colors hover:text-brand">
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div>
-        <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-charcoal dark:text-gray-200">
-          Legal
-        </h3>
-        <ul class="space-y-2">
-          {legal.map(({ href, label }) => (
-            <li>
-              <a href={href} class="text-sm text-medium-gray transition-colors hover:text-brand">
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {sections.map((section) => (
+        <div>
+          <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-charcoal dark:text-gray-200">
+            {section.heading}
+          </h3>
+          <ul class="space-y-2">
+            {section.items.map(({ href, label }) => (
+              <li>
+                <a href={href} class="text-sm text-medium-gray transition-colors hover:text-brand">
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
 
     <div class="mt-10 border-t border-gray-300 pt-6 dark:border-gray-700">
       <p class="text-center text-xs text-medium-gray">
-        &copy; {new Date().getFullYear()} {SITE_NAME}. Los cálculos son orientativos y no constituyen asesoramiento fiscal.
-        Consulta con un profesional para tu situación particular.
-        Fuentes: <a href="https://www.agenciatributaria.gob.es" class="underline hover:text-brand" target="_blank" rel="noopener">AEAT</a>,
-        <a href="https://www.seg-social.es" class="underline hover:text-brand" target="_blank" rel="noopener">Seguridad Social</a>,
+        &copy; {new Date().getFullYear()} {SITE_NAME}. {t(locale, 'footerDisclaimer')}
+        {' '}{t(locale, 'sourcesLabel')} <a href="https://www.agenciatributaria.gob.es" class="underline hover:text-brand" target="_blank" rel="noopener">AEAT</a>,
+        <a href="https://www.seg-social.es" class="underline hover:text-brand" target="_blank" rel="noopener">{locale === 'es' ? 'Seguridad Social' : 'Social Security'}</a>,
         <a href="https://www.boe.es" class="underline hover:text-brand" target="_blank" rel="noopener">BOE</a>.
       </p>
     </div>

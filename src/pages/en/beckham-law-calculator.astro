@@ -1,0 +1,181 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import Beckham from '../../components/calculadoras/Beckham';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+
+const title = `Beckham Law Calculator Spain ${CURRENT_FISCAL_YEAR}: Tax Savings`;
+const description = `Calculate your tax savings under Spain's Beckham Law (Régimen de Impatriados) ${CURRENT_FISCAL_YEAR}. Compare flat 24% rate vs standard IRPF for relocated workers.`;
+
+const faqs = [
+  { question: 'What is the Beckham Law in Spain?', answer: `The Beckham Law (officially Régimen Especial de Impatriados, Art. 93 IRPF) allows workers who relocate to Spain to pay a flat 24% tax rate on Spanish-sourced income up to €600,000, instead of the progressive IRPF rates that can reach 47%. It applies for the year of arrival and the following 5 tax years.` },
+  { question: 'Who qualifies for the Beckham Law?', answer: 'You must not have been a Spanish tax resident during the 5 years prior to your move, your relocation must be linked to an employment contract or company directorship (or you qualify as a digital nomad or entrepreneur under the 2023 Startups Law expansion), and you must actually become a tax resident in Spain.' },
+  { question: 'At what salary does the Beckham Law save money?', answer: `The break-even point depends on your region and family situation, but generally the Beckham Law becomes advantageous from around €45,000-€50,000 gross per year. Below that, the standard progressive IRPF with personal deductions may result in lower taxes. Above €60,000, savings grow rapidly.` },
+  { question: 'Can I apply the Beckham Law as a remote worker?', answer: 'Since the 2023 Startups Law reform, the regime was extended to remote workers (telecommuters) serving foreign companies, entrepreneurs, and highly qualified professionals. You no longer need a traditional Spanish employment contract in all cases.' },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Beckham Law Tax Calculator ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Beckham Law Calculator"
+  path="/en/beckham-law-calculator/"
+  faqs={faqs}
+  locale="en"
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <Beckham client:load lang="en" />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Understanding Spain's Beckham Law for expats
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spain's Beckham Law is one of Europe's most attractive tax regimes for incoming workers and professionals. Named after footballer David Beckham, who was among the first to benefit, it allows qualifying individuals to pay a flat 24% tax rate on employment income up to €600,000, compared to progressive rates that top out at 47%.
+      </p>
+      <p>
+        For a worker earning €80,000 gross, the Beckham Law can save over €5,000 per year compared to standard taxation in Madrid, and even more compared to high-tax regions like Catalonia. However, it's not always beneficial — workers with lower salaries or those with families who benefit from standard deductions should compare both scenarios carefully using this calculator.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      Detailed eligibility requirements
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        The Beckham Law (formally, the Régimen Especial de Impatriados under Article 93 of the IRPF Law) has specific eligibility criteria that must all be met simultaneously. Getting even one condition wrong can disqualify you, so it is worth reviewing each requirement carefully before applying.
+      </p>
+      <p>
+        <strong>1. Non-residency in Spain during the prior 5 tax years.</strong> You must not have been a Spanish fiscal resident at any point during the five calendar years immediately preceding your arrival. This means that if you moved to Spain in 2025, you must not have been a resident in 2020, 2021, 2022, 2023, or 2024. Brief tourist stays do not count as residency, but spending more than 183 days in Spain or having your main economic interests here would.
+      </p>
+      <p>
+        <strong>2. Your move must be linked to a qualifying activity.</strong> Traditionally, this meant an employment contract with a Spanish company or a posting by a foreign employer to its Spanish subsidiary. Since the 2023 Startups Law reform, the qualifying activities have expanded to include: remote workers serving foreign employers or clients, entrepreneurs with an innovative business project, highly qualified professionals providing services to startup companies, and individuals carrying out training, research, or development activities.
+      </p>
+      <p>
+        <strong>3. You must become a Spanish tax resident.</strong> You need to actually establish fiscal residence in Spain, typically by spending more than 183 days per year in the country or by making Spain your main centre of economic interests.
+      </p>
+      <p>
+        <strong>4. You must not earn income through a permanent establishment.</strong> If you are a company director, you must not hold more than 25% of the share capital of the employing entity (unless the company is not a real estate holding company).
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      Step-by-step application process
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Applying for the Beckham Law regime requires timely action. You have a strict deadline of <strong>six months from the start date on your Social Security registration</strong> (or from the date you begin working in Spain) to file your application with the Spanish Tax Agency (Agencia Tributaria).
+      </p>
+      <p>
+        <strong>Step 1: Register as a tax resident.</strong> Obtain your NIE (Número de Identidad de Extranjero) if you do not already have one. Register with the local tax office (Administración de Hacienda) and request your tax identification.
+      </p>
+      <p>
+        <strong>Step 2: File Modelo 149.</strong> This is the official form to elect the special regime. You must submit it within six months of your Social Security registration. The form requires personal details, employment information, and a declaration that you meet all eligibility criteria. Since 2015, this can be filed electronically with a digital certificate.
+      </p>
+      <p>
+        <strong>Step 3: Receive confirmation.</strong> The Tax Agency will review your application and issue a resolution. If approved, you will be taxed under the regime starting from the year of your arrival and continuing for the following five tax years (six years total).
+      </p>
+      <p>
+        <strong>Step 4: File annual returns using Modelo 151.</strong> Instead of the standard Modelo 100 income tax return, Beckham Law taxpayers file Modelo 151 each year. This simplified return reflects the flat-rate taxation on Spanish-sourced employment income.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      Tax savings comparison: Beckham Law vs standard IRPF
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        The following table compares the approximate annual income tax under the Beckham Law (flat 24%) versus standard progressive IRPF for a single taxpayer in Madrid with no children. Social Security contributions are the same in both scenarios and are excluded from this comparison to isolate the IRPF difference.
+      </p>
+      <div class="overflow-x-auto my-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left">Gross salary</th>
+              <th class="px-4 py-2 text-left">Beckham Law IRPF</th>
+              <th class="px-4 py-2 text-left">Standard IRPF (Madrid)</th>
+              <th class="px-4 py-2 text-left">Annual saving</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€30,000</td><td class="px-4 py-2">€7,200</td><td class="px-4 py-2">€4,260</td><td class="px-4 py-2 text-red-600">-€2,940 (worse)</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€45,000</td><td class="px-4 py-2">€10,800</td><td class="px-4 py-2">€9,180</td><td class="px-4 py-2 text-red-600">-€1,620 (worse)</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€60,000</td><td class="px-4 py-2">€14,400</td><td class="px-4 py-2">€14,550</td><td class="px-4 py-2 text-green-600">€150</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€80,000</td><td class="px-4 py-2">€19,200</td><td class="px-4 py-2">€22,640</td><td class="px-4 py-2 text-green-600">€3,440</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€100,000</td><td class="px-4 py-2">€24,000</td><td class="px-4 py-2">€31,260</td><td class="px-4 py-2 text-green-600">€7,260</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">€150,000</td><td class="px-4 py-2">€36,000</td><td class="px-4 py-2">€52,540</td><td class="px-4 py-2 text-green-600">€16,540</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        As the table shows, the break-even point for a single taxpayer in Madrid falls around €55,000-€60,000. Below this level, the standard IRPF regime with its personal minimum and progressive brackets actually produces a lower tax bill. The savings grow dramatically above €80,000, making the Beckham Law particularly attractive for senior professionals, tech workers, and executives relocating to Spain.
+      </p>
+      <p>
+        In higher-tax regions such as Catalonia or Valencia, the break-even point drops to approximately €45,000-€50,000, as the standard IRPF rates are steeper. Conversely, taxpayers with children or other dependants may find that the standard regime's family deductions push the break-even point higher.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      Common mistakes expats make with the Beckham Law
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Despite its apparent simplicity, the Beckham Law regime has several pitfalls that catch expats off guard. Being aware of these can save you thousands of euros and significant administrative headaches.
+      </p>
+      <p>
+        <strong>Missing the six-month deadline.</strong> The most common mistake is failing to file Modelo 149 within six months of your Social Security registration date. This deadline is strict and there is no extension mechanism. If you miss it, you lose the option for the entire duration of your stay.
+      </p>
+      <p>
+        <strong>Assuming all income is covered.</strong> The Beckham Law applies only to Spanish-sourced employment income. Rental income from properties abroad, investment dividends, and capital gains from selling assets outside Spain are taxed differently. Non-Spanish-sourced income is generally exempt (you are taxed as a non-resident on foreign income), but this requires careful structuring.
+      </p>
+      <p>
+        <strong>Forgetting about Wealth Tax.</strong> Beckham Law taxpayers are still subject to Spain's Wealth Tax (Impuesto sobre el Patrimonio) on Spanish assets, though only on assets located in Spain. The rules here interact with the non-resident treatment of foreign-sourced income in ways that require professional tax advice.
+      </p>
+      <p>
+        <strong>Ignoring double taxation treaties.</strong> Under the Beckham Law, Spain taxes you as a non-resident for treaty purposes. This can create conflicts with your home country's tax authority if they still consider you a resident. Always verify your treaty position before electing the regime.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
+      The 2023 Startups Law expansion and digital nomads
+    </h3>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Spain's Ley de Startups (Law 28/2022), which came into force in January 2023, significantly broadened the scope of the Beckham Law regime. Previously limited to employees with Spanish contracts, the regime now covers several additional categories of professionals.
+      </p>
+      <p>
+        <strong>Remote workers and digital nomads</strong> who work for foreign companies or clients while living in Spain can now apply. This is a major change, as it aligns with Spain's new digital nomad visa. A freelancer earning €90,000 from US or UK clients, for example, would pay just 24% income tax on that income — far less than the 37-45% marginal rates under standard IRPF.
+      </p>
+      <p>
+        <strong>Entrepreneurs and founders</strong> who relocate to Spain to launch an innovative business can also elect the regime, provided they meet the startup definition criteria. The law additionally reduces the non-residency requirement from 10 years to 5 years, making it accessible to people who previously lived in Spain but left at least five years ago.
+      </p>
+      <p>
+        For tax planning purposes, the combination of Spain's digital nomad visa and the updated Beckham Law creates one of the most competitive tax environments in Europe for high-earning remote professionals. Compared to Portugal's NHR regime (which has been significantly curtailed), Spain now offers a simpler, more transparent flat-rate option that can last for six years.
+      </p>
+    </div>
+  </section>
+</CalculadoraLayout>

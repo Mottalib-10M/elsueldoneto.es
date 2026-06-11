@@ -1,0 +1,178 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import Inflacion from '../../components/calculadoras/Inflacion';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+
+const title = `Inflation Calculator Spain ${CURRENT_FISCAL_YEAR}: Purchasing Power Impact`;
+const description = `Calculate how inflation erodes your money in Spain. See what your savings will be worth in the future and how much you need to maintain your current purchasing power.`;
+
+const faqs = [
+  {
+    question: 'What is the current inflation rate in Spain?',
+    answer: `Inflation in Spain has varied significantly in recent years. The annual CPI (IPC) peaked at 8.4% in 2022 before moderating to around 3.5% in 2023 and approximately 2.8% in 2024. For the most current monthly figure, check the INE (Instituto Nacional de Estadistica), which publishes the CPI data on a monthly basis.`,
+  },
+  {
+    question: 'How is inflation measured in Spain?',
+    answer: 'The INE (National Statistics Institute) publishes the Consumer Price Index (IPC) monthly. It measures price changes in a basket of approximately 479 goods and services representing average household consumption. The basket includes food, transport, housing, clothing, leisure and communications, each weighted by its share of household spending. The headline inflation figure is the year-on-year change in this index.',
+  },
+  {
+    question: 'What is the difference between headline and core inflation?',
+    answer: 'Headline inflation (inflacion general) includes all items in the CPI basket, including volatile components like energy and fresh food. Core inflation (inflacion subyacente) excludes energy and unprocessed food prices, providing a clearer picture of underlying price trends. In July 2022, headline inflation hit 10.8% while core inflation was 6.1% — the gap showed that most of the spike came from energy prices rather than broad-based overheating.',
+  },
+  {
+    question: 'How does inflation affect my salary in Spain?',
+    answer: 'When wages rise at the same pace as prices, purchasing power is maintained. In practice, Spanish wages have tended to rise below inflation, especially during crises. Between 2021 and 2023, collectively agreed wages rose 2-3% annually against inflation reaching 10%. This gap represents a silent loss of purchasing power that many workers do not perceive because their nominal payslip does not decrease.',
+  },
+  {
+    question: 'How can I protect my savings from inflation?',
+    answer: 'Leaving cash in a 0% current account means losing purchasing power every year. Short-term options include high-yield savings accounts (2-3.5%) and fixed deposits. For the long term, global equity index funds have historically delivered real returns (after inflation) of 5-6% annually. Inflation-linked bonds, such as those issued by the Spanish Treasury, automatically adjust returns to the CPI, guaranteeing that capital does not lose purchasing power.',
+  },
+  {
+    question: 'What is deflation and why is it dangerous?',
+    answer: 'Deflation is a sustained fall in the general price level. While it sounds positive (things get cheaper), it triggers a destructive spiral: consumers delay purchases expecting lower prices, businesses sell less and cut jobs, unemployed workers spend even less, and prices fall further. Japan experienced two decades of deflation after its 1990 bubble burst. This is why the ECB targets 2% inflation rather than 0% — a safety margin against deflation.',
+  },
+  {
+    question: 'What are inflation-linked bonds in Spain?',
+    answer: 'The Spanish Treasury (Tesoro Publico) issues inflation-indexed bonds whose returns adjust automatically to the CPI. These guarantee that your capital maintains its purchasing power regardless of inflation levels. They can be purchased directly from the Tesoro Publico without broker fees, making them an accessible inflation hedge for individual investors.',
+  },
+  {
+    question: 'Is my personal inflation rate different from the official CPI?',
+    answer: 'Yes, often significantly. The CPI reflects average household consumption, but your spending pattern may differ. If you are a homeowner without a mortgage, housing costs barely affect you. If you do not own a car, transport weighs less. If you eat out frequently, restaurant prices matter more than the 12% weight in the official index. Tracking your own spending by category for a few months gives you a far more accurate picture of how inflation affects you personally.',
+  },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`Inflation Calculator Spain ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="Inflation Calculator"
+  path="/en/inflation-calculator/"
+  faqs={faqs}
+  locale="en"
+  sources={[
+    { label: 'INE', url: 'https://www.ine.es' },
+  ]}
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <Inflacion client:load lang="en" />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Understanding inflation in Spain: how it erodes your wealth and what you can do
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Inflation is the sustained, generalised rise in the price level of an economy. It does not refer to petrol going up one week or fruit getting more expensive for a month — it is a macroeconomic phenomenon where the overall cost of goods and services increases over time. The direct consequence is that each euro buys less. With 3% annual inflation, 1,000 EUR today has the purchasing power of 970 EUR in one year, 744 EUR in ten years, and just 554 EUR in twenty years. The money does not disappear from your account, but its ability to purchase real goods and services evaporates slowly and silently.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">How inflation is measured in Spain</h3>
+      <p>
+        The INE (Instituto Nacional de Estadistica) publishes the Consumer Price Index (IPC) monthly. It measures the price variation of a basket of goods and services representing the average consumption of Spanish households. This basket includes everything from food and beverages to transport, housing, clothing, leisure and telecommunications. Each category carries a different weight in the index: housing and food weigh more than leisure or clothing. When you read that "inflation was 3.2% in May," this is the year-on-year change in the CPI — how much prices have risen compared to the same month of the previous year.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Inflation and wages: a race you usually lose</h3>
+      <p>
+        When wages rise at the same pace as prices, purchasing power is maintained. In practice, however, Spanish wages have tended to lag behind inflation over the past two decades, particularly during economic crises. Between 2021 and 2023, with inflation surging due to energy and food prices, collectively bargained wages rose just 2-3% annually against inflation that reached 10%. This gap represents a silent erosion of purchasing power that many workers fail to notice because their nominal payslip does not decrease. Over a decade, the cumulative effect can be equivalent to losing an entire month's salary in real terms.
+      </p>
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Protecting your savings from inflation</h3>
+      <p>
+        Leaving money in a current account at 0% means losing purchasing power every year. The alternatives depend on your time horizon. In the short term, high-yield savings accounts and fixed-term deposits can partially offset inflation; some currently offer 2.5-3.5%. Over the long term, globally diversified equity index funds have historically been the asset class that best outpaces inflation, with real returns (after inflation) of 5-6% per year on average. Inflation-linked bonds, such as those issued by the Spanish Treasury (Tesoro Publico), are another option: their returns automatically adjust to the CPI, guaranteeing that your capital does not lose purchasing power. The right choice depends on your risk profile and time horizon.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">The invisible cost of inflation on 50,000 EUR</h3>
+      <p>
+        Imagine you have 50,000 EUR sitting in a current account with no interest. Here is how its real purchasing power erodes at different inflation levels:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Annual inflation</th>
+              <th class="px-3 py-2 text-right">Real value in 5 years</th>
+              <th class="px-3 py-2 text-right">Real value in 10 years</th>
+              <th class="px-3 py-2 text-right">Real value in 20 years</th>
+              <th class="px-3 py-2 text-right">Loss in 20 years</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2%</td><td class="px-3 py-1 text-right">45,290 EUR</td><td class="px-3 py-1 text-right">41,020 EUR</td><td class="px-3 py-1 text-right">33,650 EUR</td><td class="px-3 py-1 text-right text-red-600">-16,350 EUR</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">3%</td><td class="px-3 py-1 text-right">43,130 EUR</td><td class="px-3 py-1 text-right">37,200 EUR</td><td class="px-3 py-1 text-right">27,680 EUR</td><td class="px-3 py-1 text-right text-red-600">-22,320 EUR</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">5%</td><td class="px-3 py-1 text-right">39,180 EUR</td><td class="px-3 py-1 text-right">30,700 EUR</td><td class="px-3 py-1 text-right">18,840 EUR</td><td class="px-3 py-1 text-right text-red-600">-31,160 EUR</td></tr>
+            <tr><td class="px-3 py-1">8%</td><td class="px-3 py-1 text-right">34,030 EUR</td><td class="px-3 py-1 text-right">23,160 EUR</td><td class="px-3 py-1 text-right">10,730 EUR</td><td class="px-3 py-1 text-right text-red-600">-39,270 EUR</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        At an average 3% inflation rate, your 50,000 EUR would lose nearly half its real value in 20 years. The money is still in your account, but it only buys what 27,680 EUR would buy today. This table alone should convince anyone holding large cash balances to consider inflation-beating alternatives.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">CPI in Spain: recent history</h3>
+      <p>
+        Inflation in Spain has been particularly volatile since 2020. After years of contained inflation (0.5-1.5% between 2014 and 2020), the CPI surged to 6.5% in 2021 and peaked at a year-on-year rate of 10.8% in July 2022, driven by energy prices and post-pandemic supply chain disruptions. It has since moderated, but the experience served as a powerful reminder that inflation is not a theoretical risk — it is a reality that can significantly erode savings in just a few months.
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Year</th>
+              <th class="px-3 py-2 text-right">Average annual CPI</th>
+              <th class="px-3 py-2 text-left">Context</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2018</td><td class="px-3 py-1 text-right">1.2%</td><td class="px-3 py-1">Stable growth, contained energy prices</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2019</td><td class="px-3 py-1 text-right">0.8%</td><td class="px-3 py-1">Economic slowdown, low inflation</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2020</td><td class="px-3 py-1 text-right">-0.3%</td><td class="px-3 py-1">COVID-19 pandemic, demand collapse</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2021</td><td class="px-3 py-1 text-right">6.5%</td><td class="px-3 py-1">Post-COVID recovery, energy crisis, supply bottlenecks</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2022</td><td class="px-3 py-1 text-right">8.4%</td><td class="px-3 py-1">Ukraine war, energy spike, 10.8% peak in July</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2023</td><td class="px-3 py-1 text-right">3.5%</td><td class="px-3 py-1">Energy moderation, ECB rate hikes</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2024</td><td class="px-3 py-1 text-right">2.8%</td><td class="px-3 py-1">Convergence toward 2% target, food still elevated</td></tr>
+            <tr><td class="px-3 py-1">2025</td><td class="px-3 py-1 text-right">~2.5%</td><td class="px-3 py-1">Stabilisation, services as residual inflation driver</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The table makes clear that inflation is neither linear nor predictable. Between 2018 and 2020, a saver could have assumed inflation was "a thing of the past." Two years later, the cumulative price increase between 2021 and 2022 exceeded 15%, erasing years of stability. This volatility reinforces the need to keep a portion of your wealth in assets that protect against inflation risk.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Headline vs core inflation: why the distinction matters</h3>
+      <p>
+        The inflation figure that appears in newspaper headlines — such as "CPI rises 3.2%" — is headline inflation, which includes all components of the consumption basket. But there is another indicator that economists and the European Central Bank watch more closely: <strong>core inflation</strong>. This variant excludes energy prices (electricity, gas, fuel) and unprocessed food (fruit, vegetables, fresh meat), precisely because these are the most volatile components, subject to seasonal and geopolitical factors that distort the underlying trend.
+      </p>
+      <p>
+        A concrete example unfolded in Spain between 2021 and 2023. In July 2022, headline inflation reached 10.8% year-on-year, driven primarily by gas and electricity prices following the invasion of Ukraine. However, core inflation that same month stood at 6.1%. The nearly five-point gap showed that the bulk of the increase came from energy, not from broad-based price overheating. When energy prices moderated in 2023, headline inflation fell quickly to around 3%, but core inflation took longer to decline because the increases had already passed through to service and manufactured product prices. This is why the ECB uses core inflation as its primary reference for monetary policy decisions — it provides a far more reliable thermometer of whether inflation is genuinely under control.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">The CPI basket: what gets measured and how much it weighs</h3>
+      <p>
+        The CPI does not measure "all prices." It tracks a selection of roughly 479 items grouped into 12 major categories, each weighted to reflect its importance in average Spanish household spending. The weights are updated annually based on the INE's Household Budget Survey. The categories with the largest weights in the current basket are:
+      </p>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><strong>Food and non-alcoholic beverages:</strong> approximately 20% of the total. This is the category most felt by average families.</li>
+        <li><strong>Transport:</strong> around 15%, including fuel, vehicles and public transport.</li>
+        <li><strong>Housing, water, electricity, gas:</strong> about 13%. Actual rent is not included directly; instead it uses the concept of "imputed rent."</li>
+        <li><strong>Hotels, cafes and restaurants:</strong> close to 12%, a category with growing weight due to changing consumption habits.</li>
+        <li><strong>Leisure and culture:</strong> approximately 8%.</li>
+        <li><strong>Clothing, furnishings, communications</strong> and other categories make up the remaining percentage.</li>
+      </ul>
+      <p>
+        The crucial point is that your personal inflation rate can differ significantly from the official figure. If you own your home outright, the housing category barely affects you. If you do not own a car, transport weighs less in your budget. If you eat out five days a week, the restaurant category matters more than its 12% official weight. Economists, including the Bank of Spain's research department, recommend calculating your own personal CPI: track your actual spending by category for three months and compare year-on-year changes. It is the only way to know how much inflation truly affects you, rather than the "average household."
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Deflation: the inverse danger few understand</h3>
+      <p>
+        If inflation is a generalised rise in prices, <strong>deflation</strong> is the opposite: a sustained fall in the general price level. At first glance it seems positive — "everything gets cheaper, I can buy more." But in practice, it is an economically devastating phenomenon. The reason is psychological and self-reinforcing: if consumers expect prices to fall tomorrow, they delay purchases today. Businesses, selling less, reduce production and lay off workers. Unemployed workers consume even less. Prices fall further. Economists call this a <strong>deflationary spiral</strong>, and breaking it is extremely difficult.
+      </p>
+      <p>
+        The reference case is Japan. After its property and stock market bubble burst in 1990, the country entered a prolonged period of deflation or near-zero inflation lasting over two decades — the so-called "lost decades." Despite interest rates at 0% and massive stimulus programmes by the Bank of Japan, deflation became entrenched because consumer and business expectations were anchored to falling prices. Spain experienced a brief deflationary episode in 2020 (average CPI of -0.3%) caused by the collapse in demand during lockdowns, but it lasted only months thanks to coordinated fiscal and monetary intervention. Japan's experience demonstrates that deflation can be more dangerous than moderate inflation — which is precisely why the ECB sets its inflation target at "close to 2%" rather than 0%: a safety margin to stay away from the deflationary trap.
+      </p>
+
+      <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Sources</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li><a href="https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736176802&menu=ultiDatos&idp=1254735976607" class="text-brand hover:underline" target="_blank" rel="noopener">INE — Consumer Price Index (IPC)</a> — Monthly data and historical series on inflation in Spain.</li>
+        <li><a href="https://www.ecb.europa.eu/stats/macroeconomic_and_sectoral/hicp/html/index.en.html" class="text-brand hover:underline" target="_blank" rel="noopener">ECB — Harmonised Index of Consumer Prices (HICP)</a> — Harmonised inflation data for eurozone comparisons.</li>
+        <li><a href="https://www.tesoro.es" class="text-brand hover:underline" target="_blank" rel="noopener">Tesoro Publico (Spanish Treasury)</a> — Inflation-indexed bonds issued by the Spanish government.</li>
+      </ul>
+    </div>
+  </section>
+</CalculadoraLayout>

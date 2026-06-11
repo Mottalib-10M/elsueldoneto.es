@@ -119,6 +119,73 @@ function getEsBuenSueldoAnswer(p: SalaryPageConfig): string {
   return `Un salario de ${formatAmountSpanish(p.annualGross)} € brutos anuales es muy superior a la mediana salarial española (~${formatAmountSpanish(mediana)} € según el INE). Se sitúa entre los salarios más altos de España, habitual en puestos directivos, alta cualificación técnica o perfiles senior en grandes empresas.`;
 }
 
+// Derived values for expanded content sections
+const netoMensual12 = defaultResult.netoAnual / 12;
+const netoDiario = defaultResult.netoAnual / 365;
+const netoSemanal = defaultResult.netoAnual / 52;
+const totalDeduccionesAnual = defaultResult.seguridadSocialAnual + defaultResult.irpfTotalAnual;
+const porcentajeDeduccion = (totalDeduccionesAnual / page.annualGross * 100).toFixed(1);
+const porcentajeSS = (defaultResult.seguridadSocialAnual / page.annualGross * 100).toFixed(1);
+const porcentajeIRPF = (defaultResult.tipoEfectivoIRPF * 100).toFixed(1);
+const diferenciaCCAAAnual = maxNetoCCAA.desglose.netoAnual - minNetoCCAA.desglose.netoAnual;
+const diferenciaCCAAMensual = maxNetoCCAA.desglose.netoMensual - minNetoCCAA.desglose.netoMensual;
+const smi = seguridadSocial2026.smiAnual14Pagas;
+const mediana = 24_395;
+const ratioMediana = page.annualGross / mediana;
+const ratioSMI = page.annualGross / smi;
+const vecesSMI = ratioSMI.toFixed(1);
+
+// Cost of living reference data (monthly estimates)
+const alquilerMadrid = page.annualGross <= 20000 ? 850 : page.annualGross <= 35000 ? 1000 : 1200;
+const alquilerProvincial = page.annualGross <= 20000 ? 500 : page.annualGross <= 35000 ? 650 : 750;
+const porcentajeAlquilerMadrid = (alquilerMadrid / defaultResult.netoMensual * 100).toFixed(0);
+const porcentajeAlquilerProvincia = (alquilerProvincial / defaultResult.netoMensual * 100).toFixed(0);
+
+// Salary category labels
+function getCategoriaLabel(cat: string): string {
+  switch(cat) {
+    case 'bajo': return 'salario bajo';
+    case 'medio-bajo': return 'salario medio-bajo';
+    case 'medio': return 'salario medio';
+    case 'medio-alto': return 'salario medio-alto';
+    case 'alto': return 'salario alto';
+    default: return 'salario';
+  }
+}
+const categoriaLabel = getCategoriaLabel(page.rangeCategory);
+
+// Career context
+function getCareerContext(annualGross: number): string {
+  if (annualGross <= 17094) return 'puestos de entrada, empleo a media jornada o sectores como la hostelería y el comercio minorista';
+  if (annualGross <= 25000) return 'posiciones junior, administrativos, técnicos de nivel medio y profesionales con pocos años de experiencia';
+  if (annualGross <= 40000) return 'profesionales con experiencia consolidada, mandos intermedios, desarrolladores de software, ingenieros y profesiones sanitarias';
+  if (annualGross <= 65000) return 'perfiles senior, jefes de departamento, consultores experimentados, ingenieros especializados y profesionales de alta cualificación técnica';
+  return 'directivos, ejecutivos, profesionales de alta dirección, socios de firmas profesionales y perfiles tecnológicos muy especializados';
+}
+const careerContext = getCareerContext(page.annualGross);
+
+// Tax optimization tips by range
+function getTipsFiscales(cat: string): {titulo: string, texto: string}[] {
+  const tips: {titulo: string, texto: string}[] = [
+    { titulo: 'Planes de pensiones', texto: 'Las aportaciones a planes de pensiones reducen la base imponible del IRPF. El límite actual es de 1.500 euros anuales para aportaciones individuales, aunque las aportaciones empresariales pueden alcanzar los 8.500 euros adicionales.' },
+    { titulo: 'Retribución flexible', texto: 'Negocia con tu empresa conceptos como ticket restaurante, seguro médico, guardería o transporte público. Estos beneficios están exentos de IRPF hasta ciertos límites, lo que aumenta tu poder adquisitivo real sin coste adicional para la empresa.' },
+  ];
+  if (cat === 'bajo' || cat === 'medio-bajo') {
+    tips.push({ titulo: 'Declaración de la renta', texto: 'Aunque no estés obligado a presentar la declaración, hazlo siempre. Si te han practicado retenciones, es muy probable que Hacienda te devuelva parte de lo retenido. Las devoluciones pueden superar los 500 euros en muchos casos.' });
+    tips.push({ titulo: 'Deducciones autonómicas', texto: 'Consulta las deducciones específicas de tu comunidad autónoma. Muchas ofrecen deducciones por alquiler de vivienda habitual, gastos educativos, nacimiento de hijos o cuidado de familiares que pueden suponer un ahorro considerable.' });
+  }
+  if (cat === 'medio' || cat === 'medio-alto') {
+    tips.push({ titulo: 'Deducción por vivienda', texto: 'Si compraste tu vivienda habitual antes de 2013, puedes seguir aplicando la deducción por inversión en vivienda habitual, que supone un ahorro de hasta el 15% sobre las cantidades invertidas (máximo 9.040 euros de base de deducción).' });
+    tips.push({ titulo: 'Formación y reciclaje', texto: 'Los gastos de formación directamente relacionados con tu actividad profesional son deducibles como gastos del trabajo. Invierte en tu desarrollo profesional y obtén un beneficio fiscal adicional.' });
+  }
+  if (cat === 'alto') {
+    tips.push({ titulo: 'Planificación fiscal integral', texto: 'Con este nivel salarial, considera contratar a un asesor fiscal profesional. Estrategias como la compensación de pérdidas patrimoniales, la planificación del timing de ganancias o la correcta estructuración de la retribución pueden generar ahorros significativos.' });
+    tips.push({ titulo: 'Inversión eficiente fiscalmente', texto: 'Fondos de inversión con traspaso sin tributación, planes de previsión social empresarial (PPSE) y la aportación conjunta a planes de pensiones con tu empresa son herramientas que reducen la carga fiscal manteniendo la rentabilidad de tu ahorro.' });
+  }
+  return tips;
+}
+const tipsFiscales = getTipsFiscales(page.rangeCategory);
+
 const schemas = [
   buildWebApplicationSchema(`Calculadora ${amountFormatted} € Brutos Neto`, `/sueldo/${page.slug}/`),
   buildBreadcrumbSchema([
@@ -251,6 +318,150 @@ const schemas = [
             <tr class="bg-emerald-50 dark:bg-emerald-900/20"><td class="px-4 py-2 font-bold text-charcoal dark:text-gray-100">Sueldo neto mensual (14 pagas)</td><td class="px-4 py-2 text-right tabular-nums font-bold text-emerald-700 dark:text-emerald-400">{formatEuros(defaultResult.netoMensual)}</td></tr>
           </tbody>
         </table>
+      </div>
+    </section>
+
+    <!-- Qué significa cobrar esta cantidad -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        ¿Qué significa cobrar {amountFormatted} € brutos {periodLabel} en España?
+      </h2>
+      <div class="prose prose-gray max-w-none dark:prose-invert">
+        <p>
+          Un salario bruto de {amountFormatted} € {periodLabel} equivale a {formatEurosRound(page.annualGross)} euros brutos anuales.
+          Se clasifica como un <strong>{categoriaLabel}</strong> en el contexto del mercado laboral español.
+          {ratioMediana < 1 ? (
+            `Esta cifra se sitúa por debajo de la mediana salarial en España, que según los últimos datos del INE ronda los ${formatAmountSpanish(mediana)} € brutos anuales.`
+          ) : ratioMediana < 1.3 ? (
+            `Esta cifra se encuentra en torno a la mediana salarial en España, que según los últimos datos del INE ronda los ${formatAmountSpanish(mediana)} € brutos anuales.`
+          ) : (
+            `Esta cifra supera la mediana salarial en España (${formatAmountSpanish(mediana)} € brutos anuales según el INE), situándote por encima de lo que percibe la mayoría de los trabajadores.`
+          )}
+          {' '}En relación al Salario Mínimo Interprofesional ({formatAmountSpanish(smi)} € en {CURRENT_FISCAL_YEAR}), este sueldo representa {vecesSMI} veces el SMI.
+        </p>
+        <p>
+          Tras aplicar las deducciones de Seguridad Social ({porcentajeSS}% de tu bruto) y la retención del IRPF (tipo efectivo del {porcentajeIRPF}%),
+          tu sueldo neto mensual en Madrid con 14 pagas es de <strong>{formatEuros(defaultResult.netoMensual)}</strong>.
+          Esto supone que de cada 100 euros brutos que genera tu trabajo, recibes en tu cuenta bancaria aproximadamente {(100 - parseFloat(porcentajeDeduccion)).toFixed(0)} euros netos.
+          En total, tus deducciones anuales ascienden a {formatEuros(totalDeduccionesAnual)}, repartidas entre {formatEuros(defaultResult.seguridadSocialAnual)} de Seguridad Social y {formatEuros(defaultResult.irpfTotalAnual)} de IRPF.
+        </p>
+        <p>
+          Si desglosamos tu neto a diferentes periodos: cobrarías {formatEuros(netoMensual12)} al mes con 12 pagas,
+          {formatEuros(netoSemanal)} a la semana, o {formatEuros(netoDiario)} al día (días naturales).
+          Con 14 pagas, tu mensualidad ordinaria es de {formatEuros(defaultResult.netoMensual)} y recibes dos pagas extraordinarias adicionales del mismo importe, normalmente en junio y diciembre.
+        </p>
+        <p>
+          Este rango salarial es habitual en {careerContext}. La progresión salarial desde este nivel depende en gran medida de la industria, la ubicación geográfica, la antigüedad y las competencias especializadas del trabajador.
+        </p>
+      </div>
+    </section>
+
+    <!-- Comparación detallada por CCAA -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        Diferencias por comunidad autónoma: dónde cobras más y menos
+      </h2>
+      <div class="prose prose-gray max-w-none dark:prose-invert">
+        <p>
+          Con un salario de {amountFormatted} € brutos {periodLabel}, la comunidad autónoma donde resides puede suponer
+          una diferencia de hasta <strong>{formatEuros(diferenciaCCAAAnual)} al año</strong> ({formatEuros(diferenciaCCAAMensual)} mensuales) en tu sueldo neto.
+          Esto se debe a que cada comunidad establece sus propios tramos y tipos impositivos para la parte autonómica del IRPF,
+          que representa aproximadamente la mitad de la cuota total del impuesto.
+        </p>
+        <p>
+          Con este salario, la comunidad donde más neto recibes es <strong>{maxNetoCCAA.ccaa.nombreCorto}</strong> ({formatEuros(maxNetoCCAA.desglose.netoMensual)}/mes),
+          mientras que la que más retiene es <strong>{minNetoCCAA.ccaa.nombreCorto}</strong> ({formatEuros(minNetoCCAA.desglose.netoMensual)}/mes).
+          Las comunidades forales (País Vasco y Navarra) tienen un régimen fiscal propio con tramos diferentes al régimen común, lo que puede resultar en diferencias significativas tanto al alza como a la baja.
+        </p>
+        <p>
+          Es importante recordar que un neto más alto no siempre significa mayor poder adquisitivo.
+          El coste de vida varía notablemente entre comunidades: el precio medio del alquiler, la cesta de la compra y los servicios pueden diferir entre un 20% y un 40% entre grandes ciudades y zonas menos pobladas.
+          Por ejemplo, aunque Madrid o Cataluña pueden tener tipos autonómicos más altos, los salarios medios en estas regiones también tienden a ser superiores, especialmente en sectores como la tecnología, las finanzas o la consultoría.
+        </p>
+      </div>
+    </section>
+
+    <!-- Coste de vida y poder adquisitivo -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        Poder adquisitivo: ¿para qué da un sueldo de {amountFormatted} € brutos?
+      </h2>
+      <div class="prose prose-gray max-w-none dark:prose-invert">
+        <p>
+          Con un neto mensual de {formatEuros(defaultResult.netoMensual)} (14 pagas, Madrid), tu capacidad de ahorro y nivel de vida dependerán en gran medida de tu situación personal y de la ciudad donde residas.
+          Los expertos financieros recomiendan no destinar más del 30-35% del salario neto al alquiler o hipoteca.
+          Con este sueldo, eso supondría un presupuesto de vivienda de entre {formatEuros(defaultResult.netoMensual * 0.30)} y {formatEuros(defaultResult.netoMensual * 0.35)} al mes.
+        </p>
+        <p>
+          En una gran ciudad como Madrid o Barcelona, donde el alquiler medio de un piso ronda los {formatEurosRound(alquilerMadrid)} mensuales,
+          la vivienda representaría aproximadamente el {porcentajeAlquilerMadrid}% de tu sueldo neto.
+          En cambio, en una capital de provincia mediana, con alquileres en torno a {formatEurosRound(alquilerProvincial)},
+          el porcentaje baja al {porcentajeAlquilerProvincia}%, dejando un mayor margen para ahorro e inversión.
+        </p>
+        <p>
+          {page.rangeCategory === 'bajo' || page.rangeCategory === 'medio-bajo' ? (
+            'Con este nivel salarial, la gestión del presupuesto mensual es especialmente importante. Herramientas como la regla 50/30/20 (50% necesidades, 30% deseos, 20% ahorro) pueden ayudarte a organizar tus finanzas, aunque en ciudades caras puede ser necesario ajustar los porcentajes. Prioriza la creación de un fondo de emergencia equivalente a 3-6 meses de gastos fijos.'
+          ) : page.rangeCategory === 'medio' ? (
+            'Este salario permite una vida cómoda en la mayoría de ciudades españolas y ofrece capacidad de ahorro razonable. Siguiendo la regla 50/30/20, podrías destinar aproximadamente ' + formatEuros(defaultResult.netoMensual * 0.20) + ' al mes al ahorro e inversión. Es un buen momento para planificar objetivos financieros a medio plazo como la compra de vivienda o la creación de una cartera de inversión diversificada.'
+          ) : (
+            'Con este nivel de ingresos tienes una capacidad de ahorro significativa. Además del fondo de emergencia, considera invertir de forma regular mediante fondos indexados o planes de inversión automatizados. La ventaja fiscal de los fondos de inversión en España (puedes traspasar entre fondos sin tributar) los convierte en un vehículo especialmente eficiente para acumular patrimonio a largo plazo.'
+          )}
+        </p>
+      </div>
+    </section>
+
+    <!-- Consejos fiscales -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        Consejos fiscales para un salario de {amountFormatted} € brutos
+      </h2>
+      <div class="prose prose-gray max-w-none dark:prose-invert">
+        <p>
+          Con un tipo efectivo de IRPF del {porcentajeIRPF}%, existen varias estrategias legales para optimizar tu carga fiscal y aumentar tu neto real disponible.
+          A continuación te presentamos las más relevantes para tu tramo salarial:
+        </p>
+      </div>
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        {tipsFiscales.map(tip => (
+          <div class="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+            <h3 class="mb-2 font-semibold text-charcoal dark:text-gray-100">{tip.titulo}</h3>
+            <p class="text-sm text-dark-gray dark:text-gray-300">{tip.texto}</p>
+          </div>
+        ))}
+      </div>
+      <div class="prose prose-gray mt-4 max-w-none dark:prose-invert">
+        <p>
+          Recuerda que la Agencia Tributaria pone a disposición el programa Renta WEB para la confección y presentación de la declaración.
+          Aunque tu empresa ya practica retenciones mensuales del IRPF sobre tu nómina, la declaración anual es el momento en que se ajusta la cuenta: si te han retenido de más, Hacienda te devuelve la diferencia; si te han retenido de menos, deberás ingresar el saldo.
+          Con {amountFormatted} € brutos {periodLabel}, la retención mensual en tu nómina será de aproximadamente {formatEuros(defaultResult.retencionMensual)}.
+        </p>
+      </div>
+    </section>
+
+    <!-- Progresión profesional -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">
+        Progresión salarial y perspectivas desde {amountFormatted} € brutos
+      </h2>
+      <div class="prose prose-gray max-w-none dark:prose-invert">
+        <p>
+          {page.rangeCategory === 'bajo' ? (
+            `Si actualmente cobras ${amountFormatted} € brutos ${periodLabel}, ten en cuenta que el mercado laboral español ofrece posibilidades de mejora. La formación especializada, los certificados profesionales y la experiencia acumulada son los factores que más influyen en la progresión salarial. Sectores como la tecnología, la sanidad o la logística presentan demanda creciente y salarios por encima de la media.`
+          ) : page.rangeCategory === 'medio-bajo' ? (
+            `Desde un salario de ${amountFormatted} € brutos, la progresión natural suele llevar a rangos de 28.000-35.000 € con 3-5 años de experiencia adicional en la mayoría de sectores. La especialización técnica, la gestión de equipos y los idiomas son las palancas más efectivas para negociar incrementos salariales significativos.`
+          ) : page.rangeCategory === 'medio' ? (
+            `Con ${amountFormatted} € brutos ${periodLabel} estás en la franja media del mercado laboral. El salto al siguiente nivel (40.000-50.000 €) suele requerir asumir responsabilidades de gestión, desarrollar una especialización muy demandada o dar el salto a un sector con mayor rentabilidad. La movilidad entre empresas sigue siendo la vía más rápida para obtener incrementos superiores al 10-15%.`
+          ) : page.rangeCategory === 'medio-alto' ? (
+            `Un salario de ${amountFormatted} € brutos te sitúa en una posición competitiva. Para seguir creciendo, considera la posibilidad de negociar no solo en salario base, sino también en variable, stock options, bonus anuales o beneficios como vehículo de empresa o seguro médico privado. Estos complementos pueden aportar un valor significativo con ventajas fiscales respecto al salario directo.`
+          ) : (
+            `Con ${amountFormatted} € brutos ${periodLabel} te encuentras en el tramo superior de la distribución salarial española. En este nivel, los incrementos adicionales suelen venir acompañados de componentes variables (bonus, participación en beneficios), retribución en especie o compensación en acciones/opciones. Evalúa la conveniencia de estructuras de remuneración mixtas que optimicen la carga fiscal total.`
+          )}
+        </p>
+        <p>
+          Es relevante entender que los incrementos salariales brutos no se traducen de forma lineal en más neto.
+          Debido a la progresividad del IRPF, cada euro adicional que ganas tributa al tipo marginal de tu tramo, que en tu caso se sitúa por encima del tipo efectivo actual del {porcentajeIRPF}%.
+          Esto significa que un aumento de 1.000 € brutos anuales se traduce en un incremento neto inferior a los 1.000 €, siendo la diferencia mayor cuanto más alto sea tu salario.
+        </p>
       </div>
     </section>
 

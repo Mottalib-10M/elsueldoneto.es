@@ -68,7 +68,8 @@ function calcularImpuestosVenta(
   };
 }
 
-export default function VentaVivienda() {
+export default function VentaVivienda({ lang = 'es' }: { lang?: 'es' | 'en' }) {
+  const l = lang === 'en';
   const [precioCompra, setPrecioCompra] = useState('180000');
   const [precioVenta, setPrecioVenta] = useState('250000');
   const [gastosCompra, setGastosCompra] = useState('15000');
@@ -99,7 +100,7 @@ export default function VentaVivienda() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <CampoEntrada
           id="vv-precio-compra"
-          label="Precio de compra"
+          label={l ? 'Purchase price' : 'Precio de compra'}
           value={precioCompra}
           onChange={setPrecioCompra}
           min={0}
@@ -109,7 +110,7 @@ export default function VentaVivienda() {
         />
         <CampoEntrada
           id="vv-precio-venta"
-          label="Precio de venta"
+          label={l ? 'Sale price' : 'Precio de venta'}
           value={precioVenta}
           onChange={setPrecioVenta}
           min={0}
@@ -119,40 +120,40 @@ export default function VentaVivienda() {
         />
         <CampoEntrada
           id="vv-gastos-compra"
-          label="Gastos de compra"
+          label={l ? 'Purchase costs' : 'Gastos de compra'}
           value={gastosCompra}
           onChange={setGastosCompra}
           min={0}
           max={500000}
           step={500}
           suffix="€"
-          helpText="Notaría, registro, ITP, etc."
+          helpText={l ? 'Notary, registry, transfer tax, etc.' : 'Notaría, registro, ITP, etc.'}
         />
         <CampoEntrada
           id="vv-gastos-venta"
-          label="Gastos de venta"
+          label={l ? 'Sale costs' : 'Gastos de venta'}
           value={gastosVenta}
           onChange={setGastosVenta}
           min={0}
           max={500000}
           step={500}
           suffix="€"
-          helpText="Agencia, certificados, cancelación"
+          helpText={l ? 'Agency, certificates, cancellation' : 'Agencia, certificados, cancelación'}
         />
         <CampoEntrada
           id="vv-mejoras"
-          label="Inversiones en mejoras"
+          label={l ? 'Improvement investments' : 'Inversiones en mejoras'}
           value={mejoras}
           onChange={setMejoras}
           min={0}
           max={5000000}
           step={500}
           suffix="€"
-          helpText="Reformas con factura"
+          helpText={l ? 'Renovations with invoice' : 'Reformas con factura'}
         />
         <div className="flex h-full flex-col">
           <label className="mb-1 flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">
-            Reinversión en vivienda habitual
+            {l ? 'Reinvestment in primary residence' : 'Reinversión en vivienda habitual'}
           </label>
           <div>
             <div className="flex items-center gap-2">
@@ -174,7 +175,7 @@ export default function VentaVivienda() {
                 />
               </button>
               <span className="text-sm text-gray-600 dark:text-gray-300">
-                {reinversion ? 'Sí' : 'No'}
+                {reinversion ? (l ? 'Yes' : 'Sí') : 'No'}
               </span>
             </div>
             <p className="mt-1 text-xs text-gray-500">{'\u00A0'}</p>
@@ -186,21 +187,21 @@ export default function VentaVivienda() {
         <>
           {resultado.reinversionAplicada && (
             <div className="rounded-lg border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800 dark:border-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
-              Exención por reinversión en vivienda habitual aplicada
+              {l ? 'Primary residence reinvestment exemption applied' : 'Exención por reinversión en vivienda habitual aplicada'}
             </div>
           )}
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 p-5 text-center dark:from-gray-700 dark:to-gray-800">
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                Ganancia patrimonial
+                {l ? 'Capital gain' : 'Ganancia patrimonial'}
               </p>
               <p className="mt-1 text-2xl font-bold text-charcoal dark:text-gray-100">
                 {formatEuros(resultado.gananciaPatrimonial)}
               </p>
               {resultado.gananciaPatrimonial <= 0 && (
                 <p className="mt-1 text-xs text-emerald-600 dark:text-emerald-400">
-                  No hay ganancia: sin IRPF
+                  {l ? 'No gain: no income tax due' : 'No hay ganancia: sin IRPF'}
                 </p>
               )}
             </div>
@@ -218,7 +219,7 @@ export default function VentaVivienda() {
                     : 'text-red-600 dark:text-red-400'
                 }`}
               >
-                IRPF a pagar
+                {l ? 'Income tax due' : 'IRPF a pagar'}
               </p>
               <p
                 className={`mt-1 text-2xl font-bold ${
@@ -232,13 +233,13 @@ export default function VentaVivienda() {
             </div>
             <div className="rounded-xl bg-gradient-to-br from-amber-50 to-amber-100 p-5 text-center dark:from-amber-900/30 dark:to-amber-900/10">
               <p className="text-sm font-medium text-amber-600 dark:text-amber-400">
-                Plusvalía municipal estimada
+                {l ? 'Estimated municipal capital gains tax' : 'Plusvalía municipal estimada'}
               </p>
               <p className="mt-1 text-2xl font-bold text-amber-700 dark:text-amber-300">
                 {formatEuros(resultado.plusvaliaMunicipal)}
               </p>
               <p className="mt-1 text-xs text-amber-500 dark:text-amber-400">
-                Consulta tu ayuntamiento
+                {l ? 'Check with your local council' : 'Consulta tu ayuntamiento'}
               </p>
             </div>
             <div
@@ -255,7 +256,7 @@ export default function VentaVivienda() {
                     : 'text-red-600 dark:text-red-400'
                 }`}
               >
-                Total impuestos
+                {l ? 'Total taxes' : 'Total impuestos'}
               </p>
               <p
                 className={`mt-1 text-2xl font-bold ${
@@ -274,17 +275,17 @@ export default function VentaVivienda() {
               <thead>
                 <tr className="bg-gray-50 dark:bg-gray-700">
                   <th className="px-4 py-2 text-left font-medium text-gray-500">
-                    Concepto
+                    {l ? 'Item' : 'Concepto'}
                   </th>
                   <th className="px-4 py-2 text-right font-medium text-gray-500">
-                    Importe
+                    {l ? 'Amount' : 'Importe'}
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
                   <td className="px-4 py-2 text-gray-600 dark:text-gray-300">
-                    Precio de venta
+                    {l ? 'Sale price' : 'Precio de venta'}
                   </td>
                   <td className="px-4 py-2 text-right tabular-nums font-medium">
                     {formatEuros(precioVentaNum)}
@@ -292,7 +293,7 @@ export default function VentaVivienda() {
                 </tr>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
                   <td className="px-4 py-2 text-gray-600 dark:text-gray-300">
-                    Precio de compra
+                    {l ? 'Purchase price' : 'Precio de compra'}
                   </td>
                   <td className="px-4 py-2 text-right tabular-nums font-medium text-blue-600 dark:text-blue-400">
                     -{formatEuros(precioCompraNum)}
@@ -300,7 +301,7 @@ export default function VentaVivienda() {
                 </tr>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
                   <td className="px-4 py-2 text-gray-600 dark:text-gray-300">
-                    Gastos de compra (notaría, registro, ITP)
+                    {l ? 'Purchase costs (notary, registry, transfer tax)' : 'Gastos de compra (notaría, registro, ITP)'}
                   </td>
                   <td className="px-4 py-2 text-right tabular-nums font-medium text-blue-600 dark:text-blue-400">
                     -{formatEuros(gastosCompraNum)}
@@ -308,7 +309,7 @@ export default function VentaVivienda() {
                 </tr>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
                   <td className="px-4 py-2 text-gray-600 dark:text-gray-300">
-                    Gastos de venta (agencia, cancelación)
+                    {l ? 'Sale costs (agency, cancellation)' : 'Gastos de venta (agencia, cancelación)'}
                   </td>
                   <td className="px-4 py-2 text-right tabular-nums font-medium text-blue-600 dark:text-blue-400">
                     -{formatEuros(gastosVentaNum)}
@@ -317,7 +318,7 @@ export default function VentaVivienda() {
                 {mejorasNum > 0 && (
                   <tr className="border-t border-gray-100 dark:border-gray-700">
                     <td className="px-4 py-2 text-gray-600 dark:text-gray-300">
-                      Inversiones en mejoras
+                      {l ? 'Improvement investments' : 'Inversiones en mejoras'}
                     </td>
                     <td className="px-4 py-2 text-right tabular-nums font-medium text-blue-600 dark:text-blue-400">
                       -{formatEuros(mejorasNum)}
@@ -326,7 +327,7 @@ export default function VentaVivienda() {
                 )}
                 <tr className="border-t border-gray-100 dark:border-gray-700">
                   <td className="px-4 py-2 font-semibold text-charcoal dark:text-gray-100">
-                    Ganancia patrimonial
+                    {l ? 'Capital gain' : 'Ganancia patrimonial'}
                   </td>
                   <td className="px-4 py-2 text-right tabular-nums font-semibold">
                     {formatEuros(resultado.gananciaPatrimonial)}
@@ -335,7 +336,7 @@ export default function VentaVivienda() {
                 {resultado.reinversionAplicada && (
                   <tr className="border-t border-gray-100 dark:border-gray-700">
                     <td className="px-4 py-2 text-emerald-600 dark:text-emerald-400">
-                      Exención por reinversión en vivienda habitual
+                      {l ? 'Primary residence reinvestment exemption' : 'Exención por reinversión en vivienda habitual'}
                     </td>
                     <td className="px-4 py-2 text-right tabular-nums font-medium text-emerald-600 dark:text-emerald-400">
                       -{formatEuros(resultado.gananciaPatrimonial)}
@@ -344,7 +345,7 @@ export default function VentaVivienda() {
                 )}
                 <tr className="border-t border-gray-100 dark:border-gray-700">
                   <td className="px-4 py-2 text-gray-600 dark:text-gray-300">
-                    IRPF sobre la ganancia (escala del ahorro)
+                    {l ? 'Income tax on gain (savings tax brackets)' : 'IRPF sobre la ganancia (escala del ahorro)'}
                   </td>
                   <td className="px-4 py-2 text-right tabular-nums font-medium text-red-600 dark:text-red-400">
                     {formatEuros(resultado.irpf)}
@@ -352,7 +353,7 @@ export default function VentaVivienda() {
                 </tr>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
                   <td className="px-4 py-2 text-gray-600 dark:text-gray-300">
-                    Plusvalía municipal estimada
+                    {l ? 'Estimated municipal capital gains tax' : 'Plusvalía municipal estimada'}
                   </td>
                   <td className="px-4 py-2 text-right tabular-nums font-medium text-amber-600 dark:text-amber-400">
                     {formatEuros(resultado.plusvaliaMunicipal)}
@@ -360,7 +361,7 @@ export default function VentaVivienda() {
                 </tr>
                 <tr className="border-t-2 border-gray-300 dark:border-gray-600">
                   <td className="px-4 py-2 font-bold text-charcoal dark:text-gray-100">
-                    Total impuestos estimados
+                    {l ? 'Total estimated taxes' : 'Total impuestos estimados'}
                   </td>
                   <td
                     className={`px-4 py-2 text-right tabular-nums font-bold ${
@@ -377,7 +378,9 @@ export default function VentaVivienda() {
           </div>
 
           <p className="text-xs text-medium-gray">
-            Cálculo orientativo. La plusvalía municipal depende del valor catastral del suelo, los coeficientes de tu municipio y los años de tenencia reales. Consulta con tu ayuntamiento y con un asesor fiscal para tu caso concreto.
+            {l
+              ? 'Approximate calculation. The municipal capital gains tax depends on the cadastral land value, your municipality\'s coefficients, and the actual years of ownership. Consult your local council and a tax advisor for your specific case.'
+              : 'Cálculo orientativo. La plusvalía municipal depende del valor catastral del suelo, los coeficientes de tu municipio y los años de tenencia reales. Consulta con tu ayuntamiento y con un asesor fiscal para tu caso concreto.'}
           </p>
         </>
       )}

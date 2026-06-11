@@ -3,9 +3,11 @@ import type { DesgloseSueldo } from '../../lib/irpf-engine';
 
 interface PanelResultadoProps {
   resultado: DesgloseSueldo;
+  lang?: 'es' | 'en';
 }
 
-export default function PanelResultado({ resultado }: PanelResultadoProps) {
+export default function PanelResultado({ resultado, lang = 'es' }: PanelResultadoProps) {
+  const l = lang === 'en';
   const {
     brutoAnual,
     netoAnual,
@@ -22,45 +24,45 @@ export default function PanelResultado({ resultado }: PanelResultadoProps) {
       {/* Hero result */}
       <div className="rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 p-6 text-center dark:from-gray-700 dark:to-gray-800">
         <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-          Tu sueldo neto mensual ({pagas} pagas)
+          {l ? 'Your monthly net salary' : 'Tu sueldo neto mensual'} ({pagas} pagas)
         </p>
         <p className="mt-1 text-4xl font-bold text-brand md:text-5xl">
           {formatEuros(netoMensual)}
         </p>
         <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-          {formatEuros(netoAnual)} netos al año
+          {formatEuros(netoAnual)} {l ? 'net per year' : 'netos al año'}
         </p>
       </div>
 
       {/* Breakdown bar */}
-      <BarraDesglose resultado={resultado} />
+      <BarraDesglose resultado={resultado} lang={lang} />
 
       {/* Detail table */}
       <div className="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
         <table className="w-full text-sm">
           <tbody>
-            <FilaTabla label="Salario bruto anual" value={formatEuros(brutoAnual)} bold />
+            <FilaTabla label={l ? 'Annual gross salary' : 'Salario bruto anual'} value={formatEuros(brutoAnual)} bold />
             <FilaTabla
-              label="Seguridad Social (empleado)"
+              label={l ? 'Social Security (employee)' : 'Seguridad Social (empleado)'}
               value={`-${formatEuros(seguridadSocialAnual)}`}
               sublabel={formatPercent(seguridadSocialAnual / brutoAnual)}
               negative
             />
             <FilaTabla
-              label="IRPF total"
+              label={l ? 'Total income tax (IRPF)' : 'IRPF total'}
               value={`-${formatEuros(irpfTotalAnual)}`}
-              sublabel={`Tipo efectivo: ${formatPercent(tipoEfectivoIRPF)}`}
+              sublabel={`${l ? 'Effective rate:' : 'Tipo efectivo:'} ${formatPercent(tipoEfectivoIRPF)}`}
               negative
             />
             {resultado.irpfEstatalAnual > 0 && (
               <>
                 <FilaTabla
-                  label="  · IRPF estatal"
+                  label={l ? '  · State IRPF' : '  · IRPF estatal'}
                   value={`-${formatEuros(resultado.irpfEstatalAnual)}`}
                   indent
                 />
                 <FilaTabla
-                  label="  · IRPF autonómico"
+                  label={l ? '  · Regional IRPF' : '  · IRPF autonómico'}
                   value={`-${formatEuros(resultado.irpfAutonomicoAnual)}`}
                   indent
                 />
@@ -74,19 +76,19 @@ export default function PanelResultado({ resultado }: PanelResultadoProps) {
               />
             )}
             <FilaTabla
-              label="Salario neto anual"
+              label={l ? 'Annual net salary' : 'Salario neto anual'}
               value={formatEuros(netoAnual)}
               bold
               highlight
             />
             <FilaTabla
-              label={`Neto mensual (${pagas} pagas)`}
+              label={`${l ? 'Monthly net' : 'Neto mensual'} (${pagas} pagas)`}
               value={formatEuros(netoMensual)}
               bold
               highlight
             />
             <FilaTabla
-              label="Retención total efectiva"
+              label={l ? 'Total effective withholding' : 'Retención total efectiva'}
               value={formatPercent(tipoEfectivoTotal)}
             />
           </tbody>
@@ -96,7 +98,8 @@ export default function PanelResultado({ resultado }: PanelResultadoProps) {
   );
 }
 
-function BarraDesglose({ resultado }: { resultado: DesgloseSueldo }) {
+function BarraDesglose({ resultado, lang = 'es' }: { resultado: DesgloseSueldo; lang?: 'es' | 'en' }) {
+  const l = lang === 'en';
   const { brutoAnual, seguridadSocialAnual, irpfTotalAnual, netoAnual } = resultado;
   if (brutoAnual <= 0) return null;
 
@@ -124,9 +127,9 @@ function BarraDesglose({ resultado }: { resultado: DesgloseSueldo }) {
         <div
           className="flex items-center justify-center bg-emerald-500 text-xs font-medium text-white transition-all"
           style={{ width: `${pctNeto}%` }}
-          title={`Neto: ${pctNeto.toFixed(1)}%`}
+          title={`${l ? 'Net' : 'Neto'}: ${pctNeto.toFixed(1)}%`}
         >
-          Neto
+          {l ? 'Net' : 'Neto'}
         </div>
       </div>
       <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
@@ -137,7 +140,7 @@ function BarraDesglose({ resultado }: { resultado: DesgloseSueldo }) {
           <span className="inline-block h-2 w-2 rounded-full bg-amber-500" /> SS {pctSS.toFixed(1)}%
         </span>
         <span className="flex items-center gap-1">
-          <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" /> Neto {pctNeto.toFixed(1)}%
+          <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" /> {l ? 'Net' : 'Neto'} {pctNeto.toFixed(1)}%
         </span>
       </div>
     </div>

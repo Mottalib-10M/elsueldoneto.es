@@ -1,0 +1,287 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import IVA from '../../components/calculadoras/IVA';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+
+const title = `VAT Calculator Spain ${CURRENT_FISCAL_YEAR}: Add or Remove IVA`;
+const description = `Calculate VAT (IVA) in Spain ${CURRENT_FISCAL_YEAR}. Add or remove 21%, 10% or 4% VAT from any amount. Includes breakdown of base, VAT and total for invoicing.`;
+
+const faqs = [
+  { question: 'What are the VAT rates in Spain?', answer: `Spain has three VAT (IVA) rates in ${CURRENT_FISCAL_YEAR}: the general rate of 21% (most goods and services), the reduced rate of 10% (food, transport, hospitality, housing) and the super-reduced rate of 4% (bread, milk, fruit, vegetables, books, medicines). Some items like healthcare, education and financial services are VAT-exempt.` },
+  { question: 'How do I remove VAT from a price?', answer: 'To find the base price without VAT, divide the total by 1 plus the VAT rate as a decimal. For the 21% rate: Base = Total ÷ 1.21. For example, €121 including VAT has a base of €100 and VAT of €21.' },
+  { question: 'Is VAT applied differently in the Canary Islands?', answer: 'Yes. The Canary Islands use IGIC (Impuesto General Indirecto Canario) instead of IVA, with a general rate of 7%. Ceuta and Melilla use IPSI (Impuesto sobre la Producción, los Servicios y la Importación) with varying rates. This calculator covers mainland Spain and the Balearic Islands.' },
+];
+---
+
+<CalculadoraLayout
+  title={title}
+  description={description}
+  h1={`VAT (IVA) Calculator Spain ${CURRENT_FISCAL_YEAR}`}
+  calculatorName="VAT Calculator"
+  path="/en/vat-calculator/"
+  faqs={faqs}
+  locale="en"
+>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <IVA client:load lang="en" />
+  </div>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Understanding VAT in Spain
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Value Added Tax (IVA — Impuesto sobre el Valor Añadido) is Spain's consumption tax, applied at each stage of the supply chain. For consumers, it appears as a percentage added to the price of goods and services. For businesses and freelancers, it's collected from customers and remitted to the Tax Agency quarterly.
+      </p>
+      <p>
+        The three-tier rate system means that everyday essentials like basic food and medicine are taxed at just 4%, while most professional services and consumer goods carry the full 21% rate. Whether you're preparing invoices, checking receipts, or budgeting for a purchase, this calculator makes it easy to work with VAT in either direction.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Comprehensive VAT rate table with examples
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Understanding which VAT rate applies to different goods and services is essential for budgeting, invoicing, and verifying receipts. Here is a detailed breakdown of what falls under each rate:
+      </p>
+      <div class="overflow-x-auto mt-4 mb-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left font-semibold">VAT rate</th>
+              <th class="px-4 py-2 text-left font-semibold">Category</th>
+              <th class="px-4 py-2 text-left font-semibold">Examples</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2 font-semibold">21% (general)</td>
+              <td class="px-4 py-2">Electronics</td>
+              <td class="px-4 py-2">Phones, laptops, televisions, appliances</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2"></td>
+              <td class="px-4 py-2">Clothing and footwear</td>
+              <td class="px-4 py-2">All apparel, shoes, accessories</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2"></td>
+              <td class="px-4 py-2">Professional services</td>
+              <td class="px-4 py-2">Legal, consulting, accounting, architecture</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2"></td>
+              <td class="px-4 py-2">Alcohol and tobacco</td>
+              <td class="px-4 py-2">Wine, beer, spirits, cigarettes</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2"></td>
+              <td class="px-4 py-2">Cosmetics and personal care</td>
+              <td class="px-4 py-2">Perfumes, makeup, non-essential hygiene products</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2"></td>
+              <td class="px-4 py-2">Vehicles</td>
+              <td class="px-4 py-2">Cars, motorcycles, parts, repairs</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700 bg-green-50 dark:bg-green-900/20">
+              <td class="px-4 py-2 font-semibold">10% (reduced)</td>
+              <td class="px-4 py-2">Food (non-basic)</td>
+              <td class="px-4 py-2">Meat, fish, processed foods, canned goods</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700 bg-green-50 dark:bg-green-900/20">
+              <td class="px-4 py-2"></td>
+              <td class="px-4 py-2">Hospitality</td>
+              <td class="px-4 py-2">Restaurant meals, hotel stays, bar service</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700 bg-green-50 dark:bg-green-900/20">
+              <td class="px-4 py-2"></td>
+              <td class="px-4 py-2">Transport</td>
+              <td class="px-4 py-2">Train, bus, and plane tickets</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700 bg-green-50 dark:bg-green-900/20">
+              <td class="px-4 py-2"></td>
+              <td class="px-4 py-2">Housing</td>
+              <td class="px-4 py-2">New construction, renovations (labor only)</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700 bg-green-50 dark:bg-green-900/20">
+              <td class="px-4 py-2"></td>
+              <td class="px-4 py-2">Culture and sports</td>
+              <td class="px-4 py-2">Cinema, theatre, museums, gym memberships</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700 bg-blue-50 dark:bg-blue-900/20">
+              <td class="px-4 py-2 font-semibold">4% (super-reduced)</td>
+              <td class="px-4 py-2">Basic food staples</td>
+              <td class="px-4 py-2">Bread, milk, eggs, fruit, vegetables, cereals</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700 bg-blue-50 dark:bg-blue-900/20">
+              <td class="px-4 py-2"></td>
+              <td class="px-4 py-2">Books and newspapers</td>
+              <td class="px-4 py-2">Printed books, newspapers, magazines</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700 bg-blue-50 dark:bg-blue-900/20">
+              <td class="px-4 py-2"></td>
+              <td class="px-4 py-2">Medicines</td>
+              <td class="px-4 py-2">Prescription and over-the-counter medication</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700 bg-blue-50 dark:bg-blue-900/20">
+              <td class="px-4 py-2"></td>
+              <td class="px-4 py-2">Assistive devices</td>
+              <td class="px-4 py-2">Wheelchairs, prosthetics, medical devices</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700 bg-blue-50 dark:bg-blue-900/20">
+              <td class="px-4 py-2"></td>
+              <td class="px-4 py-2">Social housing</td>
+              <td class="px-4 py-2">VPO (government-subsidised housing) purchases</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      VAT-exempt goods and services
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Certain transactions are completely exempt from VAT in Spain. This means no VAT is charged at all, and the provider cannot deduct input VAT on related purchases. The most important exemptions include:
+      </p>
+      <ul class="list-disc ml-4 space-y-2 mt-2">
+        <li><strong>Healthcare:</strong> Medical services provided by hospitals, clinics, doctors, and dentists (when provided by qualified professionals within the scope of their regulated activities).</li>
+        <li><strong>Education:</strong> Tuition at accredited schools, universities, and educational institutions. Private tutoring by individuals on subjects in the official curriculum is also exempt.</li>
+        <li><strong>Financial services:</strong> Bank loans, credit transactions, insurance premiums, and securities trading.</li>
+        <li><strong>Real estate rentals:</strong> Rental of residential properties is exempt from VAT (though it may be subject to ITP, a transfer tax). Commercial rentals are subject to 21% VAT.</li>
+        <li><strong>Postal services:</strong> Universal postal services provided by the national mail service (Correos).</li>
+        <li><strong>Cultural services:</strong> Certain activities by public entities, libraries, and cultural foundations.</li>
+      </ul>
+      <p>
+        Knowing which goods and services are exempt is important for freelancers and businesses, as exempt activities limit your ability to recover input VAT on related expenses.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      IGIC in the Canary Islands and IPSI in Ceuta and Melilla
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Mainland Spain and the Balearic Islands use the standard IVA system, but the Canary Islands, Ceuta, and Melilla operate under different indirect tax regimes.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">IGIC (Canary Islands)</h3>
+      <p>
+        The Canary Islands apply the Impuesto General Indirecto Canario (IGIC) instead of IVA. IGIC has its own rate structure, which is generally lower than mainland VAT:
+      </p>
+      <div class="overflow-x-auto mt-4 mb-4">
+        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th class="px-4 py-2 text-left font-semibold">IGIC rate</th>
+              <th class="px-4 py-2 text-left font-semibold">Application</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">0%</td>
+              <td class="px-4 py-2">Basic necessities: water, certain foods, medicines</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">3%</td>
+              <td class="px-4 py-2">Food, transport, housing, culture</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">7% (general)</td>
+              <td class="px-4 py-2">Most goods and services</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">9.5%</td>
+              <td class="px-4 py-2">Certain vehicles and fuel</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="px-4 py-2">15%</td>
+              <td class="px-4 py-2">Tobacco and luxury goods</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The significantly lower general rate of 7% compared to mainland Spain's 21% makes the Canary Islands an attractive destination for cost-conscious consumers and businesses. This is one reason why products often cost less in the Canaries than on the mainland.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">IPSI (Ceuta and Melilla)</h3>
+      <p>
+        The autonomous cities of Ceuta and Melilla on the North African coast use the Impuesto sobre la Produccion, los Servicios y la Importacion (IPSI). The general IPSI rate is 10%, with reduced rates for essential goods and higher rates for certain imports. Because IPSI is a production tax rather than a value-added tax, its mechanics differ from both IVA and IGIC.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      How VAT works for businesses: input vs. output VAT
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        For freelancers (autonomos) and businesses in Spain, VAT is not simply a cost but a pass-through tax that must be managed carefully. The concept revolves around two key terms:
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">Output VAT (IVA repercutido)</h3>
+      <p>
+        This is the VAT you charge to your customers on your invoices. If you provide a consulting service for 1,000 EUR, you add 21% VAT (210 EUR), and the customer pays 1,210 EUR. The 210 EUR is output VAT that you have collected on behalf of the Tax Agency.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">Input VAT (IVA soportado)</h3>
+      <p>
+        This is the VAT you pay on business-related purchases and expenses. If you buy a laptop for 800 EUR plus 168 EUR VAT (21%), that 168 EUR is input VAT. Similarly, VAT on office rent, supplies, software subscriptions, and professional services counts as input VAT.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">The quarterly settlement</h3>
+      <p>
+        Each quarter, you file Form 303 (Modelo 303) with the AEAT, declaring your total output VAT and total input VAT. If output exceeds input (the normal case), you pay the difference to the Tax Agency. If input exceeds output (for example, during a period of heavy investment), you can either request a refund or carry the credit forward to offset future quarters. Refunds are typically only requested in the Q4 filing.
+      </p>
+      <p>
+        For example, if in Q1 you charged 3,000 EUR in output VAT and paid 1,200 EUR in input VAT, you owe the Tax Agency 1,800 EUR. This is due by April 20.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Intra-community transactions and reverse charge
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        When businesses in Spain trade with businesses in other EU member states, special VAT rules apply. These intra-community transactions are subject to the reverse charge mechanism, which means:
+      </p>
+      <ul class="list-disc ml-4 space-y-2 mt-2">
+        <li><strong>Selling to an EU business:</strong> You issue your invoice without VAT (0%). The buyer accounts for VAT in their own country under the reverse charge. You must declare the sale on Form 349 (the recapitulative declaration).</li>
+        <li><strong>Buying from an EU business:</strong> The foreign supplier does not charge you VAT. Instead, you self-assess Spanish VAT on the purchase (an intra-community acquisition), declaring it as both output and input VAT. The net effect is zero, but the transaction must be reported.</li>
+        <li><strong>Requirement:</strong> Both parties must have valid intra-community VAT numbers (NIF-IVA). For Spanish businesses, this starts with "ES" followed by the NIF/CIF. You can validate a VAT number using the EU VIES system.</li>
+      </ul>
+      <p>
+        These rules do not apply to sales to EU consumers (B2C), which follow different rules including the One-Stop Shop (OSS) system for distance sales exceeding certain thresholds.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+      Tourist VAT refund: the DIVA system
+    </h2>
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p>
+        Non-EU residents visiting Spain can reclaim the VAT paid on purchases above 90.16 EUR (per store, per day) when they take the goods out of the EU. This is handled through the DIVA (Devolucion del IVA) electronic system at Spanish airports and ports.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100 mt-4">How the DIVA refund process works</h3>
+      <ol class="list-decimal ml-4 space-y-2 mt-2">
+        <li><strong>At the store:</strong> Request a Tax-Free form (formulario de devolucion de IVA) when making your purchase. Present your non-EU passport as identification.</li>
+        <li><strong>At the airport:</strong> Before checking in your luggage, visit the DIVA electronic kiosk at the customs area. Scan the barcode on your Tax-Free form. The system may validate it automatically or request a physical inspection of the goods by customs officers.</li>
+        <li><strong>Claim your refund:</strong> Once the DIVA system validates your form, you can claim the refund at a refund office (such as Global Blue or Planet Tax Free) located after passport control, or request a credit card refund. The refund amount is the VAT paid minus a processing fee, typically resulting in a refund of 12-15% of the purchase price.</li>
+      </ol>
+      <p>
+        The DIVA system has significantly streamlined what was once a cumbersome paper-based process. Most major Spanish airports now have DIVA kiosks, and the validation is often instant for purchases under certain thresholds. For expats with friends and family visiting from outside the EU, this is a valuable tip to share.
+      </p>
+    </div>
+  </section>
+</CalculadoraLayout>

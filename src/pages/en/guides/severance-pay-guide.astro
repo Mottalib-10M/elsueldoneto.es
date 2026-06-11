@@ -1,0 +1,230 @@
+---
+import Layout from '../../../components/layout/Layout.astro';
+import { CURRENT_FISCAL_YEAR } from '../../../config';
+import { buildBreadcrumbSchema, buildFAQSchema } from '../../../lib/seo';
+
+const title = `Severance Pay in Spain ${CURRENT_FISCAL_YEAR}: Complete Guide`;
+const description = `How to calculate severance pay and settlement in Spain. Learn about unfair dismissal compensation, holiday pay, bonus proration, tax exemptions and examples.`;
+
+const faqs = [
+  { question: 'What is the difference between finiquito and indemnización?', answer: 'The finiquito (settlement) is the money owed to any employee upon leaving a job, regardless of the reason. It includes unpaid salary days, unused holiday pay, and prorated bonus payments (pagas extra). The indemnización (severance) is additional compensation paid only in certain termination scenarios, such as dismissal or contract expiration.' },
+  { question: 'How much severance do I get for unfair dismissal?', answer: 'For unfair dismissal (despido improcedente), the compensation is 33 days of salary per year worked, capped at 24 monthly payments. For employment contracts signed before February 12, 2012, the portion worked before that date is compensated at the old rate of 45 days per year, capped at 42 monthly payments.' },
+  { question: 'Is severance pay taxed in Spain?', answer: 'Severance pay for dismissal is exempt from IRPF up to the legally mandated amount. For unfair dismissal, the exemption covers up to 33 days per year worked (capped at 24 months of salary). Any excess over the legal limit is considered taxable income, although a 30% reduction may apply if the employment lasted more than two years.' },
+];
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Home', url: '/en/' },
+    { name: 'Guides', url: '/en/guides/' },
+    { name: 'Severance Pay', url: '/en/guides/severance-pay-guide/' },
+  ]),
+  buildFAQSchema(faqs, 'en'),
+];
+---
+
+<Layout title={title} description={description} schema={schemas} locale="en">
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/en/" class="hover:text-brand">Home</a> /
+      <a href="/en/guides/" class="hover:text-brand">Guides</a> /
+      <span class="text-charcoal dark:text-gray-200">Severance Pay</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      How to Calculate Severance Pay in Spain ({CURRENT_FISCAL_YEAR})
+    </h1>
+
+    <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <p>
+        When an employment relationship ends in Spain, workers are entitled to a final payment that can include two distinct components: the <em>finiquito</em> (settlement) and, in many cases, an <em>indemnización</em> (severance). Understanding the difference between these two, how each is calculated, and the applicable tax treatment can mean thousands of euros in difference. This guide walks through the complete process.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">The Settlement (Finiquito)</h2>
+      <p>
+        Every worker receives a finiquito when leaving a job, whether they resign, are dismissed, or their contract expires. It includes three components: salary earned for days worked in the current pay period, compensation for unused vacation days, and the prorated portion of any bonus payments (<em>pagas extraordinarias</em>). If your company pays in 14 installments, the prorated bonus is calculated from January 1st (or July 1st for the summer bonus) to the termination date, divided by the total days in the period and multiplied by the daily salary.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Severance by Dismissal Type</h2>
+      <p>
+        The amount of severance compensation depends on the type of dismissal. An objective dismissal (<em>despido objetivo</em>) due to economic, technical, organizational, or production reasons grants 20 days of salary per year worked, capped at 12 monthly payments. An unfair dismissal (<em>despido improcedente</em>) triggers 33 days per year worked, capped at 24 monthly payments. Disciplinary dismissal for cause (<em>despido disciplinario procedente</em>) carries no severance. Temporary contract expiration grants 12 days per year worked. Years are prorated by months for partial years of service.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Tax Treatment</h2>
+      <p>
+        Severance pay in Spain benefits from significant tax advantages. Legally mandated severance (up to the amounts specified in the Workers' Statute) is entirely exempt from IRPF. For unfair dismissal, the exemption covers up to 33 days per year worked, capped at 24 months of salary, with a maximum exempt amount of €180,000. Any amount exceeding the legal minimum is subject to IRPF, although a 30% reduction may apply to the taxable portion if the employment lasted more than two years, as it is considered an irregular income. The finiquito portion (salary, holiday pay, bonus proration) is always fully taxable as ordinary income.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Comprehensive Compensation Table by Dismissal Type</h2>
+      <p>
+        The following table summarizes every type of employment termination in Spain and the corresponding severance entitlement:
+      </p>
+      <div class="overflow-x-auto">
+        <table class="min-w-full border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-gray-300 dark:border-gray-600">
+              <th class="py-2 pr-4 text-left font-semibold">Termination Type</th>
+              <th class="py-2 pr-4 text-right font-semibold">Severance per Year</th>
+              <th class="py-2 pr-4 text-right font-semibold">Maximum Cap</th>
+              <th class="py-2 text-right font-semibold">Tax Exempt?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Unfair dismissal (post Feb 2012)</td>
+              <td class="py-2 pr-4 text-right">33 days/year</td>
+              <td class="py-2 pr-4 text-right">24 monthly payments</td>
+              <td class="py-2 text-right">Yes (up to legal limit)</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Unfair dismissal (pre Feb 2012 portion)</td>
+              <td class="py-2 pr-4 text-right">45 days/year</td>
+              <td class="py-2 pr-4 text-right">42 monthly payments</td>
+              <td class="py-2 text-right">Yes (up to legal limit)</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Objective dismissal (economic/organizational)</td>
+              <td class="py-2 pr-4 text-right">20 days/year</td>
+              <td class="py-2 pr-4 text-right">12 monthly payments</td>
+              <td class="py-2 text-right">Yes (up to legal limit)</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Collective layoff (ERE)</td>
+              <td class="py-2 pr-4 text-right">20 days/year (min.)</td>
+              <td class="py-2 pr-4 text-right">12 monthly payments (min.)</td>
+              <td class="py-2 text-right">Yes (up to legal limit)</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Fair disciplinary dismissal</td>
+              <td class="py-2 pr-4 text-right">0 days</td>
+              <td class="py-2 pr-4 text-right">--</td>
+              <td class="py-2 text-right">N/A</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Temporary contract expiry</td>
+              <td class="py-2 pr-4 text-right">12 days/year</td>
+              <td class="py-2 pr-4 text-right">No cap</td>
+              <td class="py-2 text-right">Yes</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Voluntary resignation</td>
+              <td class="py-2 pr-4 text-right">0 days</td>
+              <td class="py-2 pr-4 text-right">--</td>
+              <td class="py-2 text-right">N/A</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Mutual agreement</td>
+              <td class="py-2 pr-4 text-right">Negotiated</td>
+              <td class="py-2 pr-4 text-right">Negotiated</td>
+              <td class="py-2 text-right">Only up to legal minimum</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <td class="py-2 pr-4">Probation period termination</td>
+              <td class="py-2 pr-4 text-right">0 days</td>
+              <td class="py-2 pr-4 text-right">--</td>
+              <td class="py-2 text-right">N/A</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Note that for unfair dismissals of workers employed before February 12, 2012, a dual calculation applies: the period before that date uses the old rate of 45 days per year (capped at 42 monthly payments), and the period after uses 33 days per year (capped at 24 monthly payments). The total combined severance cannot exceed 720 days of salary (approximately 24 months), unless the pre-2012 calculation alone already exceeded that amount, in which case the pre-2012 amount (up to 42 months) is preserved.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Worked Example: Unfair Dismissal Calculation</h2>
+      <p>
+        Consider a worker who has been employed for 7 years and 4 months (all after February 2012) with a daily salary of €120 (equivalent to approximately €43,800 gross per year). The worker is dismissed and the dismissal is declared unfair (<em>improcedente</em>) by the labor court:
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Step 1: Calculate the Daily Salary</h3>
+      <p>
+        The daily salary for severance purposes includes the base salary plus all regular supplements, prorated bonus payments, and benefits in kind, divided by 365. In this case: €43,800 / 365 = €120 per day.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Step 2: Calculate the Severance</h3>
+      <ul>
+        <li>Severance rate: 33 days per year worked</li>
+        <li>Total years: 7 years and 4 months = 7.33 years</li>
+        <li>Severance days: 33 x 7.33 = 242 days (rounded)</li>
+        <li>Check the cap: 24 monthly payments = 24 x €3,650 = €87,600. Since 242 x €120 = €29,040, this is well under the cap.</li>
+        <li><strong>Total severance: €29,040</strong></li>
+      </ul>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Step 3: Tax Treatment</h3>
+      <p>
+        Since the severance amount (€29,040) is within the legally mandated 33 days per year capped at 24 monthly payments, and it is below the absolute ceiling of €180,000, the entire €29,040 is exempt from IRPF. The worker receives this amount tax-free on top of their finiquito (which is taxed normally).
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">How the Finiquito Is Calculated in Detail</h2>
+      <p>
+        The settlement (<em>finiquito</em>) includes several components that are calculated precisely based on the termination date:
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Pending Salary Days</h3>
+      <p>
+        If the worker is terminated on March 15, they are owed salary from March 1 to March 15. For a monthly salary of €3,650: €3,650 / 30 x 15 = €1,825.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Unused Holiday Pay</h3>
+      <p>
+        Spanish workers are entitled to 30 calendar days (or 22 working days) of paid vacation per year. If the worker has used 5 days of their annual allowance by March 15, they have 25 remaining days. However, since only 74 days of the year have passed (January 1 to March 15), the proportional entitlement is 30 x 74/365 = 6.08 days. Since they used 5 days, they are owed 1.08 days. At a daily salary of €121.67: 1.08 x €121.67 = approximately €131.40. If the worker had taken more vacation than earned proportionally, the excess would be deducted from the finiquito.
+      </p>
+      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Prorated Bonus Payments (Pagas Extra)</h3>
+      <p>
+        Most Spanish contracts include two extra payments (pagas extraordinarias) accrued from January to June and July to December. If the worker is terminated on March 15:
+      </p>
+      <ul>
+        <li>Summer paga: accrued from January 1 to March 15 = 74 days / 182 days x €3,650 = €1,483.52</li>
+        <li>Christmas paga: accrued from July 1 of the previous year to March 15 = this depends on when the paga period started; if paid in December, the full previous paga was already paid, and the new one has accrued 74 days / 365 days x €3,650 = €739.73</li>
+      </ul>
+      <p>
+        If the worker is paid in 14 installments, these prorated amounts are added to the finiquito. If they are paid in 12 installments (with pagas already prorated into monthly salary), no additional amount is owed.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">FOGASA: The Wage Guarantee Fund</h2>
+      <p>
+        The <em>Fondo de Garantia Salarial</em> (FOGASA) is a public body that guarantees workers' wages and severance in cases where the employer is insolvent or unable to pay. FOGASA covers:
+      </p>
+      <ul>
+        <li><strong>Unpaid wages:</strong> up to double the minimum wage (<em>SMI</em>) per day, for a maximum of 120 days (roughly 4 months of salary).</li>
+        <li><strong>Severance pay:</strong> up to 25 days of salary per year worked (at the double SMI daily cap), with a maximum of one year's worth of payments. This means FOGASA will not cover the full 33 days per year for unfair dismissal; it covers up to 25 days per year at a capped rate.</li>
+        <li><strong>Finiquito components:</strong> FOGASA also covers pending salary, holiday pay, and prorated bonuses, subject to the same daily cap.</li>
+      </ul>
+      <p>
+        To claim from FOGASA, you need a court ruling or conciliation act confirming your entitlement, plus evidence that the employer has failed to pay (typically a certificate of insolvency). The process can take 6-12 months, so workers in this situation should budget accordingly.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Tax Exemption Rules: Complete Breakdown</h2>
+      <p>
+        Understanding exactly when severance is tax-exempt and when it is not is critical for financial planning:
+      </p>
+      <ul>
+        <li><strong>Exempt up to legal minimum:</strong> Severance is fully exempt from IRPF as long as it does not exceed the amount mandated by the Workers' Statute (Estatuto de los Trabajadores) for the specific type of dismissal. For unfair dismissal, this is 33 days per year capped at 24 months.</li>
+        <li><strong>Absolute ceiling of €180,000:</strong> Even if the legally mandated severance exceeds €180,000, the exemption is capped at this amount. This primarily affects high earners with long tenures.</li>
+        <li><strong>Conciliation requirement:</strong> For unfair dismissal, the tax exemption applies automatically if the dismissal is recognized as unfair through a conciliation act (SMAC) or court ruling. If the employer simply offers an amount and the worker accepts without formal proceedings, the tax authority may question the exemption.</li>
+        <li><strong>30% reduction for irregular income:</strong> Any taxable portion of the severance (the amount exceeding the legal minimum or the €180,000 cap) may benefit from a 30% reduction if the employment lasted more than two years and the income is considered "generated over more than two years." This means only 70% of the excess is added to your taxable base.</li>
+        <li><strong>Finiquito is always taxable:</strong> The settlement portion (salary, holiday pay, bonus proration) receives no special tax treatment. It is taxed as ordinary employment income in the year received.</li>
+      </ul>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Practical Tips for Negotiation</h2>
+      <p>
+        Dismissal negotiations in Spain are common, particularly when the employer wants to avoid the uncertainty and cost of a labor court proceeding. Here are practical strategies for workers:
+      </p>
+      <ul>
+        <li><strong>Do not sign immediately:</strong> You are under no obligation to sign the dismissal letter (<em>carta de despido</em>) or the finiquito document on the spot. You have the right to take it home, review it, and consult a lawyer. If you do sign, write "no conforme" (not in agreement) next to your signature to preserve your right to challenge the dismissal.</li>
+        <li><strong>Request a union representative:</strong> Under Spanish law, you can request the presence of a union representative (<em>representante legal de los trabajadores</em>) when the finiquito is presented to you. This provides an additional witness and can protect your interests.</li>
+        <li><strong>Know your baseline:</strong> Before any negotiation, calculate your exact legal entitlement for both the finiquito and the severance. This gives you a clear minimum below which you should not accept any deal.</li>
+        <li><strong>Leverage the conciliation process:</strong> The mandatory pre-trial conciliation (<em>acto de conciliacion</em> at the SMAC) is where most dismissal disputes are resolved. Employers often prefer to settle here rather than face a trial, which gives the worker leverage to negotiate above the legal minimum.</li>
+        <li><strong>Consider the tax implications:</strong> A higher negotiated severance might push part of the payment above the tax-exempt threshold. In some cases, it may be more beneficial to negotiate non-cash benefits (such as extended health insurance, outplacement services, or a favorable reference letter) rather than additional cash that will be partially taxed.</li>
+        <li><strong>File for unemployment immediately:</strong> You have 15 working days from the date of dismissal to register with the public employment service (SEPE) and apply for unemployment benefits. Missing this deadline means losing the right to benefits for the missed days. You can collect unemployment benefits while also receiving severance pay.</li>
+        <li><strong>Challenge the dismissal within 20 working days:</strong> If you believe the dismissal is unfair, you must file a challenge (<em>demanda de despido</em>) within 20 working days of the effective date. This deadline is strict and cannot be extended except in very specific circumstances.</li>
+      </ul>
+    </div>
+
+    <section class="mt-10">
+      <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {faqs.map(faq => (
+          <details class="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
+            <summary class="cursor-pointer font-semibold text-charcoal dark:text-gray-100">{faq.question}</summary>
+            <p class="mt-2 text-sm text-dark-gray dark:text-gray-300">{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </div>
+</Layout>
