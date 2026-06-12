@@ -3,8 +3,8 @@ import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
 import SalarioBruto from '../../components/calculadoras/SalarioBruto';
 import { CURRENT_FISCAL_YEAR } from '../../config';
 
-const title = `Gross Salary Calculator Spain ${CURRENT_FISCAL_YEAR}: Net to Gross`;
-const description = `Find out what gross salary you need to earn a specific net amount in Spain ${CURRENT_FISCAL_YEAR}. Reverse calculator with IRPF, Social Security and regional tax rates.`;
+const title = `Net to Gross Salary Calculator Spain ${CURRENT_FISCAL_YEAR}: Reverse IRPF`;
+const description = `What gross salary do you need to earn a specific net amount? Reverse calculator with IRPF, Social Security and regional rates for all 17 communities ${CURRENT_FISCAL_YEAR}.`;
 
 const faqs = [
   { question: 'How do I calculate gross from net salary?', answer: `To find the gross salary corresponding to a desired net amount, you need to reverse-engineer the IRPF and Social Security deductions. Since IRPF is progressive, the calculation is iterative — our calculator does this automatically, accounting for your region, family situation and number of pay periods in ${CURRENT_FISCAL_YEAR}.` },

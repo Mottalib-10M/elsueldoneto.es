@@ -49,8 +49,8 @@ const amountFormatted = formatAmountEnglish(page.amount);
 const periodLabel = page.period === 'month' ? 'per month' : 'per year';
 
 // SEO
-const title = `€${amountFormatted} Gross: How Much Net ${periodLabel} (${CURRENT_FISCAL_YEAR})`;
-const description = `With €${amountFormatted} gross ${periodLabel} you take home ${formatEurosRound(defaultResult.netoMensual)} net/month in Madrid. Table by autonomous community and family situation. IRPF calculator ${CURRENT_FISCAL_YEAR}.`;
+const title = `€${amountFormatted} Gross: Net Salary ${periodLabel} in Spain (${CURRENT_FISCAL_YEAR})`;
+const description = `With €${amountFormatted} gross ${periodLabel}, your net is ${formatEurosRound(defaultResult.netoMensual)}/month in Madrid. Table by autonomous community and family situation. IRPF and Social Security Spain ${CURRENT_FISCAL_YEAR}.`;
 
 // FAQs
 const faqs: FAQItem[] = getFaqsForRange(page, defaultResult);

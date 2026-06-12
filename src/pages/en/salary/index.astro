@@ -6,8 +6,8 @@ import { allSalaryPagesEn, formatAmountEnglish } from '../../../data/salary-page
 import { calcularSueldoNeto, situacionFamiliarDefecto } from '../../../lib/irpf-engine';
 import { formatEuros } from '../../../lib/format-es';
 
-const title = `Gross to Net Salary Table Spain ${CURRENT_FISCAL_YEAR}: All Amounts`;
-const description = `Check how much net salary you keep from each gross amount in Spain ${CURRENT_FISCAL_YEAR}. Complete table of gross to net salaries by month and year with IRPF breakdown.`;
+const title = `Gross to Net Salary Table Spain ${CURRENT_FISCAL_YEAR}: Every Amount`;
+const description = `How much net salary do you keep from each gross amount in Spain? Full table with monthly and annual figures, IRPF and Social Security breakdown. Data ${CURRENT_FISCAL_YEAR}.`;
 
 const monthlyPages = allSalaryPagesEn.filter(p => p.period === 'month');
 const annualPages = allSalaryPagesEn.filter(p => p.period === 'year');

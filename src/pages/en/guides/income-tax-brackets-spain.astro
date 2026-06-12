@@ -3,8 +3,8 @@ import Layout from '../../../components/layout/Layout.astro';
 import { CURRENT_FISCAL_YEAR } from '../../../config';
 import { buildBreadcrumbSchema, buildFAQSchema } from '../../../lib/seo';
 
-const title = `Income Tax Brackets Spain ${CURRENT_FISCAL_YEAR}: IRPF Rates`;
-const description = `All IRPF income tax brackets in Spain for ${CURRENT_FISCAL_YEAR}. State and regional rates explained, marginal vs effective tax rate, and how your community affects your bill.`;
+const title = `Income Tax Brackets Spain ${CURRENT_FISCAL_YEAR}: IRPF Rates by Region`;
+const description = `All IRPF income tax brackets: state and regional rates, marginal vs effective rates, and how your autonomous community changes what you owe. Updated ${CURRENT_FISCAL_YEAR}.`;
 
 const faqs = [
   { question: 'How many IRPF brackets does Spain have?', answer: `Spain has 6 state-level IRPF brackets for general income in ${CURRENT_FISCAL_YEAR}: 9.50% (up to €12,450), 12% (€12,450-€20,200), 15% (€20,200-€35,200), 18.50% (€35,200-€60,000), 22.50% (€60,000-€300,000), and 24.50% (over €300,000). Each autonomous community adds its own regional brackets of similar magnitude.` },

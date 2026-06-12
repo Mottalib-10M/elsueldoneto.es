@@ -52,8 +52,8 @@ const amountFormatted = formatAmountSpanish(page.amount);
 const periodLabel = page.period === 'mes' ? 'al mes' : 'al año';
 
 // SEO
-const title = `${amountFormatted} € Brutos: Cuánto Queda Neto ${periodLabel} (${CURRENT_FISCAL_YEAR})`;
-const description = `Con ${amountFormatted} € brutos ${periodLabel} cobras ${formatEurosRound(defaultResult.netoMensual)} netos/mes en Madrid. Tabla por comunidad autónoma y situación familiar. Calculadora IRPF ${CURRENT_FISCAL_YEAR}.`;
+const title = `${amountFormatted} € Brutos: Sueldo Neto ${periodLabel} en España (${CURRENT_FISCAL_YEAR})`;
+const description = `Con ${amountFormatted} € brutos ${periodLabel}, tu neto mensual es ${formatEurosRound(defaultResult.netoMensual)} en Madrid. Tabla por comunidad autónoma y situación familiar. IRPF y Seguridad Social España ${CURRENT_FISCAL_YEAR}.`;
 
 // FAQs specific to salary range
 const faqs: FAQItem[] = getFaqsForRange(page, defaultResult);

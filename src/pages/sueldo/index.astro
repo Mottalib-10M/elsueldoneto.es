@@ -6,8 +6,8 @@ import { allSalaryPages, formatAmountSpanish } from '../../data/salary-pages-con
 import { calcularSueldoNeto, situacionFamiliarDefecto } from '../../lib/irpf-engine';
 import { formatEuros } from '../../lib/format-es';
 
-const title = `Tabla Sueldo Bruto a Neto ${CURRENT_FISCAL_YEAR}: Todos los Importes`;
-const description = `Consulta cuánto queda neto de cada salario bruto en España ${CURRENT_FISCAL_YEAR}. Tabla completa de sueldos brutos a netos por mes y año con IRPF y Seguridad Social.`;
+const title = `Tabla Sueldo Bruto a Neto ${CURRENT_FISCAL_YEAR} España: Todos los Importes`;
+const description = `¿Cuánto neto queda de cada salario bruto? Tabla completa con importes mensuales y anuales, IRPF y Seguridad Social desglosados. Datos actualizados ${CURRENT_FISCAL_YEAR}.`;
 
 const monthlyPages = allSalaryPages.filter(p => p.period === 'mes');
 const annualPages = allSalaryPages.filter(p => p.period === 'año');

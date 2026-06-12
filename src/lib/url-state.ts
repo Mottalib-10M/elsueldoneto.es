@@ -58,5 +58,5 @@ export function decodeState(search: string): CalculadoraState {
 
 export function buildShareUrl(basePath: string, state: CalculadoraState): string {
   const encoded = encodeState(state);
-  return encoded ? `${basePath}?${encoded}` : basePath;
+  return encoded ? `${basePath}#${encoded}` : basePath;
 }

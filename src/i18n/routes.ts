@@ -79,8 +79,9 @@ export function salarySlugEnToEs(enSlug: string): string {
  * Handles both static routes and dynamic salary pages.
  */
 export function getAlternateUrl(currentPath: string, targetLocale: 'es' | 'en'): string | null {
-  // Normalize path to have trailing slash
-  const path = currentPath.endsWith('/') ? currentPath : `${currentPath}/`;
+  // Normalize path: decode URI components (e.g. %C3%B1 → ñ) and ensure trailing slash
+  const decoded = decodeURIComponent(currentPath);
+  const path = decoded.endsWith('/') ? decoded : `${decoded}/`;
 
   // Check static routes first
   if (targetLocale === 'en') {
