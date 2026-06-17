@@ -1,6 +1,7 @@
 {
   "name": "El Sueldo Neto",
   "short_name": "Sueldo Neto",
+  "description": "Calculadora de sueldo neto, IRPF, hipoteca y herramientas financieras gratuitas para España.",
   "icons": [
     {
       "src": "/favicon-192.png",
