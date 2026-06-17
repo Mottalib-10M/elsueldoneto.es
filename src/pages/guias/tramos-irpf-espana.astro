@@ -1,7 +1,8 @@
 ---
 import Layout from '../../components/layout/Layout.astro';
 import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
-import { buildBreadcrumbSchema, buildFAQSchema } from '../../lib/seo';
+import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../lib/seo';
+import AuthorByline from '../../components/layout/AuthorByline.astro';
 
 const title = `Tramos IRPF ${CURRENT_FISCAL_YEAR} España: Tablas Estatales y Autonómicas`;
 const description = `Todos los tramos del IRPF en ${CURRENT_FISCAL_YEAR}: escalas estatal y autonómica, tipos marginales y efectivos, diferencias por comunidad y ejemplos con cálculos reales.`;
@@ -32,6 +33,7 @@ const schemas = [
     { name: 'Tramos del IRPF', url: '/guias/tramos-irpf-espana/' },
   ]),
   buildFAQSchema(faqs),
+  buildArticleSchema(title, description, Astro.url.pathname),
 ];
 ---
 
@@ -46,6 +48,8 @@ const schemas = [
     <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
       Tramos del IRPF en España ({CURRENT_FISCAL_YEAR}): Tablas y Tipos por Comunidad
     </h1>
+
+    <AuthorByline />
 
     <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
       El IRPF es un impuesto progresivo: no pagas el mismo porcentaje por todo tu salario. Cada tramo de renta tributa a un tipo diferente. En esta guía te explicamos cómo funcionan los tramos, las tablas actualizadas para {CURRENT_FISCAL_YEAR} y cómo varía la carga fiscal según tu comunidad autónoma.

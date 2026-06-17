@@ -1,7 +1,8 @@
 ---
 import Layout from '../../components/layout/Layout.astro';
 import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
-import { buildBreadcrumbSchema, buildFAQSchema } from '../../lib/seo';
+import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../lib/seo';
+import AuthorByline from '../../components/layout/AuthorByline.astro';
 
 const title = `Régimen Beckham España ${CURRENT_FISCAL_YEAR}: Requisitos, Ventajas e IRPF`;
 const description = '¿Quién puede acogerse al Régimen Beckham? IRPF fijo al 24%, requisitos, proceso de solicitud, ventajas y trampas. Guía completa para trabajadores desplazados.';
@@ -28,6 +29,7 @@ const schemas = [
     { name: 'Régimen Beckham', url: '/guias/regimen-beckham-explicado/' },
   ]),
   buildFAQSchema(faqs),
+  buildArticleSchema(title, description, Astro.url.pathname),
 ];
 ---
 
@@ -42,6 +44,8 @@ const schemas = [
     <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
       Régimen Beckham en España: Guía Completa ({CURRENT_FISCAL_YEAR})
     </h1>
+
+    <AuthorByline />
 
     <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
       La Ley Beckham permite a los profesionales que se trasladan a España tributar a un tipo fijo del 24% durante hasta 6 años. Te explicamos cómo funciona, quién puede solicitarlo y si te compensa.

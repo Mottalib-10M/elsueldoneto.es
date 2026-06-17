@@ -1,7 +1,8 @@
 ---
 import Layout from '../../../components/layout/Layout.astro';
 import { CURRENT_FISCAL_YEAR } from '../../../config';
-import { buildBreadcrumbSchema, buildFAQSchema } from '../../../lib/seo';
+import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../../lib/seo';
+import AuthorByline from '../../../components/layout/AuthorByline.astro';
 
 const title = `How to Calculate Net Salary in Spain ${CURRENT_FISCAL_YEAR}: Step by Step`;
 const description = `Full net salary formula: IRPF brackets, Social Security contributions, personal allowance and family deductions. With real worked examples updated for ${CURRENT_FISCAL_YEAR}.`;
@@ -19,6 +20,7 @@ const schemas = [
     { name: 'Net Salary Calculation', url: '/en/guides/how-to-calculate-net-salary/' },
   ]),
   buildFAQSchema(faqs, 'en'),
+  buildArticleSchema(title, description, Astro.url.pathname, 'en'),
 ];
 ---
 
@@ -33,6 +35,8 @@ const schemas = [
     <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
       How to Calculate Net Salary in Spain ({CURRENT_FISCAL_YEAR})
     </h1>
+
+    <AuthorByline locale="en" />
 
     <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
       <p>

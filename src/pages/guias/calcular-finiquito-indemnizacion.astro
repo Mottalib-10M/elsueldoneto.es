@@ -1,7 +1,8 @@
 ---
 import Layout from '../../components/layout/Layout.astro';
 import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
-import { buildBreadcrumbSchema, buildFAQSchema } from '../../lib/seo';
+import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../lib/seo';
+import AuthorByline from '../../components/layout/AuthorByline.astro';
 
 const title = `Cómo Calcular Finiquito e Indemnización ${CURRENT_FISCAL_YEAR} en España`;
 const description = `Despido improcedente, objetivo o fin de contrato: calcula tu finiquito e indemnización paso a paso. Vacaciones, pagas extras, IRPF y ejemplo práctico ${CURRENT_FISCAL_YEAR}.`;
@@ -32,6 +33,7 @@ const schemas = [
     { name: 'Calcular finiquito e indemnización', url: '/guias/calcular-finiquito-indemnizacion/' },
   ]),
   buildFAQSchema(faqs),
+  buildArticleSchema(title, description, Astro.url.pathname),
 ];
 ---
 
@@ -46,6 +48,8 @@ const schemas = [
     <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
       Cómo Calcular tu Finiquito e Indemnización en España ({CURRENT_FISCAL_YEAR})
     </h1>
+
+    <AuthorByline />
 
     <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
       Cuando finaliza una relación laboral, ya sea por despido, fin de contrato o baja voluntaria, la empresa debe abonarte un finiquito. En algunos casos, también tienes derecho a una indemnización. Esta guía te explica paso a paso cómo calcular cada concepto, qué impuestos se aplican y cuánto deberías recibir.

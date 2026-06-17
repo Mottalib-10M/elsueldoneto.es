@@ -83,7 +83,7 @@ export function buildOrganizationSchema(locale: Locale = 'es') {
     '@type': 'Organization',
     name: SITE_NAME,
     url: SITE_URL,
-    logo: `${SITE_URL}/favicon-512.png`,
+    logo: `${SITE_URL}/og-default.png`,
     description: isEn
       ? `Free tax and financial calculators for Spain, updated for fiscal year ${CURRENT_FISCAL_YEAR}.`
       : `Calculadoras fiscales y financieras gratuitas para España, actualizadas para el ejercicio fiscal ${CURRENT_FISCAL_YEAR}.`,
@@ -94,6 +94,13 @@ export function buildOrganizationSchema(locale: Locale = 'es') {
       email: 'contacto@elsueldoneto.es',
       contactType: 'customer service',
       availableLanguage: ['Spanish', 'English'],
+    },
+    founder: {
+      '@type': 'Person',
+      name: 'Mottalib Radif',
+      jobTitle: isEn ? 'Founder & Editor' : 'Fundador y Editor',
+      image: `${SITE_URL}/team/mottalib-radif.jpg`,
+      alumniOf: { '@type': 'CollegeOrUniversity', name: 'INSEAD' },
     },
   };
 }
@@ -114,6 +121,7 @@ export function buildPersonSchema(props: PersonSchemaProps) {
     name: props.name,
     jobTitle: props.jobTitle,
     description: props.description,
+    image: `${SITE_URL}/team/mottalib-radif.jpg`,
     url: props.url || `${SITE_URL}/sobre-nosotros/`,
     worksFor: {
       '@type': 'Organization',
@@ -128,6 +136,38 @@ export function buildPersonSchema(props: PersonSchemaProps) {
       })),
     }),
     ...(props.knowsAbout && { knowsAbout: props.knowsAbout }),
+  };
+}
+
+export function buildArticleSchema(
+  headline: string,
+  description: string,
+  url: string,
+  locale: Locale = 'es',
+  datePublished?: string,
+  dateModified?: string,
+) {
+  const now = new Date().toISOString().split('T')[0];
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline,
+    description,
+    url: buildCanonical(url),
+    datePublished: datePublished || now,
+    dateModified: dateModified || now,
+    inLanguage: LANG_MAP[locale],
+    author: {
+      '@type': 'Person',
+      name: 'Mottalib Radif',
+      url: `${SITE_URL}${locale === 'en' ? '/en/about/' : '/sobre-nosotros/'}`,
+      image: `${SITE_URL}/team/mottalib-radif.jpg`,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/og-default.png` },
+    },
   };
 }
 

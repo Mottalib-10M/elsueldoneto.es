@@ -1,7 +1,8 @@
 ---
 import Layout from '../../components/layout/Layout.astro';
 import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
-import { buildBreadcrumbSchema, buildFAQSchema } from '../../lib/seo';
+import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../lib/seo';
+import AuthorByline from '../../components/layout/AuthorByline.astro';
 
 const title = `Cuotas Autónomos ${CURRENT_FISCAL_YEAR}: Tabla por Tramos de Ingresos Reales`;
 const description = `Tabla con los 15 tramos de cotización RETA y sus cuotas mensuales. Tarifa plana para nuevos autónomos, gastos deducibles, IRPF y ejemplo práctico ${CURRENT_FISCAL_YEAR}.`;
@@ -32,6 +33,7 @@ const schemas = [
     { name: 'Cuotas de autónomos', url: '/guias/cuotas-autonomos-espana/' },
   ]),
   buildFAQSchema(faqs),
+  buildArticleSchema(title, description, Astro.url.pathname),
 ];
 ---
 
@@ -46,6 +48,8 @@ const schemas = [
     <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
       Cuotas de Autónomos en España ({CURRENT_FISCAL_YEAR}): Tabla Completa por Ingresos Reales
     </h1>
+
+    <AuthorByline />
 
     <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
       Desde 2023, los trabajadores autónomos en España cotizan a la Seguridad Social en función de sus ingresos reales. Esta guía te explica cómo funciona el nuevo sistema de cotización por tramos del RETA, cuánto pagarás en {CURRENT_FISCAL_YEAR} y cómo calcular tu cuota exacta.

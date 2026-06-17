@@ -1,0 +1,44 @@
+---
+import Layout from '../components/layout/Layout.astro';
+import { SITE_NAME } from '../config';
+
+const title = 'Página no encontrada (404) - El Sueldo Neto';
+const description = 'La página que buscas no existe o ha sido movida. Usa los enlaces para volver a las calculadoras y guías fiscales de España.';
+---
+
+<Layout title={title} description={description} noindex={true}>
+  <div class="mx-auto max-w-3xl px-4 py-16 text-center">
+    <p class="text-8xl font-bold text-brand">404</p>
+    <h1 class="mt-4 text-2xl font-bold text-charcoal dark:text-gray-100">Página no encontrada</h1>
+    <p class="mt-3 text-medium-gray">
+      La página que buscas no existe, ha sido movida o la dirección contiene un error.
+    </p>
+
+    <div class="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+      <a href="/" class="rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark">
+        Calculadora de Sueldo Neto
+      </a>
+      <a href="/guias/" class="rounded-lg border border-gray-300 px-6 py-3 text-sm font-semibold text-charcoal transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-200">
+        Ver Guías Fiscales
+      </a>
+    </div>
+
+    <div class="mt-12 text-left">
+      <h2 class="mb-4 text-lg font-semibold text-charcoal dark:text-gray-100">Calculadoras populares</h2>
+      <div class="grid gap-2 sm:grid-cols-2">
+        <a href="/" class="rounded-lg border border-gray-200 px-4 py-3 text-sm text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-700 dark:text-gray-300">Sueldo Neto</a>
+        <a href="/calculadora-irpf/" class="rounded-lg border border-gray-200 px-4 py-3 text-sm text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-700 dark:text-gray-300">IRPF</a>
+        <a href="/calculadora-autonomos/" class="rounded-lg border border-gray-200 px-4 py-3 text-sm text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-700 dark:text-gray-300">Autónomos</a>
+        <a href="/calculadora-hipoteca/" class="rounded-lg border border-gray-200 px-4 py-3 text-sm text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-700 dark:text-gray-300">Hipoteca</a>
+        <a href="/calculadora-finiquito/" class="rounded-lg border border-gray-200 px-4 py-3 text-sm text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-700 dark:text-gray-300">Finiquito</a>
+        <a href="/comparador-comunidades/" class="rounded-lg border border-gray-200 px-4 py-3 text-sm text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-700 dark:text-gray-300">Comparador CCAA</a>
+        <a href="/regimen-beckham-calculadora/" class="rounded-lg border border-gray-200 px-4 py-3 text-sm text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-700 dark:text-gray-300">Régimen Beckham</a>
+        <a href="/calculadora-jubilacion/" class="rounded-lg border border-gray-200 px-4 py-3 text-sm text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-700 dark:text-gray-300">Jubilación</a>
+      </div>
+    </div>
+
+    <p class="mt-10 text-xs text-medium-gray">
+      ¿Enlace roto? Escríbenos a <a href="mailto:contacto@elsueldoneto.es" class="text-brand hover:underline">contacto@elsueldoneto.es</a>
+    </p>
+  </div>
+</Layout>

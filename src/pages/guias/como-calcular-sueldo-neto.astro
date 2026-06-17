@@ -1,7 +1,8 @@
 ---
 import Layout from '../../components/layout/Layout.astro';
 import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
-import { buildBreadcrumbSchema, buildFAQSchema } from '../../lib/seo';
+import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../lib/seo';
+import AuthorByline from '../../components/layout/AuthorByline.astro';
 
 const title = `Cómo Calcular el Sueldo Neto en España ${CURRENT_FISCAL_YEAR} Paso a Paso`;
 const description = `Fórmula completa del sueldo neto: IRPF por tramos, Seguridad Social, mínimo personal y deducciones familiares. Con ejemplos prácticos actualizados a ${CURRENT_FISCAL_YEAR}.`;
@@ -28,6 +29,7 @@ const schemas = [
     { name: 'Cómo calcular el sueldo neto', url: '/guias/como-calcular-sueldo-neto/' },
   ]),
   buildFAQSchema(faqs),
+  buildArticleSchema(title, description, Astro.url.pathname),
 ];
 ---
 
@@ -42,6 +44,8 @@ const schemas = [
     <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
       Cómo Calcular el Sueldo Neto en España ({CURRENT_FISCAL_YEAR})
     </h1>
+
+    <AuthorByline />
 
     <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
       Entender cuánto vas a cobrar realmente cada mes es fundamental para tomar decisiones financieras. Esta guía te explica paso a paso cómo se calcula el sueldo neto a partir del bruto en España.

@@ -1,7 +1,8 @@
 ---
 import Layout from '../../components/layout/Layout.astro';
 import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
-import { buildBreadcrumbSchema, buildFAQSchema } from '../../lib/seo';
+import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../lib/seo';
+import AuthorByline from '../../components/layout/AuthorByline.astro';
 
 const title = `Jubilación en España ${CURRENT_FISCAL_YEAR}: Edad, Pensión y Requisitos`;
 const description = `¿A qué edad te puedes jubilar y cuánto cobrarás? Edad de retiro, cálculo de la pensión, base reguladora, jubilación anticipada y parcial en España ${CURRENT_FISCAL_YEAR}.`;
@@ -32,6 +33,7 @@ const schemas = [
     { name: 'Jubilación en España', url: '/guias/jubilacion-espana-edad-pension/' },
   ]),
   buildFAQSchema(faqs),
+  buildArticleSchema(title, description, Astro.url.pathname),
 ];
 ---
 
@@ -46,6 +48,8 @@ const schemas = [
     <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
       Jubilación en España: Edad, Pensión y Cómo se Calcula ({CURRENT_FISCAL_YEAR})
     </h1>
+
+    <AuthorByline />
 
     <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
       Saber cuándo podrás jubilarte y cuánto cobrarás de pensión es clave para planificar tu futuro financiero. En esta guía te explicamos todo lo que necesitas saber sobre la jubilación en España: edad legal, cálculo de la pensión, jubilación anticipada y mucho más.

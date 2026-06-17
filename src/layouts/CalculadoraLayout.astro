@@ -94,7 +94,17 @@ const schemas = [
       </section>
     )}
 
-    <div class="mt-8 flex flex-wrap items-center gap-4 text-xs text-medium-gray">
+    <div class="mt-10 flex items-center gap-4 rounded-lg border border-gray-200 px-5 py-4 dark:border-gray-700">
+      <img src="/team/mottalib-radif.jpg" alt="Mottalib Radif" class="h-12 w-12 rounded-full object-cover" width="48" height="48" loading="lazy" />
+      <div class="text-sm">
+        <p class="font-semibold text-charcoal dark:text-gray-200">
+          {locale === 'en' ? 'Written by' : 'Escrito por'} <a href={locale === 'en' ? '/en/about/' : '/sobre-nosotros/'} class="text-brand hover:underline">Mottalib Radif</a>
+        </p>
+        <p class="text-medium-gray">MBA INSEAD · {locale === 'en' ? 'Finance Expert' : 'Experto en Finanzas'}</p>
+      </div>
+    </div>
+
+    <div class="mt-4 flex flex-wrap items-center gap-4 text-xs text-medium-gray">
       <span>{t(locale, 'updatedForFiscalYear')} {CURRENT_FISCAL_YEAR}</span>
       <span>·</span>
       <span>{t(locale, 'lastUpdate')} {updatedDate}</span>

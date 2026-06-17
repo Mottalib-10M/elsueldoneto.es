@@ -1,7 +1,8 @@
 ---
 import Layout from '../../../components/layout/Layout.astro';
 import { CURRENT_FISCAL_YEAR } from '../../../config';
-import { buildBreadcrumbSchema, buildFAQSchema } from '../../../lib/seo';
+import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../../lib/seo';
+import AuthorByline from '../../../components/layout/AuthorByline.astro';
 
 const title = `IRPF by Autonomous Community ${CURRENT_FISCAL_YEAR}: Full Tax Comparison`;
 const description = 'Which region has the lowest income tax? Compare IRPF rates across all 17 autonomous communities. Net salary ranking, tax tables and foral regimes in Spain.';
@@ -19,6 +20,7 @@ const schemas = [
     { name: 'IRPF by Community', url: '/en/guides/irpf-by-autonomous-community/' },
   ]),
   buildFAQSchema(faqs, 'en'),
+  buildArticleSchema(title, description, Astro.url.pathname, 'en'),
 ];
 ---
 
@@ -33,6 +35,8 @@ const schemas = [
     <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
       IRPF by Autonomous Community: Full Comparison ({CURRENT_FISCAL_YEAR})
     </h1>
+
+    <AuthorByline locale="en" />
 
     <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
       <p>
