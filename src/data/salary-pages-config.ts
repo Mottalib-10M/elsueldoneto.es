@@ -61,5 +61,5 @@ export function getAdjacentPages(config: SalaryPageConfig): SalaryPageConfig[] {
 }
 
 export function formatAmountSpanish(amount: number): string {
-  return amount.toLocaleString('es-ES').replace(/\./g, '\u00A0');
+  return amount.toLocaleString('es-ES').replace(/\./g, ' ');
 }

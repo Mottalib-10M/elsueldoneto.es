@@ -31,7 +31,7 @@ const percentFormatter = new Intl.NumberFormat('es-ES', {
 
 /** Replace dot thousands separator with non-breaking space */
 function spacifyThousands(s: string): string {
-  return s.replace(/\./g, '\u00A0');
+  return s.replace(/\./g, ' ');
 }
 
 export function formatEuros(amount: number): string {

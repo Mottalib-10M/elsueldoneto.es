@@ -39,7 +39,7 @@ export default function IRPF({ lang = 'es' }: { lang?: 'es' | 'en' }) {
               <span>{l ? 'Family situation' : 'Situación familiar'}</span>
               <svg className={`h-4 w-4 transition-transform ${showFamiliar ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
             </button>
-            <p className="mt-1 text-xs text-gray-500">{'\u00A0'}</p>
+            <p className="mt-1 text-xs text-gray-500">{' '}</p>
           </div>
         </div>
       </div>

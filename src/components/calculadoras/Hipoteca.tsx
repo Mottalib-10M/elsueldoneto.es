@@ -84,7 +84,7 @@ export default function Hipoteca({ lang = 'es' }: HipotecaProps) {
                 </button>
               ))}
             </div>
-            <p className="mt-1 text-xs text-gray-500">{'\u00A0'}</p>
+            <p className="mt-1 text-xs text-gray-500">{' '}</p>
           </div>
         </div>
       </div>

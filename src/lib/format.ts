@@ -11,7 +11,7 @@ function getIntlLocale(locale: Locale): string {
 
 /** Replace dot thousands separator with non-breaking space (Spanish formatting) */
 function spacifyThousands(s: string): string {
-  return s.replace(/\./g, '\u00A0');
+  return s.replace(/\./g, ' ');
 }
 
 export function formatEurosLocale(amount: number, locale: Locale): string {
@@ -57,5 +57,5 @@ export function formatNumberLocale(value: number, locale: Locale): string {
 export function formatAmountLocale(amount: number, locale: Locale): string {
   const intlLocale = getIntlLocale(locale);
   const formatted = amount.toLocaleString(intlLocale);
-  return locale === 'es' ? formatted.replace(/\./g, '\u00A0') : formatted;
+  return locale === 'es' ? formatted.replace(/\./g, ' ') : formatted;
 }

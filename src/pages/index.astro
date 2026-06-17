@@ -194,7 +194,7 @@ const schemas = [
           href={`/sueldo/${amount}-euros-brutos-al-${period}/`}
           class="rounded-full border border-gray-200 px-4 py-2 text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300"
         >
-          {Number(amount).toLocaleString('es-ES').replace(/\./g, '\u00A0')} €/{period === 'mes' ? 'mes' : 'año'}
+          {Number(amount).toLocaleString('es-ES').replace(/\./g, ' ')} €/{period === 'mes' ? 'mes' : 'año'}
         </a>
       ))}
     </div>

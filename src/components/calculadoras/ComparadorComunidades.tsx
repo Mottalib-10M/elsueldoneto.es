@@ -39,7 +39,7 @@ export default function ComparadorComunidades({ lang = 'es' }: ComparadorComunid
                 <button key={p} onClick={() => setPagas(p)} className={`flex-1 rounded-lg border px-4 py-2 text-sm font-medium ${pagas === p ? 'border-brand bg-brand/10 text-brand' : 'border-gray-300 text-gray-600 hover:border-gray-400 dark:border-gray-600 dark:text-gray-300'}`}>{p} {l ? 'payments' : 'pagas'}</button>
               ))}
             </div>
-            <p className="mt-1 text-xs text-gray-500">{'\u00A0'}</p>
+            <p className="mt-1 text-xs text-gray-500">{' '}</p>
           </div>
         </div>
       </div>

@@ -127,7 +127,7 @@ export default function SueldoNeto({
                 </button>
               ))}
             </div>
-            <p className="mt-1 text-xs text-gray-500">{'\u00A0'}</p>
+            <p className="mt-1 text-xs text-gray-500">{' '}</p>
           </div>
         </div>
 
@@ -151,7 +151,7 @@ export default function SueldoNeto({
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <p className="mt-1 text-xs text-gray-500">{'\u00A0'}</p>
+            <p className="mt-1 text-xs text-gray-500">{' '}</p>
           </div>
         </div>
       </div>

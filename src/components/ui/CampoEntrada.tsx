@@ -49,7 +49,7 @@ export default function CampoEntrada({
           )}
         </div>
         <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-          {helpText || '\u00A0'}
+          {helpText || ' '}
         </p>
       </div>
     </div>

@@ -178,7 +178,7 @@ export default function VentaVivienda({ lang = 'es' }: { lang?: 'es' | 'en' }) {
                 {reinversion ? (l ? 'Yes' : 'Sí') : 'No'}
               </span>
             </div>
-            <p className="mt-1 text-xs text-gray-500">{'\u00A0'}</p>
+            <p className="mt-1 text-xs text-gray-500">{' '}</p>
           </div>
         </div>
       </div>

@@ -238,7 +238,7 @@ export default function Herencia({ lang = 'es' }: HerenciaProps) {
                 </option>
               ))}
             </select>
-            <p className="mt-1 text-xs text-gray-500">{'\u00A0'}</p>
+            <p className="mt-1 text-xs text-gray-500">{' '}</p>
           </div>
         </div>
         <div className="flex h-full flex-col">
@@ -261,7 +261,7 @@ export default function Herencia({ lang = 'es' }: HerenciaProps) {
                 </option>
               ))}
             </select>
-            <p className="mt-1 text-xs text-gray-500">{'\u00A0'}</p>
+            <p className="mt-1 text-xs text-gray-500">{' '}</p>
           </div>
         </div>
         <CampoEntrada
@@ -302,7 +302,7 @@ export default function Herencia({ lang = 'es' }: HerenciaProps) {
                 {viviendaHabitual ? (l ? 'Yes' : 'Sí') : 'No'}
               </span>
             </div>
-            <p className="mt-1 text-xs text-gray-500">{'\u00A0'}</p>
+            <p className="mt-1 text-xs text-gray-500">{' '}</p>
           </div>
         </div>
       </div>
