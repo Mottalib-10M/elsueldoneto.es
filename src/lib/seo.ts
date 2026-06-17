@@ -98,7 +98,10 @@ export function buildOrganizationSchema(locale: Locale = 'es') {
     founder: {
       '@type': 'Person',
       name: 'Mottalib Radif',
-      jobTitle: isEn ? 'Founder & Editor' : 'Fundador y Editor',
+      jobTitle: isEn ? 'Personal Finance and Taxation Expert' : 'Experto en finanzas personales y fiscalidad',
+      description: isEn
+        ? 'Personal finance and taxation expert, MBA INSEAD graduate.'
+        : 'Experto en finanzas personales y fiscalidad, graduado MBA del INSEAD. Especializado en el análisis de cálculos salariales y cotizaciones sociales en España.',
       image: `${SITE_URL}/team/mottalib-radif.jpg`,
       alumniOf: { '@type': 'CollegeOrUniversity', name: 'INSEAD' },
     },
