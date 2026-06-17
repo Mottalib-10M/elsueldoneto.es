@@ -74,6 +74,63 @@ const schemas = [
       </section>
 
       <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Cómo funciona el sistema fiscal español</h2>
+        <p>
+          Para comprender tu sueldo neto, es fundamental conocer los dos grandes componentes que se deducen de tu salario bruto en España: el <strong>Impuesto sobre la Renta de las Personas Físicas (IRPF)</strong> y las <strong>cotizaciones a la Seguridad Social</strong>. Ambos se aplican de forma obligatoria a todos los trabajadores por cuenta ajena y son los responsables de la diferencia entre lo que aparece en tu contrato y lo que recibes en tu cuenta bancaria cada mes.
+        </p>
+
+        <h3 class="mt-4 text-lg font-semibold text-charcoal dark:text-gray-100">El IRPF: un impuesto progresivo</h3>
+        <p>
+          El IRPF es un impuesto progresivo, lo que significa que cuanto más ganas, mayor es el porcentaje que pagas. Sin embargo, este porcentaje no se aplica uniformemente a todo tu salario, sino que funciona por <strong>tramos</strong>. Cada tramo tiene un tipo impositivo diferente que solo se aplica a la porción de renta que cae dentro de ese rango. Por ejemplo, los primeros 12.450 euros de base liquidable tributan al 19 %, mientras que las rentas que superen los 300.000 euros tributan al 47 % (escala estatal). A esto se suma la escala autonómica, que varía según la comunidad en la que residas.
+        </p>
+        <p>
+          Esta estructura progresiva es la razón por la que resulta tan importante disponer de una calculadora precisa: un simple cambio de tramo puede alterar significativamente tu retención mensual. Nuestra herramienta aplica los tramos vigentes tanto del Estado como de tu comunidad autónoma para calcular la retención con la mayor exactitud posible.
+        </p>
+
+        <h3 class="mt-4 text-lg font-semibold text-charcoal dark:text-gray-100">Tramos del IRPF y escala autonómica</h3>
+        <p>
+          El IRPF en España se divide en dos componentes: la <strong>escala estatal</strong> y la <strong>escala autonómica</strong>. La escala estatal es uniforme para todo el territorio (excepto País Vasco y Navarra, que cuentan con regímenes forales propios), pero la escala autonómica varía considerablemente entre comunidades. Comunidades como Madrid aplican tipos autonómicos más bajos, mientras que Cataluña o la Comunitat Valenciana tienen escalas más altas, especialmente en los tramos superiores.
+        </p>
+        <p>
+          {SITE_NAME} integra las escalas autonómicas de las <strong>17 comunidades autónomas</strong> más los regímenes forales del País Vasco (Álava, Bizkaia y Gipuzkoa) y Navarra. Esto permite al usuario comparar su sueldo neto entre diferentes comunidades y tomar decisiones informadas si está considerando un traslado o teletrabajo desde otra región.
+        </p>
+
+        <h3 class="mt-4 text-lg font-semibold text-charcoal dark:text-gray-100">Cotizaciones a la Seguridad Social</h3>
+        <p>
+          Además del IRPF, tu nómina refleja las cotizaciones a la Seguridad Social que corresponden al trabajador. Estas cotizaciones financian las prestaciones públicas como la asistencia sanitaria, las pensiones de jubilación, la prestación por desempleo y la incapacidad temporal. El tipo total a cargo del trabajador es aproximadamente el <strong>6,47 %</strong> del salario bruto (contingencias comunes 4,70 %, desempleo 1,55 %, formación profesional 0,10 % y MEI 0,12 %), aunque estos porcentajes pueden variar ligeramente cada año.
+        </p>
+        <p>
+          Existe una <strong>base máxima de cotización</strong> que limita la cantidad sobre la que se calculan las cotizaciones. Para el ejercicio fiscal actual, esta base máxima se actualiza anualmente según la normativa publicada por la Tesorería General de la Seguridad Social (TGSS). Nuestras calculadoras integran estos topes para garantizar que los trabajadores con salarios elevados obtengan un cálculo preciso de sus cotizaciones reales.
+        </p>
+
+        <h3 class="mt-4 text-lg font-semibold text-charcoal dark:text-gray-100">Deducciones y reducciones aplicables</h3>
+        <p>
+          El cálculo de la retención del IRPF no se aplica directamente sobre el salario bruto, sino sobre la <strong>base liquidable</strong>, que resulta de aplicar diversas reducciones. Entre las más relevantes se encuentran la reducción por rendimientos del trabajo (que beneficia especialmente a los salarios más bajos), la reducción por tributación conjunta (para parejas que optan por declaración conjunta), y los mínimos personales y familiares (por contribuyente, descendientes, ascendientes y discapacidad).
+        </p>
+        <p>
+          Nuestro motor de cálculo integra todas estas reducciones y mínimos para determinar la retención más ajustada posible. Además, tenemos en cuenta situaciones específicas como contratos temporales (retención mínima del 2 %), trabajadores con discapacidad y las particularidades de los rendimientos irregulares como finiquitos e indemnizaciones por despido.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Cómo funciona nuestra calculadora de sueldo neto</h2>
+        <p>
+          Nuestra calculadora de sueldo neto ha sido diseñada para replicar con la mayor fidelidad posible el cálculo que realiza el departamento de nóminas de una empresa. El proceso sigue estos pasos:
+        </p>
+        <ol class="list-decimal ml-4 space-y-2">
+          <li><strong>Introducción del salario bruto anual:</strong> el usuario introduce su salario bruto tal como aparece en su contrato de trabajo o en su oferta salarial.</li>
+          <li><strong>Selección de parámetros personales:</strong> situación familiar (soltero, casado con declaración conjunta o separada), número de hijos y sus edades, comunidad autónoma de residencia, tipo de contrato y número de pagas (12 o 14).</li>
+          <li><strong>Cálculo de cotizaciones a la Seguridad Social:</strong> aplicamos los tipos de cotización vigentes al salario bruto, respetando las bases mínimas y máximas de cotización.</li>
+          <li><strong>Determinación de la base liquidable del IRPF:</strong> partiendo del salario bruto, restamos las cotizaciones sociales del trabajador, aplicamos la reducción por rendimientos del trabajo y los mínimos personales y familiares.</li>
+          <li><strong>Aplicación de los tramos del IRPF:</strong> calculamos la cuota íntegra estatal y autonómica aplicando las escalas progresivas correspondientes.</li>
+          <li><strong>Resultado final:</strong> presentamos el sueldo neto mensual, anual y por paga, junto con un desglose visual de cada concepto (IRPF, Seguridad Social, sueldo neto).</li>
+        </ol>
+        <p class="mt-3">
+          Todo el proceso se ejecuta instantáneamente en tu navegador, sin enviar ningún dato a servidores externos. El resultado es una estimación muy cercana a la que verás reflejada en tu nómina real.
+        </p>
+      </section>
+
+      <section>
         <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Metodología y rigor</h2>
         <p>
           Cada calculadora sigue un proceso de desarrollo riguroso:
@@ -136,6 +193,9 @@ const schemas = [
         <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Privacidad ante todo</h2>
         <p>
           Todas nuestras calculadoras funcionan <strong>íntegramente en tu navegador</strong>. No enviamos tus datos salariales ni personales a ningún servidor. No utilizamos cookies de terceros ni rastreadores publicitarios. Tu privacidad es una prioridad absoluta.
+        </p>
+        <p>
+          A diferencia de otros servicios online de cálculo salarial, {SITE_NAME} no requiere registro, no solicita tu correo electrónico y no almacena ningún dato de las simulaciones que realizas. La información que introduces (salario, situación familiar, comunidad autónoma) se procesa exclusivamente en tu dispositivo mediante JavaScript del lado del cliente. Cuando cierras la página, los datos desaparecen por completo. Puedes verificar este compromiso inspeccionando el tráfico de red de tu navegador: no se envía ninguna petición con datos financieros a servidores externos.
         </p>
       </section>
 
