@@ -1,15 +1,15 @@
 ---
 import Layout from '../components/layout/Layout.astro';
-import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../config';
+import { SITE_NAME, SITE_URL, CURRENT_FISCAL_YEAR } from '../config';
 import { buildBreadcrumbSchema } from '../lib/seo';
 
-const title = 'Política de Cookies: Tipos, Finalidad y Configuración';
-const description = 'Qué cookies utilizamos, su finalidad y duración. Aprende a gestionar y desactivar cookies en tu navegador para controlar tu privacidad de forma sencilla.';
+const title = 'Politica de Cookies: Tipos, Finalidad y Configuracion';
+const description = 'Que cookies utilizamos, su finalidad y duracion. Aprende a gestionar y desactivar cookies en tu navegador para controlar tu privacidad de forma sencilla.';
 
 const schemas = [
   buildBreadcrumbSchema([
     { name: 'Inicio', url: '/' },
-    { name: 'Política de Cookies', url: '/politica-cookies' },
+    { name: 'Politica de Cookies', url: '/politica-cookies' },
   ]),
 ];
 ---
@@ -17,74 +17,194 @@ const schemas = [
 <Layout title={title} description={description} schema={schemas}>
   <div class="mx-auto max-w-3xl px-4 py-8">
     <nav class="mb-6 text-sm text-medium-gray">
-      <a href="/" class="hover:text-brand">Inicio</a> / <span class="text-charcoal dark:text-gray-200">Política de Cookies</span>
+      <a href="/" class="hover:text-brand">Inicio</a> / <span class="text-charcoal dark:text-gray-200">Politica de Cookies</span>
     </nav>
 
-    <h1 class="mb-6 text-3xl font-bold text-charcoal dark:text-gray-100">Política de Cookies</h1>
+    <h1 class="mb-6 text-3xl font-bold text-charcoal dark:text-gray-100">Politica de Cookies</h1>
 
     <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <p><em>Ultima actualizacion: junio {CURRENT_FISCAL_YEAR}</em></p>
+
+      <p>
+        En <strong>{SITE_NAME}</strong> ({SITE_URL}) valoramos tu privacidad. Por ello, hemos optado
+        conscientemente por un sitio web que minimiza el uso de cookies y otras tecnologias de seguimiento.
+        Esta politica de cookies explica que cookies y tecnologias de almacenamiento utilizamos y cuales no,
+        de conformidad con el RGPD (Reglamento UE 2016/679), la LOPDGDD (Ley Organica 3/2018) y el
+        articulo 22.2 de la LSSI-CE.
+      </p>
+
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">¿Qué son las cookies?</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">1. Que son las cookies</h2>
         <p>
-          Las cookies son pequeños archivos de texto que los sitios web almacenan en tu navegador. Se utilizan para recordar preferencias, analizar el tráfico y mejorar la experiencia de navegación.
+          Las cookies son pequenos archivos de texto que los sitios web almacenan en tu ordenador o
+          dispositivo movil cuando los visitas. Se utilizan ampliamente para que los sitios web funcionen
+          correctamente, mejorar la experiencia de navegacion y proporcionar informacion a los propietarios
+          del sitio. Las cookies pueden clasificarse en varias categorias: cookies estrictamente necesarias,
+          cookies funcionales, cookies analiticas y cookies de marketing.
+        </p>
+        <p>
+          La legislacion europea, en particular la Directiva ePrivacy y el RGPD, exige que los sitios web
+          informen a los usuarios sobre el uso de cookies y, en muchos casos, soliciten el consentimiento
+          antes de depositarlas. Las cookies estrictamente necesarias constituyen una excepcion y pueden
+          depositarse sin consentimiento.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Cookies que utilizamos</h2>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead>
-              <tr class="border-b border-gray-200 dark:border-gray-600">
-                <th class="px-3 py-2 text-left font-medium">Cookie</th>
-                <th class="px-3 py-2 text-left font-medium">Tipo</th>
-                <th class="px-3 py-2 text-left font-medium">Finalidad</th>
-                <th class="px-3 py-2 text-left font-medium">Duración</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b border-gray-100 dark:border-gray-700">
-                <td class="px-3 py-2">cookie_consent</td>
-                <td class="px-3 py-2">Técnica</td>
-                <td class="px-3 py-2">Almacena tu elección sobre cookies</td>
-                <td class="px-3 py-2">12 meses</td>
-              </tr>
-              <tr class="border-b border-gray-100 dark:border-gray-700">
-                <td class="px-3 py-2">_ga, _gid</td>
-                <td class="px-3 py-2">Analítica</td>
-                <td class="px-3 py-2">Google Analytics: estadísticas de uso</td>
-                <td class="px-3 py-2">2 años / 24h</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">2. Utiliza este sitio web cookies</h2>
+        <p>
+          <strong>No, no utilizamos cookies de seguimiento.</strong> No se depositan cookies publicitarias,
+          cookies analiticas de terceros, cookies de perfilado ni cookies para rastrear el comportamiento
+          del usuario. Esto significa que tu actividad de navegacion no es rastreada y no se crean perfiles
+          personales basados en tu visita a nuestro sitio web.
+        </p>
+        <p>
+          Unicamente depositamos cookies estrictamente necesarias (tecnicas) que son imprescindibles para
+          el funcionamiento basico del sitio web. Estas cookies no requieren consentimiento previo de
+          conformidad con el articulo 22.2 de la LSSI-CE y el articulo 5, apartado 3, de la Directiva
+          ePrivacy, ya que son estrictamente necesarias para prestar el servicio solicitado por el usuario.
+        </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Tipos de cookies</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">3. Plausible Analytics: sin cookies</h2>
+        <p>
+          Para el seguimiento de las estadisticas del sitio web utilizamos
+          <a href="https://plausible.io" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">Plausible Analytics</a>,
+          una alternativa respetuosa con la privacidad a Google Analytics que:
+        </p>
         <ul>
-          <li><strong>Cookies técnicas:</strong> necesarias para el funcionamiento del sitio. No requieren consentimiento.</li>
-          <li><strong>Cookies analíticas:</strong> permiten medir y analizar el tráfico. Requieren tu consentimiento previo.</li>
+          <li><strong>No deposita cookies</strong> de ningun tipo</li>
+          <li><strong>No recopila datos personales</strong> ni los almacena</li>
+          <li><strong>No almacena direcciones IP</strong></li>
+          <li><strong>No utiliza fingerprinting</strong> ni otras tecnicas de identificacion persistente</li>
+          <li><strong>No rastrea</strong> a los usuarios entre sesiones o sitios web</li>
+          <li>Es totalmente compatible con el <strong>RGPD</strong> sin necesidad de banner de cookies</li>
+          <li>Procesa los datos en servidores dentro de la <strong>Union Europea</strong></li>
         </ul>
         <p>
-          {SITE_NAME} <strong>no utiliza cookies publicitarias ni de seguimiento de terceros</strong> con fines de marketing.
+          Plausible recopila exclusivamente datos agregados y anonimos como: numero de paginas vistas,
+          fuentes de referencia, paises de origen, tipos de dispositivo y navegadores utilizados. Estos
+          datos no son en ningun caso atribuibles a visitantes individuales.
+        </p>
+        <p>
+          Mas informacion sobre la politica de datos de Plausible:
+          <a href="https://plausible.io/data-policy" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">https://plausible.io/data-policy</a>.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Cómo gestionar las cookies</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">4. Almacenamiento funcional (localStorage)</h2>
         <p>
-          Puedes configurar tu navegador para rechazar cookies o eliminar las existentes. Ten en cuenta que desactivar las cookies técnicas puede afectar al funcionamiento del sitio.
+          Nuestro sitio web almacena tus preferencias de tema (modo claro u oscuro) y eventuales
+          preferencias de idioma en tu navegador mediante <strong>localStorage</strong>. Este no es un
+          cookie, sino un metodo de almacenamiento local proporcionado por el estandar HTML5. El localStorage
+          difiere de las cookies en aspectos importantes:
         </p>
         <ul>
-          <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener" class="text-brand hover:underline">Chrome</a></li>
-          <li><a href="https://support.mozilla.org/es/kb/cookies-informacion-que-los-sitios-web-guardan-en-" target="_blank" rel="noopener" class="text-brand hover:underline">Firefox</a></li>
+          <li>Los datos <strong>no se envian a nuestros servidores</strong> en las solicitudes de pagina</li>
+          <li>Los datos <strong>no son atribuibles</strong> a ti como persona</li>
+          <li>Puedes borrar los datos tu mismo a traves de la configuracion de tu navegador</li>
+          <li>El almacenamiento es estrictamente necesario para el funcionamiento del sitio web</li>
+          <li>No se comparte informacion con terceros</li>
+        </ul>
+        <p>
+          Dado que el localStorage no es un cookie y los datos nunca se envian a servidores externos,
+          entra dentro de la excepcion de almacenamiento tecnico estrictamente necesario y no se requiere
+          consentimiento previo.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">5. Cookies de terceros</h2>
+        <p>
+          Nuestro sitio web puede cargar fuentes tipograficas desde redes de distribucion de contenidos
+          de terceros. Cuando usted accede a una pagina, su navegador carga las fuentes necesarias desde
+          servidores externos, lo que puede implicar que estos reciban su direccion IP como parte de la
+          solicitud HTTP estandar. Este uso se basa en nuestro interes legitimo (art. 6, apartado 1, letra
+          f, del RGPD) en una presentacion uniforme y atractiva de nuestro sitio web.
+        </p>
+        <p>
+          No integramos ningun otro servicio de terceros que perfilen a los usuarios. No hay botones de
+          redes sociales, widgets publicitarios, servicios de remarketing ni otras herramientas que
+          permitan a terceros rastrear a los usuarios.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">6. Banner de cookies</h2>
+        <p>
+          Dado que no utilizamos cookies de seguimiento, cookies analiticas ni cookies de marketing, un
+          banner de cookies o mecanismo de consentimiento no es juridicamente necesario en virtud de la
+          LSSI-CE y la Directiva ePrivacy. No obstante, le informamos de forma completa y transparente a
+          traves de esta politica, en linea con los principios de transparencia y lealtad del RGPD.
+        </p>
+        <p>
+          Si en el futuro implementamos cookies analiticas u otras cookies no esenciales, se mostrara un
+          banner de consentimiento de conformidad con la legislacion vigente y se actualizara esta politica.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">7. Sus derechos</h2>
+        <p>
+          En virtud del RGPD y la LOPDGDD, tiene derecho a ser informado sobre el uso de cookies y otras
+          tecnologias de almacenamiento. Dado que no recopilamos datos personales mediante cookies, la
+          mayoria de los derechos previstos en el RGPD no son aplicables en la practica. En cualquier caso,
+          tiene derecho a:
+        </p>
+        <ul>
+          <li>Rechazar las cookies a traves de la configuracion de su navegador</li>
+          <li>Eliminar cookies existentes y datos de localStorage</li>
+          <li>Presentar una reclamacion ante la AEPD</li>
+          <li>Contactar con nosotros para cualquier cuestion sobre nuestra politica de cookies</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">8. Como gestionar las cookies en su navegador</h2>
+        <p>
+          La mayoria de los navegadores web permiten gestionar las cookies a traves de su configuracion.
+          Puede rechazar cookies, eliminar las existentes o configurar su navegador para que le avise cuando
+          se deposite una cookie. Consulte la ayuda de su navegador para instrucciones especificas:
+        </p>
+        <ul>
+          <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener" class="text-brand hover:underline">Google Chrome</a></li>
+          <li><a href="https://support.mozilla.org/es/kb/cookies-informacion-que-los-sitios-web-guardan-en-" target="_blank" rel="noopener" class="text-brand hover:underline">Mozilla Firefox</a></li>
           <li><a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank" rel="noopener" class="text-brand hover:underline">Safari</a></li>
-          <li><a href="https://support.microsoft.com/es-es/microsoft-edge/eliminar-cookies-en-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank" rel="noopener" class="text-brand hover:underline">Edge</a></li>
+          <li><a href="https://support.microsoft.com/es-es/microsoft-edge/eliminar-cookies-en-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank" rel="noopener" class="text-brand hover:underline">Microsoft Edge</a></li>
         </ul>
+        <p>
+          Tenga en cuenta que el bloqueo de todas las cookies puede afectar a la funcionalidad de algunos
+          sitios web.
+        </p>
       </section>
 
-      <p class="text-xs text-medium-gray">Última actualización: enero {CURRENT_FISCAL_YEAR}.</p>
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">9. Modificaciones</h2>
+        <p>
+          Nos reservamos el derecho de modificar esta politica de cookies para adaptarla a cambios en
+          nuestras practicas o en la legislacion aplicable. La version actual esta siempre disponible en
+          esta pagina con la fecha actualizada. Le recomendamos que consulte esta politica periodicamente.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">10. Contacto</h2>
+        <p>
+          Tiene alguna pregunta sobre nuestra politica de cookies? Contactenos en:<br>
+          Email: <a href="mailto:contacto@elsueldoneto.es" class="text-brand hover:underline">contacto@elsueldoneto.es</a>
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">11. Paginas relacionadas</h2>
+        <p>
+          Consulte tambien nuestra <a href="/politica-privacidad/" class="text-brand hover:underline">politica de privacidad</a>
+          y nuestro <a href="/aviso-legal/" class="text-brand hover:underline">aviso legal</a> para mas informacion
+          sobre como tratamos tus datos y los aspectos juridicos de nuestro sitio web.
+        </p>
+      </section>
     </div>
   </div>
 </Layout>

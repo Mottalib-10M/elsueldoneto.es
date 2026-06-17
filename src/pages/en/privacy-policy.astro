@@ -4,7 +4,7 @@ import { SITE_NAME, SITE_URL } from '../../config';
 import { buildBreadcrumbSchema } from '../../lib/seo';
 
 const title = 'Privacy Policy - GDPR Compliance and Data Protection';
-const description = 'Privacy policy compliant with GDPR. Your salary data never leaves your browser - all calculations run 100% locally. Learn about your data rights and cookies.';
+const description = 'Privacy policy compliant with GDPR and LOPDGDD. Your salary data never leaves your browser - all calculations run 100% locally. Learn about your data rights.';
 
 const schemas = [
   buildBreadcrumbSchema([
@@ -23,47 +23,123 @@ const schemas = [
     <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">Privacy Policy</h1>
 
     <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <p><em>Last updated: June {new Date().getFullYear()}</em></p>
+
       <p>
-        At <strong>{SITE_NAME}</strong> ({SITE_URL}), we are committed to protecting your privacy and complying with the General Data Protection Regulation (GDPR - EU Regulation 2016/679) and the Spanish Organic Law 3/2018 on Personal Data Protection and Digital Rights (LOPDGDD).
+        This privacy policy explains how {SITE_NAME} ({SITE_URL}) handles your personal data in compliance
+        with the General Data Protection Regulation (GDPR — Regulation EU 2016/679) and the Spanish Organic
+        Law 3/2018 on Personal Data Protection and Digital Rights (LOPDGDD).
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Data Controller</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">1. Data Controller</h2>
+      <ul>
+        <li><strong>Controller:</strong> Mottalib Radif</li>
+        <li><strong>Website:</strong> {SITE_URL}</li>
+        <li><strong>Email:</strong> <a href="mailto:contacto@elsueldoneto.es" class="text-brand hover:underline">contacto@elsueldoneto.es</a></li>
+      </ul>
       <p>
-        The data controller for this website is {SITE_NAME}. For any privacy-related inquiries, please use the contact channels available on our <a href="/en/contact/" class="text-brand hover:underline">contact page</a>.
+        The data controller is the entity that determines the purposes and means of the processing of
+        personal data, in accordance with Article 4(7) of the GDPR.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">What Data We Collect</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">2. Data Protection Officer</h2>
       <p>
-        Our salary calculator tools process all calculations directly in your browser. We do not collect, store, or transmit any salary, tax, or financial data you enter into our calculators. We may collect the following data through other means:
+        Given the nature of the website and the absence of large-scale processing of personal data, the
+        appointment of a Data Protection Officer (DPO) is not legally required under Article 37 of the GDPR.
+        Should processing circumstances change, the controller will appoint a DPO and publish the relevant
+        contact details.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">3. What Data We Collect</h2>
+      <p>
+        <strong>{SITE_NAME} does not collect identifiable personal data.</strong> Our salary calculator tools
+        process all calculations directly in your browser using client-side JavaScript. The data you enter
+        (gross salary, family situation, autonomous community, contract type and all other parameters) is
+        never sent to any server, never stored in any database, and is not accessible to us or to third
+        parties.
+      </p>
+      <p>
+        The technical architecture of the website is designed according to the principle of "privacy by
+        design" in accordance with Article 25 of the GDPR. For clarity, the website does not collect or
+        process the following categories of data:
       </p>
       <ul class="list-disc pl-6 space-y-1">
-        <li><strong>Analytics data:</strong> anonymized usage statistics such as pages visited, browser type, device type, and approximate geographic location (country/region level only).</li>
-        <li><strong>Contact form data:</strong> if you contact us, we collect your name, email address, and message content solely to respond to your inquiry.</li>
-        <li><strong>Cookie data:</strong> technical and analytics cookies as described in our <a href="/en/cookie-policy/" class="text-brand hover:underline">cookie policy</a>.</li>
+        <li><strong>Identification data:</strong> name, surname, DNI/NIE, address</li>
+        <li><strong>Contact data:</strong> email address, phone number (unless voluntarily provided by email)</li>
+        <li><strong>Financial data:</strong> bank details, specific salary amounts</li>
+        <li><strong>Browsing data:</strong> tracking cookies, unique device identifiers</li>
       </ul>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Legal Basis for Processing</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">4. Web Analytics</h2>
       <p>
-        We process personal data based on: (a) your consent, which you may withdraw at any time; (b) our legitimate interest in improving our services and understanding how our website is used; and (c) compliance with legal obligations where applicable.
+        We use <a href="https://plausible.io" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">Plausible Analytics</a>,
+        a privacy-friendly web analytics service that uses no cookies, stores no personal data, does not
+        store IP addresses, does not use fingerprinting, does not track users across sessions or websites,
+        and is fully GDPR-compliant without requiring consent. Plausible processes all data on servers within
+        the European Union.
+      </p>
+      <p>
+        Plausible collects exclusively aggregated and anonymous data such as pages visited, traffic sources,
+        countries of origin, device types and browsers. This data cannot be used to identify individual
+        visitors. For more information:
+        <a href="https://plausible.io/data-policy" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">https://plausible.io/data-policy</a>.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Your Rights</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">5. Legal Basis for Processing</h2>
       <p>
-        Under the GDPR, you have the right to access, rectify, erase, restrict processing, data portability, and object to processing of your personal data. You also have the right to lodge a complaint with the Spanish Data Protection Agency (AEPD) at <a href="https://www.aepd.es" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">www.aepd.es</a>. To exercise any of these rights, please contact us through our <a href="/en/contact/" class="text-brand hover:underline">contact page</a>.
+        Since no identifiable personal data is processed, it is not necessary to identify a specific legal
+        basis under Article 6 of the GDPR. For the anonymous statistical data collected by Plausible
+        Analytics, the applicable legal basis is the legitimate interest of the controller (Article 6(1)(f)
+        GDPR).
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Data Retention</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">6. Your Rights</h2>
       <p>
-        Analytics data is retained for a maximum of 26 months. Contact form data is retained only for as long as necessary to resolve your inquiry, after which it is deleted. We do not sell, trade, or transfer your personal data to third parties except as required by law.
+        Under Articles 15 to 22 of the GDPR and the LOPDGDD, you have the following rights:
+      </p>
+      <ul class="list-disc pl-6 space-y-1">
+        <li><strong>Right of access</strong> (Art. 15): obtain confirmation of whether personal data is being processed and access to that data.</li>
+        <li><strong>Right to rectification</strong> (Art. 16): obtain correction of inaccurate or incomplete data.</li>
+        <li><strong>Right to erasure</strong> (Art. 17, "right to be forgotten"): obtain deletion of personal data.</li>
+        <li><strong>Right to restriction of processing</strong> (Art. 18): restrict processing in certain cases.</li>
+        <li><strong>Right to data portability</strong> (Art. 20): receive data in a structured, commonly used and machine-readable format.</li>
+        <li><strong>Right to object</strong> (Art. 21): object to processing on grounds relating to your particular situation.</li>
+        <li><strong>Right to withdraw consent</strong> (Art. 7(3)): withdraw consent at any time without affecting the lawfulness of prior processing.</li>
+        <li><strong>Right to lodge a complaint</strong> (Art. 77): lodge a complaint with the Spanish Data Protection Agency (AEPD) at <a href="https://www.aepd.es" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">www.aepd.es</a>.</li>
+      </ul>
+      <p>
+        Since the website does not collect personal data, these rights are currently not applicable in
+        practice. For any enquiry, contact us at contacto@elsueldoneto.es. We undertake to respond within
+        30 days as required by Article 12 of the GDPR.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Data Security</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">7. Data Retention</h2>
       <p>
-        We implement appropriate technical and organizational measures to protect your personal data against unauthorized access, alteration, disclosure, or destruction. This website is served over HTTPS to ensure encrypted data transmission.
+        Since no personal data is stored, no specific retention period applies. The aggregated statistical
+        data from Plausible Analytics is retained for the duration necessary for website traffic analysis.
+        As this data is anonymous, it falls outside the scope of GDPR provisions on personal data retention.
       </p>
 
-      <p class="text-sm text-medium-gray">
-        This privacy policy was last updated in January {new Date().getFullYear()}.
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">8. Data Transfer Outside the EU</h2>
+      <p>
+        No personal data is transferred outside the European Union. Plausible Analytics processes all data
+        on servers within the EU. Should it become necessary to use services outside the EU, the controller
+        will ensure compliance with Chapter V of the GDPR.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">9. Data Security</h2>
+      <p>
+        Our website is served over a secure HTTPS connection that encrypts all data in transit. Appropriate
+        technical and organizational measures are implemented in accordance with Article 32 of the GDPR to
+        ensure a level of security appropriate to the risk.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">10. Changes and Contact</h2>
+      <p>
+        We reserve the right to update this privacy policy to reflect changes in our practices or applicable
+        law. The current version is always available on this page. For questions or to exercise your rights,
+        contact us at:<br>
+        Email: <a href="mailto:contacto@elsueldoneto.es" class="text-brand hover:underline">contacto@elsueldoneto.es</a>
       </p>
     </div>
   </div>

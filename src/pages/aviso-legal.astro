@@ -4,7 +4,7 @@ import { SITE_NAME, SITE_URL, CURRENT_FISCAL_YEAR } from '../config';
 import { buildBreadcrumbSchema } from '../lib/seo';
 
 const title = 'Aviso Legal - Condiciones de Uso y Responsabilidad';
-const description = 'Aviso legal con las condiciones de uso, propiedad intelectual, exclusión de responsabilidad y jurisdicción aplicable. Calculadoras de sueldo neto en España.';
+const description = 'Aviso legal con las condiciones de uso, propiedad intelectual, exclusion de responsabilidad, politica de privacidad, RGPD y jurisdiccion aplicable. Calculadoras de sueldo neto en Espana.';
 
 const schemas = [
   buildBreadcrumbSchema([
@@ -23,56 +23,199 @@ const schemas = [
     <h1 class="mb-6 text-3xl font-bold text-charcoal dark:text-gray-100">Aviso Legal</h1>
 
     <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <p><em>Ultima actualizacion: junio {CURRENT_FISCAL_YEAR}</em></p>
+
+      <p>
+        De conformidad con la legislacion vigente en materia de proteccion de los consumidores y servicios
+        digitales, el presente aviso legal se pone a disposicion de los usuarios y visitantes del sitio web
+        elsueldoneto.es. Al acceder y navegar por este sitio web, el usuario reconoce haber tomado
+        conocimiento de las presentes condiciones y las acepta en su totalidad.
+      </p>
+
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Datos identificativos</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">1. Datos identificativos</h2>
         <p>
-          En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa que el presente sitio web <strong>{SITE_URL}</strong> es titularidad de:
+          En cumplimiento del articulo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad
+          de la Informacion y de Comercio Electronico (LSSI-CE), se informa que el presente sitio web
+          <strong>{SITE_URL}</strong> es titularidad de:
         </p>
         <ul>
-          <li><strong>Denominación:</strong> {SITE_NAME}</li>
+          <li><strong>Titular:</strong> Mottalib Radif</li>
+          <li><strong>Denominacion:</strong> {SITE_NAME}</li>
           <li><strong>Sitio web:</strong> {SITE_URL}</li>
-          <li><strong>Contacto:</strong> contacto@elsueldoneto.es</li>
+          <li><strong>Contacto:</strong> <a href="mailto:contacto@elsueldoneto.es" class="text-brand hover:underline">contacto@elsueldoneto.es</a></li>
         </ul>
-      </section>
-
-      <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Objeto del sitio web</h2>
         <p>
-          {SITE_NAME} es un sitio web de carácter informativo que ofrece herramientas de cálculo orientativas para estimar el sueldo neto, IRPF, cotizaciones a la Seguridad Social y otros conceptos financieros y fiscales en España.
-        </p>
-        <p>
-          Los cálculos proporcionados son <strong>orientativos</strong> y no constituyen asesoramiento fiscal, financiero ni legal. Para situaciones concretas, consulte con un profesional cualificado.
+          El titular asume la responsabilidad editorial del conjunto de los contenidos publicados en el sitio
+          web, con excepcion de los resultados generados por las calculadoras salariales, que dependen de los
+          datos introducidos por el usuario y de los parametros fiscales y de Seguridad Social vigentes en la
+          fecha de consulta.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Propiedad intelectual e industrial</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">2. Alojamiento</h2>
         <p>
-          Todos los contenidos del sitio web, incluyendo textos, gráficos, imágenes, diseño gráfico, código fuente y software, son propiedad de {SITE_NAME} o de sus legítimos titulares, y están protegidos por las leyes de propiedad intelectual e industrial.
+          Este sitio web esta alojado en <strong>GitHub Pages</strong> (GitHub, Inc.), filial de Microsoft
+          Corporation.<br>
+          Direccion: 88 Colin P Kelly Jr Street, San Francisco, CA 94107, Estados Unidos.<br>
+          Sitio web: <a href="https://pages.github.com" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">https://pages.github.com</a>
         </p>
         <p>
-          Queda prohibida la reproducción, distribución, comunicación pública o transformación de los contenidos sin autorización expresa del titular.
-        </p>
-      </section>
-
-      <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Exclusión de responsabilidad</h2>
-        <p>
-          {SITE_NAME} no garantiza la exactitud, integridad o actualidad de los cálculos e información proporcionados. Los resultados son estimaciones basadas en la normativa fiscal vigente y pueden diferir de los importes reales.
-        </p>
-        <p>
-          El titular no será responsable de los daños o perjuicios que pudieran derivarse del uso de la información contenida en este sitio web.
+          GitHub Pages es un servicio de alojamiento de sitios estaticos proporcionado por GitHub, Inc. La
+          infraestructura se apoya en una red mundial de distribucion de contenidos (CDN) que sirve las
+          paginas desde el servidor mas cercano a cada visitante. Se utiliza el protocolo HTTPS para cifrar
+          todos los datos en transito. Como proveedor de alojamiento tecnico, GitHub, Inc. no ejerce ningun
+          control editorial sobre el contenido del sitio web.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Legislación aplicable y jurisdicción</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">3. Objeto del sitio web</h2>
         <p>
-          Las presentes condiciones se rigen por la legislación española. Para cualquier controversia, las partes se someten a los juzgados y tribunales del domicilio del usuario, conforme a la normativa vigente.
+          <strong>{SITE_NAME}</strong> es una plataforma de informacion independiente que ofrece calculadoras
+          salariales gratuitas y herramientas financieras para Espana. Todos los calculos se realizan
+          localmente en el navegador del usuario mediante JavaScript del lado del cliente; ningun dato
+          personal se envia a nuestros servidores. El sitio web proporciona contenido informativo sobre
+          salarios, impuestos, cotizaciones a la Seguridad Social y otros conceptos fiscales en Espana.
         </p>
       </section>
 
-      <p class="text-xs text-medium-gray">Última actualización: enero {CURRENT_FISCAL_YEAR}.</p>
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">4. Propiedad intelectual e industrial</h2>
+        <p>
+          Todos los contenidos del sitio web, incluyendo pero no limitandose a textos, graficos, imagenes,
+          logotipos, diseno grafico, codigo fuente, algoritmos de calculo, estructura de paginas y elementos
+          de diseno, son propiedad intelectual de Mottalib Radif y estan protegidos por las leyes espanolas
+          e internacionales de propiedad intelectual e industrial, en particular el Real Decreto Legislativo
+          1/1996, de 12 de abril, por el que se aprueba el texto refundido de la Ley de Propiedad Intelectual.
+        </p>
+        <p>
+          Queda prohibida la reproduccion, distribucion, comunicacion publica, transformacion, ingenieria
+          inversa o cualquier forma de explotacion comercial mas alla de los limites del derecho de autor sin
+          la autorizacion escrita del titular. El usuario esta autorizado a consultar el sitio web para un uso
+          estrictamente personal y privado. Las citas breves con fines informativos estan permitidas siempre
+          que se cite la fuente.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">5. Politica de privacidad</h2>
+        <p>
+          {SITE_NAME} respeta tu privacidad y se compromete a proteger los datos personales de conformidad
+          con el Reglamento General de Proteccion de Datos (RGPD — Reglamento UE 2016/679) y la Ley Organica
+          3/2018, de 5 de diciembre, de Proteccion de Datos Personales y garantia de los derechos digitales
+          (LOPDGDD).
+        </p>
+        <p>
+          Todos los calculos salariales se realizan integramente en tu navegador web mediante JavaScript del
+          lado del cliente. Ningun dato personal — incluyendo salario, situacion familiar, comunidad autonoma
+          o cualquier otra informacion financiera — es transmitido, recopilado o almacenado en nuestros
+          servidores. Consulta nuestra <a href="/politica-privacidad/" class="text-brand hover:underline">politica de privacidad completa</a> para mas informacion.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">6. Politica de cookies</h2>
+        <p>
+          Este sitio web no utiliza <strong>cookies de seguimiento</strong>. No se depositan cookies
+          publicitarias, de perfilado ni de terceros. Las preferencias del usuario (como el modo oscuro/claro)
+          se almacenan en el localStorage del navegador, que no es una cookie y nunca se transmite a nuestros
+          servidores. Consulta nuestra <a href="/politica-cookies/" class="text-brand hover:underline">politica de cookies completa</a> para mas informacion.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">7. Proteccion de datos (RGPD)</h2>
+        <p>
+          De conformidad con los articulos 15 a 22 del RGPD y la LOPDGDD, todo usuario tiene los
+          siguientes derechos:
+        </p>
+        <ul>
+          <li><strong>Derecho de acceso</strong> (art. 15): obtener confirmacion de si se estan tratando datos personales.</li>
+          <li><strong>Derecho de rectificacion</strong> (art. 16): solicitar la correccion de datos inexactos o incompletos.</li>
+          <li><strong>Derecho de supresion</strong> (art. 17, "derecho al olvido"): solicitar la eliminacion de los datos personales.</li>
+          <li><strong>Derecho a la limitacion del tratamiento</strong> (art. 18): solicitar la limitacion del tratamiento en determinados supuestos.</li>
+          <li><strong>Derecho a la portabilidad</strong> (art. 20): recibir los datos personales en un formato estructurado, de uso comun y lectura mecanica.</li>
+          <li><strong>Derecho de oposicion</strong> (art. 21): oponerse al tratamiento por motivos relacionados con su situacion particular.</li>
+          <li><strong>Derecho a retirar el consentimiento</strong> (art. 7): retirar el consentimiento en cualquier momento.</li>
+        </ul>
+        <p>
+          Dado que el sitio web no recopila datos personales, estos derechos no son aplicables en la practica.
+          Para cualquier consulta, contactenos en <a href="mailto:contacto@elsueldoneto.es" class="text-brand hover:underline">contacto@elsueldoneto.es</a>.
+          Nos comprometemos a responder en un plazo de 30 dias. Tambien tiene derecho a presentar una
+          reclamacion ante la Agencia Espanola de Proteccion de Datos (AEPD):
+          <a href="https://www.aepd.es" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">www.aepd.es</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">8. Condiciones de uso</h2>
+        <p>
+          Al acceder a {SITE_URL}, el usuario acepta las presentes condiciones. El sitio web es accesible
+          de forma gratuita. El titular emplea todos los medios razonables para garantizar un acceso de
+          calidad, pero no esta sujeto a una obligacion de resultado. El acceso puede interrumpirse en
+          cualquier momento por razones de mantenimiento o actualizacion. El usuario se compromete a
+          utilizar el sitio web de acuerdo con su finalidad y no con fines ilicitos.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">9. Exclusion de responsabilidad</h2>
+        <p>
+          Los calculos proporcionados por este sitio web son meramente orientativos y no constituyen
+          asesoramiento fiscal, juridico o financiero. El titular no sera responsable de las decisiones
+          tomadas sobre la base de los resultados proporcionados por las calculadoras. Aunque nos esforzamos
+          por mantener las tarifas y tramos impositivos actualizados, pueden existir discrepancias entre
+          nuestros calculos y los importes reales. Recomendamos verificar los resultados con un asesor
+          fiscal cualificado o con fuentes oficiales como la Agencia Tributaria (AEAT).
+        </p>
+        <p>
+          El titular no es responsable de los danos directos o indirectos derivados del uso del sitio web,
+          incluyendo la perdida de datos, interrupciones del servicio o danos en los equipos del usuario.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">10. Enlaces externos</h2>
+        <p>
+          El sitio web puede contener enlaces a sitios web externos, incluyendo sitios web oficiales del
+          gobierno (agenciatributaria.es, seg-social.es). El titular no ejerce ningun control sobre el
+          contenido de estos sitios y declina toda responsabilidad respecto a su contenido o disponibilidad.
+          La inclusion de un enlace no implica la aprobacion del sitio enlazado.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">11. Legislacion aplicable y jurisdiccion</h2>
+        <p>
+          Las presentes condiciones se rigen por la legislacion espanola. Para cualquier controversia
+          derivada del uso de este sitio web, las partes se someten a los juzgados y tribunales del
+          domicilio del usuario, conforme a la normativa vigente en materia de proteccion de consumidores.
+          La eventual nulidad de una clausula no afectara a la validez de las demas disposiciones.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">12. Resolucion de conflictos</h2>
+        <p>
+          La Comision Europea pone a disposicion una plataforma de resolucion de litigios en linea (ODR):
+          <a href="https://ec.europa.eu/consumers/odr" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr</a>.
+          No estamos obligados ni dispuestos a participar en un procedimiento de resolucion de conflictos
+          ante una junta de arbitraje de consumo.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">13. Modificaciones y contacto</h2>
+        <p>
+          El titular se reserva el derecho de modificar el presente aviso legal en cualquier momento. Las
+          modificaciones entraran en vigor en el momento de su publicacion. Para cualquier cuestion relativa
+          a este aviso legal, nuestra politica de privacidad o el funcionamiento del sitio web, contactenos
+          en:<br>
+          Email: <a href="mailto:contacto@elsueldoneto.es" class="text-brand hover:underline">contacto@elsueldoneto.es</a>
+        </p>
+      </section>
     </div>
   </div>
 </Layout>

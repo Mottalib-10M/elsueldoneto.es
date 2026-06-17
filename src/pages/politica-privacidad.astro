@@ -3,13 +3,13 @@ import Layout from '../components/layout/Layout.astro';
 import { SITE_NAME, SITE_URL, CURRENT_FISCAL_YEAR } from '../config';
 import { buildBreadcrumbSchema } from '../lib/seo';
 
-const title = 'Política de Privacidad - RGPD y Protección de Datos';
-const description = 'Política de privacidad conforme al RGPD y la LOPDGDD. Tus datos salariales no salen de tu navegador: todos los cálculos se procesan 100% en tu dispositivo.';
+const title = 'Politica de Privacidad - RGPD y Proteccion de Datos';
+const description = 'Politica de privacidad conforme al RGPD y la LOPDGDD. Tus datos salariales no salen de tu navegador: todos los calculos se procesan 100% en tu dispositivo.';
 
 const schemas = [
   buildBreadcrumbSchema([
     { name: 'Inicio', url: '/' },
-    { name: 'Política de Privacidad', url: '/politica-privacidad' },
+    { name: 'Politica de Privacidad', url: '/politica-privacidad' },
   ]),
 ];
 ---
@@ -17,75 +17,173 @@ const schemas = [
 <Layout title={title} description={description} schema={schemas}>
   <div class="mx-auto max-w-3xl px-4 py-8">
     <nav class="mb-6 text-sm text-medium-gray">
-      <a href="/" class="hover:text-brand">Inicio</a> / <span class="text-charcoal dark:text-gray-200">Política de Privacidad</span>
+      <a href="/" class="hover:text-brand">Inicio</a> / <span class="text-charcoal dark:text-gray-200">Politica de Privacidad</span>
     </nav>
 
-    <h1 class="mb-6 text-3xl font-bold text-charcoal dark:text-gray-100">Política de Privacidad</h1>
+    <h1 class="mb-6 text-3xl font-bold text-charcoal dark:text-gray-100">Politica de Privacidad</h1>
 
     <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <p><em>Ultima actualizacion: junio {CURRENT_FISCAL_YEAR}</em></p>
+
+      <p>
+        La presente politica de privacidad explica como {SITE_NAME} ({SITE_URL}) trata tus datos personales
+        de conformidad con el Reglamento General de Proteccion de Datos (RGPD — Reglamento UE 2016/679) y
+        la Ley Organica 3/2018, de 5 de diciembre, de Proteccion de Datos Personales y garantia de los
+        derechos digitales (LOPDGDD).
+      </p>
+
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Responsable del tratamiento</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">1. Responsable del tratamiento</h2>
         <ul>
-          <li><strong>Responsable:</strong> {SITE_NAME}</li>
-          <li><strong>Contacto:</strong> contacto@elsueldoneto.es</li>
+          <li><strong>Responsable:</strong> Mottalib Radif</li>
           <li><strong>Sitio web:</strong> {SITE_URL}</li>
+          <li><strong>Contacto:</strong> <a href="mailto:contacto@elsueldoneto.es" class="text-brand hover:underline">contacto@elsueldoneto.es</a></li>
         </ul>
+        <p>
+          El responsable del tratamiento es la persona que determina los fines y los medios del tratamiento
+          de los datos personales, de conformidad con el articulo 4, apartado 7, del RGPD. Para cualquier
+          cuestion relativa al tratamiento de datos personales, puede ponerse en contacto con nosotros a
+          traves de los datos indicados.
+        </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Datos que recopilamos</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">2. Delegado de proteccion de datos</h2>
         <p>
-          <strong>{SITE_NAME} no recopila datos personales identificativos.</strong> Las calculadoras funcionan íntegramente en tu navegador y los datos que introduces (salario, situación familiar, etc.) no se envían a ningún servidor.
+          Dada la naturaleza del sitio web y la ausencia de tratamiento a gran escala de datos personales,
+          la designacion de un delegado de proteccion de datos (DPD/DPO) no es legalmente obligatoria de
+          conformidad con el articulo 37 del RGPD. Si las circunstancias del tratamiento cambiaran, el
+          responsable designara un DPD y publicara los datos de contacto correspondientes.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">3. Datos que recopilamos</h2>
+        <p>
+          <strong>{SITE_NAME} no recopila datos personales identificativos.</strong> Las calculadoras salariales
+          funcionan integramente en tu navegador mediante JavaScript del lado del cliente. Los datos que
+          introduces (salario bruto, situacion familiar, comunidad autonoma, tipo de contrato y cualquier
+          otro parametro) no se envian a ningun servidor, no se almacenan en ninguna base de datos y no
+          son accesibles para nosotros ni para terceros.
         </p>
         <p>
-          Podemos recopilar datos anonimizados de navegación mediante cookies analíticas, como:
+          La arquitectura tecnica del sitio web esta disenada segun el principio de "proteccion de datos
+          desde el diseno" (privacy by design) de conformidad con el articulo 25 del RGPD.
+        </p>
+        <p>
+          Para mayor claridad, el sitio web no recopila ni trata las siguientes categorias de datos:
         </p>
         <ul>
-          <li>Páginas visitadas y tiempo de permanencia</li>
-          <li>Tipo de navegador y dispositivo</li>
-          <li>País y ciudad de origen (anonimizados)</li>
+          <li><strong>Datos de identificacion:</strong> nombre, apellidos, DNI/NIE, direccion</li>
+          <li><strong>Datos de contacto:</strong> correo electronico, telefono (salvo cuando se facilitan voluntariamente por email)</li>
+          <li><strong>Datos financieros:</strong> datos bancarios, importes salariales concretos</li>
+          <li><strong>Datos de navegacion:</strong> cookies de seguimiento, identificadores unicos de dispositivo</li>
         </ul>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Finalidad del tratamiento</h2>
-        <p>Los datos anonimizados se utilizan exclusivamente para:</p>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">4. Analitica: Plausible Analytics</h2>
+        <p>
+          Utilizamos <a href="https://plausible.io" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">Plausible Analytics</a>,
+          un servicio de analitica web respetuoso con la privacidad que:
+        </p>
         <ul>
-          <li>Analizar el uso del sitio web para mejorar el servicio</li>
-          <li>Generar estadísticas agregadas de tráfico</li>
+          <li><strong>No deposita cookies</strong> de ningun tipo</li>
+          <li><strong>No recopila datos personales</strong> ni los almacena</li>
+          <li><strong>No almacena direcciones IP</strong></li>
+          <li><strong>No utiliza fingerprinting</strong> ni otras tecnicas de identificacion persistente</li>
+          <li><strong>No rastrea</strong> a los usuarios entre sesiones o sitios web</li>
+          <li>Es totalmente compatible con el <strong>RGPD</strong> sin necesidad de consentimiento</li>
+          <li>Procesa los datos en servidores dentro de la <strong>Union Europea</strong></li>
         </ul>
-      </section>
-
-      <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Base legal</h2>
         <p>
-          El tratamiento de datos anonimizados de navegación se basa en el interés legítimo del responsable (art. 6.1.f RGPD) para mejorar el servicio. Las cookies analíticas requieren el consentimiento del usuario (art. 6.1.a RGPD).
+          Plausible recopila exclusivamente datos agregados y anonimos como: paginas visitadas, fuentes de
+          trafico, paises de origen, tipos de dispositivo y navegadores. Estos datos no permiten en ningun
+          caso la identificacion de visitantes individuales.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Derechos del usuario</h2>
-        <p>Conforme al RGPD y la LOPDGDD, tienes derecho a:</p>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">5. Base legal del tratamiento</h2>
+        <p>
+          Dado que no se tratan datos personales identificables, no es necesario identificar una base legal
+          especifica en virtud del articulo 6 del RGPD. Para los datos estadisticos anonimos recopilados
+          por Plausible Analytics, la base legal aplicable es el interes legitimo del responsable (articulo
+          6, apartado 1, letra f, del RGPD), consistente en la necesidad de comprender como se utiliza el
+          sitio web para mejorar su contenido y funcionalidad.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">6. Derechos del usuario</h2>
+        <p>Conforme a los articulos 15 a 22 del RGPD y la LOPDGDD, tienes los siguientes derechos:</p>
         <ul>
-          <li>Acceso, rectificación y supresión de tus datos</li>
-          <li>Limitación y oposición al tratamiento</li>
-          <li>Portabilidad de los datos</li>
-          <li>Retirar el consentimiento en cualquier momento</li>
-          <li>Presentar reclamación ante la AEPD (agpd.es)</li>
+          <li><strong>Derecho de acceso</strong> (art. 15): obtener confirmacion de si se estan tratando datos personales y acceder a los mismos.</li>
+          <li><strong>Derecho de rectificacion</strong> (art. 16): solicitar la correccion de datos inexactos o incompletos.</li>
+          <li><strong>Derecho de supresion</strong> (art. 17, "derecho al olvido"): solicitar la eliminacion de los datos personales cuando se cumplan las condiciones legales.</li>
+          <li><strong>Derecho a la limitacion del tratamiento</strong> (art. 18): solicitar la limitacion del tratamiento en determinados supuestos previstos por la ley.</li>
+          <li><strong>Derecho a la portabilidad</strong> (art. 20): recibir los datos en un formato estructurado, de uso comun y lectura mecanica.</li>
+          <li><strong>Derecho de oposicion</strong> (art. 21): oponerse al tratamiento por motivos relacionados con tu situacion particular.</li>
+          <li><strong>Derecho a retirar el consentimiento</strong> (art. 7): retirar el consentimiento en cualquier momento, sin que ello afecte a la licitud del tratamiento basado en el consentimiento previo a su retirada.</li>
         </ul>
         <p>
-          Para ejercer tus derechos, contacta con nosotros en: contacto@elsueldoneto.es.
+          Dado que el sitio web no recopila datos personales, estos derechos no son aplicables en la practica.
+          Para cualquier consulta, contactenos en <a href="mailto:contacto@elsueldoneto.es" class="text-brand hover:underline">contacto@elsueldoneto.es</a>.
+          Nos comprometemos a responder en un plazo de 30 dias conforme al articulo 12 del RGPD.
+        </p>
+        <p>
+          Tambien tiene derecho a presentar una reclamacion ante la Agencia Espanola de Proteccion de Datos
+          (AEPD): <a href="https://www.aepd.es" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">www.aepd.es</a>.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Conservación de datos</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">7. Conservacion de datos</h2>
         <p>
-          Los datos anonimizados de analítica se conservan durante un máximo de 26 meses. No se almacenan datos personales identificativos.
+          Dado que no se almacenan datos personales de los usuarios, no se aplica ningun periodo de
+          conservacion especifico. Los datos estadisticos agregados de Plausible Analytics se conservan
+          durante el tiempo necesario para el analisis del trafico del sitio web. Al ser anonimos, quedan
+          fuera del ambito de aplicacion de las disposiciones del RGPD relativas a la conservacion de datos
+          personales.
         </p>
       </section>
 
-      <p class="text-xs text-medium-gray">Última actualización: enero {CURRENT_FISCAL_YEAR}.</p>
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">8. Transferencia de datos fuera de la UE</h2>
+        <p>
+          No se transfieren datos personales fuera de la Union Europea. Plausible Analytics procesa todos
+          los datos en servidores dentro de la UE. Si en el futuro fuera necesario utilizar servicios con
+          servidores fuera de la UE, el responsable se asegurara del cumplimiento del capitulo V del RGPD
+          implementando las garantias adecuadas.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">9. Seguridad</h2>
+        <p>
+          Nuestro sitio web se sirve a traves de una conexion HTTPS segura que cifra todos los datos en
+          transito. Se implementan medidas tecnicas y organizativas apropiadas de conformidad con el
+          articulo 32 del RGPD para garantizar un nivel de seguridad adecuado al riesgo.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">10. Modificaciones</h2>
+        <p>
+          Nos reservamos el derecho de modificar esta politica de privacidad para adaptarla a cambios en
+          nuestras practicas o en la legislacion aplicable. La version actual esta siempre disponible en
+          esta pagina. Recomendamos consultar esta politica periodicamente.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">11. Contacto</h2>
+        <p>
+          Para cualquier cuestion relativa a esta politica de privacidad o para ejercer tus derechos,
+          contactanos en:<br>
+          Email: <a href="mailto:contacto@elsueldoneto.es" class="text-brand hover:underline">contacto@elsueldoneto.es</a>
+        </p>
+      </section>
     </div>
   </div>
 </Layout>
