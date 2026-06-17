@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Calculadora Sueldo Neto - El Sueldo Neto</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Inter,-apple-system,system-ui,sans-serif;background:#fff;color:#1F2937;font-size:14px;line-height:1.5}
+.card{max-width:380px;margin:0 auto;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden}
+.header{background:#E63946;color:#fff;padding:14px 16px;text-align:center}
+.header h2{font-size:16px;font-weight:700;margin:0}
+.body{padding:16px}
+label{display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:4px}
+.field{margin-bottom:12px}
+.input-wrap{position:relative}
+input[type=number]{width:100%;border:1px solid #d1d5db;border-radius:8px;padding:8px 40px 8px 12px;font-size:14px;text-align:right;outline:none;transition:border .15s}
+input[type=number]:focus{border-color:#E63946;box-shadow:0 0 0 2px rgba(230,57,70,.15)}
+.suffix{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#9ca3af;font-size:13px;pointer-events:none}
+select{width:100%;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:14px;outline:none;background:#fff;transition:border .15s}
+select:focus{border-color:#E63946}
+.result{background:#f9fafb;border-radius:8px;padding:14px;margin-top:4px}
+.result-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px}
+.result-row.main{font-size:16px;font-weight:700;color:#E63946;padding:6px 0;border-top:1px solid #e5e7eb;margin-top:4px}
+.result-row .label{color:#6b7280}
+.result-row .value{font-weight:600;font-variant-numeric:tabular-nums}
+.footer{text-align:center;padding:10px 16px;border-top:1px solid #e5e7eb;font-size:11px;color:#9ca3af}
+.footer a{color:#E63946;text-decoration:none;font-weight:600}
+.footer a:hover{text-decoration:underline}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header"><h2>Calculadora Sueldo Neto</h2></div>
+  <div class="body">
+    <div class="field">
+      <label for="salario">Salario bruto anual</label>
+      <div class="input-wrap">
+        <input type="number" id="salario" value="30000" min="0" max="500000" step="500">
+        <span class="suffix">&euro;</span>
+      </div>
+    </div>
+    <div class="field">
+      <label for="pagas">Pagas anuales</label>
+      <select id="pagas">
+        <option value="14" selected>14 pagas</option>
+        <option value="12">12 pagas</option>
+      </select>
+    </div>
+    <div class="result" id="resultado">
+      <div class="result-row"><span class="label">IRPF</span><span class="value" id="r-irpf">-</span></div>
+      <div class="result-row"><span class="label">Seguridad Social</span><span class="value" id="r-ss">-</span></div>
+      <div class="result-row main"><span class="label">Neto mensual</span><span class="value" id="r-neto">-</span></div>
+    </div>
+  </div>
+  <div class="footer">
+    Powered by <a href="https://elsueldoneto.es/" target="_blank" rel="noopener">El Sueldo Neto</a>
+  </div>
+</div>
+<script>
+(function(){
+  // Simplified IRPF brackets 2026 (state + Madrid autonomic)
+  var tramosEstatal=[{h:12450,t:.095},{h:20200,t:.12},{h:35200,t:.15},{h:60000,t:.185},{h:300000,t:.225},{h:1/0,t:.245}];
+  var tramosAuton=[{h:12450,t:.085},{h:17707.2,t:.1113},{h:33007.2,t:.1336},{h:53407.2,t:.1769},{h:60000,t:.1802},{h:120000,t:.2146},{h:175000,t:.2236},{h:300000,t:.2436},{h:1/0,t:.2486}];
+  var ssRate=.0647;var ssMax=4720.50*12;var ssMin=1184.40*12;
+  var minPersonal=5550;
+
+  function calcProgresivo(base,tramos){
+    if(base<=0)return 0;var imp=0,rest=base,prev=0;
+    for(var i=0;i<tramos.length;i++){
+      if(rest<=0)break;
+      var ancho=tramos[i].h===1/0?rest:Math.min(tramos[i].h-prev,rest);
+      imp+=ancho*tramos[i].t;rest-=ancho;prev=tramos[i].h===1/0?prev:tramos[i].h;
+    }
+    return imp;
+  }
+
+  function fmt(n){return n.toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2})+' \u20AC';}
+
+  function calcular(){
+    var bruto=parseFloat(document.getElementById('salario').value)||0;
+    var pagas=parseInt(document.getElementById('pagas').value);
+    // SS
+    var baseSS=Math.max(Math.min(bruto,ssMax),ssMin);
+    var ss=baseSS*ssRate;
+    // IRPF
+    var rendNeto=bruto-ss-2000;// gastos deducibles
+    var baseImp=Math.max(rendNeto,0);
+    var cuotaEstatal=calcProgresivo(baseImp,tramosEstatal)-calcProgresivo(minPersonal,tramosEstatal);
+    var cuotaAuton=calcProgresivo(baseImp,tramosAuton)-calcProgresivo(minPersonal,tramosAuton);
+    var irpf=Math.max(cuotaEstatal,0)+Math.max(cuotaAuton,0);
+    var netoAnual=bruto-ss-irpf;
+    var netoMensual=netoAnual/pagas;
+
+    document.getElementById('r-irpf').textContent=fmt(irpf/12)+'/mes';
+    document.getElementById('r-ss').textContent=fmt(ss/12)+'/mes';
+    document.getElementById('r-neto').textContent=fmt(netoMensual);
+  }
+
+  document.getElementById('salario').addEventListener('input',calcular);
+  document.getElementById('pagas').addEventListener('change',calcular);
+  calcular();
+})();
+</script>
+</body>
+</html>

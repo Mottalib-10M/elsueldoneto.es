@@ -41,6 +41,7 @@ const ES_TO_EN: Record<string, string> = {
   '/contacto/': '/en/contact/',
   '/sobre-nosotros/': '/en/about/',
   '/sueldo/': '/en/salary/',
+  '/widget/': '/en/widget/',
 };
 
 /** Build reverse map: English path -> Spanish path */

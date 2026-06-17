@@ -1,0 +1,109 @@
+---
+import Layout from '../components/layout/Layout.astro';
+import { SITE_NAME, SITE_URL } from '../config';
+import { buildBreadcrumbSchema } from '../lib/seo';
+
+const title = 'Widget Embebible - Calculadora Sueldo Neto para tu Web';
+const description = 'Inserta nuestra calculadora de sueldo neto en tu web de forma gratuita. Copia el código, pégalo en tu HTML y ofrece a tus visitantes esta herramienta.';
+
+const embedCode = `<iframe src="${SITE_URL}/embed/" width="400" height="420" style="border:none;max-width:100%;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.1)" title="Calculadora Sueldo Neto - El Sueldo Neto"></iframe>`;
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Inicio', url: '/' },
+    { name: 'Widget', url: '/widget/' },
+  ]),
+];
+---
+
+<Layout title={title} description={description} schema={schemas}>
+  <div class="mx-auto max-w-4xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/" class="hover:text-brand">Inicio</a> / <span class="text-charcoal dark:text-gray-200">Widget</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      Widget Embebible: Calculadora de Sueldo Neto
+    </h1>
+
+    <p class="mb-8 text-dark-gray dark:text-gray-300">
+      Inserta nuestra calculadora de sueldo neto en tu sitio web, blog o intranet de forma <strong>totalmente gratuita</strong>. Solo necesitas copiar y pegar el siguiente fragmento de HTML.
+    </p>
+
+    <div class="grid gap-8 lg:grid-cols-2">
+      <!-- Preview -->
+      <div>
+        <h2 class="mb-4 text-lg font-semibold text-charcoal dark:text-gray-100">Vista previa</h2>
+        <iframe
+          src="/embed/"
+          width="400"
+          height="420"
+          style="border:none;max-width:100%;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.1)"
+          title="Calculadora Sueldo Neto - El Sueldo Neto"
+          loading="lazy"
+        ></iframe>
+      </div>
+
+      <!-- Embed code -->
+      <div>
+        <h2 class="mb-4 text-lg font-semibold text-charcoal dark:text-gray-100">Código para insertar</h2>
+        <div class="relative">
+          <pre class="overflow-x-auto rounded-lg border border-gray-200 bg-gray-50 p-4 text-xs text-dark-gray dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"><code id="embed-code">{embedCode}</code></pre>
+          <button
+            id="copy-btn"
+            class="absolute right-2 top-2 rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-brand-dark"
+          >
+            Copiar
+          </button>
+        </div>
+
+        <div class="mt-6 space-y-3">
+          <h3 class="text-sm font-semibold text-charcoal dark:text-gray-100">Ventajas del widget</h3>
+          <ul class="space-y-2 text-sm text-dark-gray dark:text-gray-300">
+            <li class="flex items-start gap-2">
+              <span class="mt-0.5 text-brand">&#10003;</span>
+              <span><strong>100% gratuito</strong> y sin registro</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-0.5 text-brand">&#10003;</span>
+              <span>Datos oficiales AEAT y Seguridad Social</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-0.5 text-brand">&#10003;</span>
+              <span><strong>Sin enviar datos</strong> a ningún servidor &mdash; cálculo en el navegador</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-0.5 text-brand">&#10003;</span>
+              <span>Responsive &mdash; se adapta a cualquier pantalla</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-0.5 text-brand">&#10003;</span>
+              <span>Se actualiza automáticamente cada ejercicio fiscal</span>
+            </li>
+          </ul>
+        </div>
+
+        <p class="mt-6 text-xs text-medium-gray">
+          ¿Necesitas personalización? Escríbenos a <a href="mailto:contacto@elsueldoneto.es" class="text-brand hover:underline">contacto@elsueldoneto.es</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const btn = document.getElementById('copy-btn');
+  const code = document.getElementById('embed-code');
+  if (btn && code) {
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(code.textContent || '');
+        btn.textContent = 'Copiado!';
+        setTimeout(() => { btn.textContent = 'Copiar'; }, 2000);
+      } catch {
+        btn.textContent = 'Error';
+        setTimeout(() => { btn.textContent = 'Copiar'; }, 2000);
+      }
+    });
+  }
+</script>
