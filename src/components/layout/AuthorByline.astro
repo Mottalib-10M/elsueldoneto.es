@@ -9,7 +9,7 @@ interface Props {
 const locale = Astro.props.locale || 'es';
 const date = Astro.props.date || new Date().toISOString().split('T')[0];
 const aboutHref = locale === 'en' ? '/en/about/' : '/sobre-nosotros/';
-const byLabel = locale === 'en' ? 'By' : 'Por';
+const byLabel = locale === 'en' ? 'Written by' : 'Escrito por';
 const updatedLabel = locale === 'en' ? 'Updated' : 'Actualizado';
 ---
 

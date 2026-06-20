@@ -91,7 +91,7 @@ export function buildOrganizationSchema(locale: Locale = 'es') {
     sameAs: [],
     contactPoint: {
       '@type': 'ContactPoint',
-      email: 'contacto@elsueldoneto.es',
+      email: 'contact@elsueldoneto.es',
       contactType: 'customer service',
       availableLanguage: ['Spanish', 'English'],
     },
@@ -190,6 +190,29 @@ export function buildWebSiteSchema(locale: Locale = 'es') {
       name: SITE_NAME,
       url: SITE_URL,
     },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: `${SITE_URL}${isEn ? '/en/' : '/'}?q={search_term_string}`,
+      'query-input': 'required name=search_term_string',
+    },
     availableLanguage: ['es-ES', 'en-GB'],
+  };
+}
+
+export function buildDefinedTermSetSchema(
+  terms: { term: string; description: string }[],
+  locale: Locale = 'es',
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTermSet',
+    name: locale === 'en' ? 'Spanish Salary & Tax Glossary' : 'Glosario Fiscal y Salarial de España',
+    url: `${SITE_URL}${locale === 'en' ? '/en/glossary/' : '/glosario/'}`,
+    inLanguage: LANG_MAP[locale],
+    hasDefinedTerm: terms.map((t) => ({
+      '@type': 'DefinedTerm',
+      name: t.term,
+      description: t.description,
+    })),
   };
 }

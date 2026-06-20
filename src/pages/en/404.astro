@@ -1,0 +1,43 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+
+const title = 'Page Not Found (404) - El Sueldo Neto';
+const description = 'The page you are looking for does not exist or has been moved. Use the links below to find salary calculators and tax guides for Spain.';
+---
+
+<Layout title={title} description={description} noindex={true} locale="en">
+  <div class="mx-auto max-w-3xl px-4 py-16 text-center">
+    <p class="text-8xl font-bold text-brand">404</p>
+    <h1 class="mt-4 text-2xl font-bold text-charcoal dark:text-gray-100">Page not found</h1>
+    <p class="mt-3 text-medium-gray">
+      The page you are looking for does not exist, has been moved, or the URL contains an error.
+    </p>
+
+    <div class="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+      <a href="/en/" class="rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark">
+        Net Salary Calculator
+      </a>
+      <a href="/en/guides/" class="rounded-lg border border-gray-300 px-6 py-3 text-sm font-semibold text-charcoal transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-200">
+        View Tax Guides
+      </a>
+    </div>
+
+    <div class="mt-12 text-left">
+      <h2 class="mb-4 text-lg font-semibold text-charcoal dark:text-gray-100">Popular calculators</h2>
+      <div class="grid gap-2 sm:grid-cols-2">
+        <a href="/en/" class="rounded-lg border border-gray-200 px-4 py-3 text-sm text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-700 dark:text-gray-300">Net Salary</a>
+        <a href="/en/irpf-calculator/" class="rounded-lg border border-gray-200 px-4 py-3 text-sm text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-700 dark:text-gray-300">Income Tax (IRPF)</a>
+        <a href="/en/self-employed-calculator/" class="rounded-lg border border-gray-200 px-4 py-3 text-sm text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-700 dark:text-gray-300">Self-Employed</a>
+        <a href="/en/mortgage-calculator/" class="rounded-lg border border-gray-200 px-4 py-3 text-sm text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-700 dark:text-gray-300">Mortgage</a>
+        <a href="/en/severance-calculator/" class="rounded-lg border border-gray-200 px-4 py-3 text-sm text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-700 dark:text-gray-300">Severance Pay</a>
+        <a href="/en/regional-comparison/" class="rounded-lg border border-gray-200 px-4 py-3 text-sm text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-700 dark:text-gray-300">Regional Comparison</a>
+        <a href="/en/beckham-law-calculator/" class="rounded-lg border border-gray-200 px-4 py-3 text-sm text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-700 dark:text-gray-300">Beckham Law</a>
+        <a href="/en/retirement-calculator/" class="rounded-lg border border-gray-200 px-4 py-3 text-sm text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-700 dark:text-gray-300">Retirement</a>
+      </div>
+    </div>
+
+    <p class="mt-10 text-xs text-medium-gray">
+      Broken link? Contact us at <a href="mailto:contact@elsueldoneto.es" class="text-brand hover:underline">contact@elsueldoneto.es</a>
+    </p>
+  </div>
+</Layout>

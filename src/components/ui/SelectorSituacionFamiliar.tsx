@@ -84,7 +84,8 @@ export default function SelectorSituacionFamiliar({
           </label>
           <input
             id="edad"
-            type="number"
+            type="text"
+            inputMode="decimal"
             min={16}
             max={99}
             value={value.edad}

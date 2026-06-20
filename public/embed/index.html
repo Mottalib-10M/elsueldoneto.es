@@ -15,8 +15,8 @@ body{font-family:Inter,-apple-system,system-ui,sans-serif;background:#fff;color:
 label{display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:4px}
 .field{margin-bottom:12px}
 .input-wrap{position:relative}
-input[type=number]{width:100%;border:1px solid #d1d5db;border-radius:8px;padding:8px 40px 8px 12px;font-size:14px;text-align:right;outline:none;transition:border .15s}
-input[type=number]:focus{border-color:#E63946;box-shadow:0 0 0 2px rgba(230,57,70,.15)}
+input[type=text]{width:100%;border:1px solid #d1d5db;border-radius:8px;padding:8px 40px 8px 12px;font-size:14px;text-align:right;outline:none;transition:border .15s}
+input[type=text]:focus{border-color:#E63946;box-shadow:0 0 0 2px rgba(230,57,70,.15)}
 .suffix{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#9ca3af;font-size:13px;pointer-events:none}
 select{width:100%;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:14px;outline:none;background:#fff;transition:border .15s}
 select:focus{border-color:#E63946}
@@ -28,8 +28,8 @@ select:focus{border-color:#E63946}
 .footer{text-align:center;padding:10px 16px;border-top:1px solid #e5e7eb;font-size:11px;color:#9ca3af}
 .footer a{color:#E63946;text-decoration:none;font-weight:600}
 .footer a:hover{text-decoration:underline}
-input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
-input[type=number]{-moz-appearance:textfield}
+input[type=text]::-webkit-inner-spin-button,input[type=text]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+input[type=text]{-moz-appearance:textfield}
 </style>
 </head>
 <body>
@@ -39,7 +39,7 @@ input[type=number]{-moz-appearance:textfield}
     <div class="field">
       <label for="salario">Salario bruto anual</label>
       <div class="input-wrap">
-        <input type="number" id="salario" value="30000" min="0" max="500000" step="500">
+        <input type="text" inputmode="decimal" id="salario" value="30000">
         <span class="suffix">&euro;</span>
       </div>
     </div>
@@ -78,7 +78,7 @@ input[type=number]{-moz-appearance:textfield}
     return imp;
   }
 
-  function fmt(n){return n.toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2})+' \u20AC';}
+  function fmt(n){return n.toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';}
 
   function calcular(){
     var bruto=parseFloat(document.getElementById('salario').value)||0;

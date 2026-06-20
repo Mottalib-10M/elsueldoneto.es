@@ -35,7 +35,7 @@ export default function CampoEntrada({
         <div className="relative">
           <input
             id={id}
-            type="number"
+            type="text"
             inputMode="decimal"
             value={value}
             onChange={(e) => onChange(e.target.value)}

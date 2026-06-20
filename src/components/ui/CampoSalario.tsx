@@ -82,7 +82,7 @@ export default function CampoSalario({
         <div className="relative flex-1">
           <input
             id={id}
-            type="number"
+            type="text"
             inputMode="decimal"
             value={displayValue}
             onChange={(e) =>

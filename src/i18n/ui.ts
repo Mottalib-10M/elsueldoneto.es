@@ -143,6 +143,7 @@ const footerSectionsEs: FooterSection[] = [
       { href: '/terminos/', label: 'Términos de Uso' },
       { href: '/contacto/', label: 'Contacto' },
       { href: '/sobre-nosotros/', label: 'Sobre Nosotros' },
+      { href: '/glosario/', label: 'Glosario' },
     ],
   },
 ];
@@ -188,6 +189,7 @@ const footerSectionsEn: FooterSection[] = [
       { href: '/en/terms/', label: 'Terms of Use' },
       { href: '/en/contact/', label: 'Contact' },
       { href: '/en/about/', label: 'About Us' },
+      { href: '/en/glossary/', label: 'Glossary' },
     ],
   },
 ];

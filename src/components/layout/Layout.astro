@@ -1,7 +1,7 @@
 ---
 import Header from './Header.astro';
 import Footer from './Footer.astro';
-import { SITE_NAME, SITE_URL, BRAND_COLOR } from '../../config';
+import { SITE_NAME, SITE_URL, BRAND_COLOR, CONTACT_EMAIL, AUTHOR_NAME, clarityProjectId, bingVerifyCode } from '../../config';
 import { buildCanonical, buildOrganizationSchema, buildWebSiteSchema } from '../../lib/seo';
 import { getLocaleFromPath, getHreflangUrls, LANG_MAP, OG_LOCALE_MAP } from '../../i18n';
 import type { Locale } from '../../i18n/types';
@@ -47,6 +47,14 @@ const schemas = isHomepage
 
 // Hreflang
 const hreflang = getHreflangUrls(Astro.url.pathname);
+
+// Skip-to-content label
+const skipLabel = locale === 'en' ? 'Skip to content' : 'Ir al contenido';
+
+// Determine page type for Clarity custom tags
+const path = Astro.url.pathname;
+const isGuide = path.startsWith('/guia') || path.startsWith('/en/guides');
+const pageType = isHomepage ? 'home' : isGuide ? 'guide' : 'calculator';
 ---
 
 <!doctype html>
@@ -58,9 +66,11 @@ const hreflang = getHreflangUrls(Astro.url.pathname);
 
     <!-- Google Site Verification (verified via /google974422056b789dc0.html) -->
 
+    {bingVerifyCode && <meta name="msvalidate.01" content={bingVerifyCode} />}
+
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="author" content="Mottalib Radif" />
+    <meta name="author" content={`${AUTHOR_NAME}, MBA INSEAD, Entusiasta de las Finanzas`} />
     <link rel="canonical" href={canonicalUrl} />
 
     {noindex && <meta name="robots" content="noindex, nofollow" />}
@@ -91,6 +101,9 @@ const hreflang = getHreflangUrls(Astro.url.pathname);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
     <meta property="og:locale" content={ogLocale} />
     <meta property="og:locale:alternate" content={alternateOgLocale} />
     <meta property="og:site_name" content={SITE_NAME} />
@@ -114,10 +127,28 @@ const hreflang = getHreflangUrls(Astro.url.pathname);
       gtag('js', new Date());
       gtag('config', 'G-XXXXXXXXXX');
     </script>
+
+    <!-- Microsoft Clarity (conditional) -->
+    {clarityProjectId && (
+      <script is:inline define:vars={{ clarityProjectId, pageType, locale }}>
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window,document,"clarity","script",clarityProjectId);
+        if(typeof clarity!=='undefined'){
+          clarity("set","page_type",pageType);
+          clarity("set","locale",locale);
+        }
+      </script>
+    )}
   </head>
   <body class="flex min-h-screen flex-col">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-brand focus:px-4 focus:py-2 focus:text-white focus:shadow-lg">
+      {skipLabel}
+    </a>
     <Header locale={locale} />
-    <main class="flex-1">
+    <main id="main-content" class="flex-1" role="main">
       <slot />
     </main>
     <Footer locale={locale} />

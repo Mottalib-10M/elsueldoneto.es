@@ -24,3 +24,12 @@ export const TAGLINE_SHORT = "De bruto a neto, claro y rápido" as const;
 
 export const TAGLINE_EN = "Your net salary, no surprises" as const;
 export const TAGLINE_SHORT_EN = "From gross to net, clear and fast" as const;
+
+export const CONTACT_EMAIL = "contact@elsueldoneto.es" as const;
+
+export const AUTHOR_NAME = "Mottalib Radif" as const;
+export const AUTHOR_CREDENTIALS = "MBA INSEAD, Entusiasta de las Finanzas" as const;
+
+/** Bing / Clarity – leave empty strings until real IDs are obtained */
+export const clarityProjectId = "" as const;
+export const bingVerifyCode = "" as const;

@@ -1,0 +1,105 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+import { buildBreadcrumbSchema, buildDefinedTermSetSchema } from '../../lib/seo';
+
+const title = `Spanish Tax & Salary Glossary ${CURRENT_FISCAL_YEAR} - All Key Terms`;
+const description = 'Clear definitions of IRPF, Social Security, payslip, net salary, withholding, taxable base and 30+ Spanish tax and employment terms for expats and locals.';
+
+const terms = [
+  { term: 'IRPF (Impuesto sobre la Renta de las Personas Físicas / Personal Income Tax)', description: 'A direct, personal and progressive tax levied on income earned by individuals resident in Spain. It is applied in brackets: the first euros of income are taxed at a lower rate and higher marginal rates apply as income increases. It is split into a national scale and a regional scale.' },
+  { term: 'Social Security (Seguridad Social)', description: 'The public system that guarantees benefits such as healthcare, retirement pensions, unemployment benefits and temporary disability. Employees and employers contribute a percentage of gross salary each month. The employee share is approximately 6.50%.' },
+  { term: 'Payslip (Nomina)', description: 'The official document that the employer provides to the employee each month, detailing all salary components: base salary, supplements, Social Security contributions and IRPF withholding. It serves as proof of salary received and deductions applied.' },
+  { term: 'Gross salary (Sueldo bruto)', description: 'The total compensation agreed in the employment contract before any deductions. It includes base salary, salary supplements, bonus payments (pagas extra) and any benefits in kind. This is the reference figure for calculating contributions and IRPF withholding.' },
+  { term: 'Net salary (Sueldo neto)', description: 'The amount the worker actually receives in their bank account after deducting Social Security contributions and IRPF withholding from gross salary. Formula: Net = Gross - Social Security - IRPF.' },
+  { term: 'Withholding (Retencion)', description: 'The percentage of gross salary that the employer deducts and pays to the tax authorities on behalf of the employee as an advance IRPF payment. It is not an additional tax but an advance that is reconciled in the annual tax return.' },
+  { term: 'Taxable base (Base imponible)', description: 'The amount on which IRPF is calculated. It is obtained by subtracting Social Security contributions, deductible work expenses (2,000 euros) and, where applicable, the employment income reduction from gross salary. Tax brackets are then applied to this base.' },
+  { term: 'Deduction (Deduccion)', description: 'An amount subtracted from the gross tax liability or the taxable base, reducing the final tax bill. There are national deductions (home purchase investment, charitable donations) and regional deductions (rent, birth of children, etc.).' },
+  { term: 'Tax bracket (Tramo fiscal)', description: 'Each of the income intervals to which a different IRPF tax rate applies. Spain has national brackets (from 19% to 47%) and regional brackets that vary by autonomous community. Only the portion of income falling within each bracket is taxed at that rate.' },
+  { term: 'Personal and family minimum (Minimo personal y familiar)', description: 'A tax-exempt amount of income that guarantees a minimum standard of living. It includes the taxpayer minimum (5,550 euros, or more if aged 65/75+), the minimum for dependant children, ascendants and disability. It is deducted from the taxable base before calculating the tax liability.' },
+  { term: 'Gross tax liability (Cuota integra)', description: 'The result of applying the national and regional IRPF bracket rates to the net taxable base, before subtracting deductions. It is divided into a national component and a regional component.' },
+  { term: 'Marginal rate (Tipo marginal)', description: 'The IRPF percentage applied to the last euro of the taxpayer\'s income. It is the rate of the highest bracket reached. It should not be confused with the effective rate, which is the actual average percentage paid on all income.' },
+  { term: 'Employment income (Renta del trabajo)', description: 'Income obtained by the worker as compensation for their employment: salary, bonus payments, non-exempt severance, benefits in kind, etc. It is included in the general IRPF taxable base.' },
+  { term: 'Common contingencies (Contingencias comunes)', description: 'A Social Security contribution that funds benefits for common illness, non-work-related accidents, maternity, paternity and temporary disability. The employee rate is 4.70% of the contribution base.' },
+  { term: 'Unemployment contribution (Desempleo)', description: 'The employee\'s Social Security contribution that funds unemployment benefits. The rate varies by contract type: 1.55% for permanent contracts and 1.60% for temporary contracts, on the contribution base.' },
+  { term: 'Professional training (Formacion profesional)', description: 'A 0.10% contribution paid by the employee that funds employment-related professional training. The employer contributes an additional 0.60%.' },
+  { term: 'Minimum Interprofessional Wage / SMI (Salario Minimo Interprofesional)', description: 'The legal minimum pay that any full-time worker in Spain must receive. It is set annually by Royal Decree. No collective agreement may establish a salary below the SMI.' },
+  { term: 'Collective agreement (Convenio colectivo)', description: 'An agreement negotiated between worker representatives and employers that regulates working conditions for a sector or company: base salary, working hours, supplements, leave, etc. It takes precedence over the Workers\' Statute when it establishes more favourable conditions.' },
+  { term: 'Bonus payment / Extra pay (Paga extra)', description: 'Additional pay that workers typically receive twice a year (June and December), as established by Art. 31 of the Workers\' Statute. The minimum amount is 30 days of base salary. It can be prorated across 12 monthly payments.' },
+  { term: 'Salary supplement (Complemento salarial)', description: 'An amount added to the base salary to compensate for specific circumstances: seniority, hazard pay, night shifts, availability, language skills, productivity, etc. Supplements are regulated by the applicable collective agreement.' },
+  { term: 'RETA (Special Regime for Self-Employed Workers)', description: 'The Social Security regime governing contributions and benefits for self-employed workers. Since 2023, it uses a system of contribution tiers based on actual income.' },
+  { term: 'Self-employed worker (Autonomo)', description: 'An individual who carries out an economic activity on a regular, personal and direct basis, for profit, without an employment contract. They must register with RETA and the tax authorities (forms 036/037) and pay monthly Social Security contributions.' },
+  { term: 'Self-employed contribution (Cuota de autonomos)', description: 'The monthly amount a self-employed worker pays to Social Security. Since 2023, it is calculated in tiers based on the worker\'s annual net income, with minimum and maximum amounts set each year.' },
+  { term: 'Contribution base (Base de cotizacion)', description: 'The monthly gross salary on which Social Security contributions are calculated, subject to annual minimum and maximum thresholds. It excludes non-computable items such as per diems or exempt severance payments.' },
+  { term: 'MEI (Intergenerational Equity Mechanism)', description: 'An additional Social Security contribution introduced in 2023 to strengthen pension system sustainability. A percentage is applied to the contribution base, shared between employer and employee (0.15% paid by the employee in 2026).' },
+  { term: 'Settlement / Severance (Finiquito)', description: 'A document listing all amounts the employer owes the worker upon termination of the employment relationship: outstanding salary, proportional bonus payments, unused holiday and, where applicable, severance compensation.' },
+  { term: 'Severance compensation (Indemnizacion por despido)', description: 'Financial compensation that the employer must pay the worker when the contract is terminated involuntarily. The amount depends on the type of dismissal: 20 days/year for objective fair dismissal, 33 days/year for unfair dismissal (contracts after 12/02/2012).' },
+  { term: 'Effective tax rate (Tipo efectivo)', description: 'The actual percentage of tax paid on total income. Calculated by dividing the total net tax liability (IRPF) by the taxable base. It is lower than the marginal rate because the first brackets are taxed at lower rates.' },
+  { term: 'Annual tax return (Declaracion de la renta)', description: 'The mandatory annual filing (form 100) in which the taxpayer reconciles their situation with the tax authorities: comparing withholdings made during the year with the IRPF actually owed, resulting in either a refund or an amount to pay.' },
+  { term: 'Employment income reduction (Reduccion por rendimientos del trabajo)', description: 'A tax benefit that reduces the taxable base for workers earning less than 19,747.50 euros. The maximum reduction is 6,498 euros for income up to 14,047.50 euros, decreasing progressively until it reaches zero.' },
+  { term: 'Form 145 (Modelo 145)', description: 'The official form that the employee submits to their employer to communicate their personal and family circumstances, enabling correct calculation of IRPF withholding. It should be updated whenever circumstances change (marriage, children, etc.).' },
+  { term: 'Deductible work expenses (Gastos deducibles del trabajo)', description: 'A fixed annual amount of 2,000 euros (Art. 19.2 of the IRPF Act) deducted from gross employment income to arrive at net employment income. It may be increased in cases of geographical mobility or disability.' },
+  { term: 'Net taxable base (Base liquidable)', description: 'The result of applying legal reductions to the taxable base. It is the amount to which IRPF brackets are applied to calculate the gross tax liability. It is divided into a general component and a savings component.' },
+  { term: 'National IRPF scale (Escala estatal)', description: 'The table of IRPF brackets and rates set by the State, uniform across the entire national territory (except the Basque Country and Navarre). Rates range from 9.50% to 24.50% and are applied to the general net taxable base.' },
+  { term: 'Regional IRPF scale (Escala autonomica)', description: 'The table of IRPF brackets and rates that each autonomous community sets independently. It is added to the national scale to form the total IRPF rate. Differences between regions can exceed 2,000 euros per year for the same salary.' },
+  { term: 'Beckham Law (Regimen Beckham)', description: 'A special tax regime (Art. 93 of the IRPF Act) for workers relocated to Spain that allows them to be taxed as non-residents for 6 years: a flat rate of 24% on the first 600,000 euros of employment income and 47% on the excess, with no progressive scale or regional deductions.' },
+];
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Home', url: '/en/' },
+    { name: 'Glossary', url: '/en/glossary/' },
+  ]),
+  buildDefinedTermSetSchema(terms, 'en'),
+];
+---
+
+<Layout title={title} description={description} schema={schemas} locale="en">
+  <div class="mx-auto max-w-4xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-1">
+        <li><a href="/en/" class="hover:text-brand">Home</a></li>
+        <li class="text-medium-gray">/</li>
+        <li><span class="text-charcoal dark:text-gray-200">Glossary</span></li>
+      </ol>
+    </nav>
+
+    <h1 class="mb-4 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      Spanish Tax & Salary Glossary
+    </h1>
+    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+      Over 30 key terms from Spanish taxation, payroll and Social Security explained clearly for expats and locals. Updated for fiscal year {CURRENT_FISCAL_YEAR}.
+    </p>
+
+    <div class="space-y-6">
+      {terms.map((item) => (
+        <div class="rounded-lg border border-gray-200 p-5 dark:border-gray-700" id={item.term.split(' ')[0].toLowerCase().replace(/[^a-z]/g, '')}>
+          <dt class="text-lg font-semibold text-charcoal dark:text-gray-100">{item.term}</dt>
+          <dd class="mt-2 text-sm leading-relaxed text-dark-gray dark:text-gray-300">{item.description}</dd>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-12 rounded-lg border border-gray-200 bg-light-gray p-6 dark:border-gray-700 dark:bg-gray-800">
+      <h2 class="mb-3 text-lg font-bold text-charcoal dark:text-gray-100">Related calculators</h2>
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <a href="/en/" class="rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300">Net Salary</a>
+        <a href="/en/irpf-calculator/" class="rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300">Income Tax (IRPF)</a>
+        <a href="/en/self-employed-calculator/" class="rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300">Self-Employed</a>
+        <a href="/en/severance-calculator/" class="rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300">Severance Pay</a>
+        <a href="/en/regional-comparison/" class="rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300">Regional Comparison</a>
+        <a href="/en/guides/" class="rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300">Tax Guides</a>
+      </div>
+    </div>
+
+    <div class="mt-10 flex items-center gap-4 rounded-lg border border-gray-200 px-5 py-4 dark:border-gray-700">
+      <img src="/team/mottalib-radif.jpg" alt="Mottalib Radif" class="h-12 w-12 rounded-full object-cover" width="48" height="48" loading="lazy" />
+      <div class="text-sm">
+        <p class="font-semibold text-charcoal dark:text-gray-200">
+          Written by <a href="/en/about/" class="text-brand hover:underline">Mottalib Radif</a>
+        </p>
+        <p class="text-medium-gray">MBA INSEAD · Finance Enthusiast</p>
+      </div>
+    </div>
+  </div>
+</Layout>

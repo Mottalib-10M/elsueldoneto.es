@@ -1,0 +1,105 @@
+---
+import Layout from '../components/layout/Layout.astro';
+import { CURRENT_FISCAL_YEAR } from '../config';
+import { buildBreadcrumbSchema, buildDefinedTermSetSchema } from '../lib/seo';
+
+const title = `Glosario Fiscal y Salarial España ${CURRENT_FISCAL_YEAR} - 36 Términos`;
+const description = 'Definiciones claras de IRPF, Seguridad Social, nómina, sueldo neto, retención, base imponible y más de 30 términos fiscales y laborales de España.';
+
+const terms = [
+  { term: 'IRPF (Impuesto sobre la Renta de las Personas Físicas)', description: 'Impuesto directo, personal y progresivo que grava la renta obtenida por las personas físicas residentes en España. Se aplica por tramos: los primeros euros de renta tributan a un tipo más bajo y, a medida que la renta aumenta, se aplican tipos marginales más elevados. Se divide en una escala estatal y otra autonómica.' },
+  { term: 'Seguridad Social', description: 'Sistema público que garantiza prestaciones como la asistencia sanitaria, la jubilación, el desempleo y la incapacidad temporal. Trabajadores y empresas cotizan mensualmente un porcentaje del salario bruto para financiar estas prestaciones. El tipo a cargo del trabajador por cuenta ajena ronda el 6,50%.' },
+  { term: 'Nómina', description: 'Documento oficial que la empresa entrega al trabajador cada mes detallando los conceptos salariales: salario base, complementos, cotizaciones a la Seguridad Social y retención de IRPF. Es la prueba documental del salario percibido y de las deducciones aplicadas.' },
+  { term: 'Sueldo bruto', description: 'Retribución total pactada en el contrato de trabajo antes de aplicar cualquier deducción. Incluye el salario base, los complementos salariales, las pagas extraordinarias y cualquier retribución en especie. Es la cifra de referencia para calcular las cotizaciones y la retención de IRPF.' },
+  { term: 'Sueldo neto', description: 'Cantidad que el trabajador recibe efectivamente en su cuenta bancaria tras descontar del salario bruto las cotizaciones a la Seguridad Social y la retención del IRPF. Fórmula: Neto = Bruto - Seguridad Social - IRPF.' },
+  { term: 'Retención', description: 'Porcentaje del salario bruto que la empresa retiene e ingresa en Hacienda a cuenta del IRPF del trabajador. La retención no es un impuesto adicional, sino un anticipo que se regulariza en la declaración de la renta anual.' },
+  { term: 'Base imponible', description: 'Cantidad sobre la que se calcula el IRPF. Se obtiene restando al salario bruto las cotizaciones a la Seguridad Social, los gastos deducibles del trabajo (2.000 euros) y, en su caso, la reducción por rendimientos del trabajo. Sobre esta base se aplican los tramos impositivos.' },
+  { term: 'Deducción', description: 'Cantidad que se resta de la cuota íntegra del IRPF o de la base imponible, reduciendo el importe final a pagar. Existen deducciones estatales (inversión en vivienda habitual, donativos) y autonómicas (alquiler, nacimiento de hijos, etc.).' },
+  { term: 'Tramo fiscal', description: 'Cada uno de los intervalos de renta a los que se aplica un tipo impositivo diferente en el IRPF. España tiene tramos estatales (del 19% al 47%) y tramos autonómicos que varían según la comunidad. Solo la porción de renta que cae dentro de cada tramo tributa al tipo correspondiente.' },
+  { term: 'Mínimo personal y familiar', description: 'Cantidad de renta exenta de tributación que garantiza un mínimo vital. Incluye el mínimo del contribuyente (5.550 euros, o más si tiene 65/75 años), el mínimo por descendientes, por ascendientes y por discapacidad. Se descuenta de la base liquidable antes de calcular la cuota.' },
+  { term: 'Cuota íntegra', description: 'Resultado de aplicar los tipos impositivos de los tramos estatales y autonómicos a la base liquidable del IRPF, antes de restar las deducciones. La cuota íntegra se divide en cuota estatal y cuota autonómica.' },
+  { term: 'Tipo marginal', description: 'Porcentaje de IRPF que se aplica al último euro de renta del contribuyente. Es el tipo del tramo más alto alcanzado. No debe confundirse con el tipo efectivo, que es el porcentaje medio real que se paga sobre toda la renta.' },
+  { term: 'Renta del trabajo', description: 'Rendimientos obtenidos por el trabajador como contraprestación por su actividad laboral: salario, pagas extra, indemnizaciones no exentas, retribuciones en especie, etc. Se incluyen en la base imponible general del IRPF.' },
+  { term: 'Contingencias comunes', description: 'Cotización a la Seguridad Social que financia las prestaciones por enfermedad común, accidente no laboral, maternidad, paternidad e incapacidad temporal. El tipo a cargo del trabajador es del 4,70% de la base de cotización.' },
+  { term: 'Desempleo (cotización)', description: 'Aportación del trabajador a la Seguridad Social que financia la prestación por desempleo. El tipo varía según el contrato: 1,55% para indefinidos y 1,60% para temporales, sobre la base de cotización.' },
+  { term: 'Formación profesional', description: 'Cotización del 0,10% a cargo del trabajador que financia la formación profesional para el empleo. La empresa aporta un 0,60% adicional.' },
+  { term: 'Salario Mínimo Interprofesional (SMI)', description: 'Retribución mínima legal que debe percibir cualquier trabajador por una jornada completa en España. Se fija anualmente por Real Decreto del Gobierno. Ningún convenio colectivo puede establecer un salario inferior al SMI.' },
+  { term: 'Convenio colectivo', description: 'Acuerdo negociado entre representantes de los trabajadores y los empresarios que regula las condiciones laborales de un sector o empresa: salario base, jornada, complementos, permisos, etc. Prevalece sobre el Estatuto de los Trabajadores cuando establece condiciones más favorables.' },
+  { term: 'Paga extra (paga extraordinaria)', description: 'Retribución adicional que el trabajador recibe normalmente dos veces al año (junio y diciembre), según establece el art. 31 del Estatuto de los Trabajadores. Su importe mínimo es de 30 días de salario base. Puede prorratearse en 12 mensualidades.' },
+  { term: 'Complemento salarial', description: 'Cantidad adicional al salario base que retribuye circunstancias específicas: antigüedad, peligrosidad, nocturnidad, disponibilidad, idiomas, productividad, etc. Los complementos están regulados por el convenio colectivo aplicable.' },
+  { term: 'RETA (Régimen Especial de Trabajadores Autónomos)', description: 'Régimen de la Seguridad Social que regula la cotización y las prestaciones de los trabajadores por cuenta propia. Desde 2023 funciona con un sistema de cuotas por tramos de ingresos reales.' },
+  { term: 'Autónomo (trabajador por cuenta propia)', description: 'Persona física que realiza una actividad económica de forma habitual, personal y directa, a título lucrativo, sin contrato de trabajo. Debe darse de alta en el RETA y en Hacienda (modelos 036/037) y cotizar mensualmente a la Seguridad Social.' },
+  { term: 'Cuota de autónomos', description: 'Importe mensual que el autónomo paga a la Seguridad Social. Desde 2023, se calcula por tramos según los rendimientos netos anuales del autónomo, con una cuota mínima y máxima establecidas anualmente.' },
+  { term: 'Base de cotización', description: 'Salario bruto mensual sobre el que se calculan las cotizaciones a la Seguridad Social, sujeto a unos topes mínimos y máximos fijados anualmente. No incluye conceptos no computables como dietas o indemnizaciones por despido exentas.' },
+  { term: 'MEI (Mecanismo de Equidad Intergeneracional)', description: 'Cotización adicional a la Seguridad Social introducida en 2023 para reforzar la sostenibilidad del sistema de pensiones. Se aplica un porcentaje sobre la base de cotización, repartido entre empresa y trabajador (0,15% a cargo del trabajador en 2026).' },
+  { term: 'Finiquito', description: 'Documento que recoge las cantidades que la empresa adeuda al trabajador en el momento de finalizar la relación laboral: salario pendiente, parte proporcional de pagas extra, vacaciones no disfrutadas y, en su caso, indemnización por despido.' },
+  { term: 'Indemnización por despido', description: 'Compensación económica que la empresa debe abonar al trabajador cuando se extingue el contrato de forma involuntaria. Su cuantía depende del tipo de despido: 20 días/año por despido objetivo procedente, 33 días/año por improcedente (contratos posteriores al 12/02/2012).' },
+  { term: 'Tipo efectivo', description: 'Porcentaje real de impuestos que el contribuyente paga sobre su renta total. Se calcula dividiendo la cuota líquida total (IRPF) entre la base imponible. Es menor que el tipo marginal porque los primeros tramos tributan a tipos más bajos.' },
+  { term: 'Declaración de la renta', description: 'Trámite anual obligatorio (modelo 100) en el que el contribuyente regulariza su situación con Hacienda: compara las retenciones practicadas durante el año con el IRPF realmente debido, resultando en una cantidad a devolver o a ingresar.' },
+  { term: 'Reducción por rendimientos del trabajo', description: 'Beneficio fiscal que reduce la base imponible de los trabajadores con rentas inferiores a 19.747,50 euros. Su importe máximo es de 6.498 euros para rentas hasta 14.047,50 euros y decrece progresivamente hasta anularse.' },
+  { term: 'Modelo 145', description: 'Formulario oficial que el trabajador entrega a la empresa para comunicar su situación personal y familiar, permitiendo calcular correctamente la retención de IRPF. Debe actualizarse cuando cambien las circunstancias (matrimonio, hijos, etc.).' },
+  { term: 'Gastos deducibles del trabajo', description: 'Cantidad fija de 2.000 euros anuales (art. 19.2 de la Ley del IRPF) que se resta de los rendimientos íntegros del trabajo para obtener el rendimiento neto. Puede incrementarse en caso de movilidad geográfica o discapacidad.' },
+  { term: 'Base liquidable', description: 'Resultado de aplicar las reducciones legales a la base imponible. Es la cantidad sobre la que se aplican los tramos del IRPF para calcular la cuota íntegra. Se divide en base liquidable general y del ahorro.' },
+  { term: 'Escala estatal del IRPF', description: 'Tabla de tramos y tipos impositivos del IRPF fijada por el Estado, uniforme en todo el territorio nacional (excepto País Vasco y Navarra). Los tipos van del 9,50% al 24,50% y se aplican sobre la base liquidable general.' },
+  { term: 'Escala autonómica del IRPF', description: 'Tabla de tramos y tipos impositivos del IRPF que cada comunidad autónoma aprueba libremente. Se suma a la escala estatal para conformar el tipo total del IRPF. Las diferencias entre comunidades pueden superar los 2.000 euros anuales para un mismo salario.' },
+  { term: 'Régimen Beckham (Ley Beckham)', description: 'Régimen fiscal especial (art. 93 de la Ley del IRPF) para trabajadores desplazados a España que permite tributar como no residente durante 6 años: tipo fijo del 24% sobre los primeros 600.000 euros de renta del trabajo y 47% sobre el exceso, sin escala progresiva ni deducciones autonómicas.' },
+];
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Inicio', url: '/' },
+    { name: 'Glosario', url: '/glosario/' },
+  ]),
+  buildDefinedTermSetSchema(terms),
+];
+---
+
+<Layout title={title} description={description} schema={schemas}>
+  <div class="mx-auto max-w-4xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-1">
+        <li><a href="/" class="hover:text-brand">Inicio</a></li>
+        <li class="text-medium-gray">/</li>
+        <li><span class="text-charcoal dark:text-gray-200">Glosario</span></li>
+      </ol>
+    </nav>
+
+    <h1 class="mb-4 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      Glosario Fiscal y Salarial de España
+    </h1>
+    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+      Más de 30 términos clave de fiscalidad, nóminas y Seguridad Social explicados de forma clara y concisa. Actualizado para el ejercicio fiscal {CURRENT_FISCAL_YEAR}.
+    </p>
+
+    <div class="space-y-6">
+      {terms.map((item) => (
+        <div class="rounded-lg border border-gray-200 p-5 dark:border-gray-700" id={item.term.split(' ')[0].toLowerCase().replace(/[^a-záéíóúüñ]/g, '')}>
+          <dt class="text-lg font-semibold text-charcoal dark:text-gray-100">{item.term}</dt>
+          <dd class="mt-2 text-sm leading-relaxed text-dark-gray dark:text-gray-300">{item.description}</dd>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-12 rounded-lg border border-gray-200 bg-light-gray p-6 dark:border-gray-700 dark:bg-gray-800">
+      <h2 class="mb-3 text-lg font-bold text-charcoal dark:text-gray-100">Calculadoras relacionadas</h2>
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <a href="/" class="rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300">Sueldo Neto</a>
+        <a href="/calculadora-irpf/" class="rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300">IRPF</a>
+        <a href="/calculadora-autonomos/" class="rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300">Autónomos</a>
+        <a href="/calculadora-finiquito/" class="rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300">Finiquito</a>
+        <a href="/comparador-comunidades/" class="rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300">Comparador CCAA</a>
+        <a href="/guias/" class="rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300">Guías Fiscales</a>
+      </div>
+    </div>
+
+    <div class="mt-10 flex items-center gap-4 rounded-lg border border-gray-200 px-5 py-4 dark:border-gray-700">
+      <img src="/team/mottalib-radif.jpg" alt="Mottalib Radif" class="h-12 w-12 rounded-full object-cover" width="48" height="48" loading="lazy" />
+      <div class="text-sm">
+        <p class="font-semibold text-charcoal dark:text-gray-200">
+          Escrito por <a href="/sobre-nosotros/" class="text-brand hover:underline">Mottalib Radif</a>
+        </p>
+        <p class="text-medium-gray">MBA INSEAD · Entusiasta de las Finanzas</p>
+      </div>
+    </div>
+  </div>
+</Layout>
