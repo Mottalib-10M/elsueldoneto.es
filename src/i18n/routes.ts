@@ -43,6 +43,7 @@ const ES_TO_EN: Record<string, string> = {
   '/sueldo/': '/en/salary/',
   '/widget/': '/en/widget/',
   '/glosario/': '/en/glossary/',
+  '/actualidades/': '/en/news/',
 };
 
 /** Build reverse map: English path -> Spanish path */

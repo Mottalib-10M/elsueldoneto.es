@@ -84,8 +84,8 @@ const pageType = isHomepage ? 'home' : isGuide ? 'guide' : 'calculator';
       </>
     )}
 
-    <!-- Preconnect to critical origins -->
-    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <!-- Font preload -->
+    <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -119,14 +119,8 @@ const pageType = isHomepage ? 'home' : isGuide ? 'guide' : 'calculator';
       <script type="application/ld+json" set:html={JSON.stringify(s)} />
     ))}
 
-    <!-- Google Analytics (GA4) – replace G-XXXXXXXXXX with your actual Measurement ID -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
-    </script>
+    <!-- Plausible Analytics – uncomment after registering at plausible.io -->
+    <!-- <script defer data-domain="elsueldoneto.es" src="https://plausible.io/js/script.js"></script> -->
 
     <!-- Microsoft Clarity (conditional) -->
     {clarityProjectId && (

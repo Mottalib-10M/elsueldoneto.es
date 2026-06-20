@@ -13,7 +13,7 @@ const faqs = [
   },
   {
     question: 'What is the difference between a fixed and variable mortgage in Spain?',
-    answer: 'A fixed-rate mortgage (hipoteca fija) keeps the same interest rate and monthly payment for the entire term. A variable-rate mortgage (hipoteca variable) is linked to the Euribor — the rate is revised every 6 or 12 months, so your payment goes up when Euribor rises and down when it falls. Fixed mortgages offer predictability; variable mortgages carry interest rate risk but can be cheaper when rates are low.',
+    answer: 'A fixed-rate mortgage (hipoteca fija) keeps the same interest rate and monthly payment for the entire term. A variable-rate mortgage (hipoteca variable) is linked to the Euribor: the rate is revised every 6 or 12 months, so your payment goes up when Euribor rises and down when it falls. Fixed mortgages offer predictability; variable mortgages carry interest rate risk but can be cheaper when rates are low.',
   },
   {
     question: 'What is Euribor and how does it affect my mortgage?',
@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     question: 'Can I make early repayments on my Spanish mortgage?',
-    answer: 'Yes. Under Law 5/2019 on real estate credit contracts, the maximum early repayment fee for variable mortgages is 0.25% of the capital repaid in the first 3 years and 0.15% between years 3 and 5, with no fee after year 5. For fixed mortgages, the maximum fee is 2% during the first 10 years and 1.5% thereafter. Early repayment — especially reducing the term — can save you thousands in total interest.',
+    answer: 'Yes. Under Law 5/2019 on real estate credit contracts, the maximum early repayment fee for variable mortgages is 0.25% of the capital repaid in the first 3 years and 0.15% between years 3 and 5, with no fee after year 5. For fixed mortgages, the maximum fee is 2% during the first 10 years and 1.5% thereafter. Early repayment, especially reducing the term, can save you thousands in total interest.',
   },
   {
     question: 'What taxes do I pay when buying a home in Spain?',
@@ -33,7 +33,7 @@ const faqs = [
   },
   {
     question: 'What is the FEIN and the notarial transparency act?',
-    answer: 'Since Law 5/2019, the bank must provide the FEIN (Ficha Europea de Informacion Normalizada) — a binding document with all loan conditions — at least 10 days before signing. The borrower must also visit the notary (without the bank present) at least one day before signing to receive free independent advice and sign a transparency act. These measures protect consumers from abusive clauses.',
+    answer: 'Since Law 5/2019, the bank must provide the FEIN (Ficha Europea de Informacion Normalizada), a binding document with all loan conditions, at least 10 days before signing. The borrower must also visit the notary (without the bank present) at least one day before signing to receive free independent advice and sign a transparency act. These measures protect consumers from abusive clauses.',
   },
   {
     question: 'What monthly payment can I afford?',
@@ -57,7 +57,7 @@ const faqs = [
   ]}
 >
   <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-    <Hipoteca client:load lang="en" />
+    <Hipoteca client:idle lang="en" />
   </div>
 
   <section class="mt-8">
@@ -66,12 +66,12 @@ const faqs = [
     </h2>
     <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
       <p>
-        Buying a home is the single largest financial decision most people make. In Spain, over 60% of property purchases are financed with a mortgage — a long-term loan secured against the property itself. Whether you are a Spanish resident, a British expat on the Costa del Sol, or a digital nomad who has fallen in love with Barcelona, understanding how Spanish mortgages work is essential before you sign anything. This guide covers everything you need to know: types of mortgage, how monthly payments are calculated, buying costs by region, and practical tips for negotiating the best deal.
+        Buying a home is the single largest financial decision most people make. In Spain, over 60% of property purchases are financed with a mortgage, a long-term loan secured against the property itself. Whether you are a Spanish resident, a British expat on the Costa del Sol, or a digital nomad who has fallen in love with Barcelona, understanding how Spanish mortgages work is essential before you sign anything. This guide covers everything you need to know: types of mortgage, how monthly payments are calculated, buying costs by region, and practical tips for negotiating the best deal.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">How mortgages work in Spain</h3>
       <p>
-        A mortgage (hipoteca) is a loan from a bank to purchase a property, with the property itself serving as collateral. If the borrower defaults on payments, the bank can repossess the home. This real-asset guarantee is why mortgage interest rates are significantly lower than personal loan rates — the risk to the bank is lower.
+        A mortgage (hipoteca) is a loan from a bank to purchase a property, with the property itself serving as collateral. If the borrower defaults on payments, the bank can repossess the home. This real-asset guarantee is why mortgage interest rates are significantly lower than personal loan rates, since the risk to the bank is lower.
       </p>
       <p>
         The vast majority of Spanish mortgages use the French amortisation system, which features constant monthly payments. Each payment consists of an interest portion and a capital portion. In the early years, most of the payment goes towards interest; as the loan matures, the capital portion grows. The monthly payment is calculated using the formula: M = C x r(1+r)^n / ((1+r)^n - 1), where C is the loan amount, r is the monthly interest rate, and n is the total number of payments. This calculator applies this formula automatically.
@@ -85,7 +85,7 @@ const faqs = [
         <strong>Variable-rate mortgages</strong> are referenced to the 12-month Euribor plus a fixed spread negotiated with the bank (e.g. Euribor + 0.80%). The payment is reviewed every 6 or 12 months based on the latest Euribor average. Historically, variable mortgages have been cheaper than fixed over long periods, but they carry real risk. Borrowers who signed at Euribor + 0.50% in 2020, when Euribor was negative, saw their payments jump by €200-400 per month when Euribor surged above 4% in 2023.
       </p>
       <p>
-        <strong>Mixed mortgages</strong> combine both approaches. A fixed rate applies for an initial period (typically 3-10 years), after which the rate switches to Euribor plus a spread. This offers stability during the early years — when the financial burden is heaviest — and potential savings if Euribor falls later. Current mixed offerings typically feature initial fixed rates of 2.0%-2.8% for the first 3-5 years, then Euribor + 0.60% to 1.00%.
+        <strong>Mixed mortgages</strong> combine both approaches. A fixed rate applies for an initial period (typically 3-10 years), after which the rate switches to Euribor plus a spread. This offers stability during the early years (when the financial burden is heaviest) and potential savings if Euribor falls later. Current mixed offerings typically feature initial fixed rates of 2.0%-2.8% for the first 3-5 years, then Euribor + 0.60% to 1.00%.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">The 80/20 rule: how much will the bank lend?</h3>
@@ -171,7 +171,7 @@ const faqs = [
         </table>
       </div>
       <p>
-        The difference is striking. Between 2% and 5%, the monthly payment rises by 38%, but total interest nearly triples — from €54,319 to €150,754. Each additional percentage point costs roughly €30,000-€35,000 in total interest over the life of the loan. This underscores the importance of comparing offers from multiple banks and negotiating the rate.
+        The difference is striking. Between 2% and 5%, the monthly payment rises by 38%, but total interest nearly triples, from €54,319 to €150,754. Each additional percentage point costs roughly €30,000-€35,000 in total interest over the life of the loan. This underscores the importance of comparing offers from multiple banks and negotiating the rate.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Early repayment: reducing term vs. reducing payment</h3>
@@ -185,7 +185,7 @@ const faqs = [
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Practical tips for getting the best mortgage in Spain</h3>
       <ul class="list-disc ml-4 space-y-2">
         <li><strong>Compare at least 3 offers:</strong> rates and conditions vary significantly between banks. Use the FEIN (the standardised European information sheet) to make like-for-like comparisons.</li>
-        <li><strong>Negotiate bundled products:</strong> banks offer rate discounts for taking out insurance, domiciling your salary, using their credit cards, etc. Calculate whether the discount outweighs the cost of these products — sometimes it's cheaper to arrange insurance independently and accept a slightly higher rate.</li>
+        <li><strong>Negotiate bundled products:</strong> banks offer rate discounts for taking out insurance, domiciling your salary, using their credit cards, etc. Calculate whether the discount outweighs the cost of these products. Sometimes it's cheaper to arrange insurance independently and accept a slightly higher rate.</li>
         <li><strong>Keep total debt below 30-35% of income:</strong> this is the widely recommended ceiling for all loan repayments combined. Exceeding it leaves no buffer for unexpected expenses.</li>
         <li><strong>Factor in ownership costs:</strong> beyond the mortgage, property ownership in Spain means paying community fees, IBI (property tax), home insurance, and covering maintenance and potential special assessments (derramas).</li>
         <li><strong>Consider overpayments:</strong> directing part of your annual bonus or savings towards early mortgage repayment can save thousands in interest. The savings are greatest when made in the early years of the loan.</li>
@@ -194,9 +194,9 @@ const faqs = [
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Sources and references</h3>
       <ul class="list-disc ml-4 space-y-2">
-        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2019-5765" class="text-brand hover:underline" target="_blank" rel="noopener">Law 5/2019 on real estate credit contracts (BOE)</a> — Regulates mortgage transparency, early repayment fees, the FEIN, and the notarial transparency act.</li>
-        <li><a href="https://www.bde.es/bde/es/" class="text-brand hover:underline" target="_blank" rel="noopener">Banco de Espana</a> — Official banking client portal with interest rate data, Euribor history, complaints procedures, and mortgage simulators.</li>
-        <li><a href="https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736152838&menu=ultiDatos&idp=1254735576757" class="text-brand hover:underline" target="_blank" rel="noopener">INE: Mortgage Statistics</a> — Official data on mortgage volumes, average amounts, and interest rates in Spain.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2019-5765" class="text-brand hover:underline" target="_blank" rel="noopener">Law 5/2019 on real estate credit contracts (BOE)</a>: Regulates mortgage transparency, early repayment fees, the FEIN, and the notarial transparency act.</li>
+        <li><a href="https://www.bde.es/bde/es/" class="text-brand hover:underline" target="_blank" rel="noopener">Banco de Espana</a>: Official banking client portal with interest rate data, Euribor history, complaints procedures, and mortgage simulators.</li>
+        <li><a href="https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736152838&menu=ultiDatos&idp=1254735576757" class="text-brand hover:underline" target="_blank" rel="noopener">INE: Mortgage Statistics</a>: Official data on mortgage volumes, average amounts, and interest rates in Spain.</li>
       </ul>
     </div>
   </section>

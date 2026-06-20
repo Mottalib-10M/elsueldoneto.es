@@ -9,7 +9,7 @@ const description = 'Convert your annual or monthly salary to an hourly rate. Fa
 const faqs = [
   { question: 'How do I calculate my hourly wage from annual salary?', answer: `Divide your annual gross salary by the total number of effective working hours per year. In Spain, the standard maximum is 1,826 hours/year (40 hours/week × 45.65 weeks after holidays). For example, €30,000 gross ÷ 1,826 hours = €16.43/hour gross.` },
   { question: 'What is the minimum hourly wage in Spain?', answer: `The minimum wage (SMI) in ${CURRENT_FISCAL_YEAR} is €1,184/month in 14 payments (€16,576/year). Divided by standard annual hours, this works out to approximately €9.08/hour gross. The net hourly rate is slightly lower after Social Security contributions.` },
-  { question: 'Does the number of pay periods affect my hourly rate?', answer: 'No, the hourly rate is the same whether you receive 12 or 14 payments. The annual gross is identical in both cases — only the monthly distribution changes. Your hourly rate is always annual gross divided by annual working hours.' },
+  { question: 'Does the number of pay periods affect my hourly rate?', answer: 'No, the hourly rate is the same whether you receive 12 or 14 payments. The annual gross is identical in both cases. Only the monthly distribution changes. Your hourly rate is always annual gross divided by annual working hours.' },
 ];
 ---
 
@@ -23,7 +23,7 @@ const faqs = [
   locale="en"
 >
   <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-    <HoraTrabajada client:load lang="en" />
+    <HoraTrabajada client:idle lang="en" />
   </div>
 
   <section class="mt-8">
@@ -104,7 +104,7 @@ const faqs = [
         </table>
       </div>
       <p>
-        The gap between gross and net hourly rates widens as salary increases, reflecting Spain's progressive tax system. At the minimum wage, you keep about 88% of your gross hourly rate, while at €80,000 you keep around 67%. This table is particularly useful for freelancers setting their rates — you need to charge significantly more than your desired net hourly rate to account for taxes and Social Security.
+        The gap between gross and net hourly rates widens as salary increases, reflecting Spain's progressive tax system. At the minimum wage, you keep about 88% of your gross hourly rate, while at €80,000 you keep around 67%. This table is particularly useful for freelancers setting their rates, as you need to charge significantly more than your desired net hourly rate to account for taxes and Social Security.
       </p>
     </div>
   </section>
@@ -118,13 +118,13 @@ const faqs = [
         Overtime (horas extraordinarias) in Spain is regulated by Article 35 of the Workers' Statute and subject to important limits and compensation rules that every worker should understand.
       </p>
       <p>
-        <strong>Annual cap:</strong> The maximum overtime allowed is <strong>80 hours per year</strong>. This limit is strictly enforced, and employers must maintain a daily record of working hours (registro de jornada), introduced by Royal Decree-Law 8/2019. Workers who exceed this limit — or whose employers fail to record their hours — can file complaints with the Labour Inspectorate.
+        <strong>Annual cap:</strong> The maximum overtime allowed is <strong>80 hours per year</strong>. This limit is strictly enforced, and employers must maintain a daily record of working hours (registro de jornada), introduced by Royal Decree-Law 8/2019. Workers who exceed this limit, or whose employers fail to record their hours, can file complaints with the Labour Inspectorate.
       </p>
       <p>
         <strong>Compensation:</strong> Overtime must be compensated either with additional pay or with equivalent time off within four months. The Workers' Statute does not set a mandatory overtime premium, but most collective agreements establish that overtime hours must be paid at a rate <strong>at least 75% above the standard hourly rate</strong>. If no collective agreement applies, the minimum compensation is the same as the regular hourly rate (no premium), but time off in lieu is more common in practice.
       </p>
       <p>
-        <strong>Forced overtime:</strong> Overtime is generally voluntary — your employer cannot force you to work overtime except in cases of force majeure (emergencies, disaster prevention, urgent repairs). Refusing voluntary overtime cannot be grounds for disciplinary action or dismissal.
+        <strong>Forced overtime:</strong> Overtime is generally voluntary. Your employer cannot force you to work overtime except in cases of force majeure (emergencies, disaster prevention, urgent repairs). Refusing voluntary overtime cannot be grounds for disciplinary action or dismissal.
       </p>
       <p>
         <strong>Exceptions:</strong> Overtime for force majeure (preventing or repairing extraordinary damage) does not count toward the 80-hour annual limit. Part-time workers are generally prohibited from working overtime, though they may work complementary hours (horas complementarias) up to limits established in their contract.
@@ -144,7 +144,7 @@ const faqs = [
         Spain has been actively debating a reduction in the standard working week from 40 hours to <strong>37.5 hours</strong>, without any reduction in pay. This proposal, championed by the Ministry of Labour, would represent one of the most significant changes to Spanish working conditions in decades.
       </p>
       <p>
-        If implemented, the reform would reduce annual working hours from approximately 1,800 to around 1,690 hours. For workers, this effectively increases the hourly rate without changing their salary. A worker earning €30,000 annually would see their gross hourly rate rise from €16.67 to approximately €17.75 — a 6.5% increase in the value of each working hour.
+        If implemented, the reform would reduce annual working hours from approximately 1,800 to around 1,690 hours. For workers, this effectively increases the hourly rate without changing their salary. A worker earning €30,000 annually would see their gross hourly rate rise from €16.67 to approximately €17.75, a 6.5% increase in the value of each working hour.
       </p>
       <p>
         The proposal has faced resistance from employer organisations, particularly small and medium enterprises that argue the increased per-hour labour cost could reduce competitiveness and employment. Supporters point to studies suggesting that reduced working hours can maintain or even improve productivity while enhancing worker wellbeing.
@@ -164,7 +164,7 @@ const faqs = [
         Spain is relatively generous with paid time off, which has a direct impact on your effective hourly rate. The more paid non-working days you have, the higher your true hourly compensation for the hours you actually work.
       </p>
       <p>
-        <strong>Annual leave:</strong> All workers are entitled to a minimum of 30 calendar days (approximately 22 working days) of paid holiday per year. Many collective agreements and individual contracts offer more — 23 to 25 working days is common in many sectors. Some agreements also grant additional days based on seniority (for example, one extra day for every five years of service).
+        <strong>Annual leave:</strong> All workers are entitled to a minimum of 30 calendar days (approximately 22 working days) of paid holiday per year. Many collective agreements and individual contracts offer more, with 23 to 25 working days being common in many sectors. Some agreements also grant additional days based on seniority (for example, one extra day for every five years of service).
       </p>
       <p>
         <strong>Public holidays:</strong> Spain has 14 annual public holidays: 8 are national (set by the central government), 2 are set by each autonomous community, and 2 are set by each municipality. When a national holiday falls on a Sunday, it is typically moved to the following Monday, though this varies by year and region.
@@ -173,7 +173,7 @@ const faqs = [
         <strong>Paid leave (permisos retribuidos):</strong> Beyond annual holiday, workers are entitled to paid leave for specific life events: 15 calendar days for marriage, 5 days for serious illness or death of a close family member, 1 day for moving house, and time necessary for prenatal exams. These paid absences further reduce your effective annual working hours.
       </p>
       <p>
-        When you factor in all these entitlements, the gap between your contractual hourly rate and your real hourly compensation narrows significantly. A worker who takes all 22 days of holiday plus benefits from 14 public holidays has approximately 36 paid non-working days per year. At 8 hours per day, that represents 288 hours of compensation received without working — roughly 16% of the year's total paid hours. Your effective hourly rate, considering only hours actually worked, is therefore about 16% higher than the simple division of annual salary by total paid hours suggests.
+        When you factor in all these entitlements, the gap between your contractual hourly rate and your real hourly compensation narrows significantly. A worker who takes all 22 days of holiday plus benefits from 14 public holidays has approximately 36 paid non-working days per year. At 8 hours per day, that represents 288 hours of compensation received without working, roughly 16% of the year's total paid hours. Your effective hourly rate, considering only hours actually worked, is therefore about 16% higher than the simple division of annual salary by total paid hours suggests.
       </p>
     </div>
   </section>
@@ -190,7 +190,7 @@ const faqs = [
         Dividing the annual SMI by standard working hours: €16,576 / 1,800 hours = <strong>€9.21 gross per hour</strong>. After employee Social Security contributions (approximately 6.47%) and minimal IRPF withholding (often 2% or less at this income level), the net hourly rate is approximately <strong>€8.11</strong>.
       </p>
       <p>
-        For context, Spain's minimum hourly wage compares as follows within the EU: France sets its SMIC at approximately €11.65 gross per hour, Germany's Mindestlohn is €12.82 per hour, and Portugal's minimum wage translates to roughly €4.85 per hour. Spain sits in the middle of the pack among western European nations, though its lower cost of living — particularly outside Madrid and Barcelona — means purchasing power is relatively stronger than the raw number suggests.
+        For context, Spain's minimum hourly wage compares as follows within the EU: France sets its SMIC at approximately €11.65 gross per hour, Germany's Mindestlohn is €12.82 per hour, and Portugal's minimum wage translates to roughly €4.85 per hour. Spain sits in the middle of the pack among western European nations, though its lower cost of living (particularly outside Madrid and Barcelona) means purchasing power is relatively stronger than the raw number suggests.
       </p>
       <p>
         Workers paid at or near the minimum wage should pay particular attention to their contract's weekly hours. A full-time contract at minimum wage on a 40-hour week yields €9.21/hour, but a reduced-hours contract paying the same monthly amount for fewer hours effectively pays more per hour. Conversely, if you are working more than 40 hours but only being paid for 40, you are being underpaid and should raise this with your employer or the labour inspectorate.

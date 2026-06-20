@@ -144,6 +144,7 @@ const footerSectionsEs: FooterSection[] = [
       { href: '/contacto/', label: 'Contacto' },
       { href: '/sobre-nosotros/', label: 'Sobre Nosotros' },
       { href: '/glosario/', label: 'Glosario' },
+      { href: '/actualidades/', label: 'Actualidades' },
     ],
   },
 ];
@@ -190,6 +191,7 @@ const footerSectionsEn: FooterSection[] = [
       { href: '/en/contact/', label: 'Contact' },
       { href: '/en/about/', label: 'About Us' },
       { href: '/en/glossary/', label: 'Glossary' },
+      { href: '/en/news/', label: 'News' },
     ],
   },
 ];
@@ -201,6 +203,8 @@ const uiStrings = {
     // Header
     guidesLink: 'Guías',
     guidesHref: '/guias/',
+    newsLink: 'Actualidades',
+    newsHref: '/actualidades/',
     homeHref: '/',
     brandLeft: 'El Sueldo',
     brandRight: 'Neto',
@@ -223,6 +227,8 @@ const uiStrings = {
     // Header
     guidesLink: 'Guides',
     guidesHref: '/en/guides/',
+    newsLink: 'News',
+    newsHref: '/en/news/',
     homeHref: '/en/',
     brandLeft: 'El Sueldo',
     brandRight: 'Neto',

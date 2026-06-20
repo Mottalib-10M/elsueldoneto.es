@@ -1,0 +1,76 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import { CURRENT_FISCAL_YEAR } from '../../config';
+import { buildBreadcrumbSchema } from '../../lib/seo';
+
+const title = `Actualidades Fiscales España ${CURRENT_FISCAL_YEAR} | El Sueldo Neto`;
+const description = `Novedades fiscales y cambios en el IRPF, Seguridad Social, autónomos y pensiones en España para ${CURRENT_FISCAL_YEAR}. Información actualizada sobre impuestos y nóminas.`;
+
+const noticias = [
+  {
+    date: '2026-01-15',
+    title: `Nuevos tramos del IRPF para ${CURRENT_FISCAL_YEAR}: lo que cambia en tu nómina`,
+    summary: `Los Presupuestos Generales del Estado para ${CURRENT_FISCAL_YEAR} han introducido ajustes en los tramos estatales del IRPF. Analizamos el impacto en los salarios netos por tramo de renta y comunidad autónoma.`,
+  },
+  {
+    date: '2026-01-10',
+    title: `Bases de cotización ${CURRENT_FISCAL_YEAR}: nuevos topes y cuotas`,
+    summary: `La base máxima de cotización sube a 4.720,50 euros mensuales. Repasamos cómo afecta a las retenciones de Seguridad Social en nómina y al cálculo de prestaciones.`,
+  },
+  {
+    date: '2026-01-08',
+    title: `Cuotas de autónomos ${CURRENT_FISCAL_YEAR}: tercera fase del sistema por ingresos reales`,
+    summary: `El sistema de cotización por ingresos reales entra en su tercera fase en ${CURRENT_FISCAL_YEAR}. Los 15 tramos se ajustan con cuotas mínimas desde 200 euros hasta 590 euros mensuales.`,
+  },
+  {
+    date: '2026-01-05',
+    title: `SMI ${CURRENT_FISCAL_YEAR}: el salario mínimo interprofesional sube un 4%`,
+    summary: `El salario mínimo interprofesional se sitúa en 1.184 euros mensuales (14 pagas). Analizamos el impacto en las cotizaciones, prestaciones por desempleo y complementos salariales.`,
+  },
+  {
+    date: '2025-12-28',
+    title: `Reforma de pensiones: novedades en jubilación y MEI para ${CURRENT_FISCAL_YEAR}`,
+    summary: `El Mecanismo de Equidad Intergeneracional (MEI) sube al 0,80% y se amplía la cuota de solidaridad. Explicamos cómo afecta a tu nómina y a la planificación de la jubilación.`,
+  },
+  {
+    date: '2025-12-20',
+    title: `Deducciones autonómicas ${CURRENT_FISCAL_YEAR}: cambios en Madrid, Cataluña y Andalucía`,
+    summary: `Varias comunidades han modificado sus deducciones autonómicas del IRPF. Comparamos el impacto en el sueldo neto para salarios de 25.000, 40.000 y 60.000 euros brutos anuales.`,
+  },
+];
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Inicio', url: '/' },
+    { name: 'Actualidades', url: '/actualidades/' },
+  ]),
+];
+---
+
+<Layout title={title} description={description} schema={schemas}>
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/" class="hover:text-brand">Inicio</a> / <span class="text-charcoal dark:text-gray-200">Actualidades</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      Actualidades Fiscales {CURRENT_FISCAL_YEAR}
+    </h1>
+
+    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+      Cambios fiscales, nuevas cotizaciones y novedades en la normativa laboral y tributaria en España.
+    </p>
+
+    <div class="space-y-6">
+      {noticias.map(noticia => (
+        <article class="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+          <time class="text-xs font-medium text-medium-gray" datetime={noticia.date}>
+            {new Date(noticia.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+          <h2 class="mt-2 mb-2 text-xl font-bold text-charcoal dark:text-gray-100">{noticia.title}</h2>
+          <p class="text-sm text-dark-gray dark:text-gray-300">{noticia.summary}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</Layout>

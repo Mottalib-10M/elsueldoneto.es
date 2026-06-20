@@ -9,7 +9,7 @@ const description = 'Calculate your finiquito and redundancy compensation in Spa
 const faqs = [
   { question: 'What is included in a finiquito in Spain?', answer: 'A finiquito (settlement) includes: outstanding salary days for the current month, accrued but untaken holiday pay, the proportional part of extra payments (pagas extra) not yet received, and any other pending compensation. It is separate from redundancy compensation (indemnización).' },
   { question: 'How much is unfair dismissal compensation?', answer: `For unfair dismissal (despido improcedente), the compensation is 33 days of salary per year worked, capped at 24 monthly payments, for employment periods after February 2012. For prior service, the rate is 45 days per year worked, capped at 42 monthly payments.` },
-  { question: 'How much is objective dismissal compensation?', answer: 'For objective dismissal (despido objetivo) — economic, technical, organisational or production reasons — the compensation is 20 days of salary per year worked, with a maximum of 12 monthly payments.' },
+  { question: 'How much is objective dismissal compensation?', answer: 'For objective dismissal (despido objetivo), covering economic, technical, organisational or production reasons, the compensation is 20 days of salary per year worked, with a maximum of 12 monthly payments.' },
   { question: 'Is severance pay taxed in Spain?', answer: 'Mandatory severance pay up to the legal limits is exempt from income tax (IRPF). Any amount exceeding the statutory limit is subject to tax. The settlement (finiquito) components like pending salary and holiday pay are always taxed as regular employment income.' },
 ];
 ---
@@ -24,7 +24,7 @@ const faqs = [
   locale="en"
 >
   <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-    <Finiquito client:load lang="en" />
+    <Finiquito client:idle lang="en" />
   </div>
 
   <section class="mt-8">
@@ -61,13 +61,13 @@ const faqs = [
           </thead>
           <tbody>
             <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">Unfair dismissal (despido improcedente) — post-2012</td>
+              <td class="px-4 py-2">Unfair dismissal (despido improcedente), post-2012</td>
               <td class="px-4 py-2">33 days/year worked</td>
               <td class="px-4 py-2">24 monthly payments</td>
               <td class="px-4 py-2">Yes</td>
             </tr>
             <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">Unfair dismissal — pre-Feb 2012 service</td>
+              <td class="px-4 py-2">Unfair dismissal, pre-Feb 2012 service</td>
               <td class="px-4 py-2">45 days/year worked</td>
               <td class="px-4 py-2">42 monthly payments</td>
               <td class="px-4 py-2">Yes</td>
@@ -123,7 +123,7 @@ const faqs = [
     </h3>
     <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
       <p>
-        The finiquito (settlement) captures all amounts the company owes you on the date your employment ends. These amounts are separate from any redundancy compensation and are payable regardless of the reason for termination — even if you resign voluntarily.
+        The finiquito (settlement) captures all amounts the company owes you on the date your employment ends. These amounts are separate from any redundancy compensation and are payable regardless of the reason for termination, even if you resign voluntarily.
       </p>
       <p>
         <strong>Pending holiday pay:</strong> Spanish workers are entitled to a minimum of 30 calendar days (or 22 working days) of paid holiday per year. If you leave before using all your accrued holiday, the company must pay you for those unused days. The calculation is straightforward: divide your annual salary by 365 to get the daily rate, then multiply by the number of unused holiday days. For example, if you leave on June 30 and have taken no holiday, you have accrued roughly 15 calendar days (half the year). If your daily salary is €82.19 (€30,000 / 365), the pending holiday payment would be approximately €1,233.
@@ -175,7 +175,7 @@ const faqs = [
         FOGASA (Fondo de Garantía Salarial) is a Spanish government body that guarantees payment of wages and severance when an employer becomes insolvent or enters bankruptcy proceedings. Every employer in Spain contributes to FOGASA through a payroll surcharge of 0.20% of the contribution base.
       </p>
       <p>
-        If your company cannot pay your settlement or redundancy compensation, FOGASA can cover: up to the daily equivalent of double the minimum interprofessional wage (SMI), with a maximum of 120 days of pending salary, and up to 30 days per year of service for severance (capped at one year's worth). FOGASA payments are typically slower than direct employer payments — processing can take several months — but they provide a crucial safety net for workers affected by company closures.
+        If your company cannot pay your settlement or redundancy compensation, FOGASA can cover: up to the daily equivalent of double the minimum interprofessional wage (SMI), with a maximum of 120 days of pending salary, and up to 30 days per year of service for severance (capped at one year's worth). FOGASA payments are typically slower than direct employer payments (processing can take several months), but they provide a crucial safety net for workers affected by company closures.
       </p>
       <p>
         For expats whose employer goes bankrupt, claiming from FOGASA requires the same documentation as a standard claim: the finiquito document, proof of unpaid amounts, and a court judgment or conciliation agreement confirming the debt. Legal advice from a labour lawyer (abogado laboralista) is strongly recommended in these situations.
@@ -195,7 +195,7 @@ const faqs = [
         <strong>Tax-exempt severance:</strong> Mandatory redundancy compensation up to the legal limits (33 days/year for unfair dismissal, 20 days/year for objective dismissal) is fully exempt from IRPF. This exemption applies automatically, with no cap on the total exempt amount, provided the dismissal is recognised as such by a court or through SMAC conciliation. The exemption was capped at €180,000 for dismissals agreed upon without judicial confirmation starting in 2014, but this cap does not apply when the dismissal is ratified through official proceedings.
       </p>
       <p>
-        <strong>Taxable components:</strong> All finiquito items — pending salary, unused holiday pay, and proportional pagas extra — are taxed as regular employment income, subject to standard IRPF withholding. Any severance amount negotiated above the legal minimum is also fully taxable.
+        <strong>Taxable components:</strong> All finiquito items (pending salary, unused holiday pay, and proportional pagas extra) are taxed as regular employment income, subject to standard IRPF withholding. Any severance amount negotiated above the legal minimum is also fully taxable.
       </p>
       <p>
         <strong>Reduction for multi-year income:</strong> If the severance corresponds to a period of more than two years (i.e., you worked for the company for more than two years), the taxable portion may qualify for a 30% reduction under Spain's rules for irregular income (rendimientos generados en más de dos años). This reduction can significantly lower the effective tax rate on the taxable severance component. The reduction applies to a maximum of €300,000 in eligible income.

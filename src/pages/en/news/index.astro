@@ -1,0 +1,76 @@
+---
+import Layout from '../../../components/layout/Layout.astro';
+import { CURRENT_FISCAL_YEAR } from '../../../config';
+import { buildBreadcrumbSchema } from '../../../lib/seo';
+
+const title = `Spain Tax News ${CURRENT_FISCAL_YEAR} | El Sueldo Neto`;
+const description = `Latest tax changes, Social Security updates, and fiscal news for Spain in ${CURRENT_FISCAL_YEAR}. Stay informed about IRPF, pensions, self-employed contributions, and payroll changes.`;
+
+const articles = [
+  {
+    date: '2026-01-15',
+    title: `New IRPF tax brackets for ${CURRENT_FISCAL_YEAR}: how your payslip changes`,
+    summary: `The General State Budget for ${CURRENT_FISCAL_YEAR} has introduced adjustments to the national IRPF brackets. We analyse the impact on net salaries by income level and autonomous community.`,
+  },
+  {
+    date: '2026-01-10',
+    title: `Social Security contribution bases ${CURRENT_FISCAL_YEAR}: new caps and rates`,
+    summary: `The maximum contribution base rises to 4,720.50 euros per month. We review how this affects Social Security deductions on your payslip and benefit calculations.`,
+  },
+  {
+    date: '2026-01-08',
+    title: `Self-employed contributions ${CURRENT_FISCAL_YEAR}: third phase of the income-based system`,
+    summary: `The income-based contribution system enters its third phase in ${CURRENT_FISCAL_YEAR}. The 15 tranches adjust with minimum contributions from 200 to 590 euros per month.`,
+  },
+  {
+    date: '2026-01-05',
+    title: `SMI ${CURRENT_FISCAL_YEAR}: Spain's minimum wage rises 4%`,
+    summary: `The minimum interprofessional wage is set at 1,184 euros per month (14 payments). We analyse the impact on contributions, unemployment benefits, and salary top-ups.`,
+  },
+  {
+    date: '2025-12-28',
+    title: `Pension reform: retirement and MEI changes for ${CURRENT_FISCAL_YEAR}`,
+    summary: `The Intergenerational Equity Mechanism (MEI) rises to 0.80% and the solidarity contribution is expanded. We explain how this affects your payslip and retirement planning.`,
+  },
+  {
+    date: '2025-12-20',
+    title: `Regional tax deductions ${CURRENT_FISCAL_YEAR}: changes in Madrid, Catalonia, and Andalusia`,
+    summary: `Several autonomous communities have modified their regional IRPF deductions. We compare the impact on net salary for gross salaries of 25,000, 40,000, and 60,000 euros per year.`,
+  },
+];
+
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: 'Home', url: '/en/' },
+    { name: 'News', url: '/en/news/' },
+  ]),
+];
+---
+
+<Layout title={title} description={description} schema={schemas} locale="en">
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/en/" class="hover:text-brand">Home</a> / <span class="text-charcoal dark:text-gray-200">News</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+      Spain Tax News {CURRENT_FISCAL_YEAR}
+    </h1>
+
+    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+      Tax changes, new contribution rates, and updates to Spanish labour and tax regulations.
+    </p>
+
+    <div class="space-y-6">
+      {articles.map(article => (
+        <article class="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+          <time class="text-xs font-medium text-medium-gray" datetime={article.date}>
+            {new Date(article.date).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+          <h2 class="mt-2 mb-2 text-xl font-bold text-charcoal dark:text-gray-100">{article.title}</h2>
+          <p class="text-sm text-dark-gray dark:text-gray-300">{article.summary}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</Layout>

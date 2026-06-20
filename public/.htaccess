@@ -7,9 +7,16 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 <IfModule mod_headers.c>
   Header set X-Content-Type-Options "nosniff"
   Header set X-Frame-Options "SAMEORIGIN"
-  Header set X-XSS-Protection "1; mode=block"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+</IfModule>
+
+# MIME types for modern formats
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType image/avif .avif
+  AddType application/manifest+json .webmanifest
 </IfModule>
 
 # Compression gzip
@@ -21,11 +28,14 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType font/woff2 "access plus 1 year"
-  ExpiresByType image/jpeg "access plus 1 month"
-  ExpiresByType image/png "access plus 1 month"
-  ExpiresByType image/svg+xml "access plus 1 month"
-  ExpiresByType text/css "access plus 1 week"
-  ExpiresByType application/javascript "access plus 1 week"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType application/manifest+json "access plus 1 year"
   ExpiresByType text/html "access plus 10 minutes"
 </IfModule>
 

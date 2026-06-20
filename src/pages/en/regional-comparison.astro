@@ -9,7 +9,7 @@ const description = 'Where will you earn the most net pay in Spain? Compare your
 const faqs = [
   { question: 'How much does the region affect my net salary?', answer: 'The regional component of IRPF can create differences of €1,000 to €3,000+ per year in net salary for the same gross amount. The impact grows with income: at €25,000 gross the regional difference might be €500, while at €80,000 it can exceed €3,500 between the lowest and highest-tax regions.' },
   { question: 'Which is the cheapest region for taxes in Spain?', answer: `Madrid consistently offers the lowest regional IRPF rates, making it the most tax-friendly region for salaried workers. Castilla y León and La Rioja also have competitive rates. Note that the Basque Country and Navarre operate separate tax systems (régimen foral) with their own rates.` },
-  { question: "Can I choose which region's tax rates apply to me?", answer: 'Your tax region is determined by your fiscal domicile — where you live most of the year (183+ days). You cannot choose a different region for tax purposes. If you move regions, the new rates apply from the next tax year, or from the current year if you spend the majority of it in the new region.' },
+  { question: "Can I choose which region's tax rates apply to me?", answer: 'Your tax region is determined by your fiscal domicile, where you live most of the year (183+ days). You cannot choose a different region for tax purposes. If you move regions, the new rates apply from the next tax year, or from the current year if you spend the majority of it in the new region.' },
 ];
 ---
 
@@ -23,7 +23,7 @@ const faqs = [
   locale="en"
 >
   <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-    <ComparadorComunidades client:load lang="en" />
+    <ComparadorComunidades client:idle lang="en" />
   </div>
 
   <section class="mt-8">

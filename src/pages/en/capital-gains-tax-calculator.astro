@@ -9,7 +9,7 @@ const description = 'Calculate plusvalía municipal on property sales or inherit
 const faqs = [
   {
     question: 'What is plusvalia municipal in Spain?',
-    answer: `Plusvalia municipal — officially named Impuesto sobre el Incremento de Valor de los Terrenos de Naturaleza Urbana (IIVTNU) — is a local tax levied by Spanish town halls. It taxes the increase in urban land value that occurs during the period a property is owned. It applies whenever ownership is transferred, whether by sale, inheritance, or donation.`,
+    answer: `Plusvalia municipal, officially named Impuesto sobre el Incremento de Valor de los Terrenos de Naturaleza Urbana (IIVTNU), is a local tax levied by Spanish town halls. It taxes the increase in urban land value that occurs during the period a property is owned. It applies whenever ownership is transferred, whether by sale, inheritance, or donation.`,
   },
   {
     question: 'Who pays the plusvalia municipal?',
@@ -17,7 +17,7 @@ const faqs = [
   },
   {
     question: 'Do I pay plusvalia municipal if I sell at a loss?',
-    answer: 'No. Since the Constitutional Court rulings STC 59/2017 and STC 182/2021, if there is no real increase in the value of the land — that is, if the sale price is lower than the purchase price — the tax is not payable. You must provide the deeds of purchase and sale to prove the loss.',
+    answer: 'No. Since the Constitutional Court rulings STC 59/2017 and STC 182/2021, if there is no real increase in the value of the land (that is, if the sale price is lower than the purchase price), the tax is not payable. You must provide the deeds of purchase and sale to prove the loss.',
   },
   {
     question: 'What are the two calculation methods for plusvalia municipal?',
@@ -57,7 +57,7 @@ const faqs = [
   ]}
 >
   <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-    <PlusvaliaMunicipal client:load lang="en" />
+    <PlusvaliaMunicipal client:idle lang="en" />
   </div>
 
   <section class="mt-8">
@@ -66,10 +66,10 @@ const faqs = [
     </h2>
     <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
       <p>
-        Plusvalia municipal is one of the most misunderstood taxes that property owners face in Spain. Officially called the Impuesto sobre el Incremento de Valor de los Terrenos de Naturaleza Urbana (IIVTNU), it is a local tax levied by town halls whenever urban land changes hands — whether through a sale, inheritance, donation, or any other transfer of ownership. The tax targets the increase in land value during the seller's (or previous owner's) period of ownership, not the profit on the property as a whole. This distinction is crucial and frequently confuses foreign property owners in Spain.
+        Plusvalia municipal is one of the most misunderstood taxes that property owners face in Spain. Officially called the Impuesto sobre el Incremento de Valor de los Terrenos de Naturaleza Urbana (IIVTNU), it is a local tax levied by town halls whenever urban land changes hands, whether through a sale, inheritance, donation, or any other transfer of ownership. The tax targets the increase in land value during the seller's (or previous owner's) period of ownership, not the profit on the property as a whole. This distinction is crucial and frequently confuses foreign property owners in Spain.
       </p>
       <p>
-        For decades, the calculation assumed that land always increased in value over time. When the 2008 financial crisis proved this assumption catastrophically wrong — with many owners forced to sell at a loss yet still facing plusvalia bills — a wave of legal challenges eventually reached Spain's Constitutional Court, fundamentally changing how the tax is calculated.
+        For decades, the calculation assumed that land always increased in value over time. When the 2008 financial crisis proved this assumption catastrophically wrong, with many owners forced to sell at a loss yet still facing plusvalia bills, a wave of legal challenges eventually reached Spain's Constitutional Court, fundamentally changing how the tax is calculated.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">The Constitutional Court ruling that changed everything</h3>
@@ -146,7 +146,7 @@ const faqs = [
         <li><strong>Corporate restructuring operations.</strong> Mergers, spin-offs, and branch-of-activity contributions under the tax neutrality regime are not subject to plusvalia municipal.</li>
       </ul>
       <p>
-        Even when no tax is due, you must still file a declaration with the town hall, attaching the relevant documentation. Failure to file — even when the amount payable is zero — can result in formal penalties.
+        Even when no tax is due, you must still file a declaration with the town hall, attaching the relevant documentation. Failure to file, even when the amount payable is zero, can result in formal penalties.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Practical example: selling a flat after 11 years</h3>
@@ -160,7 +160,7 @@ const faqs = [
         <strong>Real method:</strong> Total gain = €230,000 - €165,000 = €65,000. Assuming the land represents 40% of the total cadastral value, the gain attributable to land = €65,000 x 0.40 = €26,000. Tax due = €26,000 x 29% = <strong>€7,540</strong>.
       </p>
       <p>
-        The objective method produces a bill of €1,206.40 versus €7,540 under the real method. Sarah should choose the objective method, which is considerably more favourable. This outcome is typical when the actual gain is substantial but the cadastral land value is relatively low — a common situation in many Spanish cities where cadastral values have not been revised to reflect current market prices.
+        The objective method produces a bill of €1,206.40 versus €7,540 under the real method. Sarah should choose the objective method, which is considerably more favourable. This outcome is typical when the actual gain is substantial but the cadastral land value is relatively low, a common situation in many Spanish cities where cadastral values have not been revised to reflect current market prices.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Important notes for expats and foreign property owners</h3>
@@ -168,15 +168,15 @@ const faqs = [
         If you are a non-resident selling Spanish property, bear in mind that the plusvalia municipal is separate from and in addition to the capital gains tax (IRPF or non-resident income tax). The buyer is obligated to withhold 3% of the sale price and remit it to the Tax Agency as an advance on your IRPF, but the plusvalia municipal is an entirely separate local tax payable directly to the town hall. Make sure to account for both obligations in your financial planning.
       </p>
       <p>
-        If the property is in a rural area (suelo rustico), the plusvalia municipal does not apply — it only taxes urban land. However, this is determined by the cadastral classification of the land, not by its appearance or location. Some properties in areas that appear rural are classified as urban for tax purposes, so it is worth checking your IBI receipt or the Catastro website.
+        If the property is in a rural area (suelo rustico), the plusvalia municipal does not apply. It only taxes urban land. However, this is determined by the cadastral classification of the land, not by its appearance or location. Some properties in areas that appear rural are classified as urban for tax purposes, so it is worth checking your IBI receipt or the Catastro website.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Sources and legislation</h3>
       <ul class="list-disc ml-4 space-y-2">
-        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2021-17718" class="text-brand hover:underline" target="_blank" rel="noopener">Royal Decree-Law 26/2021</a> — Adapts the local tax law to the Constitutional Court jurisprudence and introduces the dual calculation method.</li>
-        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2004-4214" class="text-brand hover:underline" target="_blank" rel="noopener">Local Tax Law (RDL 2/2004), articles 104-110</a> — Full regulation of plusvalia municipal: taxable event, taxpayer, tax base, tax rate, and administration.</li>
-        <li><a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2021-17806" class="text-brand hover:underline" target="_blank" rel="noopener">STC 182/2021</a> — Constitutional Court ruling declaring the previous calculation method unconstitutional.</li>
-        <li><a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2017-5765" class="text-brand hover:underline" target="_blank" rel="noopener">STC 59/2017</a> — First ruling establishing that the tax cannot be levied when there is no real increase in land value.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2021-17718" class="text-brand hover:underline" target="_blank" rel="noopener">Royal Decree-Law 26/2021</a>: Adapts the local tax law to the Constitutional Court jurisprudence and introduces the dual calculation method.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2004-4214" class="text-brand hover:underline" target="_blank" rel="noopener">Local Tax Law (RDL 2/2004), articles 104-110</a>: Full regulation of plusvalia municipal: taxable event, taxpayer, tax base, tax rate, and administration.</li>
+        <li><a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2021-17806" class="text-brand hover:underline" target="_blank" rel="noopener">STC 182/2021</a>: Constitutional Court ruling declaring the previous calculation method unconstitutional.</li>
+        <li><a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2017-5765" class="text-brand hover:underline" target="_blank" rel="noopener">STC 59/2017</a>: First ruling establishing that the tax cannot be levied when there is no real increase in land value.</li>
       </ul>
     </div>
   </section>

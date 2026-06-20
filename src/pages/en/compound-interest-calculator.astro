@@ -33,11 +33,11 @@ const faqs = [
   },
   {
     question: 'How do management fees affect compound interest?',
-    answer: 'Fees are charged annually on your total assets, reducing the base on which interest compounds. Over 30 years, the difference between a 0.2% fee (typical index fund) and a 2% fee (expensive actively managed fund) on an initial 100,000 EUR at 7% gross return is approximately 287,000 EUR. That money does not go to market losses — it goes to the fund manager.',
+    answer: 'Fees are charged annually on your total assets, reducing the base on which interest compounds. Over 30 years, the difference between a 0.2% fee (typical index fund) and a 2% fee (expensive actively managed fund) on an initial 100,000 EUR at 7% gross return is approximately 287,000 EUR. That money does not go to market losses; it goes to the fund manager.',
   },
   {
     question: 'Should I account for inflation in my projections?',
-    answer: 'Yes. The nominal return is the gross figure you see in your account; the real return is what remains after subtracting inflation. If a fund returns 7% annually and average inflation is 3%, your purchasing power grows at only 4% per year. Run this calculator twice — once with nominal return (e.g. 7%) and once with estimated real return (e.g. 4%) — to see both scenarios.',
+    answer: 'Yes. The nominal return is the gross figure you see in your account; the real return is what remains after subtracting inflation. If a fund returns 7% annually and average inflation is 3%, your purchasing power grows at only 4% per year. Run this calculator twice, once with nominal return (e.g. 7%) and once with estimated real return (e.g. 4%), to see both scenarios.',
   },
 ];
 ---
@@ -52,7 +52,7 @@ const faqs = [
   locale="en"
 >
   <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-    <InteresCompuesto client:load lang="en" />
+    <InteresCompuesto client:idle lang="en" />
   </div>
 
   <section class="mt-8">
@@ -61,11 +61,11 @@ const faqs = [
     </h2>
     <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
       <p>
-        Compound interest is the mechanism by which the returns on an investment generate further returns of their own. If you invest 10,000 EUR at 7% annually, the first year you earn 700 EUR. The second year, that 7% applies to 10,700 EUR, so you earn 749 EUR. By the third year, the base is 11,449 EUR. The effect seems modest at first, but over time the growth curve becomes exponential. This is not a theoretical curiosity — it is the single most important concept in personal finance and long-term wealth building.
+        Compound interest is the mechanism by which the returns on an investment generate further returns of their own. If you invest 10,000 EUR at 7% annually, the first year you earn 700 EUR. The second year, that 7% applies to 10,700 EUR, so you earn 749 EUR. By the third year, the base is 11,449 EUR. The effect seems modest at first, but over time the growth curve becomes exponential. This is not a theoretical curiosity; it is the single most important concept in personal finance and long-term wealth building.
       </p>
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Time matters more than amount: the power of starting early</h3>
       <p>
-        Consider two investors. Investor A contributes 200 EUR per month starting at age 25 and continues until age 65, earning an average 7% annual return. They contribute a total of 96,000 EUR and accumulate roughly 525,000 EUR. Investor B waits until age 35 to start, contributing the same 200 EUR per month at the same 7% return. They contribute 72,000 EUR and end up with approximately 244,000 EUR. Ten years of delay — just 24,000 EUR less in contributions — costs over 280,000 EUR in final wealth. The earliest euros invested have the longest time to compound, and each decade of compounding roughly doubles the effect.
+        Consider two investors. Investor A contributes 200 EUR per month starting at age 25 and continues until age 65, earning an average 7% annual return. They contribute a total of 96,000 EUR and accumulate roughly 525,000 EUR. Investor B waits until age 35 to start, contributing the same 200 EUR per month at the same 7% return. They contribute 72,000 EUR and end up with approximately 244,000 EUR. Ten years of delay, just 24,000 EUR less in contributions, costs over 280,000 EUR in final wealth. The earliest euros invested have the longest time to compound, and each decade of compounding roughly doubles the effect.
       </p>
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Compound interest in the Spanish context</h3>
       <p>
@@ -92,7 +92,7 @@ const faqs = [
         </table>
       </div>
       <p>
-        With the same 60,000 EUR in contributions, the difference between 2% and 7% is 85,300 EUR — generated exclusively by compound interest on prior interest. That is the real cost of leaving your money in a low-yield product for decades.
+        With the same 60,000 EUR in contributions, the difference between 2% and 7% is 85,300 EUR, generated exclusively by compound interest on prior interest. That is the real cost of leaving your money in a low-yield product for decades.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Investment tax treatment in Spain</h3>
@@ -102,7 +102,7 @@ const faqs = [
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">The hidden cost of fees: a table that speaks for itself</h3>
       <p>
-        Management fees may seem like tiny percentages — 0.2%, 1%, 2% — but their compounded effect over decades is devastating. These fees are not charged on your profits; they are charged every year on your total managed assets, reducing the base on which interest compounds.
+        Management fees may seem like tiny percentages (0.2%, 1%, 2%), but their compounded effect over decades is devastating. These fees are not charged on your profits; they are charged every year on your total managed assets, reducing the base on which interest compounds.
       </p>
       <div class="overflow-x-auto">
         <table class="w-full text-sm border-collapse my-4">
@@ -123,7 +123,7 @@ const faqs = [
       </div>
       <p class="text-xs text-gray-400 mt-2">Basis: 100,000 EUR initial investment, 7% gross return, 30 years, no additional contributions. "Total cost of fees" = final capital without fees minus final capital with fees.</p>
       <p>
-        The gap between a 0.2% index fund and a 2% actively managed fund is 287,400 EUR over 30 years, starting from the same 100,000 EUR. That money was not lost to markets — it went to the fund manager. In Spain, the CNMV requires all investment funds to publish their TER (Total Expense Ratio) in the KID (Key Information Document), so always check this figure before investing.
+        The gap between a 0.2% index fund and a 2% actively managed fund is 287,400 EUR over 30 years, starting from the same 100,000 EUR. That money was not lost to markets; it went to the fund manager. In Spain, the CNMV requires all investment funds to publish their TER (Total Expense Ratio) in the KID (Key Information Document), so always check this figure before investing.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Common mistakes that destroy compound interest</h3>
@@ -134,10 +134,10 @@ const faqs = [
         <strong>Not reinvesting dividends.</strong> Many investors take dividend payments in cash rather than reinvesting them. Over 25 years, the difference between reinvesting and spending dividends on a 50,000 EUR investment at 6% can exceed 90,000 EUR. In Spain, each dividend payment is taxed at 19-28%, further reducing the amount available for reinvestment. Accumulation funds (fondos de acumulacion) avoid this problem by automatically reinvesting without triggering a taxable event.
       </p>
       <p>
-        <strong>Panic selling during downturns.</strong> Between February and March 2020, the IBEX 35 fell 33% in five weeks due to the COVID-19 pandemic. Investors who sold at the bottom locked in losses. Those who held recovered the decline within two years. When you sell in a panic, you break the compounding chain. The investor who sold at 6,100 points and rebought months later at 8,000 points did not just lose 24% on that trade — they also paid transaction fees and potentially triggered tax on previously accumulated gains.
+        <strong>Panic selling during downturns.</strong> Between February and March 2020, the IBEX 35 fell 33% in five weeks due to the COVID-19 pandemic. Investors who sold at the bottom locked in losses. Those who held recovered the decline within two years. When you sell in a panic, you break the compounding chain. The investor who sold at 6,100 points and rebought months later at 8,000 points did not just lose 24% on that trade; they also paid transaction fees and potentially triggered tax on previously accumulated gains.
       </p>
       <p>
-        <strong>Attempting market timing.</strong> This means trying to predict when markets will rise or fall in order to buy low and sell high. Historical data shows this is nearly impossible to do consistently. A J.P. Morgan study analysing the S&P 500 from 2003 to 2022 found that an investor who missed just the 10 best trading days (out of 5,036) earned 4.3% annually instead of 9.8%. Missing 10 sessions in 20 years cut the return by more than half. The most reliable strategy for harnessing compound interest is consistent periodic investment — investing the same amount every month regardless of market conditions.
+        <strong>Attempting market timing.</strong> This means trying to predict when markets will rise or fall in order to buy low and sell high. Historical data shows this is nearly impossible to do consistently. A J.P. Morgan study analysing the S&P 500 from 2003 to 2022 found that an investor who missed just the 10 best trading days (out of 5,036) earned 4.3% annually instead of 9.8%. Missing 10 sessions in 20 years cut the return by more than half. The most reliable strategy for harnessing compound interest is consistent periodic investment, investing the same amount every month regardless of market conditions.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Inflation and real returns: the silent enemy</h3>
@@ -147,9 +147,9 @@ const faqs = [
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Sources</h3>
       <ul class="list-disc ml-4 space-y-2">
-        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 35/2006, IRPF</a> — Art. 66: savings income tax brackets.</li>
-        <li><a href="https://www.cnmv.es" class="text-brand hover:underline" target="_blank" rel="noopener">CNMV (National Securities Market Commission)</a> — Regulation and supervision of investment funds and financial products in Spain.</li>
-        <li><a href="https://www.bde.es/bde/es/" class="text-brand hover:underline" target="_blank" rel="noopener">Bank of Spain (Banco de Espana)</a> — Statistics on deposit rates and savings account interest rates.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" class="text-brand hover:underline" target="_blank" rel="noopener">Ley 35/2006, IRPF</a>: Art. 66: savings income tax brackets.</li>
+        <li><a href="https://www.cnmv.es" class="text-brand hover:underline" target="_blank" rel="noopener">CNMV (National Securities Market Commission)</a>: Regulation and supervision of investment funds and financial products in Spain.</li>
+        <li><a href="https://www.bde.es/bde/es/" class="text-brand hover:underline" target="_blank" rel="noopener">Bank of Spain (Banco de Espana)</a>: Statistics on deposit rates and savings account interest rates.</li>
       </ul>
     </div>
   </section>

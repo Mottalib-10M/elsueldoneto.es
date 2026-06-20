@@ -7,9 +7,9 @@ const title = `Net to Gross Salary Calculator Spain ${CURRENT_FISCAL_YEAR}: Reve
 const description = `What gross salary do you need to earn a specific net amount? Reverse calculator with IRPF, Social Security and regional rates for all 17 communities ${CURRENT_FISCAL_YEAR}.`;
 
 const faqs = [
-  { question: 'How do I calculate gross from net salary?', answer: `To find the gross salary corresponding to a desired net amount, you need to reverse-engineer the IRPF and Social Security deductions. Since IRPF is progressive, the calculation is iterative — our calculator does this automatically, accounting for your region, family situation and number of pay periods in ${CURRENT_FISCAL_YEAR}.` },
+  { question: 'How do I calculate gross from net salary?', answer: `To find the gross salary corresponding to a desired net amount, you need to reverse-engineer the IRPF and Social Security deductions. Since IRPF is progressive, the calculation is iterative. Our calculator does this automatically, accounting for your region, family situation and number of pay periods in ${CURRENT_FISCAL_YEAR}.` },
   { question: 'Why is the gross-to-net ratio not linear?', answer: 'Because IRPF uses progressive brackets: as your income rises, each additional euro is taxed at a higher marginal rate. This means the percentage gap between gross and net grows as salary increases. A €20,000 gross might yield 85% net, while €60,000 gross might yield only 68% net.' },
-  { question: 'What gross salary do I need for €2,000 net per month?', answer: `For a single worker in Madrid with 14 pay periods, you need approximately €33,500 gross per year to take home around €2,000 net per month. This varies by region — in Catalonia, you'd need roughly €34,200 for the same net.` },
+  { question: 'What gross salary do I need for €2,000 net per month?', answer: `For a single worker in Madrid with 14 pay periods, you need approximately €33,500 gross per year to take home around €2,000 net per month. This varies by region; in Catalonia, you'd need roughly €34,200 for the same net.` },
 ];
 ---
 
@@ -23,7 +23,7 @@ const faqs = [
   locale="en"
 >
   <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-    <SalarioBruto client:load lang="en" />
+    <SalarioBruto client:idle lang="en" />
   </div>
 
   <section class="mt-8">
@@ -32,7 +32,7 @@ const faqs = [
     </h2>
     <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
       <p>
-        When negotiating a job offer, you often think in terms of net salary — the amount you actually take home. But employers always discuss gross figures. This reverse calculator bridges that gap: enter your desired net salary and it computes the gross amount needed, factoring in Social Security contributions and IRPF withholdings for your specific autonomous community.
+        When negotiating a job offer, you often think in terms of net salary (the amount you actually take home). But employers always discuss gross figures. This reverse calculator bridges that gap: enter your desired net salary and it computes the gross amount needed, factoring in Social Security contributions and IRPF withholdings for your specific autonomous community.
       </p>
       <p>
         The calculation is not a simple formula because IRPF brackets are progressive. Our tool uses an iterative approach, testing gross values until the resulting net matches your target within a few cents. This gives you accurate figures for salary negotiations, freelance rate setting, or comparing offers across regions.
@@ -103,7 +103,7 @@ const faqs = [
         </table>
       </div>
       <p>
-        Notice how the net-to-gross ratio decreases as salary increases — a direct consequence of progressive taxation. A worker earning €18,000 keeps about 84.5% of their gross, while someone earning €80,000 keeps around 68.7%. This non-linear relationship is precisely why a reverse calculator is essential: you cannot simply apply a single percentage to go from net to gross.
+        Notice how the net-to-gross ratio decreases as salary increases, a direct consequence of progressive taxation. A worker earning €18,000 keeps about 84.5% of their gross, while someone earning €80,000 keeps around 68.7%. This non-linear relationship is precisely why a reverse calculator is essential: you cannot simply apply a single percentage to go from net to gross.
       </p>
     </div>
   </section>
@@ -117,7 +117,7 @@ const faqs = [
         In Spain, it is standard for companies to split the annual salary into 14 payments rather than 12. The two extra payments, called <em>pagas extraordinarias</em> (bonus payments), are traditionally paid in June and December. Some companies prorate these into 12 monthly payments instead.
       </p>
       <p>
-        Crucially, the choice between 12 and 14 payments does not change your annual gross or net salary — it only changes how much you receive each month. With 14 payments, your regular monthly net is lower, but you receive two larger payments during the year. With 12 payments, your monthly amount is higher and consistent throughout the year.
+        Crucially, the choice between 12 and 14 payments does not change your annual gross or net salary. It only changes how much you receive each month. With 14 payments, your regular monthly net is lower, but you receive two larger payments during the year. With 12 payments, your monthly amount is higher and consistent throughout the year.
       </p>
       <p>
         For example, on a €35,000 gross salary (single, Madrid): with 14 payments, you would receive approximately €1,937 net per month plus two extra payments of the same amount. With 12 payments, you would receive approximately €2,260 net per month with no extras. The annual total is identical in both cases. Many expats prefer 12 payments for budgeting simplicity, while others appreciate the "bonus" months. When comparing job offers, always compare annual gross figures to avoid confusion.
@@ -140,7 +140,7 @@ const faqs = [
         <strong>Ask about benefits in kind (retribución flexible).</strong> Many Spanish companies offer tax-advantaged benefits such as restaurant vouchers (up to €11/day tax-free), transport cards (up to €1,500/year tax-free), childcare vouchers, private health insurance, and training. These benefits reduce your taxable income, effectively increasing your net salary without raising the gross.
       </p>
       <p>
-        <strong>Understand the employer's total cost.</strong> Your employer pays approximately 30-33% on top of your gross salary for their Social Security contributions. A €40,000 gross salary costs the company roughly €52,000-€53,200 in total. This context can be useful in negotiations — asking for a €2,000 raise costs the employer around €2,650.
+        <strong>Understand the employer's total cost.</strong> Your employer pays approximately 30-33% on top of your gross salary for their Social Security contributions. A €40,000 gross salary costs the company roughly €52,000-€53,200 in total. This context can be useful in negotiations: asking for a €2,000 raise costs the employer around €2,650.
       </p>
       <p>
         <strong>Factor in regional tax differences.</strong> The same gross salary produces a different net amount depending on your autonomous community. For instance, €50,000 gross yields approximately €800-€1,000 more net per year in Madrid compared to Catalonia, due to lower regional IRPF rates. If you have flexibility in where you register your fiscal residence, this is worth considering.
@@ -163,7 +163,7 @@ const faqs = [
         <strong>Deducciones (deductions):</strong> This section lists everything subtracted from your gross. The main items are <em>contingencias comunes</em> (4.70%), <em>desempleo</em> (unemployment, 1.55%), <em>formación profesional</em> (vocational training, 0.10%), <em>MEI</em> (0.12%), and <em>IRPF</em> (your withholding rate, shown as a percentage). The total deductions subtracted from total accruals equals your net pay.
       </p>
       <p>
-        <strong>Líquido a percibir (net pay):</strong> This is the bottom-line figure — the amount that will be deposited into your bank account. Verifying this number against your bank statement each month is a good practice to catch any errors early.
+        <strong>Líquido a percibir (net pay):</strong> This is the bottom-line figure, the amount that will be deposited into your bank account. Verifying this number against your bank statement each month is a good practice to catch any errors early.
       </p>
       <p>
         As an expat, it is advisable to save all your nóminas, as they serve as proof of income for visa renewals, mortgage applications, and tax filings. Spanish employers are required by law to provide a payslip for each payment period, and many now offer digital nóminas through payroll platforms.

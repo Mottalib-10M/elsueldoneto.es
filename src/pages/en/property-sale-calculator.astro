@@ -17,7 +17,7 @@ const faqs = [
   },
   {
     question: 'Can I avoid capital gains tax by reinvesting in another home?',
-    answer: 'Yes. If the property you sold was your primary residence (vivienda habitual) and you reinvest the full sale proceeds in purchasing another primary residence within two years, the capital gain is fully exempt from IRPF. If you reinvest only part of the proceeds, the exemption applies proportionally. Note that this exemption does not apply to plusvalia municipal — you still owe that regardless.',
+    answer: 'Yes. If the property you sold was your primary residence (vivienda habitual) and you reinvest the full sale proceeds in purchasing another primary residence within two years, the capital gain is fully exempt from IRPF. If you reinvest only part of the proceeds, the exemption applies proportionally. Note that this exemption does not apply to plusvalia municipal, and you still owe that regardless.',
   },
   {
     question: 'Are sellers over 65 exempt from capital gains tax in Spain?',
@@ -25,7 +25,7 @@ const faqs = [
   },
   {
     question: 'What is plusvalia municipal and how does it work?',
-    answer: `Plusvalia municipal (officially IIVTNU) is a local tax levied by your town hall on the increase in urban land value during your period of ownership. Since the Constitutional Court ruling (STC 182/2021), if you sell at a loss, you do not owe this tax. There are two calculation methods — the objective method (based on cadastral land value and holding period coefficients) and the real method (based on actual gain) — and you may choose whichever is more favourable.`,
+    answer: `Plusvalia municipal (officially IIVTNU) is a local tax levied by your town hall on the increase in urban land value during your period of ownership. Since the Constitutional Court ruling (STC 182/2021), if you sell at a loss, you do not owe this tax. There are two calculation methods, the objective method (based on cadastral land value and holding period coefficients) and the real method (based on actual gain), and you may choose whichever is more favourable.`,
   },
   {
     question: 'What expenses can I deduct to reduce my capital gain?',
@@ -52,7 +52,7 @@ const faqs = [
   locale="en"
 >
   <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-    <VentaVivienda client:load lang="en" />
+    <VentaVivienda client:idle lang="en" />
   </div>
 
   <section class="mt-8">
@@ -66,7 +66,7 @@ const faqs = [
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">How capital gains are calculated</h3>
       <p>
-        The capital gain (ganancia patrimonial) is the difference between the transfer value and the acquisition value. The transfer value equals the sale price minus any costs inherent to the sale that the seller has paid — typically the estate agent's commission, the energy performance certificate, and the costs of cancelling the mortgage at the land registry. The acquisition value equals the original purchase price plus buying costs (transfer tax or VAT, notary, registry, gestoría) and any documented home improvements.
+        The capital gain (ganancia patrimonial) is the difference between the transfer value and the acquisition value. The transfer value equals the sale price minus any costs inherent to the sale that the seller has paid, typically the estate agent's commission, the energy performance certificate, and the costs of cancelling the mortgage at the land registry. The acquisition value equals the original purchase price plus buying costs (transfer tax or VAT, notary, registry, gestoría) and any documented home improvements.
       </p>
       <p>
         In formula terms:
@@ -82,7 +82,7 @@ const faqs = [
         <li><strong>Acquisition value</strong> = Purchase price + Buying costs (ITP/VAT, notary, registry, gestoría) + Documented improvements.</li>
       </ul>
       <p>
-        If the result is negative, there is no taxable gain and no IRPF is due. The loss can be offset against capital gains of the same type in the same tax year or the following four years — particularly relevant if you sell multiple properties over time.
+        If the result is negative, there is no taxable gain and no IRPF is due. The loss can be offset against capital gains of the same type in the same tax year or the following four years, which is particularly relevant if you sell multiple properties over time.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Spain's savings tax brackets</h3>
@@ -115,7 +115,7 @@ const faqs = [
         Spanish tax law provides several situations where capital gains from a property sale are fully or partially exempt:
       </p>
       <p>
-        <strong>Reinvestment in a primary residence.</strong> If the property sold was your habitual home (vivienda habitual — you must have lived there for at least three years) and you reinvest the full sale proceeds in purchasing another primary residence within two years, the gain is entirely exempt. Partial reinvestment triggers a proportional exemption. For example, if you sell for €250,000 and reinvest €200,000, 80% of the gain is exempt.
+        <strong>Reinvestment in a primary residence.</strong> If the property sold was your habitual home (vivienda habitual, meaning you must have lived there for at least three years) and you reinvest the full sale proceeds in purchasing another primary residence within two years, the gain is entirely exempt. Partial reinvestment triggers a proportional exemption. For example, if you sell for €250,000 and reinvest €200,000, 80% of the gain is exempt.
       </p>
       <p>
         <strong>Sellers aged 65 and over.</strong> If you are 65 or older at the time of sale and the property is your primary residence, the entire gain is exempt with no reinvestment requirement. Furthermore, since 2015, sellers over 65 can also claim an exemption on the sale of any asset if they use the proceeds to purchase a life annuity (renta vitalicia) within six months, up to €240,000.
@@ -135,15 +135,15 @@ const faqs = [
         <strong>Real method:</strong> The actual gain on the property is calculated, and the portion attributable to land (determined by the ratio of land value to total cadastral value) is used as the tax base. The council's tax rate then applies.
       </p>
       <p>
-        If you sell at a loss — that is, the sale price is lower than the purchase price — you owe no plusvalia municipal. The deadline to file and pay is 30 working days from the date of the notarial deed.
+        If you sell at a loss (that is, the sale price is lower than the purchase price), you owe no plusvalia municipal. The deadline to file and pay is 30 working days from the date of the notarial deed.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Practical example: selling a flat in Madrid</h3>
       <p>
-        James, a British expat, bought a flat in Madrid in 2015 for €195,000. Purchase costs included ITP at 6% (€11,700), notary (€850), registry (€450), and gestoría (€300) — total buying costs of €13,300. He also renovated the kitchen and bathroom for €12,000 (invoiced).
+        James, a British expat, bought a flat in Madrid in 2015 for €195,000. Purchase costs included ITP at 6% (€11,700), notary (€850), registry (€450), and gestoría (€300), for total buying costs of €13,300. He also renovated the kitchen and bathroom for €12,000 (invoiced).
       </p>
       <p>
-        In {CURRENT_FISCAL_YEAR}, James sells the flat for €285,000. He paid an estate agent 3% commission (€8,550), plus the energy certificate (€150) and mortgage cancellation at the registry (€600) — total selling costs of €9,300.
+        In {CURRENT_FISCAL_YEAR}, James sells the flat for €285,000. He paid an estate agent 3% commission (€8,550), plus the energy certificate (€150) and mortgage cancellation at the registry (€600), for total selling costs of €9,300.
       </p>
       <ul class="list-disc ml-4 space-y-2">
         <li>Acquisition value = €195,000 + €13,300 + €12,000 = <strong>€220,300</strong></li>
@@ -163,7 +163,7 @@ const faqs = [
         For the plusvalia municipal, assuming a cadastral land value of €40,000, a coefficient of 0.12 for ten years of ownership, and a council tax rate of 30%: the tax base would be €4,800, producing a plusvalia bill of <strong>€1,440</strong>. James's total estimated tax liability would be €11,622 + €1,440 = <strong>€13,062</strong>.
       </p>
       <p>
-        If James reinvested the full sale price in a new primary residence within two years, the €11,622 IRPF bill would be exempt — leaving only the €1,440 plusvalia to pay.
+        If James reinvested the full sale price in a new primary residence within two years, the €11,622 IRPF bill would be exempt, leaving only the €1,440 plusvalia to pay.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Key considerations for non-resident sellers</h3>
@@ -173,9 +173,9 @@ const faqs = [
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Sources</h3>
       <ul class="list-disc ml-4 space-y-2">
-        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" class="text-brand hover:underline" target="_blank" rel="noopener">IRPF Law (Ley 35/2006), articles 33-38</a> — Regulation of capital gains, the savings tax scale, and primary residence reinvestment exemptions.</li>
-        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2004-4214" class="text-brand hover:underline" target="_blank" rel="noopener">Local Tax Law (RDL 2/2004), articles 104-110</a> — Regulation of plusvalia municipal (IIVTNU), including the two calculation methods introduced by RDL 26/2021.</li>
-        <li><a href="https://www.agenciatributaria.gob.es" class="text-brand hover:underline" target="_blank" rel="noopener">Agencia Tributaria (AEAT)</a> — Official taxpayer portal with income tax manuals, binding rulings, and filing tools.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" class="text-brand hover:underline" target="_blank" rel="noopener">IRPF Law (Ley 35/2006), articles 33-38</a>: Regulation of capital gains, the savings tax scale, and primary residence reinvestment exemptions.</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2004-4214" class="text-brand hover:underline" target="_blank" rel="noopener">Local Tax Law (RDL 2/2004), articles 104-110</a>: Regulation of plusvalia municipal (IIVTNU), including the two calculation methods introduced by RDL 26/2021.</li>
+        <li><a href="https://www.agenciatributaria.gob.es" class="text-brand hover:underline" target="_blank" rel="noopener">Agencia Tributaria (AEAT)</a>: Official taxpayer portal with income tax manuals, binding rulings, and filing tools.</li>
       </ul>
     </div>
   </section>
