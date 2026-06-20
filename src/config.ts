@@ -31,5 +31,5 @@ export const AUTHOR_NAME = "Mottalib Radif" as const;
 export const AUTHOR_CREDENTIALS = "MBA INSEAD, Entusiasta de las Finanzas" as const;
 
 /** Bing / Clarity – leave empty strings until real IDs are obtained */
-export const clarityProjectId = "" as const;
+export const clarityProjectId = "xa8gfgsqtz" as const;
 export const bingVerifyCode = "" as const;
