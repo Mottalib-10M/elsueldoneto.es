@@ -32,4 +32,4 @@ export const AUTHOR_CREDENTIALS = "MBA INSEAD, Entusiasta de las Finanzas" as co
 
 /** Bing / Clarity – leave empty strings until real IDs are obtained */
 export const clarityProjectId = "xa8gfgsqtz" as const;
-export const bingVerifyCode = "" as const;
+export const bingVerifyCode = "15b1d26333aa4cd7a1cdba8e813bfc7f" as const;
