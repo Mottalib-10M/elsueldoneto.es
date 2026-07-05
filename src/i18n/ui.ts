@@ -222,6 +222,11 @@ const uiStrings = {
     updatedForFiscalYear: 'Actualizado para el ejercicio fiscal',
     lastUpdate: 'Última actualización:',
     breadcrumbHome: 'Inicio',
+
+    // Trust badge / author byline
+    updatedFor: 'Actualizado para',
+    byAuthorPrefix: 'Por',
+    aboutHref: '/sobre-nosotros/',
   },
   en: {
     // Header
@@ -246,6 +251,11 @@ const uiStrings = {
     updatedForFiscalYear: 'Updated for fiscal year',
     lastUpdate: 'Last updated:',
     breadcrumbHome: 'Home',
+
+    // Trust badge / author byline
+    updatedFor: 'Updated for',
+    byAuthorPrefix: 'By',
+    aboutHref: '/en/about/',
   },
 } as const;
 

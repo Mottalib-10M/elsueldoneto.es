@@ -1,4 +1,4 @@
-import { SITE_URL, SITE_NAME, CURRENT_FISCAL_YEAR } from '../config';
+import { SITE_URL, SITE_NAME, CURRENT_FISCAL_YEAR, AUTHOR_NAME } from '../config';
 import { LANG_MAP, type Locale } from '../i18n';
 
 export interface SEOProps {
@@ -36,6 +36,11 @@ export function buildWebApplicationSchema(name: string, url: string, locale: Loc
       '@type': 'Offer',
       price: '0',
       priceCurrency: 'EUR',
+    },
+    author: {
+      '@type': 'Person',
+      name: AUTHOR_NAME,
+      url: `${SITE_URL}${locale === 'en' ? '/en/about/' : '/sobre-nosotros/'}`,
     },
     inLanguage: LANG_MAP[locale],
     availableLanguage: ['es-ES', 'en-GB'],

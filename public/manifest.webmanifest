@@ -1,0 +1,22 @@
+{
+  "name": "El Sueldo Neto",
+  "short_name": "Sueldo Neto",
+  "description": "Calculadora de sueldo neto, IRPF, hipoteca y herramientas financieras gratuitas para Espana.",
+  "icons": [
+    {
+      "src": "/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#E63946",
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "start_url": "/",
+  "lang": "es-ES"
+}

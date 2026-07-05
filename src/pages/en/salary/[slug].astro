@@ -1,7 +1,7 @@
 ---
 import Layout from '../../../components/layout/Layout.astro';
 import SueldoNeto from '../../../components/calculadoras/SueldoNeto';
-import { CURRENT_FISCAL_YEAR, SITE_NAME } from '../../../config';
+import { CURRENT_FISCAL_YEAR, SITE_NAME, AUTHOR_NAME } from '../../../config';
 import { buildWebApplicationSchema, buildBreadcrumbSchema, buildFAQSchema, type FAQItem } from '../../../lib/seo';
 import { formatEuros, formatEurosRound } from '../../../lib/format-es';
 import { calcularSueldoNeto, situacionFamiliarDefecto, type DesgloseSueldo } from '../../../lib/irpf-engine';
@@ -223,6 +223,19 @@ const schemas = [
     <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
       How much is €{amountFormatted} gross {periodLabel} in net? ({CURRENT_FISCAL_YEAR})
     </h1>
+
+    <!-- Trust badge -->
+    <div class="flex flex-wrap items-center gap-3 mb-6 text-xs text-gray-500 dark:text-gray-400">
+      <span class="inline-flex items-center gap-1 rounded-full bg-brand/10 px-2.5 py-1 font-medium text-charcoal dark:text-brand">
+        <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+        </svg>
+        Updated for {CURRENT_FISCAL_YEAR}
+      </span>
+      <span>
+        By <a href="/en/about/" class="font-medium text-gray-700 dark:text-gray-300 hover:text-brand">{AUTHOR_NAME}, MBA INSEAD</a>
+      </span>
+    </div>
 
     <!-- Hero result -->
     <div class="mb-8 rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 p-6 text-center dark:from-gray-700 dark:to-gray-800">
