@@ -189,12 +189,12 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
           {resultado.ventaConPerdidas && (
             <div className="rounded-lg border border-emerald-300 bg-emerald-50 p-4 dark:border-emerald-700 dark:bg-emerald-900/20">
               <p className="font-semibold text-emerald-700 dark:text-emerald-400">
-                {l ? 'Not subject to municipal capital gains tax (sale at no gain)' : 'No sujeto a plusvalia municipal (venta sin ganancia)'}
+                {l ? 'Not subject to municipal capital gains tax (sale at no gain)' : 'No sujeto a plusvalía municipal (venta sin ganancia)'}
               </p>
               <p className="mt-1 text-sm text-emerald-600 dark:text-emerald-300">
                 {l
                   ? 'Since Constitutional Court ruling STC 59/2017 and its confirmation in STC 182/2021, if there is no increase in land value, the tax is not applicable.'
-                  : 'Desde la STC 59/2017 y su confirmacion en la STC 182/2021, si no existe incremento de valor del terreno no se genera el impuesto.'}
+                  : 'Desde la STC 59/2017 y su confirmación en la STC 182/2021, si no existe incremento de valor del terreno no se genera el impuesto.'}
               </p>
             </div>
           )}
@@ -211,11 +211,11 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
             >
               <div className="mb-3 flex items-center justify-between">
                 <h3 className="text-base font-bold text-charcoal dark:text-gray-100">
-                  {l ? 'Objective method' : 'Metodo objetivo'}
+                  {l ? 'Objective method' : 'Método objetivo'}
                 </h3>
                 {resultado.metodoFavorable === 'objetivo' && !resultado.ventaConPerdidas && (
                   <span className="rounded-full bg-brand/10 px-2 py-0.5 text-xs font-semibold text-brand">
-                    {l ? 'Most favorable' : 'Mas favorable'}
+                    {l ? 'Most favorable' : 'Más favorable'}
                   </span>
                 )}
               </div>
@@ -255,11 +255,11 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
             >
               <div className="mb-3 flex items-center justify-between">
                 <h3 className="text-base font-bold text-charcoal dark:text-gray-100">
-                  {l ? 'Actual method' : 'Metodo real'}
+                  {l ? 'Actual method' : 'Método real'}
                 </h3>
                 {resultado.metodoFavorable === 'real' && !resultado.ventaConPerdidas && (
                   <span className="rounded-full bg-brand/10 px-2 py-0.5 text-xs font-semibold text-brand">
-                    {l ? 'Most favorable' : 'Mas favorable'}
+                    {l ? 'Most favorable' : 'Más favorable'}
                   </span>
                 )}
               </div>
@@ -308,10 +308,10 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
               }`}
             >
               {resultado.ventaConPerdidas
-                ? (l ? 'Not subject to municipal capital gains tax' : 'No sujeto a plusvalia municipal')
+                ? (l ? 'Not subject to municipal capital gains tax' : 'No sujeto a plusvalía municipal')
                 : (l
                     ? `Amount due (${resultado.metodoFavorable === 'objetivo' ? 'objective method' : 'actual method'})`
-                    : `A pagar (${resultado.metodoFavorable === 'objetivo' ? 'metodo objetivo' : 'metodo real'})`)}
+                    : `A pagar (${resultado.metodoFavorable === 'objetivo' ? 'método objetivo' : 'método real'})`)}
             </p>
             <p
               className={`mt-1 text-2xl font-bold ${
@@ -324,7 +324,7 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
             </p>
             {!resultado.ventaConPerdidas && (
               <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                {l ? 'The taxpayer may choose the most favorable method (RDL 26/2021)' : 'El contribuyente puede elegir el metodo que resulte mas favorable (RDL 26/2021)'}
+                {l ? 'The taxpayer may choose the most favorable method (RDL 26/2021)' : 'El contribuyente puede elegir el método que resulte más favorable (RDL 26/2021)'}
               </p>
             )}
           </div>
@@ -360,7 +360,7 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
                   </td>
                 </tr>
                 <tr className="border-t-2 border-gray-300 dark:border-gray-600">
-                  <td className="px-4 py-2 font-bold text-charcoal dark:text-gray-100">{l ? 'Amount due (most favorable)' : 'A pagar (mas favorable)'}</td>
+                  <td className="px-4 py-2 font-bold text-charcoal dark:text-gray-100">{l ? 'Amount due (most favorable)' : 'A pagar (más favorable)'}</td>
                   <td colSpan={2} className="px-4 py-2 text-right tabular-nums text-lg font-bold text-brand">
                     {formatEuros(resultado.cuotaFinal)}
                   </td>
@@ -372,7 +372,7 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
           <p className="text-xs text-medium-gray">
             {l
               ? 'Approximate calculation. The land-to-total-value ratio (40%) is a simplified estimate. The actual value depends on each property\'s cadastral data. Each municipality may set coefficients and rates below the legal maximums. Consult your local council or a tax advisor for your specific case.'
-              : 'Calculo orientativo. El porcentaje de suelo sobre el valor total (40%) es una estimacion simplificada. El valor real depende de los datos catastrales de cada inmueble. Cada ayuntamiento puede fijar coeficientes y tipos inferiores a los maximos legales. Consulta con tu ayuntamiento o un asesor fiscal para tu caso concreto.'}
+              : 'Cálculo orientativo. El porcentaje de suelo sobre el valor total (40%) es una estimación simplificada. El valor real depende de los datos catastrales de cada inmueble. Cada ayuntamiento puede fijar coeficientes y tipos inferiores a los máximos legales. Consulta con tu ayuntamiento o un asesor fiscal para tu caso concreto.'}
           </p>
         </>
       )}

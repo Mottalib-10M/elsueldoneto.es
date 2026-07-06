@@ -1,7 +1,7 @@
 /**
  * Spanish number and currency formatting utilities.
- * Uses comma as decimal separator, space as thousands separator.
- * Currency symbol after number: 1 234,56 €
+ * Uses comma as decimal separator, dot as thousands separator.
+ * Currency symbol after number: 1.234,56 €
  */
 
 const euroFormatter = new Intl.NumberFormat('es-ES', {
@@ -29,21 +29,16 @@ const percentFormatter = new Intl.NumberFormat('es-ES', {
   maximumFractionDigits: 2,
 });
 
-/** Replace dot thousands separator with non-breaking space */
-function spacifyThousands(s: string): string {
-  return s.replace(/\./g, ' ');
-}
-
 export function formatEuros(amount: number): string {
-  return spacifyThousands(euroFormatter.format(amount));
+  return euroFormatter.format(amount);
 }
 
 export function formatEurosRound(amount: number): string {
-  return spacifyThousands(euroFormatterNoDecimals.format(amount));
+  return euroFormatterNoDecimals.format(amount);
 }
 
 export function formatNumber(value: number): string {
-  return spacifyThousands(numberFormatter.format(value));
+  return numberFormatter.format(value);
 }
 
 export function formatPercent(value: number): string {

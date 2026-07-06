@@ -118,8 +118,8 @@ export default function CampoSalario({
       </div>
       <p className="text-xs text-gray-500 dark:text-gray-400">
         {modo === 'anual'
-          ? `${mensualNum.toLocaleString('es-ES', { maximumFractionDigits: 2 }).replace(/\./g, ' ')} ${lang === 'en' ? '€/month' : '€/mes'}`
-          : `${annualNum.toLocaleString('es-ES', { maximumFractionDigits: 2 }).replace(/\./g, ' ')} ${lang === 'en' ? '€/year' : '€/año'}`}
+          ? `${mensualNum.toLocaleString(lang === 'en' ? 'en-GB' : 'es-ES', { maximumFractionDigits: 2 })} ${lang === 'en' ? '€/month' : '€/mes'}`
+          : `${annualNum.toLocaleString(lang === 'en' ? 'en-GB' : 'es-ES', { maximumFractionDigits: 2 })} ${lang === 'en' ? '€/year' : '€/año'}`}
       </p>
     </div>
   );
