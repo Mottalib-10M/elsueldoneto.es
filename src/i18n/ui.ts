@@ -120,6 +120,19 @@ const footerSectionsEs: FooterSection[] = [
     ],
   },
   {
+    heading: 'Sueldos más consultados',
+    items: [
+      { href: '/sueldo/1000-euros-brutos-al-mes/', label: '1.000 €/mes brutos' },
+      { href: '/sueldo/1200-euros-brutos-al-mes/', label: '1.200 €/mes brutos' },
+      { href: '/sueldo/1500-euros-brutos-al-mes/', label: '1.500 €/mes brutos' },
+      { href: '/sueldo/2000-euros-brutos-al-mes/', label: '2.000 €/mes brutos' },
+      { href: '/sueldo/25000-euros-brutos-al-año/', label: '25.000 €/año brutos' },
+      { href: '/sueldo/30000-euros-brutos-al-año/', label: '30.000 €/año brutos' },
+      { href: '/sueldo/35000-euros-brutos-al-año/', label: '35.000 €/año brutos' },
+      { href: '/sueldo/40000-euros-brutos-al-año/', label: '40.000 €/año brutos' },
+    ],
+  },
+  {
     heading: 'Calculadoras Financieras',
     items: [
       { href: '/calculadora-prestamo/', label: 'Préstamo' },
@@ -164,6 +177,19 @@ const footerSectionsEn: FooterSection[] = [
       { href: '/en/unemployment-calculator/', label: 'Unemployment' },
       { href: '/en/hourly-wage-calculator/', label: 'Hourly Wage' },
       { href: '/en/extra-pay-calculator/', label: 'Extra Pay' },
+    ],
+  },
+  {
+    heading: 'Popular Salaries',
+    items: [
+      { href: '/sueldo/1000-euros-brutos-al-mes/', label: '1,000 €/month gross' },
+      { href: '/sueldo/1200-euros-brutos-al-mes/', label: '1,200 €/month gross' },
+      { href: '/sueldo/1500-euros-brutos-al-mes/', label: '1,500 €/month gross' },
+      { href: '/sueldo/2000-euros-brutos-al-mes/', label: '2,000 €/month gross' },
+      { href: '/sueldo/25000-euros-brutos-al-año/', label: '25,000 €/year gross' },
+      { href: '/sueldo/30000-euros-brutos-al-año/', label: '30,000 €/year gross' },
+      { href: '/sueldo/35000-euros-brutos-al-año/', label: '35,000 €/year gross' },
+      { href: '/sueldo/40000-euros-brutos-al-año/', label: '40,000 €/year gross' },
     ],
   },
   {

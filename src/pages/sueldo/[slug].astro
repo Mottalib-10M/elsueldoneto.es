@@ -82,27 +82,72 @@ const payDayBreakdown = getPayDayBreakdown(page.amount, defaultResult);
 // FAQs - combine unique generated FAQs with salary-specific ones
 const faqs: FAQItem[] = uniqueFaqs.map(f => ({ question: f.question, answer: f.answer }));
 
-// Tax optimization tips by range
-function getTipsFiscales(cat: string): {titulo: string, texto: string}[] {
-  const tips: {titulo: string, texto: string}[] = [
-    { titulo: 'Planes de pensiones', texto: 'Las aportaciones a planes de pensiones reducen la base imponible del IRPF. El límite actual es de 1.500 euros anuales para aportaciones individuales, aunque las aportaciones empresariales pueden alcanzar los 8.500 euros adicionales.' },
-    { titulo: 'Retribución flexible', texto: 'Negocia con tu empresa conceptos como ticket restaurante, seguro médico, guardería o transporte público. Estos beneficios están exentos de IRPF hasta ciertos límites, lo que aumenta tu poder adquisitivo real sin coste adicional para la empresa.' },
-  ];
-  if (cat === 'bajo' || cat === 'medio-bajo') {
-    tips.push({ titulo: 'Declaración de la renta', texto: 'Aunque no estés obligado a presentar la declaración, hazlo siempre. Si te han practicado retenciones, es muy probable que Hacienda te devuelva parte de lo retenido. Las devoluciones pueden superar los 500 euros en muchos casos.' });
-    tips.push({ titulo: 'Deducciones autonómicas', texto: 'Consulta las deducciones específicas de tu comunidad autónoma. Muchas ofrecen deducciones por alquiler de vivienda habitual, gastos educativos, nacimiento de hijos o cuidado de familiares que pueden suponer un ahorro considerable.' });
+// Tax optimization tips - salary-specific with amount-aware content
+function getTipsFiscales(annualGross: number, netoMensual: number, tipoEfectivoIRPF: number): {titulo: string, texto: string}[] {
+  const tips: {titulo: string, texto: string}[] = [];
+  const irpfPct = (tipoEfectivoIRPF * 100).toFixed(1);
+  const ahorroPensiones = formatEuros(Math.min(1500, annualGross * 0.3) * tipoEfectivoIRPF);
+  const ahorroTicket = formatEuros(Math.min(11 * 220, annualGross * 0.05) * tipoEfectivoIRPF);
+
+  if (annualGross <= 14000) {
+    // Tramo 1: Cerca del SMI
+    tips.push({ titulo: 'Presenta la declaraci\u00f3n siempre', texto: `Con ${formatAmountSpanish(annualGross)} \u20ac brutos, probablemente no est\u00e9s obligado a declarar, pero hacerlo casi siempre resulta en devoluci\u00f3n. Con un tipo efectivo del ${irpfPct}%, las retenciones practicadas suelen exceder la cuota real, lo que te devuelve entre 200 y 600 \u20ac.` });
+    tips.push({ titulo: 'Complementos salariales exentos', texto: 'A este nivel salarial, los complementos por nocturnidad, festividad y horas extra tributan a un tipo muy bajo. Negociar estos pluses puede incrementar tu neto mensual m\u00e1s que una subida de salario base equivalente.' });
+    tips.push({ titulo: 'Ayudas compatibles con tu salario', texto: `Con un neto mensual de ${formatEuros(netoMensual)}, puedes ser elegible para el Ingreso M\u00ednimo Vital complementario, bonificaciones en el abono de transporte, becas comedor y ayudas municipales al alquiler. Consulta los umbrales de tu CCAA.` });
+    tips.push({ titulo: 'Deducciones auton\u00f3micas por alquiler', texto: 'La mayor\u00eda de comunidades aut\u00f3nomas ofrecen deducciones por alquiler de vivienda habitual para rentas bajas. En algunas como Madrid, Andaluc\u00eda o Comunidad Valenciana, el ahorro puede superar los 300-500 \u20ac anuales si cumples los requisitos de edad y renta m\u00e1xima.' });
+  } else if (annualGross <= 19000) {
+    // Tramo 2: SMI a bajo-medio
+    tips.push({ titulo: 'Declaraci\u00f3n de la renta favorable', texto: `Con ${formatAmountSpanish(annualGross)} \u20ac brutos (tipo efectivo IRPF del ${irpfPct}%), la declaraci\u00f3n suele salir a devolver. Las retenciones est\u00e1ndar de n\u00f3mina tienden a ser superiores a la cuota real cuando aplicas m\u00ednimos personales y familiares. Devoluciones t\u00edpicas: 300-800 \u20ac.` });
+    tips.push({ titulo: 'Deducci\u00f3n por maternidad/paternidad', texto: 'Si tienes hijos menores de 3 a\u00f1os, la deducci\u00f3n por maternidad (1.200 \u20ac/a\u00f1o por hijo) puede cobrarse de forma anticipada a 100 \u20ac/mes. Adem\u00e1s, los gastos de guarder\u00eda autorizada a\u00f1aden hasta 1.000 \u20ac m\u00e1s de deducci\u00f3n.' });
+    tips.push({ titulo: 'Retribuci\u00f3n flexible b\u00e1sica', texto: `Solicita ticket restaurante a tu empresa: con tu tipo del ${irpfPct}%, el ahorro fiscal anual estimado es de ${ahorroTicket}. Tambi\u00e9n el abono de transporte p\u00fablico pagado por la empresa (hasta 1.500 \u20ac/a\u00f1o) est\u00e1 exento de IRPF.` });
+    tips.push({ titulo: 'Deducciones auton\u00f3micas espec\u00edficas', texto: 'Revisa las deducciones de tu comunidad: muchas incluyen ayudas por alquiler joven (menores de 35 a\u00f1os), gastos educativos, compra de material escolar o cuotas de sindicatos y colegios profesionales, que se restan directamente de la cuota del IRPF.' });
+  } else if (annualGross <= 25000) {
+    // Tramo 3: Medio-bajo
+    tips.push({ titulo: 'Optimiza tu plan de pensiones', texto: `Aportar el m\u00e1ximo al plan de pensiones (1.500 \u20ac/a\u00f1o) reduce tu base imponible y te ahorra ${ahorroPensiones} en IRPF con tu tipo efectivo del ${irpfPct}%. Si tu empresa ofrece plan de empleo, las aportaciones empresariales pueden llegar a 8.500 \u20ac adicionales sin tributar.` });
+    tips.push({ titulo: 'Ticket restaurante y transporte', texto: `Con ${formatAmountSpanish(annualGross)} \u20ac brutos, el combo ticket restaurante + abono transporte pagado por la empresa te genera un ahorro fiscal de aproximadamente ${ahorroTicket} al a\u00f1o. Esto equivale a cobrar m\u00e1s sin que tu empresa gaste m\u00e1s.` });
+    tips.push({ titulo: 'Revisa el modelo 145', texto: `Tu retenci\u00f3n en n\u00f3mina se calcula sobre el modelo 145 que entregaste a la empresa. Si tu situaci\u00f3n ha cambiado (nuevo hijo, hipoteca pre-2013, discapacidad reconocida), actualizar este formulario ajusta la retenci\u00f3n y evitas financiar a Hacienda al 0% de inter\u00e9s durante el a\u00f1o.` });
+    tips.push({ titulo: 'Deducci\u00f3n por inversi\u00f3n en vivienda', texto: 'Si compraste tu vivienda habitual antes de enero de 2013, mant\u00e9n la deducci\u00f3n por inversi\u00f3n en vivienda (hasta 15% sobre un m\u00e1ximo de 9.040 \u20ac). Esto supone un ahorro m\u00e1ximo de 1.356 \u20ac/a\u00f1o que muchos contribuyentes olvidan reclamar.' });
+  } else if (annualGross <= 32000) {
+    // Tramo 4: Medio
+    tips.push({ titulo: 'Estrategia combinada pensiones + empresa', texto: `Con ${formatAmountSpanish(annualGross)} \u20ac brutos y un tipo IRPF del ${irpfPct}%, cada euro aportado al plan de pensiones te devuelve ${(tipoEfectivoIRPF * 100).toFixed(0)} c\u00e9ntimos en IRPF. Los 1.500 \u20ac de l\u00edmite individual te ahorran ${ahorroPensiones}. Negocia que tu empresa a\u00f1ada aportaciones al plan de empleo (hasta 8.500 \u20ac/a\u00f1o adicionales exentos).` });
+    tips.push({ titulo: 'Retribuci\u00f3n flexible integral', texto: `Monta un paquete completo: ticket restaurante (ahorro ~${ahorroTicket}), seguro m\u00e9dico (exento hasta 500 \u20ac/persona, 1.500 \u20ac si incluyes familia), guarder\u00eda (hasta 1.000 \u20ac exentos), y abono transporte (1.500 \u20ac exentos). Combinados pueden mejorar tu neto en m\u00e1s de 1.000 \u20ac/a\u00f1o.` });
+    tips.push({ titulo: 'Formaci\u00f3n bonificada', texto: 'Los cursos de formaci\u00f3n pagados por la empresa no tributan como retribuci\u00f3n en especie si est\u00e1n relacionados con tu actividad. M\u00e1steres, certificaciones y cursos de idiomas financiados por la empresa son una forma de retribuci\u00f3n invisible que mejora tu empleabilidad sin coste fiscal.' });
+    tips.push({ titulo: 'Deducciones por donaciones', texto: `Las donaciones a ONGs y fundaciones desgravan: los primeros 250 \u20ac al 80% (devoluci\u00f3n de 200 \u20ac) y el resto al 40% (45% si repites donaci\u00f3n). Con tu tipo del ${irpfPct}%, donar puede ser m\u00e1s eficiente fiscalmente que a otros niveles salariales.` });
+  } else if (annualGross <= 42000) {
+    // Tramo 5: Medio-alto entrada
+    tips.push({ titulo: 'Plan de pensiones al m\u00e1ximo', texto: `Con tu tipo efectivo del ${irpfPct}%, los 1.500 \u20ac de aportaci\u00f3n al plan de pensiones generan un ahorro fiscal de ${ahorroPensiones}. A este nivel salarial, la deducci\u00f3n es especialmente rentable porque ya tributas en tramos medios-altos del IRPF. Complementa con un plan de empleo si tu empresa lo ofrece.` });
+    tips.push({ titulo: 'Compensaci\u00f3n de p\u00e9rdidas', texto: 'Si inviertes en bolsa o fondos, puedes compensar p\u00e9rdidas patrimoniales con ganancias del mismo ejercicio o de los 4 siguientes. Tambi\u00e9n es posible compensar rendimientos negativos del capital mobiliario (bonos, dep\u00f3sitos) con el 25% de las ganancias patrimoniales.' });
+    tips.push({ titulo: 'Traspaso entre fondos sin tributar', texto: `Con ${formatAmountSpanish(annualGross)} \u20ac brutos, es momento de estructurar tu ahorro. Los traspasos entre fondos de inversi\u00f3n no tributan en Espa\u00f1a (diferimiento fiscal indefinido). Esto permite rebalancear tu cartera sin pagar el ${irpfPct}% de IRPF sobre las plusval\u00edas.` });
+    tips.push({ titulo: 'Revisi\u00f3n de la retenci\u00f3n', texto: `A este nivel salarial, peque\u00f1os cambios en tu situaci\u00f3n personal (un hijo, matrimonio, discapacidad de familiar) pueden reducir la retenci\u00f3n mensual en 50-120 \u20ac. Actualiza el modelo 145 con cada cambio para no prestar dinero a Hacienda.` });
+  } else if (annualGross <= 55000) {
+    // Tramo 6: Medio-alto consolidado
+    tips.push({ titulo: 'Planificaci\u00f3n fiscal proactiva', texto: `Con ${formatAmountSpanish(annualGross)} \u20ac brutos y un tipo IRPF del ${irpfPct}%, cada herramienta fiscal cuenta. Maximiza planes de pensiones (ahorro: ${ahorroPensiones}), negocia retribuci\u00f3n flexible completa (ahorro estimado: 1.200-2.000 \u20ac/a\u00f1o) y programa tus inversiones para diferir las plusval\u00edas.` });
+    tips.push({ titulo: 'Seguro m\u00e9dico de empresa', texto: `El seguro m\u00e9dico pagado por la empresa est\u00e1 exento hasta 500 \u20ac/persona/a\u00f1o (1.500 \u20ac para discapacitados). Si incluyes c\u00f3nyuge e hijos, el ahorro fiscal asciende a ${formatEuros(2000 * tipoEfectivoIRPF)}-${formatEuros(2500 * tipoEfectivoIRPF)} anuales al evitar tributar esas primas como renta en especie.` });
+    tips.push({ titulo: 'Deducir gastos sindicales y colegiales', texto: 'Las cuotas de sindicatos son deducibles \u00edntegramente del rendimiento del trabajo. Las cuotas de colegios profesionales (hasta 500 \u20ac/a\u00f1o) tambi\u00e9n reducen tu base imponible. Pocos contribuyentes las incluyen en la declaraci\u00f3n a pesar de ser leg\u00edtimas.' });
+    tips.push({ titulo: 'Inversiones con ventaja fiscal', texto: `A tu tipo efectivo, cada euro deducido te devuelve ${(tipoEfectivoIRPF * 100).toFixed(0)} c\u00e9ntimos. Adem\u00e1s de pensiones, considera: seguros de ahorro unit-linked (diferimiento fiscal), SICAVs si inviertes junto a otros, y cuentas de ahorro-vivienda si a\u00fan eres menor de 30 en algunas CCAs.` });
+  } else if (annualGross <= 75000) {
+    // Tramo 7: Alto
+    tips.push({ titulo: 'Asesoramiento fiscal profesional', texto: `Con ${formatAmountSpanish(annualGross)} \u20ac brutos y un IRPF del ${irpfPct}%, un asesor fiscal (300-800 \u20ac/a\u00f1o) se amortiza r\u00e1pidamente. Estrategias avanzadas: timing de ganancias patrimoniales, amortizaci\u00f3n de inmuebles alquilados (60% de reducci\u00f3n en rendimiento neto), y optimizaci\u00f3n del mix retribuci\u00f3n fija/variable/especie.` });
+    tips.push({ titulo: 'Estructura de retribuci\u00f3n', texto: `Negocia con tu empresa para convertir parte del bruto en retribuci\u00f3n exenta: seguro m\u00e9dico familiar (hasta 2.000 \u20ac exentos), ticket guarder\u00eda (1.000 \u20ac), formaci\u00f3n (sin l\u00edmite), y coche de empresa (tributa solo por uso personal). Ahorro estimado: ${formatEuros(4000 * tipoEfectivoIRPF)}/a\u00f1o.` });
+    tips.push({ titulo: 'Diferimiento mediante fondos', texto: `A tu nivel impositivo, diferir tributaci\u00f3n es clave. Los fondos de inversi\u00f3n permiten traspasos sin peaje fiscal. Si acumulas plusval\u00edas, planifica su materializaci\u00f3n en ejercicios de menor renta (excedencia, a\u00f1o sab\u00e1tico, cambio de empleo).` });
+    tips.push({ titulo: 'Aportaciones al plan de pensiones de empleo', texto: `Con tu tipo marginal, las aportaciones empresariales al plan de empleo (hasta 8.500 \u20ac/a\u00f1o) son especialmente ventajosas: reducen base imponible sin l\u00edmite del 30%. Adem\u00e1s, tus 1.500 \u20ac individuales te ahorran ${ahorroPensiones} en IRPF directo.` });
+  } else if (annualGross <= 100000) {
+    // Tramo 8: Alto-ejecutivo
+    tips.push({ titulo: 'Planificaci\u00f3n patrimonial integrada', texto: `Con ${formatAmountSpanish(annualGross)} \u20ac brutos (IRPF efectivo del ${irpfPct}%), cada decisi\u00f3n financiera tiene impacto fiscal significativo. Coordina IRPF, Impuesto sobre Patrimonio (si aplica en tu CCAA) y planificaci\u00f3n sucesoria. Un asesor fiscal y un planificador financiero pueden generar ahorros superiores a 3.000-5.000 \u20ac/a\u00f1o.` });
+    tips.push({ titulo: 'R\u00e9gimen de impatriados (Ley Beckham)', texto: 'Si eres profesional desplazado a Espa\u00f1a (o regresas tras 5 a\u00f1os fuera), puedes tributar al tipo fijo del 24% sobre los primeros 600.000 \u20ac durante 6 a\u00f1os (en lugar de la tarifa progresiva). Esto supondr\u00eda un ahorro sustancial frente a tu tipo actual.' });
+    tips.push({ titulo: 'Stock options y participaciones', texto: `Si recibes stock options, planes LTIP o RSUs, la tributaci\u00f3n depende del momento del ejercicio/venta. Existe una exenci\u00f3n de hasta 12.000 \u20ac/a\u00f1o para entregas de acciones gratuitas a empleados bajo ciertas condiciones. Consulta el timing \u00f3ptimo para minimizar la carga al ${irpfPct}% efectivo.` });
+    tips.push({ titulo: 'Inversi\u00f3n inmobiliaria con ventaja fiscal', texto: 'Los inmuebles en alquiler permiten deducir gastos (comunidad, IBI, seguros, intereses hipotecarios) y aplicar una reducci\u00f3n del 60% sobre el rendimiento neto positivo. Con tu tipo marginal, el ahorro real por cada euro deducido es de los m\u00e1s altos posibles en IRPF.' });
+  } else {
+    // Tramo 9: Muy alto (>100.000)
+    tips.push({ titulo: 'Equipo de asesoramiento fiscal', texto: `Con ${formatAmountSpanish(annualGross)} \u20ac brutos y un tipo IRPF del ${irpfPct}%, necesitas asesoramiento fiscal especializado y continuo. La combinaci\u00f3n de IRPF, Impuesto sobre Patrimonio, planificaci\u00f3n societaria y fiscalidad internacional puede generar ahorros de 10.000-25.000 \u20ac anuales con la estrategia correcta.` });
+    tips.push({ titulo: 'Sociedad patrimonial o holding', texto: 'A este nivel de ingresos, canalizar inversiones a trav\u00e9s de una sociedad (tributaci\u00f3n al 25% de Sociedades vs. 47% marginal de IRPF) permite diferir la tributaci\u00f3n personal hasta el momento del reparto de dividendos. Consulta la viabilidad con un fiscalista especializado.' });
+    tips.push({ titulo: 'R\u00e9gimen de impatriados y movilidad', texto: `Si llevas menos de 10 a\u00f1os como residente fiscal en Espa\u00f1a (o regresas tras 5 a\u00f1os fuera), el r\u00e9gimen Beckham aplica tipo fijo del 24% hasta 600.000 \u20ac, generando un ahorro potencial de ${formatEuros((annualGross * tipoEfectivoIRPF) - (Math.min(annualGross, 600000) * 0.24))} frente a la tarifa general.` });
+    tips.push({ titulo: 'Retribuci\u00f3n variable y diferimiento', texto: 'Negocia que los bonus plurianuales (generados en m\u00e1s de 2 a\u00f1os) se imputen con la reducci\u00f3n del 30% (sobre un m\u00e1ximo de 300.000 \u20ac). Adem\u00e1s, estructurar parte de la retribuci\u00f3n como acciones de la empresa con lock-up de 3+ a\u00f1os puede reducir significativamente la factura fiscal total.' });
   }
-  if (cat === 'medio' || cat === 'medio-alto') {
-    tips.push({ titulo: 'Deducción por vivienda', texto: 'Si compraste tu vivienda habitual antes de 2013, puedes seguir aplicando la deducción por inversión en vivienda habitual, que supone un ahorro de hasta el 15% sobre las cantidades invertidas (máximo 9.040 euros de base de deducción).' });
-    tips.push({ titulo: 'Formación y reciclaje', texto: 'Los gastos de formación directamente relacionados con tu actividad profesional son deducibles como gastos del trabajo. Invierte en tu desarrollo profesional y obtén un beneficio fiscal adicional.' });
-  }
-  if (cat === 'alto') {
-    tips.push({ titulo: 'Planificación fiscal integral', texto: 'Con este nivel salarial, considera contratar a un asesor fiscal profesional. Estrategias como la compensación de pérdidas patrimoniales, la planificación del timing de ganancias o la correcta estructuración de la retribución pueden generar ahorros significativos.' });
-    tips.push({ titulo: 'Inversión eficiente fiscalmente', texto: 'Fondos de inversión con traspaso sin tributación, planes de previsión social empresarial (PPSE) y la aportación conjunta a planes de pensiones con tu empresa son herramientas que reducen la carga fiscal manteniendo la rentabilidad de tu ahorro.' });
-  }
+
   return tips;
 }
-const tipsFiscales = getTipsFiscales(page.rangeCategory);
+const tipsFiscales = getTipsFiscales(page.annualGross, defaultResult.netoMensual, defaultResult.tipoEfectivoIRPF);
 
 const schemas = [
   buildWebApplicationSchema(`Calculadora ${amountFormatted} € Brutos Neto`, `/sueldo/${page.slug}/`),
@@ -509,6 +554,39 @@ const schemas = [
         Simulación detallada
       </a>
     </div>
+
+    <!-- Popular salary pages -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+        Sueldos más consultados
+      </h2>
+      <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        <a href="/sueldo/1000-euros-brutos-al-mes/" class="rounded-lg border border-gray-200 px-3 py-2 text-center text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+          1.000 €/mes
+        </a>
+        <a href="/sueldo/1200-euros-brutos-al-mes/" class="rounded-lg border border-gray-200 px-3 py-2 text-center text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+          1.200 €/mes
+        </a>
+        <a href="/sueldo/1500-euros-brutos-al-mes/" class="rounded-lg border border-gray-200 px-3 py-2 text-center text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+          1.500 €/mes
+        </a>
+        <a href="/sueldo/2000-euros-brutos-al-mes/" class="rounded-lg border border-gray-200 px-3 py-2 text-center text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+          2.000 €/mes
+        </a>
+        <a href="/sueldo/25000-euros-brutos-al-año/" class="rounded-lg border border-gray-200 px-3 py-2 text-center text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+          25.000 €/año
+        </a>
+        <a href="/sueldo/30000-euros-brutos-al-año/" class="rounded-lg border border-gray-200 px-3 py-2 text-center text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+          30.000 €/año
+        </a>
+        <a href="/sueldo/35000-euros-brutos-al-año/" class="rounded-lg border border-gray-200 px-3 py-2 text-center text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+          35.000 €/año
+        </a>
+        <a href="/sueldo/40000-euros-brutos-al-año/" class="rounded-lg border border-gray-200 px-3 py-2 text-center text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+          40.000 €/año
+        </a>
+      </div>
+    </section>
 
     <!-- Adjacent pages -->
     <section class="mb-8">

@@ -195,11 +195,6 @@ export function buildWebSiteSchema(locale: Locale = 'es') {
       name: SITE_NAME,
       url: SITE_URL,
     },
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: `${SITE_URL}${isEn ? '/en/' : '/'}?q={search_term_string}`,
-      'query-input': 'required name=search_term_string',
-    },
     availableLanguage: ['es-ES', 'en-GB'],
   };
 }

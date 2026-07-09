@@ -206,7 +206,7 @@ const schemas = [
 ];
 ---
 
-<Layout title={title} description={description} schema={schemas} locale="en">
+<Layout title={title} description={description} schema={schemas} locale="en" noindex={true}>
   <div class="mx-auto max-w-4xl px-4 py-8">
     <!-- Breadcrumb -->
     <nav class="mb-6 text-sm text-medium-gray" aria-label="Breadcrumb">
@@ -562,6 +562,39 @@ const schemas = [
         Detailed simulation
       </a>
     </div>
+
+    <!-- Popular salary pages -->
+    <section class="mb-8">
+      <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
+        Popular salary calculations
+      </h2>
+      <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        <a href="/sueldo/1000-euros-brutos-al-mes/" class="rounded-lg border border-gray-200 px-3 py-2 text-center text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+          1,000 €/month
+        </a>
+        <a href="/sueldo/1200-euros-brutos-al-mes/" class="rounded-lg border border-gray-200 px-3 py-2 text-center text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+          1,200 €/month
+        </a>
+        <a href="/sueldo/1500-euros-brutos-al-mes/" class="rounded-lg border border-gray-200 px-3 py-2 text-center text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+          1,500 €/month
+        </a>
+        <a href="/sueldo/2000-euros-brutos-al-mes/" class="rounded-lg border border-gray-200 px-3 py-2 text-center text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+          2,000 €/month
+        </a>
+        <a href="/sueldo/25000-euros-brutos-al-año/" class="rounded-lg border border-gray-200 px-3 py-2 text-center text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+          25,000 €/year
+        </a>
+        <a href="/sueldo/30000-euros-brutos-al-año/" class="rounded-lg border border-gray-200 px-3 py-2 text-center text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+          30,000 €/year
+        </a>
+        <a href="/sueldo/35000-euros-brutos-al-año/" class="rounded-lg border border-gray-200 px-3 py-2 text-center text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+          35,000 €/year
+        </a>
+        <a href="/sueldo/40000-euros-brutos-al-año/" class="rounded-lg border border-gray-200 px-3 py-2 text-center text-sm font-medium text-dark-gray transition-colors hover:border-brand hover:text-brand dark:border-gray-600 dark:text-gray-300">
+          40,000 €/year
+        </a>
+      </div>
+    </section>
 
     <!-- Adjacent pages -->
     <section class="mb-8">

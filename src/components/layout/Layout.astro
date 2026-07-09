@@ -73,7 +73,7 @@ const pageType = isHomepage ? 'home' : isGuide ? 'guide' : 'calculator';
     <meta name="author" content={AUTHOR_NAME} />
     <link rel="canonical" href={canonicalUrl} />
 
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {noindex && <meta name="robots" content="noindex, follow" />}
 
     <!-- hreflang -->
     {hreflang && (
