@@ -1,3 +1,4 @@
+import { dec } from '../../lib/dec';
 import { formatEuros, formatPercent } from '../../lib/format-es';
 import type { DesgloseSueldo } from '../../lib/irpf-engine';
 
@@ -113,34 +114,34 @@ function BarraDesglose({ resultado, lang = 'es' }: { resultado: DesgloseSueldo; 
         <div
           className="flex items-center justify-center bg-brand text-xs font-medium text-white transition-all"
           style={{ width: `${pctIRPF}%` }}
-          title={`IRPF: ${pctIRPF.toFixed(1)}%`}
+          title={`IRPF: ${dec(pctIRPF, 1, l ? 'en-GB' : 'es-ES')}%`}
         >
           {pctIRPF > 8 && 'IRPF'}
         </div>
         <div
           className="flex items-center justify-center bg-amber-500 text-xs font-medium text-white transition-all"
           style={{ width: `${pctSS}%` }}
-          title={`SS: ${pctSS.toFixed(1)}%`}
+          title={`SS: ${dec(pctSS, 1, l ? 'en-GB' : 'es-ES')}%`}
         >
           {pctSS > 5 && 'SS'}
         </div>
         <div
           className="flex items-center justify-center bg-emerald-500 text-xs font-medium text-white transition-all"
           style={{ width: `${pctNeto}%` }}
-          title={`${l ? 'Net' : 'Neto'}: ${pctNeto.toFixed(1)}%`}
+          title={`${l ? 'Net' : 'Neto'}: ${dec(pctNeto, 1, l ? 'en-GB' : 'es-ES')}%`}
         >
           {l ? 'Net' : 'Neto'}
         </div>
       </div>
       <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
         <span className="flex items-center gap-1">
-          <span className="inline-block h-2 w-2 rounded-full bg-brand" /> IRPF {pctIRPF.toFixed(1)}%
+          <span className="inline-block h-2 w-2 rounded-full bg-brand" /> IRPF {dec(pctIRPF, 1, l ? 'en-GB' : 'es-ES')}%
         </span>
         <span className="flex items-center gap-1">
-          <span className="inline-block h-2 w-2 rounded-full bg-amber-500" /> SS {pctSS.toFixed(1)}%
+          <span className="inline-block h-2 w-2 rounded-full bg-amber-500" /> SS {dec(pctSS, 1, l ? 'en-GB' : 'es-ES')}%
         </span>
         <span className="flex items-center gap-1">
-          <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" /> {l ? 'Net' : 'Neto'} {pctNeto.toFixed(1)}%
+          <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" /> {l ? 'Net' : 'Neto'} {dec(pctNeto, 1, l ? 'en-GB' : 'es-ES')}%
         </span>
       </div>
     </div>

@@ -1,4 +1,5 @@
 ---
+import { dec } from '../../lib/dec';
 import Layout from '../../components/layout/Layout.astro';
 import SueldoNeto from '../../components/calculadoras/SueldoNeto';
 import { CURRENT_FISCAL_YEAR, SITE_NAME, AUTHOR_NAME } from '../../config';
@@ -58,9 +59,9 @@ const description = `Con ${amountFormatted} € brutos ${periodLabel}, tu neto m
 
 // Derived values for content sections
 const totalDeduccionesAnual = defaultResult.seguridadSocialAnual + defaultResult.irpfTotalAnual;
-const porcentajeDeduccion = (totalDeduccionesAnual / page.annualGross * 100).toFixed(1);
-const porcentajeSS = (defaultResult.seguridadSocialAnual / page.annualGross * 100).toFixed(1);
-const porcentajeIRPF = (defaultResult.tipoEfectivoIRPF * 100).toFixed(1);
+const porcentajeDeduccion = dec((totalDeduccionesAnual / page.annualGross * 100), 1);
+const porcentajeSS = dec((defaultResult.seguridadSocialAnual / page.annualGross * 100), 1);
+const porcentajeIRPF = dec((defaultResult.tipoEfectivoIRPF * 100), 1);
 const diferenciaCCAAAnual = maxNetoCCAA.desglose.netoAnual - minNetoCCAA.desglose.netoAnual;
 const diferenciaCCAAMensual = maxNetoCCAA.desglose.netoMensual - minNetoCCAA.desglose.netoMensual;
 
@@ -85,7 +86,7 @@ const faqs: FAQItem[] = uniqueFaqs.map(f => ({ question: f.question, answer: f.a
 // Tax optimization tips - salary-specific with amount-aware content
 function getTipsFiscales(annualGross: number, netoMensual: number, tipoEfectivoIRPF: number): {titulo: string, texto: string}[] {
   const tips: {titulo: string, texto: string}[] = [];
-  const irpfPct = (tipoEfectivoIRPF * 100).toFixed(1);
+  const irpfPct = dec((tipoEfectivoIRPF * 100), 1);
   const ahorroPensiones = formatEuros(Math.min(1500, annualGross * 0.3) * tipoEfectivoIRPF);
   const ahorroTicket = formatEuros(Math.min(11 * 220, annualGross * 0.05) * tipoEfectivoIRPF);
 
@@ -109,7 +110,7 @@ function getTipsFiscales(annualGross: number, netoMensual: number, tipoEfectivoI
     tips.push({ titulo: 'Deducci\u00f3n por inversi\u00f3n en vivienda', texto: 'Si compraste tu vivienda habitual antes de enero de 2013, mant\u00e9n la deducci\u00f3n por inversi\u00f3n en vivienda (hasta 15% sobre un m\u00e1ximo de 9.040 \u20ac). Esto supone un ahorro m\u00e1ximo de 1.356 \u20ac/a\u00f1o que muchos contribuyentes olvidan reclamar.' });
   } else if (annualGross <= 32000) {
     // Tramo 4: Medio
-    tips.push({ titulo: 'Estrategia combinada pensiones + empresa', texto: `Con ${formatAmountSpanish(annualGross)} \u20ac brutos y un tipo IRPF del ${irpfPct}%, cada euro aportado al plan de pensiones te devuelve ${(tipoEfectivoIRPF * 100).toFixed(0)} c\u00e9ntimos en IRPF. Los 1.500 \u20ac de l\u00edmite individual te ahorran ${ahorroPensiones}. Negocia que tu empresa a\u00f1ada aportaciones al plan de empleo (hasta 8.500 \u20ac/a\u00f1o adicionales exentos).` });
+    tips.push({ titulo: 'Estrategia combinada pensiones + empresa', texto: `Con ${formatAmountSpanish(annualGross)} \u20ac brutos y un tipo IRPF del ${irpfPct}%, cada euro aportado al plan de pensiones te devuelve ${dec((tipoEfectivoIRPF * 100), 0)} c\u00e9ntimos en IRPF. Los 1.500 \u20ac de l\u00edmite individual te ahorran ${ahorroPensiones}. Negocia que tu empresa a\u00f1ada aportaciones al plan de empleo (hasta 8.500 \u20ac/a\u00f1o adicionales exentos).` });
     tips.push({ titulo: 'Retribuci\u00f3n flexible integral', texto: `Monta un paquete completo: ticket restaurante (ahorro ~${ahorroTicket}), seguro m\u00e9dico (exento hasta 500 \u20ac/persona, 1.500 \u20ac si incluyes familia), guarder\u00eda (hasta 1.000 \u20ac exentos), y abono transporte (1.500 \u20ac exentos). Combinados pueden mejorar tu neto en m\u00e1s de 1.000 \u20ac/a\u00f1o.` });
     tips.push({ titulo: 'Formaci\u00f3n bonificada', texto: 'Los cursos de formaci\u00f3n pagados por la empresa no tributan como retribuci\u00f3n en especie si est\u00e1n relacionados con tu actividad. M\u00e1steres, certificaciones y cursos de idiomas financiados por la empresa son una forma de retribuci\u00f3n invisible que mejora tu empleabilidad sin coste fiscal.' });
     tips.push({ titulo: 'Deducciones por donaciones', texto: `Las donaciones a ONGs y fundaciones desgravan: los primeros 250 \u20ac al 80% (devoluci\u00f3n de 200 \u20ac) y el resto al 40% (45% si repites donaci\u00f3n). Con tu tipo del ${irpfPct}%, donar puede ser m\u00e1s eficiente fiscalmente que a otros niveles salariales.` });
@@ -124,7 +125,7 @@ function getTipsFiscales(annualGross: number, netoMensual: number, tipoEfectivoI
     tips.push({ titulo: 'Planificaci\u00f3n fiscal proactiva', texto: `Con ${formatAmountSpanish(annualGross)} \u20ac brutos y un tipo IRPF del ${irpfPct}%, cada herramienta fiscal cuenta. Maximiza planes de pensiones (ahorro: ${ahorroPensiones}), negocia retribuci\u00f3n flexible completa (ahorro estimado: 1.200-2.000 \u20ac/a\u00f1o) y programa tus inversiones para diferir las plusval\u00edas.` });
     tips.push({ titulo: 'Seguro m\u00e9dico de empresa', texto: `El seguro m\u00e9dico pagado por la empresa est\u00e1 exento hasta 500 \u20ac/persona/a\u00f1o (1.500 \u20ac para discapacitados). Si incluyes c\u00f3nyuge e hijos, el ahorro fiscal asciende a ${formatEuros(2000 * tipoEfectivoIRPF)}-${formatEuros(2500 * tipoEfectivoIRPF)} anuales al evitar tributar esas primas como renta en especie.` });
     tips.push({ titulo: 'Deducir gastos sindicales y colegiales', texto: 'Las cuotas de sindicatos son deducibles \u00edntegramente del rendimiento del trabajo. Las cuotas de colegios profesionales (hasta 500 \u20ac/a\u00f1o) tambi\u00e9n reducen tu base imponible. Pocos contribuyentes las incluyen en la declaraci\u00f3n a pesar de ser leg\u00edtimas.' });
-    tips.push({ titulo: 'Inversiones con ventaja fiscal', texto: `A tu tipo efectivo, cada euro deducido te devuelve ${(tipoEfectivoIRPF * 100).toFixed(0)} c\u00e9ntimos. Adem\u00e1s de pensiones, considera: seguros de ahorro unit-linked (diferimiento fiscal), SICAVs si inviertes junto a otros, y cuentas de ahorro-vivienda si a\u00fan eres menor de 30 en algunas CCAs.` });
+    tips.push({ titulo: 'Inversiones con ventaja fiscal', texto: `A tu tipo efectivo, cada euro deducido te devuelve ${dec((tipoEfectivoIRPF * 100), 0)} c\u00e9ntimos. Adem\u00e1s de pensiones, considera: seguros de ahorro unit-linked (diferimiento fiscal), SICAVs si inviertes junto a otros, y cuentas de ahorro-vivienda si a\u00fan eres menor de 30 en algunas CCAs.` });
   } else if (annualGross <= 75000) {
     // Tramo 7: Alto
     tips.push({ titulo: 'Asesoramiento fiscal profesional', texto: `Con ${formatAmountSpanish(annualGross)} \u20ac brutos y un IRPF del ${irpfPct}%, un asesor fiscal (300-800 \u20ac/a\u00f1o) se amortiza r\u00e1pidamente. Estrategias avanzadas: timing de ganancias patrimoniales, amortizaci\u00f3n de inmuebles alquilados (60% de reducci\u00f3n en rendimiento neto), y optimizaci\u00f3n del mix retribuci\u00f3n fija/variable/especie.` });
@@ -287,7 +288,7 @@ const schemas = [
         <table class="w-full text-sm">
           <tbody>
             <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-4 py-2 font-medium text-charcoal dark:text-gray-100">Salario bruto anual</td><td class="px-4 py-2 text-right tabular-nums font-medium">{formatEuros(page.annualGross)}</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-4 py-2 text-gray-600 dark:text-gray-300">Seguridad Social ({(defaultResult.seguridadSocialAnual / page.annualGross * 100).toFixed(1)}%)</td><td class="px-4 py-2 text-right tabular-nums text-red-600">-{formatEuros(defaultResult.seguridadSocialAnual)}</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-4 py-2 text-gray-600 dark:text-gray-300">Seguridad Social ({dec((defaultResult.seguridadSocialAnual / page.annualGross * 100), 1)}%)</td><td class="px-4 py-2 text-right tabular-nums text-red-600">-{formatEuros(defaultResult.seguridadSocialAnual)}</td></tr>
             <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-4 py-2 text-gray-600 dark:text-gray-300">IRPF estatal</td><td class="px-4 py-2 text-right tabular-nums text-red-600">-{formatEuros(defaultResult.irpfEstatalAnual)}</td></tr>
             <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-4 py-2 text-gray-600 dark:text-gray-300">IRPF autonómico (Madrid)</td><td class="px-4 py-2 text-right tabular-nums text-red-600">-{formatEuros(defaultResult.irpfAutonomicoAnual)}</td></tr>
             <tr class="bg-emerald-50 dark:bg-emerald-900/20"><td class="px-4 py-2 font-bold text-charcoal dark:text-gray-100">Sueldo neto anual</td><td class="px-4 py-2 text-right tabular-nums font-bold text-emerald-700 dark:text-emerald-400">{formatEuros(defaultResult.netoAnual)}</td></tr>
@@ -328,7 +329,7 @@ const schemas = [
         <p>
           Tras aplicar las deducciones de Seguridad Social ({porcentajeSS}% de tu bruto) y la retención del IRPF (tipo efectivo del {porcentajeIRPF}%),
           tu sueldo neto mensual en Madrid con 14 pagas es de <strong>{formatEuros(defaultResult.netoMensual)}</strong>.
-          Esto supone que de cada 100 euros brutos que genera tu trabajo, recibes en tu cuenta bancaria aproximadamente {(100 - parseFloat(porcentajeDeduccion)).toFixed(0)} euros netos.
+          Esto supone que de cada 100 euros brutos que genera tu trabajo, recibes en tu cuenta bancaria aproximadamente {dec((100 - parseFloat(porcentajeDeduccion.replace(',', '.'))), 0)} euros netos.
           En total, tus deducciones anuales ascienden a {formatEuros(totalDeduccionesAnual)}, repartidas entre {formatEuros(defaultResult.seguridadSocialAnual)} de Seguridad Social y {formatEuros(defaultResult.irpfTotalAnual)} de IRPF.
         </p>
       </div>

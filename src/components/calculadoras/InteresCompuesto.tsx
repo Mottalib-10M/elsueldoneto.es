@@ -1,3 +1,4 @@
+import { dec } from '../../lib/dec';
 import { useState, useMemo } from 'react';
 import { calcularInteresCompuesto } from '../../lib/finanz-engine';
 import { formatEuros, formatPercent } from '../../lib/format-es';
@@ -47,7 +48,7 @@ export default function InteresCompuesto({ lang = 'es' }: { lang?: 'es' | 'en' }
             <tr className="border-b border-gray-100 dark:border-gray-700"><td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Initial capital' : 'Capital inicial'}</td><td className="px-4 py-2 text-right tabular-nums font-medium">{formatEuros(capitalNum)}</td></tr>
             <tr className="border-b border-gray-100 dark:border-gray-700"><td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? `Total contributions (${aniosNum} years)` : `Total aportaciones (${aniosNum} años)`}</td><td className="px-4 py-2 text-right tabular-nums font-medium">{formatEuros(aportacionNum * 12 * aniosNum)}</td></tr>
             <tr className="border-b border-gray-100 dark:border-gray-700"><td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Return on invested capital' : 'Rentabilidad sobre invertido'}</td><td className="px-4 py-2 text-right tabular-nums font-medium">{resultado.capitalInvertido > 0 ? formatPercent(resultado.interesesTotales / resultado.capitalInvertido) : '-'}</td></tr>
-            <tr><td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Multiplier' : 'Multiplicador'}</td><td className="px-4 py-2 text-right tabular-nums font-medium">{resultado.capitalInvertido > 0 ? `×${(resultado.capitalFinal / resultado.capitalInvertido).toFixed(2)}` : '-'}</td></tr>
+            <tr><td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Multiplier' : 'Multiplicador'}</td><td className="px-4 py-2 text-right tabular-nums font-medium">{resultado.capitalInvertido > 0 ? `×${dec((resultado.capitalFinal / resultado.capitalInvertido), 2, l ? 'en-GB' : 'es-ES')}` : '-'}</td></tr>
           </tbody>
         </table>
       </div>

@@ -1,0 +1,56 @@
+---
+import Layout from '../components/layout/Layout.astro';
+import { SITE_NAME, CONTACT_EMAIL, CURRENT_FISCAL_YEAR } from '../config';
+import { buildBreadcrumbSchema } from '../lib/seo';
+
+const title = `${SITE_NAME}: metodología, fuentes y actualizaciones`;
+const description = `Cómo calculamos el sueldo neto, el IRPF y las cotizaciones en ${CURRENT_FISCAL_YEAR}: fuentes oficiales (AEAT, BOE, Seguridad Social), revisiones anuales y límites del cálculo.`;
+const schemas = [buildBreadcrumbSchema([{ name: 'Inicio', url: '/' }, { name: 'Metodología', url: '/metodologia/' }])];
+---
+
+<Layout title={title} description={description} schema={schemas}>
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/" class="hover:text-brand">Inicio</a> / <span class="text-charcoal dark:text-gray-200">Metodología</span>
+    </nav>
+    <h1 class="mb-6 text-3xl font-bold text-charcoal dark:text-gray-100">Metodología: cómo calculamos tu sueldo neto</h1>
+
+    <div class="max-w-none text-dark-gray dark:text-gray-300 leading-relaxed [&_h2]:mt-8 [&_h2]:mb-3 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-charcoal dark:[&_h2]:text-gray-100 [&_p]:mb-4 [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-1 [&_a]:text-brand [&_a]:underline">
+      <p class="text-lg">Esta página explica qué hacen nuestras calculadoras, de dónde salen las cifras, cómo las mantenemos al día y qué no cubre la estimación. Sirve de carta editorial del sitio.</p>
+
+      <h2>Qué calculan las calculadoras</h2>
+      <ul>
+        <li><strong>Cotizaciones a la Seguridad Social</strong> del trabajador: contingencias comunes, desempleo, formación profesional y el Mecanismo de Equidad Intergeneracional, con las bases mínima y máxima del año.</li>
+        <li><strong>Retención de IRPF</strong>: escala estatal más la escala de tu comunidad autónoma, mínimo personal y familiar, reducción por rendimientos del trabajo.</li>
+        <li><strong>Sueldo neto</strong> en 12 o 14 pagas, a partir del bruto anual o mensual.</li>
+        <li>Las demás herramientas (paro, jubilación, finiquito, hipoteca, IVA…) aplican las fórmulas descritas en cada página, con sus propias fuentes.</li>
+      </ul>
+      <p>Todo el cálculo se hace en tu navegador: no enviamos ni guardamos ningún dato que introduzcas.</p>
+
+      <h2>Nuestras fuentes</h2>
+      <ul>
+        <li><a href="https://www.agenciatributaria.gob.es" rel="noopener">Agencia Tributaria</a>: escalas de IRPF y algoritmo de cálculo de retenciones.</li>
+        <li><a href="https://www.boe.es" rel="noopener">Boletín Oficial del Estado</a>: Ley del IRPF, Ley General de la Seguridad Social, orden anual de cotización y leyes autonómicas.</li>
+        <li><a href="https://www.seg-social.es" rel="noopener">Seguridad Social</a>: bases y tipos de cotización del año.</li>
+        <li><a href="https://www.sepe.es" rel="noopener">SEPE</a>: prestación por desempleo.</li>
+        <li><a href="https://www.ine.es" rel="noopener">INE</a>: IPC y estadísticas salariales.</li>
+      </ul>
+
+      <h2>Actualizaciones</h2>
+      <ul>
+        <li>Las bases y tipos de cotización se revisan cada año con la orden de cotización publicada en el BOE.</li>
+        <li>Las escalas estatal y autonómicas de IRPF se revisan con cada ley de presupuestos o reforma fiscal.</li>
+        <li>Cada página muestra arriba y abajo la fecha real de su última modificación.</li>
+      </ul>
+
+      <h2>Límites de la estimación</h2>
+      <p>Las calculadoras ofrecen una estimación orientativa. La retención real la fija tu empresa con el algoritmo oficial y los datos de tu modelo 145; tu cuota definitiva de IRPF se conoce en la declaración de la renta. No se modelan todos los casos particulares (regímenes forales de País Vasco y Navarra, rendimientos irregulares, varios pagadores). En caso de duda, prevalece la resolución de la Administración.</p>
+
+      <h2>Comunicar un error</h2>
+      <p>¿Una cifra te parece incorrecta o desactualizada? Escríbenos a <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> indicando la página y la fuente oficial. Revisamos cada aviso y corregimos la página, cuya fecha de actualización cambia entonces.</p>
+
+      <h2>Independencia</h2>
+      <p>{SITE_NAME} no está vinculado a la Agencia Tributaria ni a ningún organismo público. Más información en <a href="/sobre-nosotros/">sobre nosotros</a>.</p>
+    </div>
+  </div>
+</Layout>

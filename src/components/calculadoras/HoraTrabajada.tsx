@@ -1,3 +1,4 @@
+import { dec } from '../../lib/dec';
 import { useState, useMemo } from 'react';
 import { calcularTarifaHora } from '../../lib/finanz-engine';
 import { calcularSueldoNeto, situacionFamiliarDefecto } from '../../lib/irpf-engine';
@@ -67,7 +68,7 @@ export default function HoraTrabajada({ lang = 'es' }: HoraTrabajadaProps) {
             </tr>
             <tr className="border-b border-gray-100 dark:border-gray-700">
               <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Hours worked per year' : 'Horas trabajadas al año'}</td>
-              <td className="px-4 py-2 text-right tabular-nums font-medium">{resultado.horasAnuales.toFixed(0)} h</td>
+              <td className="px-4 py-2 text-right tabular-nums font-medium">{dec(resultado.horasAnuales, 0, l ? 'en-GB' : 'es-ES')} h</td>
             </tr>
             <tr className="border-b border-gray-100 dark:border-gray-700">
               <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Gross hourly rate' : 'Tarifa hora bruta'}</td>

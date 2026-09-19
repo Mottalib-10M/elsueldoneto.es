@@ -1,3 +1,4 @@
+import { dec } from '../../lib/dec';
 import { useState, useMemo } from 'react';
 import { calcularSueldoNeto, situacionFamiliarDefecto } from '../../lib/irpf-engine';
 import type { SituacionFamiliar } from '../../lib/irpf-engine';
@@ -70,7 +71,7 @@ export default function TipoRetencion({ lang = 'es' }: TipoRetencionProps) {
 
       <div className="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-8 text-center dark:from-blue-900/30 dark:to-blue-900/10">
         <p className="text-sm font-medium text-blue-600 dark:text-blue-400">{l ? 'Your IRPF withholding rate' : 'Tu tipo de retención IRPF'}</p>
-        <p className="mt-2 text-5xl font-bold text-blue-700 dark:text-blue-300">{retencionPorcentaje.toFixed(2)} %</p>
+        <p className="mt-2 text-5xl font-bold text-blue-700 dark:text-blue-300">{dec(retencionPorcentaje, 2, l ? 'en-GB' : 'es-ES')} %</p>
         <p className="mt-2 text-sm text-blue-600 dark:text-blue-400">
           {l ? 'Monthly withholding' : 'Retención mensual'}: {formatEuros(resultado.retencionMensual)}
         </p>

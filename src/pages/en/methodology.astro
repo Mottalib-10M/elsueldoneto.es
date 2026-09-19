@@ -1,0 +1,56 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import { SITE_NAME, CONTACT_EMAIL, CURRENT_FISCAL_YEAR } from '../../config';
+import { buildBreadcrumbSchema } from '../../lib/seo';
+
+const title = `${SITE_NAME} Methodology: Calculations, Sources, Updates`;
+const description = `How we calculate Spanish net salary, IRPF withholding and social security in ${CURRENT_FISCAL_YEAR}: official sources (AEAT, BOE, Seguridad Social), yearly reviews, limits.`;
+const schemas = [buildBreadcrumbSchema([{ name: 'Home', url: '/en/' }, { name: 'Methodology', url: '/en/methodology/' }])];
+---
+
+<Layout title={title} description={description} schema={schemas}>
+  <div class="mx-auto max-w-3xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray">
+      <a href="/en/" class="hover:text-brand">Home</a> / <span class="text-charcoal dark:text-gray-200">Methodology</span>
+    </nav>
+    <h1 class="mb-6 text-3xl font-bold text-charcoal dark:text-gray-100">Methodology: how we calculate your net salary in Spain</h1>
+
+    <div class="max-w-none text-dark-gray dark:text-gray-300 leading-relaxed [&_h2]:mt-8 [&_h2]:mb-3 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-charcoal dark:[&_h2]:text-gray-100 [&_p]:mb-4 [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-1 [&_a]:text-brand [&_a]:underline">
+      <p class="text-lg">This page explains what our calculators do, where the figures come from, how we keep them current and what the estimate does not cover. It is the site's editorial policy.</p>
+
+      <h2>What the calculators compute</h2>
+      <ul>
+        <li><strong>Employee social security contributions</strong>: common contingencies, unemployment, vocational training and the intergenerational equity mechanism, within the year's minimum and maximum contribution bases.</li>
+        <li><strong>IRPF withholding</strong>: the state scale plus your autonomous community's scale, personal and family allowances, and the earned-income reduction.</li>
+        <li><strong>Net salary</strong> in 12 or 14 payments, from annual or monthly gross pay.</li>
+        <li>The other tools (unemployment, retirement, severance, mortgage, VAT…) apply the formulas described on each page, with their own sources.</li>
+      </ul>
+      <p>All calculations run in your browser: nothing you enter is sent or stored.</p>
+
+      <h2>Our sources</h2>
+      <ul>
+        <li><a href="https://www.agenciatributaria.gob.es" rel="noopener">Agencia Tributaria</a> (Spanish Tax Agency): IRPF scales and the withholding algorithm.</li>
+        <li><a href="https://www.boe.es" rel="noopener">Boletín Oficial del Estado</a>: the IRPF Act, the General Social Security Act, the yearly contribution order and regional laws.</li>
+        <li><a href="https://www.seg-social.es" rel="noopener">Seguridad Social</a>: the year's contribution bases and rates.</li>
+        <li><a href="https://www.sepe.es" rel="noopener">SEPE</a>: unemployment benefit.</li>
+        <li><a href="https://www.ine.es" rel="noopener">INE</a>: consumer prices and wage statistics.</li>
+      </ul>
+
+      <h2>Updates</h2>
+      <ul>
+        <li>Contribution bases and rates are reviewed every year with the contribution order published in the BOE.</li>
+        <li>State and regional IRPF scales are reviewed with each budget act or tax reform.</li>
+        <li>Every page shows, at the top and the bottom, the real date of its last change.</li>
+      </ul>
+
+      <h2>Limits of the estimate</h2>
+      <p>Our calculators give an estimate for guidance only. Your employer sets the actual withholding with the official algorithm and your form 145 data; your final IRPF liability is settled in your annual tax return. Some cases are not modelled (the Basque Country and Navarre foral regimes, irregular income, several payers). If in doubt, the tax authority's decision prevails.</p>
+
+      <h2>Report an error</h2>
+      <p>Does a figure look wrong or out of date? Write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> with the page and the official source. We check every report and correct the page, whose update date then changes.</p>
+
+      <h2>Independence</h2>
+      <p>{SITE_NAME} is not affiliated with the Spanish Tax Agency or any public body. See also <a href="/en/about/">about us</a>.</p>
+    </div>
+  </div>
+</Layout>

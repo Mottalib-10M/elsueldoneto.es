@@ -1,3 +1,4 @@
+import { dec } from '../../lib/dec';
 import { useState, useMemo } from 'react';
 import { calcularParo } from '../../lib/finanz-engine';
 import { formatEuros } from '../../lib/format-es';
@@ -56,7 +57,7 @@ export default function Paro({ lang = 'es' }: ParoProps) {
 
           <div className="rounded-xl bg-gradient-to-br from-amber-50 to-amber-100 p-6 text-center dark:from-amber-900/30 dark:to-amber-900/10">
             <p className="text-sm font-medium text-amber-600 dark:text-amber-400">{l ? 'Benefit duration' : 'Duración de la prestación'}</p>
-            <p className="mt-1 text-2xl font-bold text-amber-700 dark:text-amber-300">{resultado.duracionMeses.toFixed(0)} {l ? 'months' : 'meses'}</p>
+            <p className="mt-1 text-2xl font-bold text-amber-700 dark:text-amber-300">{dec(resultado.duracionMeses, 0, l ? 'en-GB' : 'es-ES')} {l ? 'months' : 'meses'}</p>
           </div>
 
           <div className="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">

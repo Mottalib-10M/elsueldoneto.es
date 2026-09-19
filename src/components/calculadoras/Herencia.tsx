@@ -1,3 +1,4 @@
+import { dec } from '../../lib/dec';
 import { useState, useMemo } from 'react';
 import CampoEntrada from '../ui/CampoEntrada';
 import { formatEuros } from '../../lib/format-es';
@@ -419,7 +420,7 @@ export default function Herencia({ lang = 'es' }: HerenciaProps) {
                 </tr>
                 <tr className="border-t border-gray-100 dark:border-gray-700">
                   <td className="px-4 py-2 text-gray-600 dark:text-gray-300">
-                    {l ? 'Multiplier coefficient' : 'Coeficiente multiplicador'} (x{resultado.coeficiente.toFixed(4)})
+                    {l ? 'Multiplier coefficient' : 'Coeficiente multiplicador'} (x{dec(resultado.coeficiente, 4, l ? 'en-GB' : 'es-ES')})
                   </td>
                   <td className="px-4 py-2 text-right tabular-nums font-medium">
                     {formatEuros(resultado.cuotaAjustada)}
@@ -428,7 +429,7 @@ export default function Herencia({ lang = 'es' }: HerenciaProps) {
                 {resultado.bonificacion > 0 && (
                   <tr className="border-t border-gray-100 dark:border-gray-700">
                     <td className="px-4 py-2 text-gray-600 dark:text-gray-300">
-                      {l ? 'Regional rebate' : 'Bonificación autonómica'} ({(resultado.bonificacion * 100).toFixed(1)}%)
+                      {l ? 'Regional rebate' : 'Bonificación autonómica'} ({dec((resultado.bonificacion * 100), 1, l ? 'en-GB' : 'es-ES')}%)
                     </td>
                     <td className="px-4 py-2 text-right tabular-nums font-medium text-emerald-600 dark:text-emerald-400">
                       -{formatEuros(resultado.cuotaAjustada * resultado.bonificacion)}

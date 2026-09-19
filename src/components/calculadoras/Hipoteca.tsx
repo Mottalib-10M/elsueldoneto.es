@@ -1,3 +1,4 @@
+import { dec } from '../../lib/dec';
 import { useState, useMemo } from 'react';
 import CampoEntrada from '../ui/CampoEntrada';
 import { formatEuros, formatPercent } from '../../lib/format-es';
@@ -120,8 +121,8 @@ export default function Hipoteca({ lang = 'es' }: HipotecaProps) {
             </p>
             <p className="mt-1">
               {l
-                ? `You are financing ${resultado.porcentajeFinanciado.toFixed(1)}% of the property price.`
-                : `Financias el ${resultado.porcentajeFinanciado.toFixed(1)}% del precio de la vivienda.`}
+                ? `You are financing ${dec(resultado.porcentajeFinanciado, 1, l ? 'en-GB' : 'es-ES')}% of the property price.`
+                : `Financias el ${dec(resultado.porcentajeFinanciado, 1, l ? 'en-GB' : 'es-ES')}% del precio de la vivienda.`}
               {resultado.porcentajeFinanciado > 80 && (
                 <span className="ml-1 font-medium text-red-600 dark:text-red-400">
                   {l

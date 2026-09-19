@@ -1,3 +1,4 @@
+import { dec } from '../../lib/dec';
 import { useState, useMemo } from 'react';
 import CampoEntrada from '../ui/CampoEntrada';
 import { formatEuros } from '../../lib/format-es';
@@ -134,8 +135,8 @@ export default function Jubilacion({ lang = 'es' }: { lang?: 'es' | 'en' }) {
         <div className="rounded-xl bg-red-50 p-6 text-center dark:bg-red-900/20">
           <p className="text-sm font-medium text-red-600 dark:text-red-400">
             {l
-              ? `With ${resultado.totalAniosCotizados.toFixed(0)} years of contributions, the minimum of 15 years required to access a contributory retirement pension is not reached.`
-              : `Con ${resultado.totalAniosCotizados.toFixed(0)} años cotizados no se alcanza el mínimo de 15 años necesarios para acceder a una pensión contributiva de jubilación.`}
+              ? `With ${dec(resultado.totalAniosCotizados, 0, l ? 'en-GB' : 'es-ES')} years of contributions, the minimum of 15 years required to access a contributory retirement pension is not reached.`
+              : `Con ${dec(resultado.totalAniosCotizados, 0, l ? 'en-GB' : 'es-ES')} años cotizados no se alcanza el mínimo de 15 años necesarios para acceder a una pensión contributiva de jubilación.`}
           </p>
         </div>
       )}
@@ -155,7 +156,7 @@ export default function Jubilacion({ lang = 'es' }: { lang?: 'es' | 'en' }) {
         <div className="rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100 p-6 text-center dark:from-emerald-900/30 dark:to-emerald-900/10">
           <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">{l ? 'Regulatory base percentage' : 'Porcentaje de base reguladora'}</p>
           <p className="mt-1 text-2xl font-bold text-emerald-700 dark:text-emerald-300">
-            {resultado.porcentaje.toFixed(2)}%
+            {dec(resultado.porcentaje, 2, l ? 'en-GB' : 'es-ES')}%
           </p>
           <p className="mt-1 text-xs text-emerald-600 dark:text-emerald-400">
             {l ? 'Maximum 100% with 36.5 years' : 'Máximo 100% con 36,5 años'}
@@ -175,7 +176,7 @@ export default function Jubilacion({ lang = 'es' }: { lang?: 'es' | 'en' }) {
         <div className="rounded-xl bg-gradient-to-br from-purple-50 to-purple-100 p-6 text-center dark:from-purple-900/30 dark:to-purple-900/10">
           <p className="text-sm font-medium text-purple-600 dark:text-purple-400">{l ? 'Total years contributed' : 'Años cotizados totales'}</p>
           <p className="mt-1 text-2xl font-bold text-purple-700 dark:text-purple-300">
-            {resultado.totalAniosCotizados.toFixed(0)} {l ? 'years' : 'años'}
+            {dec(resultado.totalAniosCotizados, 0, l ? 'en-GB' : 'es-ES')} {l ? 'years' : 'años'}
           </p>
           <p className="mt-1 text-xs text-purple-600 dark:text-purple-400">
             {l ? `${aniosCotNum} current + ${restantesNum} future` : `${aniosCotNum} actuales + ${restantesNum} futuros`}
@@ -193,7 +194,7 @@ export default function Jubilacion({ lang = 'es' }: { lang?: 'es' | 'en' }) {
               </tr>
               <tr className="border-b border-gray-100 dark:border-gray-700">
                 <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Replacement rate' : 'Tasa de sustitución'}</td>
-                <td className="px-4 py-2 text-right tabular-nums font-medium">{resultado.tasaSustitucion.toFixed(2)}%</td>
+                <td className="px-4 py-2 text-right tabular-nums font-medium">{dec(resultado.tasaSustitucion, 2, l ? 'en-GB' : 'es-ES')}%</td>
               </tr>
               <tr className="border-b border-gray-100 dark:border-gray-700">
                 <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Difference from last salary' : 'Diferencia con último salario'}</td>

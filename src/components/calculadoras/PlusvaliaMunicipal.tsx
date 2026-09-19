@@ -1,3 +1,4 @@
+import { dec } from '../../lib/dec';
 import { useState, useMemo } from 'react';
 import CampoEntrada from '../ui/CampoEntrada';
 import { formatEuros } from '../../lib/format-es';
@@ -226,7 +227,7 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600 dark:text-gray-400">{l ? `Coefficient (${aniosTenenciaNum} ${aniosTenenciaNum === 1 ? 'year' : 'years'})` : `Coeficiente (${aniosTenenciaNum} ${aniosTenenciaNum === 1 ? 'ano' : 'anos'})`}</span>
-                  <span className="tabular-nums font-medium">{resultado.coeficiente.toFixed(2)}</span>
+                  <span className="tabular-nums font-medium">{dec(resultado.coeficiente, 2, l ? 'en-GB' : 'es-ES')}</span>
                 </div>
                 <div className="flex justify-between border-t border-gray-200 pt-2 dark:border-gray-600">
                   <span className="font-semibold text-charcoal dark:text-gray-100">{l ? 'Tax base' : 'Base imponible'}</span>

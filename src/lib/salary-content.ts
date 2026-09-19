@@ -1,3 +1,4 @@
+import { dec } from './dec';
 /**
  * salary-content.ts \u2014 Generates UNIQUE text content for each salary amount page.
  *
@@ -77,7 +78,7 @@ export function getBandContext(amount: number, result: DesgloseSueldo): string {
   const weeklyNet = calcWeeklyNet(result.netoAnual);
   const pctMedian = percentAboveMedian(annualGross);
   const pctSMI = percentAboveSMI(annualGross);
-  const ratioSMI = (annualGross / SMI_ANUAL).toFixed(2);
+  const ratioSMI = dec((annualGross / SMI_ANUAL), 2);
   const v = getVariation(amount, 10);
 
   const hourlyGrossStr = formatEuros(hourlyGross);
@@ -85,8 +86,8 @@ export function getBandContext(amount: number, result: DesgloseSueldo): string {
   const dailyGrossStr = formatEuros(dailyGross);
   const dailyNetStr = formatEuros(dailyNet);
   const weeklyNetStr = formatEuros(weeklyNet);
-  const pctMedianStr = Math.abs(pctMedian).toFixed(1);
-  const pctSMIStr = pctSMI.toFixed(1);
+  const pctMedianStr = dec(Math.abs(pctMedian), 1);
+  const pctSMIStr = dec(pctSMI, 1);
   const monthlyGrossStr = formatEuros(annualGross / 14);
   const biweeklyNetStr = formatEuros(result.netoAnual / 26);
 
@@ -213,8 +214,8 @@ export function getCareerDescription(amount: number): string {
 export function getTaxTips(amount: number, result: DesgloseSueldo): string {
   const v = getVariation(amount, 10);
   const annualGross = result.brutoAnual;
-  const tipoEfectivo = (result.tipoEfectivoIRPF * 100).toFixed(2);
-  const tipoTotal = (result.tipoEfectivoTotal * 100).toFixed(2);
+  const tipoEfectivo = dec((result.tipoEfectivoIRPF * 100), 2);
+  const tipoTotal = dec((result.tipoEfectivoTotal * 100), 2);
   const ssAnual = formatEuros(result.seguridadSocialAnual);
   const irpfAnual = formatEuros(result.irpfTotalAnual);
   const retencionMes = formatEuros(result.retencionMensual);
@@ -264,7 +265,7 @@ export function getTaxTips(amount: number, result: DesgloseSueldo): string {
       `Recuerda: las aportaciones a planes de pensiones de empleo (hechas por tu empresa) no cuentan en tu l\u00edmite de 1.500 \u20ac y pueden alcanzar 8.500 \u20ac anuales adicionales. Es una de las herramientas m\u00e1s potentes de ahorro fiscal para asalariados.`,
     ],
     [
-      `Con ${formatAmountSpanish(annualGross)} \u20ac brutos, tu tipo efectivo de IRPF es del ${tipoEfectivo}%. Esto significa que cada euro adicional que puedas deducir te devuelve aproximadamente ${(result.tipoEfectivoIRPF * 100).toFixed(0)} c\u00e9ntimos en la declaraci\u00f3n. Las cotizaciones sociales (${ssAnual}/a\u00f1o) son fijas y no tienen optimizaci\u00f3n posible.`,
+      `Con ${formatAmountSpanish(annualGross)} \u20ac brutos, tu tipo efectivo de IRPF es del ${tipoEfectivo}%. Esto significa que cada euro adicional que puedas deducir te devuelve aproximadamente ${dec((result.tipoEfectivoIRPF * 100), 0)} c\u00e9ntimos en la declaraci\u00f3n. Las cotizaciones sociales (${ssAnual}/a\u00f1o) son fijas y no tienen optimizaci\u00f3n posible.`,
       `Acciones concretas: (1) aportar 1.500 \u20ac al plan de pensiones = ${ahorroFiscalPensiones} de ahorro; (2) pedir ticket restaurante = ${ahorroTicket} de ahorro; (3) revisar deducciones auton\u00f3micas (alquiler, hijos, formaci\u00f3n) que muchos contribuyentes desconocen.`,
       `Calendario fiscal: presenta siempre la declaraci\u00f3n (abril-junio), incluso si no est\u00e1s obligado. Con retenciones de ${retencionMes}/mes, es habitual que la liquidaci\u00f3n salga a devolver si tienes derecho a m\u00ednimos familiares, deducciones auton\u00f3micas o aportaciones a planes.`,
     ],
@@ -298,14 +299,14 @@ export function buildFaqs(amount: number, result: DesgloseSueldo): FaqEntry[] {
   const dailyNet = formatEuros(calcDailyNet(result.netoAnual));
   const weeklyNet = formatEuros(calcWeeklyNet(result.netoAnual));
   const netoMes = formatEuros(result.netoMensual);
-  const tipoEfectivo = (result.tipoEfectivoIRPF * 100).toFixed(1);
-  const tipoTotal = (result.tipoEfectivoTotal * 100).toFixed(1);
+  const tipoEfectivo = dec((result.tipoEfectivoIRPF * 100), 1);
+  const tipoTotal = dec((result.tipoEfectivoTotal * 100), 1);
   const irpfAnual = formatEuros(result.irpfTotalAnual);
   const ssAnual = formatEuros(result.seguridadSocialAnual);
   const neto12 = formatEuros(result.netoAnual / 12);
   const pctMedian = percentAboveMedian(annualGross);
-  const pctMedianStr = Math.abs(pctMedian).toFixed(1);
-  const ratioSMI = (annualGross / SMI_ANUAL).toFixed(1);
+  const pctMedianStr = dec(Math.abs(pctMedian), 1);
+  const ratioSMI = dec((annualGross / SMI_ANUAL), 1);
 
   const v = getVariation(amount, 3);
 
@@ -394,8 +395,8 @@ export function getRaiseSimulation(amount: number, result: DesgloseSueldo): {
     };
   });
 
-  const effectiveStr = (result.tipoEfectivoIRPF * 100).toFixed(1);
-  const totalEffStr = (result.tipoEfectivoTotal * 100).toFixed(1);
+  const effectiveStr = dec((result.tipoEfectivoIRPF * 100), 1);
+  const totalEffStr = dec((result.tipoEfectivoTotal * 100), 1);
   const marginalStr = scenarios[0].effectiveTaxOnRaise;
   const raise10bruto = formatEuros(annualGross * 0.10);
   const raise10netoAnual = formatEuros(scenarios[2].netGainAnnual);
@@ -560,7 +561,7 @@ export function getBudgetBreakdown(netMonthly: number): {
   const conclusionVariants = [
     `Con esta distribuci\u00f3n, en 12 meses habr\u00edas acumulado ${formatEuros(ahorroInversion * 12)} en inversiones m\u00e1s ${formatEuros(fondoEmergencia * 12)} en fondo de emergencia. En 5 a\u00f1os (sin contar rentabilidad), tu patrimonio l\u00edquido crecer\u00eda en ${formatEuros((ahorroInversion + fondoEmergencia) * 60)}.`,
     `Si mantienes este presupuesto durante un a\u00f1o, ahorras ${formatEuros(ahorro * 12)} (${formatEuros(ahorroInversion * 12)} inversi\u00f3n + ${formatEuros(fondoEmergencia * 12)} emergencia). Con una rentabilidad media del 7% anual en fondos indexados, en 10 a\u00f1os podr\u00edas acumular m\u00e1s de ${formatEuros(ahorroInversion * 12 * 14)}.`,
-    `Resultado anual: ${formatEuros(ahorro * 12)} ahorrados (${pctAhorroTotal}% de tu neto anual). Tu fondo de emergencia alcanzar\u00eda ${formatEuros(fondoEmergencia * 12)} tras 12 meses, cubriendo ${(fondoEmergencia * 12 / necesidades).toFixed(1)} meses de gastos fijos.`,
+    `Resultado anual: ${formatEuros(ahorro * 12)} ahorrados (${pctAhorroTotal}% de tu neto anual). Tu fondo de emergencia alcanzar\u00eda ${formatEuros(fondoEmergencia * 12)} tras 12 meses, cubriendo ${dec((fondoEmergencia * 12 / necesidades), 1)} meses de gastos fijos.`,
     `Total ahorro anual estimado: ${formatEuros(ahorro * 12)}. Si destinas los ${formatEuros(ahorroInversion)} mensuales a un fondo indexado global (rentabilidad hist\u00f3rica ~7-8%), en 20 a\u00f1os podr\u00edas haber generado un capital superior a ${formatEuros(ahorroInversion * 12 * 35)} (inter\u00e9s compuesto incluido).`,
   ];
 
@@ -594,7 +595,7 @@ export function getUniqueComparisons(amount: number, result: DesgloseSueldo): {
 
   // Percentage differences
   const diffToLower = annualGross - lowerAmount;
-  const pctDiffNet5k = ((result.netoAnual - (result.netoAnual - diffToLower * (1 - result.tipoEfectivoTotal))) / result.netoAnual * 100).toFixed(1);
+  const pctDiffNet5k = dec(((result.netoAnual - (result.netoAnual - diffToLower * (1 - result.tipoEfectivoTotal))) / result.netoAnual * 100), 1);
   const netGainFor5kMore = 5000 * (1 - Math.min(0.47, result.tipoEfectivoTotal + 0.08));
 
   const hourlyGross = calcHourlyGross(annualGross);
@@ -602,7 +603,7 @@ export function getUniqueComparisons(amount: number, result: DesgloseSueldo): {
   const dailyNet = calcDailyNet(result.netoAnual);
   const minuteNet = hourlyNet / 60;
   const marginalRate = Math.round((result.tipoEfectivoTotal + 0.08) * 100);
-  const effectiveRate = (result.tipoEfectivoTotal * 100).toFixed(1);
+  const effectiveRate = dec((result.tipoEfectivoTotal * 100), 1);
   const netGainMes = formatEuros(netGainFor5kMore / 14);
   const netGainAnual = formatEuros(netGainFor5kMore);
   const weeklyNet = formatEuros(result.netoAnual / 52);
@@ -621,12 +622,12 @@ export function getUniqueComparisons(amount: number, result: DesgloseSueldo): {
     {
       label: `vs. Mediana (${formatAmountSpanish(MEDIANA_SALARIAL)} \u20ac)`,
       value: annualGross >= MEDIANA_SALARIAL ? `+${formatEuros(annualGross - MEDIANA_SALARIAL)}` : `-${formatEuros(MEDIANA_SALARIAL - annualGross)}`,
-      diff: `${Math.abs(percentAboveMedian(annualGross)).toFixed(1)}% ${annualGross >= MEDIANA_SALARIAL ? 'por encima' : 'por debajo'}`,
+      diff: `${dec(Math.abs(percentAboveMedian(annualGross)), 1)}% ${annualGross >= MEDIANA_SALARIAL ? 'por encima' : 'por debajo'}`,
     },
     {
       label: `vs. SMI (${formatAmountSpanish(SMI_ANUAL)} \u20ac)`,
       value: `+${formatEuros(annualGross - SMI_ANUAL)}`,
-      diff: `${(annualGross / SMI_ANUAL).toFixed(2)}x el m\u00ednimo legal`,
+      diff: `${dec((annualGross / SMI_ANUAL), 2)}x el m\u00ednimo legal`,
     },
     {
       label: `Tu minuto de trabajo`,
@@ -658,7 +659,7 @@ export function getUniqueComparisons(amount: number, result: DesgloseSueldo): {
     `Lecci\u00f3n clave de esta comparativa: la progresividad fiscal espa\u00f1ola hace que ganar 5.000 \u20ac m\u00e1s en bruto solo a\u00f1ada ${netGainMes} netos a tu paga mensual (${netGainAnual}/a\u00f1o). Sin embargo, el aumento tambi\u00e9n eleva tu base de cotizaci\u00f3n para la pensi\u00f3n y la prestaci\u00f3n por desempleo, beneficios que no se reflejan en el neto inmediato.`,
     `\u00bfMerece la pena ganar m\u00e1s? Absolutamente, pero con expectativas realistas. De 5.000 \u20ac brutos adicionales, ~${formatEuros(5000 - netGainFor5kMore)} se quedan en impuestos y cotizaciones (tipo marginal del ~${marginalRate}%). Tu neto mensual subir\u00eda ${netGainMes} y tu valor horario pasar\u00eda de ${formatEuros(hourlyNet)} a ${formatEuros(hourlyNet + netGainFor5kMore / HORAS_LABORABLES_ANIO)}.`,
     `Datos para la negociaci\u00f3n salarial: con tu tipo marginal del ~${marginalRate}%, necesitas un aumento bruto de ~${formatEuros(100 * 14 / (1 - (result.tipoEfectivoTotal + 0.08)))} para ver 100 \u20ac m\u00e1s netos al mes. Un incremento de 5.000 \u20ac se traduce en ${netGainMes}/mes netos. Tu minuto de trabajo actual rinde ${formatEuros(minuteNet)} netos.`,
-    `Resumen de la comparativa: frente a la mediana nacional, tu salario de ${formatAmountSpanish(annualGross)} \u20ac est\u00e1 ${Math.abs(percentAboveMedian(annualGross)).toFixed(1)}% ${annualGross >= MEDIANA_SALARIAL ? 'por encima' : 'por debajo'}. Un salto de 5.000 \u20ac brutos a\u00f1adir\u00eda ${netGainMes}/mes netos a tu n\u00f3mina. El valor de tu tiempo: ${formatEuros(hourlyNet)} netos/hora, ${formatEuros(dailyNet)}/d\u00eda laborable.`,
+    `Resumen de la comparativa: frente a la mediana nacional, tu salario de ${formatAmountSpanish(annualGross)} \u20ac est\u00e1 ${dec(Math.abs(percentAboveMedian(annualGross)), 1)}% ${annualGross >= MEDIANA_SALARIAL ? 'por encima' : 'por debajo'}. Un salto de 5.000 \u20ac brutos a\u00f1adir\u00eda ${netGainMes}/mes netos a tu n\u00f3mina. El valor de tu tiempo: ${formatEuros(hourlyNet)} netos/hora, ${formatEuros(dailyNet)}/d\u00eda laborable.`,
   ];
 
   return {
@@ -691,8 +692,8 @@ export function getTimeToEarn(result: DesgloseSueldo): {
     return {
       concepto,
       coste,
-      horasNetas: (coste / hourlyNet).toFixed(1),
-      diasLaborables: coste / dailyNet < 10 ? (coste / dailyNet).toFixed(2) : (coste / dailyNet).toFixed(1),
+      horasNetas: dec((coste / hourlyNet), 1),
+      diasLaborables: coste / dailyNet < 10 ? dec((coste / dailyNet), 2) : dec((coste / dailyNet), 1),
     };
   }
 
@@ -794,9 +795,9 @@ export function getTimeToEarn(result: DesgloseSueldo): {
   ];
 
   const conclusionVariants = [
-    `En resumen: tu ${referenceLabel} te cuesta ${(referenceCost / dailyNet).toFixed(1)} jornadas laborables de las ${(DIAS_LABORABLES_ANIO / 12).toFixed(0)} que trabajas al mes. ${referenceCost / netoMensual > 0.35 ? 'Esto supera el 35% recomendado de tu neto, lo que puede limitar tu capacidad de ahorro.' : 'Esto se mantiene dentro del rango recomendado, dejando margen para ahorro e inversi\u00f3n.'}`,
-    `Perspectiva pr\u00e1ctica: de las ~${(DIAS_LABORABLES_ANIO / 12).toFixed(0)} jornadas laborables mensuales, ${(referenceCost / dailyNet).toFixed(1)} se destinan solo a vivienda. ${hourlyNet > 15 ? 'Tu hora neta de ' + formatEuros(hourlyNet) + ' te permite un nivel de vida c\u00f3modo si controlas los gastos discrecionales.' : 'Con ' + formatEuros(hourlyNet) + '/hora neta, cada gasto impulsivo supone un esfuerzo significativo en horas de trabajo.'}`,
-    `Cada d\u00eda que trabajas con este sueldo genera ${formatEuros(dailyNet)} netos. Eso significa que una compra impulsiva de ${netoMensual < 1500 ? '50' : netoMensual < 2500 ? '100' : '200'} \u20ac te cuesta ${(((netoMensual < 1500 ? 50 : netoMensual < 2500 ? 100 : 200)) / hourlyNet).toFixed(1)} horas de tu vida laboral. Pensar en t\u00e9rminos de \u201choras de trabajo\u201d suele ser la mejor herramienta para controlar el gasto.`,
+    `En resumen: tu ${referenceLabel} te cuesta ${dec((referenceCost / dailyNet), 1)} jornadas laborables de las ${dec((DIAS_LABORABLES_ANIO / 12), 0)} que trabajas al mes. ${referenceCost / netoMensual > 0.35 ? 'Esto supera el 35% recomendado de tu neto, lo que puede limitar tu capacidad de ahorro.' : 'Esto se mantiene dentro del rango recomendado, dejando margen para ahorro e inversi\u00f3n.'}`,
+    `Perspectiva pr\u00e1ctica: de las ~${dec((DIAS_LABORABLES_ANIO / 12), 0)} jornadas laborables mensuales, ${dec((referenceCost / dailyNet), 1)} se destinan solo a vivienda. ${hourlyNet > 15 ? 'Tu hora neta de ' + formatEuros(hourlyNet) + ' te permite un nivel de vida c\u00f3modo si controlas los gastos discrecionales.' : 'Con ' + formatEuros(hourlyNet) + '/hora neta, cada gasto impulsivo supone un esfuerzo significativo en horas de trabajo.'}`,
+    `Cada d\u00eda que trabajas con este sueldo genera ${formatEuros(dailyNet)} netos. Eso significa que una compra impulsiva de ${netoMensual < 1500 ? '50' : netoMensual < 2500 ? '100' : '200'} \u20ac te cuesta ${dec((((netoMensual < 1500 ? 50 : netoMensual < 2500 ? 100 : 200)) / hourlyNet), 1)} horas de tu vida laboral. Pensar en t\u00e9rminos de \u201choras de trabajo\u201d suele ser la mejor herramienta para controlar el gasto.`,
   ];
 
   return {
@@ -833,16 +834,16 @@ export function getAnnualTimeline(result: DesgloseSueldo): {
   const introVariants = [
     `Visualizando tu salario de ${formatAmountSpanish(annualGross)} \u20ac brutos en el calendario: tu \u201cD\u00eda de Liberaci\u00f3n Fiscal\u201d cae el ${taxFreedomStr}. Hasta esa fecha, todo lo que ganas se destina \u00edntegramente a impuestos y cotizaciones (${taxDays} d\u00edas naturales). A partir de ah\u00ed, cada euro es tuyo.`,
     `Con ${formatAmountSpanish(annualGross)} \u20ac brutos, trabajas los primeros ${taxDays} d\u00edas del a\u00f1o solo para Hacienda y la Seguridad Social. Tu D\u00eda de Liberaci\u00f3n Fiscal es el ${taxFreedomStr}. Desde esa fecha, cada c\u00e9ntimo que generas va directamente a tu cuenta bancaria.`,
-    `Tu calendario fiscal con ${formatAmountSpanish(annualGross)} \u20ac brutos: del 1 de enero al ${taxFreedomStr} (${taxDays} d\u00edas), tu salario va \u00edntegro a impuestos. Esto supone que dedicas el ${(taxDays / 365 * 100).toFixed(1)}% del a\u00f1o a financiar servicios p\u00fablicos antes de empezar a cobrar para ti.`,
-    `Dato revelador: con tu salario de ${formatAmountSpanish(annualGross)} \u20ac, necesitas ${taxDays} d\u00edas naturales (hasta el ${taxFreedomStr}) para cubrir toda tu carga fiscal anual. El ${(100 - taxDays / 365 * 100).toFixed(1)}% restante del a\u00f1o es ingreso neto efectivo.`,
+    `Tu calendario fiscal con ${formatAmountSpanish(annualGross)} \u20ac brutos: del 1 de enero al ${taxFreedomStr} (${taxDays} d\u00edas), tu salario va \u00edntegro a impuestos. Esto supone que dedicas el ${dec((taxDays / 365 * 100), 1)}% del a\u00f1o a financiar servicios p\u00fablicos antes de empezar a cobrar para ti.`,
+    `Dato revelador: con tu salario de ${formatAmountSpanish(annualGross)} \u20ac, necesitas ${taxDays} d\u00edas naturales (hasta el ${taxFreedomStr}) para cubrir toda tu carga fiscal anual. El ${dec((100 - taxDays / 365 * 100), 1)}% restante del a\u00f1o es ingreso neto efectivo.`,
   ];
 
   const lines = [
     `Ganas ${formatEuros(dailyNet)} netos cada d\u00eda del a\u00f1o (incluidos fines de semana y festivos, prorrateando tu salario anual).`,
-    `Cada segundo de trabajo efectivo genera ${(1/secondsPerEuro).toFixed(4)} \u20ac netos. Necesitas ${secondsPerEuro.toFixed(0)} segundos para ganar 1 \u20ac limpio.`,
+    `Cada segundo de trabajo efectivo genera ${dec((1/secondsPerEuro), 4)} \u20ac netos. Necesitas ${dec(secondsPerEuro, 0)} segundos para ganar 1 \u20ac limpio.`,
     `Mientras duermes 8 horas, tu salario prorrateado equivale a \u201cganar\u201d ${formatEuros(earnSleeping)} (es decir, esa es la parte proporcional de tu neto diario durante el sue\u00f1o).`,
-    `Tu IRPF total (${formatEuros(result.irpfTotalAnual)}) equivale a ${(result.irpfTotalAnual / dailyGross).toFixed(0)} d\u00edas de trabajo \u00edntegros destinados al impuesto sobre la renta.`,
-    `Tus cotizaciones sociales (${formatEuros(result.seguridadSocialAnual)}) financian ${(result.seguridadSocialAnual / dailyGross).toFixed(0)} d\u00edas de salario bruto, que van a tu futura pensi\u00f3n, desempleo y sanidad p\u00fablica.`,
+    `Tu IRPF total (${formatEuros(result.irpfTotalAnual)}) equivale a ${dec((result.irpfTotalAnual / dailyGross), 0)} d\u00edas de trabajo \u00edntegros destinados al impuesto sobre la renta.`,
+    `Tus cotizaciones sociales (${formatEuros(result.seguridadSocialAnual)}) financian ${dec((result.seguridadSocialAnual / dailyGross), 0)} d\u00edas de salario bruto, que van a tu futura pensi\u00f3n, desempleo y sanidad p\u00fablica.`,
   ];
 
   return { intro: introVariants[v], lines };
@@ -859,11 +860,11 @@ export function getSalaryMilestones(amount: number, result: DesgloseSueldo): str
   const savingsRate20 = result.netoMensual * 0.20;
   const monthsTo10k = Math.ceil(10000 / savingsRate20);
   const monthsTo50k = Math.ceil(50000 / savingsRate20);
-  const yearsTo100k = (100000 / (savingsRate20 * 12)).toFixed(1);
+  const yearsTo100k = dec((100000 / (savingsRate20 * 12)), 1);
 
   // Purchasing power milestones
   const monthsForCar = Math.ceil(20000 / savingsRate20);
-  const yearsForDownPayment = (40000 / (savingsRate20 * 12)).toFixed(1);
+  const yearsForDownPayment = dec((40000 / (savingsRate20 * 12)), 1);
 
   // Career earnings over time
   const earningsIn5Years = formatEurosRound(netPerYear * 5);
@@ -895,11 +896,11 @@ export function getDetailedDeductionAnalysis(amount: number, result: DesgloseSue
   const totalDeducciones = ssAnual + irpfTotal;
   const netoAnual = result.netoAnual;
 
-  const pctSS = (ssAnual / annualGross * 100).toFixed(2);
-  const pctIRPF = (irpfTotal / annualGross * 100).toFixed(2);
-  const pctTotal = (totalDeducciones / annualGross * 100).toFixed(2);
-  const pctEstatal = (irpfEstatal / irpfTotal * 100).toFixed(1);
-  const pctCCAA = (irpfCCAA / irpfTotal * 100).toFixed(1);
+  const pctSS = dec((ssAnual / annualGross * 100), 2);
+  const pctIRPF = dec((irpfTotal / annualGross * 100), 2);
+  const pctTotal = dec((totalDeducciones / annualGross * 100), 2);
+  const pctEstatal = dec((irpfEstatal / irpfTotal * 100), 1);
+  const pctCCAA = dec((irpfCCAA / irpfTotal * 100), 1);
 
   const ssDiario = ssAnual / DIAS_LABORABLES_ANIO;
   const irpfDiario = irpfTotal / DIAS_LABORABLES_ANIO;
@@ -914,7 +915,7 @@ export function getDetailedDeductionAnalysis(amount: number, result: DesgloseSue
   const irpfSemanal = irpfTotal / 52;
 
   const variants = [
-    `An\u00e1lisis detallado de deducciones con ${formatAmountSpanish(annualGross)} \u20ac brutos: de cada jornada laboral que trabajas, ${formatEuros(ssDiario)} van a la Seguridad Social (cotizaciones que financian tu futura pensi\u00f3n, la sanidad p\u00fablica y la prestaci\u00f3n por desempleo) y ${formatEuros(irpfDiario)} al IRPF (${formatEuros(irpfDiario * parseFloat(pctEstatal) / 100)} para el Estado y ${formatEuros(irpfDiario * parseFloat(pctCCAA) / 100)} para tu comunidad aut\u00f3noma). En total, ${formatEuros(ssDiario + irpfDiario)} diarios de deducciones. Tu IRPF se divide en un ${pctEstatal}% estatal (${formatEuros(irpfEstatal)}/a\u00f1o) y un ${pctCCAA}% auton\u00f3mico (${formatEuros(irpfCCAA)}/a\u00f1o).`,
+    `An\u00e1lisis detallado de deducciones con ${formatAmountSpanish(annualGross)} \u20ac brutos: de cada jornada laboral que trabajas, ${formatEuros(ssDiario)} van a la Seguridad Social (cotizaciones que financian tu futura pensi\u00f3n, la sanidad p\u00fablica y la prestaci\u00f3n por desempleo) y ${formatEuros(irpfDiario)} al IRPF (${formatEuros(irpfDiario * parseFloat(pctEstatal.replace(',', '.')) / 100)} para el Estado y ${formatEuros(irpfDiario * parseFloat(pctCCAA.replace(',', '.')) / 100)} para tu comunidad aut\u00f3noma). En total, ${formatEuros(ssDiario + irpfDiario)} diarios de deducciones. Tu IRPF se divide en un ${pctEstatal}% estatal (${formatEuros(irpfEstatal)}/a\u00f1o) y un ${pctCCAA}% auton\u00f3mico (${formatEuros(irpfCCAA)}/a\u00f1o).`,
     `Desglose por hora de trabajo: con ${formatAmountSpanish(annualGross)} \u20ac brutos, cada hora laboral genera ${formatEuros(annualGross / HORAS_LABORABLES_ANIO)} brutos, de los cuales ${formatEuros(ssHora)} se destinan a cotizaciones sociales (${pctSS}%) y ${formatEuros(irpfHora)} a IRPF (${pctIRPF}%). Te quedan ${formatEuros(netoAnual / HORAS_LABORABLES_ANIO)} netos por hora. El reparto del IRPF entre administraciones: ${pctEstatal}% para la Hacienda estatal (tramos generales) y ${pctCCAA}% para la auton\u00f3mica (tramos de tu comunidad). En cada paga mensual, la retenci\u00f3n es de ${formatEuros(retencionPorPaga)} de IRPF y ${formatEuros(ssPorPaga)} de SS.`,
     `Tu estructura de deducciones con ${formatAmountSpanish(annualGross)} \u20ac brutos: el ${pctTotal}% total de tu salario se reparte entre Seguridad Social (${pctSS}%, es decir, ${formatEuros(ssAnual)} al a\u00f1o o ${formatEuros(ssHora)} por hora) e IRPF (${pctIRPF}%, ${formatEuros(irpfTotal)} anuales o ${formatEuros(irpfHora)}/hora). De tu IRPF, la parte estatal supone ${formatEuros(irpfEstatal)} (${pctEstatal}% del total IRPF) y la auton\u00f3mica ${formatEuros(irpfCCAA)} (${pctCCAA}%). En la n\u00f3mina mensual (14 pagas): ${formatEuros(retencionPorPaga)} de retenci\u00f3n + ${formatEuros(ssPorPaga)} de cotizaci\u00f3n.`,
     `Radiograf\u00eda fiscal de ${formatAmountSpanish(annualGross)} \u20ac brutos anuales: tu empleador ingresa ${formatEuros(ssAnual)} al a\u00f1o a la SS en tu nombre (${pctSS}% de tu bruto) y retiene ${formatEuros(irpfTotal)} de IRPF (${pctIRPF}%). Cada d\u00eda laborable \u201ctrabajas\u201d ${formatEuros(ssDiario)} para la SS y ${formatEuros(irpfDiario)} para Hacienda antes de cobrar tus ${formatEuros(netoAnual / DIAS_LABORABLES_ANIO)} netos diarios. La cuota del IRPF se compone de ${formatEuros(irpfEstatal)} estatales y ${formatEuros(irpfCCAA)} auton\u00f3micos (proporciones: ${pctEstatal}%/${pctCCAA}%).`,
@@ -922,7 +923,7 @@ export function getDetailedDeductionAnalysis(amount: number, result: DesgloseSue
     `Cada minuto de trabajo con ${formatAmountSpanish(annualGross)} \u20ac brutos genera ${formatEuros(annualGross / HORAS_LABORABLES_ANIO / 60)} brutos, de los que ${formatEuros(ssMinuto)} van a cotizaciones y ${formatEuros(irpfMinuto)} a IRPF. Escalando: por hora son ${formatEuros(ssHora)} + ${formatEuros(irpfHora)} de deducciones, dejando ${formatEuros(netoAnual / HORAS_LABORABLES_ANIO)} netos. Al a\u00f1o, la SS absorbe ${formatEuros(ssAnual)} (${pctSS}%) y el IRPF ${formatEuros(irpfTotal)} (${pctIRPF}%, repartido ${pctEstatal}% estatal / ${pctCCAA}% auton\u00f3mico). Presi\u00f3n fiscal total: ${pctTotal}%.`,
     `Perspectiva semanal de deducciones con ${formatAmountSpanish(annualGross)} \u20ac brutos: cada semana laboral (40h) se deducen ${formatEuros(ssSemanal)} de Seguridad Social y ${formatEuros(irpfSemanal)} de IRPF. A nivel anual, eso supone ${formatEuros(ssAnual)} en cotizaciones (${pctSS}%) m\u00e1s ${formatEuros(irpfTotal)} en impuesto sobre la renta (${pctIRPF}%). El IRPF se reparte: ${formatEuros(irpfEstatal)} para el Estado (${pctEstatal}%) y ${formatEuros(irpfCCAA)} para tu comunidad (${pctCCAA}%). En tu n\u00f3mina mensual: ${formatEuros(ssPorPaga)} de SS + ${formatEuros(retencionPorPaga)} de IRPF.`,
     `Desglose de tus ${formatAmountSpanish(annualGross)} \u20ac en tres capas: primero, la Seguridad Social se lleva ${formatEuros(ssAnual)} anuales (${pctSS}% de tu bruto, o ${formatEuros(ssHora)} por hora trabajada). Segundo, el IRPF absorbe ${formatEuros(irpfTotal)} (${pctIRPF}%), dividido entre cuota estatal de ${formatEuros(irpfEstatal)} (${pctEstatal}%) y cuota auton\u00f3mica de ${formatEuros(irpfCCAA)} (${pctCCAA}%). Tercero, lo que recibes: ${formatEuros(netoAnual)} netos al a\u00f1o, ${formatEuros(netoAnual / 14)} por paga. En total, el ${pctTotal}% de tu trabajo se destina a contribuciones obligatorias.`,
-    `\u00bfA d\u00f3nde va tu dinero con ${formatAmountSpanish(annualGross)} \u20ac brutos? De cada euro que generas, ${(parseFloat(pctSS) / 100).toFixed(2)} c\u00e9ntimos van a cotizaciones sociales (pensi\u00f3n, desempleo, sanidad, MEI) y ${(parseFloat(pctIRPF) / 100).toFixed(2)} c\u00e9ntimos a IRPF. Te quedan ${((100 - parseFloat(pctTotal)) / 100).toFixed(2)} c\u00e9ntimos netos. Diariamente: ${formatEuros(ssDiario)} a SS + ${formatEuros(irpfDiario)} a IRPF = ${formatEuros(ssDiario + irpfDiario)} de deducciones. El IRPF se distribuye: ${pctEstatal}% al Estado (${formatEuros(irpfEstatal)}/a\u00f1o) y ${pctCCAA}% a tu CCAA (${formatEuros(irpfCCAA)}/a\u00f1o).`,
+    `\u00bfA d\u00f3nde va tu dinero con ${formatAmountSpanish(annualGross)} \u20ac brutos? De cada euro que generas, ${dec((parseFloat(pctSS.replace(',', '.')) / 100), 2)} c\u00e9ntimos van a cotizaciones sociales (pensi\u00f3n, desempleo, sanidad, MEI) y ${dec((parseFloat(pctIRPF.replace(',', '.')) / 100), 2)} c\u00e9ntimos a IRPF. Te quedan ${dec(((100 - parseFloat(pctTotal.replace(',', '.'))) / 100), 2)} c\u00e9ntimos netos. Diariamente: ${formatEuros(ssDiario)} a SS + ${formatEuros(irpfDiario)} a IRPF = ${formatEuros(ssDiario + irpfDiario)} de deducciones. El IRPF se distribuye: ${pctEstatal}% al Estado (${formatEuros(irpfEstatal)}/a\u00f1o) y ${pctCCAA}% a tu CCAA (${formatEuros(irpfCCAA)}/a\u00f1o).`,
     `Anatomizando las deducciones de ${formatAmountSpanish(annualGross)} \u20ac brutos anuales: en la n\u00f3mina mensual (14 pagas) se descuentan ${formatEuros(ssPorPaga)} de Seguridad Social y ${formatEuros(retencionPorPaga)} de IRPF. A lo largo del a\u00f1o, las cotizaciones sociales suman ${formatEuros(ssAnual)} (${pctSS}%) y el IRPF ${formatEuros(irpfTotal)} (${pctIRPF}%). De ese IRPF, ${formatEuros(irpfEstatal)} financian los servicios del Estado central (${pctEstatal}%) y ${formatEuros(irpfCCAA)} los de tu comunidad aut\u00f3noma (${pctCCAA}%). Neto resultante: ${formatEuros(netoAnual / HORAS_LABORABLES_ANIO)}/hora, ${formatEuros(netoAnual / DIAS_LABORABLES_ANIO)}/d\u00eda, ${formatEuros(netoAnual / 14)}/paga.`,
   ];
 
@@ -951,7 +952,7 @@ export function getPayDayBreakdown(amount: number, result: DesgloseSueldo): stri
 
   // Additional derived values for new variants
   const totalDeduccionesMes = ssConMes + irpfMes;
-  const pctDeduccionMes = (totalDeduccionesMes / brutoMesPaga * 100).toFixed(1);
+  const pctDeduccionMes = dec((totalDeduccionesMes / brutoMesPaga * 100), 1);
   const diff12vs14 = neto12 - netoMesPaga;
   const pagasExtraAnual = pagaExtraNeto * 2;
 
@@ -976,7 +977,7 @@ export function getCCAAInsight(amount: number, maxCCAA: { nombre: string; neto: 
   const diffMensual = diffAnual / 14;
   const diffStr = formatEuros(diffAnual);
   const diffMesStr = formatEuros(diffMensual);
-  const pctDiff = (diffAnual / (maxCCAA.neto) * 100).toFixed(1);
+  const pctDiff = dec((diffAnual / (maxCCAA.neto) * 100), 1);
   const diffSemanal = formatEuros(diffAnual / 52);
   const diffDiario = formatEuros(diffAnual / DIAS_LABORABLES_ANIO);
   const maxMes = formatEuros(maxCCAA.neto / 14);
