@@ -9,12 +9,17 @@ const description = 'Simula cuánto crecerá tu inversión con aportaciones mens
 const faqs = [
   {
     question: '¿Qué es el interés compuesto?',
-    answer: 'El interés compuesto es el interés que se genera sobre el capital inicial más los intereses acumulados. Es lo que hace que las inversiones crezcan exponencialmente a largo plazo.',
+    answer: 'El interés compuesto es el interés que se genera sobre el capital inicial más los intereses acumulados. Es lo que hace que las inversiones crezcan exponencialmente a largo plazo. Con un 7% anual, el capital se duplica aproximadamente cada diez años, y la mayor parte del crecimiento se concentra en el último tercio del periodo, que es la razón por la que empezar pronto pesa más que aportar mucho.',
   },
   {
     question: '¿Con qué frecuencia se capitaliza el interés?',
-    answer: 'Esta calculadora asume capitalización mensual (12 veces al año), que es la más habitual en productos financieros españoles.',
+    answer: 'Esta calculadora asume capitalización mensual (12 veces al año), que es la más habitual en productos financieros españoles. La frecuencia influye menos de lo que parece: entre capitalización mensual y anual, la diferencia sobre veinte años apenas llega a un punto porcentual del capital final, mientras que las comisiones se llevan bastante más.',
   },
+
+  { question: '¿Cuánto influyen las comisiones en el resultado?', answer: 'Muchísimo, porque también se componen. Un punto porcentual anual de comisiones puede llevarse en torno a un cuarto del capital final en un horizonte de treinta años, bastante más de lo que aporta acertar con el momento de entrada en el mercado.' },
+  { question: '¿Cómo tributan los intereses en España?', answer: 'Las rentas del ahorro tributan en una escala propia que arranca en el 19% y llega al 30% para los tramos más altos. Solo tributa la ganancia cuando se materializa, no el capital, y en los fondos de inversión el traspaso entre fondos no genera tributación.' },
+  { question: '¿Cuánto debo aportar cada mes para llegar a un objetivo?', answer: 'Depende del plazo mucho más que de la rentabilidad. Para reunir 100.000 euros en veinte años al 5% anual hacen falta unos 240 euros al mes; en diez años, la cifra sube por encima de 640, aunque la rentabilidad supuesta sea la misma.' },
+  { question: '¿Conviene aportar de golpe o poco a poco?', answer: 'Matemáticamente, aportar pronto la mayor cantidad posible maximiza el interés compuesto. Las aportaciones periódicas reducen el riesgo de entrar en un mal momento y se ajustan mejor a cómo se genera el ahorro, que es la razón por la que la mayoría combina ambas.' },
 ];
 ---
 

@@ -9,7 +9,7 @@ const description = 'Introduce tu base de cotización y tiempo cotizado para sab
 const faqs = [
   {
     question: '¿Cuánto se cobra de paro en España?',
-    answer: 'La prestación por desempleo es el 70% de la base reguladora durante los primeros 180 días (6 meses), y el 50% a partir del día 181. Existen topes máximos y mínimos según el número de hijos a cargo.',
+    answer: 'La prestación por desempleo es el 70% de la base reguladora durante los primeros 180 días (6 meses), y el 50% a partir del día 181. Existen topes máximos y mínimos según el número de hijos a cargo. La base reguladora es la media de las bases de cotización por contingencias profesionales de los últimos 180 días, excluidas las horas extra, por lo que la prestación suele quedar por debajo de lo que la gente calcula de memoria.',
   },
   {
     question: '¿Cuánto tiempo puedo cobrar el paro?',
@@ -17,12 +17,15 @@ const faqs = [
   },
   {
     question: '¿Qué requisitos necesito para cobrar el paro?',
-    answer: 'Necesitas haber cotizado al menos 360 días en los últimos 6 años, estar en situación legal de desempleo (no baja voluntaria), estar inscrito como demandante de empleo, y no haber cumplido la edad de jubilación.',
+    answer: 'Necesitas haber cotizado al menos 360 días en los últimos 6 años, estar en situación legal de desempleo (no baja voluntaria), estar inscrito como demandante de empleo, y no haber cumplido la edad de jubilación. La duración depende de lo cotizado: cuatro meses de prestación por cada año trabajado, con un mínimo de 120 días y un máximo de 720. El plazo para solicitarla es de quince días hábiles desde el cese.',
   },
   {
     question: '¿El paro paga IRPF?',
-    answer: 'Sí, la prestación por desempleo está sujeta a retención del IRPF. La retención suele ser baja (0-2%) porque el importe es menor que un salario, pero se incluye en la declaración de la renta.',
+    answer: 'Sí, la prestación por desempleo está sujeta a retención del IRPF. La retención suele ser baja (0-2%) porque el importe es menor que un salario, pero se incluye en la declaración de la renta. Ese es el motivo por el que muchos desempleados salen a pagar en la declaración: el SEPE retiene poco y, si durante el año hubo también salario de otro pagador, la suma supera el tramo previsto por cada uno por separado.',
   },
+
+  { question: '¿Se puede compatibilizar el paro con un trabajo?', answer: 'Con un empleo a tiempo parcial sí, reduciéndose la prestación en proporción a la jornada. Con un trabajo a tiempo completo la prestación se suspende y puede reanudarse después si no se ha agotado. Emprender como autónomo permite suspenderla hasta cinco años.' },
+  { question: '¿Qué es el subsidio por desempleo?', answer: 'Es una ayuda posterior a la prestación contributiva, o para quien no ha cotizado lo suficiente, de importe fijo vinculado al IPREM y sujeta a límites de renta. Exige carecer de ingresos superiores al 75% del SMI y renovar la solicitud periódicamente.' },
 ];
 ---
 

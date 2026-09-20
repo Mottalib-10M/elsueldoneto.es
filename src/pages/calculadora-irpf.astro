@@ -13,16 +13,19 @@ const faqs = [
   },
   {
     question: '¿Cuántos tramos tiene el IRPF en 2026?',
-    answer: `La escala estatal del IRPF tiene 6 tramos en ${CURRENT_FISCAL_YEAR}, con tipos que van del 9,5% al 24,5%. Cada comunidad autónoma añade su propia escala con diferentes tramos y tipos.`,
+    answer: `La escala estatal del IRPF tiene 6 tramos en ${CURRENT_FISCAL_YEAR}, con tipos que van del 9,5% al 24,5%. Cada comunidad autónoma añade su propia escala con diferentes tramos y tipos. El tipo que aparece en la nómina es la suma de ambas escalas, y por eso dos personas con el mismo bruto pueden cobrar netos distintos según el lugar de residencia declarado a efectos fiscales.`,
   },
   {
     question: '¿En qué comunidad se paga menos IRPF?',
-    answer: 'Madrid tiene los tipos autonómicos más bajos de España, seguida generalmente por Castilla y León y La Rioja. En el extremo opuesto, la Comunidad Valenciana y Cataluña tienen los tipos más altos para rentas elevadas.',
+    answer: 'Madrid tiene los tipos autonómicos más bajos de España, seguida generalmente por Castilla y León y La Rioja. En el extremo opuesto, la Comunidad Valenciana y Cataluña tienen los tipos más altos para rentas elevadas. La comparación solo es válida a igualdad de situación personal: las deducciones autonómicas por vivienda, hijos o alquiler pueden invertir el resultado en rentas medias y bajas.',
   },
   {
     question: '¿Qué es el mínimo personal y familiar?',
-    answer: 'Es la parte de la renta que se considera necesaria para vivir y no se grava. En 2026, el mínimo personal es de 5.550 €, y aumenta por hijos, ascendientes a cargo, discapacidad y edad del contribuyente.',
+    answer: 'Es la parte de la renta que se considera necesaria para vivir y no se grava. En 2026, el mínimo personal es de 5.550 €, y aumenta por hijos, ascendientes a cargo, discapacidad y edad del contribuyente. El mínimo no se resta de la cuota sino de la base: se calcula el impuesto sobre toda la renta y luego se descuenta el que corresponde a ese mínimo, lo que evita que el beneficio sea mayor para las rentas altas.',
   },
+
+  { question: '¿Estoy obligado a presentar la declaración?', answer: 'Con un solo pagador, el límite general está en 22.000 euros anuales; con dos o más pagadores, baja a 15.876 euros si el segundo y siguientes superan 1.500 euros. Por debajo de esos umbrales la declaración es voluntaria y a menudo sale a devolver.' },
+  { question: '¿Qué deducciones estatales existen?', answer: 'Las principales son la aportación a planes de pensiones, hasta 1.500 euros anuales, los donativos, las cuotas sindicales y colegiales obligatorias, y la deducción por maternidad. A ellas se suman las deducciones autonómicas, que varían mucho de una comunidad a otra.' },
 ];
 ---
 

@@ -45,6 +45,16 @@ const schemas = [
     { name: 'Actualidades', url: '/actualidades/' },
   ]),
 ];
+const faqPage = [
+  { question: '¿Qué se publica en esta sección?', answer: 'Los cambios que afectan al sueldo neto: tablas del IRPF, tipos de cotización, SMI, bases máximas, pensiones y novedades laborales con impacto en la nómina. Cada entrada indica la fecha de entrada en vigor, porque la nómina y la declaración pueden seguir reglas distintas en el mismo año.' },
+  { question: '¿Con qué frecuencia se actualiza?', answer: 'Cuando cambia una norma, lo que se concentra en enero con los nuevos importes y en los meses de aprobación de los presupuestos. No hay calendario fijo: rellenar los huecos con comentarios diluiría lo que de verdad importa seguir. Cada página enlaza la fuente oficial aplicable, para que cualquier cifra pueda contrastarse sin depender de nosotros.' },
+  { question: '¿Los cambios se aplican con efecto retroactivo?', answer: 'Rara vez, pero ocurre: algunas subidas del SMI se han aprobado en febrero con efectos desde el 1 de enero, obligando a regularizar nóminas ya pagadas. Cuando sucede, la entrada lo indica y explica cómo se refleja en el recibo de salarios.' },
+  { question: '¿Dónde verifico esta información?', answer: 'Cada entrada enlaza el BOE, la Agencia Tributaria o la Seguridad Social. Esas fuentes son la referencia; esta sección sirve para detectar qué ha cambiado y qué efecto práctico tiene en la nómina, no para sustituir al texto oficial. Cada página enlaza la fuente oficial aplicable, para que cualquier cifra pueda contrastarse sin depender de nosotros.' },
+
+  { question: '¿Cómo afecta la subida del SMI a mi nómina?', answer: 'Si cobras por encima del nuevo mínimo, en principio nada: el SMI fija un suelo, no una revalorización general. Sí cambia la base mínima de cotización y varios umbrales vinculados, como el embargo de salarios o el acceso a determinadas ayudas públicas.' },
+  { question: '¿Las tablas de IRPF cambian todos los años?', answer: 'La escala estatal se ha mantenido estable en los últimos ejercicios, pero las autonómicas se modifican con frecuencia y los mínimos personales y familiares se han actualizado varias veces. Conviene comprobar ambas escalas antes de estimar la retención de un año nuevo.' },
+];
+const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
 ---
 
 <Layout title={title} description={description} schema={schemas}>
@@ -83,5 +93,17 @@ const schemas = [
       <li><a class="underline" href="https://www.sepe.es" rel="noopener">SEPE</a> — prestación por desempleo</li>
       <li><a class="underline" href="https://www.boe.es" rel="noopener">BOE</a> — normativa en vigor</li>
     </ul>
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema)} />
+  <section class="mx-auto max-w-3xl px-4 py-10">
+    <h2 class="mb-4 text-2xl font-bold">Preguntas frecuentes</h2>
+    <div class="space-y-3">
+      {faqPage.map((f) => (
+        <details class="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+          <summary class="cursor-pointer font-semibold">{f.question}</summary>
+          <p class="mt-2 text-gray-700 dark:text-gray-300">{f.answer}</p>
+        </details>
+      ))}
+    </div>
   </section>
 </Layout>

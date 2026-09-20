@@ -9,20 +9,23 @@ const description = 'Calcula tu finiquito exacto: salario pendiente, vacaciones 
 const faqs = [
   {
     question: '¿Qué conceptos incluye el finiquito?',
-    answer: 'El finiquito incluye: los días trabajados del mes en curso, la parte proporcional de las pagas extras (si son aparte), los días de vacaciones no disfrutados, y la indemnización en caso de despido.',
+    answer: 'El finiquito incluye: los días trabajados del mes en curso, la parte proporcional de las pagas extras (si son aparte), los días de vacaciones no disfrutados, y la indemnización en caso de despido. Conviene revisarlo antes de firmar: la firma del finiquito sin la mención « no conforme » dificulta reclamar después, y el plazo para impugnar un despido es de solo veinte días hábiles desde la notificación.',
   },
   {
     question: '¿Cuánto es la indemnización por despido improcedente?',
-    answer: 'La indemnización por despido improcedente es de 33 días de salario por año trabajado, con un máximo de 24 mensualidades. Para contratos anteriores a febrero de 2012, los días previos computan a 45 días/año.',
+    answer: 'La indemnización por despido improcedente es de 33 días de salario por año trabajado, con un máximo de 24 mensualidades. Para contratos anteriores a febrero de 2012, los días previos computan a 45 días/año. El cálculo se hace sobre el salario diario bruto con prorrateo de pagas extra, y los años incompletos se prorratean por meses, lo que explica que dos trabajadores con la misma antigüedad aparente cobren cantidades distintas.',
   },
   {
     question: '¿Tengo derecho a finiquito si me voy voluntariamente?',
-    answer: 'Sí. Aunque no tienes derecho a indemnización, sí te corresponde el finiquito por los días trabajados, vacaciones pendientes y la parte proporcional de pagas extras.',
+    answer: 'Sí. Aunque no tienes derecho a indemnización, sí te corresponde el finiquito por los días trabajados, vacaciones pendientes y la parte proporcional de pagas extras. La baja voluntaria exige respetar el preaviso fijado en el convenio, normalmente quince días: incumplirlo permite a la empresa descontar del finiquito los días no preavisados.',
   },
   {
-    question: '¿La indemnización por despido paga IRPF?',
-    answer: 'La indemnización por despido está exenta de IRPF hasta la cuantía establecida legalmente (33 días/año para improcedente, 20 días/año para objetivo). Solo tributa el exceso.',
+    question: '¿La calculadora distingue la parte exenta de la indemnización?',
+    answer: 'La indemnización por despido está exenta de IRPF hasta la cuantía establecida legalmente (33 días/año para improcedente, 20 días/año para objetivo). Solo tributa el exceso. La exención tiene además un límite absoluto de 180.000 euros, y no se aplica si el trabajador vuelve a prestar servicios en la misma empresa o en una vinculada dentro de los tres años siguientes.',
   },
+
+  { question: '¿En cuánto tiempo debe pagarse el finiquito?', answer: 'La empresa debe abonarlo el mismo día de la extinción del contrato, junto con la entrega del documento. Un retraso injustificado puede reclamarse ante el juzgado de lo social, y el plazo para hacerlo es de un año desde la fecha de extinción.' },
+  { question: '¿Qué diferencia hay entre finiquito e indemnización?', answer: 'El finiquito liquida lo ya devengado: días trabajados, vacaciones no disfrutadas y parte proporcional de pagas extra. La indemnización compensa la pérdida del empleo y solo existe en determinados despidos. Se pagan juntos pero tributan de forma distinta. Conviene revisar cada concepto por separado antes de firmar el documento.' },
 ];
 ---
 

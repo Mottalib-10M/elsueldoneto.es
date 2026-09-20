@@ -12,6 +12,13 @@ const schemas = [
     { name: 'Cookie Policy', url: '/en/cookie-policy/' },
   ]),
 ];
+const faqPage = [
+  { question: 'What cookies does this site use?', answer: 'Only those needed for the site to work and anonymous audience measurement. No advertising or profiling cookies are set, and the calculators themselves store nothing: every computation runs in your browser and is discarded when the tab closes. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+  { question: 'Can I refuse analytics cookies?', answer: 'Yes, through the consent banner or your browser settings. Refusing them does not limit any feature of the site; it only removes the anonymous page-view statistics used to decide which calculators are worth improving. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+  { question: 'Do you share data with third parties?', answer: 'Aggregated, anonymous audience statistics are processed by the analytics provider. No salary figure, no calculation input and no personal identifier is transmitted, because none of that data ever leaves your browser in the first place. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+  { question: 'How long do the cookies last?', answer: 'Technical cookies expire when the session ends. Analytics cookies have a limited lifetime set by the provider, generally a few months, after which they are renewed only if you visit the site again and consent is still in force. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+];
+const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
@@ -157,4 +164,16 @@ const schemas = [
       </p>
     </div>
   </div>
+  <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema)} />
+  <section class="mx-auto max-w-3xl px-4 py-10">
+    <h2 class="mb-4 text-2xl font-bold">Frequently asked questions</h2>
+    <div class="space-y-3">
+      {faqPage.map((f) => (
+        <details class="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+          <summary class="cursor-pointer font-semibold">{f.question}</summary>
+          <p class="mt-2 text-gray-700 dark:text-gray-300">{f.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
 </Layout>

@@ -9,12 +9,17 @@ const description = '¿Cuánto bruto necesitas para cobrar un neto concreto? Cá
 const faqs = [
   {
     question: '¿Cómo sé qué bruto pedir para cobrar un neto determinado?',
-    answer: 'Introduce el neto mensual o anual que deseas cobrar. La calculadora calcula el bruto necesario teniendo en cuenta el IRPF de tu comunidad autónoma, las cotizaciones a la Seguridad Social y tu situación familiar.',
+    answer: 'Introduce el neto mensual o anual que deseas cobrar. La calculadora calcula el bruto necesario teniendo en cuenta el IRPF de tu comunidad autónoma, las cotizaciones a la Seguridad Social y tu situación familiar. El cálculo es iterativo porque el IRPF es progresivo: no basta con aplicar un porcentaje fijo, hay que probar valores de bruto hasta que el neto resultante coincida con el objetivo.',
   },
   {
     question: '¿Por qué el bruto necesario varía según la comunidad?',
-    answer: 'Porque cada comunidad autónoma tiene tipos de IRPF autonómico diferentes. Para cobrar el mismo neto en Madrid que en Cataluña, necesitas un bruto diferente.',
+    answer: 'Porque cada comunidad autónoma tiene tipos de IRPF autonómico diferentes. Para cobrar el mismo neto en Madrid que en Cataluña, necesitas un bruto diferente. La diferencia crece con el salario: apenas se nota cerca del SMI y puede superar los 2.000 euros anuales de bruto en rentas altas, algo que conviene tener presente al negociar un traslado.',
   },
+
+  { question: '¿Por qué el resultado varía según las pagas?', answer: 'Porque el reparto en doce o catorce pagas cambia la retención mensual aunque no el total anual. La calculadora muestra ambos escenarios: el bruto necesario es el mismo, lo que cambia es cuánto se cobra cada mes y cuánto se retiene en cada nómina.' },
+  { question: '¿Incluye el cálculo las pagas extra prorrateadas?', answer: 'Sí, el cálculo parte del bruto anual y permite repartirlo en doce o catorce pagas. Si en tu empresa las extras están prorrateadas, el bruto mensual que verás será mayor, pero el importe anual y la retención global no cambian.' },
+  { question: '¿Sirve para negociar un aumento?', answer: 'Es su uso más habitual: permite traducir el neto adicional que buscas en el bruto que debes pedir, teniendo en cuenta que la subida tributa al tipo marginal y no al efectivo, por lo que el incremento bruto necesario siempre es mayor de lo que parece.' },
+  { question: '¿Qué elementos no contempla la calculadora?', answer: 'No incluye beneficios en especie, seguros médicos, cheques restaurante ni planes de pensiones de empresa, que modifican el neto real sin figurar en el bruto. Tampoco recoge las deducciones autonómicas por vivienda, hijos o discapacidad. Conviene sumarlos aparte cuando se comparan dos ofertas de empleo distintas, porque pueden inclinar la balanza.' },
 ];
 ---
 

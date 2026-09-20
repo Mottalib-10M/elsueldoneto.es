@@ -59,11 +59,11 @@ function getFaqsForRange(p: SalaryPageConfigEn, result: DesgloseSueldo): FAQItem
   const base: FAQItem[] = [
     {
       question: `How much is €${amountFormatted} gross ${periodLabel} in net?`,
-      answer: `With a gross salary of €${amountFormatted} ${periodLabel} (€${formatAmountEnglish(p.annualGross)} per year), the monthly net salary in Madrid is approximately ${formatEuros(result.netoMensual)} with 14 payments (single, no children). This figure varies by autonomous community and family situation.`,
+      answer: `With a gross salary of €${amountFormatted} ${periodLabel} (€${formatAmountEnglish(p.annualGross)} per year), the monthly net salary in Madrid is approximately ${formatEuros(result.netoMensual)} with 14 payments (single, no children). This figure varies by autonomous community and family situation. Madrid is used as the reference because it has the lowest regional scale; in Catalonia or Valencia the same gross salary yields slightly less, and the gap widens as income rises.`,
     },
     {
       question: `How much income tax is paid on €${amountFormatted} gross?`,
-      answer: `With €${amountFormatted} gross ${periodLabel}, the total IRPF in Madrid is ${formatEuros(result.irpfTotalAnual)} per year, an effective rate of ${(result.tipoEfectivoIRPF * 100).toFixed(1)}%. Additionally, ${formatEuros(result.seguridadSocialAnual)} is paid in Social Security contributions.`,
+      answer: `With €${amountFormatted} gross ${periodLabel}, the total IRPF in Madrid is ${formatEuros(result.irpfTotalAnual)} per year, an effective rate of ${(result.tipoEfectivoIRPF * 100).toFixed(1)}%. Additionally, ${formatEuros(result.seguridadSocialAnual)} is paid in Social Security contributions. The effective rate is well below the marginal rate, because both IRPF and social security are charged in bands rather than on the whole salary at the top rate.`,
     },
   ];
 
@@ -77,14 +77,14 @@ function getFaqsForRange(p: SalaryPageConfigEn, result: DesgloseSueldo): FAQItem
   if (p.rangeCategory === 'mid' || p.rangeCategory === 'mid-high') {
     base.push({
       question: `How can I reduce my income tax with €${amountFormatted} gross?`,
-      answer: 'The main ways to reduce IRPF include: pension plan contributions (deductible up to €1,500/year), housing deductions (if applicable in your region), deductions for children and dependent ascendants, and work-related training expenses.',
+      answer: 'The main ways to reduce IRPF include: pension plan contributions (deductible up to €1,500/year), housing deductions (if applicable in your region), deductions for children and dependent ascendants, and work-related training expenses. Employer-provided benefits in kind, such as meal vouchers, transport passes or health insurance, are also exempt up to set limits and often deliver more net value than an equivalent salary increase.',
     });
   }
 
   if (p.rangeCategory === 'high') {
     base.push({
       question: `Is the Beckham Law worth it with €${amountFormatted} gross?`,
-      answer: `With €${amountFormatted} gross ${periodLabel}, if you are a relocated worker who meets the requirements, the Beckham Law (24% flat rate) likely offers significant savings versus the regular regime. Check our Beckham Law calculator for the exact comparison.`,
+      answer: `With €${amountFormatted} gross ${periodLabel}, if you are a relocated worker who meets the requirements, the Beckham Law (24% flat rate) likely offers significant savings versus the regular regime. Check our Beckham Law calculator for the exact comparison. Bear in mind the regime also removes access to most double-taxation treaty benefits and to the personal and family minimum, which matters if you have foreign income or dependants.`,
     });
   }
 
@@ -102,18 +102,18 @@ function getIsGoodSalaryAnswer(p: SalaryPageConfigEn): string {
   const ratio = p.annualGross / median;
 
   if (p.annualGross <= smi) {
-    return `A salary of €${formatAmountEnglish(p.annualGross)} gross per year is at the level of the Minimum Wage (SMI: €${formatAmountEnglish(smi)} in ${CURRENT_FISCAL_YEAR}). It covers basic needs but can be tight in major cities like Madrid or Barcelona.`;
+    return `A salary of €${formatAmountEnglish(p.annualGross)} gross per year is at the level of the Minimum Wage (SMI: €${formatAmountEnglish(smi)} in ${CURRENT_FISCAL_YEAR}). It covers basic needs but can be tight in major cities like Madrid or Barcelona. Rent alone absorbs more than half of that amount in Madrid and Barcelona, which is why shared housing or a move to a smaller city is the usual arbitrage at this level.`;
   }
   if (ratio < 0.9) {
-    return `A salary of €${formatAmountEnglish(p.annualGross)} gross per year is below the Spanish median salary (~€${formatAmountEnglish(median)} according to INE). It is common in sectors such as retail, hospitality or services, but can be tight in cities with high living costs.`;
+    return `A salary of €${formatAmountEnglish(p.annualGross)} gross per year is below the Spanish median salary (~€${formatAmountEnglish(median)} according to INE). It is common in sectors such as retail, hospitality or services, but can be tight in cities with high living costs. The gap with the median is what matters more than the absolute figure: a salary 10 per cent below the median in Extremadura buys considerably more than the same amount in the Basque Country.`;
   }
   if (ratio < 1.3) {
-    return `A salary of €${formatAmountEnglish(p.annualGross)} gross per year is close to the Spanish median salary (~€${formatAmountEnglish(median)} according to INE). It allows a comfortable life in most Spanish cities.`;
+    return `A salary of €${formatAmountEnglish(p.annualGross)} gross per year is close to the Spanish median salary (~€${formatAmountEnglish(median)} according to INE).  It allows a comfortable life in most Spanish cities, though Madrid and Barcelona remain the exception once rent is counted: housing there absorbs a third to a half of net pay, against a fifth in most provincial capitals.`;
   }
   if (ratio < 2) {
-    return `A salary of €${formatAmountEnglish(p.annualGross)} gross per year is significantly above the Spanish median salary (~€${formatAmountEnglish(median)} according to INE). It is a good salary that places the taxpayer in the upper portion of the salary distribution.`;
+    return `A salary of €${formatAmountEnglish(p.annualGross)} gross per year is significantly above the Spanish median salary (~€${formatAmountEnglish(median)} according to INE). It is a good  salary that places the taxpayer in the upper portion of the salary distribution. At this level the marginal rate matters more than the gross figure, and pension plan contributions or benefits in kind often deliver more net value than a further raise.`;
   }
-  return `A salary of €${formatAmountEnglish(p.annualGross)} gross per year is well above the Spanish median salary (~€${formatAmountEnglish(median)} according to INE). It ranks among the highest salaries in Spain, typical in management, highly skilled technical or senior roles at large companies.`;
+  return `A salary of €${formatAmountEnglish(p.annualGross)} gross per year is well above the Spanish median salary (~€${formatAmountEnglish(median)} according to INE). It ranks among the highest salaries in Spain, typical in management, highly skilled technical or senior roles at large companies. Above roughly 60,000 euros, the Beckham regime is worth comparing for relocated workers, since its flat rate can fall below the effective rate of the general scheme.`;
 }
 
 // Additional computed data for expanded content sections

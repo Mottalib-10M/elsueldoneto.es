@@ -22,6 +22,16 @@ const schemas = [
     { name: 'Sueldos', url: '/sueldo/' },
   ]),
 ];
+const faqPage = [
+  { question: '¿Cómo se calculan estas cifras?', answer: 'Cada página aplica la escala estatal del IRPF, la escala autonómica de Madrid como referencia y los tipos de cotización vigentes en 2026, suponiendo contribuyente soltero sin hijos y catorce pagas. El resto de comunidades y situaciones familiares se calculan en la calculadora principal.' },
+  { question: '¿Por qué se usa Madrid como referencia?', answer: 'Porque tiene la escala autonómica más baja, lo que ofrece un punto de comparación estable. En Cataluña o la Comunidad Valenciana el neto resultante es algo menor con el mismo bruto, y la diferencia crece a medida que sube el salario.' },
+  { question: '¿Las cifras incluyen pagas extra?', answer: 'Sí. El importe anual es el mismo con doce o con catorce pagas; lo que cambia es el reparto mensual. Las páginas muestran ambos escenarios porque la elección afecta a la tesorería del hogar, no al total percibido en el año.' },
+  { question: '¿Qué no reflejan estas páginas?', answer: 'No incluyen beneficios en especie, seguros médicos, cheques restaurante ni planes de pensiones de empresa, que modifican el neto real. Tampoco recogen las deducciones autonómicas por vivienda, hijos o discapacidad, que se aplican en la declaración anual. Cada página enlaza la fuente oficial aplicable, para que cualquier cifra pueda contrastarse sin depender de nosotros.' },
+
+  { question: '¿Qué salario debo buscar en esta lista?', answer: 'El importe bruto que figura en tu contrato o en la oferta que estás valorando. Las páginas están organizadas por salario mensual y por salario anual, de modo que puedes entrar por la cifra que conozcas sin hacer ninguna conversión previa.' },
+  { question: '¿Por qué el neto difiere de mi nómina real?', answer: 'Porque estas páginas asumen contribuyente soltero sin hijos en Madrid y no incluyen beneficios en especie, seguros médicos ni planes de empresa. Tu situación familiar, tu comunidad autónoma y los conceptos propios de tu convenio explican casi siempre la diferencia.' },
+];
+const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
 ---
 
 <Layout title={title} description={description} schema={schemas}>
@@ -105,5 +115,17 @@ const schemas = [
       <li><a class="underline" href="https://www.sepe.es" rel="noopener">SEPE</a> — prestación por desempleo</li>
       <li><a class="underline" href="https://www.boe.es" rel="noopener">BOE</a> — normativa en vigor</li>
     </ul>
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema)} />
+  <section class="mx-auto max-w-3xl px-4 py-10">
+    <h2 class="mb-4 text-2xl font-bold">Preguntas frecuentes</h2>
+    <div class="space-y-3">
+      {faqPage.map((f) => (
+        <details class="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+          <summary class="cursor-pointer font-semibold">{f.question}</summary>
+          <p class="mt-2 text-gray-700 dark:text-gray-300">{f.answer}</p>
+        </details>
+      ))}
+    </div>
   </section>
 </Layout>

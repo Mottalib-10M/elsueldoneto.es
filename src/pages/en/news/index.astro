@@ -45,6 +45,13 @@ const schemas = [
     { name: 'News', url: '/en/news/' },
   ]),
 ];
+const faqPage = [
+  { question: 'What does this section cover?', answer: 'Changes affecting take-home pay in Spain: income tax scales, contribution rates, the minimum wage, contribution ceilings and pension rules. Each entry states the date a change takes effect, since payroll and the annual return can follow different rules in the same year.' },
+  { question: 'How often is it updated?', answer: 'When a rule changes, which clusters in January with the new figures and around the approval of the state budget. There is no fixed schedule: filling the gaps with commentary would only obscure what actually matters. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+  { question: 'Do changes apply retroactively?', answer: 'Occasionally. Minimum wage increases have been approved in February with effect from 1 January, forcing employers to regularise payslips already issued. Where that happens, the entry says so and explains how it appears on the payslip. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+  { question: 'Where can I verify this information?', answer: 'Each entry links the BOE, the Tax Agency or the Social Security administration. Those sources are the authority; this section exists to flag what changed and what it means in practice, not to replace the official text. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+];
+const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
@@ -73,4 +80,16 @@ const schemas = [
       ))}
     </div>
   </div>
+  <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema)} />
+  <section class="mx-auto max-w-3xl px-4 py-10">
+    <h2 class="mb-4 text-2xl font-bold">Frequently asked questions</h2>
+    <div class="space-y-3">
+      {faqPage.map((f) => (
+        <details class="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+          <summary class="cursor-pointer font-semibold">{f.question}</summary>
+          <p class="mt-2 text-gray-700 dark:text-gray-300">{f.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
 </Layout>

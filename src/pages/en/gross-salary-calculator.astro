@@ -9,7 +9,7 @@ const description = `What gross salary do you need to earn a specific net amount
 const faqs = [
   { question: 'How do I calculate gross from net salary?', answer: `To find the gross salary corresponding to a desired net amount, you need to reverse-engineer the IRPF and Social Security deductions. Since IRPF is progressive, the calculation is iterative. Our calculator does this automatically, accounting for your region, family situation and number of pay periods in ${CURRENT_FISCAL_YEAR}.` },
   { question: 'Why is the gross-to-net ratio not linear?', answer: 'Because IRPF uses progressive brackets: as your income rises, each additional euro is taxed at a higher marginal rate. This means the percentage gap between gross and net grows as salary increases. A €20,000 gross might yield 85% net, while €60,000 gross might yield only 68% net.' },
-  { question: 'What gross salary do I need for €2,000 net per month?', answer: `For a single worker in Madrid with 14 pay periods, you need approximately €33,500 gross per year to take home around €2,000 net per month. This varies by region; in Catalonia, you'd need roughly €34,200 for the same net.` },
+  { question: 'What gross salary do I need for €2,000 net per month?', answer: `For a single worker in Madrid with 14 pay periods, you need approximately €33,500 gross per year to take home around €2,000 net per month. This varies by region; in Catalonia, you'd need roughly €34,200 for the same net. The gap widens with income because regional scales diverge most in the upper brackets, so a relocation between regions is worth modelling before agreeing a transfer package.` },
 ];
 ---
 

@@ -291,7 +291,12 @@ export interface FaqEntry {
   answer: string;
 }
 
-export function buildFaqs(amount: number, result: DesgloseSueldo): FaqEntry[] {
+export function buildFaqs(amount: number, result: DesgloseSueldo, periodo: 'mes' | 'a\u00f1o' = 'a\u00f1o'): FaqEntry[] {
+  // Une page « 1.500 € al mes » et une page « 21.000 € al año » d\u00e9crivent le m\u00eame
+  // salaire : sans ce rep\u00e8re, elles publieraient exactement les m\u00eames questions.
+  const refStr = periodo === 'mes'
+    ? `${formatAmountSpanish(amount)} \u20ac brutos al mes`
+    : `${formatAmountSpanish(amount)} \u20ac brutos anuales`;
   const annualGross = result.brutoAnual;
   const amtStr = formatAmountSpanish(annualGross);
   const hourlyNet = formatEuros(calcHourlyNet(result.netoAnual));
@@ -312,42 +317,42 @@ export function buildFaqs(amount: number, result: DesgloseSueldo): FaqEntry[] {
 
   const faqs: FaqEntry[] = [
     {
-      question: `\u00bfCu\u00e1nto cobro neto al mes con ${amtStr} \u20ac brutos anuales?`,
+      question: `\u00bfCu\u00e1nto cobro neto al mes con ${refStr}?`,
       answer: v === 0
-        ? `Con ${amtStr} \u20ac brutos al a\u00f1o, tu sueldo neto mensual en Madrid (soltero/a, 14 pagas) es de ${netoMes}. Con 12 pagas ser\u00eda ${neto12}/mes. Esto equivale a ${weeklyNet} semanales o ${dailyNet} por d\u00eda laborable.`
+        ? `Con ${amtStr} \u20ac brutos al a\u00f1o, tu sueldo neto mensual en Madrid (soltero/a, 14 pagas) es de ${netoMes}. Con 12 pagas ser\u00eda ${neto12}/mes. Esto equivale a ${weeklyNet} semanales o ${dailyNet} por d\u00eda laborable. Estas cifras suponen tributaci\u00f3n en Madrid sin hijos ni deducciones auton\u00f3micas: en comunidades con tramos propios m\u00e1s altos, como Catalu\u00f1a o la Comunidad Valenciana, el neto baja entre uno y dos puntos sobre el mismo bruto.`
         : v === 1
-        ? `Tu neto mensual con ${amtStr} \u20ac brutos es ${netoMes} (14 pagas, Madrid). Desglosado: ${weeklyNet}/semana, ${dailyNet}/d\u00eda laboral, ${hourlyNet}/hora neta. Si optas por 12 pagas, el mensual sube a ${neto12}.`
-        : `Partiendo de ${amtStr} \u20ac brutos anuales, recibes ${netoMes} netos al mes con 14 pagas en Madrid. Tu hora neta real es ${hourlyNet} (sobre ${HORAS_LABORABLES_ANIO}h/a\u00f1o). Con 12 pagas: ${neto12}/mes.`,
+        ? `Tu neto mensual con ${amtStr} \u20ac brutos es ${netoMes} (14 pagas, Madrid). Desglosado: ${weeklyNet}/semana, ${dailyNet}/d\u00eda laboral, ${hourlyNet}/hora neta. Si optas por 12 pagas, el mensual sube a ${neto12}. Estas cifras suponen tributaci\u00f3n en Madrid sin hijos ni deducciones auton\u00f3micas: en comunidades con tramos propios m\u00e1s altos, como Catalu\u00f1a o la Comunidad Valenciana, el neto baja entre uno y dos puntos sobre el mismo bruto.`
+        : `Partiendo de ${amtStr} \u20ac brutos anuales, recibes ${netoMes} netos al mes con 14 pagas en Madrid. Tu hora neta real es ${hourlyNet} (sobre ${HORAS_LABORABLES_ANIO}h/a\u00f1o). Con 12 pagas: ${neto12}/mes. Estas cifras suponen tributaci\u00f3n en Madrid sin hijos ni deducciones auton\u00f3micas: en comunidades con tramos propios m\u00e1s altos, como Catalu\u00f1a o la Comunidad Valenciana, el neto baja entre uno y dos puntos sobre el mismo bruto.`,
     },
     {
-      question: `\u00bfCu\u00e1nto IRPF pago con un sueldo de ${amtStr} \u20ac?`,
+      question: `\u00bfCu\u00e1nto IRPF pago con ${refStr}?`,
       answer: v === 0
-        ? `El IRPF total con ${amtStr} \u20ac brutos es de ${irpfAnual} al a\u00f1o (tipo efectivo ${tipoEfectivo}%). Sumando Seguridad Social (${ssAnual}), tu presi\u00f3n fiscal total alcanza el ${tipoTotal}%. La retenci\u00f3n mensual en n\u00f3mina es de ${formatEuros(result.retencionMensual)}.`
+        ? `El IRPF total con ${amtStr} \u20ac brutos es de ${irpfAnual} al a\u00f1o (tipo efectivo ${tipoEfectivo}%). Sumando Seguridad Social (${ssAnual}), tu presi\u00f3n fiscal total alcanza el ${tipoTotal}%. La retenci\u00f3n mensual en n\u00f3mina es de ${formatEuros(result.retencionMensual)}. El tipo efectivo no es el marginal: este \u00faltimo se aplica solo al tramo superior de renta, mientras que el efectivo reparte la carga sobre todo el sueldo, que es lo que realmente se nota en la n\u00f3mina.`
         : v === 1
-        ? `Con ${amtStr} \u20ac brutos, Hacienda retiene ${irpfAnual} de IRPF al a\u00f1o, un tipo efectivo del ${tipoEfectivo}%. Adem\u00e1s, cotizas ${ssAnual} a la Seguridad Social. Total de deducciones: ${tipoTotal}% de tu bruto. Mensualmente: ${formatEuros(result.retencionMensual)} de IRPF + ${formatEuros(result.ssMensual)} de SS.`
-        : `Tu IRPF anual con ${amtStr} \u20ac brutos asciende a ${irpfAnual} (${tipoEfectivo}% efectivo). La Seguridad Social a\u00f1ade ${ssAnual}. Entre ambos conceptos, se retiene el ${tipoTotal}% de tu salario bruto, dejando ${formatEuros(result.netoAnual)} netos anuales.`,
+        ? `Con ${amtStr} \u20ac brutos, Hacienda retiene ${irpfAnual} de IRPF al a\u00f1o, un tipo efectivo del ${tipoEfectivo}%. Adem\u00e1s, cotizas ${ssAnual} a la Seguridad Social. Total de deducciones: ${tipoTotal}% de tu bruto. Mensualmente: ${formatEuros(result.retencionMensual)} de IRPF + ${formatEuros(result.ssMensual)} de SS. El tipo efectivo no es el marginal: este \u00faltimo se aplica solo al tramo superior de renta, mientras que el efectivo reparte la carga sobre todo el sueldo, que es lo que realmente se nota en la n\u00f3mina.`
+        : `Tu IRPF anual con ${amtStr} \u20ac brutos asciende a ${irpfAnual} (${tipoEfectivo}% efectivo). La Seguridad Social a\u00f1ade ${ssAnual}. Entre ambos conceptos, se retiene el ${tipoTotal}% de tu salario bruto, dejando ${formatEuros(result.netoAnual)} netos anuales. El tipo efectivo no es el marginal: este \u00faltimo se aplica solo al tramo superior de renta, mientras que el efectivo reparte la carga sobre todo el sueldo, que es lo que realmente se nota en la n\u00f3mina.`,
     },
     {
-      question: `\u00bfCu\u00e1nto es ${amtStr} \u20ac brutos por hora?`,
-      answer: `${amtStr} \u20ac brutos anuales equivalen a ${hourlyGross} brutos por hora (${HORAS_LABORABLES_ANIO} horas laborables/a\u00f1o). Despu\u00e9s de impuestos y cotizaciones, tu hora neta real es ${hourlyNet}. Esto supone ${dailyNet} netos por cada jornada completa de 8 horas.`,
+      question: `\u00bfCu\u00e1nto es ${refStr} por hora?`,
+      answer: `${amtStr} \u20ac brutos anuales equivalen a ${hourlyGross} brutos por hora (${HORAS_LABORABLES_ANIO} horas laborables/a\u00f1o). Despu\u00e9s de impuestos y cotizaciones, tu hora neta real es ${hourlyNet}. Esto supone ${dailyNet} netos por cada jornada completa de 8 horas. La cifra usa ${HORAS_LABORABLES_ANIO} horas laborables al a\u00f1o, ya descontadas vacaciones y festivos. Si haces horas extra de forma habitual, tu hora real vale menos, porque el numerador apenas cambia y el denominador crece.`,
     },
     {
-      question: `\u00bfEs buen sueldo ${amtStr} \u20ac brutos en Espa\u00f1a ${CURRENT_FISCAL_YEAR}?`,
+      question: `\u00bfEs buen sueldo ${refStr} en Espa\u00f1a ${CURRENT_FISCAL_YEAR}?`,
       answer: pctMedian >= 0
-        ? `${amtStr} \u20ac brutos anuales est\u00e1n un ${pctMedianStr}% por encima de la mediana salarial espa\u00f1ola (${formatAmountSpanish(MEDIANA_SALARIAL)} \u20ac seg\u00fan INE). Equivale a ${ratioSMI}x el SMI. ${annualGross > 40000 ? 'Se sit\u00faa en el cuartil superior de la distribuci\u00f3n salarial.' : 'Es un salario competitivo que permite vivir c\u00f3modamente en la mayor\u00eda de ciudades espa\u00f1olas.'}`
-        : `${amtStr} \u20ac brutos est\u00e1n un ${pctMedianStr}% bajo la mediana (${formatAmountSpanish(MEDIANA_SALARIAL)} \u20ac), pero suponen ${ratioSMI}x el SMI. Es un salario habitual en posiciones de entrada o en regiones con menor coste de vida, donde el poder adquisitivo relativo puede ser aceptable.`,
+        ? `${amtStr} \u20ac brutos anuales est\u00e1n un ${pctMedianStr}% por encima de la mediana salarial espa\u00f1ola (${formatAmountSpanish(MEDIANA_SALARIAL)} \u20ac seg\u00fan INE). Equivale a ${ratioSMI}x el SMI. ${annualGross > 40000 ? 'Se sit\u00faa en el cuartil superior de la distribuci\u00f3n salarial.' : 'Es un salario competitivo que permite vivir c\u00f3modamente en la mayor\u00eda de ciudades espa\u00f1olas.'} La comparaci\u00f3n \u00fatil no es con la media nacional sino con tu sector y tu comunidad: entre el salario mediano de Madrid y el de Extremadura hay m\u00e1s de un 20% de diferencia, y la vivienda se lleva buena parte de esa brecha.`
+        : `${amtStr} \u20ac brutos est\u00e1n un ${pctMedianStr}% bajo la mediana (${formatAmountSpanish(MEDIANA_SALARIAL)} \u20ac), pero suponen ${ratioSMI}x el SMI. Es un salario habitual en posiciones de entrada o en regiones con menor coste de vida, donde el poder adquisitivo relativo puede ser aceptable. La comparaci\u00f3n \u00fatil no es con la media nacional sino con tu sector y tu comunidad: entre el salario mediano de Madrid y el de Extremadura hay m\u00e1s de un 20% de diferencia, y la vivienda se lleva buena parte de esa brecha.`,
     },
     {
-      question: `\u00bfC\u00f3mo puedo aumentar mi neto con ${amtStr} \u20ac brutos?`,
+      question: `\u00bfC\u00f3mo puedo aumentar mi neto con ${refStr}?`,
       answer: v === 0
-        ? `Tres v\u00edas principales: (1) Retribuci\u00f3n flexible (ticket restaurante, transporte, guarder\u00eda) que no tributa en IRPF; (2) Plan de pensiones (hasta 1.500 \u20ac/a\u00f1o deducibles, ahorro estimado: ${formatEuros(1500 * result.tipoEfectivoIRPF)}); (3) Negociar en especie: seguro m\u00e9dico (exento hasta 500 \u20ac/persona), formaci\u00f3n pagada por empresa.`
+        ? `Tres v\u00edas principales: (1) Retribuci\u00f3n flexible (ticket restaurante, transporte, guarder\u00eda) que no tributa en IRPF; (2) Plan de pensiones (hasta 1.500 \u20ac/a\u00f1o deducibles, ahorro estimado: ${formatEuros(1500 * result.tipoEfectivoIRPF)}); (3) Negociar en especie: seguro m\u00e9dico (exento hasta 500 \u20ac/persona), formaci\u00f3n pagada por empresa. Antes de negociar, revisa el convenio de tu sector: muchos fijan complementos de antig\u00fcedad o pluses que no dependen de la voluntad de la empresa y que a veces no se aplican por simple descuido administrativo.`
         : v === 1
-        ? `Con un tipo efectivo del ${tipoEfectivo}%, las opciones para mejorar tu neto incluyen: maximizar plan de pensiones (\u2248${formatEuros(1500 * result.tipoEfectivoIRPF)} de ahorro), solicitar ticket restaurante a tu empresa (\u2248${formatEuros(11 * 220 * result.tipoEfectivoIRPF)} de ahorro fiscal), y revisar deducciones auton\u00f3micas aplicables.`
-        : `Para optimizar ${amtStr} \u20ac brutos: plan de pensiones a tope ahorra ~${formatEuros(1500 * result.tipoEfectivoIRPF)} en IRPF; la retribuci\u00f3n flexible (comida, transporte, guarder\u00eda) puede sumar otros ${formatEuros(3000 * result.tipoEfectivoIRPF)}; y las deducciones por alquiler o hijos (seg\u00fan CCAA) a\u00f1aden 200-800 \u20ac m\u00e1s.`,
+        ? `Con un tipo efectivo del ${tipoEfectivo}%, las opciones para mejorar tu neto incluyen: maximizar plan de pensiones (\u2248${formatEuros(1500 * result.tipoEfectivoIRPF)} de ahorro), solicitar ticket restaurante a tu empresa (\u2248${formatEuros(11 * 220 * result.tipoEfectivoIRPF)} de ahorro fiscal), y revisar deducciones auton\u00f3micas aplicables. Antes de negociar, revisa el convenio de tu sector: muchos fijan complementos de antig\u00fcedad o pluses que no dependen de la voluntad de la empresa y que a veces no se aplican por simple descuido administrativo.`
+        : `Para optimizar ${amtStr} \u20ac brutos: plan de pensiones a tope ahorra ~${formatEuros(1500 * result.tipoEfectivoIRPF)} en IRPF; la retribuci\u00f3n flexible (comida, transporte, guarder\u00eda) puede sumar otros ${formatEuros(3000 * result.tipoEfectivoIRPF)}; y las deducciones por alquiler o hijos (seg\u00fan CCAA) a\u00f1aden 200-800 \u20ac m\u00e1s. Antes de negociar, revisa el convenio de tu sector: muchos fijan complementos de antig\u00fcedad o pluses que no dependen de la voluntad de la empresa y que a veces no se aplican por simple descuido administrativo.`,
     },
     {
-      question: `\u00bfCu\u00e1nto me queda a la semana con ${amtStr} \u20ac brutos?`,
-      answer: `Con ${amtStr} \u20ac brutos anuales, tu neto semanal es ${weeklyNet} (${formatEuros(result.netoAnual)} anuales / 52 semanas). D\u00eda a d\u00eda, dispones de ${dailyNet} netos en d\u00edas laborables o ${formatEuros(result.netoAnual / 365)} si cuentas los 365 d\u00edas del a\u00f1o.`,
+      question: `\u00bfCu\u00e1nto me queda a la semana con ${refStr}?`,
+      answer: `Con ${amtStr} \u20ac brutos anuales, tu neto semanal es ${weeklyNet} (${formatEuros(result.netoAnual)} anuales / 52 semanas). D\u00eda a d\u00eda, dispones de ${dailyNet} netos en d\u00edas laborables o ${formatEuros(result.netoAnual / 365)} si cuentas los 365 d\u00edas del a\u00f1o. Presupuestar por semana funciona mejor que por mes cuando el gasto es irregular: evita la sensaci\u00f3n de holgura de los primeros d\u00edas tras el cobro y hace visible el desfase antes de que sea tarde.`,
     },
   ];
 

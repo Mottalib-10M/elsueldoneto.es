@@ -22,6 +22,13 @@ const schemas = [
     { name: 'Guides', url: '/en/guides/' },
   ]),
 ];
+const faqPage = [
+  { question: 'Which guide should I read first?', answer: 'The one on calculating net salary: it explains where the gap between contractual gross pay and the amount received comes from, which is the most common question. The guides on regional IRPF, self-employment and pensions build on it. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+  { question: 'Are the guides current for 2026?', answer: 'Yes. Income tax scales, contribution rates, the minimum wage and the contribution ceiling are those in force for 2026, and each guide shows its verification date alongside a link to the official source it relies on. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+  { question: 'Do the guides apply to self-employed workers?', answer: 'Partly. The tax content applies to everyone, but the payroll guides describe employment. For self-employment, the guide on contributions based on real income and the dedicated calculator are the right starting point. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+  { question: 'Do they replace professional advice?', answer: 'No. They set out general rules and orders of magnitude without knowing your collective agreement, family situation or contract specifics. For a decision with financial consequences, an adviser or the Spanish Tax Agency remain the right contacts. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+];
+const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
@@ -48,4 +55,16 @@ const schemas = [
       ))}
     </div>
   </div>
+  <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema)} />
+  <section class="mx-auto max-w-3xl px-4 py-10">
+    <h2 class="mb-4 text-2xl font-bold">Frequently asked questions</h2>
+    <div class="space-y-3">
+      {faqPage.map((f) => (
+        <details class="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+          <summary class="cursor-pointer font-semibold">{f.question}</summary>
+          <p class="mt-2 text-gray-700 dark:text-gray-300">{f.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
 </Layout>

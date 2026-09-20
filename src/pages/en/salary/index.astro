@@ -22,6 +22,13 @@ const schemas = [
     { name: 'Salaries', url: '/en/salary/' },
   ]),
 ];
+const faqPage = [
+  { question: 'How are these figures calculated?', answer: 'Each page applies the state IRPF scale, the Madrid regional scale as a reference and the 2026 contribution rates, assuming a single taxpayer with no children and fourteen payments. Other regions and family situations are handled by the main calculator.' },
+  { question: 'Why is Madrid used as the reference?', answer: 'Because it has the lowest regional scale, which gives a stable point of comparison. In Catalonia or Valencia the same gross salary produces slightly less net pay, and the gap widens as income rises. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+  { question: 'Do the figures include extra payments?', answer: 'Yes. The annual total is identical with twelve or fourteen payments; only the monthly distribution changes. Both scenarios are shown because the choice affects household cash flow rather than the total received over the year. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+  { question: 'What do these pages not show?', answer: 'They exclude benefits in kind, private health insurance, meal vouchers and company pension plans, all of which change actual net pay. They also exclude regional deductions for housing, children or disability, which apply in the annual return. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+];
+const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
@@ -95,4 +102,16 @@ const schemas = [
       <p>Calculated for a single person, no children, Madrid, 14 payments. Fiscal year {CURRENT_FISCAL_YEAR}.</p>
     </div>
   </div>
+  <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema)} />
+  <section class="mx-auto max-w-3xl px-4 py-10">
+    <h2 class="mb-4 text-2xl font-bold">Frequently asked questions</h2>
+    <div class="space-y-3">
+      {faqPage.map((f) => (
+        <details class="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+          <summary class="cursor-pointer font-semibold">{f.question}</summary>
+          <p class="mt-2 text-gray-700 dark:text-gray-300">{f.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
 </Layout>

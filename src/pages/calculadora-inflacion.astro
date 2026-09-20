@@ -9,12 +9,17 @@ const description = '¿Cuánto vale hoy tu dinero de hace 10 años? Calcula el i
 const faqs = [
   {
     question: '¿Cuál es la inflación actual en España?',
-    answer: `La inflación en España ha variado significativamente en los últimos años. Consulta el INE (Instituto Nacional de Estadística) para los datos más recientes del IPC.`,
+    answer: `La inflación en España ha variado significativamente en los últimos años. Consulta el INE (Instituto Nacional de Estadística) para los datos más recientes del IPC. Lo relevante para un presupuesto doméstico no es el IPC general sino la cesta que más pesa en tu gasto: vivienda, alimentación y energía se han movido muy por encima de la media en los últimos años.`,
   },
   {
     question: '¿Cómo protegerme de la inflación?',
-    answer: 'Invertir en activos que históricamente superan la inflación: fondos indexados, inmobiliario, o bonos indexados a la inflación. Mantener todo el ahorro en una cuenta sin interés es perder poder adquisitivo.',
+    answer: 'Invertir en activos que históricamente superan la inflación: fondos indexados, inmobiliario, o bonos indexados a la inflación. Mantener todo el ahorro en una cuenta sin interés es perder poder adquisitivo. Antes de invertir conviene tener un colchón de tres a seis meses de gastos en un producto de liquidez inmediata: sin él, cualquier imprevisto obliga a deshacer la inversión en el peor momento.',
   },
+
+  { question: '¿Qué diferencia hay entre IPC general y subyacente?', answer: 'El IPC general incluye alimentos frescos y energía, los dos componentes más volátiles. El subyacente los excluye, por lo que refleja mejor la tendencia de fondo de los precios. Los bancos centrales miran sobre todo el subyacente para decidir los tipos de interés.' },
+  { question: '¿La inflación afecta igual a todos los hogares?', answer: 'No. La cesta oficial es una media, y el gasto real de cada hogar difiere: la vivienda y la energía pesan mucho más en rentas bajas, de modo que la inflación percibida por esos hogares supera con frecuencia en varios puntos la cifra publicada.' },
+  { question: '¿Cómo actualizo un importe con la inflación?', answer: 'Multiplica el importe por el cociente entre el IPC del año de destino y el del año de origen, ambos con la misma base. El INE publica una calculadora oficial que hace esta operación para cualquier par de fechas desde 1961.' },
+  { question: '¿Los salarios siguen a la inflación en España?', answer: 'Solo en parte. Muchos convenios incluyen cláusulas de revisión, pero suelen activarse con retraso y con topes, de modo que en periodos de inflación alta el poder adquisitivo cae aunque el salario nominal suba. La recuperación posterior rara vez compensa el retraso acumulado.' },
 ];
 ---
 

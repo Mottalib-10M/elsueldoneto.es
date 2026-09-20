@@ -9,20 +9,23 @@ const description = 'Convierte tu salario anual o mensual a precio por hora brut
 const faqs = [
   {
     question: '¿Cómo se calcula el precio por hora trabajada?',
-    answer: 'Se divide el salario anual entre las horas efectivamente trabajadas al año. Hay que descontar las semanas de vacaciones y los días festivos de las 52 semanas del año.',
+    answer: 'Se divide el salario anual entre las horas efectivamente trabajadas al año. Hay que descontar las semanas de vacaciones y los días festivos de las 52 semanas del año. El resultado cambia bastante según el convenio: una jornada anual pactada de 1.700 horas en lugar de 1.760 eleva el precio de la hora en torno a un 3,5% con el mismo salario.',
   },
   {
     question: '¿Cuántas horas trabaja un empleado al año en España?',
-    answer: 'Con una jornada de 40 horas semanales, 5 semanas de vacaciones y 14 festivos, un trabajador en España trabaja aproximadamente 1.760 horas al año.',
+    answer: 'Con una jornada de 40 horas semanales, 5 semanas de vacaciones y 14 festivos, un trabajador en España trabaja aproximadamente 1.760 horas al año. Muchos convenios fijan una jornada anual algo menor, entre 1.700 y 1.750 horas, y ese número es el que debe usarse para calcular el valor de la hora extra o el de una reducción de jornada.',
   },
   {
     question: '¿El salario mínimo por hora es legal en España?',
-    answer: `Con un SMI de 1.221 €/mes en 14 pagas (17.094 €/año) y 1.760 horas laborables, el salario mínimo por hora en ${CURRENT_FISCAL_YEAR} es aproximadamente 9,71 € brutos.`,
+    answer: `Con un SMI de 1.221 €/mes en 14 pagas (17.094 €/año) y 1.760 horas laborables, el salario mínimo por hora en ${CURRENT_FISCAL_YEAR} es aproximadamente 9,71 € brutos. El SMI se fija por jornada completa: a tiempo parcial se prorratea, y ningún convenio puede establecer un salario inferior, aunque sí uno superior, que es lo habitual en la mayoría de los sectores.`,
   },
   {
     question: '¿Qué diferencia hay entre hora bruta y hora neta?',
-    answer: 'La hora bruta se calcula sobre el salario antes de impuestos. La hora neta descuenta el IRPF y la Seguridad Social, reflejando lo que realmente percibes por cada hora trabajada.',
+    answer: 'La hora bruta se calcula sobre el salario antes de impuestos. La hora neta descuenta el IRPF y la Seguridad Social, reflejando lo que realmente percibes por cada hora trabajada. La distancia entre ambas crece con el sueldo, porque el IRPF es progresivo: en salarios altos la hora neta puede quedar un 35% por debajo de la bruta, frente a poco más del 20% cerca del SMI.',
   },
+
+  { question: '¿Las horas extra se pagan siempre más caras?', answer: 'No necesariamente. El convenio puede fijar que se compensen con descanso equivalente en lugar de pagarse, y solo cuando se abonan debe respetarse como mínimo el valor de la hora ordinaria. Las horas extra tienen además un límite legal de ochenta al año.' },
+  { question: '¿Cómo afecta la jornada parcial al precio de la hora?', answer: 'El salario se reduce en proporción, pero el valor de la hora debe ser el mismo que el de un trabajador a jornada completa en el mismo puesto. Si es inferior, hay discriminación indirecta, y el convenio de aplicación es el mismo para ambos.' },
 ];
 ---
 

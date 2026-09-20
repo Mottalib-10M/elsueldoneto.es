@@ -50,6 +50,16 @@ const schemas = [
     { name: 'Guías', url: '/guias/' },
   ]),
 ];
+const faqPage = [
+  { question: '¿Por qué guía empezar?', answer: 'Por la de cálculo del sueldo neto: explica de dónde sale la diferencia entre el bruto pactado y el ingreso real, que es la duda más frecuente. Las demás guías, sobre IRPF por comunidad, autónomos o jubilación, parten de esa base.' },
+  { question: '¿Las guías están actualizadas a 2026?', answer: 'Sí. Las tablas de IRPF, los tipos de cotización, el SMI y los topes de cotización corresponden a los vigentes en 2026, y cada guía muestra su fecha de verificación junto al enlace a la fuente oficial utilizada. Cada página enlaza la fuente oficial aplicable, para que cualquier cifra pueda contrastarse sin depender de nosotros.' },
+  { question: '¿Sirven para autónomos?', answer: 'En parte. Las guías fiscales aplican igual, pero las de nómina describen la relación laboral por cuenta ajena. Para el trabajo autónomo, la guía de cotización por ingresos reales y la calculadora específica son el punto de partida adecuado. Cada página enlaza la fuente oficial aplicable, para que cualquier cifra pueda contrastarse sin depender de nosotros.' },
+  { question: '¿Sustituyen a un asesor fiscal?', answer: 'No. Describen la regla general y órdenes de magnitud, sin conocer tu convenio, tu situación familiar ni las particularidades de tu contrato. Para una decisión con consecuencias económicas, el asesor o la propia Agencia Tributaria son los interlocutores adecuados. Cada página enlaza la fuente oficial aplicable, para que cualquier cifra pueda contrastarse sin depender de nosotros.' },
+
+  { question: '¿Hay guías específicas para expatriados?', answer: 'Sí. La guía del Régimen Beckham cubre la tributación de los trabajadores desplazados, y la de jubilación explica cómo se suman los periodos cotizados en otros países de la Unión Europea o con convenio bilateral a efectos de la pensión española.' },
+  { question: '¿Puedo citar el contenido de las guías?', answer: 'Sí, citando la fuente y enlazando la página original. Reproducir el texto completo no aporta nada al lector y hace perder las actualizaciones: una cifra correcta hoy puede dejar de serlo en seis meses, y solo la página original lleva la fecha de verificación.' },
+];
+const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
 ---
 
 <Layout title={title} description={description} schema={schemas}>
@@ -86,5 +96,17 @@ const schemas = [
       <li><a class="underline" href="https://www.sepe.es" rel="noopener">SEPE</a> — prestación por desempleo</li>
       <li><a class="underline" href="https://www.boe.es" rel="noopener">BOE</a> — normativa en vigor</li>
     </ul>
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema)} />
+  <section class="mx-auto max-w-3xl px-4 py-10">
+    <h2 class="mb-4 text-2xl font-bold">Preguntas frecuentes</h2>
+    <div class="space-y-3">
+      {faqPage.map((f) => (
+        <details class="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+          <summary class="cursor-pointer font-semibold">{f.question}</summary>
+          <p class="mt-2 text-gray-700 dark:text-gray-300">{f.answer}</p>
+        </details>
+      ))}
+    </div>
   </section>
 </Layout>

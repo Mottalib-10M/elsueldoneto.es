@@ -9,20 +9,23 @@ const description = `¿Cuánto pagarás de cuota e IRPF como autónomo? Calcula 
 const faqs = [
   {
     question: '¿Cómo funciona el sistema de cotización por ingresos reales?',
-    answer: `Desde 2023, los autónomos cotizan según sus ingresos netos reales (ingresos menos gastos). El sistema establece tramos de rendimientos con cuotas fijas. En ${CURRENT_FISCAL_YEAR}, las cuotas van desde 200 € hasta 530 € mensuales según el tramo.`,
+    answer: `Desde 2023, los autónomos cotizan según sus ingresos netos reales (ingresos menos gastos). El sistema establece tramos de rendimientos con cuotas fijas. En ${CURRENT_FISCAL_YEAR}, las cuotas van desde 200 € hasta 530 € mensuales según el tramo. La cuota se regulariza al año siguiente: si tus ingresos reales quedaron por encima o por debajo del tramo elegido, la Seguridad Social reclama o devuelve la diferencia, de modo que conviene revisar la previsión cada trimestre.`,
   },
   {
     question: '¿Qué gastos puedo deducir como autónomo?',
-    answer: 'Puedes deducir todos los gastos necesarios para tu actividad: alquiler del local, suministros, material, seguros, asesoría, formación, cuotas profesionales, vehículo (con limitaciones), y la propia cuota de autónomos.',
+    answer: 'Puedes deducir todos los gastos necesarios para tu actividad: alquiler del local, suministros, material, seguros, asesoría, formación, cuotas profesionales, vehículo (con limitaciones), y la propia cuota de autónomos. Los gastos deben estar afectos a la actividad, justificados con factura y anotados en los libros registro. El vehículo solo es deducible al 100% en actividades concretas, como transporte o representación comercial, y al 50% en el IVA para el resto.',
   },
   {
     question: '¿Cuánto IRPF paga un autónomo?',
-    answer: 'Los autónomos tributan por el IRPF igual que los asalariados, pero su base imponible es el rendimiento neto (ingresos menos gastos menos cuota de autónomos). Además, deben hacer pagos fraccionados trimestrales (modelo 130).',
+    answer: 'Los autónomos tributan por el IRPF igual que los asalariados, pero su base imponible es el rendimiento neto (ingresos menos gastos menos cuota de autónomos). Además, deben hacer pagos fraccionados trimestrales (modelo 130). Ese modelo adelanta el 20% del rendimiento neto acumulado del año, y lo pagado se descuenta en la declaración anual. Quien factura mayoritariamente a empresas con retención puede quedar exento de presentarlo.',
   },
   {
     question: '¿Existe la tarifa plana para autónomos en 2026?',
-    answer: 'Sí, los nuevos autónomos pueden acogerse a una cuota reducida de 80 €/mes durante los primeros 12 meses, prorrogable otros 12 meses si los rendimientos netos son inferiores al SMI.',
+    answer: 'Sí, los nuevos autónomos pueden acogerse a una cuota reducida de 80 €/mes durante los primeros 12 meses, prorrogable otros 12 meses si los rendimientos netos son inferiores al SMI. La tarifa plana no se aplica si has estado de alta como autónomo en los tres años anteriores, salvo que entonces no te acogieras a ella, y tampoco a los autónomos societarios en algunas comunidades.',
   },
+
+  { question: '¿Cuándo conviene pasar de autónomo a sociedad?', answer: 'El umbral habitual se sitúa entre 40.000 y 60.000 euros de beneficio anual, porque a partir de ahí el tipo fijo del impuesto de sociedades compensa los costes de constitución y de contabilidad. Por debajo, la sociedad añade obligaciones formales sin ahorro fiscal real.' },
+  { question: '¿Qué pasa si mis ingresos cambian durante el año?', answer: 'Puedes modificar tu base de cotización hasta seis veces al año a través del portal Importass, ajustándola al tramo que corresponda a tu previsión de rendimientos. La Seguridad Social regulariza la diferencia al año siguiente, cobrando o devolviendo lo que proceda.' },
 ];
 ---
 

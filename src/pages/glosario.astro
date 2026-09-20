@@ -52,6 +52,15 @@ const schemas = [
   ]),
   buildDefinedTermSetSchema(terms),
 ];
+const faqPage = [
+  { question: '¿Qué diferencia hay entre bruto y neto?', answer: 'El bruto es la retribución pactada antes de descuentos; el neto es lo que se ingresa en la cuenta, tras restar cotizaciones y retención de IRPF. Entre ambos existe el bruto sujeto a cotización, que puede diferir del salario pactado cuando hay conceptos exentos.' },
+  { question: '¿Qué es la base de cotización?', answer: 'Es el importe sobre el que se calculan las cotizaciones a la Seguridad Social, con un mínimo y un máximo mensual. Superado el tope, no se cotiza más aunque el salario suba, y de ahí que el porcentaje total de descuentos baje en salarios altos.' },
+  { question: '¿Qué es el tipo efectivo del IRPF?', answer: 'Es el cociente entre el impuesto pagado y la renta total, siempre inferior al tipo marginal porque la escala es progresiva y cada tramo se grava a su propio tipo. Es la cifra que refleja la carga real, no la que aparece en la tabla.' },
+  { question: '¿Qué significa devengo en una nómina?', answer: 'Es el conjunto de importes que la empresa reconoce al trabajador en el periodo: salario base, complementos, horas extra y pagas prorrateadas. De la suma de devengos se restan las deducciones para obtener el líquido a percibir. Cada página enlaza la fuente oficial aplicable, para que cualquier cifra pueda contrastarse sin depender de nosotros.' },
+  { question: '¿Qué es el IPREM?', answer: 'El Indicador Público de Renta de Efectos Múltiples, la referencia para acceder a becas, subsidios y ayudas. No debe confundirse con el SMI: el IPREM se usa como umbral de renta en prestaciones, mientras que el SMI fija el salario mínimo legal.' },
+  { question: '¿Qué es el finiquito?', answer: 'El documento y el importe que liquidan lo devengado y no cobrado al terminar el contrato: días trabajados, vacaciones pendientes y parte proporcional de pagas extra. No incluye la indemnización por despido, que es un concepto distinto y con otra fiscalidad.' },
+];
+const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
 ---
 
 <Layout title={title} description={description} schema={schemas}>
@@ -112,5 +121,17 @@ const schemas = [
       <li><a class="underline" href="https://www.sepe.es" rel="noopener">SEPE</a> — prestación por desempleo</li>
       <li><a class="underline" href="https://www.boe.es" rel="noopener">BOE</a> — normativa en vigor</li>
     </ul>
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema)} />
+  <section class="mx-auto max-w-3xl px-4 py-10">
+    <h2 class="mb-4 text-2xl font-bold">Preguntas frecuentes</h2>
+    <div class="space-y-3">
+      {faqPage.map((f) => (
+        <details class="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+          <summary class="cursor-pointer font-semibold">{f.question}</summary>
+          <p class="mt-2 text-gray-700 dark:text-gray-300">{f.answer}</p>
+        </details>
+      ))}
+    </div>
   </section>
 </Layout>

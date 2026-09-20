@@ -8,21 +8,24 @@ const description = 'Compara el IRPF al 24% fijo del Régimen Beckham con el ré
 
 const faqs = [
   {
-    question: '¿Qué es el Régimen Beckham?',
-    answer: 'Es un régimen fiscal especial para trabajadores desplazados a España que permite tributar a un tipo fijo del 24% sobre la renta del trabajo (hasta 600.000 €) durante los primeros 6 años de residencia fiscal.',
+    question: '¿Qué calcula exactamente esta herramienta del Régimen Beckham?',
+    answer: 'Es un régimen fiscal especial para trabajadores desplazados a España que permite tributar a un tipo fijo del 24% sobre la renta del trabajo (hasta 600.000 €) durante los primeros 6 años de residencia fiscal. Por encima de 600.000 euros el tipo sube al 47%, y las rentas del ahorro tributan según la escala general del ahorro, de modo que el régimen no es uniformemente favorable para todos los perfiles.',
   },
   {
-    question: '¿Quién puede acogerse al Régimen Beckham?',
-    answer: 'Trabajadores que no hayan sido residentes fiscales en España durante los 5 años anteriores, que se desplacen a España por un contrato de trabajo o como administrador de una empresa.',
+    question: '¿La calculadora comprueba los requisitos de acceso?',
+    answer: 'Trabajadores que no hayan sido residentes fiscales en España durante los 5 años anteriores, que se desplacen a España por un contrato de trabajo o como administrador de una empresa. Desde la reforma de 2023, también pueden acogerse teletrabajadores al servicio de empresas extranjeras, emprendedores y profesionales altamente cualificados, siempre que la solicitud se presente en los seis meses siguientes al alta en la Seguridad Social.',
   },
   {
     question: '¿Merece la pena el Régimen Beckham?',
-    answer: 'Depende de tu salario. Para salarios superiores a unos 60.000 €, el tipo fijo del 24% suele ser inferior al tipo efectivo del régimen general. Para salarios más bajos, el régimen general puede ser más favorable.',
+    answer: 'Depende de tu salario. Para salarios superiores a unos 60.000 €, el tipo fijo del 24% suele ser inferior al tipo efectivo del régimen general. Para salarios más bajos, el régimen general puede ser más favorable. Además, el régimen impide aplicar el mínimo personal y familiar y la mayoría de los convenios de doble imposición, lo que penaliza a quien tiene hijos a cargo o rentas en el extranjero.',
   },
   {
     question: '¿El Régimen Beckham aplica a la Seguridad Social?',
-    answer: 'No. Las cotizaciones a la Seguridad Social se calculan igual en ambos regímenes. El Beckham solo afecta al IRPF.',
+    answer: 'No. Las cotizaciones a la Seguridad Social se calculan igual en ambos regímenes. El Beckham solo afecta al IRPF. Las bases y los tipos de cotización son los mismos, con el mismo tope mensual, de modo que el ahorro del régimen se concentra íntegramente en la parte fiscal de la nómina y no en la parte social.',
   },
+
+  { question: '¿Cómo se solicita el Régimen Beckham?', answer: 'Mediante el modelo 149, dentro de los seis meses siguientes al alta en la Seguridad Social española. Fuera de ese plazo la opción se pierde para todo el desplazamiento, sin posibilidad de subsanación, y es el error más frecuente en la práctica.' },
+  { question: '¿Se puede renunciar al régimen antes de tiempo?', answer: 'Sí, comunicándolo en noviembre y diciembre del año anterior a aquel en que deba surtir efecto. La renuncia es definitiva: no se puede volver al régimen en el mismo desplazamiento, aunque las circunstancias cambien después. Por eso la decisión inicial conviene tomarla con una proyección de varios años, no solo del primero.' },
 ];
 ---
 

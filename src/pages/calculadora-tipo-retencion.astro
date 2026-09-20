@@ -9,20 +9,23 @@ const description = `¿Cuánto te retienen de IRPF cada mes? Calcula tu tipo de 
 const faqs = [
   {
     question: '¿Qué es el tipo de retención del IRPF?',
-    answer: `El tipo de retención es el porcentaje que tu empresa descuenta de tu nómina cada mes para adelantar el pago del IRPF a Hacienda. Se calcula en función de tu salario bruto, situación familiar y comunidad autónoma.`,
+    answer: `El tipo de retención es el porcentaje que tu empresa descuenta de tu nómina cada mes para adelantar el pago del IRPF a Hacienda. Se calcula en función de tu salario bruto, situación familiar y comunidad autónoma. No es un impuesto distinto: es un anticipo del IRPF. Si la retención ha sido superior a lo debido, Hacienda devuelve la diferencia; si ha sido inferior, la declaración sale a pagar.`,
   },
   {
     question: '¿Cómo puedo cambiar mi tipo de retención?',
-    answer: 'Puedes solicitar a tu empresa que aplique una retención mayor a la mínima obligatoria presentando el modelo 145. No se puede pedir una retención inferior a la que marca la ley.',
+    answer: 'Puedes solicitar a tu empresa que aplique una retención mayor a la mínima obligatoria presentando el modelo 145. No se puede pedir una retención inferior a la que marca la ley. Subir voluntariamente la retención tiene sentido cuando se prevé otro pagador durante el año, porque cada empresa calcula su retención como si fuera la única, y la suma de ambas suele quedarse corta.',
   },
   {
     question: '¿Qué pasa si me retienen de más?',
-    answer: 'Si las retenciones aplicadas durante el año superan lo que realmente debes pagar de IRPF, Hacienda te devolverá la diferencia al hacer la declaración de la renta.',
+    answer: 'Si las retenciones aplicadas durante el año superan lo que realmente debes pagar de IRPF, Hacienda te devolverá la diferencia al hacer la declaración de la renta. La devolución no genera intereses si se abona dentro de los seis meses siguientes al fin del plazo de presentación; a partir de ahí, Hacienda sí debe intereses de demora.',
   },
   {
     question: '¿Es lo mismo retención que IRPF?',
-    answer: 'No exactamente. La retención es un pago a cuenta del IRPF que hace tu empresa cada mes. El IRPF final se calcula al hacer la declaración de la renta, y puede resultar en una devolución o un pago adicional.',
+    answer: 'No exactamente. La retención es un pago a cuenta del IRPF que hace tu empresa cada mes. El IRPF final se calcula al hacer la declaración de la renta, y puede resultar en una devolución o un pago adicional. La diferencia aparece sobre todo con dos pagadores, con cambios de empleo a mitad de año o cuando se cobran atrasos: cada empresa retiene sobre lo que ella paga, sin conocer el resto de la renta.',
   },
+
+  { question: '¿Qué es el modelo 145?', answer: 'Es la comunicación de datos personales y familiares que el trabajador entrega a la empresa para que calcule la retención: hijos, ascendientes a cargo, discapacidad, pensión compensatoria o préstamo de vivienda anterior a 2013. Debe actualizarse cuando cambian esas circunstancias.' },
+  { question: '¿Qué retención se aplica en el primer empleo?', answer: 'La empresa calcula la retención con los datos del modelo 145 y el salario anual previsto desde la fecha de incorporación, no el de un año completo. Por eso la retención del primer año suele ser baja y la declaración puede salir a pagar.' },
 ];
 ---
 

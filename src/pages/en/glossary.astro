@@ -52,6 +52,15 @@ const schemas = [
   ]),
   buildDefinedTermSetSchema(terms, 'en'),
 ];
+const faqPage = [
+  { question: 'What is the difference between gross and net salary?', answer: 'Gross is the contractual pay before deductions; net is what reaches the bank account after social security contributions and IRPF withholding. Between the two sits the contribution base, which can differ from contractual pay when exempt items are involved. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+  { question: 'What is the contribution base?', answer: 'The amount on which social security contributions are calculated, subject to a monthly floor and ceiling. Above the ceiling nothing further is deducted, which is why the total deduction rate falls for higher salaries even as income tax keeps rising.' },
+  { question: 'What does effective tax rate mean?', answer: 'Total tax paid divided by total income. It is always lower than the marginal rate because Spain\'s scale is progressive and each band is taxed at its own rate. The effective rate, not the marginal one, is what determines take-home pay.' },
+  { question: 'What is the SMI?', answer: 'The statutory minimum wage, set annually by the government and expressed in fourteen payments. No collective agreement may fall below it. It should not be confused with the IPREM, which is the income threshold used for benefits and subsidies. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+  { question: 'What is a finiquito?', answer: 'The settlement paid when a contract ends: outstanding salary days, untaken holiday and the proportional part of extra payments. It is separate from redundancy compensation, which exists only in certain dismissals and is taxed differently. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+  { question: 'What is the Beckham Law?', answer: 'A special regime for inbound workers allowing a flat 24% rate on Spanish employment income up to €600,000, for the year of arrival plus five more. It removes access to the personal allowance and to most double-taxation treaty benefits. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+];
+const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
@@ -102,4 +111,16 @@ const schemas = [
       </div>
     </div>
   </div>
+  <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema)} />
+  <section class="mx-auto max-w-3xl px-4 py-10">
+    <h2 class="mb-4 text-2xl font-bold">Frequently asked questions</h2>
+    <div class="space-y-3">
+      {faqPage.map((f) => (
+        <details class="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+          <summary class="cursor-pointer font-semibold">{f.question}</summary>
+          <p class="mt-2 text-gray-700 dark:text-gray-300">{f.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
 </Layout>
