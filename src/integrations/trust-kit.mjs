@@ -46,8 +46,8 @@ const TEXT = {
 };
 
 const AUTHOR = {
-  name: 'Mottalib Radif',
-  jobTitle: 'MBA INSEAD, Ingénieur Mines Saint-Étienne',
+  name: 'Radif Partners',
+  jobTitle: 'Éditeur de calculateurs et de guides pratiques',
   knowsAbout: ['Personal finance', 'Payroll and income tax', 'Social security'],
 };
 
@@ -82,9 +82,8 @@ function enrichJsonLd(html, org, author) {
       if (types.includes('Organization')) {
         n.foundingDate ??= org.foundingDate;
         n.publishingPrinciples ??= org.publishingPrinciples;
-        n.founder ??= org.founder;
       }
-      if (types.includes('Person') && n.name === author.name) {
+      if (types.includes('Organization') || (types.includes('Person') && n.name === author.name)) {
         n.jobTitle ??= author.jobTitle;
         n.knowsAbout ??= author.knowsAbout;
       }
@@ -145,8 +144,7 @@ export default function trustKit(opts) {
               '@graph': [
                 { '@type': 'Organization', '@id': `${opts.siteUrl}/#org`, name: opts.siteName, url: opts.siteUrl,
                   foundingDate: opts.founded, publishingPrinciples: `${opts.siteUrl}${method}`,
-                  founder: { '@type': 'Person', name: AUTHOR.name, jobTitle: AUTHOR.jobTitle,
-                             knowsAbout: AUTHOR.knowsAbout, url: `${opts.siteUrl}${about}` } },
+                  knowsAbout: AUTHOR.knowsAbout, description: AUTHOR.jobTitle },
                 { '@type': 'WebPage', url: `${opts.siteUrl}${path}`, dateModified: date,
                   publisher: { '@id': `${opts.siteUrl}/#org` } },
               ],

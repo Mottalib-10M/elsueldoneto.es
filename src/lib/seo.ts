@@ -38,7 +38,7 @@ export function buildWebApplicationSchema(name: string, url: string, locale: Loc
       priceCurrency: 'EUR',
     },
     author: {
-      '@type': 'Person',
+      '@type': 'Organization',
       name: AUTHOR_NAME,
       url: `${SITE_URL}${locale === 'en' ? '/en/about/' : '/sobre-nosotros/'}`,
     },
@@ -101,14 +101,12 @@ export function buildOrganizationSchema(locale: Locale = 'es') {
       availableLanguage: ['Spanish', 'English'],
     },
     founder: {
-      '@type': 'Person',
-      name: 'Mottalib Radif',
+      '@type': 'Organization',
+      name: 'Radif Partners',
       jobTitle: isEn ? 'Personal Finance and Taxation Expert' : 'Experto en finanzas personales y fiscalidad',
       description: isEn
-        ? 'Personal finance and taxation expert, MBA INSEAD graduate.'
-        : 'Experto en finanzas personales y fiscalidad, graduado MBA del INSEAD. Especializado en el análisis de cálculos salariales y cotizaciones sociales en España.',
-      image: `${SITE_URL}/team/mottalib-radif.jpg`,
-      alumniOf: { '@type': 'CollegeOrUniversity', name: 'INSEAD' },
+        ? 'Personal finance and taxation expert, Editor de calculadoras y guías prácticas graduate.'
+        : 'Experto en finanzas personales y fiscalidad, graduado MBA del Editor de calculadoras y guías prácticas. Especializado en el análisis de cálculos salariales y cotizaciones sociales en España.',
     },
   };
 }
@@ -125,11 +123,10 @@ export interface PersonSchemaProps {
 export function buildPersonSchema(props: PersonSchemaProps) {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Person',
+    '@type': 'Organization',
     name: props.name,
     jobTitle: props.jobTitle,
     description: props.description,
-    image: `${SITE_URL}/team/mottalib-radif.jpg`,
     url: props.url || `${SITE_URL}/sobre-nosotros/`,
     worksFor: {
       '@type': 'Organization',
@@ -166,10 +163,9 @@ export function buildArticleSchema(
     dateModified: dateModified || now,
     inLanguage: LANG_MAP[locale],
     author: {
-      '@type': 'Person',
-      name: 'Mottalib Radif',
+      '@type': 'Organization',
+      name: 'Radif Partners',
       url: `${SITE_URL}${locale === 'en' ? '/en/about/' : '/sobre-nosotros/'}`,
-      image: `${SITE_URL}/team/mottalib-radif.jpg`,
     },
     publisher: {
       '@type': 'Organization',

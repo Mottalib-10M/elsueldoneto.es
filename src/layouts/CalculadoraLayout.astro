@@ -81,7 +81,7 @@ const schemas = [
         {t(locale, 'updatedFor')} {CURRENT_FISCAL_YEAR}
       </span>
       <span>
-        {t(locale, 'byAuthorPrefix')} <a href={t(locale, 'aboutHref')} class="font-medium text-gray-700 dark:text-gray-300 hover:text-brand">{AUTHOR_NAME}, MBA INSEAD</a>
+        {t(locale, 'byAuthorPrefix')} <a href={t(locale, 'aboutHref')} class="font-medium text-gray-700 dark:text-gray-300 hover:text-brand">{AUTHOR_NAME}, Publisher of calculators and practical guides</a>
       </span>
     </div>
 
@@ -108,12 +108,11 @@ const schemas = [
     )}
 
     <div class="mt-10 flex items-center gap-4 rounded-lg border border-gray-200 px-5 py-4 dark:border-gray-700">
-      <img src="/team/mottalib-radif.jpg" alt="Mottalib Radif" class="h-12 w-12 rounded-full object-cover" width="48" height="48" loading="lazy" />
       <div class="text-sm">
         <p class="font-semibold text-charcoal dark:text-gray-200">
-          {locale === 'en' ? 'Written by' : 'Escrito por'} <a href={locale === 'en' ? '/en/about/' : '/sobre-nosotros/'} class="text-brand hover:underline">Mottalib Radif</a>
+          {locale === 'en' ? 'Written by' : 'Escrito por'} <a href={locale === 'en' ? '/en/about/' : '/sobre-nosotros/'} class="text-brand hover:underline">Radif Partners</a>
         </p>
-        <p class="text-medium-gray">MBA INSEAD · {locale === 'en' ? 'Finance Expert' : 'Experto en Finanzas'}</p>
+        <p class="text-medium-gray">Publisher of calculators and practical guides · {locale === 'en' ? 'Finance Expert' : 'Experto en Finanzas'}</p>
       </div>
     </div>
 

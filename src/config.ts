@@ -27,8 +27,8 @@ export const TAGLINE_SHORT_EN = "From gross to net, clear and fast" as const;
 
 export const CONTACT_EMAIL = "contact@elsueldoneto.es" as const;
 
-export const AUTHOR_NAME = "Mottalib Radif" as const;
-export const AUTHOR_CREDENTIALS = "MBA INSEAD, Entusiasta de las Finanzas" as const;
+export const AUTHOR_NAME = "Radif Partners" as const;
+export const AUTHOR_CREDENTIALS = "Éditeur de calculateurs et de guides pratiques" as const;
 
 /** Bing / Clarity – leave empty strings until real IDs are obtained */
 export const clarityProjectId = "xa8gfgsqtz" as const;
