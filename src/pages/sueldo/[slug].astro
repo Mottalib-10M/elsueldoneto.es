@@ -54,8 +54,8 @@ const amountFormatted = formatAmountSpanish(page.amount);
 const periodLabel = page.period === 'mes' ? 'al mes' : 'al año';
 
 // SEO
-const title = `${amountFormatted} € Brutos: Sueldo Neto ${periodLabel} en España (${CURRENT_FISCAL_YEAR})`;
-const description = `Con ${amountFormatted} € brutos ${periodLabel}, tu neto mensual es ${formatEurosRound(defaultResult.netoMensual)} en Madrid. Tabla por comunidad autónoma y situación familiar. IRPF y Seguridad Social España ${CURRENT_FISCAL_YEAR}.`;
+const title = `${amountFormatted} € brutos ${periodLabel}: cuánto es en neto en España (${CURRENT_FISCAL_YEAR})`;
+const description = `Con ${amountFormatted} € brutos ${periodLabel}, tu sueldo neto mensual es ${formatEurosRound(defaultResult.netoMensual)} en Madrid. Tabla por comunidad autónoma y situación familiar, con IRPF y Seguridad Social ${CURRENT_FISCAL_YEAR}.`;
 
 // Derived values for content sections
 const totalDeduccionesAnual = defaultResult.seguridadSocialAnual + defaultResult.irpfTotalAnual;

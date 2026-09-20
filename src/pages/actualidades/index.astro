@@ -3,7 +3,7 @@ import Layout from '../../components/layout/Layout.astro';
 import { CURRENT_FISCAL_YEAR } from '../../config';
 import { buildBreadcrumbSchema } from '../../lib/seo';
 
-const title = `Actualidades Fiscales y Laborales en España ${CURRENT_FISCAL_YEAR}`;
+const title = `IRPF y nómina ${CURRENT_FISCAL_YEAR}: novedades fiscales y laborales en España`;
 const description = `Novedades fiscales y cambios en el IRPF, Seguridad Social, autónomos y pensiones en España para ${CURRENT_FISCAL_YEAR}. Información actualizada sobre impuestos y nóminas.`;
 
 const noticias = [
@@ -73,4 +73,15 @@ const schemas = [
       ))}
     </div>
   </div>
+
+  <!-- Fuentes oficiales (RECETTE §7) -->
+  <section class="mx-auto max-w-3xl px-4 pb-12 text-sm text-slate-600">
+    <h2 class="text-lg font-semibold text-slate-900 mb-3">Fuentes oficiales</h2>
+    <ul class="list-disc pl-6 space-y-1">
+      <li><a class="underline" href="https://www.agenciatributaria.es" rel="noopener">Agencia Tributaria</a> — IRPF y retenciones</li>
+      <li><a class="underline" href="https://www.seg-social.es" rel="noopener">Seguridad Social</a> — bases y cuotas de cotización</li>
+      <li><a class="underline" href="https://www.sepe.es" rel="noopener">SEPE</a> — prestación por desempleo</li>
+      <li><a class="underline" href="https://www.boe.es" rel="noopener">BOE</a> — normativa en vigor</li>
+    </ul>
+  </section>
 </Layout>

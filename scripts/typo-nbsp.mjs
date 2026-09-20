@@ -62,7 +62,7 @@ function fix(html) {
 const DOT_DECIMAL = /(?<![\d.,’'\w])(?<!(?:art\.?|artikel|Art\.?|§|Abs\.?|al\.|Form\.?|art[ií]culos?|Art[ií]culos?|articles?|Articles?|artigos?|Artigos?)\s?)(?<!\d\.\d[\d.a-z)]*,?\s(?:y|e|et|and|und|o|ou)\s)(?<!(?:Mémento|Merkblatt|Memento)[^\d]{0,14})(?<!(?:ECE|norme|\^|Ducato|\d\.\d\d ou)\s?)(?:\d{1,3}(?:['’]\d{3})+|\d+)\.\d{1,2}(?![\d.\w])(?!\s(?:[A-Z][a-zé]|TSI|TDI|TFSI|TCe|PureTech|BlueHDi|dCi|HDi|THP|hybride|essence|diesel|ou\s\d))/g;
 function dotDecimals(html) {
   const lang = (html.match(/<html[^>]*\blang="([^"]+)"/i) || [])[1] || '';
-  if (/^en|^de-CH/i.test(lang)) return { lang, hits: [] };
+  if (/^en|^de-CH|^it-CH/i.test(lang)) return { lang, hits: [] };   // point décimal : anglais, suisse allemand et suisse italien (CLDR)
   const text = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, ' ').replace(/<[^>]+>/g, ' ');
   return { lang, hits: text.match(DOT_DECIMAL) || [] };
 }
