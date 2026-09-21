@@ -15,9 +15,9 @@
  *     sur mobile, un tableau large ne fait plus déborder toute la page (§10.3)
  *
  * La date est celle du dernier commit qui a touché le fichier source de la page (et, pour
- * une route dynamique, ses données) : jamais inventée (§8.4). Le déploiement doit donc
- * cloner tout l'historique (`fetch-depth: 0`) ; sans historique, la date retombe sur le
- * dernier commit du dépôt.
+ * une route dynamique, ses données) : jamais inventée (§8.4). Si le dépôt est cloné en
+ * superficiel (le défaut en CI), l'intégration récupère l'historique elle-même : aucun
+ * `fetch-depth: 0` n'est requis dans le workflow.
  *
  * Usage, dans astro.config.mjs :
  *   import trustKit from './src/integrations/trust-kit.mjs';
@@ -98,6 +98,14 @@ function git(args, cwd) {
   try { return execFileSync('git', args, { cwd, encoding: 'utf8' }).trim(); } catch { return ''; }
 }
 
+// Clone superficiel (le défaut en CI) : sans l'historique, toutes les pages prendraient la date
+// du dernier commit — une fausse fraîcheur, pire que pas de date (§8.4). On récupère l'historique
+// ici plutôt que d'exiger `fetch-depth: 0` dans chaque workflow.
+function deshallow(cwd) {
+  if (git(['rev-parse', '--is-shallow-repository'], cwd) !== 'true') return;
+  git(['fetch', '--unshallow', '--quiet']) || git(['fetch', '--unshallow', '--quiet'], cwd);
+}
+
 export default function trustKit(opts) {
   const localeOf = (path) => {
     const l = (opts.i18n || []).find((x) => path.startsWith(x.prefix)) || opts;
@@ -115,7 +123,7 @@ export default function trustKit(opts) {
   return {
     name: 'trust-kit',
     hooks: {
-      'astro:config:done': ({ config }) => { root = fileURLToPath(config.root); },
+      'astro:config:done': ({ config }) => { root = fileURLToPath(config.root); deshallow(root); },
       'astro:routes:resolved': ({ routes }) => {
         for (const r of routes) if (r.entrypoint && r.type === 'page') entries.set(r.pattern, r.entrypoint);
       },
