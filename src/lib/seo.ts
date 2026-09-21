@@ -106,7 +106,7 @@ export function buildOrganizationSchema(locale: Locale = 'es') {
       jobTitle: isEn ? 'Personal Finance and Taxation Expert' : 'Experto en finanzas personales y fiscalidad',
       description: isEn
         ? 'Personal finance and taxation expert, Editor de calculadoras y guías prácticas graduate.'
-        : 'Experto en finanzas personales y fiscalidad, graduado MBA del Editor de calculadoras y guías prácticas. Especializado en el análisis de cálculos salariales y cotizaciones sociales en España.',
+        : 'Editorial de calculadoras y guías prácticas, especializada en finanzas personales y fiscalidad. Especializada en el análisis de cálculos salariales y cotizaciones sociales en España.',
     },
   };
 }
