@@ -60,6 +60,7 @@ const faqPage = [
   { question: '¿Puedo citar el contenido de las guías?', answer: 'Sí, citando la fuente y enlazando la página original. Reproducir el texto completo no aporta nada al lector y hace perder las actualizaciones: una cifra correcta hoy puede dejar de serlo en seis meses, y solo la página original lleva la fecha de verificación.' },
 ];
 const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
+import ContextoFiscal from '../../components/ContextoFiscal.astro';
 ---
 
 <Layout title={title} description={description} schema={schemas}>
@@ -109,4 +110,5 @@ const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', ma
       ))}
     </div>
   </section>
+  <ContextoFiscal />
 </Layout>

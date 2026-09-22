@@ -11,14 +11,66 @@
     U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/*
+ * Identite visuelle : le drapeau espagnol.
+ *
+ * Le site portait un rouge « corail » (#E63946) qui ne vient d'aucune charte :
+ * c'est une teinte a la mode, celle de milliers de gabarits. Elle posait en
+ * plus un probleme de lisibilite, mesure a 4,17:1 sur blanc, sous le seuil AA
+ * de 4,5:1, alors qu'elle sert 373 fois comme couleur de texte.
+ *
+ * Le rouge du drapeau, #AA151B, tient 7,41:1 sur blanc. Changer de teinte
+ * corrige donc l'identite et la lisibilite d'un meme geste. L'or #F1BF00 du
+ * blason accompagne le rouge, mais jamais en couleur de texte sur fond clair :
+ * a 1,72:1 il est illisible. Il sert d'aplat, avec du texte sombre dessus
+ * (10,07:1), ou de filet.
+ *
+ * Les noms de jetons sont conserves tels quels : ils sont cites plus de
+ * 1 800 fois dans les gabarits, et renommer n'aurait rien apporte.
+ */
 @theme {
-  --color-brand: #E63946;
-  --color-brand-dark: #C62E3B;
-  --color-brand-light: #FF6B6B;
-  --color-charcoal: #1F2937;
-  --color-light-gray: #F3F4F6;
-  --color-medium-gray: #9CA3AF;
+  --color-brand: #aa151b;
+  --color-brand-dark: #8c1116;
+  /*
+   * Rouge clair : sert d'aplat avec du texte blanc dessus (barre de
+   * repartition). A #D64A52 il ne tenait que 4,3:1 ; a #C2262E il tient 5,8:1.
+   */
+  --color-brand-light: #c2262e;
+
+  /* Teintes claires du rouge, pour les aplats et les encadres */
+  --color-brand-50: #fdf2f2;
+  --color-brand-100: #fadcdd;
+  --color-brand-200: #f3b9bb;
+
+  /* Or du blason : soulignement et aplats, jamais du texte sur fond clair */
+  --color-gold: #f1bf00;
+  --color-gold-dark: #cfa300;
+  --color-gold-light: #ffde6a;
+
+  --color-charcoal: #1f2937;
+  --color-light-gray: #f3f4f6;
+  /*
+   * Gris secondaire fonce : a #9CA3AF il ne tenait que 2,54:1 sur blanc et
+   * 2,31:1 sur le gris clair du site, pour 91 emplois. A #5F6672 il tient
+   * 5,78:1 et 5,26:1, mesures sur les deux fonds reellement servis.
+   */
+  --color-medium-gray: #5f6672;
   --color-dark-gray: #374151;
+
+
+  /*
+   * Couleurs semantiques (positif, avertissement) redefinies pour la
+   * lisibilite. Celles de Tailwind sont calibrees pour des aplats, pas pour du
+   * texte sur blanc : emerald-600 ne tient que 3,77:1, amber-600 3,19:1 et
+   * green-600 3,30:1, sous le seuil AA de 4,5:1. Elles servent ici uniquement
+   * comme couleurs de texte, 159 fois au total, et aucune ne sert de fond :
+   * les foncer d'un cran corrige tout le site sans toucher un seul gabarit.
+   */
+  --color-emerald-600: #047857;   /* 5,48:1 */
+  --color-emerald-700: #065f46;   /* 7,68:1 */
+  --color-amber-600: #b45309;     /* 5,02:1 */
+  --color-green-600: #15803d;     /* 5,02:1 */
+
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
@@ -34,9 +86,192 @@
     @apply bg-white text-charcoal antialiased;
   }
 
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+  }
+
+  h1 { letter-spacing: -0.025em; }
+  h2, h3 { letter-spacing: -0.015em; }
+
+  p { text-wrap: pretty; }
+
+  /* Focus visible dans la couleur du site, et non le bleu du navigateur. */
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+
   @media (prefers-color-scheme: dark) {
     body {
       @apply bg-gray-900 text-gray-100;
     }
+
+    :focus-visible {
+      outline-color: var(--color-gold);
+    }
+  }
+}
+
+/*
+ * Signature graphique : les proportions du drapeau espagnol, un quart de rouge,
+ * une moitie d'or, un quart de rouge, reduites a un filet.
+ */
+.franja-bandera {
+  background: linear-gradient(
+    to right,
+    var(--color-brand) 0 25%,
+    var(--color-gold) 25% 75%,
+    var(--color-brand) 75% 100%
+  );
+}
+
+@layer components {
+  /*
+   * Mise en forme des pages de texte.
+   *
+   * 70 fichiers portent les classes `prose`, `prose-sm`, `prose-gray` et
+   * `dark:prose-invert` du plugin @tailwindcss/typography, qui n'est pas
+   * installe. Aucune de ces classes ne correspondait donc a une regle : titres
+   * colles aux paragraphes, listes sans retrait, tableaux sans filets. On ecrit
+   * ici le necessaire, dans la palette du site, plutot que d'ajouter la
+   * dependance.
+   */
+  :where(.prose) {
+    line-height: 1.75;
+  }
+
+  :where(.prose) > * + * {
+    margin-top: 1.25em;
+  }
+
+  :where(.prose) h2 {
+    font-size: 1.55em;
+    line-height: 1.25;
+    font-weight: 700;
+    color: var(--color-charcoal);
+    margin-top: 2.2em;
+    margin-bottom: 0.6em;
+  }
+
+  :where(.prose) h3 {
+    font-size: 1.22em;
+    line-height: 1.35;
+    font-weight: 700;
+    color: var(--color-charcoal);
+    margin-top: 1.85em;
+    margin-bottom: 0.5em;
+  }
+
+  :where(.prose) h2:first-child,
+  .prose h3:first-child {
+    margin-top: 0;
+  }
+
+  :where(.prose) ul, .prose ol {
+    padding-left: 1.5em;
+    margin-top: 1em;
+  }
+
+  :where(.prose) ul { list-style: disc; }
+  :where(.prose) ol { list-style: decimal; }
+  :where(.prose) li { margin-top: 0.5em; }
+  :where(.prose) li::marker { color: var(--color-brand); }
+
+  :where(.prose) strong {
+    color: var(--color-charcoal);
+    font-weight: 600;
+  }
+
+  :where(.prose) a {
+    color: var(--color-brand);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: var(--color-brand-200);
+    text-underline-offset: 2px;
+  }
+
+  :where(.prose) a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  :where(.prose) blockquote {
+    border-left: 3px solid var(--color-brand);
+    padding-left: 1.1em;
+    font-style: italic;
+    color: var(--color-medium-gray);
+  }
+
+  :where(.prose) table {
+    width: 100%;
+    font-size: 0.925em;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+
+  :where(.prose) th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--color-charcoal);
+    border-bottom: 2px solid #d1d5db;
+    padding: 0.5em 0.75em 0.5em 0;
+  }
+
+  :where(.prose) td {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 0.5em 0.75em 0.5em 0;
+  }
+
+  /* `prose-sm` : le meme rythme, un cran en dessous. */
+  :where(.prose)-sm {
+    font-size: 0.9375rem;
+  }
+}
+
+
+/*
+ * Mode sombre des pages de texte. Les gabarits demandent `dark:prose-invert`,
+ * classe du plugin absent : sans cette regle, les titres restaient anthracite
+ * sur le fond sombre, donc illisibles.
+ */
+@media (prefers-color-scheme: dark) {
+  :where(.prose) h2,
+  .prose h3,
+  .prose strong {
+    color: #f3f4f6;
+  }
+
+  :where(.prose) a {
+    color: var(--color-gold-light);
+    text-decoration-color: var(--color-gold-dark);
+  }
+
+  :where(.prose) li::marker {
+    color: var(--color-gold);
+  }
+
+  :where(.prose) blockquote {
+    border-left-color: var(--color-gold);
+    color: #9ca3af;
+  }
+
+  :where(.prose) th {
+    color: #f3f4f6;
+    border-bottom-color: #4b5563;
+  }
+
+  :where(.prose) td {
+    border-bottom-color: #374151;
+  }
+}
+
+/* Impression : le lecteur qui imprime sa fiche n'a que faire du menu. */
+@media print {
+  header, footer, nav, .no-imprimir {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
   }
 }

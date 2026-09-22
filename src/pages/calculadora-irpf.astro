@@ -27,6 +27,7 @@ const faqs = [
   { question: '¿Estoy obligado a presentar la declaración?', answer: 'Con un solo pagador, el límite general está en 22.000 euros anuales; con dos o más pagadores, baja a 15.876 euros si el segundo y siguientes superan 1.500 euros. Por debajo de esos umbrales la declaración es voluntaria y a menudo sale a devolver.' },
   { question: '¿Qué deducciones estatales existen?', answer: 'Las principales son la aportación a planes de pensiones, hasta 1.500 euros anuales, los donativos, las cuotas sindicales y colegiales obligatorias, y la deducción por maternidad. A ellas se suman las deducciones autonómicas, que varían mucho de una comunidad a otra.' },
 ];
+import ContextoFiscal from '../components/ContextoFiscal.astro';
 ---
 
 <CalculadoraLayout
@@ -115,7 +116,7 @@ const faqs = [
           </tbody>
         </table>
       </div>
-      <p class="text-xs text-gray-400 mt-2">A estos tipos se suma la escala autonómica de cada comunidad. La cuota total es la suma de ambas escalas.</p>
+      <p class="text-xs text-gray-500 mt-2">A estos tipos se suma la escala autonómica de cada comunidad. La cuota total es la suma de ambas escalas.</p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Deducciones que muchos contribuyentes olvidan</h3>
       <p>
@@ -135,4 +136,5 @@ const faqs = [
       </ul>
     </div>
   </section>
+  <ContextoFiscal />
 </CalculadoraLayout>

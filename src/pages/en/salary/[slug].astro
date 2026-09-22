@@ -277,10 +277,10 @@ const schemas = [
                 i === 0 ? 'bg-emerald-50/50 dark:bg-emerald-900/10' : '',
                 i === ccaaResults.length - 1 ? 'bg-red-50/50 dark:bg-red-900/10' : '',
               ]}>
-                <td class="px-4 py-2 tabular-nums text-gray-400">{i + 1}</td>
+                <td class="px-4 py-2 tabular-nums text-gray-500">{i + 1}</td>
                 <td class="px-4 py-2 font-medium text-charcoal dark:text-gray-100">
                   {ccaa.nombreCorto}
-                  {ccaa.esForal && <span class="ml-1 text-xs text-gray-400">(foral)</span>}
+                  {ccaa.esForal && <span class="ml-1 text-xs text-gray-500">(foral)</span>}
                 </td>
                 <td class="px-4 py-2 text-right tabular-nums font-medium text-charcoal dark:text-gray-100">{formatEuros(desglose.netoMensual)}</td>
                 <td class="px-4 py-2 text-right tabular-nums text-gray-600 dark:text-gray-300">{formatEuros(desglose.netoAnual)}</td>

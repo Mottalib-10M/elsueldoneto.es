@@ -1,4 +1,5 @@
 ---
+import LegalIdentity from '../components/LegalIdentity.astro';
 import Layout from '../components/layout/Layout.astro';
 import { SITE_NAME, SITE_URL, CURRENT_FISCAL_YEAR } from '../config';
 import { buildBreadcrumbSchema } from '../lib/seo';
@@ -39,8 +40,8 @@ const schemas = [
           de la Información y de Comercio Electrónico (LSSI-CE), se informa que el presente sitio web
           <strong>{SITE_URL}</strong> es titularidad de:
         </p>
+        <LegalIdentity mode="publisher" lang="es" />
         <ul>
-          <li><strong>Titular:</strong> Radif Partners</li>
           <li><strong>Denominación:</strong> {SITE_NAME}</li>
           <li><strong>Sitio web:</strong> {SITE_URL}</li>
           <li><strong>Contacto:</strong> <a href="mailto:contact@elsueldoneto.es" class="text-brand hover:underline">contact@elsueldoneto.es</a></li>
@@ -55,18 +56,11 @@ const schemas = [
 
       <section>
         <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">2. Alojamiento</h2>
+        <LegalIdentity mode="hosting" lang="es" />
         <p>
-          Este sitio web está alojado en <strong>GitHub Pages</strong> (GitHub, Inc.), filial de Microsoft
-          Corporation.<br>
-          Dirección: 88 Colin P Kelly Jr Street, San Francisco, CA 94107, Estados Unidos.<br>
-          Sitio web: <a href="https://pages.github.com" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">https://pages.github.com</a>
-        </p>
-        <p>
-          GitHub Pages es un servicio de alojamiento de sitios estáticos proporcionado por GitHub, Inc. La
-          infraestructura se apoya en una red mundial de distribución de contenidos (CDN) que sirve las
-          páginas desde el servidor más cercano a cada visitante. Se utiliza el protocolo HTTPS para cifrar
-          todos los datos en tránsito. Como proveedor de alojamiento técnico, GitHub, Inc. no ejerce ningún
-          control editorial sobre el contenido del sitio web.
+          El alojamiento se presta en servidores situados en la Unión Europea. Se utiliza el protocolo HTTPS
+          para cifrar todos los datos en tránsito. Como proveedor de alojamiento técnico, el prestador no
+          ejerce ningún control editorial sobre el contenido del sitio web.
         </p>
       </section>
 

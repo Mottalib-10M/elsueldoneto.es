@@ -1,0 +1,93 @@
+---
+/**
+ * English counterpart of the Spanish context block.
+ *
+ * The English section of the site mirrors the Spanish one, so the same gap
+ * applied: pillar pages sat below the word floor with no explanation of how
+ * the deductions actually work. The figures are computed from the same engine,
+ * so the two language versions can never contradict each other.
+ */
+import { calcularSueldoNeto, situacionFamiliarDefecto } from '../lib/irpf-engine';
+import { comunidadesAutonomas } from '../data/comunidades-autonomas';
+
+interface Props {
+  referencia?: number;
+}
+const { referencia = 30000 } = Astro.props;
+
+const base = calcularSueldoNeto(referencia, 'MD', situacionFamiliarDefecto, 14);
+const mas = calcularSueldoNeto(referencia + 1000, 'MD', situacionFamiliarDefecto, 14);
+const marginal = ((1000 - (mas.netoAnual - base.netoAnual)) / 1000) * 100;
+const efectiva = (1 - base.netoAnual / referencia) * 100;
+
+const porCcaa = comunidadesAutonomas
+  .map((c) => ({ nombre: c.nombre, neto: calcularSueldoNeto(referencia, c.codigo, situacionFamiliarDefecto, 14).netoAnual }))
+  .sort((a, b) => b.neto - a.neto);
+const mejor = porCcaa[0];
+const peor = porCcaa[porCcaa.length - 1];
+
+const eur = (v: number) => '€' + Math.round(v).toLocaleString('en-GB');
+const pc = (v: number) => v.toFixed(1) + '%';
+---
+
+<section class="mx-auto max-w-3xl px-4 mt-12">
+  <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">How Spanish payroll deductions work</h2>
+  <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+    Two deductions come off a Spanish payslip, and they do not share a base. Social security
+    contributions are calculated first, on a contribution base rather than on gross pay directly.
+    Income tax withholding follows, applied to gross pay after those contributions. Reversing the
+    order overstates the tax, and it is the most common error when the calculation is redone by
+    hand.
+  </p>
+  <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+    On {eur(referencia)} gross a year, net pay comes to {eur(base.netoAnual)}, an effective rate of
+    {pc(efectiva)}. The next thousand euros, however, is taxed at a marginal rate of
+    {pc(marginal)}. The distance between those two figures is what people most often misread,
+    because the first describes the whole salary and the second only the next euro earned.
+  </p>
+
+  <h2 class="mt-10 text-2xl font-bold text-charcoal dark:text-gray-100">What the region decides</h2>
+  <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+    The state portion of income tax and the social security rates are identical across Spain; the
+    whole difference between two regions comes from the autonomous portion. On {eur(referencia)},
+    the gap between {mejor.nombre}, which leaves the most, and {peor.nombre}, which leaves the
+    least, runs to {eur(mejor.neto - peor.neto)} a year. Real money, though rarely enough on its
+    own to justify a move once housing costs are weighed.
+  </p>
+  <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+    The region that applies is the one where you have your habitual tax residence, not where the
+    employer is based. A move partway through the year is not apportioned between the two: the tax
+    authorities look at where more days were spent, and any correction arrives with the following
+    year's return.
+  </p>
+
+  <h2 class="mt-10 text-2xl font-bold text-charcoal dark:text-gray-100">Withholding is not the final tax</h2>
+  <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+    What comes off each month is an advance, calculated by the employer from the data it holds:
+    expected salary, declared family circumstances and length of service. The final liability is
+    settled in the annual return, on the real income of the full year and with deductions applied.
+    That is where the June refunds come from, and they are a restitution rather than a bonus.
+  </p>
+  <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+    This is why the modelo 145, the form declaring family circumstances to the employer, is worth
+    keeping current. A child born in January, a dependent relative or a recognised disability
+    changes the withholding from the moment it is declared and not before. Most large year-end
+    adjustments are explained by a form that was never updated.
+  </p>
+
+  <h2 class="mt-10 text-2xl font-bold text-charcoal dark:text-gray-100">What a calculation cannot know</h2>
+  <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+    Benefits in kind, from private health cover to a company car, are taxable and raise the base
+    without raising the amount paid into the account. Regional deductions vary widely and usually
+    have to be claimed rather than applied automatically. Income from outside employment is added
+    in the annual return and can move the whole position into a higher band. None of these can be
+    inferred from a gross salary.
+  </p>
+  <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+    Withholding tables also assume a stable salary across the year. Anyone changing jobs, earning
+    variable pay or holding two employers will see month-to-month differences that are only
+    corrected at filing. A gap of a few euros against the payslip is normal rounding; a gap of
+    several hundred almost always traces back to one of the points above, and to the payslip where
+    it first appeared.
+  </p>
+</section>

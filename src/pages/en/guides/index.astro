@@ -29,6 +29,8 @@ const faqPage = [
   { question: 'Do they replace professional advice?', answer: 'No. They set out general rules and orders of magnitude without knowing your collective agreement, family situation or contract specifics. For a decision with financial consequences, an adviser or the Spanish Tax Agency remain the right contacts. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
 ];
 const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
+import ContextoFiscal from '../../../components/ContextoFiscal.astro';
+import ContextoFiscalEn from '../../../components/ContextoFiscalEn.astro';
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
@@ -67,4 +69,6 @@ const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', ma
       ))}
     </div>
   </section>
+  <ContextoFiscal />
+  <ContextoFiscalEn />
 </Layout>

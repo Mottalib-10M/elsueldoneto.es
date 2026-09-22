@@ -61,6 +61,7 @@ const faqPage = [
   { question: '¿Qué es el finiquito?', answer: 'El documento y el importe que liquidan lo devengado y no cobrado al terminar el contrato: días trabajados, vacaciones pendientes y parte proporcional de pagas extra. No incluye la indemnización por despido, que es un concepto distinto y con otra fiscalidad.' },
 ];
 const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
+import ContextoFiscal from '../components/ContextoFiscal.astro';
 ---
 
 <Layout title={title} description={description} schema={schemas}>
@@ -133,4 +134,5 @@ const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', ma
       ))}
     </div>
   </section>
+  <ContextoFiscal />
 </Layout>

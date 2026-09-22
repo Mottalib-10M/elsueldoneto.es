@@ -29,6 +29,8 @@ const faqPage = [
   { question: 'What do these pages not show?', answer: 'They exclude benefits in kind, private health insurance, meal vouchers and company pension plans, all of which change actual net pay. They also exclude regional deductions for housing, children or disability, which apply in the annual return. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
 ];
 const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
+import ContextoFiscal from '../../../components/ContextoFiscal.astro';
+import ContextoFiscalEn from '../../../components/ContextoFiscalEn.astro';
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
@@ -114,4 +116,6 @@ const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', ma
       ))}
     </div>
   </section>
+  <ContextoFiscal />
+  <ContextoFiscalEn />
 </Layout>

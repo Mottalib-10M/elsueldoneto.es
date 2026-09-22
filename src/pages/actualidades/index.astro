@@ -55,6 +55,7 @@ const faqPage = [
   { question: '¿Las tablas de IRPF cambian todos los años?', answer: 'La escala estatal se ha mantenido estable en los últimos ejercicios, pero las autonómicas se modifican con frecuencia y los mínimos personales y familiares se han actualizado varias veces. Conviene comprobar ambas escalas antes de estimar la retención de un año nuevo.' },
 ];
 const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
+import ContextoFiscal from '../../components/ContextoFiscal.astro';
 ---
 
 <Layout title={title} description={description} schema={schemas}>
@@ -106,4 +107,98 @@ const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', ma
       ))}
     </div>
   </section>
+  
+  <section class="mx-auto max-w-3xl px-4 mt-12">
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Por qué esta página existe</h2>
+    <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+      Una calculadora fiscal vale lo que valga la fecha de sus cifras, y la mayoría de los sitios
+      nunca dice cuándo cambiaron las suyas. Aquí se registra cada modificación en los datos que
+      alimentan los cálculos, con la fuente que la motivó, de modo que cualquier resultado pueda
+      contrastarse con el ejercicio al que corresponde en lugar de aceptarse sin más.
+    </p>
+    <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+      La mayoría de los cambios llega con un calendario previsible. Los tramos estatales del IRPF y
+      el mínimo personal se fijan en la Ley de Presupuestos y entran en vigor el uno de enero. Las
+      bases y tipos de cotización a la Seguridad Social se publican por orden ministerial en las
+      primeras semanas del año. Los tramos autonómicos, en cambio, siguen diecisiete calendarios
+      distintos, uno por comunidad, y es ahí donde se concentran las sorpresas.
+    </p>
+    <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+      Los cambios imprevisibles son los que conviene vigilar. Un real decreto ley puede alterar un
+      tipo a mitad de ejercicio, con efectos desde la fecha que la norma indique y no desde enero.
+      La empresa aplica entonces la modificación desde ese momento y la declaración anual regulariza
+      la diferencia, que es la razón por la que una medida de mitad de año suele aparecer como una
+      retención inesperadamente alta o baja en una sola nómina.
+    </p>
+    <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+      Cuando una entrada afecta a una cifra que las calculadoras usan, el cambio se aplicó al mismo
+      tiempo que se escribió la entrada. Cuando afecta a algo que las calculadoras excluyen a
+      propósito, como una deducción autonómica que debe solicitarse en la declaración, la entrada lo
+      indica expresamente. Todas enlazan la publicación oficial que recogen, y esa publicación
+      prevalece sobre este resumen en caso de duda.
+    </p>
+
+    <h2 class="mt-10 text-2xl font-bold text-charcoal dark:text-gray-100">Qué no aparece en esta lista</h2>
+    <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+      Dos tipos de cambio quedan fuera a propósito. Las correcciones de redacción, enlaces o
+      ejemplos en las guías no se registran, porque no alteran ningún cálculo. Tampoco las
+      modificaciones en deducciones que se solicitan en la declaración anual y no se aplican en
+      nómina, como las autonómicas por vivienda o por familia numerosa, ya que ninguna calculadora
+      del sitio las modeliza y ninguna nómina las refleja.
+    </p>
+    <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+      Si una cifra que le interesa no figura aquí y le parece desactualizada, la publicación oficial
+      manda sobre esta página. Cada entrada nombra la fuente que recoge, de modo que el original
+      pueda consultarse directamente, y tanto la Agencia Tributaria como la Seguridad Social
+      mantienen sus archivos históricos accesibles de forma indefinida para quien necesite
+      reconstruir la situación de un ejercicio anterior.
+    </p>
+    <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+      Conviene además recordar que una modificación normativa y su entrada en vigor rara vez
+      coinciden. Entre la publicación en el boletín oficial y el momento en que la empresa aplica la
+      nueva tabla suelen pasar semanas, y durante ese intervalo la nómina sigue el criterio
+      anterior. La regularización llega después, a veces concentrada en una sola nómina, lo que
+      explica variaciones que de otro modo parecerían errores.
+    </p>
+
+    <h2 class="mt-10 text-2xl font-bold text-charcoal dark:text-gray-100">Cómo leer una entrada</h2>
+    <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+      Cada entrada indica tres cosas: qué cifra cambió, desde cuándo se aplica y qué publicación
+      oficial lo establece. La fecha de aplicación importa más que la de publicación, porque es la
+      que determina desde qué nómina se nota. Una norma aprobada en marzo con efectos desde enero
+      obliga a regularizar lo ya retenido, mientras que una con efectos desde su publicación solo
+      afecta a las nóminas siguientes.
+    </p>
+    <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+      Cuando el cambio es autonómico, la entrada nombra la comunidad. Conviene fijarse en ello: un
+      ajuste en el tramo autonómico de Madrid no altera nada para quien reside en Andalucía, aunque
+      ambos compartan el tramo estatal. Las diferencias entre comunidades se han ampliado en los
+      últimos ejercicios, y hoy explican la mayor parte de la variación entre dos nóminas idénticas
+      en bruto.
+    </p>
+    <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+      Por último, las entradas sobre cotización suelen pasar desapercibidas y son las que más se
+      notan en las rentas altas. Las bases máximas suben casi todos los años, de modo que quien
+      supera el tope cotiza algo más sin que su salario haya cambiado. Es el motivo más frecuente
+      de que una nómina de enero resulte inferior a la de diciembre anterior.
+    </p>
+
+    <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+      Quien quiera anticiparse puede seguir directamente dos fuentes: el Boletín Oficial del Estado
+      para las normas de alcance nacional, y el boletín de su comunidad para el tramo autonómico.
+      Ambos publican antes de que cualquier resumen los recoja, incluido este. La contrapartida es
+      que el texto legal rara vez dice qué efecto tendrá sobre una nómina concreta, que es
+      precisamente lo que estas entradas intentan traducir.
+    </p>
+
+    <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+      Una última advertencia sobre las fechas. La normativa fiscal habla de ejercicios, no de años
+      naturales de nómina, y ambos coinciden solo en apariencia. Una medida con efectos para el
+      ejercicio en curso puede publicarse cuando ese ejercicio lleva meses corriendo, de modo que la
+      empresa aplica una tabla durante parte del año y otra después. La declaración regulariza el
+      conjunto, y esa es la razón por la que dos nóminas del mismo año pueden mostrar retenciones
+      distintas sin que nada haya cambiado en el contrato.
+    </p>
+  </section>
+  <ContextoFiscal />
 </Layout>

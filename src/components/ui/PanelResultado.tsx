@@ -119,14 +119,14 @@ function BarraDesglose({ resultado, lang = 'es' }: { resultado: DesgloseSueldo; 
           {pctIRPF > 8 && 'IRPF'}
         </div>
         <div
-          className="flex items-center justify-center bg-amber-500 text-xs font-medium text-white transition-all"
+          className="flex items-center justify-center bg-brand-light text-xs font-medium text-white transition-all"
           style={{ width: `${pctSS}%` }}
           title={`SS: ${dec(pctSS, 1, l ? 'en-GB' : 'es-ES')}%`}
         >
           {pctSS > 5 && 'SS'}
         </div>
         <div
-          className="flex items-center justify-center bg-emerald-500 text-xs font-medium text-white transition-all"
+          className="flex items-center justify-center bg-gold text-xs font-semibold text-charcoal transition-all"
           style={{ width: `${pctNeto}%` }}
           title={`${l ? 'Net' : 'Neto'}: ${dec(pctNeto, 1, l ? 'en-GB' : 'es-ES')}%`}
         >
@@ -138,10 +138,10 @@ function BarraDesglose({ resultado, lang = 'es' }: { resultado: DesgloseSueldo; 
           <span className="inline-block h-2 w-2 rounded-full bg-brand" /> IRPF {dec(pctIRPF, 1, l ? 'en-GB' : 'es-ES')}%
         </span>
         <span className="flex items-center gap-1">
-          <span className="inline-block h-2 w-2 rounded-full bg-amber-500" /> SS {dec(pctSS, 1, l ? 'en-GB' : 'es-ES')}%
+          <span className="inline-block h-2 w-2 rounded-full bg-brand-light" /> SS {dec(pctSS, 1, l ? 'en-GB' : 'es-ES')}%
         </span>
         <span className="flex items-center gap-1">
-          <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" /> {l ? 'Net' : 'Neto'} {dec(pctNeto, 1, l ? 'en-GB' : 'es-ES')}%
+          <span className="inline-block h-2 w-2 rounded-full bg-gold-dark" /> {l ? 'Net' : 'Neto'} {dec(pctNeto, 1, l ? 'en-GB' : 'es-ES')}%
         </span>
       </div>
     </div>
@@ -181,7 +181,7 @@ function FilaTabla({
       >
         {label}
         {sublabel && (
-          <span className="ml-2 text-xs text-gray-400">({sublabel})</span>
+          <span className="ml-2 text-xs text-gray-500">({sublabel})</span>
         )}
       </td>
       <td

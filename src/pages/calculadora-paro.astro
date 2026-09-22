@@ -27,6 +27,7 @@ const faqs = [
   { question: '¿Se puede compatibilizar el paro con un trabajo?', answer: 'Con un empleo a tiempo parcial sí, reduciéndose la prestación en proporción a la jornada. Con un trabajo a tiempo completo la prestación se suspende y puede reanudarse después si no se ha agotado. Emprender como autónomo permite suspenderla hasta cinco años.' },
   { question: '¿Qué es el subsidio por desempleo?', answer: 'Es una ayuda posterior a la prestación contributiva, o para quien no ha cotizado lo suficiente, de importe fijo vinculado al IPREM y sujeta a límites de renta. Exige carecer de ingresos superiores al 75% del SMI y renovar la solicitud periódicamente.' },
 ];
+import ContextoFiscal from '../components/ContextoFiscal.astro';
 ---
 
 <CalculadoraLayout
@@ -133,4 +134,5 @@ const faqs = [
       </ul>
     </div>
   </section>
+  <ContextoFiscal />
 </CalculadoraLayout>

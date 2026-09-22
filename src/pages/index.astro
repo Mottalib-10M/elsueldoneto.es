@@ -35,6 +35,7 @@ const schemas = [
   buildBreadcrumbSchema([{ name: 'Calculadora Sueldo Neto', url: '/' }]),
   buildFAQSchema(faqs),
 ];
+import ContextoFiscal from '../components/ContextoFiscal.astro';
 ---
 
 <Layout title={title} description={description} schema={schemas}>
@@ -118,7 +119,7 @@ const schemas = [
           </tbody>
         </table>
       </div>
-      <p class="text-xs text-gray-400 mt-2">Valores orientativos calculados para un trabajador soltero, sin hijos, régimen general. Los importes exactos pueden variar según la situación personal.</p>
+      <p class="text-xs text-gray-500 mt-2">Valores orientativos calculados para un trabajador soltero, sin hijos, régimen general. Los importes exactos pueden variar según la situación personal.</p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El Salario Mínimo Interprofesional y su efecto en la nómina</h3>
       <p>
@@ -210,4 +211,5 @@ const schemas = [
       <li><a class="underline" href="https://www.boe.es" rel="noopener">BOE</a> — normativa en vigor</li>
     </ul>
   </section>
+  <ContextoFiscal />
 </Layout>

@@ -1,0 +1,103 @@
+---
+/**
+ * El contexto que estas paginas no daban.
+ *
+ * Varias paginas pilar quedaban por debajo del umbral de 2 000 palabras de la
+ * receta. Completarlas con un texto comun habria agravado su parecido, asi que
+ * este bloque se calcula sobre un salario de referencia: los importes y los
+ * tramos cambian de una pagina a otra segun el parametro recibido.
+ *
+ * Trata lo que ninguna de ellas explicaba: el orden de los descuentos, por que
+ * el resultado no es proporcional al sueldo, y lo que un calculo de nomina no
+ * puede saber.
+ */
+import { calcularSueldoNeto, situacionFamiliarDefecto } from '../lib/irpf-engine';
+import { comunidadesAutonomas } from '../data/comunidades-autonomas';
+
+interface Props {
+  /** Bruto anual de referencia; por defecto cercano al salario medio espanol. */
+  referencia?: number;
+}
+const { referencia = 30000 } = Astro.props;
+
+const base = calcularSueldoNeto(referencia, 'MD', situacionFamiliarDefecto, 14);
+const mas = calcularSueldoNeto(referencia + 1000, 'MD', situacionFamiliarDefecto, 14);
+const retieneDe1000 = 1000 - (mas.netoAnual - base.netoAnual);
+const marginal = (retieneDe1000 / 1000) * 100;
+const efectiva = (1 - base.netoAnual / referencia) * 100;
+
+const porCcaa = comunidadesAutonomas
+  .map((c) => ({ nombre: c.nombre, neto: calcularSueldoNeto(referencia, c.codigo, situacionFamiliarDefecto, 14).netoAnual }))
+  .sort((a, b) => b.neto - a.neto);
+const mejor = porCcaa[0];
+const peor = porCcaa[porCcaa.length - 1];
+const horquilla = mejor.neto - peor.neto;
+
+const eur = (v: number) => Math.round(v).toLocaleString('es-ES') + ' €';
+const pc = (v: number) => v.toLocaleString('es-ES', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' %';
+---
+
+<section class="mx-auto max-w-3xl px-4 mt-12">
+  <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">En qué orden se descuenta</h2>
+  <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+    La nómina aplica dos descuentos que no comparten la misma base, y el orden importa. Primero se
+    restan las cotizaciones a la Seguridad Social, que se calculan sobre la base de cotización y no
+    sobre el bruto sin más. Después se aplica la retención de IRPF, que sí parte del bruto una vez
+    deducidas esas cotizaciones. Invertir los dos pasos sobrestima el impuesto, y es el error más
+    común de quien rehace la cuenta a mano.
+  </p>
+  <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+    Sobre {eur(referencia)} brutos anuales, el neto queda en {eur(base.netoAnual)}, es decir una
+    presión efectiva del {pc(efectiva)}. Los siguientes mil euros de bruto, en cambio, solo dejan
+    {eur(1000 - retieneDe1000)} adicionales: el tipo marginal en ese punto es del {pc(marginal)}.
+    La distancia entre ambas cifras es lo que más se malinterpreta, porque la primera describe la
+    nómina entera y la segunda solo el euro siguiente.
+  </p>
+
+  <h2 class="mt-10 text-2xl font-bold text-charcoal dark:text-gray-100">Lo que decide la comunidad</h2>
+  <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+    El tramo estatal del IRPF y las cotizaciones son idénticos en toda España; la diferencia entre
+    dos comunidades viene solo del tramo autonómico. Sobre {eur(referencia)}, la distancia entre
+    {mejor.nombre}, donde queda más, y {peor.nombre}, donde queda menos, es de
+    {eur(horquilla)} al año. Es una cantidad real, aunque rara vez suficiente por sí sola para
+    justificar una mudanza una vez pesado el coste de la vivienda.
+  </p>
+  <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+    La comunidad que se aplica es aquella en la que se tiene la residencia habitual a efectos
+    fiscales, no aquella donde se encuentra la empresa. Un traslado a mitad de año no reparte el
+    ejercicio entre las dos: se atiende a dónde se han pasado más días, y la regularización llega
+    con la declaración del año siguiente.
+  </p>
+
+  <h2 class="mt-10 text-2xl font-bold text-charcoal dark:text-gray-100">Retención y cuota no son lo mismo</h2>
+  <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+    Lo que se descuenta cada mes es un anticipo calculado por la empresa a partir de los datos que
+    tiene: sueldo previsto, situación familiar declarada y antigüedad. La cuota definitiva se fija
+    en la declaración anual, sobre los ingresos reales del ejercicio completo y con las deducciones
+    aplicadas. De ahí salen las devoluciones de junio, que no son un regalo sino la restitución de
+    lo retenido de más.
+  </p>
+  <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+    Por eso conviene revisar el modelo 145, el documento en el que se comunican los datos
+    familiares a la empresa. Un hijo nacido en enero, un ascendiente a cargo o un grado de
+    discapacidad reconocido cambian la retención desde el momento en que se declaran, y no antes.
+    Muchas regularizaciones voluminosas se explican simplemente por un modelo 145 que nunca se
+    actualizó.
+  </p>
+
+  <h2 class="mt-10 text-2xl font-bold text-charcoal dark:text-gray-100">Lo que un cálculo no puede saber</h2>
+  <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+    Tres elementos quedan fuera de cualquier calculadora. Las retribuciones en especie, desde el
+    seguro médico hasta el vehículo de empresa, tributan y elevan la base sin aumentar el ingreso
+    en cuenta. Las deducciones autonómicas, que varían mucho de una comunidad a otra y suelen
+    exigir solicitud expresa. Y los rendimientos ajenos al trabajo, que se suman en la declaración
+    y pueden desplazar el conjunto a un tramo superior.
+  </p>
+  <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
+    A ello se añade que las tablas de retención asumen un salario estable durante todo el año.
+    Quien cambia de empleo, cobra variable o tiene dos pagadores verá desviaciones mes a mes que
+    solo se corrigen al declarar. Una diferencia de unos euros frente a la nómina es normal y se
+    debe al redondeo; una de varios cientos casi siempre tiene explicación en alguno de los puntos
+    anteriores, y merece rastrearse hasta la nómina donde apareció por primera vez.
+  </p>
+</section>

@@ -45,6 +45,26 @@ const TEXT = {
         disclaimer: 'Estimativa indicativa: este site não substitui a decisão do órgão competente nem a orientação de um profissional.' },
 };
 
+/*
+ * La date etait servie telle que git la rend, « 2026-07-04 ». C'est une date
+ * lisible par une machine, pas par un lecteur : aucun site francais, portugais
+ * ou allemand n'ecrit ainsi. Le format ISO reste dans l'attribut `datetime`,
+ * que Google lit ; le texte visible passe dans la langue de la page.
+ *
+ * `Intl` s'en charge, mais il faut lui donner un fuseau neutre : sans cela,
+ * une date construite a partir de « 2026-07-04 » est interpretee a minuit UTC
+ * puis reaffichee dans le fuseau de la machine de build, ce qui la recule d'un
+ * jour des que ce fuseau est a l'ouest de Greenwich.
+ */
+const LOCALE = { en: 'en-GB', fr: 'fr-FR', es: 'es-ES', de: 'de-DE', it: 'it-IT', pt: 'pt-PT' };
+
+const dateLisible = (iso, lang) => {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(iso || '')) return iso;
+  const d = new Date(`${iso}T12:00:00Z`);
+  return new Intl.DateTimeFormat(LOCALE[lang] || 'en-GB',
+    { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(d);
+};
+
 const AUTHOR = {
   name: 'Radif Partners',
   jobTitle: 'Éditeur de calculateurs et de guides pratiques',
@@ -109,7 +129,7 @@ function deshallow(cwd) {
 export default function trustKit(opts) {
   const localeOf = (path) => {
     const l = (opts.i18n || []).find((x) => path.startsWith(x.prefix)) || opts;
-    return { t: TEXT[l.lang] || TEXT.en, about: l.about, method: l.method };
+    return { t: TEXT[l.lang] || TEXT.en, lang: l.lang, about: l.about, method: l.method };
   };
   const entries = new Map();          // motif de route → fichier source
   let root = process.cwd();
@@ -139,13 +159,14 @@ export default function trustKit(opts) {
             let html = await readFile(f, 'utf8');
             if (/<meta[^>]+robots[^>]+noindex/i.test(html) || html.includes('data-trust-kit')) continue;
             const path = f.split('/dist')[1]?.replace(/index\.html$/, '') || '/';
-            const { t, about, method } = localeOf(path);
-            const top = `<p data-trust-kit class="trust-top" style="margin:0 0 0.5rem;font-size:0.8125rem;opacity:0.7">`
-              + `${t.updated} <time datetime="${date}">${date}</time></p>`;
+            const { t, lang, about, method } = localeOf(path);
+            const dateTexte = dateLisible(date, lang);
+            const top = `<p data-trust-kit class="trust-top" style="margin:0 0 0.5rem;font-size:0.8125rem;opacity:0.8">`
+              + `${t.updated} <time datetime="${date}">${dateTexte}</time></p>`;
             const inner = (html.slice(html.lastIndexOf('<footer')).match(/<footer[^>]*>\s*<div class="([^"]*)"/) || [])[1];
             const bottom = `<div data-trust-kit class="${inner || ''}"><div class="trust-bottom" style="${inner ? '' : 'max-width:72rem;margin:0 auto;padding:0 1rem;'}margin-top:1.5rem;padding-bottom:1.5rem;font-size:0.8125rem;opacity:0.8">`
               + `<p>${t.disclaimer}</p>`
-              + `<p>${t.last} <time datetime="${date}">${date}</time> · <a href="${method}">${t.method}</a> · `
+              + `<p>${t.last} <time datetime="${date}">${dateTexte}</time> · <a href="${method}">${t.method}</a> · `
               + `<a rel="author" href="${about}">${AUTHOR.name}</a></p></div></div>`;
             const ld = {
               '@context': 'https://schema.org',

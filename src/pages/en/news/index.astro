@@ -52,6 +52,8 @@ const faqPage = [
   { question: 'Where can I verify this information?', answer: 'Each entry links the BOE, the Tax Agency or the Social Security administration. Those sources are the authority; this section exists to flag what changed and what it means in practice, not to replace the official text. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
 ];
 const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
+import ContextoFiscal from '../../../components/ContextoFiscal.astro';
+import ContextoFiscalEn from '../../../components/ContextoFiscalEn.astro';
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
@@ -92,4 +94,6 @@ const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', ma
       ))}
     </div>
   </section>
+  <ContextoFiscal />
+  <ContextoFiscalEn />
 </Layout>

@@ -42,7 +42,29 @@ function getRangeCategory(annualGross: number): SalaryPageConfig['rangeCategory'
   return 'alto';
 }
 
+/**
+ * Tous les montants : ils alimentent le tableau de la page-mere /sueldo/, qui
+ * donne le net de chacun. C'est la reponse que cherche le visiteur.
+ */
 export const allSalaryPages: SalaryPageConfig[] = [...monthlyPages, ...annualPages];
+
+/**
+ * Les montants qui meritent une page a eux.
+ *
+ * Mesure sur 54 jours (19 juin - 21 septembre 2026) : seules ces trois pages
+ * ont recu des impressions dans Google, pour 64 clics. Les trente-cinq autres,
+ * identiques a un chiffre pres, n'ont jamais paru dans un resultat. Les
+ * conserver revenait a diluer le site sans rien lui rapporter.
+ *
+ * Ajouter un montant ici suffit a recreer sa page ; retirer un montant demande
+ * en plus une redirection dans `astro.config.mjs`, faute de quoi l'URL
+ * retournerait une 404.
+ */
+export const montantsAvecPageDediee = [22000, 30000, 55000] as const;
+
+export const salaryPagesDetaillees: SalaryPageConfig[] = allSalaryPages.filter(
+  (p) => p.period === 'año' && (montantsAvecPageDediee as readonly number[]).includes(p.amount),
+);
 
 export function getSalaryPageBySlug(slug: string): SalaryPageConfig | undefined {
   return allSalaryPages.find(p => p.slug === slug);

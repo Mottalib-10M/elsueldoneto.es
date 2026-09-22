@@ -2,7 +2,11 @@
 import Layout from '../../components/layout/Layout.astro';
 import { CURRENT_FISCAL_YEAR } from '../../config';
 import { buildBreadcrumbSchema } from '../../lib/seo';
-import { allSalaryPages, formatAmountSpanish } from '../../data/salary-pages-config';
+import { allSalaryPages, montantsAvecPageDediee, formatAmountSpanish } from '../../data/salary-pages-config';
+
+/** Une page de detail n'existe que pour les montants retenus (cf. config). */
+const aUnePage = (p: { amount: number; period: string }) =>
+  p.period === 'año' && (montantsAvecPageDediee as readonly number[]).includes(p.amount);
 import { calcularSueldoNeto, situacionFamiliarDefecto } from '../../lib/irpf-engine';
 import { formatEuros } from '../../lib/format-es';
 
@@ -32,6 +36,7 @@ const faqPage = [
   { question: '¿Por qué el neto difiere de mi nómina real?', answer: 'Porque estas páginas asumen contribuyente soltero sin hijos en Madrid y no incluyen beneficios en especie, seguros médicos ni planes de empresa. Tu situación familiar, tu comunidad autónoma y los conceptos propios de tu convenio explican casi siempre la diferencia.' },
 ];
 const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
+import ContextoFiscal from '../../components/ContextoFiscal.astro';
 ---
 
 <Layout title={title} description={description} schema={schemas}>
@@ -67,7 +72,9 @@ const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', ma
                 <td class="px-4 py-2 font-medium text-charcoal dark:text-gray-100">{formatAmountSpanish(p.amount)} €</td>
                 <td class="px-4 py-2 text-right tabular-nums font-medium text-emerald-700 dark:text-emerald-400">{formatEuros(getNet(p.annualGross))}</td>
                 <td class="px-4 py-2 text-right tabular-nums text-gray-500">{formatAmountSpanish(p.annualGross)} €</td>
-                <td class="px-4 py-2"><a href={`/sueldo/${p.slug}/`} class="text-brand hover:underline">Ver detalle</a></td>
+                <td class="px-4 py-2">{aUnePage(p)
+                  ? <a href={`/sueldo/${p.slug}/`} class="text-brand hover:underline">Ver detalle</a>
+                  : null}</td>
               </tr>
             ))}
           </tbody>
@@ -93,7 +100,9 @@ const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', ma
                 <td class="px-4 py-2 font-medium text-charcoal dark:text-gray-100">{formatAmountSpanish(p.amount)} €</td>
                 <td class="px-4 py-2 text-right tabular-nums font-medium text-emerald-700 dark:text-emerald-400">{formatEuros(getNet(p.annualGross))}</td>
                 <td class="px-4 py-2 text-right tabular-nums text-gray-500">{formatAmountSpanish(Math.round(p.annualGross / 14))} €</td>
-                <td class="px-4 py-2"><a href={`/sueldo/${p.slug}/`} class="text-brand hover:underline">Ver detalle</a></td>
+                <td class="px-4 py-2">{aUnePage(p)
+                  ? <a href={`/sueldo/${p.slug}/`} class="text-brand hover:underline">Ver detalle</a>
+                  : null}</td>
               </tr>
             ))}
           </tbody>
@@ -128,4 +137,5 @@ const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', ma
       ))}
     </div>
   </section>
+  <ContextoFiscal />
 </Layout>

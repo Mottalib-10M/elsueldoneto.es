@@ -31,6 +31,18 @@ const NB = ' ';
 const UNIT = /(\d) (?=(?:%|€|\$|CHF|Fr\.|h\b|\d{3}(?!\d)))/g;
 const FR_BEFORE = / (?=[:;?!»])/g;
 const FR_AFTER = /« /g;
+// Le tiret cadratin « — » en incise est une signature d'ecriture automatique :
+// il abonde dans les textes produits par un modele et presque jamais sous la
+// plume d'un redacteur qui compose pour le web. On le remplace donc partout
+// dans le texte visible. La virgule convient aux trois emplois rencontres :
+// l'incise (« … holidays — typically before … »), l'etiquette suivie de son
+// explication (« ANTS — Immatriculation ») et la mention de pied de page
+// (« © 2026 Site — Tous droits reserves »). Le tiret demi-cadratin « – », lui,
+// reste legitime dans les intervalles (« 2–3 ans ») et n'est pas touche.
+// Trois ecritures possibles dans le HTML construit : le caractere lui-meme et
+// ses deux entites. Ne traiter que la premiere laissait passer la majorite
+// des cas, les gabarits Astro ecrivant volontiers `&mdash;`.
+const EM_DASH = /\s*(?:\u2014|&mdash;|&#8212;)\s*/g;
 
 async function* walk(d) {
   for (const e of await readdir(d, { withFileTypes: true })) {
@@ -48,7 +60,7 @@ function fix(html) {
   // fait donc ici, sur le seul texte que le lecteur voit (rightetf.com, 2026-09-21).
   const { lang } = dotDecimals(html);
   const virgule = lang && !/^(en|ja|ko|zh|th|he|hi|bn|ar|ms|id)|^de-CH|^it-CH/i.test(lang);
-  let skip = 0, count = 0, decimales = 0;
+  let skip = 0, count = 0, decimales = 0, cadratins = 0;
   const out = html.split(/(<[^>]+>)/).map((part) => {
     if (part.startsWith('<')) {
       const m = part.match(/^<(\/?)(script|style|pre|textarea|astro-island|code|kbd)\b/i);
@@ -56,7 +68,8 @@ function fix(html) {
       return part;
     }
     if (skip > 0 || !part.trim()) return part;
-    let t = part.replace(UNIT, (_, d) => (count++, d + NB));
+    let t = part.replace(EM_DASH, () => (cadratins++, ', '));
+    t = t.replace(UNIT, (_, d) => (count++, d + NB));
     if (fr) t = t.replace(FR_BEFORE, () => (count++, NB)).replace(FR_AFTER, () => (count++, '«' + NB));
     if (virgule) {
       t = t.replace(DOT_DECIMAL, (m) => {
@@ -66,7 +79,7 @@ function fix(html) {
     }
     return t;
   }).join('');
-  return { out, count, decimales };
+  return { out, count, decimales, cadratins };
 }
 
 // Toute décimale à point, unité ou non (« 13.18 € », « 0.5 maand », « divisé par 111.8 »),
@@ -109,7 +122,7 @@ function dotDecimals(html) {
 // Frontières Unicode : avec \b, JavaScript verrait « tres » dans « mètres ». Un nom de domaine
 // (« impots.gouv.fr ») n'est pas une faute. Minuscules seulement : l'accent sur une capitale
 // (« Epargne ») est recommandé mais toléré.
-const NO_ACCENT = /(?<![\p{L}\p{N}])(epargnes?|epargner|fiscalites?|interets?|strategies?|impots?|annees?|periodes?|detaille(?:e|s|es)?|securite|necessaires?|reel(?:le|s|les)?|deja|tres|apres|beneficiaires?|societes?|systemes?|economies?|precaution|electriques?|vehicules?|resume|credit(?:s)? immobiliers?|prelevements?|deduction|remuneration|independants?|debutants?|methodes?|categories?|reduction|generale?s?|necessite|equipe|etape|etapes|criteres?|specifique|scenario|scenarios|numero|zero|a partir|(?<!\b(?:qui|il|elle|on|n'y|y) )a la|(?<!\b(?:qui|il|elle|on) )a l'|au dela)(?![\p{L}\p{N}]|\.[a-z])/gu;
+const NO_ACCENT = /(?<![\p{L}\p{N}])(epargnes?|epargner|fiscalites?|interets?|strategies?|impots?|annees?|periodes?|detaille(?:e|s|es)?|securite|necessaires?|reel(?:le|s|les)?|deja|tres|apres|beneficiaires?|societes?|systemes?|economies?|precaution|electriques?|vehicules?|resume|credit(?:s)? immobiliers?|prelevements?|deduction|remuneration|independants?|debutants?|methodes?|categories?|reduction|generale?s?|necessite|equipe|etape|etapes|criteres?|specifique|scenario|scenarios|numero|zero|a partir|(?<!\b(?:qui|il|elle|on|n'y|y) )a la|(?<!\b(?:qui|il|elle|on) )a l'|au dela|indemnites?|indemnisee?s?|preavis|conges|payes|anciennete|salaries?|employee?s?|economiques?|references?|durees?|prevues?|donnees|liees?|reglements?|calculees?|versees?|percues?)(?![\p{L}\p{N}]|\.[a-z]|-[\p{L}\p{N}-]*\.[a-z]{2,})/gu;
 // Accents ajoutés à tort par un vieux script de correction : « vià », « centrès », « Titrès »,
 // « succèssion » (1 012 occurrences sur cartegrisesimple.fr, 2026-09-19). Liste blanche des
 // vrais mots en consonne + « rès » ; « è » devant une consonne doublée n'existe pas.
@@ -134,10 +147,12 @@ function missingAccents(html) {
 
 let total = 0, files = 0, dots = 0, corrigees = 0; const dotPages = [];
 let accents = 0; const accentPages = [];
+let tirets = 0; const tiretPages = [];
 for await (const f of walk(dist)) {
   const html = await readFile(f, 'utf8');
-  const { out, count, decimales } = fix(html);
-  if (count || decimales) { total += count; corrigees += decimales; files++; if (!CHECK) await writeFile(f, out); }
+  const { out, count, decimales, cadratins } = fix(html);
+  if (count || decimales || cadratins) { total += count; corrigees += decimales; files++; if (!CHECK) await writeFile(f, out); }
+  if (cadratins) { tirets += cadratins; if (tiretPages.length < 10) tiretPages.push(`${f} : ${cadratins}`); }
   if (CHECK) {
     const { lang, hits } = dotDecimals(html);
     if (hits.length) { dots += hits.length; dotPages.push(`${f} : ${hits.slice(0, 3).join(', ')}`); }
@@ -149,10 +164,12 @@ for await (const f of walk(dist)) {
 }
 console.log(`typo-nbsp: ${total} espace(s) ${CHECK ? 'à corriger' : 'rendue(s) insécable(s)'} dans ${files} page(s)`);
 if (!CHECK && corrigees) console.log(`typo-nbsp: ${corrigees} décimale(s) passée(s) à la virgule`);
+if (tirets) console.log(`typo-nbsp: ${tirets} tiret(s) cadratin ${CHECK ? 'à remplacer' : 'remplacé(s) par une virgule'}`);
+if (CHECK) tiretPages.forEach((l) => console.log('  ' + l));
 if (CHECK) {
   console.log(`typo-nbsp: ${dots} décimale(s) avec un point dans une langue à virgule`);
   dotPages.slice(0, 10).forEach((l) => console.log('  ' + l));
   console.log(`typo-nbsp: ${accents} mot(s) français sans accent ou avec un accent faux`);
   accentPages.slice(0, 10).forEach((l) => console.log('  ' + l));
 }
-if (CHECK && (total || dots || accents)) process.exit(1);
+if (CHECK && (total || dots || accents || tirets)) process.exit(1);

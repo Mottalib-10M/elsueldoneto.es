@@ -96,12 +96,12 @@ export default function Hipoteca({ lang = 'es' }: HipotecaProps) {
             <div className="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-6 text-center dark:from-blue-900/30 dark:to-blue-900/10">
               <p className="text-sm font-medium text-blue-600 dark:text-blue-400">{l ? 'Monthly payment' : 'Cuota mensual'}</p>
               <p className="mt-1 text-2xl font-bold text-blue-700 dark:text-blue-300">{formatEuros(resultado.cuotaMensual)}</p>
-              <p className="mt-1 text-xs text-blue-500 dark:text-blue-400">{l ? 'Principal' : 'Capital'}: {formatEuros(resultado.capital)}</p>
+              <p className="mt-1 text-xs text-blue-700 dark:text-blue-400">{l ? 'Principal' : 'Capital'}: {formatEuros(resultado.capital)}</p>
             </div>
             <div className="rounded-xl bg-gradient-to-br from-red-50 to-red-100 p-6 text-center dark:from-red-900/30 dark:to-red-900/10">
               <p className="text-sm font-medium text-red-600 dark:text-red-400">{l ? 'Total interest' : 'Total intereses'}</p>
               <p className="mt-1 text-2xl font-bold text-red-700 dark:text-red-300">{formatEuros(resultado.totalIntereses)}</p>
-              <p className="mt-1 text-xs text-red-500 dark:text-red-400">{formatPercent(resultado.totalIntereses / resultado.capital)}</p>
+              <p className="mt-1 text-xs text-red-700 dark:text-red-400">{formatPercent(resultado.totalIntereses / resultado.capital)}</p>
             </div>
             <div className="rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 p-6 text-center dark:from-gray-700 dark:to-gray-800">
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{l ? 'Total paid' : 'Total pagado'}</p>
@@ -111,7 +111,7 @@ export default function Hipoteca({ lang = 'es' }: HipotecaProps) {
             <div className="rounded-xl bg-gradient-to-br from-amber-50 to-amber-100 p-6 text-center dark:from-amber-900/30 dark:to-amber-900/10">
               <p className="text-sm font-medium text-amber-600 dark:text-amber-400">{l ? 'Purchase costs' : 'Gastos de compra'}</p>
               <p className="mt-1 text-2xl font-bold text-amber-700 dark:text-amber-300">{formatEuros(resultado.gastosCompra)}</p>
-              <p className="mt-1 text-xs text-amber-500 dark:text-amber-400">{l ? 'Transfer tax 8% + notary + registry + agency' : 'ITP 8% + notaría + registro + gestoría'}</p>
+              <p className="mt-1 text-xs text-amber-700 dark:text-amber-400">{l ? 'Transfer tax 8% + notary + registry + agency' : 'ITP 8% + notaría + registro + gestoría'}</p>
             </div>
           </div>
 

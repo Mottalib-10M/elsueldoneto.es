@@ -238,7 +238,7 @@ export default function VentaVivienda({ lang = 'es' }: { lang?: 'es' | 'en' }) {
               <p className="mt-1 text-2xl font-bold text-amber-700 dark:text-amber-300">
                 {formatEuros(resultado.plusvaliaMunicipal)}
               </p>
-              <p className="mt-1 text-xs text-amber-500 dark:text-amber-400">
+              <p className="mt-1 text-xs text-amber-700 dark:text-amber-400">
                 {l ? 'Check with your local council' : 'Consulta tu ayuntamiento'}
               </p>
             </div>

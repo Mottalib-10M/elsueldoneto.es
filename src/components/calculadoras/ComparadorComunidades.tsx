@@ -76,10 +76,10 @@ export default function ComparadorComunidades({ lang = 'es' }: ComparadorComunid
               <tbody>
                 {resultados.map(({ ccaa, desglose }, i) => (
                   <tr key={ccaa.codigo} className={`border-t border-gray-100 dark:border-gray-700 ${i === 0 ? 'bg-emerald-50/50 dark:bg-emerald-900/10' : ''} ${i === resultados.length - 1 ? 'bg-red-50/50 dark:bg-red-900/10' : ''}`}>
-                    <td className="px-4 py-2 tabular-nums text-gray-400">{i + 1}</td>
+                    <td className="px-4 py-2 tabular-nums text-gray-500">{i + 1}</td>
                     <td className="px-4 py-2 font-medium text-charcoal dark:text-gray-100">
                       {ccaa.nombreCorto}
-                      {ccaa.esForal && <span className="ml-1 text-xs text-gray-400">(foral)</span>}
+                      {ccaa.esForal && <span className="ml-1 text-xs text-gray-500">(foral)</span>}
                     </td>
                     <td className="px-4 py-2 text-right tabular-nums font-medium text-charcoal dark:text-gray-100">{formatEuros(desglose.netoMensual)}</td>
                     <td className="px-4 py-2 text-right tabular-nums text-charcoal dark:text-gray-100">{formatEuros(desglose.netoAnual)}</td>

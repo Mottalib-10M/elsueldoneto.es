@@ -19,6 +19,7 @@ const faqPage = [
   { question: 'How long do the cookies last?', answer: 'Technical cookies expire when the session ends. Analytics cookies have a limited lifetime set by the provider, generally a few months, after which they are renewed only if you visit the site again and consent is still in force. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
 ];
 const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
+import ContextoFiscal from '../../components/ContextoFiscal.astro';
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
@@ -176,4 +177,5 @@ const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', ma
       ))}
     </div>
   </section>
+  <ContextoFiscal />
 </Layout>
