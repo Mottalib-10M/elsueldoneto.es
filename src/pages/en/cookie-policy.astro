@@ -23,7 +23,7 @@ import ContextoFiscal from '../../components/ContextoFiscal.astro';
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
-  <div class="mx-auto max-w-3xl px-4 py-8">
+  <div class="mx-auto max-w-6xl px-4 py-8">
     <nav class="mb-6 text-sm text-medium-gray">
       <a href="/en/" class="hover:text-brand">Home</a> / <span class="text-charcoal dark:text-gray-200">Cookie Policy</span>
     </nav>
@@ -166,7 +166,7 @@ import ContextoFiscal from '../../components/ContextoFiscal.astro';
     </div>
   </div>
   <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema)} />
-  <section class="mx-auto max-w-3xl px-4 py-10">
+  <section class="mx-auto max-w-6xl px-4 py-10">
     <h2 class="mb-4 text-2xl font-bold">Frequently asked questions</h2>
     <div class="space-y-3">
       {faqPage.map((f) => (

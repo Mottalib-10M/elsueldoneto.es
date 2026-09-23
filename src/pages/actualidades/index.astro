@@ -59,7 +59,7 @@ import ContextoFiscal from '../../components/ContextoFiscal.astro';
 ---
 
 <Layout title={title} description={description} schema={schemas}>
-  <div class="mx-auto max-w-3xl px-4 py-8">
+  <div class="mx-auto max-w-6xl px-4 py-8">
     <nav class="mb-6 text-sm text-medium-gray">
       <a href="/" class="hover:text-brand">Inicio</a> / <span class="text-charcoal dark:text-gray-200">Actualidades</span>
     </nav>
@@ -86,7 +86,7 @@ import ContextoFiscal from '../../components/ContextoFiscal.astro';
   </div>
 
   <!-- Fuentes oficiales (RECETTE §7) -->
-  <section class="mx-auto max-w-3xl px-4 pb-12 text-sm text-slate-600">
+  <section class="mx-auto max-w-6xl px-4 pb-12 text-sm text-slate-600">
     <h2 class="text-lg font-semibold text-slate-900 mb-3">Fuentes oficiales</h2>
     <ul class="list-disc pl-6 space-y-1">
       <li><a class="underline" href="https://www.agenciatributaria.es" rel="noopener">Agencia Tributaria</a> — IRPF y retenciones</li>
@@ -96,7 +96,7 @@ import ContextoFiscal from '../../components/ContextoFiscal.astro';
     </ul>
   </section>
   <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema)} />
-  <section class="mx-auto max-w-3xl px-4 py-10">
+  <section class="mx-auto max-w-6xl px-4 py-10">
     <h2 class="mb-4 text-2xl font-bold">Preguntas frecuentes</h2>
     <div class="space-y-3">
       {faqPage.map((f) => (
@@ -108,7 +108,7 @@ import ContextoFiscal from '../../components/ContextoFiscal.astro';
     </div>
   </section>
   
-  <section class="mx-auto max-w-3xl px-4 mt-12">
+  <section class="mx-auto max-w-6xl px-4 mt-12">
     <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Por qué esta página existe</h2>
     <p class="mt-3 leading-relaxed text-dark-gray dark:text-gray-300">
       Una calculadora fiscal vale lo que valga la fecha de sus cifras, y la mayoría de los sitios
