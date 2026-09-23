@@ -188,7 +188,7 @@ function FilaTabla({
         className={[
           'px-4 py-2 text-right tabular-nums',
           bold ? 'font-semibold' : '',
-          negative ? 'text-red-600 dark:text-red-400' : '',
+          negative ? 'text-red-700 dark:text-red-400' : '',
           highlight ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-charcoal dark:text-gray-100',
         ].join(' ')}
       >

@@ -53,10 +53,10 @@ export default function ComparadorComunidades({ lang = 'es' }: ComparadorComunid
               <p className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">{formatEuros(maxNeto / pagas)}/{l ? 'mo' : 'mes'}</p>
             </div>
             <div className="rounded-xl bg-red-50 p-4 text-center dark:bg-red-900/20">
-              <p className="text-xs font-medium text-red-600 dark:text-red-400">{l ? 'Lowest net' : 'Menor neto'}</p>
+              <p className="text-xs font-medium text-red-700 dark:text-red-400">{l ? 'Lowest net' : 'Menor neto'}</p>
               <p className="text-lg font-bold text-red-700 dark:text-red-300">{resultados[resultados.length - 1]?.ccaa.nombreCorto}</p>
               <p className="text-2xl font-bold text-red-700 dark:text-red-300">{formatEuros(minNeto / pagas)}/{l ? 'mo' : 'mes'}</p>
-              <p className="text-sm text-red-600 dark:text-red-400">{l ? 'Difference' : 'Diferencia'}: {formatEuros((maxNeto - minNeto) / 12)}/{l ? 'mo' : 'mes'}</p>
+              <p className="text-sm text-red-700 dark:text-red-400">{l ? 'Difference' : 'Diferencia'}: {formatEuros((maxNeto - minNeto) / 12)}/{l ? 'mo' : 'mes'}</p>
             </div>
           </div>
 
@@ -83,7 +83,7 @@ export default function ComparadorComunidades({ lang = 'es' }: ComparadorComunid
                     </td>
                     <td className="px-4 py-2 text-right tabular-nums font-medium text-charcoal dark:text-gray-100">{formatEuros(desglose.netoMensual)}</td>
                     <td className="px-4 py-2 text-right tabular-nums text-charcoal dark:text-gray-100">{formatEuros(desglose.netoAnual)}</td>
-                    <td className="px-4 py-2 text-right tabular-nums text-red-600 dark:text-red-400">{formatEuros(desglose.irpfTotalAnual)}</td>
+                    <td className="px-4 py-2 text-right tabular-nums text-red-700 dark:text-red-400">{formatEuros(desglose.irpfTotalAnual)}</td>
                     <td className="px-4 py-2 text-right tabular-nums text-gray-600 dark:text-gray-300">{formatPercent(desglose.tipoEfectivoTotal)}</td>
                     <td className="hidden px-4 py-2 md:table-cell">
                       <div className="h-3 w-full overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600">

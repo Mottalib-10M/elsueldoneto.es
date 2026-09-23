@@ -99,7 +99,7 @@ export default function Hipoteca({ lang = 'es' }: HipotecaProps) {
               <p className="mt-1 text-xs text-blue-700 dark:text-blue-400">{l ? 'Principal' : 'Capital'}: {formatEuros(resultado.capital)}</p>
             </div>
             <div className="rounded-xl bg-gradient-to-br from-red-50 to-red-100 p-6 text-center dark:from-red-900/30 dark:to-red-900/10">
-              <p className="text-sm font-medium text-red-600 dark:text-red-400">{l ? 'Total interest' : 'Total intereses'}</p>
+              <p className="text-sm font-medium text-red-700 dark:text-red-400">{l ? 'Total interest' : 'Total intereses'}</p>
               <p className="mt-1 text-2xl font-bold text-red-700 dark:text-red-300">{formatEuros(resultado.totalIntereses)}</p>
               <p className="mt-1 text-xs text-red-700 dark:text-red-400">{formatPercent(resultado.totalIntereses / resultado.capital)}</p>
             </div>
@@ -124,7 +124,7 @@ export default function Hipoteca({ lang = 'es' }: HipotecaProps) {
                 ? `You are financing ${dec(resultado.porcentajeFinanciado, 1, l ? 'en-GB' : 'es-ES')}% of the property price.`
                 : `Financias el ${dec(resultado.porcentajeFinanciado, 1, l ? 'en-GB' : 'es-ES')}% del precio de la vivienda.`}
               {resultado.porcentajeFinanciado > 80 && (
-                <span className="ml-1 font-medium text-red-600 dark:text-red-400">
+                <span className="ml-1 font-medium text-red-700 dark:text-red-400">
                   {l
                     ? 'Warning: banks usually finance a maximum of 80%. You may need more savings.'
                     : 'Atención: los bancos normalmente financian un máximo del 80%. Es posible que necesites más ahorro.'}

@@ -133,7 +133,7 @@ export default function Jubilacion({ lang = 'es' }: { lang?: 'es' | 'en' }) {
 
       {!resultado.cumpleMinimo && (
         <div className="rounded-xl bg-red-50 p-6 text-center dark:bg-red-900/20">
-          <p className="text-sm font-medium text-red-600 dark:text-red-400">
+          <p className="text-sm font-medium text-red-700 dark:text-red-400">
             {l
               ? `With ${dec(resultado.totalAniosCotizados, 0, l ? 'en-GB' : 'es-ES')} years of contributions, the minimum of 15 years required to access a contributory retirement pension is not reached.`
               : `Con ${dec(resultado.totalAniosCotizados, 0, l ? 'en-GB' : 'es-ES')} años cotizados no se alcanza el mínimo de 15 años necesarios para acceder a una pensión contributiva de jubilación.`}
@@ -198,7 +198,7 @@ export default function Jubilacion({ lang = 'es' }: { lang?: 'es' | 'en' }) {
               </tr>
               <tr className="border-b border-gray-100 dark:border-gray-700">
                 <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Difference from last salary' : 'Diferencia con último salario'}</td>
-                <td className="px-4 py-2 text-right tabular-nums font-medium text-red-600 dark:text-red-400">
+                <td className="px-4 py-2 text-right tabular-nums font-medium text-red-700 dark:text-red-400">
                   {resultado.gapMensual > 0 ? `-${formatEuros(resultado.gapMensual)}/${l ? 'mo' : 'mes'}` : formatEuros(0) + `/${l ? 'mo' : 'mes'}`}
                 </td>
               </tr>

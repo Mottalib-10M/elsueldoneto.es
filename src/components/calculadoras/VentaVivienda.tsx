@@ -216,7 +216,7 @@ export default function VentaVivienda({ lang = 'es' }: { lang?: 'es' | 'en' }) {
                 className={`text-sm font-medium ${
                   resultado.irpf === 0
                     ? 'text-emerald-600 dark:text-emerald-400'
-                    : 'text-red-600 dark:text-red-400'
+                    : 'text-red-700 dark:text-red-400'
                 }`}
               >
                 {l ? 'Income tax due' : 'IRPF a pagar'}
@@ -253,7 +253,7 @@ export default function VentaVivienda({ lang = 'es' }: { lang?: 'es' | 'en' }) {
                 className={`text-sm font-medium ${
                   resultado.totalImpuestos < 3000
                     ? 'text-emerald-600 dark:text-emerald-400'
-                    : 'text-red-600 dark:text-red-400'
+                    : 'text-red-700 dark:text-red-400'
                 }`}
               >
                 {l ? 'Total taxes' : 'Total impuestos'}
@@ -347,7 +347,7 @@ export default function VentaVivienda({ lang = 'es' }: { lang?: 'es' | 'en' }) {
                   <td className="px-4 py-2 text-gray-600 dark:text-gray-300">
                     {l ? 'Income tax on gain (savings tax brackets)' : 'IRPF sobre la ganancia (escala del ahorro)'}
                   </td>
-                  <td className="px-4 py-2 text-right tabular-nums font-medium text-red-600 dark:text-red-400">
+                  <td className="px-4 py-2 text-right tabular-nums font-medium text-red-700 dark:text-red-400">
                     {formatEuros(resultado.irpf)}
                   </td>
                 </tr>

@@ -34,7 +34,7 @@ export default function Prestamo({ lang = 'es' }: { lang?: 'es' | 'en' }) {
               <p className="mt-1 text-2xl font-bold text-blue-700 dark:text-blue-300">{formatEuros(resultado.cuotaMensual)}</p>
             </div>
             <div className="rounded-xl bg-gradient-to-br from-red-50 to-red-100 p-6 text-center dark:from-red-900/30 dark:to-red-900/10">
-              <p className="text-sm font-medium text-red-600 dark:text-red-400">{l ? 'Total interest' : 'Total intereses'}</p>
+              <p className="text-sm font-medium text-red-700 dark:text-red-400">{l ? 'Total interest' : 'Total intereses'}</p>
               <p className="mt-1 text-2xl font-bold text-red-700 dark:text-red-300">{formatEuros(resultado.totalIntereses)}</p>
             </div>
             <div className="rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 p-6 text-center dark:from-gray-700 dark:to-gray-800">
@@ -62,7 +62,7 @@ export default function Prestamo({ lang = 'es' }: { lang?: 'es' | 'en' }) {
                       <td className="px-3 py-1 tabular-nums text-gray-600 dark:text-gray-300">{f.mes}</td>
                       <td className="px-3 py-1 text-right tabular-nums">{formatEuros(f.cuota)}</td>
                       <td className="px-3 py-1 text-right tabular-nums text-emerald-600 dark:text-emerald-400">{formatEuros(f.capital)}</td>
-                      <td className="px-3 py-1 text-right tabular-nums text-red-600 dark:text-red-400">{formatEuros(f.intereses)}</td>
+                      <td className="px-3 py-1 text-right tabular-nums text-red-700 dark:text-red-400">{formatEuros(f.intereses)}</td>
                       <td className="px-3 py-1 text-right tabular-nums">{formatEuros(f.saldoPendiente)}</td>
                     </tr>
                   ))}

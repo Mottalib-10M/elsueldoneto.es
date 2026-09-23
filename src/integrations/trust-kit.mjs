@@ -163,7 +163,12 @@ export default function trustKit(opts) {
             const dateTexte = dateLisible(date, lang);
             const top = `<p data-trust-kit class="trust-top" style="margin:0 0 0.5rem;font-size:0.8125rem;opacity:0.8">`
               + `${t.updated} <time datetime="${date}">${dateTexte}</time></p>`;
-            const inner = (html.slice(html.lastIndexOf('<footer')).match(/<footer[^>]*>\s*<div class="([^"]*)"/) || [])[1];
+            // Largeur du pied de page : on ne recopie la classe d'un div du pied que si
+            // c'est un conteneur de mise en page. Sans ce filtre, un filet décoratif placé
+            // en tête de pied (`regua-bandeira h-1`, 4 px) était recopié et le bloc injecté
+            // débordait de sa propre boîte, atterrissant sur le fond clair du corps.
+            const inner = ([...html.slice(html.lastIndexOf('<footer')).matchAll(/<div class="([^"]*)"/g)]
+              .map((m) => m[1]).find((c) => /(^|\s)(max-w-|container($|\s)|mx-auto)/.test(c))) || '';
             const bottom = `<div data-trust-kit class="${inner || ''}"><div class="trust-bottom" style="${inner ? '' : 'max-width:72rem;margin:0 auto;padding:0 1rem;'}margin-top:1.5rem;padding-bottom:1.5rem;font-size:0.8125rem;opacity:0.8">`
               + `<p>${t.disclaimer}</p>`
               + `<p>${t.last} <time datetime="${date}">${dateTexte}</time> · <a href="${method}">${t.method}</a> · `

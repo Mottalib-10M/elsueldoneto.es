@@ -69,7 +69,7 @@ export default function Autonomos({ lang = 'es' }: { lang?: 'es' | 'en' }) {
           <p className="mt-1 text-2xl font-bold text-amber-700 dark:text-amber-300">{formatEuros(resultado.cuotaMensual)}</p>
         </div>
         <div className="rounded-xl bg-gradient-to-br from-red-50 to-red-100 p-6 text-center dark:from-red-900/30 dark:to-red-900/10">
-          <p className="text-sm font-medium text-red-600 dark:text-red-400">{l ? 'Annual IRPF' : 'IRPF anual'}</p>
+          <p className="text-sm font-medium text-red-700 dark:text-red-400">{l ? 'Annual IRPF' : 'IRPF anual'}</p>
           <p className="mt-1 text-2xl font-bold text-red-700 dark:text-red-300">{formatEuros(resultado.irpfAnual)}</p>
         </div>
       </div>

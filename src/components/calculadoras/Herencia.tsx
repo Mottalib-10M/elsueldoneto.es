@@ -346,7 +346,7 @@ export default function Herencia({ lang = 'es' }: HerenciaProps) {
                 className={`text-sm font-medium ${
                   resultado.aPagar < 5000
                     ? 'text-emerald-600 dark:text-emerald-400'
-                    : 'text-red-600 dark:text-red-400'
+                    : 'text-red-700 dark:text-red-400'
                 }`}
               >
                 {l ? 'Tax due' : 'A pagar'}

@@ -25,9 +25,9 @@ export default function Inflacion({ lang = 'es' }: { lang?: 'es' | 'en' }) {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="rounded-xl bg-gradient-to-br from-red-50 to-red-100 p-6 text-center dark:from-red-900/30 dark:to-red-900/10">
-          <p className="text-sm font-medium text-red-600 dark:text-red-400">{l ? `Real value in ${aniosNum} years` : `Valor real en ${aniosNum} años`}</p>
+          <p className="text-sm font-medium text-red-700 dark:text-red-400">{l ? `Real value in ${aniosNum} years` : `Valor real en ${aniosNum} años`}</p>
           <p className="mt-1 text-2xl font-bold text-red-700 dark:text-red-300">{formatEuros(resultado.valorReal)}</p>
-          <p className="mt-1 text-sm text-red-600 dark:text-red-400">{l ? 'Loss' : 'Pérdida'}: {formatEuros(resultado.perdidaPoder)}</p>
+          <p className="mt-1 text-sm text-red-700 dark:text-red-400">{l ? 'Loss' : 'Pérdida'}: {formatEuros(resultado.perdidaPoder)}</p>
         </div>
         <div className="rounded-xl bg-gradient-to-br from-amber-50 to-amber-100 p-6 text-center dark:from-amber-900/30 dark:to-amber-900/10">
           <p className="text-sm font-medium text-amber-600 dark:text-amber-400">{l ? 'To maintain your purchasing power' : 'Para mantener tu poder adquisitivo'}</p>

@@ -34,7 +34,7 @@ export default function Paro({ lang = 'es' }: ParoProps) {
 
       {diasCotizados < 360 ? (
         <div className="rounded-xl bg-red-50 p-6 text-center dark:bg-red-900/20">
-          <p className="text-sm font-medium text-red-600 dark:text-red-400">
+          <p className="text-sm font-medium text-red-700 dark:text-red-400">
             {l
               ? 'A minimum of 360 contributed days (1 year) is required to access contributory unemployment benefits.'
               : 'Se necesita un mínimo de 360 días cotizados (1 año) para acceder a la prestación contributiva por desempleo.'}

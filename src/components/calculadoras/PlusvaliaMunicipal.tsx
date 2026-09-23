@@ -267,7 +267,7 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600 dark:text-gray-400">{l ? 'Property gain' : 'Ganancia del inmueble'}</span>
-                  <span className={`tabular-nums font-medium ${resultado.gananciaInmueble < 0 ? 'text-red-600 dark:text-red-400' : ''}`}>
+                  <span className={`tabular-nums font-medium ${resultado.gananciaInmueble < 0 ? 'text-red-700 dark:text-red-400' : ''}`}>
                     {formatEuros(resultado.gananciaInmueble)}
                   </span>
                 </div>
@@ -305,7 +305,7 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
               className={`text-sm font-medium ${
                 resultado.ventaConPerdidas
                   ? 'text-emerald-600 dark:text-emerald-400'
-                  : 'text-red-600 dark:text-red-400'
+                  : 'text-red-700 dark:text-red-400'
               }`}
             >
               {resultado.ventaConPerdidas
