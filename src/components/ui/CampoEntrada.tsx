@@ -1,4 +1,4 @@
-import { type InputHTMLAttributes } from 'react';
+import { type InputHTMLAttributes, useState } from 'react';
 
 interface CampoEntradaProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
   label: string;
@@ -18,6 +18,16 @@ export default function CampoEntrada({
   id,
   ...rest
 }: CampoEntradaProps) {
+  // Le champ qu'on remplit garde son texte brut ; sinon on montre les milliers
+  // separes par le point espagnol (RECETTE §4.1).
+  const [enEdicion, setEnEdicion] = useState(false);
+  const mostrado = (() => {
+    const s = String(value ?? '');
+    if (enEdicion || s === '') return s;
+    const n = parseFloat(s.replace(/\./g, '').replace(',', '.'));
+    return Number.isFinite(n) ? Math.round(n).toLocaleString('es-ES') : s;
+  })();
+
   const prClass = !suffix
     ? 'pr-3'
     : suffix.length <= 2
@@ -37,8 +47,10 @@ export default function CampoEntrada({
             id={id}
             type="text"
             inputMode="decimal"
-            value={value}
+            value={mostrado}
             onChange={(e) => onChange(e.target.value)}
+            onFocus={() => setEnEdicion(true)}
+            onBlur={() => setEnEdicion(false)}
             className={`w-full rounded-lg border border-gray-300 bg-white py-2 pl-3 text-right text-charcoal shadow-sm transition-colors focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 ${prClass}`}
             {...rest}
           />
