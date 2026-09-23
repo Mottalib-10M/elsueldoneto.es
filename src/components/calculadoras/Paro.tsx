@@ -27,7 +27,7 @@ export default function Paro({ lang = 'es' }: ParoProps) {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-3">
-        <CampoEntrada id="pa-base" label={l ? 'Monthly contribution base' : 'Base cotización mensual'} value={baseCotizacion} onChange={setBaseCotizacion} min={0} max={10000} step={100} suffix={l ? '€/mo' : '€/mes'} helpText={l ? 'Average of last 180 days' : 'Media últimos 180 días'} />
+        <CampoEntrada id="pa-base" label={l ? 'Monthly contribution base' : 'Base cotización mensual'} value={baseCotizacion} onChange={setBaseCotizacion} min={0} max={10000} step="any" suffix={l ? '€/mo' : '€/mes'} helpText={l ? 'Average of last 180 days' : 'Media últimos 180 días'} />
         <CampoEntrada id="pa-anios" label={l ? 'Years contributed' : 'Años cotizados'} value={aniosCotizados} onChange={setAniosCotizados} min={1} max={30} step={0.5} suffix={l ? 'years' : 'años'} helpText={l ? 'In the last 6 years' : 'En los últimos 6 años'} />
         <CampoEntrada id="pa-hijos" label={l ? 'Dependent children' : 'Hijos a cargo'} value={hijos} onChange={setHijos} min={0} max={10} step={1} suffix={l ? 'children' : 'hijos'} />
       </div>

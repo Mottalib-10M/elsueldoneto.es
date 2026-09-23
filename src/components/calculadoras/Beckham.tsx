@@ -25,7 +25,7 @@ export default function Beckham({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
-        <CampoSalario id="beck-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={2000000} step={1000} divisor={14} lang={lang} />
+        <CampoSalario id="beck-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={2000000} step="any" divisor={14} lang={lang} />
         <SelectorCCAA value={ccaa} onChange={setCCAA} id="beck-ccaa" lang={lang} />
       </div>
 

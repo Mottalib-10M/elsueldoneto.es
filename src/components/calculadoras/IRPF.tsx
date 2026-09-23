@@ -28,7 +28,7 @@ export default function IRPF({ lang = 'es' }: { lang?: 'es' | 'en' }) {
 
   return (
     <div className="space-y-6">
-      <CampoSalario id="irpf-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={1000000} step={100} lang={lang} />
+      <CampoSalario id="irpf-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={1000000} step="any" lang={lang} />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <SelectorCCAA value={ccaa} onChange={setCCAA} lang={lang} />

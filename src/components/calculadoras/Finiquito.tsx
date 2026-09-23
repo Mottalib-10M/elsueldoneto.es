@@ -29,7 +29,7 @@ export default function Finiquito({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <CampoEntrada id="fq-salario" label={l ? 'Monthly gross salary' : 'Salario bruto mensual'} value={salario} onChange={setSalario} min={0} max={50000} step={100} suffix={l ? '€/month' : '€/mes'} />
+        <CampoEntrada id="fq-salario" label={l ? 'Monthly gross salary' : 'Salario bruto mensual'} value={salario} onChange={setSalario} min={0} max={50000} step="any" suffix={l ? '€/month' : '€/mes'} />
         <CampoEntrada id="fq-dias" label={l ? 'Days worked (last month)' : 'Días trabajados (último mes)'} value={diasTrabajados} onChange={setDiasTrabajados} min={0} max={30} step={1} suffix={l ? 'days' : 'días'} />
         <CampoEntrada id="fq-vacaciones" label={l ? 'Pending holiday days' : 'Días vacaciones pendientes'} value={diasVacaciones} onChange={setDiasVacaciones} min={0} max={30} step={1} suffix={l ? 'days' : 'días'} />
         <CampoEntrada id="fq-antiguedad" label={l ? 'Years at company' : 'Antigüedad en la empresa'} value={antiguedad} onChange={setAntiguedad} min={0} max={50} step={0.5} suffix={l ? 'years' : 'años'} />

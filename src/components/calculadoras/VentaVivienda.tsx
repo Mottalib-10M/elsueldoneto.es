@@ -105,7 +105,7 @@ export default function VentaVivienda({ lang = 'es' }: { lang?: 'es' | 'en' }) {
           onChange={setPrecioCompra}
           min={0}
           max={10000000}
-          step={1000}
+          step="any"
           suffix="€"
         />
         <CampoEntrada
@@ -115,7 +115,7 @@ export default function VentaVivienda({ lang = 'es' }: { lang?: 'es' | 'en' }) {
           onChange={setPrecioVenta}
           min={0}
           max={10000000}
-          step={1000}
+          step="any"
           suffix="€"
         />
         <CampoEntrada
@@ -125,7 +125,7 @@ export default function VentaVivienda({ lang = 'es' }: { lang?: 'es' | 'en' }) {
           onChange={setGastosCompra}
           min={0}
           max={500000}
-          step={500}
+          step="any"
           suffix="€"
           helpText={l ? 'Notary, registry, transfer tax, etc.' : 'Notaría, registro, ITP, etc.'}
         />
@@ -136,7 +136,7 @@ export default function VentaVivienda({ lang = 'es' }: { lang?: 'es' | 'en' }) {
           onChange={setGastosVenta}
           min={0}
           max={500000}
-          step={500}
+          step="any"
           suffix="€"
           helpText={l ? 'Agency, certificates, cancellation' : 'Agencia, certificados, cancelación'}
         />
@@ -147,7 +147,7 @@ export default function VentaVivienda({ lang = 'es' }: { lang?: 'es' | 'en' }) {
           onChange={setMejoras}
           min={0}
           max={5000000}
-          step={500}
+          step="any"
           suffix="€"
           helpText={l ? 'Renovations with invoice' : 'Reformas con factura'}
         />

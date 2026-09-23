@@ -38,7 +38,7 @@ export default function HoraTrabajada({ lang = 'es' }: HoraTrabajadaProps) {
 
   return (
     <div className="space-y-6">
-      <CampoSalario id="ht-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={300000} step={1000} divisor={14} lang={lang} />
+      <CampoSalario id="ht-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={300000} step="any" divisor={14} lang={lang} />
 
       <div className="grid gap-4 sm:grid-cols-3">
         <CampoEntrada id="ht-horas" label={l ? 'Hours/week' : 'Horas/semana'} value={horas} onChange={setHoras} min={1} max={60} step={1} suffix={l ? 'h/week' : 'h/semana'} />

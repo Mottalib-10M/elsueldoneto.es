@@ -21,10 +21,10 @@ export default function InteresCompuesto({ lang = 'es' }: { lang?: 'es' | 'en' }
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <CampoEntrada id="ic-capital" label={l ? 'Initial capital' : 'Capital inicial'} value={capitalInicial} onChange={setCapitalInicial} min={0} max={10000000} step={100} suffix="€" />
+        <CampoEntrada id="ic-capital" label={l ? 'Initial capital' : 'Capital inicial'} value={capitalInicial} onChange={setCapitalInicial} min={0} max={10000000} step="any" suffix="€" />
         <CampoEntrada id="ic-tipo" label={l ? 'Annual return' : 'Rentabilidad anual'} value={tipoAnual} onChange={setTipoAnual} min={0} max={50} step={0.1} suffix="%" />
         <CampoEntrada id="ic-anios" label={l ? 'Years' : 'Años'} value={anios} onChange={setAnios} min={1} max={60} step={1} suffix={l ? 'years' : 'años'} />
-        <CampoEntrada id="ic-aportacion" label={l ? 'Monthly contribution' : 'Aportación mensual'} value={aportacionMensual} onChange={setAportacionMensual} min={0} max={100000} step={50} suffix={l ? '€/mo' : '€/mes'} />
+        <CampoEntrada id="ic-aportacion" label={l ? 'Monthly contribution' : 'Aportación mensual'} value={aportacionMensual} onChange={setAportacionMensual} min={0} max={100000} step="any" suffix={l ? '€/mo' : '€/mes'} />
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">

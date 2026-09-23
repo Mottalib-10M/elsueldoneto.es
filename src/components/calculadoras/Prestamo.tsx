@@ -21,7 +21,7 @@ export default function Prestamo({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-3">
-        <CampoEntrada id="pr-capital" label={l ? 'Loan amount' : 'Capital del préstamo'} value={capital} onChange={setCapital} min={0} max={1000000} step={500} suffix="€" />
+        <CampoEntrada id="pr-capital" label={l ? 'Loan amount' : 'Capital del préstamo'} value={capital} onChange={setCapital} min={0} max={1000000} step="any" suffix="€" />
         <CampoEntrada id="pr-tin" label={l ? 'Annual interest rate' : 'TIN anual'} value={tin} onChange={setTin} min={0} max={50} step={0.1} suffix="%" helpText={l ? 'Nominal Interest Rate' : 'Tipo de Interés Nominal'} />
         <CampoEntrada id="pr-plazo" label={l ? 'Term' : 'Plazo'} value={plazo} onChange={setPlazo} min={1} max={600} step={1} suffix={l ? 'months' : 'meses'} />
       </div>

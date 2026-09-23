@@ -115,7 +115,7 @@ export default function Jubilacion({ lang = 'es' }: { lang?: 'es' | 'en' }) {
           onChange={setBaseCotizacion}
           min={0}
           max={4720}
-          step={50}
+          step="any"
           suffix={l ? '€/mo' : '€/mes'}
           helpText={l ? 'Average of your latest contribution bases' : 'Promedio de tus últimas bases'}
         />

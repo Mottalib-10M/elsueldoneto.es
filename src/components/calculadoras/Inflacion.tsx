@@ -18,7 +18,7 @@ export default function Inflacion({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-3">
-        <CampoEntrada id="inf-cantidad" label={l ? 'Current amount' : 'Cantidad actual'} value={cantidad} onChange={setCantidad} min={0} max={10000000} step={100} suffix="€" helpText={l ? 'Amount of money today' : 'Cantidad de dinero hoy'} />
+        <CampoEntrada id="inf-cantidad" label={l ? 'Current amount' : 'Cantidad actual'} value={cantidad} onChange={setCantidad} min={0} max={10000000} step="any" suffix="€" helpText={l ? 'Amount of money today' : 'Cantidad de dinero hoy'} />
         <CampoEntrada id="inf-inflacion" label={l ? 'Annual inflation' : 'Inflación anual'} value={inflacion} onChange={setInflacion} min={0} max={50} step={0.1} suffix="%" helpText={l ? 'Average annual inflation rate' : 'Tasa de inflación anual media'} />
         <CampoEntrada id="inf-anios" label={l ? 'Years' : 'Años'} value={anios} onChange={setAnios} min={1} max={60} step={1} suffix={l ? 'years' : 'años'} />
       </div>

@@ -20,10 +20,10 @@ export default function PlanAhorro({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <CampoEntrada id="pa-aportacion" label={l ? 'Monthly contribution' : 'Aportación mensual'} value={aportacion} onChange={setAportacion} min={0} max={100000} step={50} suffix={l ? '€/mo' : '€/mes'} />
+        <CampoEntrada id="pa-aportacion" label={l ? 'Monthly contribution' : 'Aportación mensual'} value={aportacion} onChange={setAportacion} min={0} max={100000} step="any" suffix={l ? '€/mo' : '€/mes'} />
         <CampoEntrada id="pa-tipo" label={l ? 'Annual return' : 'Rentabilidad anual'} value={tipo} onChange={setTipo} min={0} max={30} step={0.1} suffix="%" />
         <CampoEntrada id="pa-anios" label={l ? 'Years' : 'Años'} value={anios} onChange={setAnios} min={1} max={60} step={1} suffix={l ? 'years' : 'años'} />
-        <CampoEntrada id="pa-capital" label={l ? 'Initial capital' : 'Capital inicial'} value={capitalInicial} onChange={setCapitalInicial} min={0} max={10000000} step={100} suffix="€" />
+        <CampoEntrada id="pa-capital" label={l ? 'Initial capital' : 'Capital inicial'} value={capitalInicial} onChange={setCapitalInicial} min={0} max={10000000} step="any" suffix="€" />
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">

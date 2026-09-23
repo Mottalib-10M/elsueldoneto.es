@@ -30,7 +30,7 @@ export default function ComparadorComunidades({ lang = 'es' }: ComparadorComunid
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
-        <CampoSalario id="comp-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={1000000} step={1000} divisor={pagas} lang={lang} />
+        <CampoSalario id="comp-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={1000000} step="any" divisor={pagas} lang={lang} />
         <div className="flex h-full flex-col">
           <label className="mb-1 flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">{l ? 'Number of payments' : 'Número de pagas'}</label>
           <div>

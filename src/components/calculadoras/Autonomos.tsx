@@ -54,8 +54,8 @@ export default function Autonomos({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-3">
-        <CampoSalario id="au-ingresos" label={l ? 'Gross income' : 'Ingresos brutos'} value={ingresos} onChange={setIngresos} min={0} max={500000} step={1000} lang={lang} />
-        <CampoSalario id="au-gastos" label={l ? 'Deductible expenses' : 'Gastos deducibles'} value={gastos} onChange={setGastos} min={0} max={300000} step={500} lang={lang} />
+        <CampoSalario id="au-ingresos" label={l ? 'Gross income' : 'Ingresos brutos'} value={ingresos} onChange={setIngresos} min={0} max={500000} step="any" lang={lang} />
+        <CampoSalario id="au-gastos" label={l ? 'Deductible expenses' : 'Gastos deducibles'} value={gastos} onChange={setGastos} min={0} max={300000} step="any" lang={lang} />
         <SelectorCCAA value={ccaa} onChange={setCcaa} lang={lang} />
       </div>
 

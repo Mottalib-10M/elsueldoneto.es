@@ -216,7 +216,7 @@ export default function Herencia({ lang = 'es' }: HerenciaProps) {
           onChange={setValor}
           min={0}
           max={10000000}
-          step={5000}
+          step="any"
           suffix="€"
         />
         <div className="flex h-full flex-col">
@@ -272,7 +272,7 @@ export default function Herencia({ lang = 'es' }: HerenciaProps) {
           onChange={setPatrimonio}
           min={0}
           max={50000000}
-          step={10000}
+          step="any"
           suffix="€"
           helpText={l ? "Heir's net assets before receiving the inheritance" : 'Patrimonio neto del heredero antes de recibir la herencia'}
         />

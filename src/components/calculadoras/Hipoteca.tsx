@@ -67,8 +67,8 @@ export default function Hipoteca({ lang = 'es' }: HipotecaProps) {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <CampoEntrada id="hip-precio" label={l ? 'Property price' : 'Precio de la vivienda'} value={precio} onChange={setPrecio} min={0} max={5000000} step={5000} suffix="€" />
-        <CampoEntrada id="hip-ahorro" label={l ? 'Down payment' : 'Ahorro aportado'} value={ahorro} onChange={setAhorro} min={0} max={5000000} step={1000} suffix="€" />
+        <CampoEntrada id="hip-precio" label={l ? 'Property price' : 'Precio de la vivienda'} value={precio} onChange={setPrecio} min={0} max={5000000} step="any" suffix="€" />
+        <CampoEntrada id="hip-ahorro" label={l ? 'Down payment' : 'Ahorro aportado'} value={ahorro} onChange={setAhorro} min={0} max={5000000} step="any" suffix="€" />
         <CampoEntrada id="hip-plazo" label={l ? 'Term' : 'Plazo'} value={plazo} onChange={setPlazo} min={5} max={40} step={1} suffix={l ? 'years' : 'años'} />
         <CampoEntrada id="hip-interes" label={l ? 'Annual interest rate' : 'Tipo de interés anual'} value={interes} onChange={setInteres} min={0} max={20} step={0.1} suffix="%" helpText={tipo === 'variable' ? (l ? 'Euribor + spread' : 'Euríbor + diferencial') : (l ? 'Fixed rate' : 'Tipo fijo')} />
         <div className="flex h-full flex-col">

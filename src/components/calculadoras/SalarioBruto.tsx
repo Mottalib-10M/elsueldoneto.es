@@ -23,7 +23,7 @@ export default function SalarioBruto({ lang = 'es' }: { lang?: 'es' | 'en' }) {
 
   return (
     <div className="space-y-6">
-      <CampoSalario id="sb-neto" label={l ? 'Desired net' : 'Neto deseado'} value={netoDeseado} onChange={setNetoDeseado} min={0} max={500000} step={500} divisor={pagas} lang={lang} />
+      <CampoSalario id="sb-neto" label={l ? 'Desired net' : 'Neto deseado'} value={netoDeseado} onChange={setNetoDeseado} min={0} max={500000} step="any" divisor={pagas} lang={lang} />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <SelectorCCAA value={ccaa} onChange={setCCAA} lang={lang} />

@@ -31,7 +31,7 @@ export default function TipoRetencion({ lang = 'es' }: TipoRetencionProps) {
 
   return (
     <div className="space-y-6">
-      <CampoSalario id="tr-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={bruto} onChange={setBruto} min={0} max={300000} step={500} divisor={pagas} lang={lang} />
+      <CampoSalario id="tr-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={bruto} onChange={setBruto} min={0} max={300000} step="any" divisor={pagas} lang={lang} />
 
       <div className="grid gap-4 sm:grid-cols-3">
         <SelectorCCAA value={ccaa} onChange={setCcaa} lang={lang} />

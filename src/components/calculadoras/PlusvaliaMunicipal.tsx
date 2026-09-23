@@ -137,7 +137,7 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
           onChange={setValorCatastralSuelo}
           min={0}
           max={5000000}
-          step={1000}
+          step="any"
           suffix="€"
           helpText={l ? 'Check your property tax bill (IBI)' : 'Consulta tu recibo del IBI'}
         />
@@ -148,7 +148,7 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
           onChange={setPrecioCompra}
           min={0}
           max={10000000}
-          step={1000}
+          step="any"
           suffix="€"
         />
         <CampoEntrada
@@ -158,7 +158,7 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
           onChange={setPrecioVenta}
           min={0}
           max={10000000}
-          step={1000}
+          step="any"
           suffix="€"
         />
         <CampoEntrada

@@ -100,7 +100,7 @@ export default function SueldoNeto({
         divisor={pagas}
         min={0}
         max={1_000_000}
-        step={100}
+        step="any"
         lang={lang}
       />
 
