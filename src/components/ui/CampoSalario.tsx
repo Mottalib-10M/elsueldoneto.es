@@ -27,6 +27,8 @@ export default function CampoSalario({
   lang = 'es',
 }: CampoSalarioProps) {
   const [modo, setModo] = useState<ModoSalario>('anual');
+  // Le champ qu'on remplit garde son texte brut.
+  const [enEdicion, setEnEdicion] = useState(false);
   const [mensual, setMensual] = useState(() =>
     String(Math.round((Number(value) / divisor) * 100) / 100)
   );
@@ -69,7 +71,13 @@ export default function CampoSalario({
     onChange(newAnual);
   };
 
-  const displayValue = modo === 'anual' ? value : mensual;
+  const bruto = modo === 'anual' ? value : mensual;
+  const displayValue = enEdicion || String(bruto ?? '') === ''
+    ? bruto
+    : (() => {
+        const n = parseFloat(String(bruto).replace(/\./g, '').replace(',', '.'));
+        return Number.isFinite(n) ? Math.round(n).toLocaleString('es-ES') : bruto;
+      })();
   const annualNum = Number(value) || 0;
   const mensualNum = Number(mensual) || 0;
 
@@ -85,11 +93,12 @@ export default function CampoSalario({
             type="text"
             inputMode="decimal"
             value={displayValue}
-            onChange={(e) =>
-              modo === 'anual'
-                ? handleAnualChange(e.target.value)
-                : handleMensualChange(e.target.value)
-            }
+            onChange={(e) => {
+              const v = e.target.value.replace(/[^\d.,]/g, '');
+              return modo === 'anual' ? handleAnualChange(v) : handleMensualChange(v);
+            }}
+            onFocus={() => setEnEdicion(true)}
+            onBlur={() => setEnEdicion(false)}
             min={min}
             max={modo === 'anual' ? max : Math.round(max / divisor)}
             step={modo === 'anual' ? step : Math.max(1, Math.round(step / divisor))}
@@ -118,8 +127,8 @@ export default function CampoSalario({
       </div>
       <p className="text-xs text-gray-500 dark:text-gray-400">
         {modo === 'anual'
-          ? `${mensualNum.toLocaleString(lang === 'en' ? 'en-GB' : 'es-ES', { maximumFractionDigits: 2 })} ${lang === 'en' ? '€/month' : '€/mes'}`
-          : `${annualNum.toLocaleString(lang === 'en' ? 'en-GB' : 'es-ES', { maximumFractionDigits: 2 })} ${lang === 'en' ? '€/year' : '€/año'}`}
+          ? `${mensualNum.toLocaleString(lang === 'en' ? 'en-GB' : 'es-ES', { maximumFractionDigits: 0 })} ${lang === 'en' ? '€/month' : '€/mes'}`
+          : `${annualNum.toLocaleString(lang === 'en' ? 'en-GB' : 'es-ES', { maximumFractionDigits: 0 })} ${lang === 'en' ? '€/year' : '€/año'}`}
       </p>
     </div>
   );

@@ -7,8 +7,8 @@
 const euroFormatter = new Intl.NumberFormat('es-ES', {
   style: 'currency',
   currency: 'EUR',
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
 });
 
 const euroFormatterNoDecimals = new Intl.NumberFormat('es-ES', {
@@ -19,14 +19,14 @@ const euroFormatterNoDecimals = new Intl.NumberFormat('es-ES', {
 });
 
 const numberFormatter = new Intl.NumberFormat('es-ES', {
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
 });
 
 const percentFormatter = new Intl.NumberFormat('es-ES', {
   style: 'percent',
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1,
 });
 
 export function formatEuros(amount: number): string {

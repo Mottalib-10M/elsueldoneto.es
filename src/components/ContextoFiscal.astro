@@ -34,7 +34,7 @@ const peor = porCcaa[porCcaa.length - 1];
 const horquilla = mejor.neto - peor.neto;
 
 const eur = (v: number) => Math.round(v).toLocaleString('es-ES') + ' €';
-const pc = (v: number) => v.toLocaleString('es-ES', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' %';
+const pc = (v: number) => v.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' %';
 ---
 
 <section class="mx-auto max-w-6xl px-4 mt-12">

@@ -14,8 +14,8 @@ export function formatEurosLocale(amount: number, locale: Locale): string {
   return new Intl.NumberFormat(intlLocale, {
     style: 'currency',
     currency: 'EUR',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(amount);
 }
 
@@ -33,16 +33,16 @@ export function formatPercentLocale(value: number, locale: Locale): string {
   const intlLocale = getIntlLocale(locale);
   return new Intl.NumberFormat(intlLocale, {
     style: 'percent',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
   }).format(value);
 }
 
 export function formatNumberLocale(value: number, locale: Locale): string {
   const intlLocale = getIntlLocale(locale);
   return new Intl.NumberFormat(intlLocale, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(value);
 }
 
