@@ -204,6 +204,19 @@ const schemas = [
 
     <!-- Calculator embedded -->
     <section class="mb-8">
+      <p class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+        Con un salario bruto de {amountFormatted} € al año, la nómina se reduce en dos pasos antes de llegar a tu
+        cuenta. Primero la Seguridad Social, un 6,35 % en un contrato indefinido estándar: 4,70 % por contingencias
+        comunes, 1,55 % por desempleo y 0,10 % por formación profesional. Lo que queda es la base sobre la que se
+        calcula el IRPF, después del mínimo personal y familiar, sumando la escala estatal y la de tu comunidad
+        autónoma. Por eso dos personas con estos mismos {amountFormatted} € brutos cobran cantidades distintas según
+        dónde residan: la diferencia entre la comunidad más y la menos gravosa supera con frecuencia los mil euros al
+        año. Las cifras de esta página suponen un contrato indefinido, sin retribución en especie ni deducciones
+        distintas de las generales.
+      </p>
+    </section>
+
+    <section class="mb-8">
       <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
         <SueldoNeto client:visible initialBruto={page.annualGross} />
       </div>
