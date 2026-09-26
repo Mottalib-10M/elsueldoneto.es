@@ -47,13 +47,17 @@ const EM_DASH = /\s*(?:\u2014|&mdash;|&#8212;)\s*/g;
 // Les dossiers d'archive ne sont pas servis : les corriger reviendrait a
 // travailler sur un site fantome.
 const ARCHIVES = new Set(['_archives', 'archive', 'archives', 'old', 'backup', 'node_modules']);
+// Caches de build : ce qui s'y trouve n'est jamais servi. Les contrôler revenait
+// à signaler 166 « fautes d'accent » dans des fichiers intermédiaires de Next
+// que personne ne lit (brutanet.fr, 2026-09-26).
+const CACHES = new Set(['.next', '.nuxt', '.svelte-kit', '.astro', '.cache', '.vercel', '.turbo']);
 
 async function* walk(d) {
   for (const e of await readdir(d, { withFileTypes: true })) {
     if (e.isDirectory() && ARCHIVES.has(e.name)) continue;
     const p = join(d, e.name);
     // node_modules contient des .html de documentation : ils ne font pas partie du site
-    if (e.isDirectory()) { if (e.name !== 'node_modules' && e.name !== '.git') yield* walk(p); }
+    if (e.isDirectory()) { if (e.name !== 'node_modules' && e.name !== '.git' && !CACHES.has(e.name)) yield* walk(p); }
     else if (e.name.endsWith('.html')) yield p;
   }
 }
@@ -70,7 +74,7 @@ function fix(html) {
   // déclaré à Google. Le sauter faisait diverger la réponse déclarée de la
   // réponse affichée, ce que le contrôle §7 signale (2026-09-25).
   const pile = [];
-  const out = html.split(/(<[^>]+>)/).map((part) => {
+  const out = html.split(/(<[a-zA-Z!\/][^>]*>)/).map((part) => {
     if (part.startsWith('<')) {
       const m = part.match(/^<(\/?)(script|style|pre|textarea|astro-island|code|kbd)\b/i);
       if (m) {
@@ -114,11 +118,17 @@ function fix(html) {
 const DOT_DECIMAL = /(?<![\d.,’'\w])(?<!(?:art\.?|artikel|Art\.?|§|Abs\.?|al\.|Form\.?|art[ií]culos?|Art[ií]culos?|articles?|Articles?|artigos?|Artigos?)\s?)(?<!\d\.\d[\d.a-z)]*,?\s(?:y|e|et|and|und|o|ou)\s)(?<!(?:Mémento|Merkblatt|Memento)[^\d]{0,14})(?<!(?:ECE|norme|\^|Ducato|\d\.\d\d ou|version|TLS|ETH|RGAA|WCAG|HTTP|Web)\s?)(?:\d{1,3}(?:['’]\d{3})+|\d+)\.\d{1,2}(?![\d.\w])(?!\s(?:[A-Z][a-zé]|TSI|TDI|TFSI|TCe|PureTech|BlueHDi|dCi|HDi|THP|hybride|essence|diesel|ou\s\d))/g;
 /** Texte réellement lu par le visiteur : hors script, style et code. */
 function texteVisible(html) {
+  // Les blocs script et style partent d'abord, en bloc : un script minifié
+  // contient des « i<n » que le découpage en balises prend pour une balise
+  // ouvrante, ce qui lui fait avaler le « </script> » fermant. Le compteur
+  // passait alors à -1 et tout le CSS et le JavaScript de la suite du document
+  // ressortait comme du texte visible (salairebrutonet.com, 2026-09-26).
+  html = html.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ');
   let skip = 0;
-  return html.split(/(<[^>]+>)/).map((part) => {
+  return html.split(/(<[a-zA-Z!\/][^>]*>)/).map((part) => {
     if (part.startsWith('<')) {
       const m = part.match(/^<(\/?)(script|style|pre|textarea|astro-island|code|kbd)\b/i);
-      if (m) skip += m[1] ? -1 : (part.endsWith('/>') ? 0 : 1);
+      if (m) skip = Math.max(0, skip + (m[1] ? -1 : (part.endsWith('/>') ? 0 : 1)));
       return ' ';
     }
     return skip > 0 ? ' ' : part;
@@ -174,13 +184,27 @@ function missingAccents(html) {
   return hits.some((m) => !ambigu(m)) ? hits : [];
 }
 
+// Une page réhydratée par React ne peut pas être retouchée après le rendu :
+// le client reconstruit le même arbre à partir de son propre code, compare le
+// texte servi au texte qu'il produit, et une virgule mise à la place d'un tiret
+// cadratin lui suffit pour lever l'erreur #418 et jeter le HTML reçu. Relevé sur
+// dosageguide.com le 2026-09-25 : 639 pages, une erreur d'hydratation sur
+// chacune, causée par ce script. Sur ces sites, la typographie se corrige dans
+// les sources ; ici on ne touche à rien et on le dit.
+const HYDRATE = /self\.__next_f|__NEXT_DATA__|window\.__remixContext|data-reactroot/;
+
 let total = 0, files = 0, dots = 0, corrigees = 0; const dotPages = [];
 let accents = 0; const accentPages = [];
 let tirets = 0; const tiretPages = [];
+let hydratees = 0;
 for await (const f of walk(dist)) {
   const html = await readFile(f, 'utf8');
+  // Une page réhydratée n'est pas réécrite, mais elle reste contrôlée : taire le
+  // défaut reviendrait à supprimer la règle pour les sites Next.
+  const hydratee = HYDRATE.test(html);
+  if (hydratee) hydratees++;
   const { out, count, decimales, cadratins } = fix(html);
-  if (count || decimales || cadratins) { total += count; corrigees += decimales; files++; if (!CHECK) await writeFile(f, out); }
+  if (count || decimales || cadratins) { total += count; corrigees += decimales; files++; if (!CHECK && !hydratee) await writeFile(f, out); }
   if (cadratins) { tirets += cadratins; if (tiretPages.length < 10) tiretPages.push(`${f} : ${cadratins}`); }
   if (CHECK) {
     const { lang, hits } = dotDecimals(html);
@@ -190,6 +214,11 @@ for await (const f of walk(dist)) {
     const miss = missingAccents(html);
     if (miss.length) { accents += miss.length; accentPages.push(`${f} : ${[...new Set(miss)].slice(0, 4).join(', ')}`); }
   }
+}
+if (hydratees) {
+  console.log(`typo-nbsp: ${hydratees} page(s) réhydratées par React, laissées intactes `
+    + `— les retoucher après le rendu casse l'hydratation (React #418). `
+    + `Corriger la typographie dans les sources.`);
 }
 console.log(`typo-nbsp: ${total} espace(s) ${CHECK ? 'à corriger' : 'rendue(s) insécable(s)'} dans ${files} page(s)`);
 if (!CHECK && corrigees) console.log(`typo-nbsp: ${corrigees} décimale(s) passée(s) à la virgule`);
