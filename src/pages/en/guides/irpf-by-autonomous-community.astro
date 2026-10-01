@@ -1,5 +1,19 @@
 ---
 import Layout from '../../../components/layout/Layout.astro';
+import { calcularSueldoNeto } from '../../../lib/irpf-engine';
+import { comunidadesAutonomas } from '../../../data/comunidades-autonomas';
+const eu0 = (x: number) => (x < 0 ? '-' : '') + '€' + Math.abs(Math.round(x)).toLocaleString('en-US');
+const EN_NAMES: Record<string, string> = { AN: 'Andalusia', AR: 'Aragon', AS: 'Asturias', IB: 'Balearic Islands', CN: 'Canary Islands', CB: 'Cantabria', CL: 'Castilla y Leon', CM: 'Castilla-La Mancha', CT: 'Catalonia', VC: 'Valencia', EX: 'Extremadura', GA: 'Galicia', MD: 'Madrid', MC: 'Murcia', RI: 'La Rioja' };
+/** The fifteen common-regime communities, ranked by net pay for a given gross (single, no children). */
+const ranking = (gross: number) =>
+  comunidadesAutonomas
+    .filter((c) => EN_NAMES[c.codigo])
+    .map((c) => ({ name: EN_NAMES[c.codigo], r: calcularSueldoNeto(gross, c.codigo) }))
+    .sort((a, b) => b.r.netoAnual - a.r.netoAnual);
+const R40 = ranking(40000);
+const gap = (gross: number) => { const L = ranking(gross); return L[0].r.netoAnual - L[L.length - 1].r.netoAnual; };
+const names = (gross: number, from: number, to: number) => ranking(gross).slice(from, to).map((x) => x.name).join(', ');
+const MD45 = calcularSueldoNeto(45000, 'MD'), CT45 = calcularSueldoNeto(45000, 'CT');
 import { CURRENT_FISCAL_YEAR } from '../../../config';
 import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../../lib/seo';
 import AuthorByline from '../../../components/layout/AuthorByline.astro';
@@ -22,6 +36,7 @@ const schemas = [
   buildFAQSchema(faqs, 'en'),
   buildArticleSchema(title, description, Astro.url.pathname, 'en'),
 ];
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
@@ -42,10 +57,12 @@ const schemas = [
       <p>
         One of the most debated aspects of Spanish taxation is how much your take-home pay varies depending on where you live. Since each autonomous community sets its own regional IRPF brackets, two workers earning the same gross salary can receive noticeably different net pay. This guide ranks the communities, explains the foral regimes of the Basque Country and Navarra, and provides a practical comparison between Madrid and Catalonia. The state half of the IRPF is identical everywhere except in the Basque Country and Navarre, which run their own complete tax systems, so the whole variation comes from the regional half and from regional deductions. Madrid applies the lightest scale in the country; Catalonia and Valencia sit at the heavier end. Regional credits then complicate the ranking: several communities give relief for rent, for children under three or for education costs, and those credits can be worth more to a middle income than the difference in rates.
       </p>
+<MiniSimAutonome client:visible kind="ccaa" lang="en" locale="en-GB" href="/en/" />
+
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Community Rankings by Net Salary</h2>
       <p>
-        For a gross salary of €35,000, the communities typically rank as follows from highest to lowest net salary: Madrid, Canary Islands, Andalusia (after its recent rate cuts), Castilla y León, and Galicia at the top. In the middle are communities like Aragón, Murcia, and Castilla-La Mancha. At the higher end of taxation sit Catalonia, Valencia, Asturias, and La Rioja. The differences for a €35,000 salary may seem modest (€300-€800 per year), but they grow significantly at higher income levels, reaching several thousand euros per year for salaries above €80,000.
+        For a gross salary of €35,000, the highest net salaries are found in {names(35000, 0, 5)}. At the other end sit {names(35000, 11, 15)}. The gap between first and last is {eu0(gap(35000))} per year at this level, but it grows at higher incomes, reaching {eu0(gap(80000))} at €80,000 and {eu0(gap(120000))} at €120,000. These figures apply the official {CURRENT_FISCAL_YEAR} regional scales with the state personal minimum; a few communities raise that minimum slightly.
       </p>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Foral Regimes: Basque Country and Navarra</h2>
@@ -55,12 +72,12 @@ const schemas = [
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Practical Example: Madrid vs. Catalonia</h2>
       <p>
-        Consider a single worker with no children earning €45,000 gross per year. In Madrid, the combined state and regional IRPF rate tops out at about 43.50% for the highest bracket, compared to approximately 48% in Catalonia. After applying all brackets and the personal minimum, the Madrid worker would pay roughly €700-€900 less in IRPF annually. Additionally, Madrid has no regional wealth tax, while Catalonia applies one above €500,000 in assets. For high earners or those with significant savings, the cumulative difference can be substantial over a career.
+        Consider a single worker with no children earning €45,000 gross per year. In Madrid, the combined state and regional rate tops out at 45% for the highest bracket, compared with 50% in Catalonia. After applying all brackets and the personal minimum, the Madrid worker pays {eu0(CT45.irpfTotalAnual - MD45.irpfTotalAnual)} less in IRPF over the year. Additionally, Madrid fully rebates its regional wealth tax, while Catalonia applies one above €500,000 in assets. For high earners or those with significant savings, the cumulative difference can be substantial over a career.
       </p>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Complete Regional Comparison at €40,000 Gross Salary</h2>
       <p>
-        The following table shows the approximate annual IRPF bill and resulting net salary for a single worker with no dependents earning €40,000 gross in each of Spain's 17 autonomous communities (excluding the foral regimes). Social Security deductions of €2,588 are already factored in, leaving a taxable base of approximately €37,412:
+        The following table shows the annual IRPF bill and resulting net salary for a single worker with no dependents earning €40,000 gross in each of Spain's 15 common-regime communities (the foral regimes are excluded). Social Security deductions of {eu0(R40[0].r.seguridadSocialAnual)} and the €2,000 work-expense allowance are already factored in, leaving a taxable base of {eu0(R40[0].r.baseImponible)}:
       </p>
       <div class="overflow-x-auto">
         <table class="min-w-full border-collapse text-sm">
@@ -73,101 +90,19 @@ const schemas = [
             </tr>
           </thead>
           <tbody>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Madrid</td>
-              <td class="py-2 pr-4 text-right">€7,350</td>
-              <td class="py-2 pr-4 text-right">€30,062</td>
-              <td class="py-2 text-right">--</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Canary Islands</td>
-              <td class="py-2 pr-4 text-right">€7,510</td>
-              <td class="py-2 pr-4 text-right">€29,902</td>
-              <td class="py-2 text-right">-€160</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Andalusia</td>
-              <td class="py-2 pr-4 text-right">€7,580</td>
-              <td class="py-2 pr-4 text-right">€29,832</td>
-              <td class="py-2 text-right">-€230</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Castilla y Leon</td>
-              <td class="py-2 pr-4 text-right">€7,620</td>
-              <td class="py-2 pr-4 text-right">€29,792</td>
-              <td class="py-2 text-right">-€270</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Galicia</td>
-              <td class="py-2 pr-4 text-right">€7,660</td>
-              <td class="py-2 pr-4 text-right">€29,752</td>
-              <td class="py-2 text-right">-€310</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Murcia</td>
-              <td class="py-2 pr-4 text-right">€7,700</td>
-              <td class="py-2 pr-4 text-right">€29,712</td>
-              <td class="py-2 text-right">-€350</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Aragon</td>
-              <td class="py-2 pr-4 text-right">€7,740</td>
-              <td class="py-2 pr-4 text-right">€29,672</td>
-              <td class="py-2 text-right">-€390</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Castilla-La Mancha</td>
-              <td class="py-2 pr-4 text-right">€7,760</td>
-              <td class="py-2 pr-4 text-right">€29,652</td>
-              <td class="py-2 text-right">-€410</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Extremadura</td>
-              <td class="py-2 pr-4 text-right">€7,810</td>
-              <td class="py-2 pr-4 text-right">€29,602</td>
-              <td class="py-2 text-right">-€460</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Balearic Islands</td>
-              <td class="py-2 pr-4 text-right">€7,830</td>
-              <td class="py-2 pr-4 text-right">€29,582</td>
-              <td class="py-2 text-right">-€480</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Cantabria</td>
-              <td class="py-2 pr-4 text-right">€7,850</td>
-              <td class="py-2 pr-4 text-right">€29,562</td>
-              <td class="py-2 text-right">-€500</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">La Rioja</td>
-              <td class="py-2 pr-4 text-right">€7,880</td>
-              <td class="py-2 pr-4 text-right">€29,532</td>
-              <td class="py-2 text-right">-€530</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Asturias</td>
-              <td class="py-2 pr-4 text-right">€7,920</td>
-              <td class="py-2 pr-4 text-right">€29,492</td>
-              <td class="py-2 text-right">-€570</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Catalonia</td>
-              <td class="py-2 pr-4 text-right">€7,980</td>
-              <td class="py-2 pr-4 text-right">€29,432</td>
-              <td class="py-2 text-right">-€630</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Valencia</td>
-              <td class="py-2 pr-4 text-right">€8,050</td>
-              <td class="py-2 pr-4 text-right">€29,362</td>
-              <td class="py-2 text-right">-€700</td>
-            </tr>
+            {R40.map(({ name, r }, i) => (
+              <tr class="border-b border-gray-200 dark:border-gray-700">
+                <td class="py-2 pr-4">{name}</td>
+                <td class="py-2 pr-4 text-right">{eu0(r.irpfTotalAnual)}</td>
+                <td class="py-2 pr-4 text-right">{eu0(r.netoAnual)}</td>
+                <td class="py-2 text-right">{i === 0 ? '--' : eu0(r.netoAnual - R40[0].r.netoAnual)}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
       <p>
-        At €40,000 gross, the difference between Madrid (the lowest-taxed community) and Valencia (among the highest) is approximately €700 per year. While this may seem modest, the gap widens dramatically at higher salaries. At €80,000 gross, the difference can exceed €2,000 per year, and at €120,000 it can surpass €4,000.
+        At €40,000 gross, the difference between {R40[0].name} (the lowest-taxed community) and {R40[R40.length - 1].name} (the highest at this level) is {eu0(gap(40000))} per year. The gap widens at higher salaries: {eu0(gap(80000))} at €80,000 gross and {eu0(gap(120000))} at €120,000.
       </p>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">The Foral Regimes Explained: Basque Country and Navarre</h2>
@@ -220,7 +155,7 @@ const schemas = [
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Impact at Higher Salary Levels</h2>
       <p>
-        The regional differences become far more pronounced at higher income levels. For a worker earning €80,000 gross per year, the annual IRPF difference between Madrid and Valencia can exceed €2,100. At €120,000, the gap widens to approximately €3,800-€4,200. For someone earning €200,000, the cumulative difference over a 10-year career between Madrid and a high-tax community like Catalonia or Valencia can reach €40,000 or more. These are substantial sums that can affect major financial decisions such as retirement savings, property purchases, or investment strategies. For high earners, it is worth consulting a tax advisor who can model the specific numbers for your situation, taking into account not just IRPF but also the Wealth Tax, which Madrid fully exempts and most other communities charge on net assets above €700,000.
+        The regional differences become far more pronounced at higher income levels. For a worker earning €80,000 gross per year, the gap between the most and least favourable community is {eu0(gap(80000))}. At €120,000 it reaches {eu0(gap(120000))}, and at €200,000 it is {eu0(gap(200000))} a year, close to {eu0(gap(200000) * 10)} over a ten-year period. These are substantial sums that can affect major financial decisions such as retirement savings, property purchases, or investment strategies. For high earners, it is worth consulting a tax advisor who can model the specific numbers for your situation.
       </p>
     </div>
 

@@ -1,5 +1,17 @@
 ---
 import Layout from '../../../components/layout/Layout.astro';
+import { retaTramos2026 } from '../../../data/seguridad-social-2026';
+const usdReta = (x: number) => '€' + x.toLocaleString('en-US', { minimumFractionDigits: Number.isInteger(x) ? 0 : 2, maximumFractionDigits: 2 });
+import { calcularNetoAutonomo } from '../../../lib/autonomo-engine';
+const usd0 = (x: number) => '€' + Math.round(x).toLocaleString('en-US');
+const escenario = (netoMensual: number) => {
+  const r = calcularNetoAutonomo(netoMensual * 12, 0, 'MD');
+  const t = retaTramos2026.find((x) => netoMensual <= x.hastaIngresos)!;
+  return { r, t, pagoTrimestral: (r.baseImponible / 4) * 0.2 };
+};
+const E1 = escenario(1800);
+const E2 = escenario(3500);
+const E3 = escenario(6500);
 import { CURRENT_FISCAL_YEAR } from '../../../config';
 import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../../lib/seo';
 import AuthorByline from '../../../components/layout/AuthorByline.astro';
@@ -8,7 +20,7 @@ const title = `Self-Employed Contributions Spain ${CURRENT_FISCAL_YEAR}: Autóno
 const description = 'All 15 income brackets for autónomo Social Security contributions, exact monthly quotas, flat rate for new freelancers, deductible expenses and IRPF filing.';
 
 const faqs = [
-  { question: 'How much do self-employed workers pay in Social Security?', answer: `Since 2023, self-employed contributions in Spain are based on real net income. There are 15 brackets, with monthly quotas ranging from approximately €230 for the lowest earners (under €670/month net) to over €530 for those earning above €6,000/month net. The exact amounts are updated each year.` },
+  { question: 'How much do self-employed workers pay in Social Security?', answer: `Since 2023, self-employed contributions in Spain are based on real net income. There are 15 brackets, with minimum monthly quotas ranging from €205.88 for the lowest earners (under €670/month net) to €607.35 for those earning above €6,000/month net. The exact amounts are updated each year.` },
   { question: 'What is the flat rate (tarifa plana) for new autónomos?', answer: 'New self-employed workers who have not been registered as autónomos in the previous two years can benefit from a flat rate of €80/month during their first 12 months. This can be extended for another 12 months if net income remains below the minimum wage.' },
   { question: 'What expenses can autónomos deduct?', answer: 'Common deductible expenses include Social Security contributions, professional supplies, office rent, internet and phone bills (proportional to business use), professional training, accounting and legal fees, travel expenses, and depreciation of business assets. All expenses must be properly documented with valid invoices.' },
 ];
@@ -22,6 +34,7 @@ const schemas = [
   buildFAQSchema(faqs, 'en'),
   buildArticleSchema(title, description, Astro.url.pathname, 'en'),
 ];
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
@@ -42,10 +55,12 @@ const schemas = [
       <p>
         Being self-employed (<em>autónomo</em>) in Spain means managing your own Social Security contributions, IRPF payments, and VAT filings. Since the 2023 reform, contributions are based on real net income rather than a freely chosen base, bringing the system closer to how employees are taxed. This guide explains the new bracket system, the flat rate for beginners, and the expenses you can deduct. The reform replaced a freely chosen base with fifteen brackets tied to real net earnings, running from roughly 200 EUR to over 500 EUR a month, and it lets you adjust your bracket up to six times a year as your income changes. Social Security regularises the year afterwards against your declared earnings, refunding or claiming the difference. Income tax is paid quarterly in advance and settled in the annual return, and deductible expenses are what separate gross revenue from the net figure both the contribution and the tax are based on.
       </p>
+<MiniSimAutonome client:visible kind="autonomos" lang="en" locale="en-GB" href="/en/" />
+
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">The 15 Contribution Brackets</h2>
       <p>
-        The new system divides autónomo net monthly income into 15 brackets. Net income is calculated as gross revenue minus deductible expenses, with an additional flat 7% deduction for general expenses (3% for corporate autónomos). Each bracket has a minimum and maximum contribution base, and you pay roughly 31.2% of your chosen base within that range. For example, someone earning between €1,300 and €1,500 net per month in {CURRENT_FISCAL_YEAR} would have a minimum base around €950 and pay approximately €296/month. The system incentivizes accurate income reporting, as Social Security reconciles your estimated contributions with your actual tax return.
+        The new system divides autónomo net monthly income into 15 brackets. Net income is calculated as gross revenue minus deductible expenses, with an additional flat 7% deduction for general expenses (3% for corporate autónomos). Each bracket has a minimum and maximum contribution base, and you pay 31.5% of your chosen base within that range. For example, someone earning between €1,300 and €1,500 net per month in {CURRENT_FISCAL_YEAR} would have a minimum base around €950 and pay approximately €296/month. The system incentivizes accurate income reporting, as Social Security reconciles your estimated contributions with your actual tax return.
       </p>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">The Flat Rate for New Freelancers</h2>
@@ -74,111 +89,15 @@ const schemas = [
             </tr>
           </thead>
           <tbody>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">1</td>
-              <td class="py-2 pr-4">Up to €670</td>
-              <td class="py-2 pr-4 text-right">€735.29</td>
-              <td class="py-2 pr-4 text-right">€816.98</td>
-              <td class="py-2 text-right">€230</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">2</td>
-              <td class="py-2 pr-4">€670 - €900</td>
-              <td class="py-2 pr-4 text-right">€816.99</td>
-              <td class="py-2 pr-4 text-right">€900.00</td>
-              <td class="py-2 text-right">€260</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">3</td>
-              <td class="py-2 pr-4">€900 - €1,166.70</td>
-              <td class="py-2 pr-4 text-right">€872.55</td>
-              <td class="py-2 pr-4 text-right">€1,166.70</td>
-              <td class="py-2 text-right">€275</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">4</td>
-              <td class="py-2 pr-4">€1,166.70 - €1,300</td>
-              <td class="py-2 pr-4 text-right">€950.98</td>
-              <td class="py-2 pr-4 text-right">€1,300.00</td>
-              <td class="py-2 text-right">€291</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">5</td>
-              <td class="py-2 pr-4">€1,300 - €1,500</td>
-              <td class="py-2 pr-4 text-right">€960.78</td>
-              <td class="py-2 pr-4 text-right">€1,500.00</td>
-              <td class="py-2 text-right">€294</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">6</td>
-              <td class="py-2 pr-4">€1,500 - €1,700</td>
-              <td class="py-2 pr-4 text-right">€960.78</td>
-              <td class="py-2 pr-4 text-right">€1,700.00</td>
-              <td class="py-2 text-right">€294</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">7</td>
-              <td class="py-2 pr-4">€1,700 - €1,850</td>
-              <td class="py-2 pr-4 text-right">€1,013.07</td>
-              <td class="py-2 pr-4 text-right">€1,850.00</td>
-              <td class="py-2 text-right">€310</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">8</td>
-              <td class="py-2 pr-4">€1,850 - €2,030</td>
-              <td class="py-2 pr-4 text-right">€1,029.41</td>
-              <td class="py-2 pr-4 text-right">€2,030.00</td>
-              <td class="py-2 text-right">€315</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">9</td>
-              <td class="py-2 pr-4">€2,030 - €2,330</td>
-              <td class="py-2 pr-4 text-right">€1,045.75</td>
-              <td class="py-2 pr-4 text-right">€2,330.00</td>
-              <td class="py-2 text-right">€320</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">10</td>
-              <td class="py-2 pr-4">€2,330 - €2,760</td>
-              <td class="py-2 pr-4 text-right">€1,078.43</td>
-              <td class="py-2 pr-4 text-right">€2,760.00</td>
-              <td class="py-2 text-right">€330</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">11</td>
-              <td class="py-2 pr-4">€2,760 - €3,190</td>
-              <td class="py-2 pr-4 text-right">€1,143.79</td>
-              <td class="py-2 pr-4 text-right">€3,190.00</td>
-              <td class="py-2 text-right">€350</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">12</td>
-              <td class="py-2 pr-4">€3,190 - €3,620</td>
-              <td class="py-2 pr-4 text-right">€1,209.15</td>
-              <td class="py-2 pr-4 text-right">€3,620.00</td>
-              <td class="py-2 text-right">€370</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">13</td>
-              <td class="py-2 pr-4">€3,620 - €4,050</td>
-              <td class="py-2 pr-4 text-right">€1,274.51</td>
-              <td class="py-2 pr-4 text-right">€4,050.00</td>
-              <td class="py-2 text-right">€390</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">14</td>
-              <td class="py-2 pr-4">€4,050 - €6,000</td>
-              <td class="py-2 pr-4 text-right">€1,372.55</td>
-              <td class="py-2 pr-4 text-right">€4,495.50</td>
-              <td class="py-2 text-right">€420</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">15</td>
-              <td class="py-2 pr-4">Over €6,000</td>
-              <td class="py-2 pr-4 text-right">€1,633.99</td>
-              <td class="py-2 pr-4 text-right">€4,495.50</td>
-              <td class="py-2 text-right">€500+</td>
-            </tr>
+            {retaTramos2026.map((t) => (
+              <tr class="border-b border-gray-200 dark:border-gray-700">
+                <td class="py-2 pr-4">{t.tramo}</td>
+                <td class="py-2 pr-4">{t.tramo === 1 ? `Up to ${usdReta(t.hastaIngresos)}` : t.hastaIngresos === Infinity ? `Over ${usdReta(t.desdeIngresos)}` : `${usdReta(t.desdeIngresos)} – ${usdReta(t.hastaIngresos)}`}</td>
+                <td class="py-2 pr-4 text-right">{usdReta(t.baseMinima)}</td>
+                <td class="py-2 pr-4 text-right">{usdReta(t.baseMaxima)}</td>
+                <td class="py-2 text-right">{usdReta(t.cuotaMinima)}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -194,28 +113,28 @@ const schemas = [
       <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Scenario 1: Freelance Designer earning €1,800/month net</h3>
       <ul>
         <li>Income tranche: 7 (€1,700 - €1,850)</li>
-        <li>Monthly Social Security quota: approximately €310</li>
-        <li>Annual Social Security cost: €3,720</li>
-        <li>IRPF quarterly prepayment (20% of net profit after expenses): approximately €900/quarter</li>
-        <li>After Social Security and estimated IRPF, net take-home: approximately €1,180/month</li>
+        <li>Minimum monthly Social Security quota: {usdReta(E1.t.cuotaMinima)}</li>
+        <li>Annual Social Security cost: {usd0(E1.r.cuotaAnual)}</li>
+        <li>IRPF quarterly prepayment (20% of net profit after contributions): approximately {usd0(E1.pagoTrimestral)}/quarter</li>
+        <li>After Social Security and estimated IRPF (Madrid, single, no children): approximately {usd0(E1.r.netoMensual)}/month</li>
       </ul>
 
       <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Scenario 2: IT Consultant earning €3,500/month net</h3>
       <ul>
-        <li>Income tranche: 11 (€2,760 - €3,190) or 12 (€3,190 - €3,620) depending on deductions</li>
-        <li>Monthly Social Security quota: approximately €350-€370</li>
-        <li>Annual Social Security cost: €4,200-€4,440</li>
-        <li>IRPF quarterly prepayment: approximately €1,750/quarter</li>
-        <li>After all costs, net take-home: approximately €2,300/month</li>
+        <li>Income tranche: 12 (€3,190 - €3,620)</li>
+        <li>Minimum monthly Social Security quota: {usdReta(E2.t.cuotaMinima)}</li>
+        <li>Annual Social Security cost: {usd0(E2.r.cuotaAnual)}</li>
+        <li>IRPF quarterly prepayment (20% of net profit after contributions): approximately {usd0(E2.pagoTrimestral)}/quarter</li>
+        <li>After Social Security and estimated IRPF (Madrid, single, no children): approximately {usd0(E2.r.netoMensual)}/month</li>
       </ul>
 
       <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Scenario 3: Senior Developer earning €6,500/month net</h3>
       <ul>
         <li>Income tranche: 15 (over €6,000)</li>
-        <li>Monthly Social Security quota: approximately €500+</li>
-        <li>Annual Social Security cost: €6,000+</li>
-        <li>IRPF quarterly prepayment: approximately €3,250/quarter</li>
-        <li>After all costs, net take-home: approximately €3,750/month</li>
+        <li>Minimum monthly Social Security quota: {usdReta(E3.t.cuotaMinima)}</li>
+        <li>Annual Social Security cost: {usd0(E3.r.cuotaAnual)}</li>
+        <li>IRPF quarterly prepayment (20% of net profit after contributions): approximately {usd0(E3.pagoTrimestral)}/quarter</li>
+        <li>After Social Security and estimated IRPF (Madrid, single, no children): approximately {usd0(E3.r.netoMensual)}/month</li>
       </ul>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Autonomo vs. Employee: Cost Comparison</h2>
@@ -234,8 +153,8 @@ const schemas = [
           <tbody>
             <tr class="border-b border-gray-200 dark:border-gray-700">
               <td class="py-2 pr-4">Social Security rate (employee/autonomo share)</td>
-              <td class="py-2 pr-4">6.47% of gross</td>
-              <td class="py-2 text-left">~31.2% of chosen base</td>
+              <td class="py-2 pr-4">6.50% of gross</td>
+              <td class="py-2 text-left">31.5% of chosen base</td>
             </tr>
             <tr class="border-b border-gray-200 dark:border-gray-700">
               <td class="py-2 pr-4">Employer Social Security cost</td>
@@ -284,7 +203,7 @@ const schemas = [
         <li>You are not a collaborating family member (<em>autonomo colaborador</em>) of another self-employed worker.</li>
       </ul>
       <p>
-        The €80/month rate applies for the first 12 months. After that, if your net income in the previous year was below the minimum wage (<em>SMI</em>, approximately €1,134/month in {CURRENT_FISCAL_YEAR}), the flat rate extends for an additional 12 months. After the flat-rate period ends, you transition to the income-based bracket system described above, paying the quota corresponding to your actual net income.
+        The €80/month rate applies for the first 12 months. After that, if your net income in the previous year was below the minimum wage (<em>SMI</em>, €1,221/month in 14 payments in {CURRENT_FISCAL_YEAR}), the flat rate extends for an additional 12 months. After the flat-rate period ends, you transition to the income-based bracket system described above, paying the quota corresponding to your actual net income.
       </p>
       <p>
         Certain autonomous communities (such as Madrid, Andalusia, and Murcia) offer additional top-up subsidies that can reduce the effective cost to near zero during the first year. Check your community's entrepreneurship incentives, as these change frequently.

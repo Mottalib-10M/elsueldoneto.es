@@ -37,6 +37,7 @@ const faqPage = [
 ];
 const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
 import ContextoFiscal from '../../components/ContextoFiscal.astro';
+import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} schema={schemas}>
@@ -53,6 +54,8 @@ import ContextoFiscal from '../../components/ContextoFiscal.astro';
       Consulta el sueldo neto aproximado para los importes brutos más buscados en España.
       Cada enlace lleva a una página detallada con desglose por comunidad autónoma y situación familiar. Cada página parte de un salario bruto anual y baja hasta el neto mensual, aplicando la Seguridad Social al 6,35 % en un contrato indefinido estándar, las escalas estatal y autonómica del IRPF, y el mínimo personal y familiar. El resultado se muestra para las diecisiete comunidades autónomas, porque es en la mitad autonómica del impuesto donde aparecen las diferencias, y para las situaciones familiares más frecuentes. Las cifras suponen doce o catorce pagas según se indique, sin retribución en especie ni deducciones distintas de las generales. Quien tenga coche de empresa, stock options o un segundo pagador verá una cifra distinta, y conviene que un asesor confirme cualquier decisión que dependa de ella.
     </p>
+<MiniSimAutonome client:visible kind="neto" lang="es" locale="es-ES" href="/" />
+
 
     <section class="mb-10">
       <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">Por salario mensual</h2>

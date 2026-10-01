@@ -13,15 +13,15 @@ const faqs = [
   },
   {
     question: 'At what age can I retire in Spain?',
-    answer: `In ${CURRENT_FISCAL_YEAR}, if you have 38 or more years of contributions, you can retire at 65. With fewer years, the ordinary retirement age is 66 years and 8 months. From 2027 onwards, the system stabilises at 65 (with 38.5+ years contributed) or 67 (with fewer years).`,
+    answer: `In ${CURRENT_FISCAL_YEAR}, if you have at least 38 years and 3 months of contributions, you can retire at 65. With fewer, the ordinary retirement age is 66 years and 10 months. From 2027 onwards, the system stabilises at 65 (with 38.5+ years contributed) or 67 (with fewer years).`,
   },
   {
     question: 'How is the regulatory base (base reguladora) calculated?',
-    answer: 'The regulatory base is calculated by dividing the sum of your contribution bases for the last 25 years (300 months) by 350 (not 300, because the formula accounts for 14 annual payments). Contribution bases from more than 24 months before retirement are adjusted for inflation (CPI). Note that there is a maximum contribution base (currently €4,720.50/month) which caps both what you pay into the system and what you can receive.',
+    answer: 'The regulatory base is calculated by dividing the sum of your contribution bases for the last 25 years (300 months) by 350 (not 300, because the formula accounts for 14 annual payments). Contribution bases from more than 24 months before retirement are adjusted for inflation (CPI). Note that there is a maximum contribution base (€5,101.20/month in 2026) which caps both what you pay into the system and what you can receive.',
   },
   {
     question: 'What is the maximum pension in Spain?',
-    answer: `The maximum monthly pension in ${CURRENT_FISCAL_YEAR} is approximately €3,175.04 gross, which equals €44,450.56 per year across 14 payments (12 monthly plus 2 extra payments in June and December). Even if your regulatory base would produce a higher pension, this ceiling applies.`,
+    answer: `The maximum monthly pension in ${CURRENT_FISCAL_YEAR} is €3,359.60 gross, which equals €47,034.40 per year across 14 payments (12 monthly plus 2 extra payments in June and December). Even if your regulatory base would produce a higher pension, this ceiling applies.`,
   },
   {
     question: 'Does the calculator handle early retirement penalties?',
@@ -78,7 +78,7 @@ const faqs = [
         <li><strong>Specific minimum (carencia especifica):</strong> at least 2 of those 15 years must have been contributed within the 15 years immediately preceding retirement. This prevents people who contributed briefly decades ago and never worked again from accessing the pension.</li>
       </ul>
       <p>
-        If you do not meet these requirements, you may qualify for a non-contributory pension (significantly lower, around €517/month in 2025), subject to income and residency conditions.
+        If you do not meet these requirements, you may qualify for a non-contributory pension (significantly lower, €628.80/month in 2026), subject to income and residency conditions.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Retirement age: the transition to 2027</h3>
@@ -97,7 +97,7 @@ const faqs = [
           <tbody class="tabular-nums">
             <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2024</td><td class="px-3 py-1 text-right">38 years or more</td><td class="px-3 py-1 text-right">66 years 6 months</td></tr>
             <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2025</td><td class="px-3 py-1 text-right">38 years 3 months+</td><td class="px-3 py-1 text-right">66 years 8 months</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2026</td><td class="px-3 py-1 text-right">38 years or more</td><td class="px-3 py-1 text-right">66 years 8 months</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">2026</td><td class="px-3 py-1 text-right">38 years 3 months+</td><td class="px-3 py-1 text-right">66 years 10 months</td></tr>
             <tr><td class="px-3 py-1">2027 onwards</td><td class="px-3 py-1 text-right">38 years 6 months+</td><td class="px-3 py-1 text-right">67 years</td></tr>
           </tbody>
         </table>
@@ -117,7 +117,7 @@ const faqs = [
         Contribution bases from the 24 months immediately before retirement are taken at face value. Those from earlier months are adjusted by the Consumer Price Index (CPI) to account for inflation. This matters because a contribution base of €1,500 from 20 years ago has different purchasing power than €1,500 today.
       </p>
       <p>
-        It is important to distinguish between contribution base and gross salary. The contribution base includes gross monthly salary plus the proportional share of bonus payments, but is capped at the maximum contribution base (€4,720.50/month in 2025). Earners above this cap contribute only up to the ceiling, which limits their future regulatory base and pension.
+        It is important to distinguish between contribution base and gross salary. The contribution base includes gross monthly salary plus the proportional share of bonus payments, but is capped at the maximum contribution base (€5,101.20/month in 2026). Earners above this cap contribute only up to the ceiling, which limits their future regulatory base and pension.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Pension percentage by years of contribution</h3>
@@ -198,7 +198,7 @@ const faqs = [
         Spain's pension system faces unprecedented demographic challenges. To shore up its finances, the 2023 reform (Law 21/2023) introduced several measures:
       </p>
       <ul class="list-disc ml-4 space-y-2">
-        <li><strong>Intergenerational Equity Mechanism (MEI):</strong> an additional contribution of 0.7% on the contribution base (0.58% employer, 0.12% employee), rising progressively to 1.2% by 2029. The funds go to the Social Security Reserve Fund to absorb the baby boom retirement wave.</li>
+        <li><strong>Intergenerational Equity Mechanism (MEI):</strong> an additional contribution of 0.90% on the contribution base in 2026 (0.75% employer, 0.15% employee), rising progressively to 1.2% by 2029. The funds go to the Social Security Reserve Fund to absorb the baby boom retirement wave.</li>
         <li><strong>Solidarity contribution:</strong> from 2025, earnings above the maximum contribution base attract an additional levy (starting at 0.92%, rising to 1.17% by 2045) without generating additional pension rights.</li>
         <li><strong>Automatic CPI revaluation:</strong> since 2022, pensions are adjusted annually in line with CPI, ensuring they maintain purchasing power. This replaced the previous system that often raised pensions below inflation.</li>
         <li><strong>Progressive uncapping of maximum bases:</strong> the maximum contribution base will increase above CPI each year, accumulating an additional 1.2% annually until 2050, gradually raising both contributions and future maximum pensions.</li>

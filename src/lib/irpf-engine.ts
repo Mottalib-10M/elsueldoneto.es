@@ -9,6 +9,7 @@ import {
   tramosEstatales2026,
   minimoPersonal2026,
   reduccionRendimientosTrabajo2026,
+  deduccionSMI2026,
   gastosDeduciblesTrabajo2026,
   regimenBeckham2026,
   type TramoIRPF,
@@ -148,14 +149,20 @@ export function calcularReduccionRendimientosTrabajo(
     return r.reduccionMaxima;
   }
 
-  if (rendimientosNetosTrabajo <= r.limiteSuperior) {
-    return Math.max(
-      0,
-      r.reduccionMaxima - r.coeficiente * (rendimientosNetosTrabajo - r.limiteInferior)
-    );
+  if (rendimientosNetosTrabajo <= r.limiteMedio) {
+    return r.reduccionMaxima - r.coeficienteMedio * (rendimientosNetosTrabajo - r.limiteInferior);
   }
-
+  if (rendimientosNetosTrabajo <= r.limiteSuperior) {
+    return Math.max(0, r.reduccionMedia - r.coeficiente * (rendimientosNetosTrabajo - r.limiteMedio));
+  }
   return 0;
+}
+
+/** Deducción de la disposición adicional 61.ª LIRPF, que deja sin tributar el salario mínimo. */
+export function calcularDeduccionSMI(brutoAnual: number): number {
+  const d = deduccionSMI2026;
+  if (brutoAnual <= d.hasta) return d.importe;
+  return Math.max(0, d.importe - d.coeficiente * (brutoAnual - d.hasta));
 }
 
 // ── Seguridad Social ────────────────────────────────────────────────────────
@@ -176,7 +183,16 @@ export function calcularSeguridadSocialAnual(
        seguridadSocial2026.empleado.formacionProfesional +
        seguridadSocial2026.empleado.mei);
 
-  return baseMensual * tipo * 12;
+  // Cuota de solidaridad : solo sobre la parte de la retribución mensual que supera la base máxima
+  let solidaridad = 0;
+  let desde = seguridadSocial2026.baseMaximaMensual;
+  const mensual = brutoAnual / 12;
+  for (const tramo of seguridadSocial2026.solidaridad) {
+    if (mensual <= desde) break;
+    solidaridad += (Math.min(mensual, tramo.hastaMensual) - desde) * tramo.empleado;
+    desde = tramo.hastaMensual;
+  }
+  return (baseMensual * tipo + solidaridad) * 12;
 }
 
 // ── Main IRPF calculation ───────────────────────────────────────────────────
@@ -215,11 +231,19 @@ export function calcularIRPF(
   // Common regime: calculate state and autonomic portions separately
   const impuestoEstatal = calcularImpuestoProgresivo(baseImponible, tramosEstatales2026);
   const cuotaMinimoEstatal = calcularImpuestoProgresivo(minimoPersonalFamiliar, tramosEstatales2026);
-  const estatal = Math.max(0, impuestoEstatal - cuotaMinimoEstatal);
+  let estatal = Math.max(0, impuestoEstatal - cuotaMinimoEstatal);
 
   const impuestoAutonomico = calcularImpuestoProgresivo(baseImponible, comunidad.tramos);
   const cuotaMinimoAutonomico = calcularImpuestoProgresivo(minimoPersonalFamiliar, comunidad.tramos);
-  const autonomico = Math.max(0, impuestoAutonomico - cuotaMinimoAutonomico);
+  let autonomico = Math.max(0, impuestoAutonomico - cuotaMinimoAutonomico);
+
+  // Deducción por rendimientos del trabajo (salarios próximos al SMI) : reduce la cuota, repartida entre ambas partes
+  const cuotaPrevia = estatal + autonomico;
+  if (cuotaPrevia > 0) {
+    const factor = Math.max(0, cuotaPrevia - calcularDeduccionSMI(brutoAnual)) / cuotaPrevia;
+    estatal *= factor;
+    autonomico *= factor;
+  }
 
   let bonificacion = 0;
   // Ceuta and Melilla: 50% bonus on total tax

@@ -20,17 +20,17 @@ const noticias = [
   {
     date: '2026-01-08',
     title: `Cuotas de autónomos ${CURRENT_FISCAL_YEAR}: tercera fase del sistema por ingresos reales`,
-    summary: `El sistema de cotización por ingresos reales entra en su tercera fase en ${CURRENT_FISCAL_YEAR}. Los 15 tramos se ajustan con cuotas mínimas desde 200 euros hasta 590 euros mensuales.`,
+    summary: `El sistema de cotización por ingresos reales entra en su tercera fase en ${CURRENT_FISCAL_YEAR}. Los 15 tramos mantienen las bases de 2025 y el MEI sube al 0,90 %: las cuotas mínimas van de 205,88 a 607,35 euros mensuales.`,
   },
   {
     date: '2026-01-05',
-    title: `SMI ${CURRENT_FISCAL_YEAR}: el salario mínimo interprofesional sube un 4%`,
-    summary: `El salario mínimo interprofesional se sitúa en 1.184 euros mensuales (14 pagas). Analizamos el impacto en las cotizaciones, prestaciones por desempleo y complementos salariales.`,
+    title: `SMI ${CURRENT_FISCAL_YEAR}: el salario mínimo interprofesional sube un 3,1%`,
+    summary: `El salario mínimo interprofesional se sitúa en 1.221 euros mensuales (14 pagas), 17.094 euros al año, y sigue sin tributar en el IRPF gracias a una deducción de hasta 590,89 euros. Analizamos el impacto en las cotizaciones, prestaciones por desempleo y complementos salariales.`,
   },
   {
     date: '2025-12-28',
     title: `Reforma de pensiones: novedades en jubilación y MEI para ${CURRENT_FISCAL_YEAR}`,
-    summary: `El Mecanismo de Equidad Intergeneracional (MEI) sube al 0,80% y se amplía la cuota de solidaridad. Explicamos cómo afecta a tu nómina y a la planificación de la jubilación.`,
+    summary: `El Mecanismo de Equidad Intergeneracional (MEI) sube al 0,90% y la cuota de solidaridad pasa al 1,15% en su primer tramo. Explicamos cómo afecta a tu nómina y a la planificación de la jubilación.`,
   },
   {
     date: '2025-12-20',
@@ -56,6 +56,7 @@ const faqPage = [
 ];
 const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
 import ContextoFiscal from '../../components/ContextoFiscal.astro';
+import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} schema={schemas}>
@@ -71,6 +72,8 @@ import ContextoFiscal from '../../components/ContextoFiscal.astro';
     <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
       Cambios fiscales, nuevas cotizaciones y novedades en la normativa laboral y tributaria en España.
     </p>
+<MiniSimAutonome client:visible kind="neto" lang="es" locale="es-ES" href="/" />
+
 
     <div class="space-y-6">
       {noticias.map(noticia => (

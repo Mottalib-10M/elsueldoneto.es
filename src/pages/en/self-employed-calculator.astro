@@ -1,5 +1,11 @@
 ---
 import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import { retaTramos2026 } from '../../data/seguridad-social-2026';
+const usdReta = (x: number) => '€' + x.toLocaleString('en-US', { minimumFractionDigits: Number.isInteger(x) ? 0 : 2, maximumFractionDigits: 2 });
+import { calcularNetoAutonomo } from '../../lib/autonomo-engine';
+import { calcularSueldoNeto } from '../../lib/irpf-engine';
+const usd0 = (x: number) => (x < 0 ? '-' : '') + '€' + Math.abs(Math.round(x)).toLocaleString('en-US');
+const COMPARE = [20000, 35000, 50000, 80000].map((g) => ({ g, emp: calcularSueldoNeto(g, 'MD').netoAnual, aut: calcularNetoAutonomo(g, 0, 'MD').netoAnual }));
 import Autonomos from '../../components/calculadoras/Autonomos';
 import { CURRENT_FISCAL_YEAR } from '../../config';
 
@@ -7,7 +13,7 @@ const title = `Self-Employed Calculator Spain ${CURRENT_FISCAL_YEAR}: Autónomo 
 const description = `Calculate your net income as autónomo in Spain. Social Security by income bracket, quarterly IRPF, deductible expenses and real take-home pay. Updated ${CURRENT_FISCAL_YEAR}.`;
 
 const faqs = [
-  { question: 'Which contribution bracket does this calculator apply?', answer: `Since 2023, Spain uses an income-based contribution system for self-employed workers (autónomos). In ${CURRENT_FISCAL_YEAR}, monthly contributions range from approximately €230 for the lowest net income bracket (under €670/month) to over €530 for earnings above €6,000/month, spread across 15 tranches. The brackets are revised each year, and a change in declared income can be notified up to six times a year through the Importass portal.` },
+  { question: 'Which contribution bracket does this calculator apply?', answer: `Since 2023, Spain uses an income-based contribution system for self-employed workers (autónomos). In ${CURRENT_FISCAL_YEAR}, minimum monthly contributions range from €205.88 for the lowest net income bracket (under €670/month) to €607.35 for earnings above €6,000/month, spread across 15 tranches. The brackets are revised each year, and a change in declared income can be notified up to six times a year through the Importass portal.` },
   { question: 'What taxes do autónomos pay in Spain?', answer: `Self-employed workers pay quarterly IRPF instalments (modelo 130), typically 20% of net profit. They also charge and remit VAT (IVA) quarterly via modelo 303, and pay Social Security contributions monthly. Annual income is declared in the Renta filing, where the progressive IRPF rates apply.` },
   { question: 'What is the flat-rate tarifa plana for new autónomos?', answer: `New self-employed workers can access a reduced Social Security contribution of €80/month during their first 12 months (extendable to 24 months if net income stays below the minimum wage). This replaces the previous €60 flat rate and applies in ${CURRENT_FISCAL_YEAR}.` },
 ];
@@ -59,56 +65,16 @@ const faqs = [
             </tr>
           </thead>
           <tbody>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">≤ €670</td><td class="px-4 py-2">€735.29</td><td class="px-4 py-2">€816.98</td><td class="px-4 py-2">€230 – €256</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€670 – €900</td><td class="px-4 py-2">€816.98</td><td class="px-4 py-2">€900</td><td class="px-4 py-2">€256 – €282</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€900 – €1,166.70</td><td class="px-4 py-2">€872.55</td><td class="px-4 py-2">€1,166.70</td><td class="px-4 py-2">€274 – €365</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€1,166.70 – €1,300</td><td class="px-4 py-2">€950.98</td><td class="px-4 py-2">€1,300</td><td class="px-4 py-2">€298 – €407</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€1,300 – €1,500</td><td class="px-4 py-2">€960.78</td><td class="px-4 py-2">€1,500</td><td class="px-4 py-2">€301 – €470</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€1,500 – €1,700</td><td class="px-4 py-2">€960.78</td><td class="px-4 py-2">€1,700</td><td class="px-4 py-2">€301 – €532</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€1,700 – €1,850</td><td class="px-4 py-2">€1,045.75</td><td class="px-4 py-2">€1,850</td><td class="px-4 py-2">€328 – €579</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€1,850 – €2,030</td><td class="px-4 py-2">€1,062.09</td><td class="px-4 py-2">€2,030</td><td class="px-4 py-2">€333 – €636</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€2,030 – €2,330</td><td class="px-4 py-2">€1,078.43</td><td class="px-4 py-2">€2,330</td><td class="px-4 py-2">€338 – €730</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€2,330 – €2,760</td><td class="px-4 py-2">€1,111.11</td><td class="px-4 py-2">€2,760</td><td class="px-4 py-2">€348 – €864</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€2,760 – €3,190</td><td class="px-4 py-2">€1,176.47</td><td class="px-4 py-2">€3,190</td><td class="px-4 py-2">€368 – €999</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€3,190 – €3,620</td><td class="px-4 py-2">€1,274.51</td><td class="px-4 py-2">€3,620</td><td class="px-4 py-2">€399 – €1,134</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€3,620 – €4,050</td><td class="px-4 py-2">€1,372.55</td><td class="px-4 py-2">€4,050</td><td class="px-4 py-2">€430 – €1,268</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€4,050 – €6,000</td><td class="px-4 py-2">€1,633.99</td><td class="px-4 py-2">€4,495.50</td><td class="px-4 py-2">€512 – €1,408</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">≥ €6,000</td><td class="px-4 py-2">€1,633.99</td><td class="px-4 py-2">€4,495.50</td><td class="px-4 py-2">€512 – €1,408</td>
-            </tr>
+            {retaTramos2026.map((t) => (
+              <tr class="border-t border-gray-200 dark:border-gray-700">
+                <td class="px-4 py-2">{t.tramo === 1 ? `≤ ${usdReta(t.hastaIngresos)}` : t.hastaIngresos === Infinity ? `> ${usdReta(t.desdeIngresos)}` : `${usdReta(t.desdeIngresos)} – ${usdReta(t.hastaIngresos)}`}</td><td class="px-4 py-2">{usdReta(t.baseMinima)}</td><td class="px-4 py-2">{usdReta(t.baseMaxima)}</td><td class="px-4 py-2">{usdReta(t.cuotaMinima)} – {usdReta(t.cuotaMaxima)}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
       <p>
-        You can choose any contribution base within the minimum and maximum for your tranche. Most autónomos opt for the minimum base to keep costs down, though contributing more builds a higher future pension. The contribution rate for self-employed workers is approximately 31.30% of the chosen base, covering common contingencies, professional contingencies, cessation of activity, and vocational training.
+        You can choose any contribution base within the minimum and maximum for your tranche. Most autónomos opt for the minimum base to keep costs down, though contributing more builds a higher future pension. The contribution rate for self-employed workers is 31.50% of the chosen base, covering common contingencies, professional contingencies, cessation of activity, and vocational training.
       </p>
     </div>
   </section>
@@ -181,23 +147,16 @@ const faqs = [
             </tr>
           </thead>
           <tbody>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€20,000</td><td class="px-4 py-2">€17,150</td><td class="px-4 py-2">€14,440</td><td class="px-4 py-2">-€2,710</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€35,000</td><td class="px-4 py-2">€27,115</td><td class="px-4 py-2">€24,080</td><td class="px-4 py-2">-€3,035</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€50,000</td><td class="px-4 py-2">€36,950</td><td class="px-4 py-2">€33,420</td><td class="px-4 py-2">-€3,530</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€80,000</td><td class="px-4 py-2">€54,998</td><td class="px-4 py-2">€52,310</td><td class="px-4 py-2">-€2,688</td>
-            </tr>
+            {COMPARE.map(({ g, emp, aut }) => (
+              <tr class="border-t border-gray-200 dark:border-gray-700">
+                <td class="px-4 py-2">{usd0(g)}</td><td class="px-4 py-2">{usd0(emp)}</td><td class="px-4 py-2">{usd0(aut)}</td><td class="px-4 py-2">{usd0(aut - emp)}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
       <p>
-        At most income levels, employees take home more net income than autónomos, mainly because employee Social Security contributions are lower (6.47% vs roughly 31.30% of the chosen base for self-employed). However, autónomos can deduct business expenses, which can narrow or even reverse the gap depending on legitimate deductible costs. Additionally, autónomos with the tarifa plana or who bill significantly more than a comparable salary can come out ahead.
+        At most income levels, employees take home more net income than autónomos, mainly because employee Social Security contributions are lower (6.50% vs 31.50% of the chosen base for self-employed). However, autónomos can deduct business expenses, which can narrow or even reverse the gap depending on legitimate deductible costs. Additionally, autónomos with the tarifa plana or who bill significantly more than a comparable salary can come out ahead.
       </p>
     </div>
   </section>
@@ -214,7 +173,7 @@ const faqs = [
         If your net income remains below the minimum interprofessional wage (SMI) at the end of the first 12 months, the €80 flat rate can be extended for an additional 12 months, bringing the total discounted period to 24 months. After the flat-rate period ends, you transition to the standard income-based contribution system.
       </p>
       <p>
-        To qualify, you must not have been registered as an autónomo in the preceding two years (three years if you previously received the flat rate). This makes the tarifa plana particularly attractive for expats starting freelance careers in Spain, as most newcomers easily meet the non-registration requirement. The savings are substantial: instead of paying €230-€400 per month in contributions, you pay just €80, saving between €1,800 and €3,840 in the first year alone.
+        To qualify, you must not have been registered as an autónomo in the preceding two years (three years if you previously received the flat rate). This makes the tarifa plana particularly attractive for expats starting freelance careers in Spain, as most newcomers easily meet the non-registration requirement. The savings are substantial: instead of paying €206-€453 per month in contributions, you pay just €80, saving between €1,500 and €4,500 in the first year alone.
       </p>
     </div>
   </section>

@@ -51,18 +51,28 @@ export const minimoPersonal2026 = {
   gastoAsistenciaDiscapacidad: 3_000, // If needs assistance (≥65% or reduced mobility)
 };
 
-// Reducción por rendimientos del trabajo (Art. 20 LIRPF)
-// Reduces taxable income for employment income
+// Reducción por obtención de rendimientos del trabajo (art. 20 LIRPF, redacción vigente desde 2024)
 export const reduccionRendimientosTrabajo2026 = {
-  // If net employment income ≤ 14,047.50€, reduction = 6,498€
-  limiteInferior: 14_047.50,
-  reduccionMaxima: 6_498,
-  // If net employment income between 14,047.50€ and 19,747.50€:
-  // reduction = 6,498 - 1.14 × (rendimiento - 14,047.50)
+  // Rendimiento neto ≤ 14.852 € : 7.302 €
+  limiteInferior: 14_852,
+  reduccionMaxima: 7_302,
+  // Entre 14.852 y 17.673,52 € : 7.302 − 1,75 × (rendimiento − 14.852)
+  limiteMedio: 17_673.52,
+  coeficienteMedio: 1.75,
+  // Entre 17.673,52 y 19.747,50 € : 2.364,34 − 1,14 × (rendimiento − 17.673,52)
+  reduccionMedia: 2_364.34,
   limiteSuperior: 19_747.50,
   coeficiente: 1.14,
-  // Only applies if other non-employment income ≤ 6,500€
+  // Solo si las demás rentas no superan 6.500 €
   limiteOtrasRentas: 6_500,
+};
+
+// Deducción por obtención de rendimientos del trabajo (disp. adicional 61.ª LIRPF, Real Decreto-ley 5/2026) :
+// 590,89 € hasta 17.094 € de rendimientos íntegros ; después baja 0,2 € por euro y se agota en 20.048,45 €.
+export const deduccionSMI2026 = {
+  importe: 590.89,
+  hasta: 17_094,
+  coeficiente: 0.2,
 };
 
 // Gastos deducibles fijos del trabajo

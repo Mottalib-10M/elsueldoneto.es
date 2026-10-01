@@ -1,5 +1,10 @@
 ---
 import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import { calcularSueldoNeto } from '../../lib/irpf-engine';
+const HORAS = 1800;
+const FILAS_HORA = [17094, 20000, 25000, 30000, 40000, 50000, 60000, 80000].map((g) => ({ g, neto: calcularSueldoNeto(g, 'MD').netoAnual }));
+const eur2 = (x: number) => '€' + x.toFixed(2);
+const eur0 = (x: number) => '€' + Math.round(x).toLocaleString('en-US');
 import HoraTrabajada from '../../components/calculadoras/HoraTrabajada';
 import { CURRENT_FISCAL_YEAR } from '../../config';
 
@@ -8,7 +13,7 @@ const description = 'Convert your annual or monthly salary to an hourly rate. Fa
 
 const faqs = [
   { question: 'How do I calculate my hourly wage from annual salary?', answer: `Divide your annual gross salary by the total number of effective working hours per year. In Spain, the standard maximum is 1,826 hours/year (40 hours/week × 45.65 weeks after holidays). For example, €30,000 gross ÷ 1,826 hours = €16.43/hour gross.` },
-  { question: 'What is the minimum hourly wage in Spain?', answer: `The minimum wage (SMI) in ${CURRENT_FISCAL_YEAR} is €1,184/month in 14 payments (€16,576/year). Divided by standard annual hours, this works out to approximately €9.08/hour gross. The net hourly rate is slightly lower after Social Security contributions. Collective agreements frequently set an annual working time below the statutory maximum, between 1,700 and 1,750 hours, and that figure is the one to use when valuing overtime or a reduction in hours.` },
+  { question: 'What is the minimum hourly wage in Spain?', answer: `The minimum wage (SMI) in ${CURRENT_FISCAL_YEAR} is €1,221/month in 14 payments (€17,094/year). Divided by 1,800 annual hours, this works out to €9.50/hour gross. The net hourly rate is slightly lower after Social Security contributions. Collective agreements frequently set an annual working time below the statutory maximum, between 1,700 and 1,750 hours, and that figure is the one to use when valuing overtime or a reduction in hours.` },
   { question: 'Does the number of pay periods affect my hourly rate?', answer: 'No, the hourly rate is the same whether you receive 12 or 14 payments. The annual gross is identical in both cases. Only the monthly distribution changes. Your hourly rate is always annual gross divided by annual working hours. What the number of payments does change is monthly cash flow: with fourteen, two months carry roughly double, which matters for budgeting even though the annual total is unchanged.' },
 ];
 ---
@@ -73,30 +78,11 @@ const faqs = [
             </tr>
           </thead>
           <tbody>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€16,576 (SMI)</td><td class="px-4 py-2">€9.21</td><td class="px-4 py-2">€8.11</td><td class="px-4 py-2">€1,184</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€20,000</td><td class="px-4 py-2">€11.11</td><td class="px-4 py-2">€9.53</td><td class="px-4 py-2">€1,429</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€25,000</td><td class="px-4 py-2">€13.89</td><td class="px-4 py-2">€11.17</td><td class="px-4 py-2">€1,786</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€30,000</td><td class="px-4 py-2">€16.67</td><td class="px-4 py-2">€12.87</td><td class="px-4 py-2">€2,143</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€40,000</td><td class="px-4 py-2">€22.22</td><td class="px-4 py-2">€16.57</td><td class="px-4 py-2">€2,857</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€50,000</td><td class="px-4 py-2">€27.78</td><td class="px-4 py-2">€20.08</td><td class="px-4 py-2">€3,571</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€60,000</td><td class="px-4 py-2">€33.33</td><td class="px-4 py-2">€23.20</td><td class="px-4 py-2">€4,286</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">€80,000</td><td class="px-4 py-2">€44.44</td><td class="px-4 py-2">€29.72</td><td class="px-4 py-2">€5,714</td>
-            </tr>
+            {FILAS_HORA.map(({ g, neto }, i) => (
+              <tr class="border-t border-gray-200 dark:border-gray-700">
+                <td class="px-4 py-2">{eur0(g)}{i === 0 ? ' (SMI)' : ''}</td><td class="px-4 py-2">{eur2(g / HORAS)}</td><td class="px-4 py-2">{eur2(neto / HORAS)}</td><td class="px-4 py-2">{eur0(g / 14)}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -181,16 +167,16 @@ const faqs = [
     </h3>
     <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
       <p>
-        Spain's minimum interprofessional wage (Salario Mínimo Interprofesional, or SMI) is set annually by the government. For 2025, the SMI stands at <strong>€1,184 per month in 14 payments</strong>, equivalent to <strong>€16,576 per year</strong>. Understanding this figure on an hourly basis provides context for evaluating wages across different contract types.
+        Spain's minimum interprofessional wage (Salario Mínimo Interprofesional, or SMI) is set annually by the government. For 2026, the SMI stands at <strong>€1,221 per month in 14 payments</strong>, equivalent to <strong>€17,094 per year</strong>. Understanding this figure on an hourly basis provides context for evaluating wages across different contract types.
       </p>
       <p>
-        Dividing the annual SMI by standard working hours: €16,576 / 1,800 hours = <strong>€9.21 gross per hour</strong>. After employee Social Security contributions (approximately 6.47%) and minimal IRPF withholding (often 2% or less at this income level), the net hourly rate is approximately <strong>€8.11</strong>.
+        Dividing the annual SMI by standard working hours: €17,094 / 1,800 hours = <strong>€9.50 gross per hour</strong>. After employee Social Security contributions (6.50%), and with no income tax at this level thanks to the 2026 minimum-wage credit, the net hourly rate is <strong>€8.88</strong>.
       </p>
       <p>
         For context, Spain's minimum hourly wage compares as follows within the EU: France sets its SMIC at approximately €11.65 gross per hour, Germany's Mindestlohn is €12.82 per hour, and Portugal's minimum wage translates to roughly €4.85 per hour. Spain sits in the middle of the pack among western European nations, though its lower cost of living (particularly outside Madrid and Barcelona) means purchasing power is relatively stronger than the raw number suggests.
       </p>
       <p>
-        Workers paid at or near the minimum wage should pay particular attention to their contract's weekly hours. A full-time contract at minimum wage on a 40-hour week yields €9.21/hour, but a reduced-hours contract paying the same monthly amount for fewer hours effectively pays more per hour. Conversely, if you are working more than 40 hours but only being paid for 40, you are being underpaid and should raise this with your employer or the labour inspectorate.
+        Workers paid at or near the minimum wage should pay particular attention to their contract's weekly hours. A full-time contract at minimum wage on a 40-hour week yields €9.50/hour, but a reduced-hours contract paying the same monthly amount for fewer hours effectively pays more per hour. Conversely, if you are working more than 40 hours but only being paid for 40, you are being underpaid and should raise this with your employer or the labour inspectorate.
       </p>
     </div>
   </section>

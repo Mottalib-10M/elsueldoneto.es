@@ -31,6 +31,7 @@ const schemas = [
   buildFAQSchema(faqs),
   buildArticleSchema(title, description, Astro.url.pathname),
 ];
+import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} ogType="article" schema={schemas}>
@@ -50,6 +51,8 @@ const schemas = [
     <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
       La Ley Beckham permite a los profesionales que se trasladan a España tributar a un tipo fijo del 24% durante hasta 6 años. Te explicamos cómo funciona, quién puede solicitarlo y si te compensa. El régimen se aplica al año del traslado y a los cinco siguientes, y exige no haber sido residente en España en los cinco ejercicios anteriores, que el desplazamiento esté vinculado a un contrato de trabajo o al cargo de administrador, y presentar el modelo 149 dentro de los seis meses siguientes al alta en la Seguridad Social. El tipo fijo del 24 % se aplica hasta 600.000 € y el 47 % por encima. Las rentas de fuente extranjera quedan fuera de la base española salvo las del trabajo, que es el punto que más confusión genera.
     </p>
+<MiniSimAutonome client:visible kind="beckham" lang="es" locale="es-ES" href="/" />
+
 
     <div class="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">
       <p class="font-medium text-blue-800 dark:text-blue-300">

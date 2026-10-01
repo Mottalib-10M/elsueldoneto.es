@@ -8,7 +8,7 @@ const title = `Retirement in Spain ${CURRENT_FISCAL_YEAR}: Pension Age, Amount &
 const description = 'What age can you retire and how much pension will you get? Retirement age, pension calculation, contribution years, early and partial retirement in Spain.';
 
 const faqs = [
-  { question: 'What is the retirement age in Spain?', answer: `In ${CURRENT_FISCAL_YEAR}, the ordinary retirement age is 65 if you have contributed at least 38 years and 3 months, or 66 years and 8 months with fewer contribution years. The age is gradually increasing toward 67 by 2027 for those with less than 38.5 years of contributions.` },
+  { question: 'What is the retirement age in Spain?', answer: `In ${CURRENT_FISCAL_YEAR}, the ordinary retirement age is 65 if you have contributed at least 38 years and 3 months, or 66 years and 10 months with fewer contribution years. The age is gradually increasing toward 67 by 2027 for those with less than 38.5 years of contributions.` },
   { question: 'How is the retirement pension calculated?', answer: 'Your pension is based on the regulatory base, calculated from your contribution bases during the last 25 years (300 months). The highest bases are summed and divided by 350. A percentage is then applied based on your total years of contributions: 50% at 15 years, scaling up to 100% at 36 years and 6 months.' },
   { question: 'Can I retire early in Spain?', answer: 'Yes, voluntary early retirement is possible up to 2 years before the ordinary age if you have at least 35 years of contributions. Involuntary early retirement (due to company restructuring) allows retiring up to 4 years early with at least 33 years of contributions. Reduction coefficients apply in both cases.' },
 ];
@@ -22,6 +22,7 @@ const schemas = [
   buildFAQSchema(faqs, 'en'),
   buildArticleSchema(title, description, Astro.url.pathname, 'en'),
 ];
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
@@ -42,10 +43,12 @@ const schemas = [
       <p>
         Spain's public pension system is one of the most generous in Europe, but understanding its rules requires navigating retirement ages, contribution periods, and regulatory base calculations. Whether you are planning ahead or approaching retirement, this guide covers the key factors that determine how much pension you will receive and when you can start collecting it. Three numbers decide a Spanish pension. The retirement age, which is rising towards 67 and depends on how long you have contributed. The contribution period, with 15 years the minimum to qualify at all and 36 years and 6 months needed for the full percentage in 2026. And the regulatory base, computed from the contribution bases of the final years of a career, currently the last 25, revalued for inflation. Early retirement is possible but applies a permanent reduction for each quarter brought forward.
       </p>
+<MiniSimAutonome client:visible kind="ahorro" lang="en" locale="en-GB" href="/en/" />
+
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Retirement Age</h2>
       <p>
-        Spain is in the middle of a gradual transition toward a retirement age of 67. In {CURRENT_FISCAL_YEAR}, you can retire at 65 if you have accumulated at least 38 years and 3 months of contributions. If your contribution history is shorter, the ordinary retirement age rises to 66 years and 8 months. This transition, mandated by the 2011 reform, will be complete by 2027. You can check your exact retirement age using the Social Security portal (<em>Tu Seguridad Social</em>).
+        Spain is in the middle of a gradual transition toward a retirement age of 67. In {CURRENT_FISCAL_YEAR}, you can retire at 65 if you have accumulated at least 38 years and 3 months of contributions. If your contribution history is shorter, the ordinary retirement age rises to 66 years and 10 months. This transition, mandated by the 2011 reform, will be complete by 2027. You can check your exact retirement age using the Social Security portal (<em>Tu Seguridad Social</em>).
       </p>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Regulatory Base and Pension Amount</h2>
@@ -137,27 +140,21 @@ const schemas = [
           <tbody>
             <tr class="border-b border-gray-200 dark:border-gray-700">
               <td class="py-2 pr-4">Retirement (65+, 15+ years)</td>
-              <td class="py-2 pr-4 text-right">€1,033/month</td>
-              <td class="py-2 pr-4 text-right">€835/month</td>
-              <td class="py-2 text-right">€3,175/month</td>
+              <td class="py-2 pr-4 text-right">€1,257/month</td>
+              <td class="py-2 pr-4 text-right">€936/month</td>
+              <td class="py-2 text-right">€3,360/month</td>
             </tr>
             <tr class="border-b border-gray-200 dark:border-gray-700">
               <td class="py-2 pr-4">Retirement (under 65)</td>
-              <td class="py-2 pr-4 text-right">€966/month</td>
-              <td class="py-2 pr-4 text-right">€781/month</td>
-              <td class="py-2 text-right">€3,175/month</td>
+              <td class="py-2 pr-4 text-right">€1,257/month</td>
+              <td class="py-2 pr-4 text-right">€876/month</td>
+              <td class="py-2 text-right">€3,360/month</td>
             </tr>
             <tr class="border-b border-gray-200 dark:border-gray-700">
               <td class="py-2 pr-4">Widowhood (over 65)</td>
               <td class="py-2 pr-4 text-right">--</td>
-              <td class="py-2 pr-4 text-right">€835/month</td>
-              <td class="py-2 text-right">€3,175/month</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Orphan pension (per child)</td>
-              <td class="py-2 pr-4 text-right">--</td>
-              <td class="py-2 pr-4 text-right">€256/month</td>
-              <td class="py-2 text-right">€3,175/month</td>
+              <td class="py-2 pr-4 text-right">€936/month</td>
+              <td class="py-2 text-right">€3,360/month</td>
             </tr>
           </tbody>
         </table>
@@ -192,13 +189,13 @@ const schemas = [
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">The MEI: Sustainability Reform</h2>
       <p>
-        The Intergenerational Equity Mechanism (<em>Mecanismo de Equidad Intergeneracional</em>, or MEI) was introduced in 2023 as part of Spain's pension sustainability reform. It is an additional Social Security contribution of 0.70% split between employer (0.58%) and employee (0.12%), applied on top of existing contribution rates. The MEI replaces the earlier Sustainability Factor that was never implemented due to political opposition.
+        The Intergenerational Equity Mechanism (<em>Mecanismo de Equidad Intergeneracional</em>, or MEI) was introduced in 2023 as part of Spain's pension sustainability reform. It is an additional Social Security contribution of 0.90% in 2026, split between employer (0.75%) and employee (0.15%), applied on top of existing contribution rates. The MEI replaces the earlier Sustainability Factor that was never implemented due to political opposition.
       </p>
       <p>
         The funds collected through the MEI are directed to a reserve fund designed to cover projected pension shortfalls between 2032 and 2050, when the baby boomer generation will be fully retired. The MEI rate is scheduled to increase gradually, reaching 1.2% by 2029. If the reserve fund proves insufficient, the rate could be further increased, or alternative measures (such as adjusting pension growth or contribution bases) would be implemented.
       </p>
       <p>
-        For workers, the MEI adds a small but noticeable cost. On a salary of €35,000, the employee MEI contribution is approximately €42 per year. While modest individually, the mechanism is designed to accumulate substantial reserves over the next decade to ensure pension sustainability for future retirees.
+        For workers, the MEI adds a small but noticeable cost. On a salary of €35,000, the employee MEI contribution is €52.50 per year. While modest individually, the mechanism is designed to accumulate substantial reserves over the next decade to ensure pension sustainability for future retirees.
       </p>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Early Retirement Requirements Summary</h2>

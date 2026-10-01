@@ -20,17 +20,17 @@ const articles = [
   {
     date: '2026-01-08',
     title: `Self-employed contributions ${CURRENT_FISCAL_YEAR}: third phase of the income-based system`,
-    summary: `The income-based contribution system enters its third phase in ${CURRENT_FISCAL_YEAR}. The 15 tranches adjust with minimum contributions from 200 to 590 euros per month.`,
+    summary: `The income-based contribution system enters its third phase in ${CURRENT_FISCAL_YEAR}. The 15 tranches keep their 2025 bases and the MEI rises to 0.90%: minimum contributions run from 205.88 to 607.35 euros per month.`,
   },
   {
     date: '2026-01-05',
-    title: `SMI ${CURRENT_FISCAL_YEAR}: Spain's minimum wage rises 4%`,
-    summary: `The minimum interprofessional wage is set at 1,184 euros per month (14 payments). We analyse the impact on contributions, unemployment benefits, and salary top-ups.`,
+    title: `SMI ${CURRENT_FISCAL_YEAR}: Spain's minimum wage rises 3.1%`,
+    summary: `The minimum interprofessional wage is set at 1,221 euros per month (14 payments), 17,094 euros a year, and remains free of income tax thanks to a credit of up to 590.89 euros. We analyse the impact on contributions, unemployment benefits, and salary top-ups.`,
   },
   {
     date: '2025-12-28',
     title: `Pension reform: retirement and MEI changes for ${CURRENT_FISCAL_YEAR}`,
-    summary: `The Intergenerational Equity Mechanism (MEI) rises to 0.80% and the solidarity contribution is expanded. We explain how this affects your payslip and retirement planning.`,
+    summary: `The Intergenerational Equity Mechanism (MEI) rises to 0.90% and the solidarity contribution moves to 1.15% on its first band. We explain how this affects your payslip and retirement planning.`,
   },
   {
     date: '2025-12-20',
@@ -54,6 +54,7 @@ const faqPage = [
 const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
 import ContextoFiscal from '../../../components/ContextoFiscal.astro';
 import ContextoFiscalEn from '../../../components/ContextoFiscalEn.astro';
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
@@ -69,6 +70,8 @@ import ContextoFiscalEn from '../../../components/ContextoFiscalEn.astro';
     <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
       Tax changes, new contribution rates, and updates to Spanish labour and tax regulations. This page records the changes that alter a Spanish payslip or tax return: the annual update of the IRPF scales and the regional brackets, the contribution brackets for the self-employed, the minimum wage, pension revaluation and the deadlines of the filing season. Each entry names the instrument that changed, whether a law, a royal decree or an order, the date it takes effect, and which taxpayers it reaches. Older entries stay in place rather than being rewritten, because anyone checking a past year needs the rule that applied then. Where a change is transitional, with one rule for existing contracts and another for new ones, the entry says so, since that distinction decides which applies to you.
     </p>
+<MiniSimAutonome client:visible kind="neto" lang="en" locale="en-GB" href="/en/" />
+
 
     <div class="space-y-6">
       {articles.map(article => (

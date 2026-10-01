@@ -1,5 +1,18 @@
 ---
 import Layout from '../../components/layout/Layout.astro';
+import { calcularSueldoNeto } from '../../lib/irpf-engine';
+import { comunidadesAutonomas } from '../../data/comunidades-autonomas';
+const eur0 = (x: number) => Math.round(x).toLocaleString('es-ES', { useGrouping: 'always' as any }) + ' €';
+const pct1 = (x: number) => (x * 100).toLocaleString('es-ES', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+/** Las quince comunidades de régimen común, ordenadas por neto para un bruto dado (soltero, sin hijos). */
+const ranking = (bruto: number) =>
+  comunidadesAutonomas
+    .filter((c) => !c.esForal && c.codigo !== 'CE' && c.codigo !== 'ML')
+    .map((c) => ({ nombre: c.nombre, r: calcularSueldoNeto(bruto, c.codigo) }))
+    .sort((a, b) => b.r.netoAnual - a.r.netoAnual);
+const R35 = ranking(35000);
+const peor35 = R35[R35.length - 1].r.netoAnual;
+const E40 = (['MD', 'AN', 'CT'] as const).map((c) => calcularSueldoNeto(40000, c));
 import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
 import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../lib/seo';
 import AuthorByline from '../../components/layout/AuthorByline.astro';
@@ -35,6 +48,7 @@ const schemas = [
   buildFAQSchema(faqs),
   buildArticleSchema(title, description, Astro.url.pathname),
 ];
+import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} ogType="article" schema={schemas}>
@@ -54,6 +68,8 @@ const schemas = [
     <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
       El IRPF no es igual en toda España. Dependiendo de en qué comunidad autónoma residas, tu sueldo neto puede variar en más de 1.500 euros al año para el mismo salario bruto. En esta guía comparamos las 17 comunidades autónomas para que sepas exactamente cómo afecta tu lugar de residencia a lo que cobras cada mes. La mitad estatal del IRPF es idéntica en todo el territorio salvo en el País Vasco y Navarra, que tienen sistemas forales completos, de modo que toda la variación viene de la escala autonómica y de las deducciones propias. Madrid aplica la escala más ligera; Cataluña y la Comunidad Valenciana están en el extremo más gravoso. Las deducciones regionales complican la clasificación: varias comunidades bonifican el alquiler, los hijos menores de tres años o los gastos educativos, y esas deducciones pueden valer más a una renta media que la diferencia de tipos.
     </p>
+<MiniSimAutonome client:visible kind="ccaa" lang="es" locale="es-ES" href="/" />
+
 
     <div class="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">
       <p class="font-medium text-blue-800 dark:text-blue-300">
@@ -82,7 +98,7 @@ const schemas = [
           La siguiente clasificación muestra el sueldo neto anual aproximado para un trabajador soltero, sin hijos, con contrato indefinido y 14 pagas, que gana 35.000 euros brutos al año en cada comunidad autónoma. Los cálculos incluyen la Seguridad Social (6,50%) y el IRPF total (estatal + autonómico), sin deducciones autonómicas especiales.
         </p>
         <p>
-          <strong>Las comunidades que menos IRPF cobran</strong> (y donde el neto es mayor) tienden a ser aquellas que han deflactado sus tramos autonómicos o han reducido tipos en los tramos intermedios. Madrid es la referencia habitual por haber rebajado su escala autonómica en los últimos ejercicios.
+          <strong>Las comunidades que menos IRPF cobran</strong> (y donde el neto es mayor) tienden a ser aquellas que han deflactado sus tramos autonómicos o han reducido tipos en los tramos intermedios. Madrid es la referencia habitual por haber rebajado su escala autonómica en los últimos ejercicios. Las cifras aplican las escalas autonómicas oficiales de {CURRENT_FISCAL_YEAR} con el mínimo personal estatal de 5.550 €; algunas comunidades lo elevan ligeramente, lo que mejora su resultado en unas decenas de euros.
         </p>
 
         <table class="w-full text-sm">
@@ -95,96 +111,14 @@ const schemas = [
             </tr>
           </thead>
           <tbody>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">1</td>
-              <td class="px-3 py-2">Madrid</td>
-              <td class="px-3 py-2 text-right tabular-nums font-medium text-emerald-700">27.360 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+1.290 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">2</td>
-              <td class="px-3 py-2">Castilla y Le&oacute;n</td>
-              <td class="px-3 py-2 text-right tabular-nums">27.190 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+1.120 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">3</td>
-              <td class="px-3 py-2">Andaluc&iacute;a</td>
-              <td class="px-3 py-2 text-right tabular-nums">27.140 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+1.070 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">4</td>
-              <td class="px-3 py-2">Galicia</td>
-              <td class="px-3 py-2 text-right tabular-nums">27.060 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+990 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">5</td>
-              <td class="px-3 py-2">Murcia</td>
-              <td class="px-3 py-2 text-right tabular-nums">27.020 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+950 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">6</td>
-              <td class="px-3 py-2">Canarias</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.980 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+910 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">7</td>
-              <td class="px-3 py-2">Castilla-La Mancha</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.930 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+860 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">8</td>
-              <td class="px-3 py-2">Extremadura</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.870 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+800 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">9</td>
-              <td class="px-3 py-2">La Rioja</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.810 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+740 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">10</td>
-              <td class="px-3 py-2">Islas Baleares</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.740 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+670 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">11</td>
-              <td class="px-3 py-2">Cantabria</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.680 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+610 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">12</td>
-              <td class="px-3 py-2">Arag&oacute;n</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.620 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+550 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">13</td>
-              <td class="px-3 py-2">Comunidad Valenciana</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.490 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+420 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">14</td>
-              <td class="px-3 py-2">Asturias</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.370 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+300 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">15</td>
-              <td class="px-3 py-2">Catalu&ntilde;a</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.070 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">+0 &euro;</td>
-            </tr>
+            {R35.map(({ nombre, r }, i) => (
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2">{i + 1}</td>
+                <td class="px-3 py-2">{nombre}</td>
+                <td class="px-3 py-2 text-right tabular-nums">{eur0(r.netoAnual)}</td>
+                <td class="px-3 py-2 text-right tabular-nums text-emerald-600">+{eur0(r.netoAnual - peor35)}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
         <p>
@@ -212,111 +146,15 @@ const schemas = [
             </tr>
           </thead>
           <tbody>
-            <tr class="border-b border-gray-100 dark:border-gray-700 bg-emerald-50 dark:bg-emerald-900/10">
-              <td class="px-3 py-2 font-medium">Madrid</td>
-              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">5.365 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums font-medium text-emerald-700">27.360 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">1.954 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">Castilla y Le&oacute;n</td>
-              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">5.535 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">27.190 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">1.942 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">Andaluc&iacute;a</td>
-              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">5.585 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">27.140 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">1.939 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">Galicia</td>
-              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">5.665 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">27.060 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">1.933 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">Murcia</td>
-              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">5.705 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">27.020 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">1.930 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">Canarias</td>
-              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">5.745 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.980 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">1.927 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">Castilla-La Mancha</td>
-              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">5.795 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.930 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">1.924 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">Extremadura</td>
-              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">5.855 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.870 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">1.919 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">La Rioja</td>
-              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">5.915 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.810 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">1.915 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">Islas Baleares</td>
-              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">5.985 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.740 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">1.910 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">Cantabria</td>
-              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">6.045 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.680 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">1.906 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">Arag&oacute;n</td>
-              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">6.105 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.620 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">1.901 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">Comunidad Valenciana</td>
-              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">6.235 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.490 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">1.892 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">Asturias</td>
-              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">6.355 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">26.370 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">1.884 &euro;</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700 bg-red-50 dark:bg-red-900/10">
-              <td class="px-3 py-2 font-medium">Catalu&ntilde;a</td>
-              <td class="px-3 py-2 text-right tabular-nums">2.275 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">6.455 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums font-medium text-red-700">26.270 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">1.876 &euro;</td>
-            </tr>
+            {R35.map(({ nombre, r }) => (
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-3 py-2">{nombre}</td>
+                <td class="px-3 py-2 text-right tabular-nums">{eur0(r.seguridadSocialAnual)}</td>
+                <td class="px-3 py-2 text-right tabular-nums">{eur0(r.irpfTotalAnual)}</td>
+                <td class="px-3 py-2 text-right tabular-nums font-medium">{eur0(r.netoAnual)}</td>
+                <td class="px-3 py-2 text-right tabular-nums">{eur0(r.netoAnual / 14)}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
         <p>
@@ -419,57 +257,37 @@ const schemas = [
           <tbody>
             <tr class="border-b border-gray-100 dark:border-gray-700">
               <td class="px-3 py-2">Salario bruto</td>
-              <td class="px-3 py-2 text-right tabular-nums">40.000 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">40.000 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums">40.000 &euro;</td>
+              {E40.map((r) => <td class="px-3 py-2 text-right tabular-nums">{eur0(r.brutoAnual)}</td>)}
             </tr>
             <tr class="border-b border-gray-100 dark:border-gray-700">
               <td class="px-3 py-2">Seguridad Social (6,50%)</td>
-              <td class="px-3 py-2 text-right tabular-nums text-amber-600">&minus; 2.600 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-amber-600">&minus; 2.600 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-amber-600">&minus; 2.600 &euro;</td>
+              {E40.map((r) => <td class="px-3 py-2 text-right tabular-nums text-amber-600">− {eur0(r.seguridadSocialAnual)}</td>)}
             </tr>
             <tr class="border-b border-gray-100 dark:border-gray-700">
               <td class="px-3 py-2">IRPF estatal</td>
-              <td class="px-3 py-2 text-right tabular-nums text-red-600">&minus; 3.680 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-red-600">&minus; 3.680 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-red-600">&minus; 3.680 &euro;</td>
+              {E40.map((r) => <td class="px-3 py-2 text-right tabular-nums text-red-600">− {eur0(r.irpfEstatalAnual)}</td>)}
             </tr>
             <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">IRPF auton&oacute;mico</td>
-              <td class="px-3 py-2 text-right tabular-nums text-red-600">&minus; 3.120 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-red-600">&minus; 3.390 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums text-red-600">&minus; 3.870 &euro;</td>
+              <td class="px-3 py-2">IRPF autonómico</td>
+              {E40.map((r) => <td class="px-3 py-2 text-right tabular-nums text-red-600">− {eur0(r.irpfAutonomicoAnual)}</td>)}
             </tr>
             <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2 font-medium">IRPF total</td>
-              <td class="px-3 py-2 text-right tabular-nums font-medium text-red-600">&minus; 6.800 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums font-medium text-red-600">&minus; 7.070 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums font-medium text-red-600">&minus; 7.550 &euro;</td>
+              <td class="px-3 py-2">IRPF total</td>
+              {E40.map((r) => <td class="px-3 py-2 text-right tabular-nums text-red-600">− {eur0(r.irpfTotalAnual)}</td>)}
             </tr>
             <tr class="border-b border-gray-100 dark:border-gray-700">
               <td class="px-3 py-2">Tipo efectivo IRPF</td>
-              <td class="px-3 py-2 text-right tabular-nums">17,0%</td>
-              <td class="px-3 py-2 text-right tabular-nums">17,7%</td>
-              <td class="px-3 py-2 text-right tabular-nums">18,9%</td>
+              {E40.map((r) => <td class="px-3 py-2 text-right tabular-nums">{pct1(r.tipoEfectivoIRPF)}</td>)}
             </tr>
-            <tr class="border-t-2 border-gray-300 dark:border-gray-600">
-              <td class="px-3 py-2 font-bold">Sueldo neto anual</td>
-              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">30.600 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">30.330 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">29.850 &euro;</td>
-            </tr>
-            <tr>
-              <td class="px-3 py-2 font-bold">Neto mensual (14 pagas)</td>
-              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">2.186 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">2.166 &euro;</td>
-              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">2.132 &euro;</td>
+            <tr class="border-b border-gray-100 dark:border-gray-700">
+              <td class="px-3 py-2">Sueldo neto anual</td>
+              {E40.map((r) => <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">{eur0(r.netoAnual)}</td>)}
             </tr>
           </tbody>
         </table>
 
         <p>
-          Con 40.000 euros brutos, la diferencia entre Madrid y Cataluña es de <strong>750 euros anuales</strong> (unos 54 euros al mes). Entre Madrid y Andalucía, la diferencia es menor: 270 euros al año. Estas cifras se refieren exclusivamente al IRPF; si añadimos las deducciones autonómicas (gastos educativos en Madrid, por ejemplo), la brecha puede ampliarse.
+          Con 40.000 euros brutos, la diferencia entre Madrid y Cataluña es de <strong>{eur0(E40[0].netoAnual - E40[2].netoAnual)} anuales</strong> (unos {eur0((E40[0].netoAnual - E40[2].netoAnual) / 14)} por paga). Entre Madrid y Andalucía, la diferencia es menor: {eur0(E40[0].netoAnual - E40[1].netoAnual)} al año. Estas cifras se refieren exclusivamente al IRPF; si añadimos las deducciones autonómicas (gastos educativos en Madrid, por ejemplo), la brecha puede ampliarse.
         </p>
         <p>
           <a href="/calculadora-irpf/" class="text-brand hover:underline">Calcula tu caso exacto con nuestra calculadora de IRPF</a>.

@@ -1,9 +1,6 @@
 import { useState, useMemo } from 'react';
-import { calcularCuotaAutonomo } from '../../lib/finanz-engine';
-import { calcularImpuestoProgresivo } from '../../lib/irpf-engine';
-import { tramosEstatales2026 } from '../../data/irpf-2026';
-import { getCCAAByCodigo, type CCAACodigo } from '../../data/comunidades-autonomas';
-import { retaTramos2026 } from '../../data/seguridad-social-2026';
+import { type CCAACodigo } from '../../data/comunidades-autonomas';
+import { calcularNetoAutonomo } from '../../lib/autonomo-engine';
 import { formatEuros, formatPercent } from '../../lib/format-es';
 import CampoSalario from '../ui/CampoSalario';
 import SelectorCCAA from '../ui/SelectorCCAA';
@@ -17,39 +14,7 @@ export default function Autonomos({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   const ingresosNum = Number(ingresos) || 0;
   const gastosNum = Number(gastos) || 0;
 
-  const resultado = useMemo(() => {
-    const ingresosNetos = Math.max(0, ingresosNum - gastosNum);
-    const ingresosNetosMensuales = ingresosNetos / 12;
-    const cuotaMensual = calcularCuotaAutonomo(ingresosNetosMensuales, retaTramos2026);
-    const cuotaAnual = cuotaMensual * 12;
-
-    // Base imponible = ingresos - gastos - cuota autónomos
-    const baseImponible = Math.max(0, ingresosNetos - cuotaAnual);
-
-    const comunidad = getCCAAByCodigo(ccaa);
-    let irpfAnual: number;
-
-    if (comunidad.esForal) {
-      irpfAnual = calcularImpuestoProgresivo(baseImponible, comunidad.tramos);
-    } else {
-      const estatal = calcularImpuestoProgresivo(baseImponible, tramosEstatales2026);
-      const autonomico = calcularImpuestoProgresivo(baseImponible, comunidad.tramos);
-      irpfAnual = estatal + autonomico;
-    }
-
-    const netoAnual = ingresosNetos - cuotaAnual - irpfAnual;
-
-    return {
-      ingresosNetos,
-      cuotaMensual,
-      cuotaAnual,
-      baseImponible,
-      irpfAnual,
-      netoAnual,
-      netoMensual: netoAnual / 12,
-      tipoEfectivo: ingresosNetos > 0 ? irpfAnual / ingresosNetos : 0,
-    };
-  }, [ingresosNum, gastosNum, ccaa]);
+  const resultado = useMemo(() => calcularNetoAutonomo(ingresosNum, gastosNum, ccaa), [ingresosNum, gastosNum, ccaa]);
 
   return (
     <div className="space-y-6">

@@ -1,5 +1,14 @@
 ---
 import Layout from '../../components/layout/Layout.astro';
+import { tramosEstatales2026 } from '../../data/irpf-2026';
+import { getCCAAByCodigo, type CCAACodigo } from '../../data/comunidades-autonomas';
+/** Tipo marginal total (estatal + autonómico) para una base liquidable dada, leído en las escalas oficiales. */
+const marginal = (codigo: CCAACodigo, base: number) => {
+  const tipo = (tramos: { hasta: number; tipo: number }[]) => tramos.find((t) => base <= t.hasta)!.tipo;
+  return tipo(tramosEstatales2026) + tipo(getCCAAByCodigo(codigo).tramos);
+};
+const pctTipo = (x: number) => (x * 100).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
+const CCAA_TABLA: Array<[CCAACodigo, string]> = [['MD', 'Madrid'], ['AN', 'Andalucía'], ['CT', 'Cataluña'], ['VC', 'C. Valenciana'], ['GA', 'Galicia'], ['CL', 'Castilla y León'], ['AR', 'Aragón']];
 import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
 import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../lib/seo';
 import AuthorByline from '../../components/layout/AuthorByline.astro';
@@ -35,6 +44,7 @@ const schemas = [
   buildFAQSchema(faqs),
   buildArticleSchema(title, description, Astro.url.pathname),
 ];
+import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} ogType="article" schema={schemas}>
@@ -54,6 +64,8 @@ const schemas = [
     <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
       El IRPF es un impuesto progresivo: no pagas el mismo porcentaje por todo tu salario. Cada tramo de renta tributa a un tipo diferente. En esta guía te explicamos cómo funcionan los tramos, las tablas actualizadas para {CURRENT_FISCAL_YEAR} y cómo varía la carga fiscal según tu comunidad autónoma. La escala estatal tiene seis tramos y, sumada la autonómica, el tipo marginal va del 19 % al 47 % aproximadamente según la comunidad. Los tramos se aplican sobre la base imponible, no sobre el salario bruto: antes se descuentan las cotizaciones a la Seguridad Social, el mínimo personal y las reducciones familiares, y por eso el tipo efectivo queda siempre muy por debajo del marginal. Para un salario de 30.000 € el tipo efectivo ronda el 15-16 %, lejos de los porcentajes que aparecen en los titulares.
     </p>
+<MiniSimAutonome client:visible kind="tramos" lang="es" locale="es-ES" href="/" />
+
 
     <div class="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">
       <p class="font-medium text-blue-800 dark:text-blue-300">
@@ -140,74 +152,34 @@ const schemas = [
       <section>
         <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">4. Tipos totales (marginal máximo) por comunidad autónoma</h2>
         <p>
-          La siguiente tabla muestra los tipos marginales totales aproximados (estatal + autonómico) para distintos niveles de renta en las principales comunidades de régimen común. Estos tipos reflejan el gravamen del tramo más alto que se alcanza:
+          La siguiente tabla muestra los tipos marginales totales (estatal + autonómico) para tres niveles de base liquidable en las principales comunidades de régimen común. Estos tipos reflejan el gravamen del tramo más alto que se alcanza:
         </p>
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
             <thead>
               <tr class="border-b border-gray-200 dark:border-gray-600">
                 <th class="px-3 py-2 text-left font-medium">Comunidad</th>
-                <th class="px-3 py-2 text-right font-medium">Hasta 20.200 €</th>
-                <th class="px-3 py-2 text-right font-medium">20.200 – 35.200 €</th>
-                <th class="px-3 py-2 text-right font-medium">35.200 – 60.000 €</th>
+                <th class="px-3 py-2 text-right font-medium">Base de 15.000 €</th>
+                <th class="px-3 py-2 text-right font-medium">Base de 30.000 €</th>
+                <th class="px-3 py-2 text-right font-medium">Base de 50.000 €</th>
                 <th class="px-3 py-2 text-right font-medium">Tipo máximo</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="border-b border-gray-100 dark:border-gray-700">
-                <td class="px-3 py-2 font-medium">Madrid</td>
-                <td class="px-3 py-2 text-right tabular-nums">20,50%</td>
-                <td class="px-3 py-2 text-right tabular-nums">28,84%</td>
-                <td class="px-3 py-2 text-right tabular-nums">35,15%</td>
-                <td class="px-3 py-2 text-right tabular-nums font-medium text-emerald-600">45,50%</td>
-              </tr>
-              <tr class="border-b border-gray-100 dark:border-gray-700">
-                <td class="px-3 py-2 font-medium">Andalucía</td>
-                <td class="px-3 py-2 text-right tabular-nums">22,00%</td>
-                <td class="px-3 py-2 text-right tabular-nums">30,00%</td>
-                <td class="px-3 py-2 text-right tabular-nums">37,00%</td>
-                <td class="px-3 py-2 text-right tabular-nums">47,00%</td>
-              </tr>
-              <tr class="border-b border-gray-100 dark:border-gray-700">
-                <td class="px-3 py-2 font-medium">Cataluña</td>
-                <td class="px-3 py-2 text-right tabular-nums">21,50%</td>
-                <td class="px-3 py-2 text-right tabular-nums">30,00%</td>
-                <td class="px-3 py-2 text-right tabular-nums">37,00%</td>
-                <td class="px-3 py-2 text-right tabular-nums">50,00%</td>
-              </tr>
-              <tr class="border-b border-gray-100 dark:border-gray-700">
-                <td class="px-3 py-2 font-medium">C. Valenciana</td>
-                <td class="px-3 py-2 text-right tabular-nums">23,00%</td>
-                <td class="px-3 py-2 text-right tabular-nums">30,00%</td>
-                <td class="px-3 py-2 text-right tabular-nums">38,00%</td>
-                <td class="px-3 py-2 text-right tabular-nums font-medium text-red-600">54,00%</td>
-              </tr>
-              <tr class="border-b border-gray-100 dark:border-gray-700">
-                <td class="px-3 py-2 font-medium">Galicia</td>
-                <td class="px-3 py-2 text-right tabular-nums">22,50%</td>
-                <td class="px-3 py-2 text-right tabular-nums">30,00%</td>
-                <td class="px-3 py-2 text-right tabular-nums">37,50%</td>
-                <td class="px-3 py-2 text-right tabular-nums">47,00%</td>
-              </tr>
-              <tr class="border-b border-gray-100 dark:border-gray-700">
-                <td class="px-3 py-2 font-medium">Castilla y León</td>
-                <td class="px-3 py-2 text-right tabular-nums">22,00%</td>
-                <td class="px-3 py-2 text-right tabular-nums">30,00%</td>
-                <td class="px-3 py-2 text-right tabular-nums">37,00%</td>
-                <td class="px-3 py-2 text-right tabular-nums">46,00%</td>
-              </tr>
-              <tr>
-                <td class="px-3 py-2 font-medium">Aragón</td>
-                <td class="px-3 py-2 text-right tabular-nums">22,00%</td>
-                <td class="px-3 py-2 text-right tabular-nums">30,00%</td>
-                <td class="px-3 py-2 text-right tabular-nums">37,00%</td>
-                <td class="px-3 py-2 text-right tabular-nums">47,50%</td>
-              </tr>
+              {CCAA_TABLA.map(([codigo, nombre]) => (
+                <tr class="border-b border-gray-100 dark:border-gray-700">
+                  <td class="px-3 py-2">{nombre}</td>
+                  <td class="px-3 py-2 text-right tabular-nums">{pctTipo(marginal(codigo, 15000))}</td>
+                  <td class="px-3 py-2 text-right tabular-nums">{pctTipo(marginal(codigo, 30000))}</td>
+                  <td class="px-3 py-2 text-right tabular-nums">{pctTipo(marginal(codigo, 50000))}</td>
+                  <td class="px-3 py-2 text-right tabular-nums font-medium">{pctTipo(marginal(codigo, 1e9))}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
         <p>
-          Como se observa, <strong>Madrid tiene los tipos más bajos</strong> de las comunidades de régimen común, con un máximo del 45,50%. En el otro extremo, la <strong>Comunidad Valenciana alcanza el 54%</strong> para rentas muy elevadas. Para la mayoría de trabajadores con salarios entre 25.000 y 60.000 euros, la diferencia práctica entre comunidades suele estar entre 500 y 2.500 euros anuales.
+          Como se observa, <strong>Madrid tiene los tipos más bajos</strong> de las comunidades de régimen común, con un máximo del 45%. En el otro extremo, la <strong>Comunidad Valenciana alcanza el 53,85%</strong> para rentas muy elevadas. Para la mayoría de trabajadores con salarios entre 25.000 y 60.000 euros, la diferencia práctica entre comunidades suele estar entre 500 y 2.500 euros anuales.
         </p>
       </section>
 

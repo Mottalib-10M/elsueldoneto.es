@@ -10,19 +10,19 @@ const description = `¿A qué edad te puedes jubilar y cuánto cobrarás? Edad d
 const faqs = [
   {
     question: '¿A qué edad me puedo jubilar en España en 2026?',
-    answer: `En 2026, la edad ordinaria de jubilación es de 66 años y 8 meses. Sin embargo, si has cotizado 38 años o más, puedes jubilarte a los 65 años con el 100% de tu pensión. La edad ordinaria continúa subiendo hasta los 67 años en 2027 para quienes no alcancen los 38 años y seis meses cotizados, según el calendario fijado por la reforma de 2011.`,
+    answer: `En 2026, la edad ordinaria de jubilación es de 66 años y 10 meses. Sin embargo, si has cotizado 38 años y 3 meses o más, puedes jubilarte a los 65 años con el 100% de tu pensión. La edad ordinaria continúa subiendo hasta los 67 años en 2027 para quienes no alcancen los 38 años y seis meses cotizados, según el calendario fijado por la reforma de 2011.`,
   },
   {
     question: '¿Cuántos años hay que cotizar para cobrar el 100% de la pensión?',
     answer: 'Necesitas al menos 36 años y 6 meses cotizados para cobrar el 100% de la base reguladora. Con 15 años cotizados (mínimo exigido) cobrarías el 50%. Cada mes adicional entre 15 y 36,5 años incrementa el porcentaje gradualmente. El porcentaje se aplica sobre la base reguladora, no sobre el último salario: si los últimos años han sido de menor cotización, la pensión resultante puede quedar bastante por debajo de lo esperado.',
   },
   {
-    question: '¿Puedo jubilarme antes de los 66 años y 8 meses?',
+    question: '¿Puedo jubilarme antes de los 66 años y 10 meses?',
     answer: 'Sí, existe la jubilación anticipada. Si es voluntaria, puedes adelantarla hasta 2 años antes de la edad ordinaria, con un mínimo de 35 años cotizados y penalizaciones de entre el 2% y el 3,26% por trimestre anticipado. Si es involuntaria (despido, ERE), puedes adelantarla hasta 4 años con penalizaciones menores.',
   },
   {
     question: '¿Qué es el complemento por brecha de género?',
-    answer: 'Es una cantidad adicional que se suma a la pensión por cada hijo, destinada a compensar la brecha de género en las pensiones. En 2026, el importe es de aproximadamente 33,20 € mensuales por hijo. Pueden solicitarlo tanto mujeres como hombres, aunque se concede al progenitor cuya pensión resulte perjudicada por la interrupción de su carrera laboral.',
+    answer: 'Es una cantidad adicional que se suma a la pensión por cada hijo, destinada a compensar la brecha de género en las pensiones. En 2026, el importe es de 36,90 € mensuales por hijo. Pueden solicitarlo tanto mujeres como hombres, aunque se concede al progenitor cuya pensión resulte perjudicada por la interrupción de su carrera laboral.',
   },
 ];
 
@@ -35,6 +35,7 @@ const schemas = [
   buildFAQSchema(faqs),
   buildArticleSchema(title, description, Astro.url.pathname),
 ];
+import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} ogType="article" schema={schemas}>
@@ -54,6 +55,8 @@ const schemas = [
     <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
       Saber cuándo podrás jubilarte y cuánto cobrarás de pensión es clave para planificar tu futuro financiero. En esta guía te explicamos todo lo que necesitas saber sobre la jubilación en España: edad legal, cálculo de la pensión, jubilación anticipada y mucho más. Tres cifras deciden una pensión. La edad de jubilación, que se acerca a los 67 años y depende de cuánto hayas cotizado. El periodo cotizado, con 15 años como mínimo para tener derecho y 36 años y 6 meses para el 100 % del porcentaje en 2026. Y la base reguladora, calculada con las bases de cotización de los últimos años de la carrera, hoy los 25 últimos, actualizadas por inflación. La jubilación anticipada es posible, pero aplica coeficientes reductores permanentes por cada trimestre que se adelanta.
     </p>
+<MiniSimAutonome client:visible kind="ahorro" lang="es" locale="es-ES" href="/" />
+
 
     <div class="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">
       <p class="font-medium text-blue-800 dark:text-blue-300">
@@ -76,12 +79,12 @@ const schemas = [
           </thead>
           <tbody>
             <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">38 años o más</td>
+              <td class="px-3 py-2">38 años y 3 meses o más</td>
               <td class="px-3 py-2 text-right tabular-nums font-medium text-emerald-700">65 años</td>
             </tr>
             <tr>
-              <td class="px-3 py-2">Menos de 38 años</td>
-              <td class="px-3 py-2 text-right tabular-nums font-medium">66 años y 8 meses</td>
+              <td class="px-3 py-2">Menos de 38 años y 3 meses</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">66 años y 10 meses</td>
             </tr>
           </tbody>
         </table>
@@ -157,19 +160,19 @@ const schemas = [
           <tbody>
             <tr class="border-b border-gray-100 dark:border-gray-700">
               <td class="px-3 py-2">Pensión máxima</td>
-              <td class="px-3 py-2 text-right tabular-nums font-medium">3.267,60 €</td>
+              <td class="px-3 py-2 text-right tabular-nums font-medium">3.359,60 €</td>
             </tr>
             <tr class="border-b border-gray-100 dark:border-gray-700">
               <td class="px-3 py-2">Pensión mínima (con cónyuge a cargo, +65 años)</td>
-              <td class="px-3 py-2 text-right tabular-nums">1.033,20 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.256,60 €</td>
             </tr>
             <tr class="border-b border-gray-100 dark:border-gray-700">
               <td class="px-3 py-2">Pensión mínima (sin cónyuge, +65 años)</td>
-              <td class="px-3 py-2 text-right tabular-nums">838,80 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">936,20 €</td>
             </tr>
             <tr>
               <td class="px-3 py-2">Pensión mínima (con cónyuge no a cargo, +65 años)</td>
-              <td class="px-3 py-2 text-right tabular-nums">795,60 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">888,70 €</td>
             </tr>
           </tbody>
         </table>
@@ -235,7 +238,7 @@ const schemas = [
       <section>
         <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">7. Complemento por brecha de género</h2>
         <p>
-          Desde febrero de 2021, las pensiones contributivas incluyen un <strong>complemento por brecha de género</strong> destinado a reducir la diferencia entre las pensiones de hombres y mujeres. En {CURRENT_FISCAL_YEAR}, el importe es de aproximadamente <strong>33,20 € mensuales por cada hijo</strong> (14 pagas).
+          Desde febrero de 2021, las pensiones contributivas incluyen un <strong>complemento por brecha de género</strong> destinado a reducir la diferencia entre las pensiones de hombres y mujeres. En {CURRENT_FISCAL_YEAR}, el importe es de <strong>36,90 € mensuales por cada hijo</strong> (14 pagas).
         </p>
         <p>
           Pueden solicitarlo tanto hombres como mujeres, aunque se concede al progenitor que acredite un perjuicio en su carrera profesional por el nacimiento o adopción. En la práctica, si ambos progenitores lo solicitan, se concede a la mujer salvo que el hombre demuestre un perjuicio mayor. Ejemplos de importes:
@@ -251,18 +254,18 @@ const schemas = [
           <tbody>
             <tr class="border-b border-gray-100 dark:border-gray-700">
               <td class="px-3 py-2">1 hijo</td>
-              <td class="px-3 py-2 text-right tabular-nums">33,20 €</td>
-              <td class="px-3 py-2 text-right tabular-nums">464,80 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">36,90 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">516,60 €</td>
             </tr>
             <tr class="border-b border-gray-100 dark:border-gray-700">
               <td class="px-3 py-2">2 hijos</td>
-              <td class="px-3 py-2 text-right tabular-nums">66,40 €</td>
-              <td class="px-3 py-2 text-right tabular-nums">929,60 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">73,80 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.033,20 €</td>
             </tr>
             <tr>
               <td class="px-3 py-2">3 hijos</td>
-              <td class="px-3 py-2 text-right tabular-nums">99,60 €</td>
-              <td class="px-3 py-2 text-right tabular-nums">1.394,40 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">110,70 €</td>
+              <td class="px-3 py-2 text-right tabular-nums">1.549,80 €</td>
             </tr>
           </tbody>
         </table>

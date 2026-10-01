@@ -1,5 +1,28 @@
 ---
 import Layout from '../../../components/layout/Layout.astro';
+import { calcularSueldoNeto } from '../../../lib/irpf-engine';
+import { seguridadSocial2026, tipoEmpleadoIndefinido } from '../../../data/seguridad-social-2026';
+import { tramosEstatales2026 } from '../../../data/irpf-2026';
+import { getCCAAByCodigo } from '../../../data/comunidades-autonomas';
+const eu = (x: number, d = 2) => '€' + x.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+const pc = (x: number, d = 2) => (x * 100).toFixed(d) + '%';
+const EJ_BRUTO = 35000;
+const ej = calcularSueldoNeto(EJ_BRUTO, 'MD', undefined, 12);
+const SS_FILAS: Array<[string, number]> = [
+  ['Common contingencies', seguridadSocial2026.empleado.contingenciasComunes],
+  ['Unemployment', seguridadSocial2026.empleado.desempleoIndefinido],
+  ['Vocational training (FP)', seguridadSocial2026.empleado.formacionProfesional],
+  ['MEI (Intergenerational Equity)', seguridadSocial2026.empleado.mei],
+];
+/** State and Madrid scales merged on every threshold of either one. */
+const mdTramos = getCCAAByCodigo('MD').tramos;
+const cortes = [...new Set([...tramosEstatales2026, ...mdTramos].map((t) => t.hasta))].sort((a, b) => a - b);
+const tipoEn = (tramos: { hasta: number; tipo: number }[], base: number) => tramos.find((t) => base <= t.hasta)!.tipo;
+const ESCALA_MD = cortes.map((hasta, i) => {
+  const desde = i === 0 ? 0 : cortes[i - 1];
+  const e = tipoEn(tramosEstatales2026, hasta), m = tipoEn(mdTramos, hasta);
+  return { etiqueta: i === 0 ? `Up to ${eu(hasta, 0)}` : hasta === Infinity ? `Over ${eu(desde, 0)}` : `${eu(desde, 0)} - ${eu(hasta, 0)}`, e, m };
+});
 import { CURRENT_FISCAL_YEAR } from '../../../config';
 import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../../lib/seo';
 import AuthorByline from '../../../components/layout/AuthorByline.astro';
@@ -8,7 +31,7 @@ const title = `Net salary in Spain ${CURRENT_FISCAL_YEAR}: how to calculate it s
 const description = `Full net salary formula: IRPF brackets, Social Security contributions, personal allowance and family deductions, with worked examples updated for ${CURRENT_FISCAL_YEAR}.`;
 
 const faqs = [
-  { question: 'What percentage of my gross salary goes to Social Security?', answer: 'Employees contribute approximately 6.47% of their gross salary to Social Security: 4.70% for common contingencies, 1.55% for unemployment, 0.10% for vocational training, and 0.12% for the MEI (Intergenerational Equity Mechanism). Contributions apply up to a monthly ceiling, above which nothing further is deducted, which is why the effective social security rate falls as salary rises while income tax keeps climbing.' },
+  { question: 'What percentage of my gross salary goes to Social Security?', answer: 'Employees contribute 6.50% of their gross salary to Social Security: 4.70% for common contingencies, 1.55% for unemployment, 0.10% for vocational training, and 0.15% for the MEI (Intergenerational Equity Mechanism). Contributions apply up to a monthly ceiling, above which nothing further is deducted, which is why the effective social security rate falls as salary rises while income tax keeps climbing.' },
   { question: 'What is the personal minimum (mínimo personal)?', answer: 'The personal minimum is a tax-free allowance of €5,550 per year for most taxpayers. It increases for taxpayers over 65 (€6,700) and over 75 (€8,100). Additional allowances apply for dependent children and ascendants. The allowance is not subtracted from the tax due but from the taxable base at the lowest bracket rate, so its cash value is roughly the same for every taxpayer rather than larger for high earners.' },
   { question: 'How is the IRPF withholding rate determined?', answer: 'Your employer calculates your IRPF withholding based on your gross salary, personal and family situation (marital status, children, disability), contract type, and the applicable state and regional tax brackets. The figure is an advance on the final tax, not the tax itself: any excess is refunded after the annual return, and any shortfall becomes a payment. Form 145 is how you notify a change of circumstances.' },
 ];
@@ -22,6 +45,7 @@ const schemas = [
   buildFAQSchema(faqs, 'en'),
   buildArticleSchema(title, description, Astro.url.pathname, 'en'),
 ];
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
@@ -42,10 +66,12 @@ const schemas = [
       <p>
         Understanding how your gross salary translates to net pay in Spain requires knowledge of two main deductions: Social Security contributions and IRPF (personal income tax) withholdings. While your payslip shows the final number, knowing how it is calculated helps you negotiate better and plan your finances. The order of operations decides the result. Social Security is deducted first, at 4.7% for general contingencies, 1.55% for unemployment on a permanent contract and 0.1% for vocational training, within an annual ceiling. What remains is the base on which IRPF is calculated, after personal and family reductions. The withholding rate is then applied evenly across the pay periods, which is why a salary paid in fourteen instalments shows a different monthly figure from the same salary paid in twelve, even though the annual tax is identical.
       </p>
+<MiniSimAutonome client:visible kind="neto" lang="en" locale="en-GB" href="/en/" />
+
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Step 1: Deduct Social Security Contributions</h2>
       <p>
-        Every employee in Spain contributes roughly 6.47% of their gross salary to Social Security. This covers common contingencies (4.70%), unemployment insurance (1.55%), vocational training (0.10%), and the Intergenerational Equity Mechanism or MEI (0.12%). These contributions are capped at the maximum contribution base, which is reviewed annually. For {CURRENT_FISCAL_YEAR}, the maximum base is set by the General State Budget.
+        Every employee in Spain contributes 6.50% of their gross salary to Social Security. This covers common contingencies (4.70%), unemployment insurance (1.55%), vocational training (0.10%), and the Intergenerational Equity Mechanism or MEI (0.15%). These contributions are capped at the maximum contribution base, which is reviewed annually: €5,101.20 per month in {CURRENT_FISCAL_YEAR}. Above it, only a small solidarity contribution applies.
       </p>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Step 2: Calculate the IRPF Withholding</h2>
@@ -65,7 +91,7 @@ const schemas = [
 
       <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Social Security Deductions</h3>
       <p>
-        The first deduction from gross salary is Social Security. We apply the standard employee rates to the full €35,000:
+        The first deduction from gross salary is Social Security. We apply the {CURRENT_FISCAL_YEAR} employee rates to the full {eu(EJ_BRUTO, 0)}:
       </p>
       <div class="overflow-x-auto">
         <table class="min-w-full border-collapse text-sm">
@@ -77,41 +103,28 @@ const schemas = [
             </tr>
           </thead>
           <tbody>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Common contingencies</td>
-              <td class="py-2 pr-4 text-right">4.70%</td>
-              <td class="py-2 text-right">€1,645.00</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Unemployment</td>
-              <td class="py-2 pr-4 text-right">1.55%</td>
-              <td class="py-2 text-right">€542.50</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Vocational training (FP)</td>
-              <td class="py-2 pr-4 text-right">0.10%</td>
-              <td class="py-2 text-right">€35.00</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">MEI (Intergenerational Equity)</td>
-              <td class="py-2 pr-4 text-right">0.12%</td>
-              <td class="py-2 text-right">€42.00</td>
-            </tr>
+            {SS_FILAS.map(([nombre, tipo]) => (
+              <tr class="border-b border-gray-200 dark:border-gray-700">
+                <td class="py-2 pr-4">{nombre}</td>
+                <td class="py-2 pr-4 text-right">{pc(tipo)}</td>
+                <td class="py-2 text-right">{eu(EJ_BRUTO * tipo)}</td>
+              </tr>
+            ))}
             <tr class="font-semibold">
               <td class="py-2 pr-4">Total employee Social Security</td>
-              <td class="py-2 pr-4 text-right">6.47%</td>
-              <td class="py-2 text-right">€2,264.50</td>
+              <td class="py-2 pr-4 text-right">{pc(tipoEmpleadoIndefinido)}</td>
+              <td class="py-2 text-right">{eu(ej.seguridadSocialAnual)}</td>
             </tr>
           </tbody>
         </table>
       </div>
       <p>
-        After Social Security, the taxable income for IRPF purposes is €35,000 - €2,264.50 = €32,735.50.
+        Social Security and the flat €2,000 allowance for work expenses are then subtracted: {eu(EJ_BRUTO, 0)} - {eu(ej.seguridadSocialAnual)} - €2,000 = {eu(ej.baseImponible)} of taxable income. At this salary the extra reduction for low employment income no longer applies.
       </p>
 
       <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">IRPF Calculation Using Tax Brackets</h3>
       <p>
-        The combined state and regional brackets (using Madrid's rates, which are among the lowest) are applied progressively. Here is the full IRPF bracket table showing both state and Madrid regional rates:
+        The state scale and the Madrid regional scale are applied progressively, each on its own thresholds. Here are both scales for {CURRENT_FISCAL_YEAR}, merged band by band:
       </p>
       <div class="overflow-x-auto">
         <table class="min-w-full border-collapse text-sm">
@@ -124,62 +137,34 @@ const schemas = [
             </tr>
           </thead>
           <tbody>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Up to €12,450</td>
-              <td class="py-2 pr-4 text-right">9.50%</td>
-              <td class="py-2 pr-4 text-right">9.50%</td>
-              <td class="py-2 text-right">19.00%</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">€12,450 - €17,707</td>
-              <td class="py-2 pr-4 text-right">12.00%</td>
-              <td class="py-2 pr-4 text-right">10.70%</td>
-              <td class="py-2 text-right">22.70%</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">€17,707 - €20,200</td>
-              <td class="py-2 pr-4 text-right">12.00%</td>
-              <td class="py-2 pr-4 text-right">10.70%</td>
-              <td class="py-2 text-right">22.70%</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">€20,200 - €35,200</td>
-              <td class="py-2 pr-4 text-right">15.00%</td>
-              <td class="py-2 pr-4 text-right">13.30%</td>
-              <td class="py-2 text-right">28.30%</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">€35,200 - €53,407</td>
-              <td class="py-2 pr-4 text-right">18.50%</td>
-              <td class="py-2 pr-4 text-right">17.90%</td>
-              <td class="py-2 text-right">36.40%</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Over €53,407</td>
-              <td class="py-2 pr-4 text-right">22.50%</td>
-              <td class="py-2 pr-4 text-right">21.00%</td>
-              <td class="py-2 text-right">43.50%</td>
-            </tr>
+            {ESCALA_MD.map((t) => (
+              <tr class="border-b border-gray-200 dark:border-gray-700">
+                <td class="py-2 pr-4">{t.etiqueta}</td>
+                <td class="py-2 pr-4 text-right">{pc(t.e)}</td>
+                <td class="py-2 pr-4 text-right">{pc(t.m)}</td>
+                <td class="py-2 text-right">{pc(t.e + t.m)}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
       <p>
-        Applying these brackets to €32,735.50 of taxable income (after subtracting the personal minimum effect), the total IRPF withholding comes to approximately €5,290 per year. This gives a withholding rate of about 15.1% of gross salary.
+        Applying these scales to {eu(ej.baseImponible)}, then subtracting the tax that corresponds to the €5,550 personal minimum, the IRPF for the year comes to {eu(ej.irpfTotalAnual)}: {eu(ej.irpfEstatalAnual)} for the state and {eu(ej.irpfAutonomicoAnual)} for Madrid. That is {pc(ej.tipoEfectivoIRPF, 1)} of gross salary.
       </p>
 
       <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Final Net Salary Result</h3>
       <p>
-        Putting it all together for our €35,000 example:
+        Putting it all together for our {eu(EJ_BRUTO, 0)} example:
       </p>
       <ul>
-        <li>Gross annual salary: €35,000.00</li>
-        <li>Social Security deductions: -€2,264.50</li>
-        <li>IRPF withholding: -€5,290.00</li>
-        <li><strong>Net annual salary: approximately €27,445.50</strong></li>
-        <li><strong>Net monthly salary (12 payments): approximately €2,287.13</strong></li>
+        <li>Gross annual salary: {eu(EJ_BRUTO)}</li>
+        <li>Social Security deductions: -{eu(ej.seguridadSocialAnual)}</li>
+        <li>IRPF withholding: -{eu(ej.irpfTotalAnual)}</li>
+        <li><strong>Net annual salary: {eu(ej.netoAnual)}</strong></li>
+        <li><strong>Net monthly salary (12 payments): {eu(ej.netoAnual / 12)}</strong></li>
       </ul>
       <p>
-        This means you take home about 78.4% of your gross salary. If you receive 14 payments (with two extra pagas), the monthly net figure would be lower but you receive two additional payments in June and December.
+        This means you take home about {pc(ej.netoAnual / EJ_BRUTO, 1)} of your gross salary. If you receive 14 payments (with two extra pagas), the monthly net figure would be lower but you receive two additional payments in June and December.
       </p>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Anatomy of a Spanish Payslip (Nomina)</h2>
@@ -189,7 +174,7 @@ const schemas = [
       <ul>
         <li><strong>Header:</strong> Your personal details, company information, Social Security number, professional category, contract type, and seniority date.</li>
         <li><strong>Devengos (Accruals):</strong> This is the earnings section. It lists your base salary (<em>salario base</em>), seniority supplements (<em>antigueedad</em>), transport or meal allowances, overtime, and any other compensation. The sum of all devengos is your total gross pay for the month.</li>
-        <li><strong>Deducciones (Deductions):</strong> This section lists everything subtracted from your gross. You will see lines for common contingencies (4.70%), unemployment (1.55%), vocational training (0.10%), MEI (0.12%), and your IRPF withholding percentage. The IRPF rate shown is your annualized effective withholding rate, not your marginal bracket.</li>
+        <li><strong>Deducciones (Deductions):</strong> This section lists everything subtracted from your gross. You will see lines for common contingencies (4.70%), unemployment (1.55%), vocational training (0.10%), MEI (0.15%), and your IRPF withholding percentage. The IRPF rate shown is your annualized effective withholding rate, not your marginal bracket.</li>
         <li><strong>Liquido total a percibir:</strong> The net amount you receive. This is your gross minus all deductions, which is the amount deposited into your bank account.</li>
         <li><strong>Company contributions section:</strong> At the bottom, some payslips show what your employer pays to Social Security on your behalf (roughly 30% of your gross), though this does not reduce your take-home pay.</li>
       </ul>

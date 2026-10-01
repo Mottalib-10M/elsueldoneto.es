@@ -31,6 +31,7 @@ const faqPage = [
 const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
 import ContextoFiscal from '../../../components/ContextoFiscal.astro';
 import ContextoFiscalEn from '../../../components/ContextoFiscalEn.astro';
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
@@ -47,6 +48,8 @@ import ContextoFiscalEn from '../../../components/ContextoFiscalEn.astro';
       Check the approximate net salary for the most searched gross amounts in Spain.
       Each link leads to a detailed page with breakdown by autonomous community and family situation. Each page starts from a gross annual salary and works down to the monthly net, applying Social Security at 6.35% for a standard permanent contract, the state and regional IRPF scales, and the personal and family reductions. The result is shown for all seventeen autonomous communities, because the regional half of the tax is where the differences appear, and for the usual household situations. The figures assume twelve or fourteen payments as stated on the page, no company benefits in kind and no deductions beyond the standard ones. Anyone with a company car, stock options or a second employer will see a different figure, and a tax adviser should confirm anything you act on.
     </p>
+<MiniSimAutonome client:visible kind="neto" lang="en" locale="en-GB" href="/en/" />
+
 
     <section class="mb-10">
       <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">By monthly salary</h2>

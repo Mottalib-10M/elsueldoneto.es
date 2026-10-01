@@ -35,6 +35,7 @@ const schemas = [
   buildFAQSchema(faqs),
   buildArticleSchema(title, description, Astro.url.pathname),
 ];
+import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} ogType="article" schema={schemas}>
@@ -54,6 +55,8 @@ const schemas = [
     <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
       Cuando finaliza una relación laboral, ya sea por despido, fin de contrato o baja voluntaria, la empresa debe abonarte un finiquito. En algunos casos, también tienes derecho a una indemnización. Esta guía te explica paso a paso cómo calcular cada concepto, qué impuestos se aplican y cuánto deberías recibir. La distinción decide el importe. El finiquito liquida lo ya devengado y no cobrado: los días trabajados del mes, las vacaciones no disfrutadas y la parte proporcional de las pagas extra, y se cobra siempre, incluso en una baja voluntaria. La indemnización solo existe cuando el contrato se extingue por causas ajenas a tu voluntad: 33 días de salario por año trabajado en un despido improcedente y 20 días en uno objetivo, con los topes que marca la ley. La indemnización está exenta de IRPF hasta 180.000 €; el finiquito, no.
     </p>
+<MiniSimAutonome client:visible kind="finiquito" lang="es" locale="es-ES" href="/" />
+
 
     <div class="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">
       <p class="font-medium text-blue-800 dark:text-blue-300">

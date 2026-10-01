@@ -3,12 +3,12 @@ import { useState, useMemo } from 'react';
 import CampoEntrada from '../ui/CampoEntrada';
 import { formatEuros } from '../../lib/format-es';
 
-/** Pensión máxima mensual 2025 */
-const PENSION_MAXIMA = 3175.04;
+/** Pensión máxima mensual 2026 */
+const PENSION_MAXIMA = 3359.60;
 /** Pensión mínima sin cónyuge a cargo */
-const PENSION_MINIMA_SIN_CONYUGE = 783;
+const PENSION_MINIMA_SIN_CONYUGE = 936.20;
 /** Pensión mínima con cónyuge a cargo */
-const PENSION_MINIMA_CON_CONYUGE = 1033;
+const PENSION_MINIMA_CON_CONYUGE = 1256.60;
 /** Años mínimos cotizados para acceder a pensión */
 const ANIOS_MINIMOS = 15;
 
@@ -35,8 +35,8 @@ function calcularPorcentaje(aniosCotizados: number): number {
 }
 
 function calcularEdadJubilacion(aniosCotizadosTotales: number): number {
-  // Regla 2026: con 38+ años cotizados jubilación a los 65, con menos a los 66 años y 8 meses (usamos 67)
-  return aniosCotizadosTotales >= 38 ? 65 : 67;
+  // Regla 2026: con 38 años y 3 meses cotizados o más, jubilación a los 65; con menos, a los 66 años y 10 meses (usamos 67)
+  return aniosCotizadosTotales >= 38.25 ? 65 : 67;
 }
 
 export default function Jubilacion({ lang = 'es' }: { lang?: 'es' | 'en' }) {
@@ -203,7 +203,7 @@ export default function Jubilacion({ lang = 'es' }: { lang?: 'es' | 'en' }) {
                 </td>
               </tr>
               <tr className="border-b border-gray-100 dark:border-gray-700">
-                <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Maximum pension 2025' : 'Pensión máxima 2025'}</td>
+                <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Maximum pension 2026' : 'Pensión máxima 2026'}</td>
                 <td className="px-4 py-2 text-right tabular-nums font-medium">{formatEuros(PENSION_MAXIMA)}/{l ? 'mo' : 'mes'}</td>
               </tr>
               <tr className="border-b border-gray-100 dark:border-gray-700">
