@@ -46,7 +46,9 @@ const schemas = isHomepage
   : pageSchemas;
 
 // Hreflang
-const hreflang = getHreflangUrls(Astro.url.pathname);
+const hreflangBrut = getHreflangUrls(Astro.url.pathname);
+// Les fiches /en/salary/<montant>/ sont en noindex : aucun hreflang ne doit les viser.
+const hreflang = hreflangBrut && /^\/en\/salary\/[^/]+\/$/.test(hreflangBrut.en) ? null : hreflangBrut;
 
 // Skip-to-content label
 const skipLabel = locale === 'en' ? 'Skip to content' : 'Ir al contenido';
