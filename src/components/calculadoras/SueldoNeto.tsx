@@ -54,7 +54,7 @@ export default function SueldoNeto({
         if (situacion.hijos > 0) params.set('hijos', String(situacion.hijos));
         if (situacion.conyuge !== 'soltero') params.set('conyuge', situacion.conyuge);
         const newUrl = `${window.location.pathname}#${params.toString()}`;
-        window.history.replaceState(null, '', newUrl);
+        History.prototype.replaceState.call(window.history, null, '', newUrl);
       }
     }, 500);
     return () => clearTimeout(timeout);
@@ -85,7 +85,7 @@ export default function SueldoNeto({
     // Migrate legacy query params to hash
     if (window.location.search) {
       const cleanUrl = `${window.location.pathname}#${window.location.search.replace(/^\?/, '')}`;
-      window.history.replaceState(null, '', cleanUrl);
+      History.prototype.replaceState.call(window.history, null, '', cleanUrl);
     }
     setDirty(true);
   }, []);

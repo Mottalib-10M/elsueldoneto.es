@@ -4,7 +4,7 @@ import { SITE_NAME, SITE_URL, CURRENT_FISCAL_YEAR } from '../config';
 import { buildBreadcrumbSchema } from '../lib/seo';
 
 const title = 'Privacidad y RGPD: qué datos tratamos y tus derechos';
-const description = 'Política de privacidad conforme al RGPD y la LOPDGDD. Tus datos salariales no salen de tu navegador: todos los cálculos se procesan 100% en tu dispositivo.';
+const description = 'Política de privacidad: tus datos salariales no salen de tu navegador. Qué herramientas de analítica usamos (Microsoft Clarity, Google Analytics), sus cookies y tus derechos.';
 
 const schemas = [
   buildBreadcrumbSchema([
@@ -60,57 +60,62 @@ const schemas = [
       <section>
         <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">3. Datos que recopilamos</h2>
         <p>
-          <strong>{SITE_NAME} no recopila datos personales identificativos.</strong> Las calculadoras salariales
+          <strong>{SITE_NAME} no recopila los datos que introduces en las calculadoras.</strong> Las calculadoras salariales
           funcionan íntegramente en tu navegador mediante JavaScript del lado del cliente. Los datos que
           introduces (salario bruto, situación familiar, comunidad autónoma, tipo de contrato y cualquier
           otro parámetro) no se envían a ningún servidor, no se almacenan en ninguna base de datos y no
-          son accesibles para nosotros ni para terceros.
+          son accesibles para nosotros ni para terceros. La visita al sitio sí se mide con las herramientas
+          de analítica descritas en el punto 4.
         </p>
         <p>
           La arquitectura técnica del sitio web está diseñada según el principio de "protección de datos
           desde el diseño" (privacy by design) de conformidad con el artículo 25 del RGPD.
         </p>
         <p>
-          Para mayor claridad, el sitio web no recopila ni trata las siguientes categorias de datos:
+          Para mayor claridad, el propio sitio web no recopila ni trata las siguientes categorías de datos:
         </p>
         <ul>
           <li><strong>Datos de identificación:</strong> nombre, apellidos, DNI/NIE, dirección</li>
           <li><strong>Datos de contacto:</strong> correo electrónico, teléfono (salvo cuando se facilitan voluntariamente por email)</li>
           <li><strong>Datos financieros:</strong> datos bancarios, importes salariales concretos</li>
-          <li><strong>Datos de navegación:</strong> cookies de seguimiento, identificadores únicos de dispositivo</li>
         </ul>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">4. Analítica: Plausible Analytics</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">4. Analítica: Microsoft Clarity y Google Analytics</h2>
         <p>
-          Utilizamos <a href="https://plausible.io" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">Plausible Analytics</a>,
-          un servicio de analítica web respetuoso con la privacidad que:
+          Para entender cómo se utiliza el sitio web, se cargan dos herramientas de analítica al abrir cada
+          página, sin banner de cookies previo.
         </p>
-        <ul>
-          <li><strong>No deposita cookies</strong> de ningún tipo</li>
-          <li><strong>No recopila datos personales</strong> ni los almacena</li>
-          <li><strong>No almacena direcciones IP</strong></li>
-          <li><strong>No utiliza fingerprinting</strong> ni otras técnicas de identificación persistente</li>
-          <li><strong>No rastrea</strong> a los usuarios entre sesiones o sitios web</li>
-          <li>Es totalmente compatible con el <strong>RGPD</strong> sin necesidad de consentimiento</li>
-          <li>Procesa los datos en servidores dentro de la <strong>Unión Europea</strong></li>
-        </ul>
         <p>
-          Plausible recopila exclusivamente datos agregados y anónimos como: páginas visitadas, fuentes de
-          tráfico, países de origen, tipos de dispositivo y navegadores. Estos datos no permiten en ningún
-          caso la identificación de visitantes individuales.
+          <strong>Microsoft Clarity</strong> (Microsoft Corporation) registra cómo se utilizan las páginas:
+          clics, desplazamiento, páginas vistas y su dirección, en forma de sesiones y mapas de calor. El
+          contenido de los campos de entrada se enmascara en tu navegador antes de cualquier envío. Clarity
+          deposita las cookies <code>_clck</code> (un año) y <code>_clsk</code> (un día); Microsoft puede
+          depositar además <code>MUID</code> y <code>CLID</code> en sus propios dominios. Más información:
+          <a href="https://privacy.microsoft.com/privacystatement" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">privacy.microsoft.com/privacystatement</a>.
+        </p>
+        <p>
+          <strong>Google Analytics 4</strong> (Google Ireland Limited) recibe las páginas vistas, la fuente
+          de la visita, el tipo de dispositivo y una ubicación aproximada deducida de la dirección IP.
+          Deposita las cookies <code>_ga</code> y <code>_ga_6FGRX7NXRF</code> (dos años). Más información:
+          <a href="https://policies.google.com/privacy" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">policies.google.com/privacy</a>.
+        </p>
+        <p>
+          Si abres una página mediante un enlace compartido que contiene valores en la dirección, esos
+          valores forman parte de la dirección de la página que registran estas herramientas. Consulta
+          nuestra <a href="/politica-cookies/" class="text-brand hover:underline">política de cookies</a>
+          para saber cómo rechazar estas cookies.
         </p>
       </section>
 
       <section>
         <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">5. Base legal del tratamiento</h2>
         <p>
-          Dado que no se tratan datos personales identificables, no es necesario identificar una base legal
-          específica en virtud del artículo 6 del RGPD. Para los datos estadísticos anónimos recopilados
-          por Plausible Analytics, la base legal aplicable es el interés legítimo del responsable (artículo
-          6, apartado 1, letra f, del RGPD), consistente en la necesidad de comprender cómo se utiliza el
-          sitio web para mejorar su contenido y funcionalidad.
+          Para los datos estadísticos recopilados por las herramientas de analítica, el responsable se
+          apoya en su interés legítimo (artículo 6, apartado 1, letra f, del RGPD) en comprender cómo se
+          utiliza el sitio web para mejorar su contenido y funcionalidad. Puedes oponerte escribiendo a la
+          dirección de contacto.
         </p>
       </section>
 
@@ -127,7 +132,7 @@ const schemas = [
           <li><strong>Derecho a retirar el consentimiento</strong> (art. 7): retirar el consentimiento en cualquier momento, sin que ello afecte a la licitud del tratamiento basado en el consentimiento previo a su retirada.</li>
         </ul>
         <p>
-          Dado que el sitio web no recopila datos personales, estos derechos no son aplicables en la práctica.
+          Estos derechos se aplican también a los datos recopilados por las herramientas de analítica.
           Para cualquier consulta, contáctenos en <a href="mailto:contact@elsueldoneto.es" class="text-brand hover:underline">contact@elsueldoneto.es</a>.
           Nos comprometemos a responder en un plazo de 30 días conforme al artículo 12 del RGPD.
         </p>
@@ -140,21 +145,18 @@ const schemas = [
       <section>
         <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">7. Conservación de datos</h2>
         <p>
-          Dado que no se almacenan datos personales de los usuarios, no se aplica ningún período de
-          conservación específico. Los datos estadísticos agregados de Plausible Analytics se conservan
-          durante el tiempo necesario para el análisis del tráfico del sitio web. Al ser anónimos, quedan
-          fuera del ámbito de aplicación de las disposiciones del RGPD relativas a la conservación de datos
-          personales.
+          Los datos introducidos en las calculadoras no se conservan. Clarity conserva las grabaciones de
+          sesión treinta días y los datos agregados trece meses como máximo; Google Analytics conserva los
+          datos de eventos durante el plazo configurado en la cuenta, catorce meses como máximo.
         </p>
       </section>
 
       <section>
         <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">8. Transferencia de datos fuera de la UE</h2>
         <p>
-          No se transfieren datos personales fuera de la Unión Europea. Plausible Analytics procesa todos
-          los datos en servidores dentro de la UE. Si en el futuro fuera necesario utilizar servicios con
-          servidores fuera de la UE, el responsable se asegurará del cumplimiento del capítulo V del RGPD
-          implementando las garantias adecuadas.
+          Los datos recopilados por Microsoft Clarity y Google Analytics pueden tratarse en servidores
+          situados en Estados Unidos. Microsoft y Google se acogen al Marco de Privacidad de Datos UE-EE. UU.
+          y a cláusulas contractuales tipo.
         </p>
       </section>
 

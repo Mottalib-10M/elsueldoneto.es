@@ -13,10 +13,10 @@ const schemas = [
   ]),
 ];
 const faqPage = [
-  { question: 'What cookies does this site use?', answer: 'Only those needed for the site to work and anonymous audience measurement. No advertising or profiling cookies are set, and the calculators themselves store nothing: every computation runs in your browser and is discarded when the tab closes. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
-  { question: 'Can I refuse analytics cookies?', answer: 'Yes, through the consent banner or your browser settings. Refusing them does not limit any feature of the site; it only removes the anonymous page-view statistics used to decide which calculators are worth improving. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
-  { question: 'Do you share data with third parties?', answer: 'Aggregated, anonymous audience statistics are processed by the analytics provider. No salary figure, no calculation input and no personal identifier is transmitted, because none of that data ever leaves your browser in the first place. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
-  { question: 'How long do the cookies last?', answer: 'Technical cookies expire when the session ends. Analytics cookies have a limited lifetime set by the provider, generally a few months, after which they are renewed only if you visit the site again and consent is still in force. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
+  { question: 'What cookies does this site use?', answer: 'Analytics cookies set by Microsoft Clarity (_clck, _clsk) and Google Analytics (_ga), which load when a page opens. No advertising or profiling cookies are set, and the calculators themselves store nothing: every computation runs in your browser and is discarded when the tab closes.' },
+  { question: 'Can I refuse analytics cookies?', answer: 'Yes, through your browser settings: block third-party cookies, or the domains clarity.ms and googletagmanager.com. The site shows no consent banner at present. Refusing these cookies does not limit any feature of the site.' },
+  { question: 'Do you share data with third parties?', answer: 'Browsing data (pages viewed, clicks, scrolling, device type) is processed by Microsoft Clarity and Google Analytics. No salary figure and no calculation input is transmitted: input fields are masked before anything is sent.' },
+  { question: 'How long do the cookies last?', answer: 'The Clarity cookie _clck lasts one year and _clsk one day. The Google Analytics cookies _ga and _ga_6FGRX7NXRF last two years.' },
 ];
 const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
 import ContextoFiscal from '../../components/ContextoFiscal.astro';
@@ -54,37 +54,32 @@ import ContextoFiscal from '../../components/ContextoFiscal.astro';
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">2. Does This Website Use Cookies?</h2>
       <p>
-        <strong>No, we do not use tracking cookies.</strong> No advertising cookies, third-party analytics
-        cookies, profiling cookies, or cookies for tracking user behaviour are placed. This means your
-        browsing activity is not tracked and no personal profiles are created based on your visit.
-      </p>
-      <p>
-        We only place strictly necessary technical cookies required for the basic functionality of the
-        website. These cookies do not require prior consent under Article 22.2 of the LSSI-CE and
-        Article 5(3) of the ePrivacy Directive, as they are strictly necessary to provide the service
-        requested by the user.
+        <strong>Yes.</strong> This website sets third-party analytics cookies through Microsoft Clarity and
+        Google Analytics 4. Both tools load when a page opens, with no prior cookie banner. No advertising
+        cookies are placed.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">3. Plausible Analytics: Cookie-Free</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">3. Analytics Tools</h2>
       <p>
-        For website statistics, we use
-        <a href="https://plausible.io" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">Plausible Analytics</a>,
-        a privacy-friendly, open-source alternative to Google Analytics that:
+        <strong>Microsoft Clarity</strong> (Microsoft Corporation) records how pages are used: clicks,
+        scrolling, pages viewed and their address, as sessions and heatmaps. The content of input fields is
+        masked in your browser before anything is sent. Clarity sets the cookies <code>_clck</code> (one
+        year) and <code>_clsk</code> (one day); Microsoft may also set <code>MUID</code> and
+        <code>CLID</code> on its own domains. More information:
+        <a href="https://privacy.microsoft.com/privacystatement" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">privacy.microsoft.com/privacystatement</a>.
       </p>
-      <ul class="list-disc pl-6 space-y-1">
-        <li><strong>Places no cookies</strong> of any kind</li>
-        <li><strong>Collects no personal data</strong></li>
-        <li><strong>Stores no IP addresses</strong></li>
-        <li><strong>Uses no fingerprinting</strong> or other persistent identification techniques</li>
-        <li><strong>Does not track</strong> users across sessions or websites</li>
-        <li>Is fully <strong>GDPR-compliant</strong> without requiring a cookie banner</li>
-        <li>Processes data on servers within the <strong>European Union</strong></li>
-      </ul>
       <p>
-        Plausible collects exclusively aggregated and anonymous statistics such as page views, traffic
-        sources, countries of origin, device types and browsers. This data cannot be traced back to
-        individual visitors. More information:
-        <a href="https://plausible.io/data-policy" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">https://plausible.io/data-policy</a>.
+        <strong>Google Analytics 4</strong> (Google Ireland Limited) receives the pages viewed, the referral
+        source, the device type and an approximate location derived from the IP address. It sets the
+        cookies <code>_ga</code> and <code>_ga_6FGRX7NXRF</code> (two years). More information:
+        <a href="https://policies.google.com/privacy" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">policies.google.com/privacy</a>.
+      </p>
+      <p>
+        Data collected by Microsoft Clarity and Google Analytics may be processed on servers located in
+        the United States. Microsoft and Google rely on the EU-U.S. Data Privacy Framework and on standard
+        contractual clauses. Clarity keeps session recordings for thirty days and aggregated data for no more than thirteen
+        months; Google Analytics keeps event data for the period set in the account, fourteen months at
+        most.
       </p>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">4. Functional Storage (localStorage)</h2>
@@ -113,17 +108,16 @@ import ContextoFiscal from '../../components/ContextoFiscal.astro';
         in a uniform and attractive presentation of our website.
       </p>
       <p>
-        We do not integrate any other third-party services that profile users. There are no social media
-        buttons, advertising widgets, remarketing services, or other tools that allow third parties to
-        track users.
+        Apart from Microsoft Clarity and Google Analytics (see section 3), we do not integrate other
+        third-party services. There are no social media buttons, advertising widgets or remarketing services.
       </p>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">6. Cookie Banner</h2>
       <p>
-        Since we do not use tracking cookies, analytics cookies, or marketing cookies, a cookie banner or
-        consent mechanism is not legally required under the LSSI-CE and ePrivacy Directive. Nevertheless,
-        we inform you fully and transparently through this policy, in line with the principles of
-        transparency and fairness of the GDPR.
+        This website currently shows no cookie banner: the analytics cookies listed above are set when a
+        page opens. You can refuse them by blocking third-party cookies, or the domains
+        <code>clarity.ms</code> and <code>googletagmanager.com</code>, in your browser settings. The
+        calculators work without them.
       </p>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">7. How to Manage Cookies in Your Browser</h2>
@@ -145,8 +139,8 @@ import ContextoFiscal from '../../components/ContextoFiscal.astro';
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">8. Your Rights</h2>
       <p>
         Under the GDPR and LOPDGDD, you have the right to be informed about the use of cookies and storage
-        technologies. Since we do not collect personal data through cookies, most GDPR rights are not
-        applicable in practice. You always have the right to reject cookies, delete localStorage data, lodge
+        technologies. For the data collected through the analytics cookies, you can exercise your GDPR rights by
+        writing to the contact address. You always have the right to reject cookies, delete localStorage data, lodge
         a complaint with the AEPD, and contact us with questions about our cookie policy.
       </p>
 
