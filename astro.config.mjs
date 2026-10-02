@@ -58,19 +58,9 @@ export default defineConfig({
       i18n: [{ prefix: '/en/', lang: 'en', about: '/en/about/', method: '/en/methodology/' }] }),
     react(),
     sitemap({
-      filter: (page) =>
-        !page.includes('/aviso-legal') &&
-        !page.includes('/politica-privacidad') &&
-        !page.includes('/politica-cookies') &&
-        !page.includes('/terminos') &&
-        !page.includes('/contacto') &&
-        !page.includes('/404') &&
-        !page.includes('/legal-notice') &&
-        !page.includes('/privacy-policy') &&
-        !page.includes('/cookie-policy') &&
-        !page.includes('/terms') &&
-        !page.includes('/contact') &&
-        !page.includes('/en/salary/'),
+      // Toutes les pages indexables, et elles seules : les fiches /en/salary/<montant>/ sont
+      // en noindex, l'index /en/salary/ ne l'est pas.
+      filter: (page) => { const p = new URL(page).pathname; return !p.includes('/404') && !/^\/en\/salary\/[^/]+\/$/.test(p); },
       serialize(item) {
         item.lastmod = new Date('2026-07-09').toISOString();
         return item;

@@ -1,7 +1,17 @@
 # Force HTTPS
 RewriteEngine On
-RewriteCond %{HTTPS} !=on
-RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+# Une seule adresse par page : https://elsueldoneto.es, en un seul saut.
+RewriteCond %{HTTP_HOST} ^www\. [NC,OR]
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://elsueldoneto.es%{REQUEST_URI} [L,R=301]
+# /dossier/index.html est la meme page que /dossier/
+RewriteCond %{THE_REQUEST} \s/+(?:[^?\s]*/)?index\.html[\s?] [NC]
+RewriteRule ^(.*/)?index\.html$ https://elsueldoneto.es/$1 [L,R=301]
+# Barre oblique finale : redirection ecrite ici, sinon Apache renvoie vers
+# une adresse portant le port (https://elsueldoneto.es:443/...)
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_URI} !/$
+RewriteRule ^(.*)$ https://elsueldoneto.es/$1/ [L,R=301]
 
 # Security Headers
 <IfModule mod_headers.c>
