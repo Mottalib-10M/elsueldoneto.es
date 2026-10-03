@@ -65,6 +65,29 @@ const porcentajeIRPF = dec((defaultResult.tipoEfectivoIRPF * 100), 1);
 const diferenciaCCAAAnual = maxNetoCCAA.desglose.netoAnual - minNetoCCAA.desglose.netoAnual;
 const diferenciaCCAAMensual = maxNetoCCAA.desglose.netoMensual - minNetoCCAA.desglose.netoMensual;
 
+// Ángulo propio de cada importe (RECETTE §6.2): el umbral que solo vive en esta página, con cifras del motor
+const E = seguridadSocial2026.empleado;
+const tipoSS = E.contingenciasComunes + E.desempleoIndefinido + E.formacionProfesional + E.mei;
+const masMil = calcularSueldoNeto(page.annualGross + 1000, 'MD', situacionFamiliarDefecto, 14);
+const netoDeMil = masMil.netoAnual - defaultResult.netoAnual;
+const marginalPct = dec((1 - netoDeMil / 1000) * 100, 1);
+const topeSSAnual = seguridadSocial2026.baseMaximaMensual * 12;
+const eurA = (v: number) => Math.round(v).toLocaleString('es-ES') + ' €';
+const angulos: Record<number, { titulo: string; texto: string }> = {
+  22000: {
+    titulo: 'Por qué los primeros euros de subida rinden menos a este nivel',
+    texto: `Con 22.000 € brutos, el rendimiento neto del trabajo queda en torno a los 18.500 €, dentro de la franja en la que la reducción por rendimientos del trabajo del artículo 20 de la Ley del IRPF se va apagando: cada euro más de sueldo reduce esa reducción en 1,14 euros hasta que desaparece, al llegar a 19.747,50 € de rendimiento neto. El efecto es un tipo marginal más alto de lo que sugiere la escala: de 1.000 € brutos más al año, en Madrid y sin hijos, te quedan ${eurA(netoDeMil)} netos, lo que equivale a perder el ${marginalPct} % entre Seguridad Social e IRPF. Es la razón por la que una subida de convenio modesta se nota poco en la nómina de enero, y por la que conviene revisar el tipo de retención tras cada cambio de salario.`,
+  },
+  30000: {
+    titulo: 'El salario de referencia: dónde empieza a pesar el IRPF',
+    texto: `30.000 € brutos es la cifra que se usa como referencia en casi todas las comparaciones, porque queda cerca del salario medio. A este nivel ya no queda reducción por rendimientos del trabajo, y la base liquidable cae en el tramo estatal del 15 %, al que se suma el autonómico. El resultado se ve mejor en el margen que en la media: de cada 1.000 € de subida, en Madrid y sin hijos, llegan a tu cuenta ${eurA(netoDeMil)}, un ${marginalPct} % menos, mientras que el tipo efectivo sobre todo el sueldo es mucho más bajo. Quien negocia una subida o compara ofertas debe razonar con esa cifra marginal, no con el porcentaje medio que aparece en la nómina.`,
+  },
+  55000: {
+    titulo: 'Cerca de dos umbrales: el tramo de 60.000 € y la base máxima',
+    texto: `Con 55.000 € brutos estás a pocos miles de euros de dos fronteras. La primera es fiscal: por encima de 60.000 € de base liquidable entra el tramo estatal del 22,5 %, aunque con los gastos deducibles todavía falta margen. La segunda es la de cotización: la Seguridad Social se calcula hasta la base máxima, ${eurA(topeSSAnual)} al año en 2026, y a partir de ahí tu cuota deja de crecer, salvo la pequeña cotización de solidaridad. Hoy, de 1.000 € brutos más, en Madrid y sin hijos, te quedarían ${eurA(netoDeMil)}, es decir, un ${marginalPct} % de detracción. A este nivel empieza a compensar mirar las aportaciones a planes de pensiones de empleo y la retribución flexible, que reducen la base al tipo marginal.`,
+  },
+};
+const angulo = angulos[page.amount];
 // Unique content generated per salary amount
 const bandContext = getBandContext(page.amount, defaultResult);
 const careerDesc = getCareerDescription(page.annualGross);
@@ -204,10 +227,10 @@ const schemas = [
 
     <!-- Calculator embedded -->
     <section class="mb-8">
-      <p class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <p class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed" data-chrome>
         Con un salario bruto de {amountFormatted} € al año, la nómina se reduce en dos pasos antes de llegar a tu
-        cuenta. Primero la Seguridad Social, un 6,35 % en un contrato indefinido estándar: 4,70 % por contingencias
-        comunes, 1,55 % por desempleo y 0,10 % por formación profesional. Lo que queda es la base sobre la que se
+        cuenta. Primero la Seguridad Social, un {dec(tipoSS * 100, 2)} % en un contrato indefinido estándar: 4,70 % por contingencias
+        comunes, 1,55 % por desempleo, 0,10 % por formación profesional y 0,15 % del mecanismo de equidad intergeneracional. Lo que queda es la base sobre la que se
         calcula el IRPF, después del mínimo personal y familiar, sumando la escala estatal y la de tu comunidad
         autónoma. Por eso dos personas con estos mismos {amountFormatted} € brutos cobran cantidades distintas según
         dónde residan: la diferencia entre la comunidad más y la menos gravosa supera con frecuencia los mil euros al
@@ -215,6 +238,13 @@ const schemas = [
         distintas de las generales.
       </p>
     </section>
+
+    {angulo && (
+      <section class="mb-8">
+        <h2 class="mb-4 text-2xl font-bold text-charcoal dark:text-gray-100">{angulo.titulo}</h2>
+        <p class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">{angulo.texto}</p>
+      </section>
+    )}
 
     <section class="mb-8">
       <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">

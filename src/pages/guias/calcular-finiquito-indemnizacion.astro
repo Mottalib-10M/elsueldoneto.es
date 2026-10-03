@@ -3,6 +3,9 @@ import Layout from '../../components/layout/Layout.astro';
 import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
 import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../lib/seo';
 import AuthorByline from '../../components/layout/AuthorByline.astro';
+import { calcularDespido } from '../../lib/despido-engine';
+import { eurES as eur, eurES2 as eur2, numES as num } from '../../lib/fuentes';
+const ej = calcularDespido({ inicio: '2021-09-16', fin: '2026-09-15', salarioAnual: 30000, tipo: 'improcedente', vacacionesDisfrutadas: 10 });
 
 const title = `Finiquito e indemnización ${CURRENT_FISCAL_YEAR}: cómo calcularlos paso a paso`;
 const description = `Despido improcedente, objetivo o fin de contrato: calcula tu finiquito e indemnización paso a paso. Vacaciones, pagas extras, IRPF y ejemplo práctico ${CURRENT_FISCAL_YEAR}.`;
@@ -14,7 +17,7 @@ const faqs = [
   },
   {
     question: '¿La indemnización por despido paga IRPF?',
-    answer: 'La indemnización por despido está exenta de IRPF hasta los límites legales establecidos en el Estatuto de los Trabajadores: 33 días por año trabajado con un máximo de 24 mensualidades para despido improcedente, y 20 días por año con un máximo de 12 mensualidades para despido objetivo. El exceso sobre estos límites sí tributa.',
+    answer: 'Está exenta hasta la cuantía obligatoria del Estatuto, con un máximo de 180.000 €: 33 días por año en el improcedente (si se reconoce en conciliación o sentencia) y 20 en el objetivo, ampliados hasta el importe del improcedente en los ERE y despidos por causas económicas. La de fin de contrato temporal tributa entera.',
   },
   {
     question: '¿Cuántos días tengo para firmar el finiquito?',
@@ -55,7 +58,7 @@ import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
     <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
       Cuando finaliza una relación laboral, ya sea por despido, fin de contrato o baja voluntaria, la empresa debe abonarte un finiquito. En algunos casos, también tienes derecho a una indemnización. Esta guía te explica paso a paso cómo calcular cada concepto, qué impuestos se aplican y cuánto deberías recibir. La distinción decide el importe. El finiquito liquida lo ya devengado y no cobrado: los días trabajados del mes, las vacaciones no disfrutadas y la parte proporcional de las pagas extra, y se cobra siempre, incluso en una baja voluntaria. La indemnización solo existe cuando el contrato se extingue por causas ajenas a tu voluntad: 33 días de salario por año trabajado en un despido improcedente y 20 días en uno objetivo, con los topes que marca la ley. La indemnización está exenta de IRPF hasta 180.000 €; el finiquito, no.
     </p>
-<MiniSimAutonome client:visible kind="finiquito" lang="es" locale="es-ES" href="/" />
+<MiniSimAutonome client:visible kind="finiquito" lang="es" locale="es-ES" href="/calculadora-finiquito/" />
 
 
     <div class="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">
@@ -187,46 +190,27 @@ import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 
         <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Cálculo del finiquito</h3>
         <table class="w-full text-sm">
+          <caption class="sr-only">Finiquito del ejemplo, calculado con el motor de la calculadora</caption>
           <tbody>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">Días trabajados en septiembre (15 días)</td>
-              <td class="px-3 py-2 text-right tabular-nums font-medium">1.071,43 €</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">Vacaciones no disfrutadas (~9,5 días pendientes)</td>
-              <td class="px-3 py-2 text-right tabular-nums font-medium">780,82 €</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">Paga extra de diciembre (proporcional sept.)</td>
-              <td class="px-3 py-2 text-right tabular-nums font-medium">1.608,22 €</td>
-            </tr>
-            <tr class="border-t-2 border-gray-300 dark:border-gray-600">
-              <td class="px-3 py-2 font-bold">Total finiquito (bruto)</td>
-              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">~3.460 €</td>
-            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-2">Días trabajados en septiembre ({ej.diasPendientesMes} días)</td><td class="px-3 py-2 text-right tabular-nums font-medium">{eur(ej.salarioPendiente)}</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-2">Vacaciones no disfrutadas ({num(ej.vacacionesPendientesDias, 1)} días pendientes)</td><td class="px-3 py-2 text-right tabular-nums font-medium">{eur(ej.vacacionesImporte)}</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-2">Paga extra de Navidad devengada desde el 1 de julio</td><td class="px-3 py-2 text-right tabular-nums font-medium">{eur(ej.pagaExtraImporte)}</td></tr>
+            <tr class="border-t-2 border-gray-300 dark:border-gray-600"><td class="px-3 py-2 font-bold">Total finiquito (bruto)</td><td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-800">{eur(ej.finiquito)}</td></tr>
           </tbody>
         </table>
 
         <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Cálculo de la indemnización</h3>
         <table class="w-full text-sm">
+          <caption class="sr-only">Indemnización del ejemplo</caption>
           <tbody>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">Salario diario (30.000 € / 365)</td>
-              <td class="px-3 py-2 text-right tabular-nums font-medium">82,19 €</td>
-            </tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700">
-              <td class="px-3 py-2">Días de indemnización (33 x 5 años)</td>
-              <td class="px-3 py-2 text-right tabular-nums font-medium">165 días</td>
-            </tr>
-            <tr class="border-t-2 border-gray-300 dark:border-gray-600">
-              <td class="px-3 py-2 font-bold">Total indemnización</td>
-              <td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-700">13.561,64 €</td>
-            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-2">Salario diario (30.000 € / 365)</td><td class="px-3 py-2 text-right tabular-nums font-medium">{eur2(ej.salarioDiario)}</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-2">Días de indemnización (33 × 5 años)</td><td class="px-3 py-2 text-right tabular-nums font-medium">{num(ej.diasIndemnizacion)} días</td></tr>
+            <tr class="border-t-2 border-gray-300 dark:border-gray-600"><td class="px-3 py-2 font-bold">Total indemnización</td><td class="px-3 py-2 text-right tabular-nums font-bold text-emerald-800">{eur(ej.indemnizacion)}</td></tr>
           </tbody>
         </table>
 
         <p>
-          En total, este trabajador recibiría aproximadamente <strong>17.021 €</strong> (finiquito + indemnización). La indemnización estaría exenta de IRPF al no superar el límite legal.
+          En total, este trabajador recibiría <strong>{eur(ej.total)}</strong> brutos (finiquito más indemnización). La indemnización estaría exenta de IRPF si la improcedencia se reconoce en el acto de conciliación o en sentencia; el finiquito tributa como una nómina.
         </p>
         <p>
           <a href="/calculadora-finiquito/" class="text-brand hover:underline">Calcula tu caso exacto con nuestra calculadora de finiquito</a>.
@@ -251,7 +235,7 @@ import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
         <ul>
           <li><strong>Despido improcedente:</strong> exenta hasta 33 días/año con máximo de 24 mensualidades</li>
           <li><strong>Despido objetivo:</strong> exenta hasta 20 días/año con máximo de 12 mensualidades</li>
-          <li><strong>Fin de contrato temporal:</strong> exenta hasta 12 días/año</li>
+          <li><strong>Fin de contrato temporal:</strong> no exenta: la Agencia Tributaria la considera rendimiento del trabajo sujeto, porque no hay despido</li>
         </ul>
         <p>
           Existe un <strong>límite absoluto de exención de 180.000 €</strong>. Si la indemnización supera esta cantidad, el exceso tributa como rendimiento del trabajo.

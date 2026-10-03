@@ -1,0 +1,89 @@
+---
+import GuiaLayout from '../../../layouts/GuiaLayout.astro';
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
+import { calcularJubilacion, porcentajePorMeses, PARAMS_JUBILACION as J, BASES_2026 } from '../../../lib/jubilacion-engine';
+import { fuentesJubilacion, enFuentes, eurEN as eur, eurEN2 as eur2, numEN as num } from '../../../lib/fuentes';
+
+const M = J.minimasAnuales, P14 = J.pagasAnuales;
+const ref = { hoyAnio: 2026, hoyMes: 10 };
+const low = calcularJubilacion({ anioNacimiento: 1961, mesNacimiento: 8, mesesCotizadosHoy: 192, baseActual: BASES_2026.minima, situacion: 'unipersonal', ...ref });
+const lowCouple = calcularJubilacion({ anioNacimiento: 1961, mesNacimiento: 8, mesesCotizadosHoy: 192, baseActual: BASES_2026.minima, situacion: 'conyugeACargo', ...ref });
+const brMax = J.pensionMaximaMensual / (porcentajePorMeses(438, 2026) / 100);
+const pnc = J.pensionNoContributivaAnual / P14;
+const rows = [
+  { k: 'Dependent spouse (cónyuge a cargo)', c: 'conyugeACargo' as const },
+  { k: 'Single-person household', c: 'unipersonal' as const },
+  { k: 'Spouse not dependent', c: 'conyugeNoACargo' as const },
+];
+
+const title = 'Minimum and Maximum Pension Spain 2026: Monthly Amounts';
+const description = `Minimum and maximum state retirement pension in Spain for 2026: the ${eur2(J.pensionMaximaMensual)} monthly cap, minimums by household, the income limit and the means-tested top-up.`;
+const faqs = [
+  { question: 'What is the minimum state pension in Spain in 2026?', answer: `From age 65: ${eur2(M['65'].conyugeACargo / P14)} a month with a dependent spouse, ${eur2(M['65'].unipersonal / P14)} for a single-person household and ${eur2(M['65'].conyugeNoACargo / P14)} with a spouse who is not dependent, in 14 payments, under annex I of Royal Decree-law 3/2026. Under 65, the last two figures are slightly lower.` },
+  { question: 'Does everyone get at least the minimum?', answer: `No. The top-up to the minimum is means-tested and requires residence in Spain. Your other income, excluding the pension, must stay below ${eur(J.limiteIngresosMinimos.sinConyuge)} a year, or ${eur(J.limiteIngresosMinimos.conConyuge)} with a dependent spouse. Rental income and savings income count towards that limit.` },
+  { question: 'Is the top-up paid if I live abroad?', answer: 'No. Article 59 of the General Social Security Act ties the minimum-pension supplement to residence in Spain. If you move abroad after retiring, Social Security keeps paying your contributory pension, uprated every year, but the supplement stops. Tell Social Security about the move to avoid having to repay it later.' },
+  { question: 'How is the maximum pension uprated?', answer: 'Since 2025 the maximum rises each year by the general pension uprating, linked to inflation, plus an extra 0.115 percentage points compounded every year until 2050, under transitional provision 39. The aim is to narrow the gap between the maximum pension and the maximum contribution base.' },
+  { question: 'Does the gender-gap supplement count towards the cap?', answer: `No. The supplement, ${eur2(J.complementoBrechaMensualPorHijo)} a month per child for up to four children in 2026, is paid on top of the pension even when the pension is at the maximum, and it is not counted as income when checking eligibility for the minimum-pension top-up (article 60).` },
+  { question: 'Do minimum pensions rise every year?', answer: `Yes. Contributory pensions in general rise with inflation every January, ${(J.revalorizacion2026 * 100).toLocaleString("en-GB")}% in 2026, and minimum pensions have been rising faster since the 2023 reform, which links them to the poverty threshold for a two-person household. The amounts are set each year by law, so check the current figures before relying on them.` }
+];
+const related = [
+  { label: 'State pension calculator', href: '/en/retirement-calculator/' },
+  { label: 'The regulatory base: two formulas', href: '/en/guides/pension-regulatory-base/' },
+  { label: 'Early retirement reductions', href: '/en/guides/early-retirement-reduction/' },
+  { label: 'Retirement in Spain: age and pension', href: '/en/guides/retirement-spain-age-pension/' },
+  { label: 'Savings plan calculator', href: '/en/savings-plan-calculator/' },
+];
+---
+
+<GuiaLayout title={title} description={description} h1="Minimum and maximum state pension in Spain, 2026" path="/en/guides/minimum-and-maximum-pension/" locale="en" crumb="Minimum and maximum pension" faqs={faqs} sources={enFuentes(fuentesJubilacion)} related={related}>
+  <p class="text-lg">
+    In 2026 the Spanish state retirement pension is capped at {eur2(J.pensionMaximaMensual)} a month, paid fourteen times a year ({eur2(J.pensionMaximaAnual)} annually). At the other end, a pensioner aged 65 or over is entitled to at least {eur2(M['65'].conyugeACargo / P14)} a month with a dependent spouse, {eur2(M['65'].unipersonal / P14)} living alone and {eur2(M['65'].conyugeNoACargo / P14)} with a spouse who has their own income, under Royal Decree-law 3/2026, ratified by Parliament in February. The minimum is not automatic: the top-up is only paid if your other income stays below {eur(J.limiteIngresosMinimos.sinConyuge)} a year ({eur(J.limiteIngresosMinimos.conConyuge)} with a dependent spouse) and you live in Spain. Someone with sixteen years of contributions at the minimum base, living alone, would have a contributory pension of {eur(low.pensionCalculada)}, topped up to {eur(low.pensionMensual)}. The quick calculator below applies the same rules to your regulatory base.
+  </p>
+  <MiniSimAutonome client:visible kind="minmax" lang="en" locale="en-GB" href="/en/retirement-calculator/" />
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Minimum retirement pensions in 2026</h2>
+    <div class="overflow-x-auto">
+      <table class="my-4 w-full border-collapse text-sm">
+        <caption class="sr-only">Minimum contributory retirement pensions in Spain in 2026</caption>
+        <thead><tr class="border-b-2 border-gray-300 dark:border-gray-600"><th scope="col" class="px-3 py-2 text-left">Household</th><th scope="col" class="px-3 py-2 text-right">Aged 65+, per month</th><th scope="col" class="px-3 py-2 text-right">Per year</th><th scope="col" class="px-3 py-2 text-right">Under 65, per month</th></tr></thead>
+        <tbody class="tabular-nums">
+          {rows.map((r) => <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">{r.k}</td><td class="px-3 py-1 text-right">{eur2(M['65'][r.c] / P14)}</td><td class="px-3 py-1 text-right">{eur2(M['65'][r.c])}</td><td class="px-3 py-1 text-right">{eur2(M.menor65[r.c] / P14)}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Minimum pensions rose much faster than pensions in general, which went up {num(J.revalorizacion2026 * 100, 1)}% in 2026: the law now ties them to the poverty threshold. "Dependent spouse" means a spouse who lives with you and has no income above the legal limit; otherwise the third row applies. With the same career as the example above but a dependent spouse, the pension would be topped up to {eur(lowCouple.pensionMensual)}.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">How the top-up is limited</h2>
+    <p>
+      The supplement fills the gap between your contributory pension and the minimum for your household, within two limits. One is your other income: earnings, savings income and rents above the annual limit remove or reduce it. The other is a ceiling on the supplement itself, which cannot exceed the non-contributory pension, {eur2(pnc)} a month in 2026 (article 59 of the General Social Security Act). It is also lost if you move your residence outside Spain, something to weigh if you plan to retire to another country.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">The maximum and who reaches it</h2>
+    <p>
+      With a 100% percentage, a regulatory base of {eur(brMax)} is enough to reach the cap, which requires contributing close to the maximum base, {eur2(BASES_2026.maxima)} a month in 2026, through the reference period. Anyone earning more still contributes on that ceiling, and the pension stops at {eur2(J.pensionMaximaMensual)}. That is why replacement rates for high earners in Spain are much lower than for average earners, and why company and private pension plans matter for them. The cap applies to the total of all public pensions a person receives, not to each one separately.
+    </p>
+    <p>
+      The 2023 reform is closing the gap from both sides: the maximum contribution base rises faster than inflation, and an additional solidarity contribution applies to salaries above it without generating extra pension, while the maximum pension gains 0.115 points a year on top of inflation until 2050.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Without fifteen years: the non-contributory pension</h2>
+    <p>
+      If you have fewer than fifteen years of contributions there is no contributory pension and no top-up. The non-contributory retirement pension, {eur(J.pensionNoContributivaAnual)} a year in 2026, requires being 65, having lived legally in Spain for at least ten years between age 16 and retirement, two of them immediately before applying, and low income. It is managed by the regional governments. For EU nationals, years worked elsewhere in the EU count towards the fifteen-year minimum for the contributory pension, which often avoids this situation. Check your own position with the <a href="/en/retirement-calculator/" class="text-brand hover:underline">state pension calculator</a>, which applies the 2026 minimums and maximum, and read the <a href="/en/guides/pension-regulatory-base/" class="text-brand hover:underline">regulatory base guide</a>.
+    </p>
+  </section>
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Applying for the top-up</h2>
+    <p>
+      You do not apply separately: when you claim your retirement pension, Social Security checks whether it falls below the minimum and asks you to declare your other income and your spouse’s situation. Each year you must report changes, such as new rental income or your spouse starting to work, because the top-up is recalculated and overpayments are reclaimed. The income limit compares your other income with the legal threshold; if it is only slightly exceeded, the top-up is reduced rather than lost entirely. Pension income itself is not counted, but interest, dividends, rents and any earnings from work are.
+    </p>
+  </section>
+</GuiaLayout>

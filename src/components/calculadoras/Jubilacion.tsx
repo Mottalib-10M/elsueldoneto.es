@@ -1,229 +1,199 @@
-import { dec } from '../../lib/dec';
-import { useState, useMemo } from 'react';
-import CampoEntrada from '../ui/CampoEntrada';
-import { formatEuros } from '../../lib/format-es';
+/**
+ * Simulador de pensión de jubilación (ES / EN), motor `lib/jubilacion-engine.ts`.
+ * Hidratación (RECETTE §17.5): el mes de referencia llega como prop calculada en el build (`hoy`)
+ * y el mes real se aplica en useEffect.
+ */
+import { useEffect, useMemo, useState } from 'react';
+import { calcularJubilacion, PARAMS_JUBILACION as PJ, type Situacion } from '../../lib/jubilacion-engine';
+import CampoNumero from '../ui/CampoNumero';
 
-/** Pensión máxima mensual 2026 */
-const PENSION_MAXIMA = 3359.60;
-/** Pensión mínima sin cónyuge a cargo */
-const PENSION_MINIMA_SIN_CONYUGE = 936.20;
-/** Pensión mínima con cónyuge a cargo */
-const PENSION_MINIMA_CON_CONYUGE = 1256.60;
-/** Años mínimos cotizados para acceder a pensión */
-const ANIOS_MINIMOS = 15;
+type L = 'es' | 'en';
+type Cuando = 'ordinaria' | 'voluntaria' | 'involuntaria' | 'demorada';
+interface Props { lang?: L; hoy: string; cuandoInicial?: Cuando }
 
-function calcularPorcentaje(aniosCotizados: number): number {
-  if (aniosCotizados < ANIOS_MINIMOS) return 0;
+const T = {
+  es: {
+    anio: 'Año de nacimiento', mes: 'Mes de nacimiento', cotA: 'Años cotizados hasta hoy', cotM: 'Meses adicionales', base: 'Base de cotización mensual actual',
+    baseAyuda: 'En tu nómina: «base contingencias comunes»', crec: 'Evolución real de tu base', crecAyuda: 'Por año, sobre la inflación; 0 si no lo sabes',
+    sigue: 'Hasta la jubilación', sigueSi: 'Sigo cotizando', sigueNo: 'Dejo de cotizar desde hoy', cuando: 'Cuándo te jubilas',
+    cuandos: { ordinaria: 'A la edad ordinaria', voluntaria: 'Anticipada voluntaria', involuntaria: 'Anticipada por despido o ERE', demorada: 'Demorada (más tarde)' },
+    mesesMov: 'Meses de adelanto o de demora', sit: 'Situación familiar', sits: { unipersonal: 'Sin cónyuge a cargo', conyugeACargo: 'Con cónyuge a cargo', conyugeNoACargo: 'Con cónyuge no a cargo' },
+    avanz: 'Opciones avanzadas: brecha de género, lagunas', hijos: 'Hijos (complemento de brecha de género)', hijosAyuda: 'Lo cobra un solo progenitor, con requisitos', refz: 'Lagunas', refzNo: 'Integración general', refzSi: 'Integración reforzada (DT 41.ª: mujeres)',
+    meses: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+    head: 'Pensión de jubilación estimada', mesUd: 'al mes, 14 pagas', anual: 'al año', anios: 'años', y: 'y', m: 'meses',
+    edadOrd: 'Tu edad ordinaria de jubilación', fecha: 'Fecha de jubilación simulada', edadJ: 'Edad al jubilarte', cotJ: 'Cotizado al jubilarte', pct: 'Porcentaje por años cotizados',
+    brA: 'Base reguladora, fórmula de 2023 (300 meses ÷ 350)', brN: (m: number, b: number, d: string) => `Base reguladora, fórmula ${'nueva'} (${b} mejores de ${m} meses ÷ ${d})`,
+    brApl: 'Base reguladora aplicada (la más favorable)', coef: 'Coeficiente reductor', coefTope: 'Coeficiente sobre la pensión máxima (DT 34.ª)', demora: 'Porcentaje adicional por demora',
+    calc: 'Pensión contributiva', maxima: 'limitada a la pensión máxima', minimos: 'Complemento a mínimos', minAyuda: (x: string) => `Si tus otros ingresos no superan ${x} al año`, brecha: 'Complemento de brecha de género', compDem: 'Pago anual por demora no absorbida',
+    sinDerecho: { carencia: 'Con menos de 15 años cotizados no hay pensión contributiva de jubilación. Puede corresponder la pensión no contributiva, de', carenciaEspecifica: 'No se reúnen 2 años cotizados dentro de los 15 anteriores a la jubilación (carencia específica): no hay pensión contributiva en esa fecha.' },
+    avisos: { mesesCotizados: 'No reúnes los años cotizados que exige esta jubilación anticipada (35 la voluntaria, 33 la involuntaria): se muestra la ordinaria.', demasiadoPronto: 'El adelanto pedido supera el máximo legal (24 meses la voluntaria, 48 la involuntaria): se muestra la ordinaria.', pensionMinima: 'La anticipada voluntaria exige que la pensión supere la mínima a los 65 años: se muestra la ordinaria.' },
+    hip: 'Importes en euros de 2026: bases pasadas actualizadas por el IPC y sin inflación futura; carrera continua hasta hoy; lagunas anteriores integradas por la base mínima. Estimación orientativa: la cifra oficial es la de la Seguridad Social (Tu Seguridad Social, informe de bases).',
+    metodo: 'Cómo calculamos', metodoHref: '/metodologia/', copiar: 'Copiar resultado', compartir: 'Copiar enlace', imprimir: 'Imprimir', copiado: 'Copiado',
+  },
+  en: {
+    anio: 'Year of birth', mes: 'Month of birth', cotA: 'Years of contributions so far', cotM: 'Extra months', base: 'Current monthly contribution base',
+    baseAyuda: 'Shown on your payslip', crec: 'Real growth of your base', crecAyuda: 'Per year, above inflation; 0 if unsure',
+    sigue: 'Until retirement', sigueSi: 'I keep contributing', sigueNo: 'I stop contributing from today', cuando: 'When you retire',
+    cuandos: { ordinaria: 'At the ordinary age', voluntaria: 'Voluntary early retirement', involuntaria: 'Early, after dismissal or ERE', demorada: 'Deferred (later)' },
+    mesesMov: 'Months earlier or later', sit: 'Household', sits: { unipersonal: 'No dependent spouse', conyugeACargo: 'Dependent spouse', conyugeNoACargo: 'Spouse not dependent' },
+    avanz: 'Advanced options: gender-gap supplement, gaps', hijos: 'Children (gender-gap supplement)', hijosAyuda: 'Paid to one parent only, conditions apply', refz: 'Contribution gaps', refzNo: 'Standard filling', refzSi: 'Enhanced filling (TP 41: women)',
+    meses: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    head: 'Estimated state retirement pension', mesUd: 'per month, 14 payments', anual: 'per year', anios: 'years', y: 'and', m: 'months',
+    edadOrd: 'Your ordinary retirement age', fecha: 'Simulated retirement date', edadJ: 'Age at retirement', cotJ: 'Contributions at retirement', pct: 'Percentage for years contributed',
+    brA: 'Regulatory base, 2023 formula (300 months ÷ 350)', brN: (m: number, b: number, d: string) => `Regulatory base, new formula (best ${b} of ${m} months ÷ ${d})`,
+    brApl: 'Regulatory base applied (the higher one)', coef: 'Reduction coefficient', coefTope: 'Coefficient on the maximum pension (TP 34)', demora: 'Extra percentage for deferral',
+    calc: 'Contributory pension', maxima: 'capped at the maximum pension', minimos: 'Top-up to the minimum', minAyuda: (x: string) => `If your other income stays below ${x} a year`, brecha: 'Gender-gap supplement', compDem: 'Annual deferral payment above the cap',
+    sinDerecho: { carencia: 'With under 15 years of contributions there is no contributory retirement pension. The non-contributory pension may apply, at', carenciaEspecifica: 'You do not have 2 years of contributions within the 15 years before retiring (specific qualifying period): no contributory pension at that date.' },
+    avisos: { mesesCotizados: 'You do not have the contribution years this early retirement requires (35 voluntary, 33 involuntary): the ordinary pension is shown.', demasiadoPronto: 'The requested advance exceeds the legal maximum (24 months voluntary, 48 involuntary): the ordinary pension is shown.', pensionMinima: 'Voluntary early retirement requires a pension above the minimum at 65: the ordinary pension is shown.' },
+    hip: 'Amounts in 2026 euros: past bases updated for inflation, no future inflation; continuous career up to today; earlier gaps filled with the minimum base. An estimate: the official figure is the one from Social Security (Tu Seguridad Social, contribution record).',
+    metodo: 'How we calculate', metodoHref: '/en/methodology/', copiar: 'Copy result', compartir: 'Copy link', imprimir: 'Print', copiado: 'Copied',
+  },
+};
+const sel = 'h-12 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm text-charcoal focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100';
 
-  // Con exactamente 15 años: 50%
-  let porcentaje = 50;
-  const mesesExtra = Math.round((aniosCotizados - 15) * 12);
+export default function Jubilacion({ lang = 'es', hoy, cuandoInicial = 'ordinaria' }: Props) {
+  const t = T[lang];
+  const loc = lang === 'en' ? 'en-GB' : 'es-ES';
+  const eur = (x: number) => new Intl.NumberFormat(loc, { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(x);
+  const pctf = (x: number, d = 2) => `${new Intl.NumberFormat(loc, { maximumFractionDigits: d }).format(x)} %`;
+  const edadTxt = (m: number) => `${Math.floor(m / 12)} ${t.anios}${m % 12 ? ` ${t.y} ${m % 12} ${t.m}` : ''}`;
 
-  if (mesesExtra <= 0) return porcentaje;
+  const [ref, setRef] = useState({ hoyAnio: +hoy.slice(0, 4), hoyMes: +hoy.slice(5, 7) });
+  const [anio, setAnio] = useState(1964);
+  const [mes, setMes] = useState(6);
+  const [cotA, setCotA] = useState(35);
+  const [cotM, setCotM] = useState(0);
+  const [base, setBase] = useState(2400);
+  const [crec, setCrec] = useState(0);
+  const [sigue, setSigue] = useState(true);
+  const [cuando, setCuando] = useState<Cuando>(cuandoInicial);
+  const [mov, setMov] = useState(cuandoInicial === 'ordinaria' ? 0 : cuandoInicial === 'demorada' ? 12 : 24);
+  const [sit, setSit] = useState<Situacion>('unipersonal');
+  const [hijos, setHijos] = useState(0);
+  const [refz, setRefz] = useState(false);
+  const [aviso, setAviso] = useState('');
 
-  // Del mes 1 al 120 (años 16 al 25): +0,21% por mes
-  const mesesTramo1 = Math.min(mesesExtra, 120);
-  porcentaje += mesesTramo1 * 0.21;
+  useEffect(() => {
+    const d = new Date(); setRef({ hoyAnio: d.getFullYear(), hoyMes: d.getMonth() + 1 });
+    const h = new URLSearchParams(window.location.hash.slice(1));
+    if (h.get('a')) setAnio(Math.min(2010, Math.max(1940, Number(h.get('a')) || 1964)));
+    if (h.get('c')) setCotA(Math.min(60, Number(h.get('c')) || 0));
+    if (h.get('b')) setBase(Math.min(100000, Number(h.get('b')) || 0));
+    const q = h.get('q') as Cuando | null; if (q && q in T.es.cuandos) setCuando(q);
+    if (h.get('n')) setMov(Math.min(120, Number(h.get('n')) || 0));
+  }, []);
 
-  // Del mes 121 al 258 (años 26 al 36,5): +0,19% por mes
-  if (mesesExtra > 120) {
-    const mesesTramo2 = Math.min(mesesExtra - 120, 138);
-    porcentaje += mesesTramo2 * 0.19;
-  }
+  const entrada = { anioNacimiento: anio, mesNacimiento: mes, mesesCotizadosHoy: cotA * 12 + cotM, baseActual: base, crecimientoReal: crec, sigueCotizando: sigue, situacion: sit, hijosBrecha: hijos, lagunasReforzadas: refz, ...ref };
+  const r = useMemo(() => {
+    const ord = calcularJubilacion({ ...entrada, edadDeseadaMeses: 0, involuntaria: false });
+    if (cuando === 'ordinaria' || mov <= 0) return ord;
+    const edadOrd = cuando === 'demorada' ? ord.edadOrdinariaMeses : calcularJubilacion({ ...entrada, sigueCotizando: true, edadDeseadaMeses: 0 }).edadOrdinariaMeses;
+    const deseada = cuando === 'demorada' ? edadOrd + mov : edadOrd - mov;
+    return calcularJubilacion({ ...entrada, edadDeseadaMeses: deseada, involuntaria: cuando === 'involuntaria' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [anio, mes, cotA, cotM, base, crec, sigue, cuando, mov, sit, hijos, refz, ref.hoyAnio, ref.hoyMes]);
 
-  return Math.min(porcentaje, 100);
-}
-
-function calcularEdadJubilacion(aniosCotizadosTotales: number): number {
-  // Regla 2026: con 38 años y 3 meses cotizados o más, jubilación a los 65; con menos, a los 66 años y 10 meses (usamos 67)
-  return aniosCotizadosTotales >= 38.25 ? 65 : 67;
-}
-
-export default function Jubilacion({ lang = 'es' }: { lang?: 'es' | 'en' }) {
-  const l = lang === 'en';
-  const [edadActual, setEdadActual] = useState('40');
-  const [aniosCotizados, setAniosCotizados] = useState('15');
-  const [baseCotizacion, setBaseCotizacion] = useState('2500');
-  const [aniosRestantes, setAniosRestantes] = useState('25');
-
-  const edadNum = Math.max(18, Math.min(66, Math.round(Number(edadActual) || 0)));
-  const aniosCotNum = Math.max(0, Math.min(50, Number(aniosCotizados) || 0));
-  const baseNum = Math.max(0, Math.min(4720, Number(baseCotizacion) || 0));
-  const restantesNum = Math.max(0, Number(aniosRestantes) || 0);
-
-  const resultado = useMemo(() => {
-    const totalAniosCotizados = aniosCotNum + restantesNum;
-    const edadJubilacion = calcularEdadJubilacion(totalAniosCotizados);
-    const porcentaje = calcularPorcentaje(totalAniosCotizados);
-
-    // Base reguladora = base de cotización media mensual (simplificación)
-    const baseReguladora = baseNum;
-
-    // Pensión mensual bruta
-    let pensionMensual = baseReguladora * (porcentaje / 100);
-
-    // Aplicar topes
-    pensionMensual = Math.min(pensionMensual, PENSION_MAXIMA);
-    if (totalAniosCotizados >= ANIOS_MINIMOS && pensionMensual < PENSION_MINIMA_SIN_CONYUGE) {
-      pensionMensual = PENSION_MINIMA_SIN_CONYUGE;
-    }
-
-    const pensionAnual = pensionMensual * 14; // 14 pagas
-    const gapMensual = baseNum - pensionMensual;
-    const tasaSustitucion = baseNum > 0 ? (pensionMensual / baseNum) * 100 : 0;
-
-    return {
-      totalAniosCotizados,
-      edadJubilacion,
-      porcentaje,
-      baseReguladora,
-      pensionMensual,
-      pensionAnual,
-      gapMensual,
-      tasaSustitucion,
-      cumpleMinimo: totalAniosCotizados >= ANIOS_MINIMOS,
-    };
-  }, [edadNum, aniosCotNum, baseNum, restantesNum]);
+  const B = PJ.baseReguladora;
+  const nueva = (B.nueva as Record<string, number[]>)[String(r.anioHecho)] ?? B.nuevaDefinitiva;
+  const dec = (x: number) => new Intl.NumberFormat(loc, { maximumFractionDigits: 2 }).format(x);
+  const fila = (k: string, v: string, fuerte = false) => (
+    <tr className="border-t border-gray-100 dark:border-gray-700">
+      <td className={`px-4 py-2 ${fuerte ? 'font-semibold text-charcoal dark:text-gray-100' : 'text-gray-700 dark:text-gray-300'}`}>{k}</td>
+      <td className={`px-4 py-2 text-right tabular-nums ${fuerte ? 'font-bold text-charcoal dark:text-gray-100' : 'font-medium text-charcoal dark:text-gray-200'}`}>{v}</td>
+    </tr>
+  );
+  const enlace = () => `${window.location.origin}${window.location.pathname}#${new URLSearchParams({ a: String(anio), c: String(cotA), b: String(base), q: cuando, n: String(mov) }).toString()}`;
+  const copiar = async (txt: string) => { try { await navigator.clipboard.writeText(txt); setAviso(t.copiado); setTimeout(() => setAviso(''), 1500); } catch { /* sin portapapeles */ } };
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <CampoEntrada
-          id="jub-edad"
-          label={l ? 'Current age' : 'Edad actual'}
-          value={edadActual}
-          onChange={setEdadActual}
-          min={18}
-          max={66}
-          step={1}
-          suffix={l ? 'years' : 'años'}
-        />
-        <CampoEntrada
-          id="jub-cotizados"
-          label={l ? 'Years of contributions' : 'Años cotizados'}
-          value={aniosCotizados}
-          onChange={setAniosCotizados}
-          min={0}
-          max={50}
-          step={1}
-          suffix={l ? 'years' : 'años'}
-        />
-        <CampoEntrada
-          id="jub-base"
-          label={l ? 'Average monthly contribution base' : 'Base de cotización media mensual'}
-          value={baseCotizacion}
-          onChange={setBaseCotizacion}
-          min={0}
-          max={4720}
-          step="any"
-          suffix={l ? '€/mo' : '€/mes'}
-          helpText={l ? 'Average of your latest contribution bases' : 'Promedio de tus últimas bases'}
-        />
-        <CampoEntrada
-          id="jub-restantes"
-          label={l ? 'Years you plan to keep contributing' : 'Años que prevés seguir cotizando'}
-          value={aniosRestantes}
-          onChange={setAniosRestantes}
-          min={0}
-          max={50}
-          step={1}
-          suffix={l ? 'years' : 'años'}
-        />
-      </div>
+      <form className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" onSubmit={(e) => e.preventDefault()}>
+        <CampoNumero id="jub-anio" label={t.anio} value={anio} onChange={(v) => setAnio(Math.round(v))} max={2010} locale={loc} agrupar={false} />
+        <div className="flex h-full flex-col">
+          <label htmlFor="jub-mes" className="mb-1 flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">{t.mes}</label>
+          <select id="jub-mes" value={mes} onChange={(e) => setMes(Number(e.target.value))} className={sel}>
+            {t.meses.map((n, i) => <option key={n} value={i + 1}>{n}</option>)}
+          </select>
+          <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">{' '}</p>
+        </div>
+        <CampoNumero id="jub-base" label={t.base} value={base} onChange={setBase} suffix={lang === 'en' ? '€/month' : '€/mes'} max={100000} locale={loc} help={t.baseAyuda} />
+        <CampoNumero id="jub-cota" label={t.cotA} value={cotA} onChange={(v) => setCotA(Math.round(v))} suffix={t.anios} max={60} locale={loc} />
+        <CampoNumero id="jub-cotm" label={t.cotM} value={cotM} onChange={(v) => setCotM(Math.round(v))} suffix={t.m} max={11} locale={loc} />
+        <div className="flex h-full flex-col">
+          <label htmlFor="jub-sigue" className="mb-1 flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">{t.sigue}</label>
+          <select id="jub-sigue" value={sigue ? '1' : '0'} onChange={(e) => setSigue(e.target.value === '1')} className={sel}>
+            <option value="1">{t.sigueSi}</option><option value="0">{t.sigueNo}</option>
+          </select>
+          <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">{' '}</p>
+        </div>
+        <div className="flex h-full flex-col">
+          <label htmlFor="jub-cuando" className="mb-1 flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">{t.cuando}</label>
+          <select id="jub-cuando" value={cuando} onChange={(e) => { const c = e.target.value as Cuando; setCuando(c); if (c !== 'ordinaria' && mov === 0) setMov(c === 'demorada' ? 12 : 24); }} className={sel}>
+            {(Object.keys(t.cuandos) as Cuando[]).map((k) => <option key={k} value={k}>{t.cuandos[k]}</option>)}
+          </select>
+          <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">{' '}</p>
+        </div>
+        <CampoNumero id="jub-mov" label={t.mesesMov} value={cuando === 'ordinaria' ? 0 : mov} onChange={(v) => setMov(Math.round(v))} suffix={t.m} max={120} locale={loc} />
+        <div className="flex h-full flex-col">
+          <label htmlFor="jub-sit" className="mb-1 flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">{t.sit}</label>
+          <select id="jub-sit" value={sit} onChange={(e) => setSit(e.target.value as Situacion)} className={sel}>
+            {(Object.keys(t.sits) as Situacion[]).map((k) => <option key={k} value={k}>{t.sits[k]}</option>)}
+          </select>
+          <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">{' '}</p>
+        </div>
+      </form>
 
-      {!resultado.cumpleMinimo && (
-        <div className="rounded-xl bg-red-50 p-6 text-center dark:bg-red-900/20">
-          <p className="text-sm font-medium text-red-700 dark:text-red-400">
-            {l
-              ? `With ${dec(resultado.totalAniosCotizados, 0, l ? 'en-GB' : 'es-ES')} years of contributions, the minimum of 15 years required to access a contributory retirement pension is not reached.`
-              : `Con ${dec(resultado.totalAniosCotizados, 0, l ? 'en-GB' : 'es-ES')} años cotizados no se alcanza el mínimo de 15 años necesarios para acceder a una pensión contributiva de jubilación.`}
-          </p>
+      <details className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+        <summary className="cursor-pointer text-sm font-medium text-charcoal dark:text-gray-200">{t.avanz}</summary>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <CampoNumero id="jub-crec" label={t.crec} value={crec} onChange={setCrec} suffix="%" max={10} decimals={1} locale={loc} help={t.crecAyuda} />
+          <CampoNumero id="jub-hijos" label={t.hijos} value={hijos} onChange={(v) => setHijos(Math.round(v))} max={20} locale={loc} help={t.hijosAyuda} />
+          <div className="flex h-full flex-col">
+            <label htmlFor="jub-refz" className="mb-1 flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">{t.refz}</label>
+            <select id="jub-refz" value={refz ? '1' : '0'} onChange={(e) => setRefz(e.target.value === '1')} className={sel}>
+              <option value="0">{t.refzNo}</option><option value="1">{t.refzSi}</option>
+            </select>
+            <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">{' '}</p>
+          </div>
         </div>
-      )}
+      </details>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-6 text-center dark:from-blue-900/30 dark:to-blue-900/10">
-          <p className="text-sm font-medium text-blue-600 dark:text-blue-400">{l ? 'Estimated monthly pension' : 'Pensión mensual estimada'}</p>
-          <p className="mt-1 text-2xl font-bold text-blue-700 dark:text-blue-300">
-            {resultado.cumpleMinimo ? formatEuros(resultado.pensionMensual) : '0,00 €'}
-          </p>
-          <p className="mt-1 text-xs text-blue-600 dark:text-blue-400">
-            {resultado.cumpleMinimo
-              ? (l ? `${formatEuros(resultado.pensionAnual)}/year (14 payments)` : `${formatEuros(resultado.pensionAnual)}/año (14 pagas)`)
-              : (l ? 'Minimum 15 years of contributions' : 'Mínimo 15 años cotizados')}
-          </p>
+      <div aria-live="polite" className="space-y-4">
+        {r.avisoAnticipada && <p role="status" className="rounded-lg bg-amber-50 p-4 text-sm font-medium text-amber-900 dark:bg-amber-900/30 dark:text-amber-200">{t.avisos[r.avisoAnticipada]}</p>}
+        <div className="rounded-xl bg-blue-50 p-6 text-center dark:bg-blue-900/30">
+          <p className="text-sm font-medium text-blue-900 dark:text-blue-200">{t.head}</p>
+          <p className="mt-1 text-4xl font-bold tabular-nums text-blue-900 dark:text-blue-100">{eur(r.pensionMensual)}</p>
+          <p className="mt-1 text-sm text-blue-900 dark:text-blue-200">{r.derecho ? `${t.mesUd} · ${eur(r.pensionAnual)} ${t.anual}` : (r.motivo === 'carencia' ? `${t.sinDerecho.carencia} ${eur(PJ.pensionNoContributivaAnual / 14)} × 14.` : t.sinDerecho.carenciaEspecifica)}</p>
         </div>
-        <div className="rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100 p-6 text-center dark:from-emerald-900/30 dark:to-emerald-900/10">
-          <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">{l ? 'Regulatory base percentage' : 'Porcentaje de base reguladora'}</p>
-          <p className="mt-1 text-2xl font-bold text-emerald-700 dark:text-emerald-300">
-            {dec(resultado.porcentaje, 2, l ? 'en-GB' : 'es-ES')}%
-          </p>
-          <p className="mt-1 text-xs text-emerald-600 dark:text-emerald-400">
-            {l ? 'Maximum 100% with 36.5 years' : 'Máximo 100% con 36,5 años'}
-          </p>
-        </div>
-        <div className="rounded-xl bg-gradient-to-br from-amber-50 to-amber-100 p-6 text-center dark:from-amber-900/30 dark:to-amber-900/10">
-          <p className="text-sm font-medium text-amber-600 dark:text-amber-400">{l ? 'Estimated retirement age' : 'Edad estimada de jubilación'}</p>
-          <p className="mt-1 text-2xl font-bold text-amber-700 dark:text-amber-300">
-            {resultado.edadJubilacion} {l ? 'years' : 'años'}
-          </p>
-          <p className="mt-1 text-xs text-amber-600 dark:text-amber-400">
-            {resultado.totalAniosCotizados >= 38
-              ? (l ? '38+ years contributed: retirement at 65' : '38+ años cotizados: jubilación a los 65')
-              : (l ? 'Less than 38 years contributed' : 'Menos de 38 años cotizados')}
-          </p>
-        </div>
-        <div className="rounded-xl bg-gradient-to-br from-purple-50 to-purple-100 p-6 text-center dark:from-purple-900/30 dark:to-purple-900/10">
-          <p className="text-sm font-medium text-purple-600 dark:text-purple-400">{l ? 'Total years contributed' : 'Años cotizados totales'}</p>
-          <p className="mt-1 text-2xl font-bold text-purple-700 dark:text-purple-300">
-            {dec(resultado.totalAniosCotizados, 0, l ? 'en-GB' : 'es-ES')} {l ? 'years' : 'años'}
-          </p>
-          <p className="mt-1 text-xs text-purple-600 dark:text-purple-400">
-            {l ? `${aniosCotNum} current + ${restantesNum} future` : `${aniosCotNum} actuales + ${restantesNum} futuros`}
-          </p>
-        </div>
-      </div>
-
-      {resultado.cumpleMinimo && (
-        <div className="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
+        <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-600">
           <table className="w-full text-sm">
+            <caption className="sr-only">{t.head}</caption>
             <tbody>
-              <tr className="border-b border-gray-100 dark:border-gray-700">
-                <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Monthly regulatory base' : 'Base reguladora mensual'}</td>
-                <td className="px-4 py-2 text-right tabular-nums font-medium">{formatEuros(resultado.baseReguladora)}</td>
-              </tr>
-              <tr className="border-b border-gray-100 dark:border-gray-700">
-                <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Replacement rate' : 'Tasa de sustitución'}</td>
-                <td className="px-4 py-2 text-right tabular-nums font-medium">{dec(resultado.tasaSustitucion, 2, l ? 'en-GB' : 'es-ES')}%</td>
-              </tr>
-              <tr className="border-b border-gray-100 dark:border-gray-700">
-                <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Difference from last salary' : 'Diferencia con último salario'}</td>
-                <td className="px-4 py-2 text-right tabular-nums font-medium text-red-700 dark:text-red-400">
-                  {resultado.gapMensual > 0 ? `-${formatEuros(resultado.gapMensual)}/${l ? 'mo' : 'mes'}` : formatEuros(0) + `/${l ? 'mo' : 'mes'}`}
-                </td>
-              </tr>
-              <tr className="border-b border-gray-100 dark:border-gray-700">
-                <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Maximum pension 2026' : 'Pensión máxima 2026'}</td>
-                <td className="px-4 py-2 text-right tabular-nums font-medium">{formatEuros(PENSION_MAXIMA)}/{l ? 'mo' : 'mes'}</td>
-              </tr>
-              <tr className="border-b border-gray-100 dark:border-gray-700">
-                <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Minimum pension (no dependent spouse)' : 'Pensión mínima (sin cónyuge)'}</td>
-                <td className="px-4 py-2 text-right tabular-nums font-medium">{formatEuros(PENSION_MINIMA_SIN_CONYUGE)}/{l ? 'mo' : 'mes'}</td>
-              </tr>
-              <tr>
-                <td className="px-4 py-2 text-gray-600 dark:text-gray-300">{l ? 'Minimum pension (with dependent spouse)' : 'Pensión mínima (con cónyuge a cargo)'}</td>
-                <td className="px-4 py-2 text-right tabular-nums font-medium">{formatEuros(PENSION_MINIMA_CON_CONYUGE)}/{l ? 'mo' : 'mes'}</td>
-              </tr>
+              {fila(t.edadOrd, edadTxt(r.edadOrdinariaMeses))}
+              {fila(t.fecha, `${t.meses[r.mesHecho - 1]} ${r.anioHecho}`)}
+              {fila(t.edadJ, edadTxt(r.edadJubilacionMeses))}
+              {fila(t.cotJ, edadTxt(r.mesesCotizados))}
+              {fila(t.pct, pctf(r.porcentaje))}
+              {r.baseAntigua !== null && fila(t.brA, eur(r.baseAntigua))}
+              {fila(t.brN(nueva[0], nueva[1], dec(nueva[2])), eur(r.baseNueva))}
+              {fila(t.brApl, eur(r.baseReguladora), true)}
+              {r.coeficiente > 0 && fila(r.coeficienteSobreTope ? t.coefTope : t.coef, `−${pctf(r.coeficiente * 100)} · ${r.mesesAnticipo} ${t.m}`)}
+              {r.porcentajeDemora > 0 && fila(t.demora, `+${pctf(r.porcentajeDemora, 0)}`)}
+              {r.derecho && fila(`${t.calc}${r.limitadaPorMaxima ? `, ${t.maxima}` : ''}`, eur(r.pensionCalculada))}
+              {r.complementoMinimos > 0 && fila(`${t.minimos} (${t.minAyuda(eur(sit === 'conyugeACargo' ? PJ.limiteIngresosMinimos.conConyuge : PJ.limiteIngresosMinimos.sinConyuge))})`, `+${eur(r.complementoMinimos)}`)}
+              {r.brecha > 0 && fila(t.brecha, `+${eur(r.brecha)}`)}
+              {r.complementoDemoraAnual > 0 && fila(t.compDem, eur(r.complementoDemoraAnual))}
             </tbody>
           </table>
         </div>
-      )}
-
-      <p className="text-xs text-medium-gray">
-        {l
-          ? 'Approximate calculation based on current regulations (LGSS). The actual regulatory base is calculated using the last 300 monthly payments (25 years) adjusted for CPI. Consult Social Security for a personalized calculation.'
-          : 'Cálculo orientativo basado en la normativa vigente (LGSS). La base reguladora real se calcula con las últimas 300 mensualidades (25 años) actualizadas por IPC. Consulta la Seguridad Social para un cálculo personalizado.'}
-      </p>
+        <div className="flex flex-wrap items-center gap-3 text-sm">
+          <button type="button" onClick={() => copiar(`${t.head}: ${eur(r.pensionMensual)} ${t.mesUd}`)} className="rounded-lg border border-gray-300 px-3 py-2 font-medium text-charcoal hover:border-brand dark:border-gray-600 dark:text-gray-100">{t.copiar}</button>
+          <button type="button" onClick={() => copiar(enlace())} className="rounded-lg border border-gray-300 px-3 py-2 font-medium text-charcoal hover:border-brand dark:border-gray-600 dark:text-gray-100">{t.compartir}</button>
+          <button type="button" onClick={() => window.print()} className="rounded-lg border border-gray-300 px-3 py-2 font-medium text-charcoal hover:border-brand dark:border-gray-600 dark:text-gray-100">{t.imprimir}</button>
+          <span role="status" className="text-emerald-800 dark:text-emerald-300">{aviso}</span>
+        </div>
+        <p className="text-xs text-gray-600 dark:text-gray-400">{t.hip} <a href={t.metodoHref} className="underline hover:text-brand">{t.metodo}</a></p>
+      </div>
     </div>
   );
 }

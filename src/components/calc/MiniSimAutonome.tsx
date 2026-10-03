@@ -25,11 +25,11 @@ function parse(input: string): number {
   const n = parseFloat(s); return isNaN(n) ? 0 : n;
 }
 
-function Field({ id, label, value, onChange, unit, max = 1e9, decimals = 0, locale }: { id: string; label: string; value: number; onChange: (v: number) => void; unit?: string; max?: number; decimals?: number; locale: string }) {
+function Field({ id, label, value, onChange, unit, max = 1e9, decimals = 0, locale, group = true }: { id: string; label: string; value: number; onChange: (v: number) => void; unit?: string; max?: number; decimals?: number; locale: string; group?: boolean }) {
   const [focused, setFocused] = useState(false); const [raw, setRaw] = useState(''); const [over, setOver] = useState(false);
   const input = useRef<HTMLInputElement>(null); const selectPending = useRef(false); const guard = useRef(false);
   useLayoutEffect(() => { if (selectPending.current) { selectPending.current = false; input.current?.select(); } });
-  const fmt = (n: number) => new Intl.NumberFormat(locale, { maximumFractionDigits: decimals }).format(n);
+  const fmt = (n: number) => new Intl.NumberFormat(locale, { maximumFractionDigits: decimals, useGrouping: group }).format(n);
   const display = focused ? raw : (value === 0 ? '' : fmt(value));
   return (
     <div>
@@ -67,7 +67,7 @@ export default function MiniSimAutonome({ kind, lang = 'en', href, locale = 'en-
                 <select id={`m-${kind}-${i.id}`} value={String(v[i.id])} onChange={(e) => set(i.id)(Number(e.target.value))} className="h-12 w-full rounded-lg border bg-white px-3" style={{ borderColor: C.border, color: C.text }}>
                   {i.options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
                 </select></div>
-            : <Field key={i.id} id={`m-${kind}-${i.id}`} label={i.label} value={v[i.id]} onChange={set(i.id)} unit={i.unit} max={i.max} decimals={i.decimals} locale={locale} />)}
+            : <Field key={i.id} id={`m-${kind}-${i.id}`} label={i.label} value={v[i.id]} onChange={set(i.id)} unit={i.unit} max={i.max} decimals={i.decimals} group={i.group} locale={locale} />)}
         </form>
         <div aria-live="polite" className="rounded-lg p-4" style={{ background: C.surface }}>
           <p className="text-sm font-medium" style={{ color: C.muted }}>{out.head[0]}</p>

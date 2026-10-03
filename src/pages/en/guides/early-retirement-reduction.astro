@@ -1,0 +1,89 @@
+---
+import GuiaLayout from '../../../layouts/GuiaLayout.astro';
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
+import { calcularJubilacion, PARAMS_JUBILACION as J, BASES_2026 } from '../../../lib/jubilacion-engine';
+import { fuentesJubilacion, enFuentes, eurEN as eur, numEN as num } from '../../../lib/fuentes';
+
+const A = J.anticipada;
+const CV = A.coefVoluntaria as Record<string, number[]>, CI = A.coefInvoluntaria as Record<string, number[]>;
+const DT = (A.coefSobreTope as Record<string, Record<string, number[]>>)['2026'];
+const ref = { hoyAnio: 2026, hoyMes: 10 };
+const p = { anioNacimiento: 1965, mesNacimiento: 2, mesesCotizadosHoy: 444, baseActual: 2900, ...ref };
+const ord = calcularJubilacion(p);
+const v24 = calcularJubilacion({ ...p, edadDeseadaMeses: 756 });
+const v12 = calcularJubilacion({ ...p, edadDeseadaMeses: 768 });
+const inv = calcularJubilacion({ anioNacimiento: 1963, mesNacimiento: 1, mesesCotizadosHoy: 410, baseActual: 2700, edadDeseadaMeses: 765, involuntaria: true, ...ref });
+const top = calcularJubilacion({ anioNacimiento: 1962, mesNacimiento: 12, mesesCotizadosHoy: 480, baseActual: BASES_2026.maxima, edadDeseadaMeses: 756, ...ref });
+const filas = ['1', '6', '12', '20', '24'];
+
+const title = 'Early Retirement Spain 2026: Reduction per Month Early';
+const description = 'Early retirement in Spain for 2026: voluntary or after a dismissal, 35 and 33-year requirements, reduction coefficients per month and the rule above the cap.';
+const faqs = [
+  { question: 'How many years of contributions do I need to retire early in Spain?', answer: 'Thirty-five years of actual contributions for voluntary early retirement and thirty-three for involuntary early retirement, not counting the share of extra payments. Military or civilian service counts for one year at most. Voluntary early retirement also requires the reduced pension to exceed the minimum pension you would get at 65.' },
+  { question: 'How early can I go?', answer: `Up to ${A.voluntaria.mesesMax} months before your ordinary age voluntarily, and up to ${A.involuntaria.mesesMax} months if you lost your job for reasons beyond your control. The reference age is the one you would reach if you kept contributing until then, not the one implied by your contributions today.` },
+  { question: 'Is the reduction temporary?', answer: 'No, it is permanent. The coefficient is applied when the pension is first calculated and is not restored when you reach the ordinary age. Annual increases are then applied to the reduced amount, so every month of early retirement costs you for the rest of your life.' },
+  { question: 'I receive the unemployment allowance for over-52s. Does that help?', answer: 'Yes. If you take voluntary early retirement while receiving the unemployment allowance and have done so for at least three months, the softer involuntary coefficients apply, although you must still meet the voluntary requirements (article 208.3 of the General Social Security Act).' },
+  { question: 'Can I work after retiring early?', answer: 'Generally no: the retirement pension is incompatible with work, with limited exceptions such as flexible retirement or self-employed earnings below the annual minimum wage. Active retirement, which combines work and part of the pension, is only open to people who claim their pension after their ordinary age.' },
+  { question: 'Does early retirement affect my minimum pension?', answer: `Yes, in two ways. Voluntary early retirement is only allowed if the reduced pension exceeds the minimum you would get at 65, so careers with low bases are often excluded. And if you do retire early, the minimum that applies until you turn 65 is the lower under-65 amount, ${eur(J.minimasAnuales.menor65.unipersonal / J.pagasAnuales)} a month living alone in 2026.` }
+];
+const related = [
+  { label: 'State pension calculator', href: '/en/retirement-calculator/' },
+  { label: 'The regulatory base: two formulas', href: '/en/guides/pension-regulatory-base/' },
+  { label: 'Minimum and maximum pension in 2026', href: '/en/guides/minimum-and-maximum-pension/' },
+  { label: 'Objective dismissal and ERE', href: '/en/guides/objective-dismissal-and-ere/' },
+  { label: 'Unemployment benefit calculator', href: '/en/unemployment-calculator/' },
+];
+---
+
+<GuiaLayout title={title} description={description} h1="Early retirement in Spain: how much the pension is cut" path="/en/guides/early-retirement-reduction/" locale="en" crumb="Early retirement" faqs={faqs} sources={enFuentes(fuentesJubilacion)} related={related}>
+  <p class="text-lg">
+    Spain allows voluntary early retirement up to {A.voluntaria.mesesMax} months before your ordinary retirement age if you have 35 years of contributions, and involuntary early retirement, after a collective or objective dismissal or another cause beyond your control, up to {A.involuntaria.mesesMax} months early with 33 years. In both cases the pension is cut for every month or part month of anticipation, using coefficients from articles 208 and 207 of the General Social Security Act that also depend on your career length. Voluntarily, one month early costs between {num(CV['1'][3], 2)}% and {num(CV['1'][0], 2)}%, and two years between {num(CV['24'][3], 2)}% and {num(CV['24'][0], 2)}%. Someone born in February 1965 with 37 years of contributions and a €2,900 base would receive {eur(ord.pensionMensual)} a month at the ordinary age of 65 and {eur(v24.pensionMensual)} retiring voluntarily at 63.
+  </p>
+  <MiniSimAutonome client:visible kind="anticipada" lang="en" locale="en-GB" href="/en/retirement-calculator/" />
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Voluntary early retirement: the article 208 scale</h2>
+    <div class="overflow-x-auto">
+      <table class="my-4 w-full border-collapse text-sm">
+        <caption class="sr-only">Reduction for voluntary early retirement by months early and career length</caption>
+        <thead><tr class="border-b-2 border-gray-300 dark:border-gray-600"><th scope="col" class="px-3 py-2 text-left">Months early</th><th scope="col" class="px-3 py-2 text-right">Under 38y 6m</th><th scope="col" class="px-3 py-2 text-right">38y 6m to 41y 6m</th><th scope="col" class="px-3 py-2 text-right">41y 6m to 44y 6m</th><th scope="col" class="px-3 py-2 text-right">44y 6m or more</th></tr></thead>
+        <tbody class="tabular-nums">
+          {filas.map((k) => <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">{k}</td>{CV[k].map((x) => <td class="px-3 py-1 text-right">{num(x, 2)}%</td>)}</tr>)}
+        </tbody>
+      </table>
+    </div>
+    <p>
+      The scale is front- and back-loaded: the first month already costs around 3%, the middle months add little, and the last four months before the two-year limit are expensive again. In the example above, retiring {v12.mesesAnticipo} months early instead of {v24.mesesAnticipo} would mean {eur(v12.pensionMensual)} rather than {eur(v24.pensionMensual)} a month. The voluntary route also requires the reduced pension to exceed the minimum pension at 65 for your household, so low-base careers often cannot use it at all.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">After losing your job: the article 207 scale</h2>
+    <p>
+      Involuntary early retirement covers collective redundancies, objective dismissals, insolvency, the death or retirement of an individual employer, force majeure and resignations caused by serious breaches by the employer. You need 33 years of contributions, six months registered as a jobseeker and proof that you received or claimed your compensation. The reduction runs up to {num(CI['48'][0], 2)}% for 48 months early with under 38 years and 6 months of contributions.
+    </p>
+    <p>
+      For a sales manager born in January 1963 with 34 years of contributions and a €2,700 base, made redundant and retiring now, the ordinary age would be {Math.floor(inv.edadOrdinariaMeses / 12)} years and {inv.edadOrdinariaMeses % 12} months. Retiring at {Math.floor(inv.edadJubilacionMeses / 12)} years and {inv.edadJubilacionMeses % 12} months means {inv.mesesAnticipo} months early and a {num(inv.coeficiente * 100, 2)}% cut: {eur(inv.pensionMensual)} a month.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">High earners: the reduction is applied to the maximum</h2>
+    <p>
+      When your regulatory base times your percentage exceeds the maximum pension ({eur(J.pensionMaximaMensual)}), voluntary early retirement coefficients are applied to the maximum rather than to your theoretical pension (article 210.3), using a transitional scale that tightens every year until 2033 (transitional provision 34). In 2026, two years early with under 38 years and 6 months of contributions costs {num(DT['24'][0], 2)}% of the maximum instead of {num(CV['24'][0], 2)}%. A director born in December 1962 who always contributed at the maximum base and retires now, {top.mesesAnticipo} months early, receives {eur(top.pensionMensual)}.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Deciding whether to go early</h2>
+    <p>
+      Compare three numbers: the early pension, the ordinary pension, and what you would live on in between (salary, unemployment benefit or the over-52 allowance, which keeps your retirement contributions going). If you plan to leave Spain, remember that your Spanish pension can be paid abroad, but the early-retirement reduction travels with it. The <a href="/en/retirement-calculator/" class="text-brand hover:underline">state pension calculator</a> works out your ordinary age and the exact number of months early; the <a href="/en/guides/pension-regulatory-base/" class="text-brand hover:underline">regulatory base guide</a> explains the starting figure.
+    </p>
+  </section>
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Other routes to stop working earlier</h2>
+    <p>
+      Early retirement is not the only option. Partial retirement lets you reduce your hours by 25% to 75% from your ordinary age without conditions, or up to three years earlier if your employer hires a relief worker (contrato de relevo) and you have 33 years of contributions and six years with the company. Some occupations, such as mining, air traffic control or local police, have lower retirement ages through reduction coefficients on age, without a cut in the pension. People with a recognised disability of 45% or more, or 65% in some cases, can also retire earlier without reduction. Each of these has its own rules, so ask Social Security for a forecast before deciding.
+    </p>
+  </section>
+</GuiaLayout>

@@ -1,201 +1,83 @@
 ---
 import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
-import Finiquito from '../../components/calculadoras/Finiquito';
-import { CURRENT_FISCAL_YEAR } from '../../config';
+import IndemnizacionDespido from '../../components/calculadoras/IndemnizacionDespido';
+import { calcularDespido, PARAMS_DESPIDO as P } from '../../lib/despido-engine';
+import { fuentesDespido, enFuentes, eurEN as eur, eurEN2 as eur2, numEN as num } from '../../lib/fuentes';
 
-const title = `Severance Pay Calculator Spain ${CURRENT_FISCAL_YEAR}: Finiquito & More`;
-const description = 'Calculate your finiquito and redundancy compensation in Spain. Covers unfair dismissal, objective dismissal, contract end, holiday pay and bonus proration.';
+const hoy = new Date().toISOString().slice(0, 10);
+const a = calcularDespido({ inicio: '2021-11-08', fin: '2026-08-31', salarioAnual: 42000, tipo: 'voluntaria', vacacionesDisfrutadas: 12 });
+const aImp = calcularDespido({ inicio: '2021-11-08', fin: '2026-08-31', salarioAnual: 42000, tipo: 'improcedente', vacacionesDisfrutadas: 12 });
+const b = calcularDespido({ inicio: '2025-02-03', fin: '2026-02-02', salarioAnual: 24000, tipo: 'fin-contrato' });
+const c = calcularDespido({ inicio: '2017-01-09', fin: '2026-05-14', salarioAnual: 55000, tipo: 'objetivo', vacacionesDisfrutadas: 4, preavisoOmitido: 15 });
+const T = P.tipos;
+
+const title = 'Finiquito Spain 2026: Final Pay, Holiday Pay and Severance';
+const description = 'Work out your finiquito in Spain for 2026: salary for the month, untaken holidays, accrued extra payments and dismissal compensation, with the tax-free part.';
 
 const faqs = [
-  { question: 'What is included in a finiquito in Spain?', answer: 'A finiquito (settlement) includes: outstanding salary days for the current month, accrued but untaken holiday pay, the proportional part of extra payments (pagas extra) not yet received, and any other pending compensation. It is separate from redundancy compensation (indemnización). Signing it without adding the words « no conforme » makes a later claim harder, and the deadline to challenge a dismissal is only twenty working days from notification.' },
-  { question: 'How much is unfair dismissal compensation?', answer: `For unfair dismissal (despido improcedente), the compensation is 33 days of salary per year worked, capped at 24 monthly payments, for employment periods after February 2012. For prior service, the rate is 45 days per year worked, capped at 42 monthly payments.` },
-  { question: 'How much is objective dismissal compensation?', answer: 'For objective dismissal (despido objetivo), covering economic, technical, organisational or production reasons, the compensation is 20 days of salary per year worked, with a maximum of 12 monthly payments. If the dismissal is later ruled unfair, the figure rises to 33 days per year with a ceiling of 24 monthly payments, and the employer must pay the difference plus any accrued interest.' },
-  { question: 'Does the calculator show the taxable part of severance?', answer: 'Mandatory severance pay up to the legal limits is exempt from income tax (IRPF). Any amount exceeding the statutory limit is subject to tax. The settlement (finiquito) components like pending salary and holiday pay are always taxed as regular employment income.' },
+  { question: 'What exactly is a finiquito in Spain?', answer: 'It is the final settlement your employer owes you on the last day of the contract, whatever the reason for leaving: salary for the days worked that month, holidays earned but not taken, the accrued part of the two extra payments and, after a dismissal, the compensation. Check each line before signing; you can add «no conforme» to keep the right to claim.' },
+  { question: 'I am leaving for another job. Do I still get a finiquito?', answer: 'Yes. Resigning gives you no compensation, but the finiquito is always due: the days worked, untaken holidays and the accrued extra payment. Respect the notice period in your collective agreement, usually fifteen days, or the employer may deduct the missing days from the settlement.' },
+  { question: 'How is untaken holiday paid when I leave?', answer: `Holidays accrue day by day from 1 January (or your start date) at no less than ${P.vacacionesMinimasNaturales} calendar days a year under article 38 of the Workers’ Statute. The days you have not taken are paid at your ordinary monthly salary divided by 30. Holiday can only be swapped for money when the contract ends.` },
+  { question: 'My temporary contract ended. Is the 12-day payment tax-free?', answer: 'No. The Spanish Tax Agency treats the payment at the end of a temporary contract as fully taxable, because the contract simply expires and there is no dismissal. Only dismissal compensation up to the statutory amount is exempt from income tax. The calculator shows that payment in the taxable line.' },
+  { question: 'Does the finiquito include the notice I was not given?', answer: `In an objective dismissal the employer must give ${P.preavisoObjetivoDias} days’ written notice. If it lets you go straight away, it owes those days as salary, which is taxed and subject to social security like any payslip. Enter the missing days in the advanced options.` },
+  { question: 'How long do I have to challenge the amounts?', answer: 'You can claim unpaid amounts for one year from the end of the contract, through a conciliation request and then the labour court. To challenge the dismissal itself the deadline is only twenty working days, and signing the finiquito does not waive it if you added «no conforme».' },
 ];
 ---
 
-<CalculadoraLayout
-  title={title}
-  description={description}
-  h1={`Severance & Settlement Calculator ${CURRENT_FISCAL_YEAR}`}
-  calculatorName="Severance Pay Calculator"
-  path="/en/severance-calculator/"
-  faqs={faqs}
-  locale="en"
->
-  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-    <Finiquito client:idle lang="en" />
+<CalculadoraLayout title={title} description={description} h1="Finiquito calculator: your final pay in Spain (2026)" calculatorName="Finiquito calculator" path="/en/severance-calculator/" faqs={faqs} locale="en" sources={enFuentes(fuentesDespido)}>
+  <p class="mb-6 text-lg text-dark-gray dark:text-gray-300">
+    When a job ends in Spain, your employer owes you a finiquito: the salary for the days worked in your last month, the holiday you earned but did not take, the accrued share of the two extra payments (pagas extra) and, if you were dismissed, compensation (indemnización). Someone on €42,000 a year who resigns on 31 August after taking 12 days of holiday is owed {eur(a.finiquito)}; had the employer dismissed them unfairly that day, {eur(aImp.indemnizacion)} of compensation would be added. This calculator works from your real start and end dates rather than rounded years, applies the Spanish rules in force in 2026 and separates what is taxed like a payslip from the compensation that is exempt from income tax. It is written for people working in Spain who want to check the document their employer hands them before signing it, in plain English but with the Spanish terms you will find on the paper.
+  </p>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800" data-chrome>
+    <IndemnizacionDespido client:idle hoy={hoy} lang="en" enfoque="finiquito" tipoInicial="voluntaria" />
   </div>
 
   <section class="mt-8">
-    <h2 class="mb-4 text-xl font-bold text-charcoal dark:text-gray-100">
-      Understanding severance pay in Spain
-    </h2>
     <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">What goes into the settlement</h2>
       <p>
-        When an employment relationship ends in Spain, workers are entitled to a settlement (finiquito) and, depending on the circumstances, redundancy compensation (indemnización). These are two distinct concepts that are often confused. The finiquito covers all pending amounts: unpaid salary days, unused holiday, and the proportional share of bonus payments.
+        Spanish payroll has its own vocabulary, and the settlement document uses it. <strong>Salario pendiente</strong> is the salary for the days you worked in the final month, calculated as monthly pay divided by 30. <strong>Vacaciones no disfrutadas</strong> are holiday days earned this calendar year and not yet taken. <strong>Parte proporcional de pagas extra</strong> is the share of the summer or Christmas payment that has built up since it was last paid. If your employer spreads those two payments across twelve payslips (prorrateadas), nothing is outstanding and that line disappears.
       </p>
       <p>
-        Redundancy compensation depends on the type of dismissal. Unfair dismissal carries the highest compensation at 33 days per year worked (or 45 for pre-2012 service). Objective dismissal pays 20 days per year. Voluntary resignation typically carries no compensation beyond the settlement. Understanding these distinctions is crucial when negotiating your departure or evaluating a severance offer.
+        In the first example, the August salary is a full month, {eur(a.salarioPendiente)}, because the last day worked is the last day of the month. Holiday accrued from January to August comes to {num(a.vacacionesDevengadas, 1)} days; after the 12 already taken, {num(a.vacacionesPendientesDias, 1)} remain, worth {eur(a.vacacionesImporte)}. The Christmas payment has been building since 1 July: {eur(a.pagaExtraImporte)}.
       </p>
-    </div>
-  </section>
 
-  <section class="mt-8">
-    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
-      Compensation by dismissal type: detailed breakdown
-    </h3>
-    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
-      <p>
-        Spanish labour law distinguishes several types of employment termination, each with its own compensation rules. The following table summarises the key scenarios every worker should understand.
-      </p>
-      <div class="overflow-x-auto my-4">
-        <table class="min-w-full text-sm border border-gray-200 dark:border-gray-700">
-          <thead class="bg-gray-50 dark:bg-gray-700">
-            <tr>
-              <th class="px-4 py-2 text-left">Dismissal type</th>
-              <th class="px-4 py-2 text-left">Compensation formula</th>
-              <th class="px-4 py-2 text-left">Maximum cap</th>
-              <th class="px-4 py-2 text-left">Unemployment benefit?</th>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Compensation depends on why the contract ended</h2>
+      <div class="overflow-x-auto">
+        <table class="my-4 w-full border-collapse text-sm">
+          <caption class="sr-only">Statutory compensation and income tax by type of termination</caption>
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th scope="col" class="px-3 py-2 text-left">How the contract ended</th>
+              <th scope="col" class="px-3 py-2 text-right">Days per year</th>
+              <th scope="col" class="px-3 py-2 text-right">Cap</th>
+              <th scope="col" class="px-3 py-2 text-left">Income tax</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">Unfair dismissal (despido improcedente), post-2012</td>
-              <td class="px-4 py-2">33 days/year worked</td>
-              <td class="px-4 py-2">24 monthly payments</td>
-              <td class="px-4 py-2">Yes</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">Unfair dismissal, pre-Feb 2012 service</td>
-              <td class="px-4 py-2">45 days/year worked</td>
-              <td class="px-4 py-2">42 monthly payments</td>
-              <td class="px-4 py-2">Yes</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">Objective dismissal (despido objetivo)</td>
-              <td class="px-4 py-2">20 days/year worked</td>
-              <td class="px-4 py-2">12 monthly payments</td>
-              <td class="px-4 py-2">Yes</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">Fair disciplinary dismissal (despido disciplinario procedente)</td>
-              <td class="px-4 py-2">0 days</td>
-              <td class="px-4 py-2">None</td>
-              <td class="px-4 py-2">Yes</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">Collective dismissal (ERE)</td>
-              <td class="px-4 py-2">20 days/year (minimum)</td>
-              <td class="px-4 py-2">12 monthly payments (minimum)</td>
-              <td class="px-4 py-2">Yes</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">End of temporary contract</td>
-              <td class="px-4 py-2">12 days/year worked</td>
-              <td class="px-4 py-2">None specified</td>
-              <td class="px-4 py-2">Yes</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">Voluntary resignation</td>
-              <td class="px-4 py-2">0 days</td>
-              <td class="px-4 py-2">None</td>
-              <td class="px-4 py-2">No</td>
-            </tr>
-            <tr class="border-t border-gray-200 dark:border-gray-700">
-              <td class="px-4 py-2">Mutual agreement</td>
-              <td class="px-4 py-2">Negotiable</td>
-              <td class="px-4 py-2">No legal cap</td>
-              <td class="px-4 py-2">Generally no</td>
-            </tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Unfair dismissal (despido improcedente)</td><td class="px-3 py-1 text-right">{T.improcedente.diasPorAnio} ({T.improcedentePre2012.diasPorAnio} before 12/02/2012)</td><td class="px-3 py-1 text-right">{T.improcedente.topeMensualidades} months’ pay</td><td class="px-3 py-1">Exempt if confirmed at conciliation or in court</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Objective dismissal (despido objetivo)</td><td class="px-3 py-1 text-right">{T.objetivo.diasPorAnio}</td><td class="px-3 py-1 text-right">{T.objetivo.topeMensualidades} months’ pay</td><td class="px-3 py-1">Exempt</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Collective redundancy (ERE)</td><td class="px-3 py-1 text-right">{T.ere.diasPorAnio} minimum</td><td class="px-3 py-1 text-right">{T.ere.topeMensualidades} months’ pay or as agreed</td><td class="px-3 py-1">Exempt up to the unfair-dismissal amount</td></tr>
+            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Temporary contract expires</td><td class="px-3 py-1 text-right">{T.finContrato.diasPorAnio}</td><td class="px-3 py-1 text-right">None</td><td class="px-3 py-1">Fully taxable</td></tr>
+            <tr><td class="px-3 py-1">Resignation, or fair disciplinary dismissal</td><td class="px-3 py-1 text-right">0</td><td class="px-3 py-1 text-right">-</td><td class="px-3 py-1">-</td></tr>
           </tbody>
         </table>
       </div>
       <p>
-        Note that the "days per year worked" formula includes partial years on a proportional basis. If you worked 2 years and 6 months, the calculation uses 2.5 years. The daily salary used in the calculation is your gross annual salary divided by 365 days, including prorated bonus payments (pagas extra).
+        The daily salary behind every row is your gross annual pay, extra payments included, divided by 365. Part months of service are usually counted as full months, which is how Spanish labour courts read the rule of prorating by months; you can switch to a day-by-day pro rata in the advanced options.
       </p>
-    </div>
-  </section>
 
-  <section class="mt-8">
-    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
-      How pending holiday and pagas extra are calculated in the settlement
-    </h3>
-    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Two more cases foreign workers often ask about</h2>
       <p>
-        The finiquito (settlement) captures all amounts the company owes you on the date your employment ends. These amounts are separate from any redundancy compensation and are payable regardless of the reason for termination, even if you resign voluntarily.
+        <strong>A one-year temporary contract.</strong> On €24,000 a year, a contract from 3 February 2025 to 2 February 2026 ends with {num(b.diasIndemnizacion)} days of salary, {eur(b.indemnizacion)}, on top of a finiquito of {eur(b.finiquito)}. Expect withholding on all of it: none of the payment is tax-free.
       </p>
       <p>
-        <strong>Pending holiday pay:</strong> Spanish workers are entitled to a minimum of 30 calendar days (or 22 working days) of paid holiday per year. If you leave before using all your accrued holiday, the company must pay you for those unused days. The calculation is straightforward: divide your annual salary by 365 to get the daily rate, then multiply by the number of unused holiday days. For example, if you leave on June 30 and have taken no holiday, you have accrued roughly 15 calendar days (half the year). If your daily salary is €82.19 (€30,000 / 365), the pending holiday payment would be approximately €1,233.
+        <strong>Objective dismissal with no notice.</strong> A manager on €55,000 who joined in January 2017 is let go on 14 May 2026 with immediate effect. Compensation at {T.objetivo.diasPorAnio} days a year: {eur(c.indemnizacion)} ({num(c.diasIndemnizacion, 2)} days at {eur2(c.salarioDiario)}), exempt from income tax. Because the {P.preavisoObjetivoDias} days’ notice was skipped, the finiquito also carries {eur(c.preavisoImporte)} in lieu of notice, plus the summer extra payment accrued since January. Total final pay: {eur(c.finiquito)}.
       </p>
-      <p>
-        <strong>Proportional pagas extra:</strong> If your company pays in 14 instalments (with bonus payments in June and December), and you leave before receiving a bonus, you are owed the proportional part. Each paga extra accrues from the period since the last one was paid. If you leave in September and received your June paga, you are owed 3/6 (three months out of six) of the December paga. On a €30,000 salary with 14 payments, each paga is worth approximately €2,142.86, so you would be owed around €1,071.43. <strong>Pending salary days:</strong> If your employment ends mid-month, the finiquito also includes the salary for the days worked in that final month. For an employee earning €2,142.86 gross per month (€30,000 / 14), termination on the 15th would mean approximately €1,071.43 in pending salary.
-      </p>
-    </div>
-  </section>
 
-  <section class="mt-8">
-    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
-      Practical example: unfair dismissal after 5 years
-    </h3>
-    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Signing the document</h2>
       <p>
-        Let us walk through a complete calculation for a common scenario. Maria earns €36,000 gross per year (14 payments) and is dismissed unfairly after 5 years and 3 months of service. She has taken 10 of her 22 working days of holiday this year, and the dismissal occurs on September 15. She received her June paga extra.
-      </p>
-      <p>
-        <strong>Daily salary:</strong> €36,000 / 365 = €98.63 per day.
-      </p>
-      <p>
-        <strong>Redundancy compensation (indemnización):</strong> 33 days per year worked x 5.25 years x €98.63 = 173.25 days x €98.63 = <strong>€17,087.60</strong>.
-      </p>
-      <p>
-        <strong>Pending salary (September 1–15):</strong> 15 days x €98.63 = <strong>€1,479.45</strong>.
-      </p>
-      <p>
-        <strong>Unused holiday:</strong> Maria has used 10 of her 22 working days. By September 15, she has accrued approximately 16.5 working days (22 x 258/365 proportional to days passed). Remaining: 16.5 - 10 = 6.5 working days x (€36,000/22/12 equivalent daily rate) = approximately <strong>€929</strong>.
-      </p>
-      <p>
-        <strong>Proportional December paga:</strong> The December paga accrues from July to December. From July 1 to September 15 is 2.5 months out of 6. One paga = €36,000/14 = €2,571.43. Proportional: €2,571.43 x 2.5/6 = <strong>€1,071.43</strong>.
-      </p>
-      <p>
-        <strong>Total before tax:</strong> €17,087.60 (indemnización) + €1,479.45 + €929 + €1,071.43 (finiquito) = <strong>€20,567.48</strong>. The indemnización of €17,087.60 is tax-exempt as it falls within the legal limit. The finiquito components (€3,479.88) are taxed as regular employment income.
-      </p>
-    </div>
-  </section>
-
-  <section class="mt-8">
-    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
-      FOGASA: the Wage Guarantee Fund
-    </h3>
-    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
-      <p>
-        FOGASA (Fondo de Garantía Salarial) is a Spanish government body that guarantees payment of wages and severance when an employer becomes insolvent or enters bankruptcy proceedings. Every employer in Spain contributes to FOGASA through a payroll surcharge of 0.20% of the contribution base.
-      </p>
-      <p>
-        If your company cannot pay your settlement or redundancy compensation, FOGASA can cover: up to the daily equivalent of double the minimum interprofessional wage (SMI), with a maximum of 120 days of pending salary, and up to 30 days per year of service for severance (capped at one year's worth). FOGASA payments are typically slower than direct employer payments (processing can take several months), but they provide a crucial safety net for workers affected by company closures.
-      </p>
-      <p>
-        For expats whose employer goes bankrupt, claiming from FOGASA requires the same documentation as a standard claim: the finiquito document, proof of unpaid amounts, and a court judgment or conciliation agreement confirming the debt. Legal advice from a labour lawyer (abogado laboralista) is strongly recommended in these situations.
-      </p>
-    </div>
-  </section>
-
-  <section class="mt-8">
-    <h3 class="mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">
-      Tax treatment of severance payments in Spain
-    </h3>
-    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
-      <p>
-        The tax treatment of severance in Spain depends on the type of payment and the circumstances of the dismissal. Understanding these rules can make a significant difference to the amount you actually receive.
-      </p>
-      <p>
-        <strong>Tax-exempt severance:</strong> Mandatory redundancy compensation up to the legal limits (33 days/year for unfair dismissal, 20 days/year for objective dismissal) is fully exempt from IRPF. This exemption applies automatically, with no cap on the total exempt amount, provided the dismissal is recognised as such by a court or through SMAC conciliation. The exemption was capped at €180,000 for dismissals agreed upon without judicial confirmation starting in 2014, but this cap does not apply when the dismissal is ratified through official proceedings.
-      </p>
-      <p>
-        <strong>Taxable components:</strong> All finiquito items (pending salary, unused holiday pay, and proportional pagas extra) are taxed as regular employment income, subject to standard IRPF withholding. Any severance amount negotiated above the legal minimum is also fully taxable.
-      </p>
-      <p>
-        <strong>Reduction for multi-year income:</strong> If the severance corresponds to a period of more than two years (i.e., you worked for the company for more than two years), the taxable portion may qualify for a 30% reduction under Spain's rules for irregular income (rendimientos generados en más de dos años). This reduction can significantly lower the effective tax rate on the taxable severance component. The reduction applies to a maximum of €300,000 in eligible income.
+        You can ask for a workers’ representative to be present when you sign (article 49.2 of the Workers’ Statute). If a figure looks wrong, sign with the words «no conforme» next to your signature: you get paid now and keep a year to claim the difference. If you were dismissed, register for unemployment benefit within fifteen working days; our <a href="/en/unemployment-calculator/" class="text-brand hover:underline">unemployment benefit calculator</a> estimates the amount. For the compensation itself, see the <a href="/en/dismissal-compensation-calculator/" class="text-brand hover:underline">dismissal compensation calculator</a> and the guides on <a href="/en/guides/unfair-dismissal-compensation/" class="text-brand hover:underline">unfair dismissal</a>, <a href="/en/guides/objective-dismissal-and-ere/" class="text-brand hover:underline">objective dismissal and ERE</a>, <a href="/en/guides/end-of-temporary-contract-pay/" class="text-brand hover:underline">temporary contracts</a> and <a href="/en/guides/severance-pay-tax/" class="text-brand hover:underline">severance tax</a>.
       </p>
     </div>
   </section>

@@ -1,0 +1,87 @@
+---
+import GuiaLayout from '../../layouts/GuiaLayout.astro';
+import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
+import { calcularJubilacion, porcentajePorMeses, PARAMS_JUBILACION as J, BASES_2026 } from '../../lib/jubilacion-engine';
+import { fuentesJubilacion, eurES as eur, eurES2 as eur2, numES as num } from '../../lib/fuentes';
+
+const M = J.minimasAnuales, P14 = J.pagasAnuales;
+const ref = { hoyAnio: 2026, hoyMes: 10 };
+const rosa = calcularJubilacion({ anioNacimiento: 1961, mesNacimiento: 5, mesesCotizadosHoy: 216, baseActual: BASES_2026.minima, situacion: 'conyugeACargo', ...ref });
+const rosaSola = calcularJubilacion({ anioNacimiento: 1961, mesNacimiento: 5, mesesCotizadosHoy: 216, baseActual: BASES_2026.minima, situacion: 'unipersonal', ...ref });
+const topeBR = J.pensionMaximaMensual; // pensión máxima
+const brNecesaria = topeBR / (porcentajePorMeses(438, 2026) / 100);
+const pnc = J.pensionNoContributivaAnual / P14;
+const filas = [
+  { k: 'Con cónyuge a cargo', c: 'conyugeACargo' as const },
+  { k: 'Sin cónyuge (unidad unipersonal)', c: 'unipersonal' as const },
+  { k: 'Con cónyuge no a cargo', c: 'conyugeNoACargo' as const },
+];
+
+const title = 'Pensión mínima y máxima de jubilación 2026: cuantías';
+const description = `Pensión mínima y máxima de jubilación en 2026: ${eur2(J.pensionMaximaMensual)} de tope, mínimas con o sin cónyuge a cargo, límite de ingresos y complemento a mínimos, con simulador.`;
+const faqs = [
+  { question: '¿Cuál es la pensión mínima de jubilación en 2026?', answer: `Para titulares de 65 años o más, ${eur2(M['65'].conyugeACargo / P14)} al mes con cónyuge a cargo, ${eur2(M['65'].unipersonal / P14)} sin cónyuge y ${eur2(M['65'].conyugeNoACargo / P14)} con cónyuge no a cargo, en 14 pagas (anexo I del Real Decreto-ley 3/2026). Por debajo de 65 años, las dos últimas cuantías son algo menores.` },
+  { question: '¿Todo el mundo cobra al menos la pensión mínima?', answer: `No. El complemento a mínimos solo se reconoce a quien tiene derecho a una pensión contributiva, reside en España y no supera un límite de otros ingresos: ${eur(J.limiteIngresosMinimos.sinConyuge)} al año sin cónyuge a cargo y ${eur(J.limiteIngresosMinimos.conConyuge)} con cónyuge a cargo. Las rentas del capital y de alquileres también cuentan.` },
+  { question: '¿Hay un tope para el complemento a mínimos?', answer: `Sí. El complemento no puede superar la cuantía de la pensión no contributiva, ${eur2(pnc)} al mes en 2026 (${eur(J.pensionNoContributivaAnual)} al año), según el artículo 59 de la Ley General de la Seguridad Social. Con una pensión contributiva muy baja, la suma puede quedar por debajo de la mínima.` },
+  { question: '¿Por qué la pensión máxima es menor que la base máxima de cotización?', answer: `Porque la pensión máxima la fija cada año la ley (${eur2(J.pensionMaximaMensual)} en 2026) y la base máxima es otro parámetro (${eur2(BASES_2026.maxima)}). Desde 2025, la pensión máxima sube cada año con el IPC más un incremento adicional acumulativo de 0,115 puntos, para acercar ambas cifras de aquí a 2050.` },
+  { question: '¿Qué pasa si sigo trabajando y ya tengo la pensión máxima?', answer: 'Si retrasas la jubilación, ganas un 4 % por año completo. Si tu pensión ya alcanza la máxima, ese porcentaje no aprovechado se convierte en una cantidad anual que se paga en 14 pagas, con el límite de que la pensión y esa cantidad no superen la base máxima de cotización anual.' },
+  { question: '¿Qué es el complemento de brecha de género?', answer: `Un complemento de ${eur2(J.complementoBrechaMensualPorHijo)} al mes por hijo en 2026, hasta cuatro hijos, que cobra uno de los progenitores, normalmente la madre, si su carrera se vio afectada por la crianza. No se considera ingreso a efectos de los mínimos y se suma a la pensión aunque esta alcance la máxima.` },
+];
+const related = [
+  { label: 'Simulador de pensión de jubilación', href: '/calculadora-jubilacion/' },
+  { label: 'Base reguladora: las dos fórmulas', href: '/guias/base-reguladora-jubilacion/' },
+  { label: 'Jubilación anticipada y coeficientes', href: '/guias/jubilacion-anticipada-coeficientes/' },
+  { label: 'Jubilación en España: edad y requisitos', href: '/guias/jubilacion-espana-edad-pension/' },
+  { label: 'Calculadora de plan de ahorro', href: '/calculadora-plan-ahorro/' },
+];
+---
+
+<GuiaLayout title={title} description={description} h1="Pensión mínima y máxima de jubilación en 2026" path="/guias/pension-minima-maxima-jubilacion/" crumb="Pensión mínima y máxima" faqs={faqs} sources={fuentesJubilacion} related={related}>
+  <p class="text-lg">
+    En 2026 la pensión de jubilación no puede superar {eur2(J.pensionMaximaMensual)} al mes en 14 pagas, {eur2(J.pensionMaximaAnual)} al año, y la mínima para un titular de 65 años o más es de {eur2(M['65'].conyugeACargo / P14)} con cónyuge a cargo, {eur2(M['65'].unipersonal / P14)} sin cónyuge y {eur2(M['65'].conyugeNoACargo / P14)} con cónyuge no a cargo (Real Decreto-ley 3/2026, convalidado por el Congreso en febrero). La mínima no es automática: la Seguridad Social añade un complemento a mínimos solo si tus demás ingresos no superan {eur(J.limiteIngresosMinimos.sinConyuge)} al año, o {eur(J.limiteIngresosMinimos.conConyuge)} con cónyuge a cargo, y si resides en España. Una trabajadora con 18 años cotizados a la base mínima y cónyuge a cargo tendría una pensión contributiva de {eur(rosa.pensionCalculada)}, que el complemento eleva a {eur(rosa.pensionMensual)} al mes.
+  </p>
+  <MiniSimAutonome client:visible kind="minmax" lang="es" locale="es-ES" href="/calculadora-jubilacion/" />
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Cuantías mínimas de jubilación en 2026</h2>
+    <div class="overflow-x-auto">
+      <table class="my-4 w-full border-collapse text-sm">
+        <caption class="sr-only">Pensiones mínimas de jubilación contributiva en 2026</caption>
+        <thead><tr class="border-b-2 border-gray-300 dark:border-gray-600"><th scope="col" class="px-3 py-2 text-left">Situación</th><th scope="col" class="px-3 py-2 text-right">65 años o más, al mes</th><th scope="col" class="px-3 py-2 text-right">Al año</th><th scope="col" class="px-3 py-2 text-right">Menos de 65, al mes</th></tr></thead>
+        <tbody class="tabular-nums">
+          {filas.map((f) => <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">{f.k}</td><td class="px-3 py-1 text-right">{eur2(M['65'][f.c] / P14)}</td><td class="px-3 py-1 text-right">{eur2(M['65'][f.c])}</td><td class="px-3 py-1 text-right">{eur2(M.menor65[f.c] / P14)}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Las mínimas subieron mucho más que las demás pensiones: las contributivas en general se revalorizaron un {num(J.revalorizacion2026 * 100, 1)} % en 2026, mientras que las mínimas lo hicieron según el mandato de acercarlas al umbral de pobreza (disposición adicional 53.ª de la Ley General de la Seguridad Social). «Cónyuge a cargo» significa que el cónyuge convive con el pensionista y no tiene ingresos propios por encima del límite legal; si los tiene, se aplica la columna de cónyuge no a cargo.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Cómo funciona el complemento a mínimos</h2>
+    <p>
+      El complemento cubre la diferencia entre tu pensión contributiva y la mínima de tu situación, con dos límites. El primero, de ingresos: si tus rendimientos del trabajo, del capital o de actividades económicas, sin contar la pensión, superan el límite anual, no hay complemento (o se reduce en el exceso). El segundo, de cuantía: el complemento no puede pasar del importe de la pensión no contributiva, {eur2(pnc)} al mes. En el ejemplo de la cabecera, la misma trabajadora sin cónyuge a cargo tendría derecho a {eur(rosaSola.pensionMensual)}, porque la mínima unipersonal es más baja.
+    </p>
+    <p>
+      La anticipada voluntaria tiene una trampa ligada a la mínima: solo se puede pedir si la pensión resultante, ya reducida por los coeficientes, supera la mínima que te correspondería a los 65 años. Las carreras con bases bajas no pueden, por tanto, anticipar voluntariamente, aunque reúnan los 35 años.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">La pensión máxima y quién la alcanza</h2>
+    <p>
+      Con el 100 % de porcentaje, hace falta una base reguladora de {eur(brNecesaria)} para tocar el tope, lo que exige cotizar durante el periodo de cálculo muy cerca de la base máxima, {eur2(BASES_2026.maxima)} al mes en 2026. Quien cobra un salario mayor cotiza igual por la base máxima, y su pensión se queda en {eur2(J.pensionMaximaMensual)}: la tasa de sustitución de los sueldos altos es, por eso, mucho menor que la de los medios.
+    </p>
+    <p>
+      La reforma de 2023 empezó a cerrar esa distancia desde los dos lados. Por arriba, la base máxima sube más que el IPC y aparece una cotización adicional de solidaridad sobre los salarios que la superan, que no genera pensión. Por abajo, la pensión máxima sube cada año el IPC más 0,115 puntos acumulativos hasta 2050 (disposición transitoria 39.ª). La pensión máxima se aplica a la suma de todas las pensiones públicas que cobre una persona, no a cada una por separado.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Sin 15 años cotizados: la pensión no contributiva</h2>
+    <p>
+      Quien no reúne los 15 años de cotización no tiene pensión contributiva ni, por tanto, complemento a mínimos. Puede pedir la pensión no contributiva de jubilación, {eur(J.pensionNoContributivaAnual)} al año en 2026, si tiene 65 años, ha residido en España al menos diez años entre los 16 y la edad de jubilación, dos de ellos seguidos e inmediatamente anteriores a la solicitud, y sus ingresos no superan el límite anual. La gestionan las comunidades autónomas. Para ver en qué lado de la línea estás, usa el <a href="/calculadora-jubilacion/" class="text-brand hover:underline">simulador de pensión de jubilación</a>, que aplica las mínimas y la máxima de 2026 a tu caso, y la <a href="/guias/base-reguladora-jubilacion/" class="text-brand hover:underline">guía de la base reguladora</a>.
+    </p>
+  </section>
+</GuiaLayout>

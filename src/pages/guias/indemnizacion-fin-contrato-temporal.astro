@@ -1,0 +1,83 @@
+---
+import GuiaLayout from '../../layouts/GuiaLayout.astro';
+import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
+import { calcularDespido, PARAMS_DESPIDO as P } from '../../lib/despido-engine';
+import { fuentesDespido, eurES as eur, eurES2 as eur2, numES as num } from '../../lib/fuentes';
+
+const FIN = '2026-10-03';
+const c9 = calcularDespido({ inicio: '2026-01-07', fin: FIN, salarioAnual: 21000, tipo: 'fin-contrato' });
+const c31 = calcularDespido({ inicio: '2024-04-01', fin: FIN, salarioAnual: 24000, tipo: 'fin-contrato' });
+const c31imp = calcularDespido({ inicio: '2024-04-01', fin: FIN, salarioAnual: 24000, tipo: 'improcedente' });
+const verano = calcularDespido({ inicio: '2026-06-15', fin: '2026-09-14', salarioAnual: 19000, tipo: 'fin-contrato' });
+const F = P.tipos.finContrato;
+
+const title = 'Fin de contrato temporal 2026: indemnización de 12 días';
+const description = 'Fin de contrato temporal en 2026: 12 días de salario por año en proporción al tiempo trabajado, qué contratos no la tienen, finiquito e IRPF, con simulador.';
+const faqs = [
+  { question: '¿Todos los contratos temporales tienen indemnización al terminar?', answer: `No. El artículo 49.1.c del Estatuto la reconoce al expirar un contrato de duración determinada, salvo en los contratos formativos (en prácticas y de formación en alternancia) y en el de sustitución de una persona trabajadora. En el resto se pagan ${F.diasPorAnio} días por año, en proporción al tiempo trabajado.` },
+  { question: 'Mi contrato era de tres meses: ¿cuánto me corresponde?', answer: `La parte proporcional de ${F.diasPorAnio} días por año: tres meses son la cuarta parte de un año, es decir, tres días de salario. Con 19.000 € al año, un contrato del 15 de junio al 14 de septiembre deja ${eur(verano.indemnizacion)} de indemnización y ${eur(verano.finiquito)} de finiquito.` },
+  { question: '¿Tributa la indemnización por fin de contrato?', answer: 'Sí, entera. La Agencia Tributaria la excluye de la exención del artículo 7.e de la Ley del IRPF porque al terminar un contrato temporal no hay despido. Se suma a tus rendimientos del trabajo con su retención. Si el contrato duró más de dos años, se aplica la reducción del 30 % por rendimiento irregular.' },
+  { question: '¿Puedo cobrar el paro al terminar un contrato temporal?', answer: 'Sí: el fin de contrato es situación legal de desempleo. Si has cotizado al menos 360 días en los últimos seis años tienes derecho a la prestación contributiva; con menos, puede corresponderte un subsidio. La solicitud debe hacerse en los quince días hábiles siguientes a la baja.' },
+  { question: 'Me hicieron contratos temporales seguidos: ¿soy indefinido?', answer: 'Desde la reforma de 2021, quien en un periodo de 24 meses ha estado contratado más de 18, con o sin interrupción, en el mismo puesto o empresa mediante dos o más contratos temporales, adquiere la condición de fijo. Si la empresa termina entonces el contrato, puede ser un despido improcedente, con 33 días por año.' },
+];
+const related = [
+  { label: 'Calculadora de finiquito', href: '/calculadora-finiquito/' },
+  { label: 'Calculadora de indemnización por despido', href: '/calculadora-indemnizacion-despido/' },
+  { label: 'IRPF de la indemnización por despido', href: '/guias/indemnizacion-despido-irpf/' },
+  { label: 'Calculadora del paro', href: '/calculadora-paro/' },
+  { label: 'Despido improcedente: 33 o 45 días', href: '/guias/despido-improcedente-indemnizacion/' },
+];
+---
+
+<GuiaLayout title={title} description={description} h1="Indemnización por fin de contrato temporal en 2026" path="/guias/indemnizacion-fin-contrato-temporal/" crumb="Fin de contrato temporal" faqs={faqs} sources={fuentesDespido} related={related}>
+  <p class="text-lg">
+    Cuando un contrato de duración determinada llega a su fin, la empresa debe pagar una indemnización equivalente a la parte proporcional de {F.diasPorAnio} días de salario por año de servicio (artículo 49.1.c del Estatuto de los Trabajadores). No se paga en los contratos formativos ni en el de sustitución. Para un contrato de nueve meses con 21.000 € brutos al año, son {num(c9.diasIndemnizacion)} días de salario, {eur(c9.indemnizacion)}, que se suman al finiquito de {eur(c9.finiquito)}. A diferencia de la indemnización por despido, esta cantidad tributa íntegramente en el IRPF. Y si el contrato temporal escondía un puesto estable, o se encadenó con otros más allá de los límites legales, su final puede ser en realidad un despido improcedente, con una indemnización casi tres veces mayor.
+  </p>
+  <MiniSimAutonome client:visible kind="fincontrato" lang="es" locale="es-ES" href="/calculadora-finiquito/" />
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Qué contratos temporales quedan tras la reforma de 2021</h2>
+    <p>
+      La reforma laboral del Real Decreto-ley 32/2021 eliminó el contrato por obra o servicio y dejó dos causas de temporalidad: las circunstancias de la producción (picos de actividad imprevisibles, hasta seis meses ampliables a doce por convenio, o situaciones previsibles de corta duración, hasta noventa días al año) y la sustitución de una persona trabajadora. A ellos se suman los contratos formativos. Solo el contrato por circunstancias de la producción genera los {F.diasPorAnio} días al terminar; el de sustitución y los formativos no tienen indemnización, aunque sí finiquito.
+    </p>
+    <p>
+      Si el contrato dura más de un año, quien lo da por terminado debe avisar con {P.preavisoObjetivoDias} días de antelación. El incumplimiento del preaviso por parte de la empresa da derecho al salario de esos días.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Proporcional al tiempo trabajado, sin tope</h2>
+    <p>
+      La indemnización no tiene tope y se calcula con el mismo salario diario que la de despido: el bruto anual con pagas extra entre 365, aquí {eur2(c9.salarioDiario)}. Los meses se cuentan de fecha a fecha y el mes empezado suele contarse entero. En el ejemplo de la cabecera, del 7 de enero al 3 de octubre de 2026, salen {c9.mesesServicio} meses: {F.diasPorAnio} días multiplicados por {c9.mesesServicio}/12 dan {num(c9.diasIndemnizacion)} días.
+    </p>
+    <p>
+      Un contrato de verano de tres meses, con 19.000 € al año, deja {eur(verano.indemnizacion)} de indemnización. Poco, pero no es lo único que se cobra: el finiquito incluye las vacaciones generadas en esos tres meses (algo más de siete días) y la parte de la paga extra, que juntos suman {eur(verano.finiquito)}.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Por qué paga IRPF aunque la de despido no</h2>
+    <p>
+      La exención del artículo 7.e de la Ley del IRPF cubre las indemnizaciones por despido o cese del trabajador en la cuantía obligatoria del Estatuto. La Agencia Tributaria, en su manual práctico de la renta, incluye expresamente la extinción de los contratos temporales a su término entre los supuestos no exentos, porque no hay despido ni cese por voluntad del trabajador. Resultado: la empresa practica retención sobre la indemnización como sobre cualquier nómina, y en la declaración se suma a los rendimientos del trabajo. Si el contrato superó los dos años, se aplica la reducción del 30 %: en un contrato de {c31.mesesServicio} meses con 24.000 € al año, de {eur(c31.indemnizacion)} tributan {eur(c31.sujetaTrasReduccion)}.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Cuando el fin de contrato es un despido</h2>
+    <p>
+      Un contrato temporal sin causa real, o fuera de los límites de duración, se presume indefinido. También adquiere la fijeza quien encadena contratos temporales más de 18 meses en un periodo de 24. En esos casos, comunicar el «fin de contrato» equivale a un despido sin causa, que el juzgado declarará improcedente. La diferencia es grande: los {c31.mesesServicio} meses del ejemplo anterior valen {eur(c31.indemnizacion)} como fin de contrato y {eur(c31imp.indemnizacion)} como despido improcedente, además exentos de IRPF si se reconocen en conciliación. Si crees que es tu caso, tienes veinte días hábiles para presentar la papeleta.
+    </p>
+    <p>
+      Calcula las dos opciones con tus fechas en la <a href="/calculadora-indemnizacion-despido/" class="text-brand hover:underline">calculadora de indemnización por despido</a> cambiando el motivo, y revisa el resto de conceptos en la <a href="/calculadora-finiquito/" class="text-brand hover:underline">calculadora de finiquito</a>.
+    </p>
+  </section>
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">El finiquito del contrato temporal</h2>
+    <p>
+      La indemnización de {F.diasPorAnio} días es solo una línea del documento. El finiquito suma el salario de los días trabajados en el último mes, las vacaciones generadas y no disfrutadas y la parte devengada de la paga extra, salvo que se cobrara prorrateada. En los contratos cortos esas partidas suelen valer más que la propia indemnización. Pide el documento unos días antes de la fecha de fin, compáralo con la calculadora y, si falta algo, firma con la mención «no conforme»: conservas un año para reclamar la diferencia.
+    </p>
+    <p>
+      Inscríbete como demandante de empleo y pide el paro en los quince días hábiles siguientes. La empresa envía el certificado de empresa al SEPE por vía telemática; comprueba que la causa que figura es el fin de contrato y no una baja voluntaria, que te dejaría sin prestación.
+    </p>
+  </section>
+</GuiaLayout>

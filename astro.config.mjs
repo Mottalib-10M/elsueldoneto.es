@@ -62,7 +62,7 @@ export default defineConfig({
       // en noindex, l'index /en/salary/ ne l'est pas.
       filter: (page) => { const p = new URL(page).pathname; return !p.includes('/404') && !/^\/en\/salary\/[^/]+\/$/.test(p); },
       serialize(item) {
-        item.lastmod = new Date('2026-07-09').toISOString();
+        item.lastmod = new Date('2026-10-03').toISOString();
         return item;
       },
       i18n: {

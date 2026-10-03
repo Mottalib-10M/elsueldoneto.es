@@ -1,0 +1,106 @@
+---
+import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
+import IndemnizacionDespido from '../components/calculadoras/IndemnizacionDespido';
+import { calcularDespido, PARAMS_DESPIDO as P } from '../lib/despido-engine';
+import { fuentesDespido, eurES as eur, eurES2 as eur2, numES as num } from '../lib/fuentes';
+
+const hoy = new Date().toISOString().slice(0, 10);
+const FIN = '2026-10-03';
+const base = { inicio: '2016-03-14', fin: FIN, salarioAnual: 30000 } as const;
+const imp = calcularDespido({ ...base, tipo: 'improcedente' });
+const obj = calcularDespido({ ...base, tipo: 'objetivo' });
+const fc = calcularDespido({ ...base, tipo: 'fin-contrato' });
+const mixto = calcularDespido({ inicio: '2007-11-05', fin: FIN, salarioAnual: 30000, tipo: 'improcedente' });
+const directivo = calcularDespido({ inicio: '2002-03-01', fin: FIN, salarioAnual: 90000, tipo: 'ere', ereDias: 45, ereTopeMensualidades: 36 });
+const reducida = calcularDespido({ inicio: '2016-03-14', fin: FIN, salarioAnual: 30000 * 0.6, tipo: 'improcedente' });
+const T = P.tipos;
+const filas = [
+  { k: 'Despido improcedente', r: imp, d: T.improcedente.diasPorAnio },
+  { k: 'Despido objetivo', r: obj, d: T.objetivo.diasPorAnio },
+  { k: 'ERE con el mínimo legal', r: calcularDespido({ ...base, tipo: 'ere' }), d: T.ere.diasPorAnio },
+  { k: 'Fin de contrato temporal', r: fc, d: T.finContrato.diasPorAnio },
+];
+
+const title = 'Indemnización por despido 2026: calculadora con tus fechas';
+const description = 'Calcula tu indemnización por despido en 2026: improcedente, objetivo, ERE o fin de contrato, tramos de 45 y 33 días, topes legales y la parte exenta de IRPF.';
+
+const faqs = [
+  { question: '¿Cuánto me corresponde de indemnización por despido?', answer: `Depende del motivo: ${T.improcedente.diasPorAnio} días de salario por año trabajado si el despido es improcedente (tope de ${T.improcedente.topeMensualidades} mensualidades), ${T.objetivo.diasPorAnio} días en el despido objetivo y en el ERE (tope de ${T.objetivo.topeMensualidades}) y ${T.finContrato.diasPorAnio} días al terminar un contrato temporal. La baja voluntaria y el despido disciplinario procedente no dan indemnización.` },
+  { question: '¿Cómo calcula la calculadora la antigüedad?', answer: 'Cuenta los meses completos entre tu fecha de alta y el último día trabajado, y cuenta como mes completo el mes empezado, que es el criterio habitual de los juzgados al prorratear por meses. Para contratos anteriores al 12 de febrero de 2012 hace el cálculo en dos tramos y aplica el tope que corresponda.' },
+  { question: '¿Se incluye la indemnización en el paro?', answer: 'No. La prestación por desempleo se calcula con tus bases de cotización de los últimos 180 días y es compatible con cobrar la indemnización. Para pedirla tienes quince días hábiles desde el despido. La indemnización tampoco reduce el paro, ni el paro reduce la indemnización.' },
+  { question: '¿Y si he trabajado con contratos temporales encadenados?', answer: 'Si los contratos se encadenaron sin interrupciones relevantes o en fraude de ley, el juzgado puede considerar la relación indefinida desde el primero, y la antigüedad cuenta desde ese día. Pon como fecha de alta la del primer contrato para ver la diferencia; la decisión, en caso de disputa, es judicial.' },
+  { question: '¿El ERE puede pagar más de 20 días por año?', answer: 'Sí, y suele hacerlo. Los 20 días con tope de 12 mensualidades son el mínimo legal; el acuerdo del periodo de consultas fija a menudo entre 30 y 45 días con topes más altos. En las opciones avanzadas puedes poner los días y el tope pactados. Hasta el importe del improcedente, la indemnización sigue exenta de IRPF.' },
+  { question: '¿Cobro también los salarios de tramitación?', answer: 'Solo si la empresa opta por readmitirte tras una sentencia de improcedencia, o si eres representante de los trabajadores, o si el despido es nulo. Equivalen a los salarios desde el despido hasta la notificación de la sentencia. Si la empresa elige pagar la indemnización, no hay salarios de tramitación.' },
+];
+---
+
+<CalculadoraLayout title={title} description={description} h1="Calculadora de indemnización por despido 2026" calculatorName="Indemnización por despido" path="/calculadora-indemnizacion-despido/" faqs={faqs} sources={fuentesDespido}>
+  <p class="mb-6 text-lg text-dark-gray dark:text-gray-300">
+    La indemnización por despido en España se calcula multiplicando tu salario diario (el bruto anual entre 365) por los días que fija la ley para cada motivo: {T.improcedente.diasPorAnio} días por año en el despido improcedente, {T.objetivo.diasPorAnio} en el objetivo y en el ERE, {T.finContrato.diasPorAnio} al terminar un contrato temporal. Los años incompletos se prorratean por meses y cada tipo tiene su tope. Con 30.000 € brutos al año y alta el 14 de marzo de 2016, un despido el 3 de octubre de 2026 vale {eur(imp.indemnizacion)} si es improcedente y {eur(obj.indemnizacion)} si es objetivo. Si tu contrato es anterior al 12 de febrero de 2012, el tiempo previo se paga a {T.improcedentePre2012.diasPorAnio} días y el tope sube. La calculadora trabaja con tus fechas exactas, nombra la regla que ha fijado el importe y separa la parte exenta de IRPF de la que tributa.
+  </p>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800" data-chrome>
+    <IndemnizacionDespido client:idle hoy={hoy} enfoque="indemnizacion" tipoInicial="improcedente" />
+  </div>
+
+  <section class="mt-8">
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Mismo salario, cuatro indemnizaciones</h2>
+      <p>
+        El motivo del despido pesa más que el sueldo. Esta tabla aplica el motor de la calculadora a la misma persona, 30.000 € al año y alta en marzo de 2016, con baja el 3 de octubre de 2026: {Math.floor(imp.mesesServicio / 12)} años y {imp.mesesServicio % 12} meses de antigüedad y un salario diario de {eur2(imp.salarioDiario)}.
+      </p>
+      <div class="overflow-x-auto">
+        <table class="my-4 w-full border-collapse text-sm">
+          <caption class="sr-only">Indemnización según el tipo de extinción para 30.000 € anuales</caption>
+          <thead><tr class="border-b-2 border-gray-300 dark:border-gray-600"><th scope="col" class="px-3 py-2 text-left">Motivo</th><th scope="col" class="px-3 py-2 text-right">Días por año</th><th scope="col" class="px-3 py-2 text-right">Días pagados</th><th scope="col" class="px-3 py-2 text-right">Indemnización</th><th scope="col" class="px-3 py-2 text-right">Exenta</th></tr></thead>
+          <tbody class="tabular-nums">
+            {filas.map((f) => <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">{f.k}</td><td class="px-3 py-1 text-right">{f.d}</td><td class="px-3 py-1 text-right">{num(f.r.diasIndemnizacion, 1)}</td><td class="px-3 py-1 text-right">{eur(f.r.indemnizacion)}</td><td class="px-3 py-1 text-right">{eur(f.r.exenta)}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Que un despido comunicado como objetivo acabe declarado improcedente es frecuente: basta con que la empresa no acredite la causa o falle en la forma (carta sin causa concreta, indemnización no puesta a disposición, preaviso omitido). La diferencia, aquí, es de {eur(imp.indemnizacion - obj.indemnizacion)}. Es la cifra que se negocia en la conciliación.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Contratos anteriores a 2012: dos tramos y tres topes</h2>
+      <p>
+        La disposición transitoria undécima del Estatuto mantiene los {T.improcedentePre2012.diasPorAnio} días por año para el tiempo trabajado hasta el 11 de febrero de 2012. Con alta en noviembre de 2007 y el mismo salario, el primer tramo suma {mixto.tramoAnterior2012?.meses} meses ({num(mixto.tramoAnterior2012?.dias ?? 0, 2)} días) y el segundo {mixto.tramoPosterior2012?.meses} meses ({num(mixto.tramoPosterior2012?.dias ?? 0, 2)} días): {num(mixto.diasIndemnizacion, 2)} días, {eur(mixto.indemnizacion)}. Los topes son tres: {T.improcedentePre2012.topeDias} días con carácter general, los días del primer tramo cuando ya pasan de {T.improcedentePre2012.topeDias}, y nunca más de {T.improcedentePre2012.topeMensualidadesAbsoluto} mensualidades. Para un contrato posterior a 2012, el tope es de {T.improcedente.topeMensualidades} mensualidades; en 2026 nadie lo alcanza todavía, porque haría falta más de {num(T.improcedente.topeMensualidades * 365 / 12 / T.improcedente.diasPorAnio)} años de antigüedad. La <a href="/guias/despido-improcedente-indemnizacion/" class="text-brand hover:underline">guía del despido improcedente</a> desarrolla los casos.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">La parte que paga IRPF</h2>
+      <p>
+        El artículo 7.e de la Ley del IRPF declara exenta la indemnización «en la cuantía establecida con carácter obligatorio» en el Estatuto, con un máximo de {eur(P.irpf.limiteExencion)}. Hay tres matices que la calculadora aplica. El improcedente solo está exento si consta en conciliación o sentencia. En el despido colectivo y en el objetivo por causas económicas, técnicas, organizativas o de producción, la exención llega hasta lo que habría correspondido por improcedente. Y la indemnización por fin de contrato temporal no está exenta. Sobre la parte sujeta se aplica una reducción del {num(P.irpf.reduccionIrregular * 100)} % si la antigüedad supera dos años. Un directivo con 90.000 € y alta en 2002 que sale en un ERE pactado a 45 días con tope de 36 mensualidades cobra {eur(directivo.indemnizacion)}: {eur(directivo.exenta)} exentos y {eur(directivo.sujetaTrasReduccion)} en la base imponible tras la reducción. Más detalle en la <a href="/guias/indemnizacion-despido-irpf/" class="text-brand hover:underline">guía del IRPF de la indemnización</a>.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">El cálculo, paso a paso</h2>
+      <p>
+        Primero, la antigüedad. Del 14 de marzo de 2016 al 3 de octubre de 2026 hay {imp.mesesServicio} meses, contando entero el mes empezado; son {num(imp.aniosServicio, 2)} años. Segundo, el salario diario: 30.000 € entre 365 son {eur2(imp.salarioDiario)}. Tercero, los días de indemnización: {T.improcedente.diasPorAnio} por {num(imp.aniosServicio, 2)} años dan {num(imp.diasIndemnizacion, 2)} días. Cuarto, el tope: {T.improcedente.topeMensualidades} mensualidades equivalen a {num(T.improcedente.topeMensualidades * 365 / 12, 0)} días de salario, muy lejos. Quinto, el importe: {num(imp.diasIndemnizacion, 2)} días por {eur2(imp.salarioDiario)} son {eur(imp.indemnizacion)}. Si la carta de despido trae otra cifra, la diferencia está casi siempre en uno de esos cinco pasos: una fecha de antigüedad distinta, un salario sin pagas extra o sin pluses, o un redondeo de meses a la baja.
+      </p>
+      <p>
+        La empresa no tiene que redondear a tu favor, pero tampoco puede inventar su propio método. Los juzgados de lo social aplican el prorrateo por meses que fija el Estatuto y cuentan la fracción como mes completo; algunos convenios mejoran el número de días. Si tu convenio prevé una indemnización mayor, introdúcela como días pactados en las opciones avanzadas: la parte que supere el mínimo legal tributará.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Reducción de jornada, baja médica y embarazo</h2>
+      <p>
+        Quien tiene la jornada reducida por cuidado de hijos o familiares no ve reducida su indemnización: la disposición adicional decimonovena del Estatuto manda calcularla con el salario que correspondería sin la reducción, mientras no se haya superado el plazo legal de esta. Con una jornada al 60 % y la misma antigüedad, la empresa debería pagar los {eur(imp.indemnizacion)} de la jornada completa, no los {eur(reducida.indemnizacion)} que saldrían del salario reducido. Es un error frecuente en las cartas de despido.
+      </p>
+      <p>
+        El despido durante una baja por incapacidad temporal no es nulo por sí solo, pero si encubre una discriminación por enfermedad puede serlo. El de una trabajadora embarazada, el de quien disfruta de un permiso por nacimiento o lo acaba de terminar, o el de quien ha pedido una adaptación de jornada, es nulo salvo que la empresa demuestre una causa ajena a esas circunstancias (artículo 53.4 del Estatuto). En un despido nulo no hay indemnización por despido: hay readmisión obligatoria y salarios de tramitación, y a veces una indemnización por vulneración de derechos fundamentales que fija el juez.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Qué datos necesitas</h2>
+      <p>
+        Tu fecha de alta (la de antigüedad reconocida en la nómina, que puede ser anterior a la del contrato actual si hubo subrogación o contratos encadenados), el último día trabajado y tu salario bruto anual con pagas extra y pluses fijos. Si el salario cambió en el último año, usa el vigente en el momento del despido. La calculadora suma además el finiquito, que se cobra siempre: salario del mes, vacaciones pendientes y paga extra devengada; el detalle está en la <a href="/calculadora-finiquito/" class="text-brand hover:underline">calculadora de finiquito</a>.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Los veinte días hábiles para reclamar</h2>
+      <p>
+        El plazo para impugnar un despido es de caducidad: veinte días hábiles desde el día siguiente a la fecha de efectos, sin contar sábados, domingos ni festivos. Se interrumpe al presentar la papeleta de conciliación ante el servicio de mediación de tu comunidad autónoma y se reanuda tras el acto. En ese acto se cierran la mayoría de los despidos, con una cantidad situada entre la indemnización del despido objetivo y la del improcedente; lo que se acuerde allí, hasta el importe del improcedente, queda exento de IRPF. Si no hay acuerdo, decide el juzgado de lo social. Llevar el cálculo hecho con fechas exactas, y la diferencia entre ambos escenarios, es la mejor preparación. Mientras tanto puedes pedir el paro: el despido es situación legal de desempleo sea cual sea el resultado del pleito, y la prestación no reduce la indemnización ni la indemnización la prestación. El plazo para solicitarla es de quince días hábiles desde el día siguiente al despido.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Lo que la calculadora no hace</h2>
+      <p>
+        No califica el despido: si es procedente, improcedente o nulo lo dice el juez, o lo reconoce la empresa. No aplica regímenes especiales (alta dirección, empleadas de hogar, deportistas profesionales) ni mejoras de convenio, salvo que las introduzcas como días pactados de ERE. Tampoco estima los salarios de tramitación de un despido nulo. Para todo lo demás, el cálculo sigue el texto consolidado del Estatuto y de la Ley del IRPF, y las <a href="/guias/despido-objetivo-ere/" class="text-brand hover:underline">reglas del despido objetivo y del ERE</a> o las del <a href="/guias/indemnizacion-fin-contrato-temporal/" class="text-brand hover:underline">fin de contrato temporal</a> tienen su propia guía.
+      </p>
+    </div>
+  </section>
+</CalculadoraLayout>

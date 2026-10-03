@@ -1,0 +1,80 @@
+---
+import GuiaLayout from '../../../layouts/GuiaLayout.astro';
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
+import { calcularDespido, PARAMS_DESPIDO as P } from '../../../lib/despido-engine';
+import { fuentesDespido, enFuentes, eurEN as eur, eurEN2 as eur2, numEN as num } from '../../../lib/fuentes';
+
+const FIN = '2026-10-03';
+const a = calcularDespido({ inicio: '2017-05-02', fin: FIN, salarioAnual: 44000, tipo: 'improcedente' });
+const b = calcularDespido({ inicio: '2008-01-14', fin: FIN, salarioAnual: 39000, tipo: 'improcedente' });
+const c = calcularDespido({ inicio: '1995-09-01', fin: FIN, salarioAnual: 50000, tipo: 'improcedente' });
+const d = calcularDespido({ inicio: '2017-05-02', fin: FIN, salarioAnual: 44000, tipo: 'improcedente', reconocidaConciliacion: false });
+const I = P.tipos.improcedente, A = P.tipos.improcedentePre2012;
+
+const title = 'Unfair Dismissal Spain 2026: 33 or 45 Days per Year';
+const description = 'Unfair dismissal compensation in Spain for 2026: 33 days a year since 2012, 45 before, the 720-day and 42-month caps, worked examples and a quick calculator.';
+const faqs = [
+  { question: 'Who decides that a dismissal is unfair in Spain?', answer: 'A labour court, after the compulsory conciliation attempt, or the employer itself when it accepts at conciliation that the dismissal was unfair. A dismissal is unfair (improcedente) when the employer cannot prove the reason it gave or does not follow the formal steps, such as a written letter stating the facts and the date.' },
+  { question: 'My employer offers 33 days a year for all my service. Is that right?', answer: `Not if you joined before 12 February 2012. Service up to 11 February 2012 is paid at ${A.diasPorAnio} days a year. Accepting ${I.diasPorAnio} days for the whole period can leave you below the statutory minimum, and the difference is not tax-free if it was never agreed at conciliation.` },
+  { question: 'What happens if the employer chooses to take me back?', answer: 'After a ruling of unfair dismissal the employer has five days to choose between reinstating you and paying compensation. If it reinstates you, it must also pay back pay (salarios de tramitación) from the dismissal date. If you are a workers’ representative, the choice is yours.' },
+  { question: 'Is the compensation paid gross or net?', answer: `It is calculated on gross salary and paid without social security deductions. Up to ${eur(P.irpf.limiteExencion)} it is also free of income tax if the unfairness is recorded at conciliation or in court. Your final payslip, with holiday and extra-payment balances, is taxed normally.` },
+  { question: 'What is the deadline to challenge a dismissal?', answer: 'Twenty working days from the day after the dismissal, excluding Saturdays, Sundays and public holidays. The clock pauses while the conciliation request is processed. Missing the deadline makes the dismissal final, whatever its merits, so act before signing anything that waives your claims.' },
+];
+const related = [
+  { label: 'Dismissal compensation calculator', href: '/en/dismissal-compensation-calculator/' },
+  { label: 'Objective dismissal and ERE', href: '/en/guides/objective-dismissal-and-ere/' },
+  { label: 'How severance pay is taxed in Spain', href: '/en/guides/severance-pay-tax/' },
+  { label: 'Finiquito calculator', href: '/en/severance-calculator/' },
+  { label: 'Unemployment benefit calculator', href: '/en/unemployment-calculator/' },
+];
+---
+
+<GuiaLayout title={title} description={description} h1="Unfair dismissal in Spain: what you are owed in 2026" path="/en/guides/unfair-dismissal-compensation/" locale="en" crumb="Unfair dismissal" faqs={faqs} sources={enFuentes(fuentesDespido)} related={related}>
+  <p class="text-lg">
+    When a Spanish court finds a dismissal unfair, or the employer accepts it at conciliation, the employer must pay {I.diasPorAnio} days of salary for each year of service, prorated by month, up to {I.topeMensualidades} months’ pay, unless it chooses to reinstate you. If you joined before 12 February 2012, the years before that date are paid at {A.diasPorAnio} days and the total is capped at {A.topeDias} days of salary, or at the pre-2012 days if those alone are higher, never above {A.topeMensualidadesAbsoluto} months’ pay. The daily salary is gross annual pay, extra payments included, divided by 365. An engineer on €44,000 a year who started in May 2017 and is dismissed on 3 October 2026 is owed {eur(a.indemnizacion)}: {num(a.diasIndemnizacion, 2)} days at {eur2(a.salarioDiario)}. Put in your own start year and salary below to see both periods and the cap that applies.
+  </p>
+  <MiniSimAutonome client:visible kind="improcedente" lang="en" locale="en-GB" href="/en/dismissal-compensation-calculator/" />
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Why 12 February 2012 matters so much</h2>
+    <p>
+      Spain’s 2012 labour reform cut unfair dismissal compensation, but transitional provision 11 of the Workers’ Statute protected what had already been earned. If your employment began before the reform, your service is split. A project manager who joined on 14 January 2008 on €39,000 has {b.tramoAnterior2012?.meses} months before the cut-off, worth {num(b.tramoAnterior2012?.dias ?? 0, 2)} days, and {b.tramoPosterior2012?.meses} months after it, worth {num(b.tramoPosterior2012?.dias ?? 0, 2)} days. The sum, {num(b.diasSinTope, 2)} days, exceeds the {A.topeDias}-day cap, so {num(b.diasIndemnizacion)} days are paid: {eur(b.indemnizacion)}.
+    </p>
+    <p>
+      For very long careers the rule flips. Someone hired in September 1995 on €50,000 had already earned {num(c.tramoAnterior2012?.dias ?? 0, 2)} days by February 2012, more than {A.topeDias}. Those days become the cap, so the later years add nothing, and the compensation is {eur(c.indemnizacion)}. Many long-serving employees are offered a flat rate for all their years; checking the split is the first thing to do.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Getting the daily salary right</h2>
+    <p>
+      Spanish salaries are usually quoted per year and paid in fourteen instalments: twelve monthly payslips plus a summer and a Christmas payment. The compensation uses the whole annual figure, including both extra payments, regular bonuses, commissions and fixed allowances, divided by 365. Expenses, per diems and mileage are not salary. If your pay varied a lot, courts generally take the average of the last twelve months. A frequent mistake in dismissal letters is to take one monthly payslip and divide it by 30, which leaves out the extra payments and undervalues every day of compensation by about 13%.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Conciliation: the step that makes it tax-free</h2>
+    <p>
+      Before going to court, Spanish law requires an attempt at conciliation before the regional mediation service (often called SMAC). It is not a formality. Since July 2012, unfair dismissal compensation is exempt from income tax only when the unfairness is recognised at that hearing or in a judgment. If the employer admits it in the letter and simply pays, the Tax Agency treats the money as agreed compensation: in the first example, {eur(d.sujeta)} would be taxable, reduced to {eur(d.sujetaTrasReduccion)} by the 30% allowance for income earned over more than two years. The <a href="/en/guides/severance-pay-tax/" class="text-brand hover:underline">severance tax guide</a> explains the rules for collective and economic dismissals.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Unfair is not the same as void</h2>
+    <p>
+      A dismissal that breaches fundamental rights, or that targets a pregnant employee, someone on or just back from birth leave, or someone who has asked for family-related working-time changes, is void (nulo) unless the employer proves an unrelated reason. Void means compulsory reinstatement with back pay, not compensation. A disciplinary dismissal whose facts are not proven, or an objective dismissal without sufficient grounds, is unfair, and the employer pays the figures above.
+    </p>
+    <p>
+      Whatever the outcome, the final settlement (finiquito) is always due: salary for the month, untaken holidays and the accrued extra payment. The <a href="/en/dismissal-compensation-calculator/" class="text-brand hover:underline">dismissal compensation calculator</a> adds them up from your exact dates and shows which cap applied.
+    </p>
+  </section>
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">What to do in the first twenty working days</h2>
+    <p>
+      Read the dismissal letter (carta de despido) carefully: it must state the facts or grounds and the effective date. Ask for your last payslips and your contribution record (vida laboral), which shows the start date Social Security has for you; a seniority date earlier than your current contract, after a transfer of business or chained contracts, raises the compensation. Then file the conciliation request (papeleta de conciliación) with the regional mediation service before the twenty working days run out. Many cases settle there, often somewhere between the objective and the unfair figure, and a settlement recorded at that hearing keeps the tax exemption.
+    </p>
+    <p>
+      If you do not settle, the case goes to the labour court (juzgado de lo social). You can represent yourself, but most employees use a labour lawyer or a trade union. While the case runs you can claim unemployment benefit: a dismissal is a legal unemployment situation whatever its outcome, and the benefit does not reduce the compensation.
+    </p>
+  </section>
+</GuiaLayout>

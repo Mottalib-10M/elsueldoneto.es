@@ -1,0 +1,81 @@
+---
+import GuiaLayout from '../../layouts/GuiaLayout.astro';
+import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
+import { calcularDespido, PARAMS_DESPIDO as P } from '../../lib/despido-engine';
+import { fuentesDespido, eurES as eur, eurES2 as eur2, numES as num } from '../../lib/fuentes';
+
+const FIN = '2026-10-03';
+const o1 = calcularDespido({ inicio: '2019-02-01', fin: FIN, salarioAnual: 31000, tipo: 'objetivo' });
+const o2 = calcularDespido({ inicio: '2005-06-01', fin: FIN, salarioAnual: 38000, tipo: 'objetivo' });
+const o2imp = calcularDespido({ inicio: '2005-06-01', fin: FIN, salarioAnual: 38000, tipo: 'improcedente' });
+const e1 = calcularDespido({ inicio: '2011-01-10', fin: FIN, salarioAnual: 45000, tipo: 'ere', ereDias: 35, ereTopeMensualidades: 24 });
+const e2 = calcularDespido({ inicio: '2011-01-10', fin: FIN, salarioAnual: 45000, tipo: 'objetivo', causaEconomica: false });
+const pre = calcularDespido({ inicio: '2019-02-01', fin: FIN, salarioAnual: 31000, tipo: 'objetivo', preavisoOmitido: P.preavisoObjetivoDias });
+const O = P.tipos.objetivo;
+
+const title = 'Despido objetivo y ERE 2026: 20 días, topes e indemnización';
+const description = 'Despido objetivo o ERE en 2026: 20 días por año con tope de 12 mensualidades, preaviso de 15 días, mejoras pactadas y exención de IRPF, con ejemplos y simulador';
+const faqs = [
+  { question: '¿Qué causas permiten un despido objetivo?', answer: 'El artículo 52 del Estatuto enumera cinco: ineptitud sobrevenida, falta de adaptación a modificaciones técnicas del puesto, causas económicas, técnicas, organizativas o de producción que afectan a menos trabajadores que un despido colectivo, y la insuficiencia presupuestaria en ciertos programas públicos. Las faltas de asistencia dejaron de ser causa en 2020.' },
+  { question: '¿Cuándo hay que cobrar la indemnización del despido objetivo?', answer: `Al mismo tiempo que se entrega la carta: la empresa debe poner a tu disposición ${O.diasPorAnio} días por año con un tope de ${O.topeMensualidades} mensualidades. Solo si alega causa económica y explica en la carta que no puede pagar, puede retrasar el pago, y tú puedes exigirlo cuando el despido surta efecto.` },
+  { question: '¿Qué pasa si la empresa no me da el preaviso de 15 días?', answer: `El despido no se anula por ello, pero la empresa debe pagarte el salario de esos ${P.preavisoObjetivoDias} días. Durante el preaviso tienes además derecho a seis horas semanales de permiso retribuido para buscar empleo. Ese salario sustitutorio tributa y cotiza como cualquier nómina.` },
+  { question: '¿Un ERE puede pagar menos de 20 días por año?', answer: `No. Los ${O.diasPorAnio} días con tope de ${O.topeMensualidades} mensualidades son el mínimo legal para cada despido del ERE, que se notifica individualmente con los requisitos del artículo 53.1. El acuerdo del periodo de consultas solo puede mejorarlos, y suele hacerlo en empresas grandes.` },
+  { question: 'Me han ofrecido 30 días en un ERE: ¿pago IRPF por el exceso?', answer: `Solo si la indemnización supera lo que habría correspondido por despido improcedente o el límite de ${eur(P.irpf.limiteExencion)}. En los despidos colectivos y en los objetivos por causas económicas, técnicas, organizativas o de producción, la exención llega hasta el importe del improcedente, aunque el mínimo legal sea de ${O.diasPorAnio} días.` },
+  { question: '¿Puedo impugnar un despido objetivo aunque haya cobrado la indemnización?', answer: 'Sí. Cobrar la indemnización no supone aceptar el despido. Tienes veinte días hábiles para presentar la papeleta de conciliación. Si el juez declara el despido improcedente, la empresa debe completar la diferencia hasta los 33 días por año, o 45 por el tiempo anterior a 2012, o readmitirte.' },
+];
+const related = [
+  { label: 'Calculadora de indemnización por despido', href: '/calculadora-indemnizacion-despido/' },
+  { label: 'Despido improcedente: 33 o 45 días', href: '/guias/despido-improcedente-indemnizacion/' },
+  { label: 'IRPF de la indemnización por despido', href: '/guias/indemnizacion-despido-irpf/' },
+  { label: 'Jubilación anticipada tras un despido', href: '/guias/jubilacion-anticipada-coeficientes/' },
+  { label: 'Calculadora de finiquito', href: '/calculadora-finiquito/' },
+];
+---
+
+<GuiaLayout title={title} description={description} h1="Despido objetivo y ERE: la indemnización de 20 días en 2026" path="/guias/despido-objetivo-ere/" crumb="Despido objetivo y ERE" faqs={faqs} sources={fuentesDespido} related={related}>
+  <p class="text-lg">
+    El despido objetivo y cada despido de un ERE se indemnizan, como mínimo, con {O.diasPorAnio} días de salario por año trabajado, prorrateando por meses los periodos inferiores al año y con un tope de {O.topeMensualidades} mensualidades, es decir, un año de sueldo (artículo 53.1.b del Estatuto de los Trabajadores, al que remite el artículo 51.4 para el despido colectivo). La empresa debe entregar la carta con la causa, poner la indemnización a disposición en ese momento y conceder {P.preavisoObjetivoDias} días de preaviso. Para alguien con 31.000 € brutos al año y alta en febrero de 2019, la indemnización de un despido objetivo el 3 de octubre de 2026 es de {eur(o1.indemnizacion)}, exenta de IRPF. En los ERE, el acuerdo con los representantes suele mejorar esos días; la ley solo fija el suelo.
+  </p>
+  <MiniSimAutonome client:visible kind="objetivo" lang="es" locale="es-ES" href="/calculadora-indemnizacion-despido/" />
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Un año de sueldo como máximo: a partir de cuántos años importa</h2>
+    <p>
+      Doce mensualidades son {num(O.topeMensualidades * 365 / 12)} días de salario. A {O.diasPorAnio} días por año, el tope se alcanza con {num(O.topeMensualidades * 365 / 12 / O.diasPorAnio, 2)} años de antigüedad: a partir de ahí, cada año más no suma nada. Una trabajadora con alta en junio de 2005 y 38.000 € al año acumula {Math.floor(o2.mesesServicio / 12)} años y {o2.mesesServicio % 12} meses: sus {num(o2.diasSinTope, 2)} días se recortan a {num(o2.diasIndemnizacion, 2)}, {eur(o2.indemnizacion)}. Por eso, en carreras largas, la diferencia entre objetivo e improcedente se dispara: si el juez declarase improcedente su despido, le corresponderían {eur(o2imp.indemnizacion)}, con el tramo de 45 días anterior a 2012 incluido. Son {eur(o2imp.indemnizacion - o2.indemnizacion)} más.
+    </p>
+    <p>
+      Esa diferencia explica que tantos despidos objetivos acaben en conciliación. La empresa debe probar la causa: unas pérdidas actuales o previstas, o una caída persistente de ingresos o ventas durante tres trimestres consecutivos frente a los mismos del año anterior, en el caso de la causa económica. Una carta genérica, que no concreta los datos, es el motivo más frecuente de improcedencia.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">El preaviso de 15 días y las seis horas para buscar empleo</h2>
+    <p>
+      Entre la entrega de la carta y la fecha del despido deben pasar {P.preavisoObjetivoDias} días. Durante ese tiempo sigues cobrando y tienes derecho a una licencia de seis horas semanales para buscar trabajo. Muchas empresas prefieren pagar el preaviso y prescindir del trabajador desde el primer día: entonces el finiquito lleva una línea más. En el primer ejemplo, el preaviso no concedido suma {eur(pre.preavisoImporte)}, que tributa como salario, a diferencia de la indemnización.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">ERE: lo que se negocia en el periodo de consultas</h2>
+    <p>
+      Hay despido colectivo cuando, en noventa días, las extinciones por causas económicas, técnicas, organizativas o de producción alcanzan diez trabajadores en empresas de menos de cien, el diez por ciento en las de cien a trescientos, o treinta en las mayores, o afectan a toda la plantilla de más de cinco personas. La empresa abre un periodo de consultas con los representantes y, desde la comunicación a la autoridad laboral, deben pasar al menos treinta días hasta que surtan efecto los despidos.
+    </p>
+    <p>
+      En esa negociación se pactan casi siempre más días y topes más altos: 30, 35 o 45 días por año con 24 mensualidades son cifras habituales, a veces con primas lineales o planes de prejubilación para los mayores de 55. Un técnico con 45.000 € y alta en enero de 2011, en un ERE pactado a 35 días con tope de 24 mensualidades, cobraría {eur(e1.indemnizacion)}. De esa cantidad, {eur(e1.exenta)} están exentos, lo que habría correspondido por improcedente, y solo {eur(e1.sujeta)} tributan, con una reducción del 30 % que los deja en {eur(e1.sujetaTrasReduccion)}.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">La causa decide la fiscalidad</h2>
+    <p>
+      En el despido objetivo, la exención de IRPF depende de la causa. Si es económica, técnica, organizativa o de producción (letra c del artículo 52), la indemnización está exenta hasta el importe del despido improcedente, como en el ERE. Si la causa es otra, por ejemplo la ineptitud sobrevenida, la exención se limita a los {O.diasPorAnio} días legales: con los datos del técnico anterior y el mínimo legal, cobraría {eur(e2.indemnizacion)}, todo exento. La regla importa cuando la empresa ofrece más del mínimo para evitar un pleito: el exceso solo queda libre de impuestos en el primer caso.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Y después: paro y jubilación anticipada</h2>
+    <p>
+      El despido objetivo y el colectivo son situación legal de desempleo: puedes pedir el paro desde el día siguiente, en los quince días hábiles posteriores. Si te faltan cuatro años o menos para tu edad ordinaria de jubilación y has cotizado al menos 33, el despido por estas causas abre además la puerta a la jubilación anticipada involuntaria, siempre que hayas cobrado la indemnización o la hayas reclamado; está explicada, con sus coeficientes, en la <a href="/guias/jubilacion-anticipada-coeficientes/" class="text-brand hover:underline">guía de la jubilación anticipada</a>. El importe exacto de tu caso, con fechas y días pactados, lo da la <a href="/calculadora-indemnizacion-despido/" class="text-brand hover:underline">calculadora de indemnización por despido</a>, cuyo salario diario parte de {eur2(o1.salarioDiario)} en el primer ejemplo.
+    </p>
+  </section>
+</GuiaLayout>

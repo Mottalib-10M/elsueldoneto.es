@@ -82,7 +82,7 @@ const schemas = [
         {t(locale, 'updatedFor')} {CURRENT_FISCAL_YEAR}
       </span>
       <span>
-        {t(locale, 'byAuthorPrefix')} <a href={t(locale, 'aboutHref')} class="font-medium text-gray-700 dark:text-gray-300 hover:text-brand">{AUTHOR_NAME}, Publisher of calculators and practical guides</a>
+        {t(locale, 'byAuthorPrefix')} <a href={t(locale, 'aboutHref')} class="font-medium text-gray-700 dark:text-gray-300 hover:text-brand">{AUTHOR_NAME}, {locale === 'en' ? 'publisher of calculators and practical guides' : 'editor de calculadoras y guías prácticas'}</a>
       </span>
     </div>
 
@@ -113,7 +113,7 @@ const schemas = [
         <p class="font-semibold text-charcoal dark:text-gray-200">
           {locale === 'en' ? 'Written by' : 'Escrito por'} <a href={locale === 'en' ? '/en/about/' : '/sobre-nosotros/'} class="text-brand hover:underline">Radif Partners</a>
         </p>
-        <p class="text-medium-gray">Publisher of calculators and practical guides · {locale === 'en' ? 'Finance Expert' : 'Experto en Finanzas'}</p>
+        <p class="text-medium-gray">{locale === 'en' ? 'Publisher of calculators and practical guides' : 'Editor de calculadoras y guías prácticas'}</p>
       </div>
     </div>
 

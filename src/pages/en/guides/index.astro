@@ -14,6 +14,13 @@ const guides = [
   { href: '/en/guides/income-tax-brackets-spain/', title: 'Income Tax Brackets in Spain: Tables by Region', summary: 'The 6 state brackets, how regional rates are added, differences between communities, effective vs marginal rate.' },
   { href: '/en/guides/irpf-by-autonomous-community/', title: 'IRPF by Autonomous Community: Full Comparison', summary: 'Ranking of all 17 communities by net salary, foral regimes, regional deductions and practical Madrid vs Catalonia example.' },
   { href: '/en/guides/severance-pay-guide/', title: 'How to Calculate Severance Pay in Spain', summary: 'Difference between settlement and severance, holiday pay, bonus payments, unfair dismissal, tax treatment and examples.' },
+  { href: '/en/guides/unfair-dismissal-compensation/', title: 'Unfair Dismissal in Spain: 33 or 45 Days', summary: 'The 2012 split, the 720-day and 42-month caps, daily salary and why conciliation makes it tax-free.' },
+  { href: '/en/guides/objective-dismissal-and-ere/', title: 'Objective Dismissal and ERE', summary: '20 days a year capped at one year’s pay, 15 days’ notice, negotiated redundancy terms and tax by ground.' },
+  { href: '/en/guides/end-of-temporary-contract-pay/', title: 'End of a Temporary Contract', summary: '12 days a year pro rata, contracts that pay nothing, why it is taxed and when it is really a dismissal.' },
+  { href: '/en/guides/severance-pay-tax/', title: 'Severance Pay and Spanish Income Tax', summary: 'The statutory-amount exemption, the €180,000 ceiling, ERE treatment and the 30% reduction.' },
+  { href: '/en/guides/pension-regulatory-base/', title: 'Pension Regulatory Base: the Two Formulas', summary: 'The 2026 reform, the phase-in calendar, gaps and inflation updating.' },
+  { href: '/en/guides/early-retirement-reduction/', title: 'Early Retirement Reductions', summary: 'Voluntary and involuntary routes, 35 and 33-year rules, coefficients per month and the cap rule.' },
+  { href: '/en/guides/minimum-and-maximum-pension/', title: 'Minimum and Maximum State Pension', summary: '2026 amounts by household, the means-tested top-up and the maximum pension.' },
 ];
 
 const schemas = [
@@ -29,7 +36,6 @@ const faqPage = [
   { question: 'Do they replace professional advice?', answer: 'No. They set out general rules and orders of magnitude without knowing your collective agreement, family situation or contract specifics. For a decision with financial consequences, an adviser or the Spanish Tax Agency remain the right contacts. Each page links the official source it relies on, so any figure can be checked without depending on us.' },
 ];
 const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
-import ContextoFiscal from '../../../components/ContextoFiscal.astro';
 import ContextoFiscalEn from '../../../components/ContextoFiscalEn.astro';
 import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 ---
@@ -72,6 +78,5 @@ import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
       ))}
     </div>
   </section>
-  <ContextoFiscal />
   <ContextoFiscalEn />
 </Layout>

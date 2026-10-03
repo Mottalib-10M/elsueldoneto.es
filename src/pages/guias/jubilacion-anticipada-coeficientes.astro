@@ -1,0 +1,94 @@
+---
+import GuiaLayout from '../../layouts/GuiaLayout.astro';
+import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
+import { calcularJubilacion, PARAMS_JUBILACION as J, BASES_2026 } from '../../lib/jubilacion-engine';
+import { fuentesJubilacion, eurES as eur, numES as num } from '../../lib/fuentes';
+
+const A = J.anticipada;
+const CV = A.coefVoluntaria as Record<string, number[]>, CI = A.coefInvoluntaria as Record<string, number[]>;
+const DT = (A.coefSobreTope as Record<string, Record<string, number[]>>)['2026'];
+const filasV = ['1', '6', '12', '18', '24'];
+const filasI = ['6', '12', '24', '36', '48'];
+const ref = { hoyAnio: 2026, hoyMes: 10 };
+const m = { anioNacimiento: 1964, mesNacimiento: 6, mesesCotizadosHoy: 420, baseActual: 2400, ...ref };
+const ord = calcularJubilacion(m);
+const vol = calcularJubilacion({ ...m, edadDeseadaMeses: 780 });
+const inv = calcularJubilacion({ anioNacimiento: 1962, mesNacimiento: 9, mesesCotizadosHoy: 430, baseActual: 3000, edadDeseadaMeses: 756, involuntaria: true, ...ref });
+const invOrd = calcularJubilacion({ anioNacimiento: 1962, mesNacimiento: 9, mesesCotizadosHoy: 430, baseActual: 3000, ...ref });
+const alto = calcularJubilacion({ anioNacimiento: 1962, mesNacimiento: 12, mesesCotizadosHoy: 480, baseActual: BASES_2026.maxima, edadDeseadaMeses: 756, ...ref });
+const perdida = (ord.pensionMensual - vol.pensionMensual) * 14;
+
+const title = 'Jubilación anticipada 2026: coeficientes reductores por mes';
+const description = 'Jubilación anticipada voluntaria o involuntaria en 2026: requisitos de 35 y 33 años, coeficientes reductores por mes de adelanto y la regla del tope máximo.';
+const faqs = [
+  { question: '¿Con cuántos años cotizados puedo jubilarme anticipadamente?', answer: `Con 35 años de cotización efectiva para la voluntaria y 33 para la involuntaria, sin contar la parte proporcional de pagas extra. Del servicio militar o la prestación social sustitutoria solo cuenta un año como máximo. Además, la voluntaria exige que la pensión resultante supere la mínima que te correspondería a los 65 años.` },
+  { question: '¿Cuánto antes puedo jubilarme?', answer: `Hasta ${A.voluntaria.mesesMax} meses antes de tu edad ordinaria si es voluntaria y hasta ${A.involuntaria.mesesMax} meses si cesas por causa no imputable a ti. La edad ordinaria de referencia es la que te correspondería si siguieras cotizando hasta alcanzarla, no la que resulta de tus años cotizados de hoy.` },
+  { question: '¿Qué despidos dan acceso a la anticipada involuntaria?', answer: 'El despido colectivo, el objetivo por causas del artículo 52, la extinción en concurso, la muerte o jubilación del empresario individual, la fuerza mayor, la extinción por voluntad del trabajador por incumplimientos de la empresa y la de la víctima de violencia de género. Hay que haber cobrado o reclamado la indemnización y estar seis meses inscrito como demandante de empleo.' },
+  { question: '¿Los coeficientes se aplican para siempre?', answer: 'Sí. La reducción se aplica en el momento de reconocer la pensión y no se recupera al cumplir la edad ordinaria. Las revalorizaciones anuales se aplican después sobre la pensión ya reducida. Por eso cada mes de adelanto se paga durante toda la jubilación, y conviene comparar con la opción de seguir cobrando el paro o el subsidio.' },
+  { question: 'Cobro el subsidio para mayores de 52 años: ¿qué coeficientes me aplican?', answer: 'Si te jubilas anticipadamente de forma voluntaria mientras cobras el subsidio por desempleo y llevas al menos tres meses percibiéndolo, se aplican los coeficientes de la jubilación involuntaria, más suaves, aunque debes cumplir los requisitos de la voluntaria (artículo 208.3 de la Ley General de la Seguridad Social).' },
+  { question: '¿Puedo seguir trabajando tras una jubilación anticipada?', answer: 'La pensión de jubilación es incompatible con el trabajo, salvo excepciones como la jubilación flexible o los ingresos por cuenta propia inferiores al salario mínimo anual. La jubilación activa, que permite cobrar parte de la pensión trabajando, solo se abre a quien accede a la pensión después de su edad ordinaria, por lo que no está al alcance de quien se ha jubilado anticipadamente.' },
+];
+const related = [
+  { label: 'Simulador de pensión de jubilación', href: '/calculadora-jubilacion/' },
+  { label: 'Base reguladora: las dos fórmulas', href: '/guias/base-reguladora-jubilacion/' },
+  { label: 'Pensión mínima y máxima en 2026', href: '/guias/pension-minima-maxima-jubilacion/' },
+  { label: 'Despido objetivo y ERE', href: '/guias/despido-objetivo-ere/' },
+  { label: 'Calculadora del paro', href: '/calculadora-paro/' },
+];
+---
+
+<GuiaLayout title={title} description={description} h1="Jubilación anticipada: coeficientes reductores en 2026" path="/guias/jubilacion-anticipada-coeficientes/" crumb="Jubilación anticipada" faqs={faqs} sources={fuentesJubilacion} related={related}>
+  <p class="text-lg">
+    La jubilación anticipada voluntaria permite retirarse hasta {A.voluntaria.mesesMax} meses antes de la edad ordinaria con 35 años cotizados; la involuntaria, tras un despido colectivo, objetivo u otra causa ajena al trabajador, hasta {A.involuntaria.mesesMax} meses antes con 33 años. A cambio, la pensión se reduce por cada mes o fracción de mes de adelanto con los coeficientes de los artículos 208 y 207 de la Ley General de la Seguridad Social, que dependen también de la carrera: en la voluntaria, del {num(CV['1'][3], 2)} % por un mes con más de 44 años y medio cotizados al {num(CV['24'][0], 2)} % por dos años con menos de 38 años y medio. Una persona nacida en junio de 1964, con 35 años cotizados y una base de 2.400 €, cobraría {eur(ord.pensionMensual)} a su edad ordinaria y {eur(vol.pensionMensual)} jubilándose voluntariamente a los 65: {eur(perdida)} menos cada año, de por vida.
+  </p>
+  <MiniSimAutonome client:visible kind="anticipada" lang="es" locale="es-ES" href="/calculadora-jubilacion/" />
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Coeficientes de la jubilación voluntaria (artículo 208)</h2>
+    <p>
+      La tabla fija un porcentaje para cada mes de adelanto, del 1 al {A.voluntaria.mesesMax}, en cuatro columnas según el periodo cotizado. Recogemos algunas filas; el simulador aplica la tabla completa.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="my-4 w-full border-collapse text-sm">
+        <caption class="sr-only">Coeficientes reductores de la jubilación anticipada voluntaria</caption>
+        <thead><tr class="border-b-2 border-gray-300 dark:border-gray-600"><th scope="col" class="px-3 py-2 text-left">Meses de adelanto</th><th scope="col" class="px-3 py-2 text-right">Menos de 38 a. 6 m.</th><th scope="col" class="px-3 py-2 text-right">38 a. 6 m. a 41 a. 6 m.</th><th scope="col" class="px-3 py-2 text-right">41 a. 6 m. a 44 a. 6 m.</th><th scope="col" class="px-3 py-2 text-right">44 a. 6 m. o más</th></tr></thead>
+        <tbody class="tabular-nums">
+          {filasV.map((k) => <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">{k}</td>{CV[k].map((x) => <td class="px-3 py-1 text-right">{num(x, 2)} %</td>)}</tr>)}
+        </tbody>
+      </table>
+    </div>
+    <p>
+      La escala no es lineal. El primer mes ya cuesta entre el {num(CV['1'][3], 2)} % y el {num(CV['1'][0], 2)} %; los meses intermedios añaden poco; y los últimos vuelven a encarecerse: pasar de 20 a 24 meses de adelanto sube el recorte del {num(CV['20'][0], 2)} % al {num(CV['24'][0], 2)} % con menos de 38 años y medio cotizados. Esperar cuatro meses más, y adelantar 20 en lugar de 24, reduce el recorte casi a la mitad. Ojo también con el requisito de la pensión mínima: si con los coeficientes tu pensión no supera la mínima a los 65 años según tu situación familiar, la voluntaria no se puede solicitar.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Coeficientes de la jubilación involuntaria (artículo 207)</h2>
+    <div class="overflow-x-auto">
+      <table class="my-4 w-full border-collapse text-sm">
+        <caption class="sr-only">Coeficientes reductores de la jubilación anticipada involuntaria</caption>
+        <thead><tr class="border-b-2 border-gray-300 dark:border-gray-600"><th scope="col" class="px-3 py-2 text-left">Meses de adelanto</th><th scope="col" class="px-3 py-2 text-right">Menos de 38 a. 6 m.</th><th scope="col" class="px-3 py-2 text-right">38 a. 6 m. a 41 a. 6 m.</th><th scope="col" class="px-3 py-2 text-right">41 a. 6 m. a 44 a. 6 m.</th><th scope="col" class="px-3 py-2 text-right">44 a. 6 m. o más</th></tr></thead>
+        <tbody class="tabular-nums">
+          {filasI.map((k) => <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">{k}</td>{CI[k].map((x) => <td class="px-3 py-1 text-right">{num(x, 2)} %</td>)}</tr>)}
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Un trabajador nacido en septiembre de 1962, con 35 años y 10 meses cotizados y una base de 3.000 €, pierde su empleo en un ERE. Su edad ordinaria, calculada como si siguiera cotizando, es de {Math.floor(inv.edadOrdinariaMeses / 12)} años y {inv.edadOrdinariaMeses % 12} meses. Si se jubila ahora, con {Math.floor(inv.edadJubilacionMeses / 12)} años y {inv.edadJubilacionMeses % 12} meses, adelanta {inv.mesesAnticipo} meses y su coeficiente es del {num(inv.coeficiente * 100, 2)} %: {eur(inv.pensionMensual)} al mes, frente a {eur(invOrd.pensionMensual)} si esperase a la edad ordinaria cotizando. Además de los 33 años, necesita seis meses de inscripción como demandante de empleo y haber cobrado o reclamado la indemnización.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Si tu pensión supera la máxima</h2>
+    <p>
+      Cuando la base reguladora por el porcentaje supera la pensión máxima ({eur(J.pensionMaximaMensual)}), los coeficientes de la voluntaria no se aplican sobre tu pensión teórica, sino sobre la máxima (artículo 210.3), y con una escala transitoria más suave que va endureciéndose hasta 2033 (disposición transitoria 34.ª). En 2026, dos años de adelanto con menos de 38 años y medio cotizados restan un {num(DT['24'][0], 2)} % de la máxima, no un {num(CV['24'][0], 2)} %. Un directivo nacido en diciembre de 1962, con 40 años cotizados siempre por la base máxima, que se jubila ahora con {alto.mesesAnticipo} meses de adelanto, cobra {eur(alto.pensionMensual)}: un {num(alto.coeficiente * 100, 2)} % menos que la máxima.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Cómo decidir</h2>
+    <p>
+      Compara tres cifras: la pensión anticipada, la pensión ordinaria y lo que cobrarías mientras tanto (salario, paro o subsidio). El subsidio para mayores de 52 años cotiza por jubilación y mantiene tus años cotizados creciendo; si lo cobras desde hace tres meses, la anticipada voluntaria se calcula además con los coeficientes de la involuntaria. Recuerda que los coeficientes se aplican también sobre las revalorizaciones futuras. El <a href="/calculadora-jubilacion/" class="text-brand hover:underline">simulador de pensión de jubilación</a> calcula tu edad ordinaria y los meses exactos de adelanto, y la <a href="/guias/base-reguladora-jubilacion/" class="text-brand hover:underline">guía de la base reguladora</a> explica de dónde sale la cifra de partida.
+    </p>
+  </section>
+</GuiaLayout>

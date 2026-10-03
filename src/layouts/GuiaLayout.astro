@@ -1,0 +1,84 @@
+---
+/**
+ * Gabarit des guías de despido y jubilación (ES / EN). Una sola lista `faqs` produce el bloque
+ * visible y el FAQPage (RECETTE §7). Fuentes y enlaces vecinos en `data-chrome` (§6.4).
+ */
+import Layout from '../components/layout/Layout.astro';
+import AuthorByline from '../components/layout/AuthorByline.astro';
+import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema, type FAQItem } from '../lib/seo';
+import type { Locale } from '../i18n/types';
+
+interface Props {
+  title: string;
+  description: string;
+  h1: string;
+  path: string;
+  locale?: Locale;
+  crumb: string;
+  faqs: FAQItem[];
+  sources: { label: string; url: string }[];
+  related: { label: string; href: string }[];
+  date?: string;
+}
+const { title, description, h1, path, locale = 'es', crumb, faqs, sources, related, date = '2026-10-03' } = Astro.props;
+const en = locale === 'en';
+const home = en ? '/en/' : '/';
+const guides = en ? '/en/guides/' : '/guias/';
+const schemas = [
+  buildBreadcrumbSchema([
+    { name: en ? 'Home' : 'Inicio', url: home },
+    { name: en ? 'Guides' : 'Guías', url: guides },
+    { name: crumb, url: path },
+  ]),
+  buildFAQSchema(faqs, locale),
+  buildArticleSchema(title, description, path, locale, '2026-10-03', date),
+];
+---
+
+<Layout title={title} description={description} ogType="article" schema={schemas} locale={locale}>
+  <article class="mx-auto max-w-6xl px-4 py-8">
+    <nav class="mb-6 text-sm text-medium-gray" aria-label={en ? 'Breadcrumb' : 'Ruta de navegación'} data-chrome>
+      <a href={home} class="hover:text-brand">{en ? 'Home' : 'Inicio'}</a> /
+      <a href={guides} class="hover:text-brand">{en ? 'Guides' : 'Guías'}</a> /
+      <span class="text-charcoal dark:text-gray-200">{crumb}</span>
+    </nav>
+
+    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">{h1}</h1>
+    <AuthorByline locale={locale} date={date} />
+
+    <div class="prose max-w-none space-y-6 text-dark-gray dark:text-gray-300 leading-relaxed">
+      <slot />
+
+      <section>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">{en ? 'Frequently asked questions' : 'Preguntas frecuentes'}</h2>
+        <div class="not-prose space-y-4">
+          {faqs.map((faq) => (
+            <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+              <summary class="cursor-pointer px-4 py-3 font-medium text-charcoal dark:text-gray-200">{faq.question}</summary>
+              <div class="border-t border-gray-200 px-4 py-3 text-sm text-dark-gray dark:border-gray-700 dark:text-gray-300">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section data-chrome>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">{en ? 'Related calculators and guides' : 'Calculadoras y guías relacionadas'}</h2>
+        <ul>
+          {related.map((r) => <li><a href={r.href} class="text-brand hover:underline dark:text-red-300">{r.label}</a></li>)}
+        </ul>
+      </section>
+
+      <section data-chrome>
+        <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">{en ? 'Official sources' : 'Fuentes oficiales'}</h2>
+        <ul>
+          {sources.map((s) => <li><a href={s.url} rel="noopener nofollow" target="_blank" class="text-brand hover:underline dark:text-red-300">{s.label}</a></li>)}
+        </ul>
+        <p class="text-sm">{en
+          ? 'Figures checked against the consolidated texts of the Boletín Oficial del Estado on 3 October 2026. An indicative estimate that does not replace a decision of the administration or professional advice.'
+          : 'Cifras contrastadas con los textos consolidados del Boletín Oficial del Estado el 3 de octubre de 2026. Estimación orientativa que no sustituye la decisión de la administración ni el asesoramiento profesional.'}</p>
+      </section>
+    </div>
+  </article>
+</Layout>

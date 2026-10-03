@@ -1,0 +1,83 @@
+---
+import GuiaLayout from '../../../layouts/GuiaLayout.astro';
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
+import { calcularDespido, PARAMS_DESPIDO as P } from '../../../lib/despido-engine';
+import { fuentesDespido, enFuentes, eurEN as eur, numEN as num } from '../../../lib/fuentes';
+
+const FIN = '2026-10-03';
+const a = calcularDespido({ inicio: '2020-09-07', fin: FIN, salarioAnual: 36000, tipo: 'objetivo' });
+const aImp = calcularDespido({ inicio: '2020-09-07', fin: FIN, salarioAnual: 36000, tipo: 'improcedente' });
+const b = calcularDespido({ inicio: '2007-03-05', fin: FIN, salarioAnual: 41000, tipo: 'objetivo' });
+const ere = calcularDespido({ inicio: '2012-06-18', fin: FIN, salarioAnual: 58000, tipo: 'ere', ereDias: 40, ereTopeMensualidades: 24 });
+const pre = calcularDespido({ inicio: '2020-09-07', fin: FIN, salarioAnual: 36000, tipo: 'objetivo', preavisoOmitido: P.preavisoObjetivoDias });
+const O = P.tipos.objetivo;
+
+const title = 'Objective Dismissal and ERE Spain 2026: 20 Days, Caps, Tax';
+const description = 'Objective dismissal or collective redundancy (ERE) in Spain for 2026: 20 days per year capped at 12 months, 15 days’ notice, agreed improvements and tax rules.';
+const faqs = [
+  { question: 'What counts as an objective dismissal in Spain?', answer: 'Article 52 of the Workers’ Statute allows it for incapacity that arose after hiring, failure to adapt to technical changes in the job, economic, technical, organisational or production reasons affecting fewer people than a collective redundancy, and funding shortfalls in certain public programmes. Absences from work stopped being a ground in 2020.' },
+  { question: 'When must the employer pay?', answer: `On the day it hands you the letter: ${O.diasPorAnio} days per year, capped at ${O.topeMensualidades} months’ pay, must be made available with the written notice. Only when it relies on economic grounds and states in the letter that it cannot pay may it postpone payment, which you can then demand once the dismissal takes effect.` },
+  { question: 'How is an ERE different from an individual dismissal?', answer: 'An ERE (expediente de regulación de empleo) is a collective redundancy: within ninety days it affects at least ten workers in companies under one hundred, ten per cent in companies of one to three hundred, or thirty in larger ones. It requires a consultation period with worker representatives, which is where better terms are usually negotiated.' },
+  { question: 'Is ERE compensation above the legal minimum taxed?', answer: `Only the part above what an unfair dismissal would have paid, or above ${eur(P.irpf.limiteExencion)}. In collective redundancies and objective dismissals for economic reasons, the tax exemption reaches the unfair-dismissal amount even though the legal minimum is only ${O.diasPorAnio} days a year, so moderate improvements stay tax-free.` },
+  { question: 'Can I take my employer to court after accepting the money?', answer: 'Yes. Receiving the compensation does not mean accepting the dismissal. File for conciliation within twenty working days. If the court rules the dismissal unfair, the employer must top up to 33 days a year, 45 for service before 2012, or take you back.' },
+  { question: 'Can an objective dismissal be declared void?', answer: `Yes. It is void, not just unfair, if it discriminates or breaches fundamental rights, or if it targets a pregnant employee, someone on or recently back from birth or adoption leave, or someone using certain family-related rights, unless the employer proves an unrelated reason. A void dismissal means reinstatement with back pay rather than compensation.` }
+];
+const related = [
+  { label: 'Dismissal compensation calculator', href: '/en/dismissal-compensation-calculator/' },
+  { label: 'Unfair dismissal: 33 or 45 days', href: '/en/guides/unfair-dismissal-compensation/' },
+  { label: 'How severance pay is taxed in Spain', href: '/en/guides/severance-pay-tax/' },
+  { label: 'Early retirement after a dismissal', href: '/en/guides/early-retirement-reduction/' },
+  { label: 'Finiquito calculator', href: '/en/severance-calculator/' },
+];
+---
+
+<GuiaLayout title={title} description={description} h1="Objective dismissal and ERE in Spain: the 20-day rule in 2026" path="/en/guides/objective-dismissal-and-ere/" locale="en" crumb="Objective dismissal and ERE" faqs={faqs} sources={enFuentes(fuentesDespido)} related={related}>
+  <p class="text-lg">
+    An objective dismissal (despido objetivo) and each dismissal within a collective redundancy (ERE) carry at least {O.diasPorAnio} days of salary per year of service, prorated by month and capped at {O.topeMensualidades} months’ pay, roughly one year’s salary (article 53.1.b of the Workers’ Statute, which article 51.4 applies to collective redundancies). The employer must give written reasons, make the money available with the letter and allow {P.preavisoObjetivoDias} days’ notice. On €36,000 a year with a start date of 7 September 2020, an objective dismissal on 3 October 2026 pays {eur(a.indemnizacion)}, free of income tax. Redundancy plans negotiated with worker representatives often improve the days and the cap; the law only sets the floor. Try your own figures, including an agreed number of days, in the quick calculator.
+  </p>
+  <MiniSimAutonome client:visible kind="objetivo" lang="en" locale="en-GB" href="/en/dismissal-compensation-calculator/" />
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">The one-year cap and what it means for long service</h2>
+    <p>
+      Twelve months’ pay is {num(O.topeMensualidades * 365 / 12)} days of salary. At {O.diasPorAnio} days a year, the cap bites after {num(O.topeMensualidades * 365 / 12 / O.diasPorAnio, 2)} years. A logistics coordinator who joined in March 2007 on €41,000 would reach {num(b.diasSinTope, 2)} days without the cap, but is paid {num(b.diasIndemnizacion, 2)}: {eur(b.indemnizacion)}. The longer the service, the bigger the gap with an unfair dismissal, and the stronger the incentive to challenge the grounds.
+    </p>
+    <p>
+      For the shorter career in the opening example, the difference between objective and unfair dismissal is {eur(aImp.indemnizacion - a.indemnizacion)}. That is the sum usually discussed at the conciliation hearing when an employee disputes the economic reasons given, for instance when the letter does not show losses or a fall in revenue over three consecutive quarters.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Notice, job-hunting time and pay in lieu</h2>
+    <p>
+      The {P.preavisoObjetivoDias}-day notice period runs from the day you receive the letter. During it you keep your salary and are entitled to six hours of paid leave a week to look for work. Employers who want you gone immediately pay those days instead: in the first example, {eur(pre.preavisoImporte)} added to the final settlement. Unlike the compensation, pay in lieu of notice is taxed and subject to social security.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">What gets negotiated in an ERE</h2>
+    <p>
+      Collective redundancies in Spain go through a consultation period with worker representatives, and at least thirty days must pass between notifying the labour authority and the dismissals taking effect. Large employers rarely stop at the minimum: 30 to 45 days a year with a 24-month cap, lump sums per person and early-retirement arrangements for staff over 55 are common outcomes. A software lead hired in June 2012 on €58,000, leaving under a plan agreed at 40 days with a 24-month cap, receives {eur(ere.indemnizacion)}. Of that, {eur(ere.exenta)} is tax-free, the amount an unfair dismissal would have paid, and {eur(ere.sujeta)} is taxable, cut to {eur(ere.sujetaTrasReduccion)} by the 30% allowance.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">The reason changes the tax treatment</h2>
+    <p>
+      For objective dismissals the tax exemption depends on the ground. Economic, technical, organisational or production reasons (article 52.c) bring the same generous treatment as an ERE: exempt up to the unfair-dismissal figure. Other grounds, such as incapacity, are exempt only up to the statutory {O.diasPorAnio} days. This matters when an employer pays more than the minimum to avoid litigation.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Next steps: benefit and, for some, early retirement</h2>
+    <p>
+      Objective and collective dismissals give access to unemployment benefit; apply within fifteen working days. If you are within four years of your ordinary retirement age and have at least 33 years of contributions, a dismissal on these grounds can also open involuntary early retirement, as long as you have received or claimed the compensation; see the <a href="/en/guides/early-retirement-reduction/" class="text-brand hover:underline">early retirement guide</a>. For your exact figures, use the <a href="/en/dismissal-compensation-calculator/" class="text-brand hover:underline">dismissal compensation calculator</a> with your dates and any agreed days.
+    </p>
+  </section>
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Checking the letter and the money</h2>
+    <p>
+      An objective dismissal letter must explain the ground in concrete terms: for economic reasons, the figures showing current or expected losses or falling revenue; for incapacity, the facts that show it. It must come with the compensation, by transfer or cheque, unless the employer states in writing that it cannot pay for economic reasons. Missing either element is a frequent reason for courts to declare the dismissal unfair. Check that the daily salary includes both extra payments and fixed allowances, and that your seniority date matches your contribution record. If you work reduced hours to care for a child or relative, the compensation must be calculated on the full-time salary (additional provision 19 of the Workers’ Statute).
+    </p>
+  </section>
+</GuiaLayout>

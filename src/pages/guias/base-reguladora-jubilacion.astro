@@ -1,0 +1,90 @@
+---
+import GuiaLayout from '../../layouts/GuiaLayout.astro';
+import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
+import { baseReguladora, PARAMS_JUBILACION as J, BASES_2026 } from '../../lib/jubilacion-engine';
+import { fuentesJubilacion, eurES as eur, eurES2 as eur2, numES as num } from '../../lib/fuentes';
+
+const B = J.baseReguladora;
+const N = B.nueva as Record<string, number[]>;
+const anios = ['2026', '2027', '2028', '2030', '2033', '2036'];
+const constante = baseReguladora(Array(360).fill(2800), 2026);
+const s1 = Array(360).fill(2800); for (let i = 0; i < 18; i++) s1[i] = null;
+const laguna = baseReguladora(s1, 2026);
+const s2 = Array(360).fill(2800); s2[0] = BASES_2026.minima; s2[1] = BASES_2026.minima;
+const dosMalos = baseReguladora(s2, 2026);
+const s3 = Array.from({ length: 360 }, (_, i) => 3200 / Math.pow(1.02, i / 12));
+const crece26 = baseReguladora(s3, 2026), crece37 = baseReguladora(s3, 2037);
+const sVac: (number | null)[] = Array(360).fill(null);
+const vacia = baseReguladora(sVac, 2026), vaciaRef = baseReguladora(sVac, 2026, true);
+const L = B.lagunas;
+
+const title = 'Base reguladora de jubilación 2026: las dos fórmulas';
+const description = 'Base reguladora de la pensión de jubilación en 2026: 300 meses entre 350 o las 302 mejores bases de 304 entre 352,33, lagunas y la fórmula que te conviene.';
+const faqs = [
+  { question: '¿Qué es la base reguladora de la pensión?', answer: 'Es la media de tus bases de cotización en un periodo determinado, que sirve de punto de partida para la pensión. A esa base se le aplica el porcentaje que corresponde por años cotizados y, en su caso, los coeficientes por jubilación anticipada o el incremento por demora. Las bases antiguas se actualizan con el IPC.' },
+  { question: '¿Por qué se divide entre 350 y no entre 300?', answer: 'Porque la pensión se paga en 14 pagas y las bases son mensuales. Doce meses de bases equivalen a catorce pagas: 300 meses multiplicados por 14 y divididos entre 12 dan 350. Con ese divisor, la base reguladora se expresa ya como importe de cada una de las catorce pagas.' },
+  { question: '¿Tengo que elegir yo la fórmula más favorable?', answer: 'No. Para las jubilaciones causadas entre 2026 y 2040, la Seguridad Social calcula de oficio la base con la normativa vigente el 1 de enero de 2023 y con la nueva, y aplica la que dé más (disposición transitoria cuarta, apartado 7, de la Ley General de la Seguridad Social). Entre 2041 y 2043 la comparación sigue con un periodo antiguo ampliado.' },
+  { question: '¿Qué pasa con los meses en que no coticé?', answer: `Si caen dentro del periodo de cálculo, se integran: los ${L.mesesBaseMinimaCompleta} primeros con la base mínima del mes y el resto con el ${num(L.fraccionResto * 100)} % de esa base. Para las mujeres, y para los hombres que cumplan los requisitos del complemento de brecha, los meses 49 a 60 se integran al 100 % y los 61 a 84 al 80 %.` },
+  { question: '¿Cuentan las bases de los dos últimos años sin actualizar?', answer: 'Sí. Las bases de los 24 meses inmediatamente anteriores al mes previo a la jubilación se toman por su valor nominal; las demás se actualizan con la evolución del IPC hasta el mes 25. Por eso, en épocas de inflación alta, los dos últimos años pesan algo menos de lo que parece.' },
+];
+const related = [
+  { label: 'Simulador de pensión de jubilación', href: '/calculadora-jubilacion/' },
+  { label: 'Pensión mínima y máxima en 2026', href: '/guias/pension-minima-maxima-jubilacion/' },
+  { label: 'Jubilación anticipada y coeficientes reductores', href: '/guias/jubilacion-anticipada-coeficientes/' },
+  { label: 'Jubilación en España: edad y requisitos', href: '/guias/jubilacion-espana-edad-pension/' },
+  { label: 'Calculadora de sueldo neto', href: '/' },
+];
+---
+
+<GuiaLayout title={title} description={description} h1="Base reguladora de la jubilación: cómo se calcula desde 2026" path="/guias/base-reguladora-jubilacion/" crumb="Base reguladora" faqs={faqs} sources={fuentesJubilacion} related={related}>
+  <p class="text-lg">
+    Desde el 1 de enero de 2026 la base reguladora de la pensión de jubilación se calcula de dos maneras y se aplica la más alta. La fórmula de 2023 suma las bases de cotización de los últimos {B.antigua.meses} meses y divide entre {B.antigua.divisor}. La fórmula nueva, en su versión de 2026, toma los últimos {N['2026'][0]} meses, se queda con las {N['2026'][1]} bases más altas y divide entre {num(N['2026'][2], 2)}; cada año el periodo crece cuatro meses hasta llegar en 2037 a {B.nuevaDefinitiva[0]} meses con las {B.nuevaDefinitiva[1]} mejores bases entre {B.nuevaDefinitiva[2]}. Con una base constante de 2.800 € al mes, las dos fórmulas dan casi lo mismo ({eur2(constante.baseAntigua ?? 0)} y {eur2(constante.baseNueva)}); las diferencias aparecen con las lagunas, los meses malos al final de la carrera o los sueldos que suben con los años. El mini-simulador compara las dos para tu caso.
+  </p>
+  <MiniSimAutonome client:visible kind="basereg" lang="es" locale="es-ES" href="/calculadora-jubilacion/" />
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">El calendario de la fórmula nueva</h2>
+    <p>
+      La disposición transitoria cuadragésima de la Ley General de la Seguridad Social, introducida por el Real Decreto-ley 2/2023, fija el ritmo año a año. No hay que esperar a 2044 para ver «los 29 años»: el régimen definitivo del artículo 209.1 se aplica desde 2037, y la comparación con la fórmula antigua sigue hasta 2043.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="my-4 w-full border-collapse text-sm">
+        <caption class="sr-only">Periodo de cálculo de la base reguladora según el año de jubilación</caption>
+        <thead><tr class="border-b-2 border-gray-300 dark:border-gray-600"><th scope="col" class="px-3 py-2 text-left">Jubilación en</th><th scope="col" class="px-3 py-2 text-right">Meses del periodo</th><th scope="col" class="px-3 py-2 text-right">Bases que cuentan</th><th scope="col" class="px-3 py-2 text-right">Divisor</th></tr></thead>
+        <tbody class="tabular-nums">
+          {anios.map((a) => <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">{a}</td><td class="px-3 py-1 text-right">{N[a][0]}</td><td class="px-3 py-1 text-right">{N[a][1]}</td><td class="px-3 py-1 text-right">{num(N[a][2], 2)}</td></tr>)}
+          <tr><td class="px-3 py-1">2037 en adelante</td><td class="px-3 py-1 text-right">{B.nuevaDefinitiva[0]}</td><td class="px-3 py-1 text-right">{B.nuevaDefinitiva[1]}</td><td class="px-3 py-1 text-right">{B.nuevaDefinitiva[2]}</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      En todas las filas el divisor es el número de bases que cuentan multiplicado por 14 y dividido entre 12: así la base reguladora queda expresada en pagas de las catorce que tiene la pensión.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Cuatro carreras, dos fórmulas</h2>
+    <p>
+      <strong>Una laguna al final.</strong> Quien pasa sus últimos 18 meses sin cotizar, tras agotar el paro, ve integrados esos meses con la base mínima ({eur2(BASES_2026.minima)} en 2026). Con 2.800 € el resto del tiempo, la fórmula antigua da {eur2(laguna.baseAntigua ?? 0)} y la nueva {eur2(laguna.baseNueva)}, porque descarta dos de esos meses flojos y reparte el resto en un periodo más largo. Se aplica la nueva.
+    </p>
+    <p>
+      <strong>Dos meses malos.</strong> Si solo los dos últimos meses fueron a la base mínima, la nueva fórmula los elimina por completo: {eur2(dosMalos.baseNueva)} frente a {eur2(dosMalos.baseAntigua ?? 0)}. En 2026 la ventaja nunca va más allá de dos meses; en 2037, con 24 descartes, podrá borrar dos años enteros.
+    </p>
+    <p>
+      <strong>Un sueldo que crece.</strong> Alguien cuya base sube un 2 % real al año hasta llegar a 3.200 € tiene sus mejores bases al final. La fórmula antigua, que solo mira 25 años, le da {eur2(crece26.baseAntigua ?? 0)}; la nueva, {eur2(crece26.baseNueva)}, porque mira más atrás. Se aplica la antigua. Si se jubilara en 2037 con la misma carrera, la nueva bajaría a {eur2(crece37.baseNueva)} y seguiría eligiéndose la antigua ({eur2(crece37.baseAntigua ?? 0)}): por eso la ley mantiene la comparación.
+    </p>
+    <p>
+      <strong>Sin cotizaciones en el periodo.</strong> Es el caso límite que muestra cómo funcionan las lagunas: {L.mesesBaseMinimaCompleta} meses a la base mínima y el resto a la mitad dan {eur2(vacia.baseNueva)} con la fórmula nueva de 2026. Con la integración reforzada de la disposición transitoria 41.ª, que se aplica a esa fórmula, los meses 49 a 60 cuentan enteros y los 61 a 84 al 80 %: {eur2(vaciaRef.baseNueva)}. Esa mejora está pensada para cerrar la brecha de género, porque las lagunas largas son mucho más frecuentes en las carreras de las mujeres.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">IPC, base máxima y aumentos de los dos últimos años</h2>
+    <p>
+      Las bases de los últimos 24 meses cuentan por su valor nominal; las anteriores se actualizan con el IPC, de modo que una base de hace veinte años vale en euros de hoy. Por eso el simulador trabaja en euros de 2026. Ninguna base puede superar la base máxima del año ({eur2(BASES_2026.maxima)} al mes en 2026): quien cobra más cotiza por ese tope, y su pensión lo refleja. Y la ley impide inflar la base al final: los aumentos de los dos últimos años que superen la subida media del convenio no se computan, salvo que deriven de la antigüedad, de un ascenso reglamentario o de un concepto general del convenio (artículo 209.2 y 3).
+    </p>
+    <p>
+      Con la base reguladora calculada, falta aplicarle el porcentaje por años cotizados, los coeficientes si te jubilas antes y los límites de pensión mínima y máxima. Todo eso lo hace el <a href="/calculadora-jubilacion/" class="text-brand hover:underline">simulador de pensión de jubilación</a>; los límites se explican en la <a href="/guias/pension-minima-maxima-jubilacion/" class="text-brand hover:underline">guía de la pensión mínima y máxima</a>.
+    </p>
+  </section>
+</GuiaLayout>

@@ -11,7 +11,12 @@ Usage : check-simulateurs.py <site>   → code de sortie 1 s'il manque au moins 
 """
 import glob, re, sys
 
-SERVICE = re.compile(r'/(?:about|a-propos|om-oss|over-ons|uber-uns|ueber-uns|chi-siamo|sobre|quienes-somos|acerca|contact|contacto|contatti|kontakt|editorial|politique-editoriale|charte|politica-editorial|redaksjonell|redaktionel|redactie|redaktion|privacy|privacidad|privacidade|personvern|privatliv|datenschutz|confidentialite|terms|vilkar|vilkaar|villkor|integritet|mentions-legales|legal|disclaimer|privacidade|sobre|glossario|metodologia|impressum|aviso-legal|termos|cookies|cookie|politica-cookies|politica-privacidad|terminos|informasjonskapsler|widget|embed|glossary|glossaire|glosario|glossario|glossar|woordenlijst|ordliste|ordbog|ordlista|method|metod|metode|methode)[^/]*/')
+# « conditions », « cgu », « cgv » : la page des conditions d'utilisation est une
+# page légale au même titre que « terms », déjà reconnue ici, et que check-seo et
+# check-trame rangeaient déjà parmi les pages de service. Seul ce contrôle lui
+# réclamait un simulateur (valuablecircle.com, /conditions/, 2026-10-01).
+
+SERVICE = re.compile(r'/(?:about|a-propos|om-oss|over-ons|uber-uns|ueber-uns|chi-siamo|sobre|quienes-somos|acerca|contact|contacto|contatti|kontakt|editorial|politique-editoriale|charte|politica-editorial|redaksjonell|redaktionel|redactie|redaktion|privacy|privacidad|privacidade|personvern|privatliv|datenschutz|confidentialite|conditions|cgu|cgv|terms|vilkar|vilkaar|villkor|integritet|mentions-legales|legal|disclaimer|privacidade|sobre|glossario|metodologia|impressum|aviso-legal|termos|cookies|cookie|politica-cookies|politica-privacidad|terminos|informasjonskapsler|widget|embed|glossary|glossaire|glosario|glossario|glossar|woordenlijst|ordliste|ordbog|ordlista|method|metod|metode|methode)[^/]*/')
 INPUT = re.compile(r'<input\b(?![^>]*type="(?:hidden|search|checkbox|radio|submit|button)")[^>]*>|<select\b', re.I)
 
 site = sys.argv[1].rstrip('/')

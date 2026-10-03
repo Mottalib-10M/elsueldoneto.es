@@ -1,0 +1,65 @@
+{
+ "_comment": "Paramètres de l'indemnisation de licenciement et du finiquito. Valeurs relues sur le texte consolidé du BOE le 2026-10-03.",
+ "source": "Estatuto de los Trabajadores (RDLeg. 2/2015) y Ley 35/2006 del IRPF, textos consolidados",
+ "source_url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430",
+ "retrieved_at": "2026-10-03",
+ "valid_from": "2026-01-01",
+ "valid_to": "2026-12-31",
+ "sources": [
+  {
+   "label": "Estatuto de los Trabajadores, arts. 38, 49, 51, 53, 56 y disposición transitoria 11.ª",
+   "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430"
+  },
+  {
+   "label": "Ley 35/2006 del IRPF, art. 7.e (exención) y art. 18.2 (reducción del 30 %)",
+   "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764"
+  },
+  {
+   "label": "Agencia Tributaria, Manual práctico de Renta 2025: indemnizaciones por despido o cese del trabajador",
+   "url": "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c02-irpf-cuestiones-generales/sujecion-irpf-aspectos-materiales/delimitacion-negativa-hecho-imponible-rentas-sujetas/rentas-exentas-articulo-7-ley-irpf/indemnizaciones-despido-cese-trabajador.html"
+  }
+ ],
+ "fechaReforma2012": "2012-02-12",
+ "diasAnio": 365,
+ "tipos": {
+  "improcedente": {
+   "_art": "Art. 56.1 ET",
+   "diasPorAnio": 33,
+   "topeMensualidades": 24
+  },
+  "improcedentePre2012": {
+   "_art": "DT 11.ª.2 ET",
+   "diasPorAnio": 45,
+   "topeDias": 720,
+   "topeMensualidadesAbsoluto": 42
+  },
+  "objetivo": {
+   "_art": "Art. 53.1.b ET",
+   "diasPorAnio": 20,
+   "topeMensualidades": 12
+  },
+  "ere": {
+   "_art": "Art. 51.4 y 53.1.b ET (mínimo legal)",
+   "diasPorAnio": 20,
+   "topeMensualidades": 12
+  },
+  "finContrato": {
+   "_art": "Art. 49.1.c ET",
+   "diasPorAnio": 12
+  }
+ },
+ "preavisoObjetivoDias": 15,
+ "vacacionesMinimasNaturales": 30,
+ "irpf": {
+  "_art": "Art. 7.e LIRPF",
+  "limiteExencion": 180000,
+  "reduccionIrregular": 0.3,
+  "_art18": "Art. 18.2 LIRPF",
+  "aniosGeneracionMin": 2,
+  "limiteReduccion": 300000,
+  "umbralReduccionDecreciente": 700000,
+  "umbralReduccionNula": 1000000,
+  "_exenciones": "AEAT: improcedente exenta solo si se reconoce en conciliación (SMAC) o resolución judicial (despidos desde el 08/07/2012); objetivo art. 52.c y despido colectivo: exenta hasta el importe del improcedente; fin de contrato temporal (art. 49.1.c): no exenta",
+  "finContratoExenta": false
+ }
+}

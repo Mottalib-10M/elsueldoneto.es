@@ -17,7 +17,7 @@ const updatedLabel = locale === 'en' ? 'Updated' : 'Actualizado';
   <span>
     {byLabel} <a href={aboutHref} class="font-medium text-charcoal hover:text-brand dark:text-gray-200">Radif Partners</a>
     <span class="mx-1">·</span>
-    Éditeur de calculateurs et de guides pratiques
+    {locale === 'en' ? 'Publisher of calculators and practical guides' : 'Editor de calculadoras y guías prácticas'}
     <span class="mx-1">·</span>
     {updatedLabel} {date}
   </span>

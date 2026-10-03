@@ -1,0 +1,78 @@
+---
+import GuiaLayout from '../../../layouts/GuiaLayout.astro';
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
+import { calcularDespido, PARAMS_DESPIDO as P } from '../../../lib/despido-engine';
+import { fuentesDespido, enFuentes, eurEN as eur, eurEN2 as eur2, numEN as num } from '../../../lib/fuentes';
+
+const FIN = '2026-10-03';
+const a = calcularDespido({ inicio: '2026-04-06', fin: FIN, salarioAnual: 26000, tipo: 'fin-contrato' });
+const b = calcularDespido({ inicio: '2024-03-04', fin: FIN, salarioAnual: 30000, tipo: 'fin-contrato' });
+const bImp = calcularDespido({ inicio: '2024-03-04', fin: FIN, salarioAnual: 30000, tipo: 'improcedente' });
+const ski = calcularDespido({ inicio: '2026-01-05', fin: '2026-04-30', salarioAnual: 20000, tipo: 'fin-contrato' });
+const F = P.tipos.finContrato;
+
+const title = 'End of Temporary Contract Spain 2026: 12 Days per Year';
+const description = 'End of a temporary contract in Spain in 2026: 12 days of salary per year, pro rata, which contracts pay nothing, your final settlement and why it is taxed.';
+const faqs = [
+  { question: 'Does every fixed-term contract in Spain pay something at the end?', answer: `No. Article 49.1.c of the Workers’ Statute grants ${F.diasPorAnio} days per year when a fixed-term contract expires, except for training contracts (internships and work-study) and contracts covering an absent employee (sustitución). Those end with the final settlement only: salary, untaken holidays and extra payments.` },
+  { question: 'Is the end-of-contract payment tax-free like severance?', answer: 'No. The Spanish Tax Agency lists the expiry of temporary contracts among the payments outside the severance exemption, because nobody is dismissed. Expect income tax withholding on it. If the contract lasted more than two years, a 30% reduction applies when you file your tax return.' },
+  { question: 'Can I claim unemployment benefit when my contract ends?', answer: 'Yes. The end of a temporary contract is a legal unemployment situation. With 360 days of contributions in the last six years you can claim contributory benefit; with less, you may qualify for an allowance. Apply within fifteen working days of the end of the contract.' },
+  { question: 'I have had several contracts with the same company. Am I permanent?', answer: 'Since the 2021 reform, anyone employed for more than 18 months within 24, with or without breaks, in the same job or company through two or more temporary contracts becomes a permanent employee. Ending the relationship then can amount to an unfair dismissal, which pays 33 days a year.' },
+  { question: 'Do I get notice before the contract ends?', answer: `If the contract lasts more than a year, whichever side ends it must give ${P.preavisoObjetivoDias} days’ notice. For shorter contracts there is no statutory notice, unless your collective agreement sets one: the contract simply expires on the agreed date or when its cause ends.` },
+  { question: 'Is the 12-day payment included in my unemployment benefit calculation?', answer: `No. Unemployment benefit is based on the contribution bases of your last 180 days of work, and the end-of-contract payment does not count as salary for that purpose. It does not reduce the benefit either: you can receive both, and the payment is simply added to your income for the year when you file your tax return.` }
+];
+const related = [
+  { label: 'Finiquito calculator', href: '/en/severance-calculator/' },
+  { label: 'Dismissal compensation calculator', href: '/en/dismissal-compensation-calculator/' },
+  { label: 'How severance pay is taxed in Spain', href: '/en/guides/severance-pay-tax/' },
+  { label: 'Unemployment benefit calculator', href: '/en/unemployment-calculator/' },
+  { label: 'Unfair dismissal compensation', href: '/en/guides/unfair-dismissal-compensation/' },
+];
+---
+
+<GuiaLayout title={title} description={description} h1="End of a temporary contract in Spain: the 12-day payment" path="/en/guides/end-of-temporary-contract-pay/" locale="en" crumb="End of temporary contract" faqs={faqs} sources={enFuentes(fuentesDespido)} related={related}>
+  <p class="text-lg">
+    When a fixed-term employment contract in Spain reaches its end, the employer owes a payment equal to the pro rata share of {F.diasPorAnio} days’ salary per year of service (article 49.1.c of the Workers’ Statute). Training contracts and contracts that cover an absent employee are excluded. A six-month contract on €26,000 a year ending on 3 October 2026 earns {num(a.diasIndemnizacion)} days of salary, {eur(a.indemnizacion)}, on top of a final settlement of {eur(a.finiquito)} for holidays and the accrued extra payment. Unlike dismissal compensation, this money is fully taxable. And if the contract was temporary only on paper, or chained with others beyond the legal limits, its end may legally be an unfair dismissal, paying almost three times as much. The calculator below works out the payment for any length of contract.
+  </p>
+  <MiniSimAutonome client:visible kind="fincontrato" lang="en" locale="en-GB" href="/en/severance-calculator/" />
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Which temporary contracts still exist</h2>
+    <p>
+      Spain’s 2021 labour reform (Royal Decree-law 32/2021) abolished the old project-based contract (obra o servicio). Two temporary grounds remain: production circumstances, meaning unforeseeable peaks of up to six months (twelve if a collective agreement allows) or short foreseeable needs of up to ninety days a year, and replacing an absent employee. Training contracts sit alongside them. Only the production-circumstances contract pays the {F.diasPorAnio} days; the others end with the final settlement alone. Seasonal work that repeats every year is now usually done under a permanent-seasonal contract (fijo discontinuo), which is not temporary at all.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">How the payment is worked out</h2>
+    <p>
+      There is no cap. The daily salary is the same as for dismissals: gross annual pay with extra payments, divided by 365, here {eur2(a.salarioDiario)}. Months are counted date to date, with a part month usually counted as whole. A ski-season job from 5 January to 30 April on €20,000 a year pays {eur(ski.indemnizacion)} at the end, plus {eur(ski.finiquito)} in final settlement. If the work comes back every winter, ask whether you should be on a fijo discontinuo contract instead.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Why the tax office takes its share</h2>
+    <p>
+      The income tax exemption in article 7.e of the Personal Income Tax Act covers compensation for dismissal or termination at the amount the Workers’ Statute makes compulsory. In its 2025 practical manual, the Tax Agency names the expiry of temporary contracts as outside that exemption: no dismissal, no exemption. The employer withholds tax as on salary. For contracts longer than two years, the 30% reduction for income generated over more than two years softens the bill: on a {b.mesesServicio}-month contract at €30,000, {eur(b.sujetaTrasReduccion)} of the {eur(b.indemnizacion)} is added to your taxable income.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">When "end of contract" is really a dismissal</h2>
+    <p>
+      A temporary contract without a genuine temporary cause, or one that runs past its legal maximum, is presumed permanent. So is anyone chained on temporary contracts for more than 18 months in 24. Ending such a relationship as if the contract had expired is a dismissal without grounds, and courts declare it unfair. The difference is substantial: the {b.mesesServicio}-month contract above pays {eur(b.indemnizacion)} as an end of contract and {eur(bImp.indemnizacion)} as an unfair dismissal, tax-free if confirmed at conciliation. The deadline to challenge it is twenty working days.
+    </p>
+    <p>
+      Compare both scenarios with your dates in the <a href="/en/dismissal-compensation-calculator/" class="text-brand hover:underline">dismissal compensation calculator</a>, and check holidays and extra payments in the <a href="/en/severance-calculator/" class="text-brand hover:underline">finiquito calculator</a>.
+    </p>
+  </section>
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Your final settlement still applies</h2>
+    <p>
+      The 12-day payment is only one line of what you are owed. The final settlement (finiquito) adds the salary for the days worked in the last month, holidays earned and not taken, and the accrued share of the summer or Christmas extra payment unless it was spread across your payslips. On short contracts those items are often worth more than the end-of-contract payment itself. Ask for the settlement document a few days before the end date, compare it with the calculator and, if anything is missing, sign with the words «no conforme»: you keep one year to claim the difference.
+    </p>
+    <p>
+      Remember to register as a jobseeker and apply for benefit within fifteen working days. Your employer sends the company certificate to the public employment service electronically, but it is worth checking that the reason recorded is the end of the contract and not a resignation, which would block the benefit. You can see the certificate in your file on the employment service website a few days after the contract ends.
+    </p>
+  </section>
+</GuiaLayout>

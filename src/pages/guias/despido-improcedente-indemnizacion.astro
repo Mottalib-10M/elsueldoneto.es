@@ -1,0 +1,85 @@
+---
+import GuiaLayout from '../../layouts/GuiaLayout.astro';
+import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
+import { calcularDespido, PARAMS_DESPIDO as P } from '../../lib/despido-engine';
+import { fuentesDespido, eurES as eur, numES as num } from '../../lib/fuentes';
+
+const FIN = '2026-10-03';
+const e1 = calcularDespido({ inicio: '2015-04-01', fin: FIN, salarioAnual: 26000, tipo: 'improcedente' });
+const e2 = calcularDespido({ inicio: '2004-09-01', fin: FIN, salarioAnual: 35000, tipo: 'improcedente' });
+const e3 = calcularDespido({ inicio: '1992-05-01', fin: FIN, salarioAnual: 42000, tipo: 'improcedente' });
+const e4 = calcularDespido({ inicio: '2014-10-01', fin: FIN, salarioAnual: 52000, tipo: 'improcedente', reconocidaConciliacion: false });
+const I = P.tipos.improcedente, A = P.tipos.improcedentePre2012;
+const lim = eur(P.irpf.limiteExencion);
+const nomina = 26000 / 14, diaMal = nomina / 30, dif = (e1.salarioDiario - diaMal) * e1.diasIndemnizacion;
+const eur2 = (x: number) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(x);
+
+const title = 'Despido improcedente 2026: indemnización de 33 o 45 días';
+const description = 'Despido improcedente en 2026: 33 días por año desde 2012, 45 antes, topes de 720 días y 42 mensualidades. Ejemplos calculados y simulador con tus fechas reales.';
+const faqs = [
+  { question: 'Entré en la empresa en 2009: ¿me pagan 45 días por todos los años?', answer: `No. Los ${A.diasPorAnio} días por año solo se aplican al tiempo trabajado hasta el 11 de febrero de 2012; desde el día siguiente se cuentan ${I.diasPorAnio}. La suma no puede pasar de ${A.topeDias} días de salario, salvo que el tramo anterior a 2012 ya los supere: entonces ese tramo es el tope, con un máximo de ${A.topeMensualidadesAbsoluto} mensualidades (disposición transitoria 11.ª del Estatuto).` },
+  { question: '¿Qué salario se usa para calcular la indemnización?', answer: 'El salario bruto anual que cobrabas en el momento del despido, con las pagas extra y los complementos salariales fijos, dividido entre 365. Las dietas y los gastos de locomoción no entran. Si tu sueldo variaba mucho, los juzgados suelen tomar la media de los últimos doce meses.' },
+  { question: '¿Cómo se cuentan los meses sueltos de antigüedad?', answer: 'El Estatuto ordena prorratear por meses los periodos inferiores al año. En la práctica judicial, un mes empezado se cuenta entero: con 6 años y 2 meses y 10 días se pagan 6 años y 3 meses. El simulador permite desactivar este criterio y prorratear por días.' },
+  { question: 'Mi empresa reconoce la improcedencia en la carta: ¿está exenta de IRPF?', answer: `No del todo. Desde el 8 de julio de 2012, la exención del artículo 7.e de la Ley del IRPF exige que la improcedencia se reconozca en el acto de conciliación ante el servicio de mediación o en sentencia. Por eso casi todos los despidos se cierran con una papeleta de conciliación aunque haya acuerdo. El límite exento es ${lim}.` },
+  { question: '¿La empresa puede readmitirme en lugar de pagar?', answer: 'Sí. Declarado improcedente el despido, la empresa tiene cinco días desde la notificación de la sentencia para elegir entre readmitirte, con los salarios de tramitación, o pagarte la indemnización. Si eres representante de los trabajadores, la elección es tuya. Si la empresa no elige, se entiende que readmite.' },
+  { question: '¿Cuánto tiempo tengo para reclamar un despido improcedente?', answer: 'Veinte días hábiles desde el día siguiente al despido, sin contar sábados, domingos ni festivos. Es un plazo de caducidad: no se interrumpe y, pasado, el despido queda firme. La papeleta de conciliación lo suspende mientras se tramita. Calcula la indemnización antes de firmar nada.' },
+];
+const related = [
+  { label: 'Calculadora de indemnización por despido', href: '/calculadora-indemnizacion-despido/' },
+  { label: 'Despido objetivo y ERE: 20 días y tope de 12 mensualidades', href: '/guias/despido-objetivo-ere/' },
+  { label: 'IRPF de la indemnización por despido', href: '/guias/indemnizacion-despido-irpf/' },
+  { label: 'Calculadora de finiquito', href: '/calculadora-finiquito/' },
+  { label: 'Calculadora del paro', href: '/calculadora-paro/' },
+];
+---
+
+<GuiaLayout title={title} description={description} h1="Despido improcedente: cuánto te corresponde en 2026" path="/guias/despido-improcedente-indemnizacion/" crumb="Despido improcedente" faqs={faqs} sources={fuentesDespido} related={related}>
+  <p class="text-lg">
+    Un despido improcedente se paga a {I.diasPorAnio} días de salario por año trabajado, con un tope de {I.topeMensualidades} mensualidades, si tu contrato empezó el 12 de febrero de 2012 o después. Si empezó antes, el tiempo trabajado hasta el 11 de febrero de 2012 se paga a {A.diasPorAnio} días por año y el posterior a {I.diasPorAnio}, y la suma se corta en {A.topeDias} días de salario, salvo que el primer tramo ya los supere. Con 26.000 € brutos al año y alta en abril de 2015, una persona despedida el 3 de octubre de 2026 cobra {eur(e1.indemnizacion)}: {num(e1.diasIndemnizacion, 2)} días de salario a {eur(e1.salarioDiario)} el día. La improcedencia la declara un juez o la reconoce la empresa, casi siempre en el acto de conciliación, y ese detalle decide si la indemnización tributa o no.
+  </p>
+  <MiniSimAutonome client:visible kind="improcedente" lang="es" locale="es-ES" href="/calculadora-indemnizacion-despido/" />
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">El 12 de febrero de 2012 parte la antigüedad en dos</h2>
+    <p>
+      La reforma laboral de 2012 bajó la indemnización de {A.diasPorAnio} a {I.diasPorAnio} días, pero no de golpe para todos. La disposición transitoria undécima del Estatuto de los Trabajadores protege lo ya generado: quien estaba contratado antes de esa fecha conserva los {A.diasPorAnio} días por cada año anterior, y empieza a acumular a {I.diasPorAnio} desde el día 12. Cada tramo se prorratea por separado, mes a mes.
+    </p>
+    <p>
+      Pongamos a alguien que entró el 1 de septiembre de 2004 con 35.000 € brutos. Hasta el 11 de febrero de 2012 suma {e2.tramoAnterior2012?.meses} meses, que dan {num(e2.tramoAnterior2012?.dias ?? 0, 2)} días. Desde el 12 de febrero de 2012 hasta el 3 de octubre de 2026 suma {e2.tramoPosterior2012?.meses} meses más, {num(e2.tramoPosterior2012?.dias ?? 0, 2)} días. En total serían {num(e2.diasSinTope, 2)} días, pero el tope de {A.topeDias} los recorta: cobra {num(e2.diasIndemnizacion)} días, {eur(e2.indemnizacion)}. Es el caso más frecuente entre quienes llevan más de quince años en la misma empresa, y el que más errores produce en las cartas de despido.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Cuando el tramo anterior a 2012 supera los 720 días</h2>
+    <p>
+      Hay una excepción que favorece a las carreras muy largas. Si los días generados antes de 2012 ya pasan de {A.topeDias}, ese número se convierte en el tope, y los años posteriores no añaden nada. Nunca, en ningún caso, se pagan más de {A.topeMensualidadesAbsoluto} mensualidades.
+    </p>
+    <p>
+      Una trabajadora con alta en mayo de 1992 y 42.000 € al año reunía antes de 2012 {e3.tramoAnterior2012?.meses} meses, es decir, {num(e3.tramoAnterior2012?.dias ?? 0, 2)} días. Con el tramo posterior llegaría a {num(e3.diasSinTope, 2)}, pero el tope es el de su primer tramo: cobra {num(e3.diasIndemnizacion, 2)} días, {eur(e3.indemnizacion)}. Sus casi quince años desde 2012 no le suman un euro. Por eso, en estas carreras, un acuerdo de salida que ofrezca «{I.diasPorAnio} días por año» para toda la antigüedad puede quedar por debajo del mínimo legal.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">El salario diario: anual entre 365, con las pagas</h2>
+    <p>
+      El salario de la indemnización es el bruto anual del momento del despido, con las dos pagas extraordinarias (prorrateadas o no) y los pluses fijos, dividido entre 365. Un error clásico es partir de la nómina mensual de 14 pagas y dividirla entre 30: con 26.000 € al año, la nómina es de {eur(nomina)} y el día parece valer {eur2(diaMal)}, cuando el salario regulador correcto es {eur2(e1.salarioDiario)}. Sobre {num(e1.diasIndemnizacion, 2)} días, la diferencia es de {eur(dif)}. Las horas extra habituales, las comisiones y los bonus que cobrabas de forma regular también cuentan; las dietas y los kilometrajes, no.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Conciliación o carta: la diferencia fiscal</h2>
+    <p>
+      La indemnización legal por despido improcedente está exenta de IRPF hasta {lim}, pero solo si la improcedencia consta en el acto de conciliación ante el servicio administrativo o en una sentencia. Si la empresa la reconoce en la carta y paga sin pasar por conciliación, Hacienda la trata como una indemnización pactada. Con 52.000 € al año y alta en octubre de 2014, eso supone {eur(e4.sujeta)} sujetos a IRPF; la reducción del 30 % por generarse en más de dos años deja {eur(e4.sujetaTrasReduccion)} en la base imponible. El detalle, con el despido colectivo y el objetivo económico, está en la <a href="/guias/indemnizacion-despido-irpf/" class="text-brand hover:underline">guía del IRPF de la indemnización</a>.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Despido disciplinario, objetivo o nulo: cuándo se paga como improcedente</h2>
+    <p>
+      La improcedencia no es un tipo de despido, es una calificación. Un despido disciplinario cuya falta no se prueba, un objetivo sin causa suficiente o con defectos de forma, o un despido sin carta, se declaran improcedentes y se pagan a {I.diasPorAnio} días (con el tramo de {A.diasPorAnio} si procede). Si el despido vulnera derechos fundamentales, o afecta a una embarazada o a quien disfruta de un permiso de nacimiento, es nulo: la readmisión es obligatoria y no hay indemnización por despido, sino salarios de tramitación.
+    </p>
+    <p>
+      En la conciliación conviene tener el cálculo hecho con fechas exactas. El <a href="/calculadora-indemnizacion-despido/" class="text-brand hover:underline">simulador completo</a> muestra los dos tramos, el tope que ha jugado y la parte exenta, y suma el finiquito: los días del mes, las vacaciones pendientes y la paga extra devengada se cobran siempre, con o sin despido.
+    </p>
+  </section>
+</GuiaLayout>

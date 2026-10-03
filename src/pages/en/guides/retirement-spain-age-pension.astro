@@ -3,13 +3,20 @@ import Layout from '../../../components/layout/Layout.astro';
 import { CURRENT_FISCAL_YEAR } from '../../../config';
 import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../../lib/seo';
 import AuthorByline from '../../../components/layout/AuthorByline.astro';
+import { calcularJubilacion, PARAMS_JUBILACION as J } from '../../../lib/jubilacion-engine';
+import { eurEN as eur, eurEN2 as eur2, numEN as num } from '../../../lib/fuentes';
+const N26 = J.baseReguladora.nueva['2026'];
+const CV = J.anticipada.coefVoluntaria as Record<string, number[]>, CI = J.anticipada.coefInvoluntaria as Record<string, number[]>;
+const ex = calcularJubilacion({ anioNacimiento: 1961, mesNacimiento: 4, mesesCotizadosHoy: 462, baseActual: 2800, hoyAnio: 2026, hoyMes: 10 });
+const exLate = calcularJubilacion({ anioNacimiento: 1961, mesNacimiento: 4, mesesCotizadosHoy: 462, baseActual: 2800, edadDeseadaMeses: 804, hoyAnio: 2026, hoyMes: 10 });
+const MM = J.minimasAnuales;
 
 const title = `Retirement in Spain ${CURRENT_FISCAL_YEAR}: Pension Age, Amount & Requirements`;
 const description = 'What age can you retire and how much pension will you get? Retirement age, pension calculation, contribution years, early and partial retirement in Spain.';
 
 const faqs = [
   { question: 'What is the retirement age in Spain?', answer: `In ${CURRENT_FISCAL_YEAR}, the ordinary retirement age is 65 if you have contributed at least 38 years and 3 months, or 66 years and 10 months with fewer contribution years. The age is gradually increasing toward 67 by 2027 for those with less than 38.5 years of contributions.` },
-  { question: 'How is the retirement pension calculated?', answer: 'Your pension is based on the regulatory base, calculated from your contribution bases during the last 25 years (300 months). The highest bases are summed and divided by 350. A percentage is then applied based on your total years of contributions: 50% at 15 years, scaling up to 100% at 36 years and 6 months.' },
+  { question: 'How is the retirement pension calculated?', answer: `Your pension is a percentage of the regulatory base. Since 2026 Social Security computes it two ways and pays the higher: the last 300 monthly bases divided by 350, or the best ${N26[1]} of the last ${N26[0]} divided by ${N26[2]}. The percentage is 50% at 15 years of contributions, rising to 100% at 36 years and 6 months in 2026.` },
   { question: 'Can I retire early in Spain?', answer: 'Yes, voluntary early retirement is possible up to 2 years before the ordinary age if you have at least 35 years of contributions. Involuntary early retirement (due to company restructuring) allows retiring up to 4 years early with at least 33 years of contributions. Reduction coefficients apply in both cases.' },
 ];
 
@@ -41,9 +48,9 @@ import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 
     <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
       <p>
-        Spain's public pension system is one of the most generous in Europe, but understanding its rules requires navigating retirement ages, contribution periods, and regulatory base calculations. Whether you are planning ahead or approaching retirement, this guide covers the key factors that determine how much pension you will receive and when you can start collecting it. Three numbers decide a Spanish pension. The retirement age, which is rising towards 67 and depends on how long you have contributed. The contribution period, with 15 years the minimum to qualify at all and 36 years and 6 months needed for the full percentage in 2026. And the regulatory base, computed from the contribution bases of the final years of a career, currently the last 25, revalued for inflation. Early retirement is possible but applies a permanent reduction for each quarter brought forward.
+        Spain's public pension system is one of the most generous in Europe, but understanding its rules requires navigating retirement ages, contribution periods, and regulatory base calculations. Whether you are planning ahead or approaching retirement, this guide covers the key factors that determine how much pension you will receive and when you can start collecting it. Three numbers decide a Spanish pension. The retirement age, which is rising towards 67 and depends on how long you have contributed. The contribution period, with 15 years the minimum to qualify at all and 36 years and 6 months needed for the full percentage in 2026. And the regulatory base, computed from the contribution bases of the final years of a career, currently the last 25, revalued for inflation. Early retirement is possible but applies a permanent reduction for each month brought forward.
       </p>
-<MiniSimAutonome client:visible kind="ahorro" lang="en" locale="en-GB" href="/en/" />
+<MiniSimAutonome client:visible kind="edad" lang="en" locale="en-GB" href="/en/retirement-calculator/" />
 
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Retirement Age</h2>
@@ -53,12 +60,12 @@ import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Regulatory Base and Pension Amount</h2>
       <p>
-        Your pension amount starts with the <em>base reguladora</em> (regulatory base), which averages your contribution bases over the last 25 years (300 months). The sum of those 300 monthly bases is divided by 350 to produce the monthly regulatory base. A percentage is then applied based on your total contribution years: 15 years grants 50% of the base, and additional months gradually increase the percentage until reaching 100% at 36 years and 6 months. The maximum pension in {CURRENT_FISCAL_YEAR} is approximately €3,175 per month (paid in 14 installments).
+        Your pension amount starts with the <em>base reguladora</em> (regulatory base), an average of your monthly contribution bases. Since January 2026 it is calculated two ways and the higher result applies: the last 300 months divided by 350, or, under the new phased-in rule, the best {N26[1]} bases of the last {N26[0]} months divided by {num(N26[2], 2)}. A percentage is then applied based on your total contribution years: 15 years grant 50% of the base, and each extra month adds a little until 100% at 36 years and 6 months (37 years from 2027). The maximum pension in {CURRENT_FISCAL_YEAR} is {eur2(J.pensionMaximaMensual)} a month, paid in 14 instalments. The <a href="/en/guides/pension-regulatory-base/" class="text-brand hover:underline">regulatory base guide</a> has worked examples.
       </p>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Early and Partial Retirement</h2>
       <p>
-        Voluntary early retirement is available up to two years before your ordinary retirement age if you have at least 35 years of contributions. The pension is reduced by a coefficient for each quarter you retire early, ranging from 1.625% to 2% per quarter depending on your total contributions. Involuntary early retirement (due to company closure or collective layoffs) allows retiring up to four years early with 33 years of contributions and smaller reduction coefficients. Partial retirement is another option, allowing you to reduce your working hours while receiving a proportional pension, typically combined with a relief contract for a younger worker.
+        Voluntary early retirement is available up to two years before your ordinary retirement age if you have at least 35 years of contributions. The pension is reduced by a coefficient for each month or part month you retire early, from {num(CV['1'][3], 2)}% for one month to {num(CV['24'][0], 2)}% for two years, depending also on your career length. Involuntary early retirement (after a collective or objective dismissal, among other causes) allows retiring up to four years early with 33 years of contributions, with a reduction of up to {num(CI['48'][0], 2)}%. Details in the <a href="/en/guides/early-retirement-reduction/" class="text-brand hover:underline">early retirement guide</a>. Partial retirement is another option, allowing you to reduce your working hours while receiving a proportional pension, typically combined with a relief contract for a younger worker.
       </p>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Retirement Age Transition Table (2024-2027)</h2>
@@ -104,63 +111,32 @@ import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Pension Calculation Example</h2>
       <p>
-        Let us work through a practical example. Consider a worker who retires in {CURRENT_FISCAL_YEAR} at age 65 with 37 years of contributions and an average monthly contribution base of €2,800 over the last 25 years:
+        Take a worker born in April 1961 who has contributed for 38 years and 6 months on a steady base of €2,800 a month. That is more than the 38 years and 3 months needed in 2026, so the ordinary age is {Math.floor(ex.edadOrdinariaMeses / 12)} and the pension can start now, in {ex.anioHecho}. The two formulas give regulatory bases of {eur2(ex.baseAntigua ?? 0)} and {eur2(ex.baseNueva)}; the higher one, {eur2(ex.baseReguladora)}, applies. With more than 36 years and 6 months the percentage is {num(ex.porcentaje, 2)}%, so the pension is {eur2(ex.pensionMensual)} a month, or {eur(ex.pensionAnual)} a year in 14 payments, before income tax.
       </p>
-      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Step 1: Calculate the Regulatory Base</h3>
-      <p>
-        Sum the contribution bases for the last 300 months (25 years). The last 24 months are taken at face value, while months 25 through 300 are inflation-adjusted using CPI. Assuming an average base of €2,800/month:
-      </p>
-      <ul>
-        <li>Sum of 300 monthly bases: €2,800 x 300 = €840,000</li>
-        <li>Regulatory base: €840,000 / 350 = €2,400/month</li>
-      </ul>
-      <h3 class="text-lg font-semibold text-charcoal dark:text-gray-100">Step 2: Apply the Contribution Percentage</h3>
-      <p>
-        With 37 years of contributions, the percentage applied to the regulatory base is approximately 97.32%. The scale works as follows: 15 years gives 50%, and each additional month adds a small increment until reaching 100% at 36 years and 6 months or more. Since this worker has 37 years (exceeding the 36.5-year threshold), they receive 100%:
-      </p>
-      <ul>
-        <li>Monthly pension: €2,400 x 100% = €2,400/month</li>
-        <li>Annual pension (14 payments): €2,400 x 14 = €33,600/year</li>
-      </ul>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Maximum and Minimum Pension Amounts</h2>
       <p>
-        The Spanish pension system sets both a floor and a ceiling. The following table shows the approximate monthly amounts for {CURRENT_FISCAL_YEAR} (paid in 14 installments):
+        Royal Decree-law 3/2026 sets the 2026 amounts, paid in 14 instalments:
       </p>
       <div class="overflow-x-auto">
         <table class="min-w-full border-collapse text-sm">
+          <caption class="sr-only">Minimum and maximum retirement pensions in Spain in 2026</caption>
           <thead>
             <tr class="border-b border-gray-300 dark:border-gray-600">
-              <th class="py-2 pr-4 text-left font-semibold">Pension Type</th>
-              <th class="py-2 pr-4 text-right font-semibold">Minimum (with spouse)</th>
-              <th class="py-2 pr-4 text-right font-semibold">Minimum (no spouse)</th>
-              <th class="py-2 text-right font-semibold">Maximum</th>
+              <th scope="col" class="py-2 pr-4 text-left font-semibold">Retirement pension</th>
+              <th scope="col" class="py-2 pr-4 text-right font-semibold">Minimum, dependent spouse</th>
+              <th scope="col" class="py-2 pr-4 text-right font-semibold">Minimum, living alone</th>
+              <th scope="col" class="py-2 text-right font-semibold">Maximum</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Retirement (65+, 15+ years)</td>
-              <td class="py-2 pr-4 text-right">€1,257/month</td>
-              <td class="py-2 pr-4 text-right">€936/month</td>
-              <td class="py-2 text-right">€3,360/month</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Retirement (under 65)</td>
-              <td class="py-2 pr-4 text-right">€1,257/month</td>
-              <td class="py-2 pr-4 text-right">€876/month</td>
-              <td class="py-2 text-right">€3,360/month</td>
-            </tr>
-            <tr class="border-b border-gray-200 dark:border-gray-700">
-              <td class="py-2 pr-4">Widowhood (over 65)</td>
-              <td class="py-2 pr-4 text-right">--</td>
-              <td class="py-2 pr-4 text-right">€936/month</td>
-              <td class="py-2 text-right">€3,360/month</td>
-            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700"><td class="py-2 pr-4">Aged 65 or over</td><td class="py-2 pr-4 text-right">{eur2(MM['65'].conyugeACargo / 14)}</td><td class="py-2 pr-4 text-right">{eur2(MM['65'].unipersonal / 14)}</td><td class="py-2 text-right">{eur2(J.pensionMaximaMensual)}</td></tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700"><td class="py-2 pr-4">Under 65</td><td class="py-2 pr-4 text-right">{eur2(MM.menor65.conyugeACargo / 14)}</td><td class="py-2 pr-4 text-right">{eur2(MM.menor65.unipersonal / 14)}</td><td class="py-2 text-right">{eur2(J.pensionMaximaMensual)}</td></tr>
           </tbody>
         </table>
       </div>
       <p>
-        Minimum pensions are updated annually in line with inflation (CPI). If your calculated pension falls below the minimum, it is topped up to the minimum amount, provided you meet specific income requirements. The maximum pension cap applies regardless of how high your contribution base was, which is an important consideration for high earners.
+        The top-up to the minimum is means-tested and requires residence in Spain; the maximum applies however high your contributions were. See the <a href="/en/guides/minimum-and-maximum-pension/" class="text-brand hover:underline">minimum and maximum pension guide</a>.
       </p>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Survivors' Pensions</h2>
@@ -209,7 +185,7 @@ import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
               <th class="py-2 pr-4 text-left font-semibold">Type</th>
               <th class="py-2 pr-4 text-right font-semibold">Max Years Early</th>
               <th class="py-2 pr-4 text-right font-semibold">Min. Contributions</th>
-              <th class="py-2 text-right font-semibold">Reduction per Quarter</th>
+              <th class="py-2 text-right font-semibold">Reduction (1 month to maximum)</th>
             </tr>
           </thead>
           <tbody>
@@ -217,13 +193,13 @@ import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
               <td class="py-2 pr-4">Voluntary</td>
               <td class="py-2 pr-4 text-right">2 years</td>
               <td class="py-2 pr-4 text-right">35 years</td>
-              <td class="py-2 text-right">1.625% - 2.00%</td>
+              <td class="py-2 text-right">{num(CV['1'][3], 2)}% - {num(CV['24'][0], 2)}%</td>
             </tr>
             <tr class="border-b border-gray-200 dark:border-gray-700">
               <td class="py-2 pr-4">Involuntary (ERE/restructuring)</td>
               <td class="py-2 pr-4 text-right">4 years</td>
               <td class="py-2 pr-4 text-right">33 years</td>
-              <td class="py-2 text-right">1.50% - 1.875%</td>
+              <td class="py-2 text-right">{num(CI['1'][3], 2)}% - {num(CI['48'][0], 2)}%</td>
             </tr>
             <tr class="border-b border-gray-200 dark:border-gray-700">
               <td class="py-2 pr-4">Arduous or hazardous work</td>
@@ -241,13 +217,12 @@ import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
         </table>
       </div>
       <p>
-        The reduction coefficients mean that early retirement permanently lowers your pension. For voluntary early retirement at 2 years before the ordinary age with 35 years of contributions, the reduction is approximately 1.875% per quarter, or 15% total. This can translate to several hundred euros per month less for the rest of your life, so the decision should be carefully modeled.
+        The reduction coefficients mean that early retirement permanently lowers your pension. For voluntary early retirement 24 months before the ordinary age with under 38 years and 6 months of contributions, the reduction is {num(CV['24'][0], 2)}%. This can translate to several hundred euros per month less for the rest of your life, so the decision should be carefully modeled.
       </p>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Delayed Retirement Bonus</h2>
       <p>
-        Workers who continue working beyond the ordinary retirement age can benefit from a delayed retirement supplement. For each complete year worked past your ordinary retirement age, your eventual pension increases by a percentage that depends on your total contribution years: 2% per year with fewer than 25 years of contributions, 2.75% with 25 to 37 years, and 4% with more than 37 years. Alternatively, you can choose to receive a one-time lump sum payment upon eventual retirement instead of the permanent percentage increase. This incentive makes delaying retirement financially attractive, especially for workers who are healthy and enjoy their work. For a worker with 38 years of contributions and a calculated pension of €2,400/month, delaying retirement by two years would add 8% (4% x 2), raising the pension to €2,592/month for life.
-      </p>
+        Workers who keep working beyond their ordinary retirement age earn a bonus of {J.demora.porcentajeAnual}% of the pension for each full year of deferral and, from the second year, {J.demora.porcentajeSemestre}% for each extra half-year (article 210.2 of the General Social Security Act). Instead, you can choose a one-off lump sum, or a combination. For the worker in the example above, retiring at 67, two full years after the ordinary age, would add {num(exLate.porcentajeDemora, 0)}% and raise the pension to {eur2(exLate.pensionMensual)} a month for life, still within the maximum. Active retirement, which lets you work while drawing part of the pension, is only available after deferring at least a year.</p>
     </div>
 
     <section class="mt-10">

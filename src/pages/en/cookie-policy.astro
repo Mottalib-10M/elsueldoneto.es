@@ -14,12 +14,11 @@ const schemas = [
 ];
 const faqPage = [
   { question: 'What cookies does this site use?', answer: 'Analytics cookies set by Microsoft Clarity (_clck, _clsk) and Google Analytics (_ga), which load when a page opens. No advertising or profiling cookies are set, and the calculators themselves store nothing: every computation runs in your browser and is discarded when the tab closes.' },
-  { question: 'Can I refuse analytics cookies?', answer: 'Yes, through your browser settings: block third-party cookies, or the domains clarity.ms and googletagmanager.com. The site shows no consent banner at present. Refusing these cookies does not limit any feature of the site.' },
-  { question: 'Do you share data with third parties?', answer: 'Browsing data (pages viewed, clicks, scrolling, device type) is processed by Microsoft Clarity and Google Analytics. No salary figure and no calculation input is transmitted: input fields are masked before anything is sent.' },
-  { question: 'How long do the cookies last?', answer: 'The Clarity cookie _clck lasts one year and _clsk one day. The Google Analytics cookies _ga and _ga_6FGRX7NXRF last two years.' },
+  { question: 'Can I refuse analytics cookies?', answer: 'Yes, through your browser settings: block third-party cookies, or the domains clarity.ms and googletagmanager.com. The site shows no consent banner at present. Refusing these cookies does not limit any feature of the site: every calculator, guide and shareable link keeps working exactly the same, because none of them depends on analytics.' },
+  { question: 'Do you share data with third parties?', answer: 'Browsing data (pages viewed, clicks, scrolling, device type) is processed by Microsoft Clarity and Google Analytics. No salary figure and no calculation input is transmitted: input fields are masked before anything is sent. Neither provider receives your name or email address, and we do not sell or rent browsing data to anyone.' },
+  { question: 'How long do the cookies last?', answer: 'The Clarity cookie _clck lasts one year and _clsk one day. The Google Analytics cookies _ga and _ga_6FGRX7NXRF last two years. You can delete all of them at any time from your browser settings, and they are recreated only if you visit the site again.' },
 ];
 const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
-import ContextoFiscal from '../../components/ContextoFiscal.astro';
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
@@ -171,5 +170,4 @@ import ContextoFiscal from '../../components/ContextoFiscal.astro';
       ))}
     </div>
   </section>
-  <ContextoFiscal />
 </Layout>

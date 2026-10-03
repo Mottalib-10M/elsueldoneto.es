@@ -1,0 +1,78 @@
+---
+import GuiaLayout from '../../../layouts/GuiaLayout.astro';
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
+import { calcularDespido, reduccionIrregular, PARAMS_DESPIDO as P } from '../../../lib/despido-engine';
+import { fuentesDespido, enFuentes, eurEN as eur, numEN as num } from '../../../lib/fuentes';
+
+const FIN = '2026-10-03';
+const R = P.irpf;
+const a = calcularDespido({ inicio: '2013-11-04', fin: FIN, salarioAnual: 65000, tipo: 'improcedente' });
+const aNo = calcularDespido({ inicio: '2013-11-04', fin: FIN, salarioAnual: 65000, tipo: 'improcedente', reconocidaConciliacion: false });
+const ere = calcularDespido({ inicio: '2004-05-10', fin: FIN, salarioAnual: 110000, tipo: 'ere', ereDias: 45, ereTopeMensualidades: 30 });
+const fc = calcularDespido({ inicio: '2024-01-08', fin: FIN, salarioAnual: 32000, tipo: 'fin-contrato' });
+const red = reduccionIrregular(400000, 850000, 25);
+
+const title = 'Severance Pay Tax Spain 2026: €180,000 Exemption Explained';
+const description = 'How severance pay is taxed in Spain in 2026: exempt up to the statutory amount and €180,000, the conciliation rule, ERE treatment and the 30% reduction.';
+const faqs = [
+  { question: 'Do I have to declare tax-free severance on my Spanish tax return?', answer: 'The exempt part is not added to your income, although your employer reports it to the Tax Agency on form 190 and it appears in your tax data as exempt income. Any taxable excess is declared as employment income, with the tax already withheld and the 30% reduction where it applies.' },
+  { question: 'Why does my lawyer insist on a conciliation hearing if we already agree?', answer: 'Because since 8 July 2012 unfair dismissal compensation is only tax-free if the unfairness is recognised at the official conciliation service or by a court. A settlement written into the dismissal letter, without that step, is treated as agreed compensation and taxed in full.' },
+  { question: 'Can I go back to work for the same group later?', answer: 'Be careful. The exemption requires a genuine break. The Income Tax Regulation presumes there is none if, within three years, you provide services again to the same company or a related one, even as a freelancer or consultant. The Tax Agency can then claim the tax with interest.' },
+  { question: 'How does the 30% reduction work for severance?', answer: `If you served more than two years, the taxable part is reduced by ${num(R.reduccionIrregular * 100)}% before it joins your taxable base (article 18.2 of the Income Tax Act), on up to ${eur(R.limiteReduccion)}. That ceiling shrinks when total compensation exceeds ${eur(R.umbralReduccionDecreciente)} and disappears from ${eur(R.umbralReduccionNula)}.` },
+  { question: 'I am leaving Spain after the dismissal. Which rules apply?', answer: 'It depends on your tax residence in the year of payment. If you are still resident, Spanish income tax applies with the exemption above. If you have become non-resident, the non-resident income tax applies to Spanish-source income: it recognises the same exemptions but taxes the rest at a flat rate without the 30% reduction. Check any tax treaty.' },
+];
+const related = [
+  { label: 'Dismissal compensation calculator', href: '/en/dismissal-compensation-calculator/' },
+  { label: 'Income tax calculator', href: '/en/irpf-calculator/' },
+  { label: 'Objective dismissal and ERE', href: '/en/guides/objective-dismissal-and-ere/' },
+  { label: 'Unfair dismissal: 33 or 45 days', href: '/en/guides/unfair-dismissal-compensation/' },
+  { label: 'End of temporary contract pay', href: '/en/guides/end-of-temporary-contract-pay/' },
+];
+---
+
+<GuiaLayout title={title} description={description} h1="Severance pay and Spanish income tax in 2026" path="/en/guides/severance-pay-tax/" locale="en" crumb="Severance pay tax" faqs={faqs} sources={enFuentes(fuentesDespido)} related={related}>
+  <p class="text-lg">
+    In Spain, dismissal compensation is exempt from income tax (IRPF) up to the amount the Workers’ Statute makes compulsory, with an absolute ceiling of {eur(R.limiteExencion)} (article 7.e of Act 35/2006). Anything paid above that statutory amount is taxed as employment income, reduced by {num(R.reduccionIrregular * 100)}% if you served more than two years. Three details change the result. Unfair dismissal compensation is only exempt when the unfairness is recognised at conciliation or in court. In collective redundancies (ERE) and objective dismissals for economic reasons, the exemption extends to what an unfair dismissal would have paid. And the payment at the end of a temporary contract is not exempt at all. On €65,000 a year with almost thirteen years of service, an unfair dismissal settled at conciliation pays {eur(a.indemnizacion)} tax-free; the same sum paid without conciliation would add {eur(aNo.sujetaTrasReduccion)} to taxable income.
+  </p>
+  <MiniSimAutonome client:visible kind="irpfindem" lang="en" locale="en-GB" href="/en/dismissal-compensation-calculator/" />
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">"Compulsory amount": the phrase that decides your bill</h2>
+    <p>
+      The law does not exempt severance as such; it exempts the amount the employer was legally obliged to pay. For an unfair dismissal that is 33 days a year (45 for pre-2012 service) within the caps; for an objective dismissal, 20 days; for a collective redundancy, also 20 days, but the Income Tax Act itself raises the exempt figure to the unfair-dismissal amount. Extra sums agreed in a collective agreement, an individual deal or a voluntary departure plan are taxable. One exception matters in practice: amounts agreed at the official conciliation hearing are not treated as merely agreed, provided they do not exceed the unfair-dismissal figure.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">A senior employee in a negotiated ERE</h2>
+    <p>
+      A finance director on €110,000 a year who joined in May 2004 leaves under a redundancy plan paying 45 days a year with a 30-month cap. The cap trims {num(ere.diasSinTope, 1)} days to {num(ere.diasIndemnizacion)}, so the payment is {eur(ere.indemnizacion)}. The tax-free part is what an unfair dismissal would have paid, limited to {eur(R.limiteExencion)}: {eur(ere.exenta)}. The remaining {eur(ere.sujeta)} is taxable, reduced to {eur(ere.sujetaTrasReduccion)}. At that income level the extra amount is taxed at the marginal rate of the €60,000 to €300,000 bracket, which is why many executives try to time the payment or negotiate how it is split.
+    </p>
+    <p>
+      For very large packages the reduction itself is limited: it applies to at most {eur(R.limiteReduccion)}, a ceiling that falls euro for euro once total compensation exceeds {eur(R.umbralReduccionDecreciente)}. With an {eur(850000)} package, for example, the maximum reduction on {eur(400000)} of taxable income is {eur(red)}; from {eur(R.umbralReduccionNula)} it is zero. The rule that bars using the reduction twice within five years does not apply to termination payments.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Temporary contracts: taxed in full</h2>
+    <p>
+      The Tax Agency’s 2025 manual places the expiry of temporary contracts outside the exemption, because there is no dismissal. A contract started in January 2024 on €32,000 ends with {eur(fc.indemnizacion)}, all of it taxable; the 30% reduction applies because the contract lasted more than two years, leaving {eur(fc.sujetaTrasReduccion)} in taxable income.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Withholding on your last payslip</h2>
+    <p>
+      Employers do not withhold on the exempt part but do withhold on the taxable excess and on the whole final settlement (salary, holidays, extra payments, pay in lieu of notice). Because that settlement arrives in one go, the withholding rate on the last payslip can look harsh. It is an advance: the actual tax is worked out on your annual return, together with any unemployment benefit, which is also taxable. Our <a href="/en/irpf-calculator/" class="text-brand hover:underline">income tax calculator</a> lets you add the taxable part to your year’s salary.
+    </p>
+    <p>
+      Before signing a departure agreement, ask for it to be formalised at conciliation and for the paperwork to separate the statutory compensation from any improvement. The <a href="/en/dismissal-compensation-calculator/" class="text-brand hover:underline">dismissal compensation calculator</a> shows both parts automatically.
+    </p>
+  </section>
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Planning the timing</h2>
+    <p>
+      Severance is taxed in the year it becomes payable, together with your salary for that year and any unemployment benefit. A dismissal in November concentrates a full year of salary and the taxable part of the compensation in one tax return; the same dismissal in January spreads them over two years. You cannot move the date of a dismissal to save tax, but in a negotiated departure the effective date is part of the deal. Instalment payments are possible, although they change how the 30% reduction is calculated. If you plan to leave Spain, residence matters too: you are tax resident in the year you spend more than 183 days in Spain, or have your main economic interests here.
+    </p>
+  </section>
+</GuiaLayout>

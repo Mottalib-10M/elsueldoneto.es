@@ -1,0 +1,73 @@
+---
+import GuiaLayout from '../../layouts/GuiaLayout.astro';
+import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
+import { calcularDespido, reduccionIrregular, PARAMS_DESPIDO as P } from '../../lib/despido-engine';
+import { fuentesDespido, eurES as eur, numES as num } from '../../lib/fuentes';
+
+const FIN = '2026-10-03';
+const R = P.irpf;
+const a = calcularDespido({ inicio: '2014-10-01', fin: FIN, salarioAnual: 52000, tipo: 'improcedente' });
+const aSin = calcularDespido({ inicio: '2014-10-01', fin: FIN, salarioAnual: 52000, tipo: 'improcedente', reconocidaConciliacion: false });
+const dir = calcularDespido({ inicio: '2002-03-01', fin: FIN, salarioAnual: 90000, tipo: 'ere', ereDias: 45, ereTopeMensualidades: 36 });
+const big = calcularDespido({ inicio: '1998-01-12', fin: FIN, salarioAnual: 160000, tipo: 'improcedente' });
+const red800 = reduccionIrregular(500000, 800000, 20);
+
+const title = 'Indemnización por despido e IRPF 2026: exención de 180.000 €';
+const description = 'Qué parte de la indemnización por despido paga IRPF en 2026: exención hasta la cuantía legal y 180.000 €, conciliación obligatoria, ERE y reducción del 30 %.';
+const faqs = [
+  { question: '¿La indemnización por despido se declara en la renta?', answer: 'La parte exenta no se incluye como rendimiento, aunque la empresa la comunica a Hacienda en el modelo 190 y aparece en tus datos fiscales con la clave de rentas exentas. La parte que supera la exención sí se declara como rendimiento del trabajo, con su retención y, si procede, con la reducción del 30 %.' },
+  { question: '¿Por qué hay que ir a conciliación aunque la empresa reconozca la improcedencia?', answer: 'Porque desde el 8 de julio de 2012 la indemnización por despido improcedente solo está exenta si se reconoce en el acto de conciliación ante el servicio de mediación autonómico o en una resolución judicial. Reconocida en la carta y pagada sin más trámite, Hacienda la considera pactada y tributa entera.' },
+  { question: '¿Qué ocurre si vuelvo a trabajar para la misma empresa?', answer: 'La exención exige la desvinculación real. El Reglamento del IRPF presume que no la hay si en los tres años siguientes vuelves a prestar servicios a la misma empresa o a otra vinculada, aunque sea como autónomo o con un contrato mercantil. En ese caso, Hacienda puede regularizar la indemnización con intereses.' },
+  { question: '¿Cómo funciona la reducción del 30 %?', answer: `Si la antigüedad supera dos años, la parte sujeta de la indemnización se reduce un ${num(R.reduccionIrregular * 100)} % antes de sumarla a la base imponible (artículo 18.2 de la Ley del IRPF), sobre un máximo de ${eur(R.limiteReduccion)}. Ese máximo baja si la indemnización total pasa de ${eur(R.umbralReduccionDecreciente)} y desaparece desde ${eur(R.umbralReduccionNula)}.` },
+  { question: '¿Cotiza la indemnización a la Seguridad Social?', answer: 'No, la indemnización por despido en la cuantía legal no cotiza. Sí cotizan, y tributan, los conceptos del finiquito: salario del mes, vacaciones no disfrutadas, pagas extra y preaviso no concedido. Por eso la nómina de la baja suele mostrar una retención alta: se aplica sobre todo lo que no es indemnización.' },
+  { question: 'Soy no residente en España: ¿se aplica la misma exención?', answer: 'Los no residentes tributan por el Impuesto sobre la Renta de no Residentes, que remite a las mismas exenciones del IRPF para las rentas obtenidas en España, pero con un tipo fijo y sin la reducción del 30 % en los términos del IRPF. Este simulador solo calcula el caso del residente fiscal.' },
+];
+const related = [
+  { label: 'Calculadora de indemnización por despido', href: '/calculadora-indemnizacion-despido/' },
+  { label: 'Calculadora de IRPF', href: '/calculadora-irpf/' },
+  { label: 'Despido objetivo y ERE', href: '/guias/despido-objetivo-ere/' },
+  { label: 'Despido improcedente: 33 o 45 días', href: '/guias/despido-improcedente-indemnizacion/' },
+  { label: 'Fin de contrato temporal', href: '/guias/indemnizacion-fin-contrato-temporal/' },
+];
+---
+
+<GuiaLayout title={title} description={description} h1="Indemnización por despido e IRPF: qué parte tributa en 2026" path="/guias/indemnizacion-despido-irpf/" crumb="IRPF de la indemnización" faqs={faqs} sources={fuentesDespido} related={related}>
+  <p class="text-lg">
+    La indemnización por despido está exenta de IRPF en la cuantía que el Estatuto de los Trabajadores hace obligatoria, con un máximo de {eur(R.limiteExencion)} (artículo 7.e de la Ley 35/2006). Lo que se pacte por encima de esa cuantía tributa como rendimiento del trabajo, con una reducción del {num(R.reduccionIrregular * 100)} % si la antigüedad supera dos años. Hay tres reglas que cambian el resultado: el despido improcedente solo está exento si se reconoce en conciliación o en sentencia; en los ERE y en los despidos objetivos por causas económicas, técnicas, organizativas o de producción, la exención llega hasta lo que habría correspondido por improcedente; y la indemnización por fin de contrato temporal no está exenta. Con 52.000 € al año y doce años de antigüedad, un despido improcedente reconocido en conciliación deja {eur(a.indemnizacion)} libres de impuestos; sin conciliación, tributarían {eur(aSin.sujetaTrasReduccion)}.
+  </p>
+  <MiniSimAutonome client:visible kind="irpfindem" lang="es" locale="es-ES" href="/calculadora-indemnizacion-despido/" />
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Cuantía obligatoria: el concepto que lo decide todo</h2>
+    <p>
+      La ley no exime «la indemnización», sino la cantidad que el Estatuto obliga a pagar en cada caso. En un despido improcedente es la de 33 días por año (o 45 por el tiempo anterior a 2012) con sus topes; en un objetivo, la de 20 días; en un despido colectivo, la de 20 días también, pero la propia Ley del IRPF amplía allí la exención hasta el importe del improcedente. Lo que una empresa pague por convenio, pacto individual o plan de bajas incentivadas por encima de esas cifras tributa. La excepción: lo acordado en el acto de conciliación ante el servicio administrativo no se considera pactado, siempre que no supere la cuantía del improcedente.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">El ERE pactado de un directivo: exento, sujeto y reducido</h2>
+    <p>
+      Un directivo con 90.000 € al año y alta en marzo de 2002 sale en un ERE pactado a 45 días por año con tope de 36 mensualidades. Cobra {eur(dir.indemnizacion)}, porque el tope pactado recorta sus {num(dir.diasSinTope, 1)} días a {num(dir.diasIndemnizacion)}. Lo exento es lo que le habría correspondido por despido improcedente: {eur(dir.exenta)}, por debajo del límite de {eur(R.limiteExencion)}. Quedan sujetos {eur(dir.sujeta)}; con más de dos años de antigüedad se reducen un {num(R.reduccionIrregular * 100)} % y suman {eur(dir.sujetaTrasReduccion)} a su base imponible del año. En una base que ya supera los 60.000 €, esa cantidad se grava a su tipo marginal, el del tramo de 60.000 a 300.000 € de la escala.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">El techo de 180.000 €</h2>
+    <p>
+      El límite absoluto de la exención solo afecta a indemnizaciones legales muy altas. Una ejecutiva con 160.000 € al año y alta en enero de 1998 tiene derecho por despido improcedente a {num(big.diasIndemnizacion, 1)} días, {eur(big.indemnizacion)}. Aunque toda esa cantidad es obligatoria según el Estatuto, solo {eur(big.exenta)} quedan exentos; los {eur(big.sujeta)} restantes tributan, reducidos a {eur(big.sujetaTrasReduccion)} gracias al {num(R.reduccionIrregular * 100)} %.
+    </p>
+    <p>
+      La reducción también tiene límites. Se aplica sobre {eur(R.limiteReduccion)} de rendimiento como máximo; si la indemnización total está entre {eur(R.umbralReduccionDecreciente)} y {eur(R.umbralReduccionNula)}, ese máximo baja euro a euro (con 800.000 €, la reducción máxima sobre 500.000 € sujetos sería de {eur(red800)}), y por encima de {eur(R.umbralReduccionNula)} desaparece. La regla general que impide aplicar la reducción dos veces en cinco años no juega aquí: el artículo 18.2 excluye expresamente de ella los rendimientos derivados de la extinción de la relación laboral, cuyo periodo de generación son los años de servicio.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">La retención en la nómina de la baja</h2>
+    <p>
+      La empresa no retiene sobre la parte exenta, pero sí sobre la sujeta y sobre todo el finiquito. Como el finiquito llega de una vez, la retención de ese mes puede parecer desproporcionada: es un adelanto, y la cuota real se calcula en la declaración de la renta del año siguiente con todos tus ingresos, incluido el paro, que también tributa. Puedes estimar el impuesto final con la <a href="/calculadora-irpf/" class="text-brand hover:underline">calculadora de IRPF</a> sumando la parte sujeta tras la reducción a tu salario del año.
+    </p>
+    <p>
+      Antes de firmar un acuerdo de salida, pide que se formalice en conciliación y que la carta o el acta distingan la indemnización legal de la mejora pactada. La <a href="/calculadora-indemnizacion-despido/" class="text-brand hover:underline">calculadora de indemnización por despido</a> separa automáticamente las dos partes.
+    </p>
+  </section>
+</GuiaLayout>

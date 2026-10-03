@@ -1,0 +1,89 @@
+---
+import GuiaLayout from '../../../layouts/GuiaLayout.astro';
+import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
+import { baseReguladora, PARAMS_JUBILACION as J, BASES_2026 } from '../../../lib/jubilacion-engine';
+import { fuentesJubilacion, enFuentes, eurEN2 as eur2, numEN as num } from '../../../lib/fuentes';
+
+const B = J.baseReguladora;
+const N = B.nueva as Record<string, number[]>;
+const anios = ['2026', '2027', '2029', '2031', '2034', '2036'];
+const flat = baseReguladora(Array(360).fill(3100), 2026);
+const s1 = Array(360).fill(3100); for (let i = 0; i < 2; i++) s1[i] = BASES_2026.minima;
+const twoBad = baseReguladora(s1, 2026);
+const s2: (number | null)[] = Array.from({ length: 360 }, (_, i) => (i < 120 ? 3100 : null));
+const lateStart = baseReguladora(s2, 2026);
+const s3 = Array.from({ length: 360 }, (_, i) => 3600 / Math.pow(1.025, i / 12));
+const rising = baseReguladora(s3, 2026);
+const L = B.lagunas;
+
+const title = 'Pension Regulatory Base Spain 2026: the Two Formulas';
+const description = 'How the regulatory base of a Spanish state pension is worked out in 2026: 300 months ÷ 350 or the best 302 of 304 ÷ 352.33, gaps, and which formula you get.';
+const faqs = [
+  { question: 'What is the base reguladora?', answer: 'It is the average of your monthly social security contribution bases over a reference period, expressed per pension payment. Your pension is a percentage of it, set by your years of contributions, minus any early-retirement reduction or plus any deferral bonus, within the legal minimum and maximum.' },
+  { question: 'Why divide by 350 rather than 300?', answer: 'Because contributions are monthly but the pension is paid fourteen times a year. Three hundred months of bases spread over fourteen payments a year, instead of twelve, gives 300 × 14 ÷ 12 = 350. The same logic produces every divisor in the transition table.' },
+  { question: 'Do I have to choose between the old and new formula?', answer: 'No. For pensions starting between 2026 and 2040, Social Security calculates both automatically and applies the higher one, under transitional provision 4.7 of the General Social Security Act. From 2041 to 2043 the comparison continues with a slightly longer old-style period.' },
+  { question: 'How are my years abroad treated in the base?', answer: 'Months worked in another EU country or a country with a social security agreement are not filled with Spanish minimum bases for the Spanish calculation in the usual way: Spain computes a theoretical pension and pays its pro rata share. The exact treatment depends on the agreement, so request a pension forecast from Social Security if your career is split.' },
+  { question: 'Are recent pay rises counted in full?', answer: 'Not always. Increases in the last two years that exceed the average rise in your collective agreement are ignored, unless they come from seniority, a regulated promotion or a general pay item in the agreement. The rule stops last-minute rises being used to inflate pensions.' },
+  { question: 'Does part-time work lower my regulatory base?', answer: `Part-time work lowers the bases themselves, because you contribute on a lower salary, and those lower bases enter the average. Since 2023, however, each day of part-time work counts as a full day for the number of years contributed, so the percentage is no longer penalised. Gaps between part-time contracts are filled like any other gap.` }
+];
+const related = [
+  { label: 'State pension calculator', href: '/en/retirement-calculator/' },
+  { label: 'Minimum and maximum pension in 2026', href: '/en/guides/minimum-and-maximum-pension/' },
+  { label: 'Early retirement reductions', href: '/en/guides/early-retirement-reduction/' },
+  { label: 'Retirement in Spain: age and pension', href: '/en/guides/retirement-spain-age-pension/' },
+  { label: 'Net salary calculator', href: '/en/' },
+];
+---
+
+<GuiaLayout title={title} description={description} h1="The regulatory base of your Spanish pension, from 2026" path="/en/guides/pension-regulatory-base/" locale="en" crumb="Regulatory base" faqs={faqs} sources={enFuentes(fuentesJubilacion)} related={related}>
+  <p class="text-lg">
+    From January 2026, Spanish Social Security works out the regulatory base (base reguladora) of a retirement pension in two ways and pays whichever is higher. The 2023 formula adds your contribution bases for the last {B.antigua.meses} months and divides by {B.antigua.divisor}. The new formula, in its 2026 version, looks at the last {N['2026'][0]} months, keeps the {N['2026'][1]} highest bases and divides by {num(N['2026'][2], 2)}. Each year the new window grows by four months until 2037, when it reaches {B.nuevaDefinitiva[0]} months with the best {B.nuevaDefinitiva[1]} kept and a divisor of {B.nuevaDefinitiva[2]}. On a flat base of €3,100 a month both formulas land within a few cents ({eur2(flat.baseAntigua ?? 0)} and {eur2(flat.baseNueva)}). Differences appear with gaps, poor final years or a salary that grew over time. Compare both for your case below, with a gap before retirement if you expect one.
+  </p>
+  <MiniSimAutonome client:visible kind="basereg" lang="en" locale="en-GB" href="/en/retirement-calculator/" />
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">The phase-in calendar</h2>
+    <p>
+      Transitional provision 40 of the General Social Security Act, added by Royal Decree-law 2/2023, sets the pace. You will often read that the new rule uses "29 years minus the worst two". That is the end point, reached in 2037; in 2026 only two months are dropped.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="my-4 w-full border-collapse text-sm">
+        <caption class="sr-only">Reference period of the new formula by year of retirement</caption>
+        <thead><tr class="border-b-2 border-gray-300 dark:border-gray-600"><th scope="col" class="px-3 py-2 text-left">Retiring in</th><th scope="col" class="px-3 py-2 text-right">Months looked at</th><th scope="col" class="px-3 py-2 text-right">Bases kept</th><th scope="col" class="px-3 py-2 text-right">Divisor</th></tr></thead>
+        <tbody class="tabular-nums">
+          {anios.map((a) => <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">{a}</td><td class="px-3 py-1 text-right">{N[a][0]}</td><td class="px-3 py-1 text-right">{N[a][1]}</td><td class="px-3 py-1 text-right">{num(N[a][2], 2)}</td></tr>)}
+          <tr><td class="px-3 py-1">2037 onwards</td><td class="px-3 py-1 text-right">{B.nuevaDefinitiva[0]}</td><td class="px-3 py-1 text-right">{B.nuevaDefinitiva[1]}</td><td class="px-3 py-1 text-right">{B.nuevaDefinitiva[2]}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Who gains from which formula</h2>
+    <p>
+      <strong>A couple of weak months at the end.</strong> If your last two months were paid at the minimum base ({eur2(BASES_2026.minima)} in 2026), the new formula simply drops them: {eur2(twoBad.baseNueva)} against {eur2(twoBad.baseAntigua ?? 0)}. By 2037 it will be able to drop two whole years.
+    </p>
+    <p>
+      <strong>A salary that kept rising.</strong> If your base grew 2.5% a year in real terms to €3,600, your best years are the latest ones. The 2023 formula, which looks back only 25 years, gives {eur2(rising.baseAntigua ?? 0)}; the new one, reaching further back, gives {eur2(rising.baseNueva)}. Social Security applies {rising.metodo === 'antigua' ? 'the 2023 one' : 'the new one'}, which is why the comparison was written into law.
+    </p>
+    <p>
+      <strong>A late start in Spain.</strong> Someone who has only contributed in Spain for the last ten years, at €3,100, has the rest of the window filled as a gap: the first {L.mesesBaseMinimaCompleta} empty months at the minimum base and the rest at {num(L.fraccionResto * 100)}%. The result is a regulatory base of {eur2(lateStart.baseReguladora)} for the Spanish calculation. For people who worked in other EU countries the international rules change this, as the FAQ explains.
+    </p>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Inflation, the maximum base and gap filling</h2>
+    <p>
+      Bases from the last 24 months count at face value; older ones are uprated by the consumer price index, so a base from twenty years ago is worth today’s money. That is why our calculator works in 2026 euros. No base can exceed the maximum base of its year, {eur2(BASES_2026.maxima)} a month in 2026: higher earners contribute on that ceiling and their pension reflects it. For women, and for fathers who meet the conditions of the gender-gap supplement, gap months 49 to 60 are filled at 100% of the minimum base and months 61 to 84 at 80% (transitional provision 41), a rule that only applies to the new formula.
+    </p>
+    <p>
+      Once you have the base, the pension is a percentage of it depending on your contribution years, adjusted for early or late retirement and kept within the legal minimum and maximum. The <a href="/en/retirement-calculator/" class="text-brand hover:underline">state pension calculator</a> does all of it; the limits are covered in the <a href="/en/guides/minimum-and-maximum-pension/" class="text-brand hover:underline">minimum and maximum pension guide</a>.
+    </p>
+  </section>
+  <section>
+    <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Where to find your own bases</h2>
+    <p>
+      Your monthly contribution base appears on every payslip as the base for common contingencies (base de contingencias comunes), and it includes the monthly share of your extra payments. The full history is in the contribution-base report (informe de bases de cotización) on the Tu Seguridad Social portal, accessible with a digital certificate, Cl@ve or an electronic ID. That report, together with the employment record (informe de vida laboral), is what you need to check the gaps the law will fill and to see which formula is likely to favour you. Self-employed periods count with the bases you chose or, since 2023, with the base linked to your declared earnings.
+    </p>
+  </section>
+</GuiaLayout>

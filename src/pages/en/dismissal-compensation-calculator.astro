@@ -1,0 +1,68 @@
+---
+import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
+import IndemnizacionDespido from '../../components/calculadoras/IndemnizacionDespido';
+import { calcularDespido, PARAMS_DESPIDO as P } from '../../lib/despido-engine';
+import { fuentesDespido, enFuentes, eurEN as eur, eurEN2 as eur2, numEN as num } from '../../lib/fuentes';
+
+const hoy = new Date().toISOString().slice(0, 10);
+const FIN = '2026-10-03';
+const base = { inicio: '2018-09-17', fin: FIN, salarioAnual: 48000 } as const;
+const imp = calcularDespido({ ...base, tipo: 'improcedente' });
+const obj = calcularDespido({ ...base, tipo: 'objetivo' });
+const noConc = calcularDespido({ ...base, tipo: 'improcedente', reconocidaConciliacion: false });
+const old = calcularDespido({ inicio: '2006-02-20', fin: FIN, salarioAnual: 48000, tipo: 'improcedente' });
+const ere = calcularDespido({ ...base, tipo: 'ere', ereDias: 40, ereTopeMensualidades: 24 });
+const T = P.tipos;
+
+const title = 'Dismissal Compensation Spain 2026: Indemnización Calculator';
+const description = 'Calculate dismissal compensation in Spain for 2026: unfair, objective, ERE or end of contract, 45 and 33-day periods, legal caps and the part that is tax-free.';
+const faqs = [
+  { question: 'How much compensation do I get if I am dismissed in Spain?', answer: `It depends on the type of dismissal: ${T.improcedente.diasPorAnio} days of salary per year of service if it is unfair (capped at ${T.improcedente.topeMensualidades} months’ pay), ${T.objetivo.diasPorAnio} days for an objective dismissal or a collective redundancy (capped at ${T.objetivo.topeMensualidades}), and ${T.finContrato.diasPorAnio} days when a temporary contract ends. Resigning gives no compensation.` },
+  { question: 'What salary is used, gross or net?', answer: 'Gross. Take your gross annual pay at the date of dismissal, including both extra payments and fixed allowances, and divide by 365 to get the daily salary. Expenses and mileage are excluded. A monthly payslip divided by 30 understates the figure, because it leaves out the extra payments.' },
+  { question: 'I signed my contract before 2012. Does that change anything?', answer: `Yes, in your favour. Service up to 11 February 2012 is paid at ${T.improcedentePre2012.diasPorAnio} days a year and the rest at ${T.improcedente.diasPorAnio}. The total is capped at ${T.improcedentePre2012.topeDias} days, unless the pre-2012 period alone already exceeds that, and never more than ${T.improcedentePre2012.topeMensualidadesAbsoluto} months’ pay. The calculator splits the periods from your dates.` },
+  { question: 'Is the compensation taxed in Spain?', answer: `Statutory dismissal compensation is exempt from Spanish income tax up to ${eur(P.irpf.limiteExencion)}. For an unfair dismissal the exemption needs the unfairness to be recorded at the official conciliation or in a court ruling. Amounts above the statutory figure are taxable, with a 30% reduction after more than two years of service.` },
+  { question: 'Can I get unemployment benefit as well?', answer: 'Yes. Compensation and unemployment benefit (paro) are compatible, and one does not reduce the other. Register with the public employment service and apply within fifteen working days of the dismissal. The benefit depends on your contribution bases over the last 180 days, not on the compensation.' },
+  { question: 'Does it matter that I am not a Spanish national?', answer: 'No. The Workers’ Statute applies to anyone employed under a Spanish employment contract, whatever their nationality. What matters for income tax is whether you are tax resident in Spain in the year you are paid; non-residents follow different rules, which this calculator does not model.' },
+];
+---
+
+<CalculadoraLayout title={title} description={description} h1="Dismissal compensation calculator for Spain (2026)" calculatorName="Dismissal compensation calculator" path="/en/dismissal-compensation-calculator/" faqs={faqs} locale="en" sources={enFuentes(fuentesDespido)}>
+  <p class="mb-6 text-lg text-dark-gray dark:text-gray-300">
+    Spanish dismissal compensation, the indemnización por despido, is your daily salary (gross annual pay divided by 365) multiplied by a number of days set by law for each type of termination: {T.improcedente.diasPorAnio} days per year of service for an unfair dismissal, {T.objetivo.diasPorAnio} for an objective dismissal or a collective redundancy (ERE) and {T.finContrato.diasPorAnio} when a temporary contract ends. Part years are prorated by month and each type has its own cap. An employee on €48,000 a year who started on 17 September 2018 and is let go on 3 October 2026 receives {eur(imp.indemnizacion)} if the dismissal is unfair and {eur(obj.indemnizacion)} if it is objective. Contracts signed before 12 February 2012 earn {T.improcedentePre2012.diasPorAnio} days a year for the earlier period. The calculator uses your exact dates and shows which rule set the amount and how much of it is free of income tax.
+  </p>
+  <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800" data-chrome>
+    <IndemnizacionDespido client:idle hoy={hoy} lang="en" enfoque="indemnizacion" tipoInicial="improcedente" inicioInicial="2018-09-17" salarioInicial={48000} />
+  </div>
+
+  <section class="mt-8">
+    <div class="prose max-w-none text-dark-gray dark:text-gray-300 leading-relaxed">
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Unfair, objective, collective: the label decides the cheque</h2>
+      <p>
+        In Spain an employer can dismiss for disciplinary reasons (despido disciplinario), for objective reasons such as economic difficulties or a worker’s incapacity (despido objetivo, article 52 of the Workers’ Statute), or as part of a collective redundancy (despido colectivo, known as an ERE). If the employer cannot prove its reasons, or skips a formal step, a court declares the dismissal unfair (improcedente) and the employer must either take you back or pay {T.improcedente.diasPorAnio} days a year. Most employers choose to pay, and many settle at the compulsory conciliation hearing.
+      </p>
+      <p>
+        With the figures above, {Math.floor(imp.mesesServicio / 12)} years and {imp.mesesServicio % 12} months of service at {eur2(imp.salarioDiario)} a day, an objective dismissal pays {num(obj.diasIndemnizacion, 2)} days and an unfair one {num(imp.diasIndemnizacion, 2)} days. The gap, {eur(imp.indemnizacion - obj.indemnizacion)}, is what is usually negotiated when a worker challenges an objective dismissal.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Long service and the 2012 reform</h2>
+      <p>
+        The 2012 labour reform cut unfair dismissal compensation from {T.improcedentePre2012.diasPorAnio} to {T.improcedente.diasPorAnio} days, but only for service after 11 February 2012. Someone on the same salary who joined on 20 February 2006 has {old.tramoAnterior2012?.meses} months before the reform ({num(old.tramoAnterior2012?.dias ?? 0, 2)} days) and {old.tramoPosterior2012?.meses} months after it ({num(old.tramoPosterior2012?.dias ?? 0, 2)} days). The {T.improcedentePre2012.topeDias}-day cap then applies: {num(old.diasIndemnizacion, 2)} days, {eur(old.indemnizacion)}. Read the <a href="/en/guides/unfair-dismissal-compensation/" class="text-brand hover:underline">unfair dismissal guide</a> for the case where the pre-2012 days alone exceed the cap.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">What the Spanish taxman takes</h2>
+      <p>
+        Article 7.e of the Personal Income Tax Act exempts compensation up to the amount the Workers’ Statute makes compulsory, with an overall ceiling of {eur(P.irpf.limiteExencion)}. The catch for unfair dismissals is procedural: the exemption only applies when the unfairness is recorded at the conciliation service or in a judgment. If the employer simply admits it in the dismissal letter and pays, the whole {eur(noConc.indemnizacion)} becomes taxable, softened by a {num(P.irpf.reduccionIrregular * 100)}% reduction to {eur(noConc.sujetaTrasReduccion)} because the service exceeds two years. In a collective redundancy agreed at 40 days a year with a 24-month cap, the payment stays exempt up to the unfair-dismissal amount: {eur(ere.exenta)} of {eur(ere.indemnizacion)}. More in the <a href="/en/guides/severance-pay-tax/" class="text-brand hover:underline">severance tax guide</a>.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Terms you will see in the dismissal letter</h2>
+      <p>
+        <strong>Carta de despido</strong>: the written notice, which must state the reason and the effective date. <strong>Puesta a disposición</strong>: in an objective dismissal, the compensation must be made available when the letter is handed over. <strong>Papeleta de conciliación</strong>: the request for the mandatory conciliation hearing, filed within twenty working days if you want to challenge the dismissal. <strong>Salarios de tramitación</strong>: back pay owed only if you are reinstated or the dismissal is declared void (nulo). <strong>Finiquito</strong>: the final settlement of salary, holidays and extra payments, always due; see the <a href="/en/severance-calculator/" class="text-brand hover:underline">finiquito calculator</a>.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Limits of this calculator</h2>
+      <p>
+        It does not decide whether your dismissal is fair, unfair or void; a court does. It does not cover senior management contracts, domestic employees or professional athletes, which have their own rules, and it does not model non-resident taxation. Agreed improvements in a redundancy plan can be entered as days per year and a cap in the advanced options. The rules for <a href="/en/guides/objective-dismissal-and-ere/" class="text-brand hover:underline">objective dismissals and ERE</a> and for <a href="/en/guides/end-of-temporary-contract-pay/" class="text-brand hover:underline">temporary contracts</a> have their own guides.
+      </p>
+    </div>
+  </section>
+</CalculadoraLayout>
