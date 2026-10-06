@@ -3,8 +3,8 @@ import Layout from '../../components/layout/Layout.astro';
 import { SITE_NAME, SITE_URL } from '../../config';
 import { buildBreadcrumbSchema } from '../../lib/seo';
 
-const title = 'Cookie Policy - Types, Purpose and How to Manage Them';
-const description = 'What cookies we use, their purpose and duration. Step-by-step instructions to manage and disable cookies in your browser to control your privacy settings.';
+const title = 'Cookie Policy: no cookies on this Spanish salary site';
+const description = 'Cookie policy: our Spanish net salary calculators set no cookies and store nothing. Only an anonymous stability check with cookieless Microsoft Clarity.';
 
 const schemas = [
   buildBreadcrumbSchema([
@@ -13,10 +13,10 @@ const schemas = [
   ]),
 ];
 const faqPage = [
-  { question: 'What cookies does this site use?', answer: 'Analytics cookies set by Microsoft Clarity (_clck, _clsk) and Google Analytics (_ga), which load when a page opens. No advertising or profiling cookies are set, and the calculators themselves store nothing: every computation runs in your browser and is discarded when the tab closes.' },
-  { question: 'Can I refuse analytics cookies?', answer: 'Yes, through your browser settings: block third-party cookies, or the domains clarity.ms and googletagmanager.com. The site shows no consent banner at present. Refusing these cookies does not limit any feature of the site: every calculator, guide and shareable link keeps working exactly the same, because none of them depends on analytics.' },
-  { question: 'Do you share data with third parties?', answer: 'Browsing data (pages viewed, clicks, scrolling, device type) is processed by Microsoft Clarity and Google Analytics. No salary figure and no calculation input is transmitted: input fields are masked before anything is sent. Neither provider receives your name or email address, and we do not sell or rent browsing data to anyone.' },
-  { question: 'How long do the cookies last?', answer: 'The Clarity cookie _clck lasts one year and _clsk one day. The Google Analytics cookies _ga and _ga_6FGRX7NXRF last two years. You can delete all of them at any time from your browser settings, and they are recreated only if you visit the site again.' },
+  { question: 'What cookies does this site use?', answer: 'None. Neither we nor any third party set cookies when you use the Spanish salary, IRPF or severance calculators, and nothing is written to localStorage or sessionStorage. The gross salary, region and family details you type in stay in the open tab and are gone when you close it.' },
+  { question: 'Why is there no cookie banner?', answer: 'Because there is nothing to accept or refuse: no cookie is placed. The calculators, guides and shareable links all work the same for every visitor.' },
+  { question: 'What does Microsoft Clarity do here?', answer: 'It is loaded in cookieless mode to spot technical problems: JavaScript errors, slow pages, clicks that do nothing, scrolling issues on mobile. Each page view gets its own identifier, visits are not linked together, and page content and form inputs are masked before anything is sent.' },
+  { question: 'How can I opt out of the stability measurement?', answer: 'Block the domain clarity.ms in your browser or with a content blocker, or write to contact@elsueldoneto.es. Every calculator keeps working without it.' },
 ];
 const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqPage.map((f) => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })) };
 ---
@@ -30,131 +30,68 @@ const faqPageSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', ma
     <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">Cookie Policy</h1>
 
     <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
-      <p><em>Last updated: June {new Date().getFullYear()}</em> This page explains which cookies this site sets, why, and how to refuse them. Technical cookies needed to display pages and remember your language require no consent. Audience measurement cookies tell us which pages are useful and which need rewriting; they are configured so that they cannot follow a visitor from one site to another, and advertising features are disabled. You can delete all of them from your browser settings at any time, and the site works normally in a browser that blocks them. No cookie on this site records the salary figures you enter into a calculator. Audience data is kept for no more than fourteen months, after which the measurement tools delete it themselves, and it is never sold or shared for advertising.</p>
+      <p><em>Last updated: October {new Date().getFullYear()}</em></p>
 
       <p>
-        At <strong>{SITE_NAME}</strong> ({SITE_URL}), we value your privacy. This cookie policy explains
-        what cookies and storage technologies we use and which we do not, in compliance with the GDPR
-        (Regulation EU 2016/679), the Spanish LOPDGDD (Organic Law 3/2018), and Article 22.2 of the LSSI-CE.
+        <strong>{SITE_NAME}</strong> ({SITE_URL}) sets no cookies at all. This page explains how the site
+        works without them, in line with the GDPR (Regulation EU 2016/679), the Spanish LOPDGDD (Organic
+        Law 3/2018) and Article 22.2 of the LSSI-CE.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">1. What Are Cookies?</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">1. What a cookie is</h2>
       <p>
-        Cookies are small text files that websites store on your computer or mobile device when you visit
-        them. They are widely used to make websites function correctly, improve user experience, and provide
-        information to website owners. Cookies can be classified into several categories: strictly necessary
-        cookies, functional cookies, analytics cookies, and marketing cookies.
-      </p>
-      <p>
-        European legislation, particularly the ePrivacy Directive and the GDPR, requires websites to inform
-        users about cookie usage and, in many cases, obtain consent before placing cookies. Strictly
-        necessary cookies are exempt from this requirement and may be placed without consent.
+        A cookie is a small file a website saves on your computer or phone so that it can recognise you on a
+        later visit. Spanish law requires sites to say whether they use them and, unless they are strictly
+        technical, to ask before setting them.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">2. Does This Website Use Cookies?</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">2. No cookies, nothing stored on your device</h2>
       <p>
-        <strong>Yes.</strong> This website sets third-party analytics cookies through Microsoft Clarity and
-        Google Analytics 4. Both tools load when a page opens, with no prior cookie banner. No advertising
-        cookies are placed.
+        No cookie is placed on this site, whether technical, preference, analytics or advertising, and no
+        data is kept in your browser's local storage. The net salary, IRPF, extra-pay, unemployment and
+        mortgage calculators run inside your browser: what you type is never sent to a server and disappears
+        when you leave the page. That is why the site has no cookie banner: there is nothing to accept.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">3. Analytics Tools</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">3. Anonymous stability check with cookieless Microsoft Clarity</h2>
       <p>
-        <strong>Microsoft Clarity</strong> (Microsoft Corporation) records how pages are used: clicks,
-        scrolling, pages viewed and their address, as sessions and heatmaps. The content of input fields is
-        masked in your browser before anything is sent. Clarity sets the cookies <code>_clck</code> (one
-        year) and <code>_clsk</code> (one day); Microsoft may also set <code>MUID</code> and
-        <code>CLID</code> on its own domains. More information:
+        To find technical faults (script errors, slow loading, dead clicks, scrolling problems) we use
+        <strong>Microsoft Clarity</strong> without cookies. Before its script loads, the page tells Clarity
+        that storage is denied, so it sets none of <code>_clck</code>, <code>_clsk</code>, <code>MUID</code>
+        or <code>CLID</code>; each page view receives a new identifier and visits are never linked. Page text
+        and anything typed into a form are masked in your browser before anything leaves it.
+      </p>
+      <ul>
+        <li><strong>Provider and controller for this measurement:</strong> Microsoft Ireland Operations Limited, One Microsoft Place, South County Business Park, Leopardstown, Dublin 18, Ireland.</li>
+        <li><strong>Purpose:</strong> the technical stability and speed of the site, nothing else.</li>
+        <li><strong>Retention:</strong> 30 days for technical recordings, at most 13 months for aggregated figures.</li>
+        <li><strong>Legal basis:</strong> legitimate interest (Article 6(1)(f) GDPR) in calculators that work properly.</li>
+        <li><strong>Opting out:</strong> block <code>clarity.ms</code> in your browser, or e-mail us.</li>
+      </ul>
+      <p>
+        Microsoft's privacy statement:
         <a href="https://privacy.microsoft.com/privacystatement" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">privacy.microsoft.com/privacystatement</a>.
-      </p>
-      <p>
-        <strong>Google Analytics 4</strong> (Google Ireland Limited) receives the pages viewed, the referral
-        source, the device type and an approximate location derived from the IP address. It sets the
-        cookies <code>_ga</code> and <code>_ga_6FGRX7NXRF</code> (two years). More information:
-        <a href="https://policies.google.com/privacy" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">policies.google.com/privacy</a>.
-      </p>
-      <p>
-        Data collected by Microsoft Clarity and Google Analytics may be processed on servers located in
-        the United States. Microsoft and Google rely on the EU-U.S. Data Privacy Framework and on standard
-        contractual clauses. Clarity keeps session recordings for thirty days and aggregated data for no more than thirteen
-        months; Google Analytics keeps event data for the period set in the account, fourteen months at
-        most.
+        We use no Google Analytics, no advertising and no social-media pixels or other trackers.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">4. Functional Storage (localStorage)</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">4. Hosting logs</h2>
       <p>
-        Our website stores your theme preference (light or dark mode) and potential language preferences in
-        your browser using <strong>localStorage</strong>. This is not a cookie but a local storage method
-        provided by the HTML5 standard. localStorage differs from cookies in important ways:
-      </p>
-      <ul class="list-disc pl-6 space-y-1">
-        <li>Data is <strong>not sent to our servers</strong> with page requests</li>
-        <li>Data is <strong>not traceable</strong> to you as a person</li>
-        <li>You can delete the data through your browser settings</li>
-        <li>The storage is strictly necessary for website functionality</li>
-        <li>No information is shared with third parties</li>
-      </ul>
-      <p>
-        Since localStorage is not a cookie and data is never sent to external servers, it falls under the
-        exemption for strictly necessary technical storage and no prior consent is required.
+        Our host, OVH, automatically logs IP address, date and requested page for security and operation of
+        the service. These logs involve no cookie.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">5. Third-Party Cookies</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">5. Your rights and complaints</h2>
       <p>
-        Our website may load web fonts from third-party content delivery networks. When you access a page,
-        your browser loads the required fonts from external servers, which may receive your IP address as
-        part of the standard HTTP request. This usage is based on our legitimate interest (Art. 6(1)(f) GDPR)
-        in a uniform and attractive presentation of our website.
-      </p>
-      <p>
-        Apart from Microsoft Clarity and Google Analytics (see section 3), we do not integrate other
-        third-party services. There are no social media buttons, advertising widgets or remarketing services.
+        Radif Partners keeps no personal data about you, so there is nothing for us to show or delete. You may
+        still write to us with any question, and you can lodge a complaint with the Spanish Data Protection
+        Agency (<a href="https://www.aepd.es" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">www.aepd.es</a>).
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">6. Cookie Banner</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">6. Contact</h2>
       <p>
-        This website currently shows no cookie banner: the analytics cookies listed above are set when a
-        page opens. You can refuse them by blocking third-party cookies, or the domains
-        <code>clarity.ms</code> and <code>googletagmanager.com</code>, in your browser settings. The
-        calculators work without them.
-      </p>
-
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">7. How to Manage Cookies in Your Browser</h2>
-      <p>
-        Most web browsers allow you to manage cookies through their settings. You can reject cookies,
-        delete existing ones, or set your browser to alert you when a cookie is placed. Refer to your
-        browser's help for specific instructions:
-      </p>
-      <ul class="list-disc pl-6 space-y-1">
-        <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener" class="text-brand hover:underline">Google Chrome</a></li>
-        <li><a href="https://support.mozilla.org/en-US/kb/cookies-information-websites-store-on-your-computer" target="_blank" rel="noopener" class="text-brand hover:underline">Mozilla Firefox</a></li>
-        <li><a href="https://support.apple.com/guide/safari/manage-cookies-sfri11471/mac" target="_blank" rel="noopener" class="text-brand hover:underline">Safari</a></li>
-        <li><a href="https://support.microsoft.com/en-us/microsoft-edge/delete-cookies-in-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank" rel="noopener" class="text-brand hover:underline">Microsoft Edge</a></li>
-      </ul>
-      <p>
-        Please note that blocking all cookies may affect the functionality of some websites.
-      </p>
-
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">8. Your Rights</h2>
-      <p>
-        Under the GDPR and LOPDGDD, you have the right to be informed about the use of cookies and storage
-        technologies. For the data collected through the analytics cookies, you can exercise your GDPR rights by
-        writing to the contact address. You always have the right to reject cookies, delete localStorage data, lodge
-        a complaint with the AEPD, and contact us with questions about our cookie policy.
-      </p>
-
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">9. Changes and Contact</h2>
-      <p>
-        We reserve the right to modify this cookie policy to reflect changes in our practices or applicable
-        law. The current version is always available on this page. For questions, contact us at:<br>
-        Email: <a href="mailto:contact@elsueldoneto.es" class="text-brand hover:underline">contact@elsueldoneto.es</a>
-      </p>
-
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">10. Related Pages</h2>
-      <p>
+        Email: <a href="mailto:contact@elsueldoneto.es" class="text-brand hover:underline">contact@elsueldoneto.es</a>.
         See also our <a href="/en/privacy-policy/" class="text-brand hover:underline">privacy policy</a> and
-        our <a href="/en/legal-notice/" class="text-brand hover:underline">legal notice</a> for more
-        information about how we handle your data and the legal aspects of our website.
+        <a href="/en/legal-notice/" class="text-brand hover:underline">legal notice</a>.
       </p>
     </div>
   </div>

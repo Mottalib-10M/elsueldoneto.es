@@ -121,34 +121,14 @@ const pageType = isHomepage ? 'home' : isGuide ? 'guide' : 'calculator';
       <script type="application/ld+json" set:html={JSON.stringify(s)} />
     ))}
 
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6FGRX7NXRF"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-6FGRX7NXRF');
-    </script>
-
-    <!-- Plausible Analytics – uncomment after registering at plausible.io -->
-    <!-- <script defer data-domain="elsueldoneto.es" src="https://plausible.io/js/script.js"></script> -->
-
-    <!-- Microsoft Clarity (conditional) -->
+    <!-- Microsoft Clarity en mode sans cookie (RECETTE §15.6, 2026-10-06) : le signal consentv2
+         « denied » est mis en file AVANT le script, donc aucun cookie (_clck, _clsk, MUID, CLID),
+         un identifiant par page vue, visites non reliées ; contenu masqué (data-clarity-mask). -->
     {clarityProjectId && (
-      <script is:inline define:vars={{ clarityProjectId, pageType, locale }}>
-        (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window,document,"clarity","script",clarityProjectId);
-        if(typeof clarity!=='undefined'){
-          clarity("set","page_type",pageType);
-          clarity("set","locale",locale);
-        }
-      </script>
+      <script is:inline set:html={`(function(){window.clarity=window.clarity||function(){(window.clarity.q=window.clarity.q||[]).push(arguments);};window.clarity('consentv2',{ad_Storage:'denied',analytics_Storage:'denied'});var s=document.createElement('script');s.async=true;s.src='https://www.clarity.ms/tag/${clarityProjectId}';document.head.appendChild(s);window.clarity('set','page_type','${pageType}');window.clarity('set','locale','${locale}');})();`} />
     )}
   </head>
-  <body class="flex min-h-screen flex-col">
+  <body class="flex min-h-screen flex-col" data-clarity-mask="true">
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-brand focus:px-4 focus:py-2 focus:text-white focus:shadow-lg">
       {skipLabel}
     </a>

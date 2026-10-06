@@ -4,7 +4,7 @@ import { SITE_NAME, SITE_URL } from '../../config';
 import { buildBreadcrumbSchema } from '../../lib/seo';
 
 const title = 'Privacy Policy - GDPR Compliance and Data Protection';
-const description = 'Privacy policy: your salary data never leaves your browser. Which analytics we use (Microsoft Clarity, Google Analytics), their cookies and your data rights.';
+const description = 'Privacy policy: your salary never leaves your browser, no cookies and no personal data recorded by us. Only cookieless Clarity checks the site\'s stability.';
 
 const schemas = [
   buildBreadcrumbSchema([
@@ -23,7 +23,7 @@ const schemas = [
     <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">Privacy Policy</h1>
 
     <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
-      <p><em>Last updated: June {new Date().getFullYear()}</em></p>
+      <p><em>Last updated: October {new Date().getFullYear()}</em></p>
 
       <p>
         This privacy policy explains how {SITE_NAME} ({SITE_URL}) handles your personal data in compliance
@@ -50,89 +50,64 @@ const schemas = [
         contact details.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">3. What Data We Collect</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">3. No Personal Data Recorded</h2>
       <p>
-        <strong>{SITE_NAME} does not collect what you enter into the calculators.</strong> Our salary calculator tools
-        process all calculations directly in your browser using client-side JavaScript. The data you enter
-        (gross salary, family situation, autonomous community, contract type and all other parameters) is
-        never sent to any server, never stored in any database, and is not accessible to us or to third
-        parties. Visits to the website are, however, measured by the analytics tools described in section 4.
+        <strong>Radif Partners records no personal data about visitors to {SITE_NAME}.</strong> The net salary,
+        IRPF, severance and pension calculators run entirely in your browser: the gross salary, autonomous
+        community, family situation or contract type you enter is never sent to a server, never saved in a
+        database and is gone once you close the page. The site sets no cookies and uses no local storage, so
+        nothing is kept on your device either.
       </p>
       <p>
-        The technical architecture of the website is designed according to the principle of "privacy by
-        design" in accordance with Article 25 of the GDPR. To be precise, the website itself does not collect or
-        process the following categories of data:
+        This follows the "privacy by design" principle of Article 25 GDPR: there are no user accounts, no
+        forms that store data and no newsletter. If you e-mail us, we keep your message and address only as
+        long as needed to reply.
+      </p>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">4. Anonymous Technical Stability Measurement</h2>
+      <p>
+        To detect errors, slow pages, clicks with no effect or scrolling issues, the site uses
+        <strong>Microsoft Clarity without cookies</strong>. The page signals to Clarity that storage is denied
+        before its script loads, so it sets no <code>_clck</code>, <code>_clsk</code>, <code>MUID</code> or
+        <code>CLID</code> cookie, uses a fresh identifier for every page view and does not connect your visits.
+        Page text and the amounts you type are masked in your browser before sending. There is no Google
+        Analytics, no advertising and no other tracker.
       </p>
       <ul class="list-disc pl-6 space-y-1">
-        <li><strong>Identification data:</strong> name, surname, DNI/NIE, address</li>
-        <li><strong>Contact data:</strong> email address, phone number (unless voluntarily provided by email)</li>
-        <li><strong>Financial data:</strong> bank details, specific salary amounts</li>
+        <li><strong>Controller for this measurement:</strong> Microsoft Ireland Operations Limited, One Microsoft Place, South County Business Park, Leopardstown, Dublin 18, Ireland (<a href="https://privacy.microsoft.com/privacystatement" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">privacy statement</a>).</li>
+        <li><strong>Purpose:</strong> technical stability of the site only.</li>
+        <li><strong>Retention:</strong> 30 days for recordings, at most 13 months for aggregated figures.</li>
+        <li><strong>Opting out:</strong> block <code>clarity.ms</code> in your browser, or write to us.</li>
       </ul>
-
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">4. Web Analytics</h2>
       <p>
-        To understand how the website is used, two analytics tools load when each page opens, with no prior
-        cookie banner.
-      </p>
-      <p>
-        <strong>Microsoft Clarity</strong> (Microsoft Corporation) records how pages are used: clicks,
-        scrolling, pages viewed and their address, as sessions and heatmaps. The content of input fields is
-        masked in your browser before anything is sent. Clarity sets the cookies <code>_clck</code> (one
-        year) and <code>_clsk</code> (one day); Microsoft may also set <code>MUID</code> and
-        <code>CLID</code> on its own domains. More information:
-        <a href="https://privacy.microsoft.com/privacystatement" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">privacy.microsoft.com/privacystatement</a>.
-      </p>
-      <p>
-        <strong>Google Analytics 4</strong> (Google Ireland Limited) receives the pages viewed, the referral
-        source, the device type and an approximate location derived from the IP address. It sets the
-        cookies <code>_ga</code> and <code>_ga_6FGRX7NXRF</code> (two years). More information:
-        <a href="https://policies.google.com/privacy" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">policies.google.com/privacy</a>.
-      </p>
-      <p>
-        If you open a page through a shared link that carries values in its address, those values are part
-        of the page address these tools record. See our
-        <a href="/en/cookie-policy/" class="text-brand hover:underline">cookie policy</a> to learn how to
-        refuse these cookies.
+        More in our <a href="/en/cookie-policy/" class="text-brand hover:underline">cookie policy</a>.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">5. Legal Basis for Processing</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">5. Legal Basis</h2>
       <p>
-        For the statistical data collected by the analytics tools, the controller relies on its legitimate
-        interest (Article 6(1)(f) GDPR) in understanding how the website is used in order to improve it.
-        You may object by writing to the contact address.
+        The stability measurement relies on legitimate interest (Article 6(1)(f) GDPR) in keeping the
+        calculators working. Replying to an e-mail relies on your own request.
       </p>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">6. Your Rights</h2>
       <p>
-        Under Articles 15 to 22 of the GDPR and the LOPDGDD, you have the following rights:
-      </p>
-      <ul class="list-disc pl-6 space-y-1">
-        <li><strong>Right of access</strong> (Art. 15): obtain confirmation of whether personal data is being processed and access to that data.</li>
-        <li><strong>Right to rectification</strong> (Art. 16): obtain correction of inaccurate or incomplete data.</li>
-        <li><strong>Right to erasure</strong> (Art. 17, "right to be forgotten"): obtain deletion of personal data.</li>
-        <li><strong>Right to restriction of processing</strong> (Art. 18): restrict processing in certain cases.</li>
-        <li><strong>Right to data portability</strong> (Art. 20): receive data in a structured, commonly used and machine-readable format.</li>
-        <li><strong>Right to object</strong> (Art. 21): object to processing on grounds relating to your particular situation.</li>
-        <li><strong>Right to withdraw consent</strong> (Art. 7(3)): withdraw consent at any time without affecting the lawfulness of prior processing.</li>
-        <li><strong>Right to lodge a complaint</strong> (Art. 77): lodge a complaint with the Spanish Data Protection Agency (AEPD) at <a href="https://www.aepd.es" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">www.aepd.es</a>.</li>
-      </ul>
-      <p>
-        These rights also apply to the data collected by the analytics tools. For any enquiry, contact us at contact@elsueldoneto.es. We undertake to respond within
-        30 days as required by Article 12 of the GDPR.
+        Under Articles 15 to 22 of the GDPR and the LOPDGDD you have rights of access, rectification, erasure,
+        restriction, portability and objection. As we store nothing about you, in practice they only concern
+        e-mails you have sent us. Write to contact@elsueldoneto.es; we reply within 30 days (Article 12 GDPR).
+        You may also lodge a complaint with the Spanish Data Protection Agency (AEPD) at
+        <a href="https://www.aepd.es" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">www.aepd.es</a>.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">7. Data Retention</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">7. Hosting and Server Logs</h2>
       <p>
-        Data entered into the calculators is not retained. Clarity keeps session recordings for thirty days and aggregated data for no more than thirteen
-        months; Google Analytics keeps event data for the period set in the account, fourteen months at
-        most.
+        The site is hosted by OVH SAS (2 rue Kellermann, 59100 Roubaix, France), whose servers automatically
+        log IP address, date and requested page for security purposes, for a short period.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">8. Data Transfer Outside the EU</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">8. Transfers Outside the EU</h2>
       <p>
-        Data collected by Microsoft Clarity and Google Analytics may be processed on servers located in
-        the United States. Microsoft and Google rely on the EU-U.S. Data Privacy Framework and on standard
-        contractual clauses.
+        Clarity's anonymous measurements may be processed on Microsoft servers in the United States, under the
+        EU-U.S. Data Privacy Framework and standard contractual clauses.
       </p>
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">9. Data Security</h2>

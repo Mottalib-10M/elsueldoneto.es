@@ -4,7 +4,7 @@ import { SITE_NAME, SITE_URL, CURRENT_FISCAL_YEAR } from '../config';
 import { buildBreadcrumbSchema } from '../lib/seo';
 
 const title = 'Privacidad y RGPD: qué datos tratamos y tus derechos';
-const description = 'Privacidad: tus datos salariales no salen de tu navegador. Qué analítica usamos (Microsoft Clarity, Google Analytics), sus cookies y tus derechos RGPD.';
+const description = 'Privacidad: tu salario no sale de tu navegador, sin cookies ni datos personales guardados por el editor. Solo Clarity sin cookies mide la estabilidad.';
 
 const schemas = [
   buildBreadcrumbSchema([
@@ -23,7 +23,7 @@ const schemas = [
     <h1 class="mb-6 text-3xl font-bold text-charcoal dark:text-gray-100">Política de Privacidad</h1>
 
     <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
-      <p><em>Última actualización: junio {CURRENT_FISCAL_YEAR}</em></p>
+      <p><em>Última actualización: octubre {CURRENT_FISCAL_YEAR}</em></p>
 
       <p>
         La presente política de privacidad explica cómo {SITE_NAME} ({SITE_URL}) trata tus datos personales
@@ -58,105 +58,85 @@ const schemas = [
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">3. Datos que recopilamos</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">3. Ningún dato personal guardado</h2>
         <p>
-          <strong>{SITE_NAME} no recopila los datos que introduces en las calculadoras.</strong> Las calculadoras salariales
-          funcionan íntegramente en tu navegador mediante JavaScript del lado del cliente. Los datos que
-          introduces (salario bruto, situación familiar, comunidad autónoma, tipo de contrato y cualquier
-          otro parámetro) no se envían a ningún servidor, no se almacenan en ninguna base de datos y no
-          son accesibles para nosotros ni para terceros. La visita al sitio sí se mide con las herramientas
-          de analítica descritas en el punto 4.
+          <strong>Radif Partners no registra ningún dato personal de los visitantes de {SITE_NAME}.</strong>
+          Las calculadoras de sueldo neto, IRPF, pagas extra o despido funcionan íntegramente en tu
+          navegador: el salario bruto, la comunidad autónoma, la situación familiar o el tipo de contrato
+          que introduces no se envían a ningún servidor, no se guardan en ninguna base de datos y
+          desaparecen al cerrar la página. El sitio no deposita cookies ni usa localStorage: nada queda
+          almacenado en tu dispositivo.
         </p>
         <p>
-          La arquitectura técnica del sitio web está diseñada según el principio de "protección de datos
-          desde el diseño" (privacy by design) de conformidad con el artículo 25 del RGPD.
+          Este diseño responde al principio de protección de datos desde el diseño (artículo 25 del RGPD).
+          No tenemos cuentas de usuario, ni formularios que almacenen datos, ni boletín.
         </p>
         <p>
-          Para mayor claridad, el propio sitio web no recopila ni trata las siguientes categorías de datos:
+          Solo si nos escribes por correo electrónico conservamos tu mensaje y tu dirección el tiempo
+          necesario para responderte.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">4. Medición técnica y anónima de la estabilidad</h2>
+        <p>
+          Para encontrar errores, cargas lentas, clics sin efecto o problemas de desplazamiento, el sitio
+          utiliza <strong>Microsoft Clarity sin cookies</strong>: antes de cargarlo le comunicamos que el
+          almacenamiento está denegado, de modo que no deposita <code>_clck</code>, <code>_clsk</code>,
+          <code>MUID</code> ni <code>CLID</code>, utiliza un identificador nuevo en cada página vista y no
+          enlaza tus visitas entre sí. El texto de las páginas y los importes que tecleas se enmascaran
+          en tu navegador antes del envío. No usamos Google Analytics, publicidad ni otros rastreadores.
         </p>
         <ul>
-          <li><strong>Datos de identificación:</strong> nombre, apellidos, DNI/NIE, dirección</li>
-          <li><strong>Datos de contacto:</strong> correo electrónico, teléfono (salvo cuando se facilitan voluntariamente por email)</li>
-          <li><strong>Datos financieros:</strong> datos bancarios, importes salariales concretos</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">4. Analítica: Microsoft Clarity y Google Analytics</h2>
-        <p>
-          Para entender cómo se utiliza el sitio web, se cargan dos herramientas de analítica al abrir cada
-          página, sin banner de cookies previo.
-        </p>
-        <p>
-          <strong>Microsoft Clarity</strong> (Microsoft Corporation) registra cómo se utilizan las páginas:
-          clics, desplazamiento, páginas vistas y su dirección, en forma de sesiones y mapas de calor. El
-          contenido de los campos de entrada se enmascara en tu navegador antes de cualquier envío. Clarity
-          deposita las cookies <code>_clck</code> (un año) y <code>_clsk</code> (un día); Microsoft puede
-          depositar además <code>MUID</code> y <code>CLID</code> en sus propios dominios. Más información:
-          <a href="https://privacy.microsoft.com/privacystatement" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">privacy.microsoft.com/privacystatement</a>.
-        </p>
-        <p>
-          <strong>Google Analytics 4</strong> (Google Ireland Limited) recibe las páginas vistas, la fuente
-          de la visita, el tipo de dispositivo y una ubicación aproximada deducida de la dirección IP.
-          Deposita las cookies <code>_ga</code> y <code>_ga_6FGRX7NXRF</code> (dos años). Más información:
-          <a href="https://policies.google.com/privacy" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">policies.google.com/privacy</a>.
-        </p>
-        <p>
-          Si abres una página mediante un enlace compartido que contiene valores en la dirección, esos
-          valores forman parte de la dirección de la página que registran estas herramientas. Consulta
-          nuestra <a href="/politica-cookies/" class="text-brand hover:underline">política de cookies</a>
-          para saber cómo rechazar estas cookies.
-        </p>
-      </section>
-
-      <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">5. Base legal del tratamiento</h2>
-        <p>
-          Para los datos estadísticos recopilados por las herramientas de analítica, el responsable se
-          apoya en su interés legítimo (artículo 6, apartado 1, letra f, del RGPD) en comprender cómo se
-          utiliza el sitio web para mejorar su contenido y funcionalidad. Puedes oponerte escribiendo a la
-          dirección de contacto.
-        </p>
-      </section>
-
-      <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">6. Derechos del usuario</h2>
-        <p>Conforme a los artículos 15 a 22 del RGPD y la LOPDGDD, tienes los siguientes derechos:</p>
-        <ul>
-          <li><strong>Derecho de acceso</strong> (art. 15): obtener confirmación de si se están tratando datos personales y acceder a los mismos.</li>
-          <li><strong>Derecho de rectificación</strong> (art. 16): solicitar la corrección de datos inexactos o incompletos.</li>
-          <li><strong>Derecho de supresión</strong> (art. 17, "derecho al olvido"): solicitar la eliminación de los datos personales cuando se cumplan las condiciones legales.</li>
-          <li><strong>Derecho a la limitación del tratamiento</strong> (art. 18): solicitar la limitación del tratamiento en determinados supuestos previstos por la ley.</li>
-          <li><strong>Derecho a la portabilidad</strong> (art. 20): recibir los datos en un formato estructurado, de uso común y lectura mecánica.</li>
-          <li><strong>Derecho de oposición</strong> (art. 21): oponerse al tratamiento por motivos relacionados con tu situación particular.</li>
-          <li><strong>Derecho a retirar el consentimiento</strong> (art. 7): retirar el consentimiento en cualquier momento, sin que ello afecte a la licitud del tratamiento basado en el consentimiento previo a su retirada.</li>
+          <li><strong>Responsable de esta medición:</strong> Microsoft Ireland Operations Limited, One Microsoft Place, South County Business Park, Leopardstown, Dublín 18, Irlanda (<a href="https://privacy.microsoft.com/privacystatement" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">declaración de privacidad</a>).</li>
+          <li><strong>Finalidad:</strong> la estabilidad técnica del sitio, nada más.</li>
+          <li><strong>Conservación:</strong> 30 días para las grabaciones, 13 meses como máximo para las cifras agregadas.</li>
+          <li><strong>Oposición:</strong> bloquea <code>clarity.ms</code> en tu navegador o escríbenos.</li>
         </ul>
         <p>
-          Estos derechos se aplican también a los datos recopilados por las herramientas de analítica.
-          Para cualquier consulta, contáctenos en <a href="mailto:contact@elsueldoneto.es" class="text-brand hover:underline">contact@elsueldoneto.es</a>.
-          Nos comprometemos a responder en un plazo de 30 días conforme al artículo 12 del RGPD.
+          Detalles en nuestra <a href="/politica-cookies/" class="text-brand hover:underline">política de cookies</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">5. Base legal</h2>
+        <p>
+          La medición de estabilidad descrita se basa en el interés legítimo (artículo 6, apartado 1,
+          letra f, del RGPD) en mantener unas calculadoras que funcionen bien. La respuesta a un correo
+          se basa en tu propia solicitud.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">6. Tus derechos</h2>
+        <p>
+          Conforme a los artículos 15 a 22 del RGPD y a la LOPDGDD, tienes derecho de acceso,
+          rectificación, supresión, limitación, portabilidad y oposición. Como no guardamos datos tuyos,
+          en la práctica solo afectan a los correos que nos hayas enviado. Escríbenos a
+          <a href="mailto:contact@elsueldoneto.es" class="text-brand hover:underline">contact@elsueldoneto.es</a>;
+          respondemos en un plazo de 30 días (artículo 12 del RGPD).
         </p>
         <p>
-          También tiene derecho a presentar una reclamación ante la Agencia Española de Protección de Datos
+          También puedes presentar una reclamación ante la Agencia Española de Protección de Datos
           (AEPD): <a href="https://www.aepd.es" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">www.aepd.es</a>.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">7. Conservación de datos</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">7. Alojamiento y registros técnicos</h2>
         <p>
-          Los datos introducidos en las calculadoras no se conservan. Clarity conserva las grabaciones de
-          sesión treinta días y los datos agregados trece meses como máximo; Google Analytics conserva los
-          datos de eventos durante el plazo configurado en la cuenta, catorce meses como máximo.
+          El sitio está alojado por OVH SAS (2 rue Kellermann, 59100 Roubaix, Francia), cuyos servidores
+          anotan de forma automática la dirección IP, la fecha y la página pedida, por motivos de
+          seguridad, durante un periodo breve.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">8. Transferencia de datos fuera de la UE</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">8. Transferencias fuera de la UE</h2>
         <p>
-          Los datos recopilados por Microsoft Clarity y Google Analytics pueden tratarse en servidores
-          situados en Estados Unidos. Microsoft y Google se acogen al Marco de Privacidad de Datos UE-EE. UU.
-          y a cláusulas contractuales tipo.
+          Las mediciones anónimas de Clarity pueden tratarse en servidores de Microsoft situados en
+          Estados Unidos, al amparo del Marco de Privacidad de Datos UE-EE. UU. y de cláusulas
+          contractuales tipo.
         </p>
       </section>
 
