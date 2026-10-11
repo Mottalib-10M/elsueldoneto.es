@@ -171,10 +171,13 @@ export function calcularSeguridadSocialAnual(
   brutoAnual: number,
   tipoContrato: 'indefinido' | 'temporal' = 'indefinido'
 ): number {
-  const baseMensual = Math.min(
-    Math.max(brutoAnual / 12, seguridadSocial2026.baseMinimaMensual),
-    seguridadSocial2026.baseMaximaMensual
-  );
+  // Base = retribución real, con tope en la base máxima. La base mínima (1.424,40 €/mes) es la
+  // de una jornada completa: ningún salario a tiempo completo queda por debajo (SMI), y por debajo
+  // de ella el contrato es a tiempo parcial, que cotiza por lo realmente cobrado (base mínima
+  // prorrateada por horas). Aplicarla a todo salario hacía cotizar 1.111 € al año sobre un bruto
+  // de 0 € y daba un neto negativo (−79 €/mes, corregido el 2026-10-12). Sin cambio a partir de
+  // 17.092,80 € brutos al año.
+  const baseMensual = Math.min(Math.max(brutoAnual, 0) / 12, seguridadSocial2026.baseMaximaMensual);
 
   const tipo = tipoContrato === 'indefinido'
     ? tipoEmpleadoIndefinido
