@@ -1,3 +1,4 @@
+import BarraResultado from '../ui/BarraResultado';
 import { dec } from '../../lib/dec';
 import { useState, useMemo } from 'react';
 import CampoEntrada from '../ui/CampoEntrada';
@@ -65,8 +66,9 @@ export default function Hipoteca({ lang = 'es' }: HipotecaProps) {
   }, [precioNum, ahorroNum, plazoNum, interesNum]);
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
         <CampoEntrada id="hip-precio" label={l ? 'Property price' : 'Precio de la vivienda'} value={precio} onChange={setPrecio} min={0} max={5000000} step="any" suffix="€" />
         <CampoEntrada id="hip-ahorro" label={l ? 'Down payment' : 'Ahorro aportado'} value={ahorro} onChange={setAhorro} min={0} max={5000000} step="any" suffix="€" />
         <CampoEntrada id="hip-plazo" label={l ? 'Term' : 'Plazo'} value={plazo} onChange={setPlazo} min={5} max={40} step={1} suffix={l ? 'years' : 'años'} />
@@ -90,12 +92,15 @@ export default function Hipoteca({ lang = 'es' }: HipotecaProps) {
         </div>
       </div>
 
+      </div>
+      <div data-resultat className="space-y-6">
+        <BarraResultado />
       {resultado && (
         <>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
             <div className="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-6 text-center dark:from-blue-900/30 dark:to-blue-900/10">
-              <p className="text-sm font-medium text-blue-600 dark:text-blue-400">{l ? 'Monthly payment' : 'Cuota mensual'}</p>
-              <p className="mt-1 text-2xl font-bold text-blue-700 dark:text-blue-300">{formatEuros(resultado.cuotaMensual)}</p>
+              <p data-cle-label className="text-sm font-medium text-blue-600 dark:text-blue-400">{l ? 'Monthly payment' : 'Cuota mensual'}</p>
+              <p data-cle className="mt-1 text-2xl font-bold text-blue-700 dark:text-blue-300">{formatEuros(resultado.cuotaMensual)}</p>
               <p className="mt-1 text-xs text-blue-700 dark:text-blue-400">{l ? 'Principal' : 'Capital'}: {formatEuros(resultado.capital)}</p>
             </div>
             <div className="rounded-xl bg-gradient-to-br from-red-50 to-red-100 p-6 text-center dark:from-red-900/30 dark:to-red-900/10">
@@ -167,6 +172,7 @@ export default function Hipoteca({ lang = 'es' }: HipotecaProps) {
           </div>
         </>
       )}
+      </div>
     </div>
   );
 }

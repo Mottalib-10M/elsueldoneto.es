@@ -1,3 +1,4 @@
+import BarraResultado from '../ui/BarraResultado';
 import { useState, useMemo } from 'react';
 import { calcularPlanAhorro } from '../../lib/finanz-engine';
 import { formatEuros, formatPercent } from '../../lib/format-es';
@@ -18,18 +19,22 @@ export default function PlanAhorro({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   const resultado = useMemo(() => calcularPlanAhorro(aportNum, tipoNum / 100, aniosNum, capitalNum), [aportNum, tipoNum, aniosNum, capitalNum]);
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
         <CampoEntrada id="pa-aportacion" label={l ? 'Monthly contribution' : 'Aportación mensual'} value={aportacion} onChange={setAportacion} min={0} max={100000} step="any" suffix={l ? '€/mo' : '€/mes'} />
         <CampoEntrada id="pa-tipo" label={l ? 'Annual return' : 'Rentabilidad anual'} value={tipo} onChange={setTipo} min={0} max={30} step={0.1} suffix="%" />
         <CampoEntrada id="pa-anios" label={l ? 'Years' : 'Años'} value={anios} onChange={setAnios} min={1} max={60} step={1} suffix={l ? 'years' : 'años'} />
         <CampoEntrada id="pa-capital" label={l ? 'Initial capital' : 'Capital inicial'} value={capitalInicial} onChange={setCapitalInicial} min={0} max={10000000} step="any" suffix="€" />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      </div>
+      <div data-resultat className="space-y-6">
+        <BarraResultado />
+      <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
         <div className="rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100 p-6 text-center dark:from-emerald-900/30 dark:to-emerald-900/10">
-          <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">{l ? 'Final capital' : 'Capital final'}</p>
-          <p className="mt-1 text-2xl font-bold text-emerald-700 dark:text-emerald-300">{formatEuros(resultado.capitalFinal)}</p>
+          <p data-cle-label className="text-sm font-medium text-emerald-600 dark:text-emerald-400">{l ? 'Final capital' : 'Capital final'}</p>
+          <p data-cle className="mt-1 text-2xl font-bold text-emerald-700 dark:text-emerald-300">{formatEuros(resultado.capitalFinal)}</p>
         </div>
         <div className="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-6 text-center dark:from-blue-900/30 dark:to-blue-900/10">
           <p className="text-sm font-medium text-blue-600 dark:text-blue-400">{l ? 'Total contributed' : 'Total aportado'}</p>
@@ -65,6 +70,7 @@ export default function PlanAhorro({ lang = 'es' }: { lang?: 'es' | 'en' }) {
           </table>
         </div>
       )}
+      </div>
     </div>
   );
 }

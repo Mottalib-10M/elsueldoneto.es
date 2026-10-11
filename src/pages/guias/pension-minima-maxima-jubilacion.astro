@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../components/ui/Clamp.astro';
 import GuiaLayout from '../../layouts/GuiaLayout.astro';
 import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 import { calcularJubilacion, porcentajePorMeses, PARAMS_JUBILACION as J, BASES_2026 } from '../../lib/jubilacion-engine';
@@ -37,10 +38,12 @@ const related = [
 ---
 
 <GuiaLayout title={title} description={description} h1="Pensión mínima y máxima de jubilación en 2026" path="/guias/pension-minima-maxima-jubilacion/" crumb="Pensión mínima y máxima" faqs={faqs} sources={fuentesJubilacion} related={related}>
+  <Clamp id="chapeau" locale="es">
   <p class="text-lg">
     En 2026 la pensión de jubilación no puede superar {eur2(J.pensionMaximaMensual)} al mes en 14 pagas, {eur2(J.pensionMaximaAnual)} al año, y la mínima para un titular de 65 años o más es de {eur2(M['65'].conyugeACargo / P14)} con cónyuge a cargo, {eur2(M['65'].unipersonal / P14)} sin cónyuge y {eur2(M['65'].conyugeNoACargo / P14)} con cónyuge no a cargo (Real Decreto-ley 3/2026, convalidado por el Congreso en febrero). La mínima no es automática: la Seguridad Social añade un complemento a mínimos solo si tus demás ingresos no superan {eur(J.limiteIngresosMinimos.sinConyuge)} al año, o {eur(J.limiteIngresosMinimos.conConyuge)} con cónyuge a cargo, y si resides en España. Una trabajadora con 18 años cotizados a la base mínima y cónyuge a cargo tendría una pensión contributiva de {eur(rosa.pensionCalculada)}, que el complemento eleva a {eur(rosa.pensionMensual)} al mes.
   </p>
-  <MiniSimAutonome client:visible kind="minmax" lang="es" locale="es-ES" href="/calculadora-jubilacion/" />
+  </Clamp>
+  <MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="minmax" lang="es" locale="es-ES" href="/calculadora-jubilacion/" />
 
   <section>
     <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Cuantías mínimas de jubilación en 2026</h2>

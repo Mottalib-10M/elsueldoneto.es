@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../../components/ui/Clamp.astro';
 import GuiaLayout from '../../../layouts/GuiaLayout.astro';
 import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 import { calcularDespido, PARAMS_DESPIDO as P } from '../../../lib/despido-engine';
@@ -32,10 +33,12 @@ const related = [
 ---
 
 <GuiaLayout title={title} description={description} h1="Objective dismissal and ERE in Spain: the 20-day rule in 2026" path="/en/guides/objective-dismissal-and-ere/" locale="en" crumb="Objective dismissal and ERE" faqs={faqs} sources={enFuentes(fuentesDespido)} related={related}>
+  <Clamp id="chapeau" locale="en">
   <p class="text-lg">
     An objective dismissal (despido objetivo) and each dismissal within a collective redundancy (ERE) carry at least {O.diasPorAnio} days of salary per year of service, prorated by month and capped at {O.topeMensualidades} months’ pay, roughly one year’s salary (article 53.1.b of the Workers’ Statute, which article 51.4 applies to collective redundancies). The employer must give written reasons, make the money available with the letter and allow {P.preavisoObjetivoDias} days’ notice. On €36,000 a year with a start date of 7 September 2020, an objective dismissal on 3 October 2026 pays {eur(a.indemnizacion)}, free of income tax. Redundancy plans negotiated with worker representatives often improve the days and the cap; the law only sets the floor. Try your own figures, including an agreed number of days, in the quick calculator.
   </p>
-  <MiniSimAutonome client:visible kind="objetivo" lang="en" locale="en-GB" href="/en/dismissal-compensation-calculator/" />
+  </Clamp>
+  <MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="objetivo" lang="en" locale="en-GB" href="/en/dismissal-compensation-calculator/" />
 
   <section>
     <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">The one-year cap and what it means for long service</h2>

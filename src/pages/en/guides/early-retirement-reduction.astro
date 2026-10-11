@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../../components/ui/Clamp.astro';
 import GuiaLayout from '../../../layouts/GuiaLayout.astro';
 import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 import { calcularJubilacion, PARAMS_JUBILACION as J, BASES_2026 } from '../../../lib/jubilacion-engine';
@@ -36,10 +37,12 @@ const related = [
 ---
 
 <GuiaLayout title={title} description={description} h1="Early retirement in Spain: how much the pension is cut" path="/en/guides/early-retirement-reduction/" locale="en" crumb="Early retirement" faqs={faqs} sources={enFuentes(fuentesJubilacion)} related={related}>
+  <Clamp id="chapeau" locale="en">
   <p class="text-lg">
     Spain allows voluntary early retirement up to {A.voluntaria.mesesMax} months before your ordinary retirement age if you have 35 years of contributions, and involuntary early retirement, after a collective or objective dismissal or another cause beyond your control, up to {A.involuntaria.mesesMax} months early with 33 years. In both cases the pension is cut for every month or part month of anticipation, using coefficients from articles 208 and 207 of the General Social Security Act that also depend on your career length. Voluntarily, one month early costs between {num(CV['1'][3], 2)}% and {num(CV['1'][0], 2)}%, and two years between {num(CV['24'][3], 2)}% and {num(CV['24'][0], 2)}%. Someone born in February 1965 with 37 years of contributions and a €2,900 base would receive {eur(ord.pensionMensual)} a month at the ordinary age of 65 and {eur(v24.pensionMensual)} retiring voluntarily at 63.
   </p>
-  <MiniSimAutonome client:visible kind="anticipada" lang="en" locale="en-GB" href="/en/retirement-calculator/" />
+  </Clamp>
+  <MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="anticipada" lang="en" locale="en-GB" href="/en/retirement-calculator/" />
 
   <section>
     <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Voluntary early retirement: the article 208 scale</h2>

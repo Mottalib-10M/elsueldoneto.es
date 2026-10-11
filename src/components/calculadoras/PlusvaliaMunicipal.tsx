@@ -1,3 +1,4 @@
+import BarraResultado from '../ui/BarraResultado';
 import { dec } from '../../lib/dec';
 import { useState, useMemo } from 'react';
 import CampoEntrada from '../ui/CampoEntrada';
@@ -128,8 +129,9 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
   }, [valorCatastralSueloNum, precioCompraNum, precioVentaNum, aniosTenenciaNum, tipoImpositivoNum]);
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
         <CampoEntrada
           id="plv-catastral"
           label={l ? 'Cadastral land value' : 'Valor catastral del suelo'}
@@ -184,6 +186,9 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
         />
       </div>
 
+      </div>
+      <div data-resultat className="space-y-6">
+        <BarraResultado />
       {resultado && (
         <>
           {/* Banner de venta con pérdidas */}
@@ -301,7 +306,7 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
                 : 'bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-900/10'
             }`}
           >
-            <p
+            <p data-cle-label
               className={`text-sm font-medium ${
                 resultado.ventaConPerdidas
                   ? 'text-emerald-600 dark:text-emerald-400'
@@ -314,7 +319,7 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
                     ? `Amount due (${resultado.metodoFavorable === 'objetivo' ? 'objective method' : 'actual method'})`
                     : `A pagar (${resultado.metodoFavorable === 'objetivo' ? 'método objetivo' : 'método real'})`)}
             </p>
-            <p
+            <p data-cle
               className={`mt-1 text-2xl font-bold ${
                 resultado.ventaConPerdidas
                   ? 'text-emerald-700 dark:text-emerald-300'
@@ -377,6 +382,7 @@ export default function PlusvaliaMunicipal({ lang = 'es' }: { lang?: 'es' | 'en'
           </p>
         </>
       )}
+      </div>
     </div>
   );
 }

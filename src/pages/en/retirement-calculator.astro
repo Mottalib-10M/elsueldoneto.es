@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../components/ui/Clamp.astro';
 import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
 import Jubilacion from '../../components/calculadoras/Jubilacion';
 import { calcularJubilacion, PARAMS_JUBILACION as J, BASES_2026 } from '../../lib/jubilacion-engine';
@@ -28,9 +29,11 @@ const faqs = [
 ---
 
 <CalculadoraLayout title={title} description={description} h1="Spanish state pension calculator (2026)" calculatorName="Retirement pension calculator" path="/en/retirement-calculator/" faqs={faqs} locale="en" sources={enFuentes(fuentesJubilacion)}>
-  <p class="mb-6 text-lg text-dark-gray dark:text-gray-300">
+  <Clamp id="chapeau" locale="en" class="mb-4">
+  <p class="text-lg text-dark-gray dark:text-gray-300">
     The Spanish state retirement pension, the pensión de jubilación, is a percentage of your regulatory base (base reguladora), which is an average of the monthly social security bases you contributed on. The percentage rises with your years of contributions, from {J.porcentaje.base}% after 15 years to 100% after 36 years and 6 months in 2026. Since January 2026 Social Security works out the base two ways and pays the higher one: the classic formula, 300 months divided by 350, and the new one, which in 2026 adds your best {N26[1]} bases out of the last {N26[0]} months and divides by {num(N26[2], 2)}. The pension is paid in 14 instalments, capped at {eur(J.pensionMaximaMensual)} a month, and topped up to a minimum for people on low incomes. Enter your year of birth, your contribution years and your current base to see your ordinary retirement age and an estimate in 2026 euros.
   </p>
+  </Clamp>
   <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800" data-chrome>
     <Jubilacion client:idle hoy={hoy} lang="en" />
   </div>

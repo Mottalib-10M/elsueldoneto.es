@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../components/ui/Clamp.astro';
 import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
 import IndemnizacionDespido from '../../components/calculadoras/IndemnizacionDespido';
 import { calcularDespido, PARAMS_DESPIDO as P } from '../../lib/despido-engine';
@@ -25,9 +26,11 @@ const faqs = [
 ---
 
 <CalculadoraLayout title={title} description={description} h1="Finiquito calculator: your final pay in Spain (2026)" calculatorName="Finiquito calculator" path="/en/severance-calculator/" faqs={faqs} locale="en" sources={enFuentes(fuentesDespido)}>
-  <p class="mb-6 text-lg text-dark-gray dark:text-gray-300">
+  <Clamp id="chapeau" locale="en" class="mb-4">
+  <p class="text-lg text-dark-gray dark:text-gray-300">
     When a job ends in Spain, your employer owes you a finiquito: the salary for the days worked in your last month, the holiday you earned but did not take, the accrued share of the two extra payments (pagas extra) and, if you were dismissed, compensation (indemnización). Someone on €42,000 a year who resigns on 31 August after taking 12 days of holiday is owed {eur(a.finiquito)}; had the employer dismissed them unfairly that day, {eur(aImp.indemnizacion)} of compensation would be added. This calculator works from your real start and end dates rather than rounded years, applies the Spanish rules in force in 2026 and separates what is taxed like a payslip from the compensation that is exempt from income tax. It is written for people working in Spain who want to check the document their employer hands them before signing it, in plain English but with the Spanish terms you will find on the paper.
   </p>
+  </Clamp>
   <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800" data-chrome>
     <IndemnizacionDespido client:idle hoy={hoy} lang="en" enfoque="finiquito" tipoInicial="voluntaria" />
   </div>

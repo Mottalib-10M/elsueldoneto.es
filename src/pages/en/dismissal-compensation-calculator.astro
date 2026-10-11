@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../components/ui/Clamp.astro';
 import CalculadoraLayout from '../../layouts/CalculadoraLayout.astro';
 import IndemnizacionDespido from '../../components/calculadoras/IndemnizacionDespido';
 import { calcularDespido, PARAMS_DESPIDO as P } from '../../lib/despido-engine';
@@ -27,9 +28,11 @@ const faqs = [
 ---
 
 <CalculadoraLayout title={title} description={description} h1="Dismissal compensation calculator for Spain (2026)" calculatorName="Dismissal compensation calculator" path="/en/dismissal-compensation-calculator/" faqs={faqs} locale="en" sources={enFuentes(fuentesDespido)}>
-  <p class="mb-6 text-lg text-dark-gray dark:text-gray-300">
+  <Clamp id="chapeau" locale="en" class="mb-4">
+  <p class="text-lg text-dark-gray dark:text-gray-300">
     Spanish dismissal compensation, the indemnización por despido, is your daily salary (gross annual pay divided by 365) multiplied by a number of days set by law for each type of termination: {T.improcedente.diasPorAnio} days per year of service for an unfair dismissal, {T.objetivo.diasPorAnio} for an objective dismissal or a collective redundancy (ERE) and {T.finContrato.diasPorAnio} when a temporary contract ends. Part years are prorated by month and each type has its own cap. An employee on €48,000 a year who started on 17 September 2018 and is let go on 3 October 2026 receives {eur(imp.indemnizacion)} if the dismissal is unfair and {eur(obj.indemnizacion)} if it is objective. Contracts signed before 12 February 2012 earn {T.improcedentePre2012.diasPorAnio} days a year for the earlier period. The calculator uses your exact dates and shows which rule set the amount and how much of it is free of income tax.
   </p>
+  </Clamp>
   <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800" data-chrome>
     <IndemnizacionDespido client:idle hoy={hoy} lang="en" enfoque="indemnizacion" tipoInicial="improcedente" inicioInicial="2018-09-17" salarioInicial={48000} />
   </div>

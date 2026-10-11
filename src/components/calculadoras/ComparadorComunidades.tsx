@@ -1,3 +1,4 @@
+import BarraResultado from '../ui/BarraResultado';
 import { useState, useMemo } from 'react';
 import { calcularSueldoNeto, situacionFamiliarDefecto, type SituacionFamiliar, type DesgloseSueldo } from '../../lib/irpf-engine';
 import { comunidadesAutonomas, type CCAACodigo } from '../../data/comunidades-autonomas';
@@ -28,7 +29,8 @@ export default function ComparadorComunidades({ lang = 'es' }: ComparadorComunid
   const minNeto = resultados[resultados.length - 1]?.desglose.netoAnual ?? 0;
 
   return (
-    <div className="space-y-6">
+    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
         <CampoSalario id="comp-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={1000000} step="any" divisor={pagas} lang={lang} />
         <div className="flex h-full flex-col">
@@ -44,13 +46,16 @@ export default function ComparadorComunidades({ lang = 'es' }: ComparadorComunid
         </div>
       </div>
 
+      </div>
+      <div data-resultat className="space-y-6">
+        <BarraResultado />
       {brutoNum > 0 && (
         <>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-xl bg-emerald-50 p-4 text-center dark:bg-emerald-900/20">
-              <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400">{l ? 'Highest net' : 'Mayor neto'}</p>
+              <p data-cle-label className="text-xs font-medium text-emerald-600 dark:text-emerald-400">{l ? 'Highest net' : 'Mayor neto'}</p>
               <p className="text-lg font-bold text-emerald-700 dark:text-emerald-300">{resultados[0]?.ccaa.nombreCorto}</p>
-              <p className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">{formatEuros(maxNeto / pagas)}/{l ? 'mo' : 'mes'}</p>
+              <p data-cle className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">{formatEuros(maxNeto / pagas)}/{l ? 'mo' : 'mes'}</p>
             </div>
             <div className="rounded-xl bg-red-50 p-4 text-center dark:bg-red-900/20">
               <p className="text-xs font-medium text-red-700 dark:text-red-400">{l ? 'Lowest net' : 'Menor neto'}</p>
@@ -97,6 +102,7 @@ export default function ComparadorComunidades({ lang = 'es' }: ComparadorComunid
           </div>
         </>
       )}
+      </div>
     </div>
   );
 }

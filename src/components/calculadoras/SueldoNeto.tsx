@@ -1,3 +1,4 @@
+import BarraResultado from '../ui/BarraResultado';
 import { useState, useMemo, useEffect } from 'react';
 import { calcularSueldoNeto, situacionFamiliarDefecto, type SituacionFamiliar } from '../../lib/irpf-engine';
 import type { CCAACodigo } from '../../data/comunidades-autonomas';
@@ -91,7 +92,8 @@ export default function SueldoNeto({
   }, []);
 
   return (
-    <div className="space-y-6">
+    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-6">
       <CampoSalario
         id="bruto-anual"
         label={l ? 'Gross salary' : 'Salario bruto'}
@@ -104,7 +106,7 @@ export default function SueldoNeto({
         lang={lang}
       />
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-2">
         <SelectorCCAA value={ccaa} onChange={handleCCAAChange} lang={lang} />
 
         <div className="flex h-full flex-col">
@@ -164,7 +166,11 @@ export default function SueldoNeto({
         />
       )}
 
+      </div>
+      <div data-resultat className="space-y-6">
+        <BarraResultado />
       <PanelResultado resultado={resultado} lang={lang} />
+      </div>
     </div>
   );
 }

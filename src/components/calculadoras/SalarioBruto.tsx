@@ -1,3 +1,4 @@
+import BarraResultado from '../ui/BarraResultado';
 import { useState, useMemo } from 'react';
 import { calcularBrutoDesdeNeto, calcularSueldoNeto, situacionFamiliarDefecto, type SituacionFamiliar } from '../../lib/irpf-engine';
 import type { CCAACodigo } from '../../data/comunidades-autonomas';
@@ -22,7 +23,8 @@ export default function SalarioBruto({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   }, [netoNum, ccaa, pagas]);
 
   return (
-    <div className="space-y-6">
+    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-6">
       <CampoSalario id="sb-neto" label={l ? 'Desired net' : 'Neto deseado'} value={netoDeseado} onChange={setNetoDeseado} min={0} max={500000} step="any" divisor={pagas} lang={lang} />
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -40,16 +42,20 @@ export default function SalarioBruto({ lang = 'es' }: { lang?: 'es' | 'en' }) {
         </div>
       </div>
 
+      </div>
+      <div data-resultat className="space-y-6">
+        <BarraResultado />
       {resultado && (
         <div className="space-y-4">
           <div className="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-6 text-center dark:from-blue-900/30 dark:to-blue-900/10">
-            <p className="text-sm font-medium text-blue-600 dark:text-blue-400">{l ? 'You need an annual gross of' : 'Necesitas un bruto anual de'}</p>
-            <p className="mt-1 text-4xl font-bold text-blue-700 dark:text-blue-300">{formatEuros(resultado.brutoNecesario)}</p>
+            <p data-cle-label className="text-sm font-medium text-blue-600 dark:text-blue-400">{l ? 'You need an annual gross of' : 'Necesitas un bruto anual de'}</p>
+            <p data-cle className="mt-1 text-4xl font-bold text-blue-700 dark:text-blue-300">{formatEuros(resultado.brutoNecesario)}</p>
             <p className="mt-1 text-sm text-blue-600 dark:text-blue-400">{l ? `to earn ${formatEuros(netoNum)} net per year` : `para cobrar ${formatEuros(netoNum)} netos al año`}</p>
           </div>
           <PanelResultado resultado={resultado.desglose} lang={lang} />
         </div>
       )}
+      </div>
     </div>
   );
 }

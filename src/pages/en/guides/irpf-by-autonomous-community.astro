@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../../components/ui/Clamp.astro';
 import Layout from '../../../components/layout/Layout.astro';
 import { calcularSueldoNeto } from '../../../lib/irpf-engine';
 import { comunidadesAutonomas } from '../../../data/comunidades-autonomas';
@@ -40,24 +41,26 @@ import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
-  <div class="mx-auto max-w-6xl px-4 py-8">
-    <nav class="mb-6 text-sm text-medium-gray">
+  <div class="mx-auto max-w-6xl px-4 pb-8 pt-4">
+    <nav class="mb-3 text-sm text-medium-gray">
       <a href="/en/" class="hover:text-brand">Home</a> /
       <a href="/en/guides/" class="hover:text-brand">Guides</a> /
       <span class="text-charcoal dark:text-gray-200">IRPF by Community</span>
     </nav>
 
-    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+    <h1 class="mb-3 text-2xl font-bold text-charcoal sm:text-3xl md:text-4xl dark:text-gray-100">
       IRPF by Autonomous Community: Full Comparison ({CURRENT_FISCAL_YEAR})
     </h1>
 
-    <AuthorByline locale="en" />
 
     <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <Clamp id="chapeau" locale="en">
       <p>
         One of the most debated aspects of Spanish taxation is how much your take-home pay varies depending on where you live. Since each autonomous community sets its own regional IRPF brackets, two workers earning the same gross salary can receive noticeably different net pay. This guide ranks the communities, explains the foral regimes of the Basque Country and Navarra, and provides a practical comparison between Madrid and Catalonia. The state half of the IRPF is identical everywhere except in the Basque Country and Navarre, which run their own complete tax systems, so the whole variation comes from the regional half and from regional deductions. Madrid applies the lightest scale in the country; Catalonia and Valencia sit at the heavier end. Regional credits then complicate the ranking: several communities give relief for rent, for children under three or for education costs, and those credits can be worth more to a middle income than the difference in rates.
       </p>
-<MiniSimAutonome client:visible kind="ccaa" lang="en" locale="en-GB" href="/en/" />
+      </Clamp>
+<MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="ccaa" lang="en" locale="en-GB" href="/en/" />
+      <AuthorByline locale="en" />
 
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Community Rankings by Net Salary</h2>

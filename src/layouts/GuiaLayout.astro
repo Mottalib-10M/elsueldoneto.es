@@ -36,14 +36,14 @@ const schemas = [
 ---
 
 <Layout title={title} description={description} ogType="article" schema={schemas} locale={locale}>
-  <article class="mx-auto max-w-6xl px-4 py-8">
-    <nav class="mb-6 text-sm text-medium-gray" aria-label={en ? 'Breadcrumb' : 'Ruta de navegación'} data-chrome>
+  <article class="mx-auto max-w-6xl px-4 pb-8 pt-4">
+    <nav class="mb-3 text-sm text-medium-gray" aria-label={en ? 'Breadcrumb' : 'Ruta de navegación'} data-chrome>
       <a href={home} class="hover:text-brand">{en ? 'Home' : 'Inicio'}</a> /
       <a href={guides} class="hover:text-brand">{en ? 'Guides' : 'Guías'}</a> /
       <span class="text-charcoal dark:text-gray-200">{crumb}</span>
     </nav>
 
-    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">{h1}</h1>
+    <h1 class="mb-3 text-2xl font-bold text-charcoal sm:text-3xl md:text-4xl dark:text-gray-100">{h1}</h1>
     <AuthorByline locale={locale} date={date} />
 
     <div class="prose max-w-none space-y-6 text-dark-gray dark:text-gray-300 leading-relaxed">

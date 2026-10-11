@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../components/ui/Clamp.astro';
 import GuiaLayout from '../../layouts/GuiaLayout.astro';
 import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 import { calcularDespido, PARAMS_DESPIDO as P } from '../../lib/despido-engine';
@@ -33,10 +34,12 @@ const related = [
 ---
 
 <GuiaLayout title={title} description={description} h1="Despido objetivo y ERE: la indemnización de 20 días en 2026" path="/guias/despido-objetivo-ere/" crumb="Despido objetivo y ERE" faqs={faqs} sources={fuentesDespido} related={related}>
+  <Clamp id="chapeau" locale="es">
   <p class="text-lg">
     El despido objetivo y cada despido de un ERE se indemnizan, como mínimo, con {O.diasPorAnio} días de salario por año trabajado, prorrateando por meses los periodos inferiores al año y con un tope de {O.topeMensualidades} mensualidades, es decir, un año de sueldo (artículo 53.1.b del Estatuto de los Trabajadores, al que remite el artículo 51.4 para el despido colectivo). La empresa debe entregar la carta con la causa, poner la indemnización a disposición en ese momento y conceder {P.preavisoObjetivoDias} días de preaviso. Para alguien con 31.000 € brutos al año y alta en febrero de 2019, la indemnización de un despido objetivo el 3 de octubre de 2026 es de {eur(o1.indemnizacion)}, exenta de IRPF. En los ERE, el acuerdo con los representantes suele mejorar esos días; la ley solo fija el suelo.
   </p>
-  <MiniSimAutonome client:visible kind="objetivo" lang="es" locale="es-ES" href="/calculadora-indemnizacion-despido/" />
+  </Clamp>
+  <MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="objetivo" lang="es" locale="es-ES" href="/calculadora-indemnizacion-despido/" />
 
   <section>
     <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Un año de sueldo como máximo: a partir de cuántos años importa</h2>

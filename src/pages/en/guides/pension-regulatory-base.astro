@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../../components/ui/Clamp.astro';
 import GuiaLayout from '../../../layouts/GuiaLayout.astro';
 import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 import { baseReguladora, PARAMS_JUBILACION as J, BASES_2026 } from '../../../lib/jubilacion-engine';
@@ -36,10 +37,12 @@ const related = [
 ---
 
 <GuiaLayout title={title} description={description} h1="The regulatory base of your Spanish pension, from 2026" path="/en/guides/pension-regulatory-base/" locale="en" crumb="Regulatory base" faqs={faqs} sources={enFuentes(fuentesJubilacion)} related={related}>
+  <Clamp id="chapeau" locale="en">
   <p class="text-lg">
     From January 2026, Spanish Social Security works out the regulatory base (base reguladora) of a retirement pension in two ways and pays whichever is higher. The 2023 formula adds your contribution bases for the last {B.antigua.meses} months and divides by {B.antigua.divisor}. The new formula, in its 2026 version, looks at the last {N['2026'][0]} months, keeps the {N['2026'][1]} highest bases and divides by {num(N['2026'][2], 2)}. Each year the new window grows by four months until 2037, when it reaches {B.nuevaDefinitiva[0]} months with the best {B.nuevaDefinitiva[1]} kept and a divisor of {B.nuevaDefinitiva[2]}. On a flat base of €3,100 a month both formulas land within a few cents ({eur2(flat.baseAntigua ?? 0)} and {eur2(flat.baseNueva)}). Differences appear with gaps, poor final years or a salary that grew over time. Compare both for your case below, with a gap before retirement if you expect one.
   </p>
-  <MiniSimAutonome client:visible kind="basereg" lang="en" locale="en-GB" href="/en/retirement-calculator/" />
+  </Clamp>
+  <MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="basereg" lang="en" locale="en-GB" href="/en/retirement-calculator/" />
 
   <section>
     <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">The phase-in calendar</h2>

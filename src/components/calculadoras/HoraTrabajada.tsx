@@ -1,3 +1,4 @@
+import BarraResultado from '../ui/BarraResultado';
 import { dec } from '../../lib/dec';
 import { useState, useMemo } from 'react';
 import { calcularTarifaHora } from '../../lib/finanz-engine';
@@ -37,19 +38,23 @@ export default function HoraTrabajada({ lang = 'es' }: HoraTrabajadaProps) {
   }, [brutoNum, horasNum, vacNum, festNum]);
 
   return (
-    <div className="space-y-6">
+    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-6">
       <CampoSalario id="ht-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={300000} step="any" divisor={14} lang={lang} />
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-2">
         <CampoEntrada id="ht-horas" label={l ? 'Hours/week' : 'Horas/semana'} value={horas} onChange={setHoras} min={1} max={60} step={1} suffix={l ? 'h/week' : 'h/semana'} />
         <CampoEntrada id="ht-vacaciones" label={l ? 'Weeks of vacation' : 'Semanas vacaciones'} value={vacaciones} onChange={setVacaciones} min={0} max={10} step={1} suffix={l ? 'weeks' : 'semanas'} />
         <CampoEntrada id="ht-festivos" label={l ? 'Public holidays/year' : 'Días festivos/año'} value={festivos} onChange={setFestivos} min={0} max={20} step={1} suffix={l ? 'days' : 'días'} />
       </div>
 
+      </div>
+      <div data-resultat className="space-y-6">
+        <BarraResultado />
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-6 text-center dark:from-blue-900/30 dark:to-blue-900/10">
-          <p className="text-sm font-medium text-blue-600 dark:text-blue-400">{l ? 'Gross hourly rate' : 'Hora bruta'}</p>
-          <p className="mt-1 text-4xl font-bold text-blue-700 dark:text-blue-300">{formatEuros(resultado.tarifaBruta)}</p>
+          <p data-cle-label className="text-sm font-medium text-blue-600 dark:text-blue-400">{l ? 'Gross hourly rate' : 'Hora bruta'}</p>
+          <p data-cle className="mt-1 text-4xl font-bold text-blue-700 dark:text-blue-300">{formatEuros(resultado.tarifaBruta)}</p>
           <p className="mt-1 text-xs text-blue-600 dark:text-blue-400">/{l ? 'hour worked' : 'hora trabajada'}</p>
         </div>
         <div className="rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100 p-6 text-center dark:from-emerald-900/30 dark:to-emerald-900/10">
@@ -84,6 +89,7 @@ export default function HoraTrabajada({ lang = 'es' }: HoraTrabajadaProps) {
             </tr>
           </tbody>
         </table>
+      </div>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../components/ui/Clamp.astro';
 import GuiaLayout from '../../layouts/GuiaLayout.astro';
 import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 import { calcularDespido, PARAMS_DESPIDO as P } from '../../lib/despido-engine';
@@ -30,10 +31,12 @@ const related = [
 ---
 
 <GuiaLayout title={title} description={description} h1="Indemnización por fin de contrato temporal en 2026" path="/guias/indemnizacion-fin-contrato-temporal/" crumb="Fin de contrato temporal" faqs={faqs} sources={fuentesDespido} related={related}>
+  <Clamp id="chapeau" locale="es">
   <p class="text-lg">
     Cuando un contrato de duración determinada llega a su fin, la empresa debe pagar una indemnización equivalente a la parte proporcional de {F.diasPorAnio} días de salario por año de servicio (artículo 49.1.c del Estatuto de los Trabajadores). No se paga en los contratos formativos ni en el de sustitución. Para un contrato de nueve meses con 21.000 € brutos al año, son {num(c9.diasIndemnizacion)} días de salario, {eur(c9.indemnizacion)}, que se suman al finiquito de {eur(c9.finiquito)}. A diferencia de la indemnización por despido, esta cantidad tributa íntegramente en el IRPF. Y si el contrato temporal escondía un puesto estable, o se encadenó con otros más allá de los límites legales, su final puede ser en realidad un despido improcedente, con una indemnización casi tres veces mayor.
   </p>
-  <MiniSimAutonome client:visible kind="fincontrato" lang="es" locale="es-ES" href="/calculadora-finiquito/" />
+  </Clamp>
+  <MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="fincontrato" lang="es" locale="es-ES" href="/calculadora-finiquito/" />
 
   <section>
     <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Qué contratos temporales quedan tras la reforma de 2021</h2>

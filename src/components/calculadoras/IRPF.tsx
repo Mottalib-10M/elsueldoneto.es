@@ -1,3 +1,4 @@
+import BarraResultado from '../ui/BarraResultado';
 import { useState, useMemo } from 'react';
 import { calcularIRPF, calcularSeguridadSocialAnual, calcularMinimoPersonalFamiliar, calcularReduccionRendimientosTrabajo, situacionFamiliarDefecto, type SituacionFamiliar } from '../../lib/irpf-engine';
 import { gastosDeduciblesTrabajo2026 } from '../../data/irpf-2026';
@@ -27,7 +28,8 @@ export default function IRPF({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   }, [brutoNum, ccaa, situacion]);
 
   return (
-    <div className="space-y-6">
+    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-6">
       <CampoSalario id="irpf-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={1000000} step="any" lang={lang} />
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -46,10 +48,13 @@ export default function IRPF({ lang = 'es' }: { lang?: 'es' | 'en' }) {
 
       {showFamiliar && <SelectorSituacionFamiliar value={situacion} onChange={setSituacion} lang={lang} />}
 
+      </div>
+      <div data-resultat className="space-y-6">
+        <BarraResultado />
       <div className="space-y-4">
         <div className="rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 p-6 text-center dark:from-gray-700 dark:to-gray-800">
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{l ? 'Total annual income tax' : 'IRPF total anual'}</p>
-          <p className="mt-1 text-4xl font-bold text-brand">{formatEuros(resultado.irpf.total)}</p>
+          <p data-cle-label className="text-sm font-medium text-gray-500 dark:text-gray-400">{l ? 'Total annual income tax' : 'IRPF total anual'}</p>
+          <p data-cle className="mt-1 text-4xl font-bold text-brand">{formatEuros(resultado.irpf.total)}</p>
           <p className="mt-1 text-sm text-gray-500">{l ? 'Effective rate:' : 'Tipo efectivo:'} {formatPercent(brutoNum > 0 ? resultado.irpf.total / brutoNum : 0)}</p>
         </div>
         <div className="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-600">
@@ -70,6 +75,7 @@ export default function IRPF({ lang = 'es' }: { lang?: 'es' | 'en' }) {
             </tbody>
           </table>
         </div>
+      </div>
       </div>
     </div>
   );

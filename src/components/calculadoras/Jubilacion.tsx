@@ -3,6 +3,7 @@
  * Hidratación (RECETTE §17.5): el mes de referencia llega como prop calculada en el build (`hoy`)
  * y el mes real se aplica en useEffect.
  */
+import BarraResultado from '../ui/BarraResultado';
 import { useEffect, useMemo, useState } from 'react';
 import { calcularJubilacion, PARAMS_JUBILACION as PJ, type Situacion } from '../../lib/jubilacion-engine';
 import CampoNumero from '../ui/CampoNumero';
@@ -106,8 +107,9 @@ export default function Jubilacion({ lang = 'es', hoy, cuandoInicial = 'ordinari
   const copiar = async (txt: string) => { try { await navigator.clipboard.writeText(txt); setAviso(t.copiado); setTimeout(() => setAviso(''), 1500); } catch { /* sin portapapeles */ } };
 
   return (
-    <div className="space-y-6">
-      <form className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" onSubmit={(e) => e.preventDefault()}>
+    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-6">
+      <form className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2" onSubmit={(e) => e.preventDefault()}>
         <CampoNumero id="jub-anio" label={t.anio} value={anio} onChange={(v) => setAnio(Math.round(v))} max={2010} locale={loc} agrupar={false} />
         <div className="flex h-full flex-col">
           <label htmlFor="jub-mes" className="mb-1 flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">{t.mes}</label>
@@ -145,7 +147,7 @@ export default function Jubilacion({ lang = 'es', hoy, cuandoInicial = 'ordinari
 
       <details className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
         <summary className="cursor-pointer text-sm font-medium text-charcoal dark:text-gray-200">{t.avanz}</summary>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
           <CampoNumero id="jub-crec" label={t.crec} value={crec} onChange={setCrec} suffix="%" max={10} decimals={1} locale={loc} help={t.crecAyuda} />
           <CampoNumero id="jub-hijos" label={t.hijos} value={hijos} onChange={(v) => setHijos(Math.round(v))} max={20} locale={loc} help={t.hijosAyuda} />
           <div className="flex h-full flex-col">
@@ -158,11 +160,14 @@ export default function Jubilacion({ lang = 'es', hoy, cuandoInicial = 'ordinari
         </div>
       </details>
 
+      </div>
+      <div data-resultat className="space-y-6">
+        <BarraResultado />
       <div aria-live="polite" className="space-y-4">
         {r.avisoAnticipada && <p role="status" className="rounded-lg bg-amber-50 p-4 text-sm font-medium text-amber-900 dark:bg-amber-900/30 dark:text-amber-200">{t.avisos[r.avisoAnticipada]}</p>}
         <div className="rounded-xl bg-blue-50 p-6 text-center dark:bg-blue-900/30">
-          <p className="text-sm font-medium text-blue-900 dark:text-blue-200">{t.head}</p>
-          <p className="mt-1 text-4xl font-bold tabular-nums text-blue-900 dark:text-blue-100">{eur(r.pensionMensual)}</p>
+          <p data-cle-label className="text-sm font-medium text-blue-900 dark:text-blue-200">{t.head}</p>
+          <p data-cle className="mt-1 text-4xl font-bold tabular-nums text-blue-900 dark:text-blue-100">{eur(r.pensionMensual)}</p>
           <p className="mt-1 text-sm text-blue-900 dark:text-blue-200">{r.derecho ? `${t.mesUd} · ${eur(r.pensionAnual)} ${t.anual}` : (r.motivo === 'carencia' ? `${t.sinDerecho.carencia} ${eur(PJ.pensionNoContributivaAnual / 14)} × 14.` : t.sinDerecho.carenciaEspecifica)}</p>
         </div>
         <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-600">
@@ -193,6 +198,7 @@ export default function Jubilacion({ lang = 'es', hoy, cuandoInicial = 'ordinari
           <span role="status" className="text-emerald-800 dark:text-emerald-300">{aviso}</span>
         </div>
         <p className="text-xs text-gray-600 dark:text-gray-400">{t.hip} <a href={t.metodoHref} className="underline hover:text-brand">{t.metodo}</a></p>
+      </div>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../components/ui/Clamp.astro';
 import Layout from '../../components/layout/Layout.astro';
 import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
 import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../lib/seo';
@@ -44,23 +45,25 @@ import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} ogType="article" schema={schemas}>
-  <article class="mx-auto max-w-6xl px-4 py-8">
-    <nav class="mb-6 text-sm text-medium-gray">
+  <article class="mx-auto max-w-6xl px-4 pb-8 pt-4">
+    <nav class="mb-3 text-sm text-medium-gray">
       <a href="/" class="hover:text-brand">Inicio</a> /
       <a href="/guias/" class="hover:text-brand">Guías</a> /
       <span class="text-charcoal dark:text-gray-200">Jubilación en España</span>
     </nav>
 
-    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+    <h1 class="mb-3 text-2xl font-bold text-charcoal sm:text-3xl md:text-4xl dark:text-gray-100">
       Jubilación en España: Edad, Pensión y Cómo se Calcula ({CURRENT_FISCAL_YEAR})
     </h1>
 
-    <AuthorByline />
 
-    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+    <Clamp id="chapeau" locale="es">
+    <p class="text-lg text-dark-gray dark:text-gray-300">
       Saber cuándo podrás jubilarte y cuánto cobrarás de pensión es clave para planificar tu futuro financiero. En esta guía te explicamos todo lo que necesitas saber sobre la jubilación en España: edad legal, cálculo de la pensión, jubilación anticipada y mucho más. Tres cifras deciden una pensión. La edad de jubilación, que se acerca a los 67 años y depende de cuánto hayas cotizado. El periodo cotizado, con 15 años como mínimo para tener derecho y 36 años y 6 meses para el 100 % del porcentaje en 2026. Y la base reguladora, calculada con las bases de cotización de los últimos años de la carrera, hoy los 25 últimos, actualizadas por inflación. La jubilación anticipada es posible, pero aplica coeficientes reductores permanentes por cada mes que se adelanta.
     </p>
-<MiniSimAutonome client:visible kind="edad" lang="es" locale="es-ES" href="/calculadora-jubilacion/" />
+    </Clamp>
+<MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="edad" lang="es" locale="es-ES" href="/calculadora-jubilacion/" />
+    <AuthorByline />
 
 
     <div class="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">

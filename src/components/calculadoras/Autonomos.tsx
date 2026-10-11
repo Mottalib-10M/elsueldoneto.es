@@ -1,3 +1,4 @@
+import BarraResultado from '../ui/BarraResultado';
 import { useState, useMemo } from 'react';
 import { type CCAACodigo } from '../../data/comunidades-autonomas';
 import { calcularNetoAutonomo } from '../../lib/autonomo-engine';
@@ -17,17 +18,21 @@ export default function Autonomos({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   const resultado = useMemo(() => calcularNetoAutonomo(ingresosNum, gastosNum, ccaa), [ingresosNum, gastosNum, ccaa]);
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-3">
+    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-2">
         <CampoSalario id="au-ingresos" label={l ? 'Gross income' : 'Ingresos brutos'} value={ingresos} onChange={setIngresos} min={0} max={500000} step="any" lang={lang} />
         <CampoSalario id="au-gastos" label={l ? 'Deductible expenses' : 'Gastos deducibles'} value={gastos} onChange={setGastos} min={0} max={300000} step="any" lang={lang} />
         <SelectorCCAA value={ccaa} onChange={setCcaa} lang={lang} />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      </div>
+      <div data-resultat className="space-y-6">
+        <BarraResultado />
+      <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
         <div className="rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100 p-6 text-center dark:from-emerald-900/30 dark:to-emerald-900/10">
-          <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">{l ? 'Monthly net' : 'Neto mensual'}</p>
-          <p className="mt-1 text-2xl font-bold text-emerald-700 dark:text-emerald-300">{formatEuros(resultado.netoMensual)}</p>
+          <p data-cle-label className="text-sm font-medium text-emerald-600 dark:text-emerald-400">{l ? 'Monthly net' : 'Neto mensual'}</p>
+          <p data-cle className="mt-1 text-2xl font-bold text-emerald-700 dark:text-emerald-300">{formatEuros(resultado.netoMensual)}</p>
         </div>
         <div className="rounded-xl bg-gradient-to-br from-amber-50 to-amber-100 p-6 text-center dark:from-amber-900/30 dark:to-amber-900/10">
           <p className="text-sm font-medium text-amber-600 dark:text-amber-400">{l ? 'Self-employed contribution/month' : 'Cuota autónomos/mes'}</p>
@@ -76,6 +81,7 @@ export default function Autonomos({ lang = 'es' }: { lang?: 'es' | 'en' }) {
             </tr>
           </tbody>
         </table>
+      </div>
       </div>
     </div>
   );

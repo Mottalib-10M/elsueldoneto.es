@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../../components/ui/Clamp.astro';
 import Layout from '../../../components/layout/Layout.astro';
 import { retaTramos2026 } from '../../../data/seguridad-social-2026';
 const usdReta = (x: number) => '€' + x.toLocaleString('en-US', { minimumFractionDigits: Number.isInteger(x) ? 0 : 2, maximumFractionDigits: 2 });
@@ -38,24 +39,26 @@ import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
-  <div class="mx-auto max-w-6xl px-4 py-8">
-    <nav class="mb-6 text-sm text-medium-gray">
+  <div class="mx-auto max-w-6xl px-4 pb-8 pt-4">
+    <nav class="mb-3 text-sm text-medium-gray">
       <a href="/en/" class="hover:text-brand">Home</a> /
       <a href="/en/guides/" class="hover:text-brand">Guides</a> /
       <span class="text-charcoal dark:text-gray-200">Self-Employed Contributions</span>
     </nav>
 
-    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+    <h1 class="mb-3 text-2xl font-bold text-charcoal sm:text-3xl md:text-4xl dark:text-gray-100">
       Self-Employed Contributions in Spain ({CURRENT_FISCAL_YEAR})
     </h1>
 
-    <AuthorByline locale="en" />
 
     <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <Clamp id="chapeau" locale="en">
       <p>
         Being self-employed (<em>autónomo</em>) in Spain means managing your own Social Security contributions, IRPF payments, and VAT filings. Since the 2023 reform, contributions are based on real net income rather than a freely chosen base, bringing the system closer to how employees are taxed. This guide explains the new bracket system, the flat rate for beginners, and the expenses you can deduct. The reform replaced a freely chosen base with fifteen brackets tied to real net earnings, running from roughly 200 EUR to over 500 EUR a month, and it lets you adjust your bracket up to six times a year as your income changes. Social Security regularises the year afterwards against your declared earnings, refunding or claiming the difference. Income tax is paid quarterly in advance and settled in the annual return, and deductible expenses are what separate gross revenue from the net figure both the contribution and the tax are based on.
       </p>
-<MiniSimAutonome client:visible kind="autonomos" lang="en" locale="en-GB" href="/en/" />
+      </Clamp>
+<MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="autonomos" lang="en" locale="en-GB" href="/en/" />
+      <AuthorByline locale="en" />
 
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">The 15 Contribution Brackets</h2>

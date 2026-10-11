@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../../components/ui/Clamp.astro';
 import GuiaLayout from '../../../layouts/GuiaLayout.astro';
 import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 import { calcularDespido, PARAMS_DESPIDO as P } from '../../../lib/despido-engine';
@@ -30,10 +31,12 @@ const related = [
 ---
 
 <GuiaLayout title={title} description={description} h1="Unfair dismissal in Spain: what you are owed in 2026" path="/en/guides/unfair-dismissal-compensation/" locale="en" crumb="Unfair dismissal" faqs={faqs} sources={enFuentes(fuentesDespido)} related={related}>
+  <Clamp id="chapeau" locale="en">
   <p class="text-lg">
     When a Spanish court finds a dismissal unfair, or the employer accepts it at conciliation, the employer must pay {I.diasPorAnio} days of salary for each year of service, prorated by month, up to {I.topeMensualidades} months’ pay, unless it chooses to reinstate you. If you joined before 12 February 2012, the years before that date are paid at {A.diasPorAnio} days and the total is capped at {A.topeDias} days of salary, or at the pre-2012 days if those alone are higher, never above {A.topeMensualidadesAbsoluto} months’ pay. The daily salary is gross annual pay, extra payments included, divided by 365. An engineer on €44,000 a year who started in May 2017 and is dismissed on 3 October 2026 is owed {eur(a.indemnizacion)}: {num(a.diasIndemnizacion, 2)} days at {eur2(a.salarioDiario)}. Put in your own start year and salary below to see both periods and the cap that applies.
   </p>
-  <MiniSimAutonome client:visible kind="improcedente" lang="en" locale="en-GB" href="/en/dismissal-compensation-calculator/" />
+  </Clamp>
+  <MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="improcedente" lang="en" locale="en-GB" href="/en/dismissal-compensation-calculator/" />
 
   <section>
     <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Why 12 February 2012 matters so much</h2>

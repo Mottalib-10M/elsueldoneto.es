@@ -1,4 +1,5 @@
 ---
+import Clamp from '../components/ui/Clamp.astro';
 import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
 import IndemnizacionDespido from '../components/calculadoras/IndemnizacionDespido';
 import { calcularDespido, PARAMS_DESPIDO as P } from '../lib/despido-engine';
@@ -35,9 +36,11 @@ const faqs = [
 ---
 
 <CalculadoraLayout title={title} description={description} h1="Calculadora de indemnización por despido 2026" calculatorName="Indemnización por despido" path="/calculadora-indemnizacion-despido/" faqs={faqs} sources={fuentesDespido}>
-  <p class="mb-6 text-lg text-dark-gray dark:text-gray-300">
+  <Clamp id="chapeau" locale="es" class="mb-4">
+  <p class="text-lg text-dark-gray dark:text-gray-300">
     La indemnización por despido en España se calcula multiplicando tu salario diario (el bruto anual entre 365) por los días que fija la ley para cada motivo: {T.improcedente.diasPorAnio} días por año en el despido improcedente, {T.objetivo.diasPorAnio} en el objetivo y en el ERE, {T.finContrato.diasPorAnio} al terminar un contrato temporal. Los años incompletos se prorratean por meses y cada tipo tiene su tope. Con 30.000 € brutos al año y alta el 14 de marzo de 2016, un despido el 3 de octubre de 2026 vale {eur(imp.indemnizacion)} si es improcedente y {eur(obj.indemnizacion)} si es objetivo. Si tu contrato es anterior al 12 de febrero de 2012, el tiempo previo se paga a {T.improcedentePre2012.diasPorAnio} días y el tope sube. La calculadora trabaja con tus fechas exactas, nombra la regla que ha fijado el importe y separa la parte exenta de IRPF de la que tributa.
   </p>
+  </Clamp>
   <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800" data-chrome>
     <IndemnizacionDespido client:idle hoy={hoy} enfoque="indemnizacion" tipoInicial="improcedente" />
   </div>

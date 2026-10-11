@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../components/ui/Clamp.astro';
 import GuiaLayout from '../../layouts/GuiaLayout.astro';
 import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 import { baseReguladora, PARAMS_JUBILACION as J, BASES_2026 } from '../../lib/jubilacion-engine';
@@ -37,10 +38,12 @@ const related = [
 ---
 
 <GuiaLayout title={title} description={description} h1="Base reguladora de la jubilación: cómo se calcula desde 2026" path="/guias/base-reguladora-jubilacion/" crumb="Base reguladora" faqs={faqs} sources={fuentesJubilacion} related={related}>
+  <Clamp id="chapeau" locale="es">
   <p class="text-lg">
     Desde el 1 de enero de 2026 la base reguladora de la pensión de jubilación se calcula de dos maneras y se aplica la más alta. La fórmula de 2023 suma las bases de cotización de los últimos {B.antigua.meses} meses y divide entre {B.antigua.divisor}. La fórmula nueva, en su versión de 2026, toma los últimos {N['2026'][0]} meses, se queda con las {N['2026'][1]} bases más altas y divide entre {num(N['2026'][2], 2)}; cada año el periodo crece cuatro meses hasta llegar en 2037 a {B.nuevaDefinitiva[0]} meses con las {B.nuevaDefinitiva[1]} mejores bases entre {B.nuevaDefinitiva[2]}. Con una base constante de 2.800 € al mes, las dos fórmulas dan casi lo mismo ({eur2(constante.baseAntigua ?? 0)} y {eur2(constante.baseNueva)}); las diferencias aparecen con las lagunas, los meses malos al final de la carrera o los sueldos que suben con los años. El mini-simulador compara las dos para tu caso.
   </p>
-  <MiniSimAutonome client:visible kind="basereg" lang="es" locale="es-ES" href="/calculadora-jubilacion/" />
+  </Clamp>
+  <MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="basereg" lang="es" locale="es-ES" href="/calculadora-jubilacion/" />
 
   <section>
     <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">El calendario de la fórmula nueva</h2>

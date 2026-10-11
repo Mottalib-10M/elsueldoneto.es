@@ -1,4 +1,5 @@
 ---
+import Clamp from '../components/ui/Clamp.astro';
 import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
 import IndemnizacionDespido from '../components/calculadoras/IndemnizacionDespido';
 import { calcularDespido, PARAMS_DESPIDO as P } from '../lib/despido-engine';
@@ -28,9 +29,11 @@ const faqs = [
 ---
 
 <CalculadoraLayout title={title} description={description} h1="Calculadora de finiquito 2026" calculatorName="Calculadora de finiquito" path="/calculadora-finiquito/" faqs={faqs} sources={fuentesDespido}>
-  <p class="mb-6 text-lg text-dark-gray dark:text-gray-300">
+  <Clamp id="chapeau" locale="es" class="mb-4">
+  <p class="text-lg text-dark-gray dark:text-gray-300">
     El finiquito es la liquidación de todo lo que la empresa te debe el día en que se acaba el contrato, sea cual sea el motivo: el salario de los días trabajados en el mes, las vacaciones generadas y no disfrutadas, la parte devengada de las pagas extra y, si hay despido, la indemnización. Para un sueldo de 30.800 € brutos al año en 14 pagas, con baja el 15 de septiembre y 10 días de vacaciones ya disfrutados, el finiquito sin indemnización asciende a {eur(pedro.finiquito)}; con un despido improcedente se añaden {eur(pedro.indemnizacion)}. El cálculo usa tus fechas reales, no una antigüedad redondeada, y separa lo que tributa como nómina de la indemnización exenta de IRPF. Introduce tu fecha de alta, la de baja y tu salario anual: el resultado se recalcula al instante.
   </p>
+  </Clamp>
   <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800" data-chrome>
     <IndemnizacionDespido client:idle hoy={hoy} enfoque="finiquito" tipoInicial="voluntaria" />
   </div>

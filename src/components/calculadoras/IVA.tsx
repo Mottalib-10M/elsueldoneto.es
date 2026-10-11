@@ -1,3 +1,4 @@
+import BarraResultado from '../ui/BarraResultado';
 import { useState, useMemo } from 'react';
 import CampoEntrada from '../ui/CampoEntrada';
 import { formatEuros } from '../../lib/format-es';
@@ -66,7 +67,8 @@ export default function IVA({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   const porcentajeLabel = `${Math.round(tipoIVA * 100)}%`;
 
   return (
-    <div className="space-y-6">
+    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-6">
       {/* Entrada del importe */}
       <CampoEntrada
         id="iva-importe"
@@ -133,8 +135,11 @@ export default function IVA({ lang = 'es' }: { lang?: 'es' | 'en' }) {
         </div>
       </div>
 
+      </div>
+      <div data-resultat className="space-y-6">
+        <BarraResultado />
       {/* Resultado: 3 tarjetas */}
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
         {/* Base imponible */}
         <div className="rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 p-6 text-center dark:from-gray-700 dark:to-gray-800">
           <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{l ? 'Tax base' : 'Base imponible'}</p>
@@ -155,10 +160,10 @@ export default function IVA({ lang = 'es' }: { lang?: 'es' | 'en' }) {
 
         {/* Total */}
         <div className="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-6 text-center dark:from-blue-900/30 dark:to-blue-900/10">
-          <p className="text-sm font-medium text-blue-600 dark:text-blue-400">
+          <p data-cle-label className="text-sm font-medium text-blue-600 dark:text-blue-400">
             {operacion === 'anadir' ? (l ? 'Total with VAT' : 'Total con IVA') : (l ? 'Total without VAT' : 'Total sin IVA')}
           </p>
-          <p className="mt-1 text-2xl font-bold text-blue-700 dark:text-blue-300">
+          <p data-cle className="mt-1 text-2xl font-bold text-blue-700 dark:text-blue-300">
             {formatEuros(operacion === 'anadir' ? resultado.total : resultado.base)}
           </p>
         </div>
@@ -191,6 +196,7 @@ export default function IVA({ lang = 'es' }: { lang?: 'es' | 'en' }) {
           </p>
         </div>
       )}
+      </div>
     </div>
   );
 }

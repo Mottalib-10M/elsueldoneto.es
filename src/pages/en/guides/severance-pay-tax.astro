@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../../components/ui/Clamp.astro';
 import GuiaLayout from '../../../layouts/GuiaLayout.astro';
 import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 import { calcularDespido, reduccionIrregular, PARAMS_DESPIDO as P } from '../../../lib/despido-engine';
@@ -31,10 +32,12 @@ const related = [
 ---
 
 <GuiaLayout title={title} description={description} h1="Severance pay and Spanish income tax in 2026" path="/en/guides/severance-pay-tax/" locale="en" crumb="Severance pay tax" faqs={faqs} sources={enFuentes(fuentesDespido)} related={related}>
+  <Clamp id="chapeau" locale="en">
   <p class="text-lg">
     In Spain, dismissal compensation is exempt from income tax (IRPF) up to the amount the Workers’ Statute makes compulsory, with an absolute ceiling of {eur(R.limiteExencion)} (article 7.e of Act 35/2006). Anything paid above that statutory amount is taxed as employment income, reduced by {num(R.reduccionIrregular * 100)}% if you served more than two years. Three details change the result. Unfair dismissal compensation is only exempt when the unfairness is recognised at conciliation or in court. In collective redundancies (ERE) and objective dismissals for economic reasons, the exemption extends to what an unfair dismissal would have paid. And the payment at the end of a temporary contract is not exempt at all. On €65,000 a year with almost thirteen years of service, an unfair dismissal settled at conciliation pays {eur(a.indemnizacion)} tax-free; the same sum paid without conciliation would add {eur(aNo.sujetaTrasReduccion)} to taxable income.
   </p>
-  <MiniSimAutonome client:visible kind="irpfindem" lang="en" locale="en-GB" href="/en/dismissal-compensation-calculator/" />
+  </Clamp>
+  <MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="irpfindem" lang="en" locale="en-GB" href="/en/dismissal-compensation-calculator/" />
 
   <section>
     <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">"Compulsory amount": the phrase that decides your bill</h2>

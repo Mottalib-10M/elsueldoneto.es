@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../components/ui/Clamp.astro';
 import Layout from '../../components/layout/Layout.astro';
 import { tramosEstatales2026 } from '../../data/irpf-2026';
 import { getCCAAByCodigo, type CCAACodigo } from '../../data/comunidades-autonomas';
@@ -48,23 +49,25 @@ import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} ogType="article" schema={schemas}>
-  <article class="mx-auto max-w-6xl px-4 py-8">
-    <nav class="mb-6 text-sm text-medium-gray">
+  <article class="mx-auto max-w-6xl px-4 pb-8 pt-4">
+    <nav class="mb-3 text-sm text-medium-gray">
       <a href="/" class="hover:text-brand">Inicio</a> /
       <a href="/guias/" class="hover:text-brand">Guías</a> /
       <span class="text-charcoal dark:text-gray-200">Tramos del IRPF</span>
     </nav>
 
-    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+    <h1 class="mb-3 text-2xl font-bold text-charcoal sm:text-3xl md:text-4xl dark:text-gray-100">
       Tramos del IRPF en España ({CURRENT_FISCAL_YEAR}): Tablas y Tipos por Comunidad
     </h1>
 
-    <AuthorByline />
 
-    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+    <Clamp id="chapeau" locale="es">
+    <p class="text-lg text-dark-gray dark:text-gray-300">
       El IRPF es un impuesto progresivo: no pagas el mismo porcentaje por todo tu salario. Cada tramo de renta tributa a un tipo diferente. En esta guía te explicamos cómo funcionan los tramos, las tablas actualizadas para {CURRENT_FISCAL_YEAR} y cómo varía la carga fiscal según tu comunidad autónoma. La escala estatal tiene seis tramos y, sumada la autonómica, el tipo marginal va del 19 % al 47 % aproximadamente según la comunidad. Los tramos se aplican sobre la base imponible, no sobre el salario bruto: antes se descuentan las cotizaciones a la Seguridad Social, el mínimo personal y las reducciones familiares, y por eso el tipo efectivo queda siempre muy por debajo del marginal. Para un salario de 30.000 € el tipo efectivo ronda el 15-16 %, lejos de los porcentajes que aparecen en los titulares.
     </p>
-<MiniSimAutonome client:visible kind="tramos" lang="es" locale="es-ES" href="/" />
+    </Clamp>
+<MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="tramos" lang="es" locale="es-ES" href="/" />
+    <AuthorByline />
 
 
     <div class="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">

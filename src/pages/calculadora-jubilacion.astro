@@ -1,4 +1,5 @@
 ---
+import Clamp from '../components/ui/Clamp.astro';
 import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
 import Jubilacion from '../components/calculadoras/Jubilacion';
 import { calcularJubilacion, porcentajePorMeses, PARAMS_JUBILACION as J } from '../lib/jubilacion-engine';
@@ -32,9 +33,11 @@ const faqs = [
 ---
 
 <CalculadoraLayout title={title} description={description} h1="Simulador de pensión de jubilación 2026" calculatorName="Simulador de jubilación" path="/calculadora-jubilacion/" faqs={faqs} sources={fuentesJubilacion}>
-  <p class="mb-6 text-lg text-dark-gray dark:text-gray-300">
+  <Clamp id="chapeau" locale="es" class="mb-4">
+  <p class="text-lg text-dark-gray dark:text-gray-300">
     La pensión de jubilación se obtiene aplicando a la base reguladora (la media de tus bases de cotización) un porcentaje que depende de los años cotizados: el {J.porcentaje.base} % con 15 años y el 100 % con 36 años y 6 meses en 2026. Desde enero de 2026 la Seguridad Social calcula la base de dos maneras y aplica la más favorable: la clásica, 300 meses entre 350, y la nueva, que en 2026 suma las {N26[1]} mejores bases de los últimos {N26[0]} meses y divide entre {num(N26[2], 2)}. Con 39 años cotizados y una base de 2.600 € al mes, una persona nacida en marzo de 1961 que se jubila ahora cobra {eur(ana.pensionMensual)} al mes en 14 pagas. La pensión no puede pasar de {eur(J.pensionMaximaMensual)} ni, si tus ingresos son bajos, quedar por debajo de la mínima. El simulador calcula también la edad ordinaria que te corresponde y el efecto de adelantar o retrasar la jubilación.
   </p>
+  </Clamp>
   <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800" data-chrome>
     <Jubilacion client:idle hoy={hoy} />
   </div>

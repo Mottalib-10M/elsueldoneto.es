@@ -126,6 +126,15 @@
 }
 
 @layer components {
+  /* Chapeau replié sur 3 lignes, texte entier dans le HTML (RECETTE §5, 2026-10-11). */
+  .clamp { position: relative; }
+  .clamp-toggle { position: absolute; width: 0; height: 0; margin: 0; opacity: 0; appearance: none; }
+  .clamp > p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; margin: 0; }
+  .clamp-toggle:checked ~ p { display: block; -webkit-line-clamp: unset; line-clamp: none; }
+  .clamp-toggle:checked ~ .clamp-more { display: none; }
+  .clamp-more { display: inline-block; cursor: pointer; margin-top: 0.125rem; font-size: 0.875rem; font-weight: 600; color: var(--color-brand); text-decoration: underline; text-underline-offset: 3px; }
+  .clamp-toggle:focus-visible ~ .clamp-more { outline: 2px solid currentColor; outline-offset: 3px; }
+  @media (prefers-color-scheme: dark) { .clamp-more { color: #fca5a5; } }
   /*
    * Mise en forme des pages de texte.
    *

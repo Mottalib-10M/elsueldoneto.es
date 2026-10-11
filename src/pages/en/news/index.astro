@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../../components/ui/Clamp.astro';
 import Layout from '../../../components/layout/Layout.astro';
 import { CURRENT_FISCAL_YEAR } from '../../../config';
 import { buildBreadcrumbSchema } from '../../../lib/seo';
@@ -57,19 +58,21 @@ import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
-  <div class="mx-auto max-w-6xl px-4 py-8">
-    <nav class="mb-6 text-sm text-medium-gray">
+  <div class="mx-auto max-w-6xl px-4 pb-8 pt-4">
+    <nav class="mb-3 text-sm text-medium-gray">
       <a href="/en/" class="hover:text-brand">Home</a> / <span class="text-charcoal dark:text-gray-200">News</span>
     </nav>
 
-    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+    <h1 class="mb-3 text-2xl font-bold text-charcoal sm:text-3xl md:text-4xl dark:text-gray-100">
       Spain Tax News {CURRENT_FISCAL_YEAR}
     </h1>
 
-    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+    <Clamp id="chapeau" locale="en">
+    <p class="text-lg text-dark-gray dark:text-gray-300">
       Tax changes, new contribution rates, and updates to Spanish labour and tax regulations. This page records the changes that alter a Spanish payslip or tax return: the annual update of the IRPF scales and the regional brackets, the contribution brackets for the self-employed, the minimum wage, pension revaluation and the deadlines of the filing season. Each entry names the instrument that changed, whether a law, a royal decree or an order, the date it takes effect, and which taxpayers it reaches. Older entries stay in place rather than being rewritten, because anyone checking a past year needs the rule that applied then. Where a change is transitional, with one rule for existing contracts and another for new ones, the entry says so, since that distinction decides which applies to you.
     </p>
-<MiniSimAutonome client:visible kind="neto" lang="en" locale="en-GB" href="/en/" />
+    </Clamp>
+<MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="neto" lang="en" locale="en-GB" href="/en/" />
 
 
     <div class="space-y-6">

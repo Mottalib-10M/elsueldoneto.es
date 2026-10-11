@@ -1,0 +1,14 @@
+---
+/**
+ * Chapeau replié sur 3 lignes (RECETTE §5, règle du 2026-10-11 ; feedback « texte replié ») :
+ * le texte reste entier dans le HTML, un seul <p> ; « Leer más » le déplie sans JavaScript.
+ * La case est réduite à 0 × 0 : ce n'est pas un champ du simulateur.
+ */
+interface Props { id: string; locale?: 'es' | 'en'; class?: string }
+const { id, locale = 'es', class: cls = '' } = Astro.props;
+---
+<div class={`clamp ${cls}`}>
+  <input type="checkbox" id={id} class="clamp-toggle" aria-label={locale === 'en' ? 'Read the full introduction' : 'Leer la introducción completa'} />
+  <slot />
+  <label for={id} class="clamp-more" data-chrome>{locale === 'en' ? 'Read more' : 'Leer más'}</label>
+</div>

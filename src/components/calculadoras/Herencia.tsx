@@ -1,3 +1,4 @@
+import BarraResultado from '../ui/BarraResultado';
 import { dec } from '../../lib/dec';
 import { useState, useMemo } from 'react';
 import CampoEntrada from '../ui/CampoEntrada';
@@ -207,8 +208,9 @@ export default function Herencia({ lang = 'es' }: HerenciaProps) {
   }, [valorNum, ccaa, grupo, patrimonioNum, viviendaHabitual]);
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
         <CampoEntrada
           id="her-valor"
           label={l ? 'Inheritance value' : 'Valor de la herencia'}
@@ -308,9 +310,12 @@ export default function Herencia({ lang = 'es' }: HerenciaProps) {
         </div>
       </div>
 
+      </div>
+      <div data-resultat className="space-y-6">
+        <BarraResultado />
       {resultado && (
         <>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
             <div className="rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 p-5 text-center dark:from-gray-700 dark:to-gray-800">
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
                 {l ? 'Inheritance value' : 'Valor herencia'}
@@ -342,7 +347,7 @@ export default function Herencia({ lang = 'es' }: HerenciaProps) {
                   : 'bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-900/10'
               }`}
             >
-              <p
+              <p data-cle-label
                 className={`text-sm font-medium ${
                   resultado.aPagar < 5000
                     ? 'text-emerald-600 dark:text-emerald-400'
@@ -351,7 +356,7 @@ export default function Herencia({ lang = 'es' }: HerenciaProps) {
               >
                 {l ? 'Tax due' : 'A pagar'}
               </p>
-              <p
+              <p data-cle
                 className={`mt-1 text-2xl font-bold ${
                   resultado.aPagar < 5000
                     ? 'text-emerald-700 dark:text-emerald-300'
@@ -461,6 +466,7 @@ export default function Herencia({ lang = 'es' }: HerenciaProps) {
           </p>
         </>
       )}
+      </div>
     </div>
   );
 }

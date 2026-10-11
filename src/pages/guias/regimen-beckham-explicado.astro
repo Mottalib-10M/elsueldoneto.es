@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../components/ui/Clamp.astro';
 import Layout from '../../components/layout/Layout.astro';
 import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
 import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../lib/seo';
@@ -35,23 +36,25 @@ import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} ogType="article" schema={schemas}>
-  <article class="mx-auto max-w-6xl px-4 py-8">
-    <nav class="mb-6 text-sm text-medium-gray">
+  <article class="mx-auto max-w-6xl px-4 pb-8 pt-4">
+    <nav class="mb-3 text-sm text-medium-gray">
       <a href="/" class="hover:text-brand">Inicio</a> /
       <a href="/guias/" class="hover:text-brand">Guías</a> /
       <span class="text-charcoal dark:text-gray-200">Régimen Beckham</span>
     </nav>
 
-    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+    <h1 class="mb-3 text-2xl font-bold text-charcoal sm:text-3xl md:text-4xl dark:text-gray-100">
       Régimen Beckham en España: Guía Completa ({CURRENT_FISCAL_YEAR})
     </h1>
 
-    <AuthorByline />
 
-    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+    <Clamp id="chapeau" locale="es">
+    <p class="text-lg text-dark-gray dark:text-gray-300">
       La Ley Beckham permite a los profesionales que se trasladan a España tributar a un tipo fijo del 24% durante hasta 6 años. Te explicamos cómo funciona, quién puede solicitarlo y si te compensa. El régimen se aplica al año del traslado y a los cinco siguientes, y exige no haber sido residente en España en los cinco ejercicios anteriores, que el desplazamiento esté vinculado a un contrato de trabajo o al cargo de administrador, y presentar el modelo 149 dentro de los seis meses siguientes al alta en la Seguridad Social. El tipo fijo del 24 % se aplica hasta 600.000 € y el 47 % por encima. Las rentas de fuente extranjera quedan fuera de la base española salvo las del trabajo, que es el punto que más confusión genera.
     </p>
-<MiniSimAutonome client:visible kind="beckham" lang="es" locale="es-ES" href="/" />
+    </Clamp>
+<MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="beckham" lang="es" locale="es-ES" href="/" />
+    <AuthorByline />
 
 
     <div class="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">

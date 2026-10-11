@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../components/ui/Clamp.astro';
 import GuiaLayout from '../../layouts/GuiaLayout.astro';
 import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 import { calcularDespido, PARAMS_DESPIDO as P } from '../../lib/despido-engine';
@@ -34,10 +35,12 @@ const related = [
 ---
 
 <GuiaLayout title={title} description={description} h1="Despido improcedente: cuánto te corresponde en 2026" path="/guias/despido-improcedente-indemnizacion/" crumb="Despido improcedente" faqs={faqs} sources={fuentesDespido} related={related}>
+  <Clamp id="chapeau" locale="es">
   <p class="text-lg">
     Un despido improcedente se paga a {I.diasPorAnio} días de salario por año trabajado, con un tope de {I.topeMensualidades} mensualidades, si tu contrato empezó el 12 de febrero de 2012 o después. Si empezó antes, el tiempo trabajado hasta el 11 de febrero de 2012 se paga a {A.diasPorAnio} días por año y el posterior a {I.diasPorAnio}, y la suma se corta en {A.topeDias} días de salario, salvo que el primer tramo ya los supere. Con 26.000 € brutos al año y alta en abril de 2015, una persona despedida el 3 de octubre de 2026 cobra {eur(e1.indemnizacion)}: {num(e1.diasIndemnizacion, 2)} días de salario a {eur(e1.salarioDiario)} el día. La improcedencia la declara un juez o la reconoce la empresa, casi siempre en el acto de conciliación, y ese detalle decide si la indemnización tributa o no.
   </p>
-  <MiniSimAutonome client:visible kind="improcedente" lang="es" locale="es-ES" href="/calculadora-indemnizacion-despido/" />
+  </Clamp>
+  <MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="improcedente" lang="es" locale="es-ES" href="/calculadora-indemnizacion-despido/" />
 
   <section>
     <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">El 12 de febrero de 2012 parte la antigüedad en dos</h2>

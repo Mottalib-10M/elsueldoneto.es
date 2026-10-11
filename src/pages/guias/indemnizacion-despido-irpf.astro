@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../components/ui/Clamp.astro';
 import GuiaLayout from '../../layouts/GuiaLayout.astro';
 import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 import { calcularDespido, reduccionIrregular, PARAMS_DESPIDO as P } from '../../lib/despido-engine';
@@ -32,10 +33,12 @@ const related = [
 ---
 
 <GuiaLayout title={title} description={description} h1="Indemnización por despido e IRPF: qué parte tributa en 2026" path="/guias/indemnizacion-despido-irpf/" crumb="IRPF de la indemnización" faqs={faqs} sources={fuentesDespido} related={related}>
+  <Clamp id="chapeau" locale="es">
   <p class="text-lg">
     La indemnización por despido está exenta de IRPF en la cuantía que el Estatuto de los Trabajadores hace obligatoria, con un máximo de {eur(R.limiteExencion)} (artículo 7.e de la Ley 35/2006). Lo que se pacte por encima de esa cuantía tributa como rendimiento del trabajo, con una reducción del {num(R.reduccionIrregular * 100)} % si la antigüedad supera dos años. Hay tres reglas que cambian el resultado: el despido improcedente solo está exento si se reconoce en conciliación o en sentencia; en los ERE y en los despidos objetivos por causas económicas, técnicas, organizativas o de producción, la exención llega hasta lo que habría correspondido por improcedente; y la indemnización por fin de contrato temporal no está exenta. Con 52.000 € al año y doce años de antigüedad, un despido improcedente reconocido en conciliación deja {eur(a.indemnizacion)} libres de impuestos; sin conciliación, tributarían {eur(aSin.sujetaTrasReduccion)}.
   </p>
-  <MiniSimAutonome client:visible kind="irpfindem" lang="es" locale="es-ES" href="/calculadora-indemnizacion-despido/" />
+  </Clamp>
+  <MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="irpfindem" lang="es" locale="es-ES" href="/calculadora-indemnizacion-despido/" />
 
   <section>
     <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Cuantía obligatoria: el concepto que lo decide todo</h2>

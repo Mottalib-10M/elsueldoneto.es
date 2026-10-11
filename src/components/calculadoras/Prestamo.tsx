@@ -1,3 +1,4 @@
+import BarraResultado from '../ui/BarraResultado';
 import { useState, useMemo } from 'react';
 import { calcularPrestamo } from '../../lib/finanz-engine';
 import { formatEuros, formatPercent } from '../../lib/format-es';
@@ -19,19 +20,23 @@ export default function Prestamo({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   }, [capitalNum, tinNum, plazoNum]);
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-3">
+    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-2">
         <CampoEntrada id="pr-capital" label={l ? 'Loan amount' : 'Capital del préstamo'} value={capital} onChange={setCapital} min={0} max={1000000} step="any" suffix="€" />
         <CampoEntrada id="pr-tin" label={l ? 'Annual interest rate' : 'TIN anual'} value={tin} onChange={setTin} min={0} max={50} step={0.1} suffix="%" helpText={l ? 'Nominal Interest Rate' : 'Tipo de Interés Nominal'} />
         <CampoEntrada id="pr-plazo" label={l ? 'Term' : 'Plazo'} value={plazo} onChange={setPlazo} min={1} max={600} step={1} suffix={l ? 'months' : 'meses'} />
       </div>
 
+      </div>
+      <div data-resultat className="space-y-6">
+        <BarraResultado />
       {resultado && (
         <>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
             <div className="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-6 text-center dark:from-blue-900/30 dark:to-blue-900/10">
-              <p className="text-sm font-medium text-blue-600 dark:text-blue-400">{l ? 'Monthly payment' : 'Cuota mensual'}</p>
-              <p className="mt-1 text-2xl font-bold text-blue-700 dark:text-blue-300">{formatEuros(resultado.cuotaMensual)}</p>
+              <p data-cle-label className="text-sm font-medium text-blue-600 dark:text-blue-400">{l ? 'Monthly payment' : 'Cuota mensual'}</p>
+              <p data-cle className="mt-1 text-2xl font-bold text-blue-700 dark:text-blue-300">{formatEuros(resultado.cuotaMensual)}</p>
             </div>
             <div className="rounded-xl bg-gradient-to-br from-red-50 to-red-100 p-6 text-center dark:from-red-900/30 dark:to-red-900/10">
               <p className="text-sm font-medium text-red-700 dark:text-red-400">{l ? 'Total interest' : 'Total intereses'}</p>
@@ -73,6 +78,7 @@ export default function Prestamo({ lang = 'es' }: { lang?: 'es' | 'en' }) {
           </div>
         </>
       )}
+      </div>
     </div>
   );
 }

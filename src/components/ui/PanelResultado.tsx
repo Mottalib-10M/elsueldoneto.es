@@ -24,10 +24,10 @@ export default function PanelResultado({ resultado, lang = 'es' }: PanelResultad
     <div className="space-y-6">
       {/* Hero result */}
       <div className="rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 p-6 text-center dark:from-gray-700 dark:to-gray-800">
-        <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+        <p data-cle-label className="text-sm font-medium text-gray-500 dark:text-gray-400">
           {l ? 'Your monthly net salary' : 'Tu sueldo neto mensual'} ({pagas} pagas)
         </p>
-        <p className="mt-1 text-4xl font-bold text-brand md:text-5xl">
+        <p data-cle className="mt-1 text-4xl font-bold text-brand md:text-5xl">
           {formatEuros(netoMensual)}
         </p>
         <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">

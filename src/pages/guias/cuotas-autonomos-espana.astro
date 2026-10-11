@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../components/ui/Clamp.astro';
 import Layout from '../../components/layout/Layout.astro';
 import { retaTramos2026 } from '../../data/seguridad-social-2026';
 import { formatEuros as eurReta } from '../../lib/format-es';
@@ -42,23 +43,25 @@ import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} ogType="article" schema={schemas}>
-  <article class="mx-auto max-w-6xl px-4 py-8">
-    <nav class="mb-6 text-sm text-medium-gray">
+  <article class="mx-auto max-w-6xl px-4 pb-8 pt-4">
+    <nav class="mb-3 text-sm text-medium-gray">
       <a href="/" class="hover:text-brand">Inicio</a> /
       <a href="/guias/" class="hover:text-brand">Guías</a> /
       <span class="text-charcoal dark:text-gray-200">Cuotas de Autónomos</span>
     </nav>
 
-    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+    <h1 class="mb-3 text-2xl font-bold text-charcoal sm:text-3xl md:text-4xl dark:text-gray-100">
       Cuotas de Autónomos en España ({CURRENT_FISCAL_YEAR}): Tabla Completa por Ingresos Reales
     </h1>
 
-    <AuthorByline />
 
-    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+    <Clamp id="chapeau" locale="es">
+    <p class="text-lg text-dark-gray dark:text-gray-300">
       Desde 2023, los trabajadores autónomos en España cotizan a la Seguridad Social en función de sus ingresos reales. Esta guía te explica cómo funciona el nuevo sistema de cotización por tramos del RETA, cuánto pagarás en {CURRENT_FISCAL_YEAR} y cómo calcular tu cuota exacta. El sistema sustituyó la base elegida libremente por quince tramos ligados al rendimiento neto real, de unos 206 € a 607 € mensuales de cuota mínima, y permite cambiar de tramo hasta seis veces al año según cómo evolucionen los ingresos. La Seguridad Social regulariza después el ejercicio contra los rendimientos declarados, devolviendo o reclamando la diferencia. El IRPF se adelanta cada trimestre con el modelo 130 y se ajusta en la declaración anual, y los gastos deducibles son lo que separa la facturación del rendimiento neto sobre el que se calcula todo.
     </p>
-<MiniSimAutonome client:visible kind="autonomos" lang="es" locale="es-ES" href="/" />
+    </Clamp>
+<MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="autonomos" lang="es" locale="es-ES" href="/" />
+    <AuthorByline />
 
 
     <div class="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">

@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../components/ui/Clamp.astro';
 import Layout from '../../components/layout/Layout.astro';
 import { CURRENT_FISCAL_YEAR } from '../../config';
 import { buildBreadcrumbSchema } from '../../lib/seo';
@@ -100,19 +101,21 @@ import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} schema={schemas}>
-  <div class="mx-auto max-w-6xl px-4 py-8">
-    <nav class="mb-6 text-sm text-medium-gray">
+  <div class="mx-auto max-w-6xl px-4 pb-8 pt-4">
+    <nav class="mb-3 text-sm text-medium-gray">
       <a href="/" class="hover:text-brand">Inicio</a> / <span class="text-charcoal dark:text-gray-200">Guías</span>
     </nav>
 
-    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+    <h1 class="mb-3 text-2xl font-bold text-charcoal sm:text-3xl md:text-4xl dark:text-gray-100">
       Guías Fiscales y Financieras
     </h1>
 
-    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+    <Clamp id="chapeau" locale="es">
+    <p class="text-lg text-dark-gray dark:text-gray-300">
       Artículos detallados para entender la fiscalidad española y tomar mejores decisiones financieras. Las guías responden a las cuatro preguntas que deciden una nómina española: cómo se pasa del bruto al neto una vez aplicadas la Seguridad Social y la retención del IRPF, cómo encajan la escala estatal y la autonómica, qué paga un autónomo desde que la reforma de 2023 ligó la cuota a los ingresos reales, y a qué tiene derecho un trabajador cuando termina su contrato. Cada guía cita la norma o la escala publicada en la que se apoya, incluye ejemplos con salarios reales e indica dónde cambian las cifras según la comunidad autónoma. Cuando una norma ha cambiado recientemente, la guía dice qué se aplicaba antes, porque un contrato firmado con la regla anterior puede seguir rigiéndose por ella.
     </p>
-<MiniSimAutonome client:visible kind="neto" lang="es" locale="es-ES" href="/" />
+    </Clamp>
+<MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="neto" lang="es" locale="es-ES" href="/" />
 
 
     <div class="space-y-6">

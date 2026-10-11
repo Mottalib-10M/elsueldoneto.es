@@ -3,6 +3,7 @@
  * Hidratación (RECETTE §17.5): primer render con los valores por defecto y la fecha del build
  * (`hoy`, prop calculada en Astro); el enlace compartido y la fecha del día se aplican en useEffect.
  */
+import BarraResultado from '../ui/BarraResultado';
 import { useEffect, useMemo, useState } from 'react';
 import { calcularDespido, type TipoExtincion, type Pagas } from '../../lib/despido-engine';
 import CampoNumero from '../ui/CampoNumero';
@@ -113,8 +114,9 @@ export default function IndemnizacionDespido({ lang = 'es', hoy, enfoque = 'inde
   );
 
   return (
-    <div className="space-y-6">
-      <form className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" onSubmit={(e) => e.preventDefault()}>
+    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-6">
+      <form className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2" onSubmit={(e) => e.preventDefault()}>
         <div className="flex h-full flex-col">
           <label htmlFor="dsp-inicio" className="mb-1 flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">{t.inicio}</label>
           <input id="dsp-inicio" type="date" value={inicio} min="1960-01-01" max={fin} onChange={(e) => e.target.value && setInicio(e.target.value)} className={sel} />
@@ -145,7 +147,7 @@ export default function IndemnizacionDespido({ lang = 'es', hoy, enfoque = 'inde
 
       <details className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
         <summary className="cursor-pointer text-sm font-medium text-charcoal dark:text-gray-200">{t.avanzadas}</summary>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
           <CampoNumero id="dsp-vacanual" label={t.vacAnual} value={vacAnual} onChange={setVacAnual} suffix={t.dias} max={60} locale={loc} />
           <CampoNumero id="dsp-preaviso" label={t.preaviso} value={preaviso} onChange={setPreaviso} suffix={t.dias} max={15} locale={loc} />
           <div className="flex h-full flex-col">
@@ -174,14 +176,17 @@ export default function IndemnizacionDespido({ lang = 'es', hoy, enfoque = 'inde
         </div>
       </details>
 
+      </div>
+      <div data-resultat className="space-y-6">
+        <BarraResultado />
       <div aria-live="polite" className="space-y-4">
         {!r.valido ? (
           <p role="status" className="rounded-lg bg-amber-50 p-4 text-sm font-medium text-amber-900 dark:bg-amber-900/30 dark:text-amber-200">{t.fechas}</p>
         ) : (
           <>
             <div className="rounded-xl bg-emerald-50 p-6 text-center dark:bg-emerald-900/30">
-              <p className="text-sm font-medium text-emerald-800 dark:text-emerald-300">{head}, {t.bruto}</p>
-              <p className="mt-1 text-4xl font-bold tabular-nums text-emerald-900 dark:text-emerald-200">{eur(headVal)}</p>
+              <p data-cle-label className="text-sm font-medium text-emerald-800 dark:text-emerald-300">{head}, {t.bruto}</p>
+              <p data-cle className="mt-1 text-4xl font-bold tabular-nums text-emerald-900 dark:text-emerald-200">{eur(headVal)}</p>
               <p className="mt-2 text-sm text-emerald-900 dark:text-emerald-200">{t.regla}: {t.reglas[r.regla as keyof typeof t.reglas] ?? r.regla}</p>
               {r.total > 0 && (
                 <div className="mx-auto mt-4 flex h-3 max-w-md overflow-hidden rounded-full bg-emerald-200 dark:bg-emerald-800" aria-hidden="true">
@@ -220,6 +225,7 @@ export default function IndemnizacionDespido({ lang = 'es', hoy, enfoque = 'inde
           </>
         )}
         <p className="text-xs text-gray-600 dark:text-gray-400">{t.hip} <a href={t.metodoHref} className="underline hover:text-brand">{t.metodo}</a></p>
+      </div>
       </div>
     </div>
   );

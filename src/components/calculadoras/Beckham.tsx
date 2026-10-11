@@ -1,3 +1,4 @@
+import BarraResultado from '../ui/BarraResultado';
 import { useState, useMemo } from 'react';
 import { calcularBeckham, calcularSueldoNeto, situacionFamiliarDefecto, calcularSeguridadSocialAnual } from '../../lib/irpf-engine';
 import type { CCAACodigo } from '../../data/comunidades-autonomas';
@@ -23,19 +24,23 @@ export default function Beckham({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   const mereceLaPena = resultado.ahorro > 0;
 
   return (
-    <div className="space-y-6">
+    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
         <CampoSalario id="beck-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={2000000} step="any" divisor={14} lang={lang} />
         <SelectorCCAA value={ccaa} onChange={setCCAA} id="beck-ccaa" lang={lang} />
       </div>
 
+      </div>
+      <div data-resultat className="space-y-6">
+        <BarraResultado />
       {brutoNum > 0 && (
         <div className="space-y-4">
           <div className={`rounded-xl p-6 text-center ${mereceLaPena ? 'bg-emerald-50 dark:bg-emerald-900/20' : 'bg-amber-50 dark:bg-amber-900/20'}`}>
-            <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
+            <p data-cle-label className="text-sm font-medium text-gray-600 dark:text-gray-300">
               {mereceLaPena ? (l ? 'Beckham Law saves you' : 'Beckham te ahorra') : (l ? 'Beckham Law costs you more' : 'Beckham te cuesta más')}
             </p>
-            <p className={`mt-1 text-4xl font-bold ${mereceLaPena ? 'text-emerald-700 dark:text-emerald-300' : 'text-amber-700 dark:text-amber-300'}`}>
+            <p data-cle className={`mt-1 text-4xl font-bold ${mereceLaPena ? 'text-emerald-700 dark:text-emerald-300' : 'text-amber-700 dark:text-amber-300'}`}>
               {formatEuros(Math.abs(resultado.ahorro))}/{l ? 'year' : 'año'}
             </p>
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -82,6 +87,7 @@ export default function Beckham({ lang = 'es' }: { lang?: 'es' | 'en' }) {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

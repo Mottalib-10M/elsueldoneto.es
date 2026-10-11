@@ -1,3 +1,4 @@
+import BarraResultado from '../ui/BarraResultado';
 import { dec } from '../../lib/dec';
 import { useState, useMemo } from 'react';
 import { calcularSueldoNeto, situacionFamiliarDefecto } from '../../lib/irpf-engine';
@@ -30,10 +31,11 @@ export default function TipoRetencion({ lang = 'es' }: TipoRetencionProps) {
   const retencionPorcentaje = brutoNum > 0 ? (resultado.irpfTotalAnual / brutoNum) * 100 : 0;
 
   return (
-    <div className="space-y-6">
+    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-6">
       <CampoSalario id="tr-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={bruto} onChange={setBruto} min={0} max={300000} step="any" divisor={pagas} lang={lang} />
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-2">
         <SelectorCCAA value={ccaa} onChange={setCcaa} lang={lang} />
         <div className="flex h-full flex-col">
           <label className="mb-1 flex-1 text-sm font-medium text-gray-700 dark:text-gray-300">{l ? 'Payments' : 'Pagas'}</label>
@@ -69,9 +71,12 @@ export default function TipoRetencion({ lang = 'es' }: TipoRetencionProps) {
         <SelectorSituacionFamiliar value={situacion} onChange={setSituacion} lang={lang} />
       )}
 
+      </div>
+      <div data-resultat className="space-y-6">
+        <BarraResultado />
       <div className="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-8 text-center dark:from-blue-900/30 dark:to-blue-900/10">
-        <p className="text-sm font-medium text-blue-600 dark:text-blue-400">{l ? 'Your IRPF withholding rate' : 'Tu tipo de retención IRPF'}</p>
-        <p className="mt-2 text-5xl font-bold text-blue-700 dark:text-blue-300">{dec(retencionPorcentaje, 2, l ? 'en-GB' : 'es-ES')} %</p>
+        <p data-cle-label className="text-sm font-medium text-blue-600 dark:text-blue-400">{l ? 'Your IRPF withholding rate' : 'Tu tipo de retención IRPF'}</p>
+        <p data-cle className="mt-2 text-5xl font-bold text-blue-700 dark:text-blue-300">{dec(retencionPorcentaje, 2, l ? 'en-GB' : 'es-ES')} %</p>
         <p className="mt-2 text-sm text-blue-600 dark:text-blue-400">
           {l ? 'Monthly withholding' : 'Retención mensual'}: {formatEuros(resultado.retencionMensual)}
         </p>
@@ -106,6 +111,7 @@ export default function TipoRetencion({ lang = 'es' }: TipoRetencionProps) {
             </tr>
           </tbody>
         </table>
+      </div>
       </div>
     </div>
   );

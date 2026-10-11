@@ -1,3 +1,4 @@
+import BarraResultado from '../ui/BarraResultado';
 import { dec } from '../../lib/dec';
 import { useState, useMemo } from 'react';
 import { calcularParo } from '../../lib/finanz-engine';
@@ -25,13 +26,17 @@ export default function Paro({ lang = 'es' }: ParoProps) {
   );
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-3">
+    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-2">
         <CampoEntrada id="pa-base" label={l ? 'Monthly contribution base' : 'Base cotización mensual'} value={baseCotizacion} onChange={setBaseCotizacion} min={0} max={10000} step="any" suffix={l ? '€/mo' : '€/mes'} helpText={l ? 'Average of last 180 days' : 'Media últimos 180 días'} />
         <CampoEntrada id="pa-anios" label={l ? 'Years contributed' : 'Años cotizados'} value={aniosCotizados} onChange={setAniosCotizados} min={1} max={30} step={0.5} suffix={l ? 'years' : 'años'} helpText={l ? 'In the last 6 years' : 'En los últimos 6 años'} />
         <CampoEntrada id="pa-hijos" label={l ? 'Dependent children' : 'Hijos a cargo'} value={hijos} onChange={setHijos} min={0} max={10} step={1} suffix={l ? 'children' : 'hijos'} />
       </div>
 
+      </div>
+      <div data-resultat className="space-y-6">
+        <BarraResultado />
       {diasCotizados < 360 ? (
         <div className="rounded-xl bg-red-50 p-6 text-center dark:bg-red-900/20">
           <p className="text-sm font-medium text-red-700 dark:text-red-400">
@@ -44,8 +49,8 @@ export default function Paro({ lang = 'es' }: ParoProps) {
         <>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100 p-6 text-center dark:from-emerald-900/30 dark:to-emerald-900/10">
-              <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">{l ? 'Benefit for the first 6 months' : 'Prestación primeros 6 meses'}</p>
-              <p className="mt-1 text-2xl font-bold text-emerald-700 dark:text-emerald-300">{formatEuros(resultado.prestacionMensual180)}/{l ? 'mo' : 'mes'}</p>
+              <p data-cle-label className="text-sm font-medium text-emerald-600 dark:text-emerald-400">{l ? 'Benefit for the first 6 months' : 'Prestación primeros 6 meses'}</p>
+              <p data-cle className="mt-1 text-2xl font-bold text-emerald-700 dark:text-emerald-300">{formatEuros(resultado.prestacionMensual180)}/{l ? 'mo' : 'mes'}</p>
               <p className="mt-1 text-xs text-emerald-600 dark:text-emerald-400">{l ? '70% of the regulatory base' : '70% de la base reguladora'}</p>
             </div>
             <div className="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-6 text-center dark:from-blue-900/30 dark:to-blue-900/10">
@@ -90,6 +95,7 @@ export default function Paro({ lang = 'es' }: ParoProps) {
           ? 'Approximate calculation of contributory unemployment benefits. Caps are based on the current IPREM. Duration depends on the days contributed in the last 6 years.'
           : 'Cálculo orientativo de la prestación contributiva por desempleo. Los topes se basan en el IPREM vigente. La duración depende de los días cotizados en los últimos 6 años.'}
       </p>
+      </div>
     </div>
   );
 }

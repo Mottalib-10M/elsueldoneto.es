@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../components/ui/Clamp.astro';
 import Layout from '../../components/layout/Layout.astro';
 import { SITE_NAME, CURRENT_FISCAL_YEAR } from '../../config';
 import { buildBreadcrumbSchema, buildFAQSchema, buildArticleSchema } from '../../lib/seo';
@@ -35,23 +36,25 @@ import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} ogType="article" schema={schemas}>
-  <article class="mx-auto max-w-6xl px-4 py-8">
-    <nav class="mb-6 text-sm text-medium-gray">
+  <article class="mx-auto max-w-6xl px-4 pb-8 pt-4">
+    <nav class="mb-3 text-sm text-medium-gray">
       <a href="/" class="hover:text-brand">Inicio</a> /
       <a href="/guias/" class="hover:text-brand">Guías</a> /
       <span class="text-charcoal dark:text-gray-200">Sueldo Neto</span>
     </nav>
 
-    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+    <h1 class="mb-3 text-2xl font-bold text-charcoal sm:text-3xl md:text-4xl dark:text-gray-100">
       Cómo Calcular el Sueldo Neto en España ({CURRENT_FISCAL_YEAR})
     </h1>
 
-    <AuthorByline />
 
-    <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
+    <Clamp id="chapeau" locale="es">
+    <p class="text-lg text-dark-gray dark:text-gray-300">
       Entender cuánto vas a cobrar realmente cada mes es fundamental para tomar decisiones financieras. Esta guía te explica paso a paso cómo se calcula el sueldo neto a partir del bruto en España. El orden de las operaciones decide el resultado. Primero se descuenta la Seguridad Social: 4,70 % por contingencias comunes, 1,55 % por desempleo en un contrato indefinido y 0,10 % por formación profesional, con un tope máximo de cotización anual. Lo que queda es la base sobre la que se calcula el IRPF, después de aplicar el mínimo personal y familiar. El tipo de retención resultante se reparte entre las pagas, y por eso un salario en catorce pagas muestra una mensualidad distinta del mismo salario en doce, aunque el impuesto anual sea idéntico.
     </p>
-<MiniSimAutonome client:visible kind="neto" lang="es" locale="es-ES" href="/" />
+    </Clamp>
+<MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="neto" lang="es" locale="es-ES" href="/" />
+    <AuthorByline />
 
 
     <div class="mb-8 rounded-xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20">

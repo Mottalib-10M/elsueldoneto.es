@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../../components/ui/Clamp.astro';
 import Layout from '../../../components/layout/Layout.astro';
 import { calcularSueldoNeto } from '../../../lib/irpf-engine';
 import { seguridadSocial2026, tipoEmpleadoIndefinido } from '../../../data/seguridad-social-2026';
@@ -49,24 +50,26 @@ import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 ---
 
 <Layout title={title} description={description} schema={schemas} locale="en">
-  <div class="mx-auto max-w-6xl px-4 py-8">
-    <nav class="mb-6 text-sm text-medium-gray">
+  <div class="mx-auto max-w-6xl px-4 pb-8 pt-4">
+    <nav class="mb-3 text-sm text-medium-gray">
       <a href="/en/" class="hover:text-brand">Home</a> /
       <a href="/en/guides/" class="hover:text-brand">Guides</a> /
       <span class="text-charcoal dark:text-gray-200">Net Salary Calculation</span>
     </nav>
 
-    <h1 class="mb-6 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
+    <h1 class="mb-3 text-2xl font-bold text-charcoal sm:text-3xl md:text-4xl dark:text-gray-100">
       How to Calculate Net Salary in Spain ({CURRENT_FISCAL_YEAR})
     </h1>
 
-    <AuthorByline locale="en" />
 
     <div class="prose prose-sm max-w-none text-dark-gray dark:text-gray-300 space-y-6">
+      <Clamp id="chapeau" locale="en">
       <p>
         Understanding how your gross salary translates to net pay in Spain requires knowledge of two main deductions: Social Security contributions and IRPF (personal income tax) withholdings. While your payslip shows the final number, knowing how it is calculated helps you negotiate better and plan your finances. The order of operations decides the result. Social Security is deducted first, at 4.7% for general contingencies, 1.55% for unemployment on a permanent contract and 0.1% for vocational training, within an annual ceiling. What remains is the base on which IRPF is calculated, after personal and family reductions. The withholding rate is then applied evenly across the pay periods, which is why a salary paid in fourteen instalments shows a different monthly figure from the same salary paid in twelve, even though the annual tax is identical.
       </p>
-<MiniSimAutonome client:visible kind="neto" lang="en" locale="en-GB" href="/en/" />
+      </Clamp>
+<MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="neto" lang="en" locale="en-GB" href="/en/" />
+      <AuthorByline locale="en" />
 
 
       <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">Step 1: Deduct Social Security Contributions</h2>

@@ -50,15 +50,15 @@ function Field({ id, label, value, onChange, unit, max = 1e9, decimals = 0, loca
   );
 }
 
-interface Props { kind: string; lang?: string; href?: string; locale?: string }
+interface Props { kind: string; lang?: string; href?: string; locale?: string; /** Marges : le mini-simulateur de tête se colle à la réponse au-dessus (RECETTE §5, 2026-10-11). */ spacing?: string }
 
-export default function MiniSimAutonome({ kind, lang = 'en', href, locale = 'en-GB' }: Props) {
+export default function MiniSimAutonome({ kind, lang = 'en', href, locale = 'en-GB', spacing = 'my-8' }: Props) {
   const spec = getSpec(kind, lang);
   const [v, setV] = useState<Record<string, number>>(() => Object.fromEntries(spec.inputs.map((i) => [i.id, i.def])));
   const out = useMemo(() => spec.run(v), [v, spec]);
   const set = (id: string) => (x: number) => setV((o) => ({ ...o, [id]: x }));
   return (
-    <div data-chrome data-mini={kind} className="not-prose rechner-mini my-8 rounded-xl border bg-white p-4 shadow-sm sm:p-5" style={{ borderColor: C.border }}>
+    <div data-chrome data-mini={kind} className={`not-prose rechner-mini ${spacing} rounded-xl border bg-white p-4 shadow-sm sm:p-5`} style={{ borderColor: C.border }}>
       <p className="text-base font-semibold" style={{ color: C.text }}>{spec.title}</p>
       <div className="mt-3 grid gap-5 sm:grid-cols-2">
         <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
@@ -69,7 +69,7 @@ export default function MiniSimAutonome({ kind, lang = 'en', href, locale = 'en-
                 </select></div>
             : <Field key={i.id} id={`m-${kind}-${i.id}`} label={i.label} value={v[i.id]} onChange={set(i.id)} unit={i.unit} max={i.max} decimals={i.decimals} group={i.group} locale={locale} />)}
         </form>
-        <div aria-live="polite" className="rounded-lg p-4" style={{ background: C.surface }}>
+        <div aria-live="polite" data-resultat className="rounded-lg p-4" style={{ background: C.surface }}>
           <p className="text-sm font-medium" style={{ color: C.muted }}>{out.head[0]}</p>
           <p className="tabular-nums mt-1 text-3xl font-bold" style={{ color: C.text }}>{out.head[1]}</p>
           <table className="mt-3 w-full text-sm"><tbody>

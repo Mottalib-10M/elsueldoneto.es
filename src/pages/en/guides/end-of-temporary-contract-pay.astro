@@ -1,4 +1,5 @@
 ---
+import Clamp from '../../../components/ui/Clamp.astro';
 import GuiaLayout from '../../../layouts/GuiaLayout.astro';
 import MiniSimAutonome from '../../../components/calc/MiniSimAutonome';
 import { calcularDespido, PARAMS_DESPIDO as P } from '../../../lib/despido-engine';
@@ -31,10 +32,12 @@ const related = [
 ---
 
 <GuiaLayout title={title} description={description} h1="End of a temporary contract in Spain: the 12-day payment" path="/en/guides/end-of-temporary-contract-pay/" locale="en" crumb="End of temporary contract" faqs={faqs} sources={enFuentes(fuentesDespido)} related={related}>
+  <Clamp id="chapeau" locale="en">
   <p class="text-lg">
     When a fixed-term employment contract in Spain reaches its end, the employer owes a payment equal to the pro rata share of {F.diasPorAnio} days’ salary per year of service (article 49.1.c of the Workers’ Statute). Training contracts and contracts that cover an absent employee are excluded. A six-month contract on €26,000 a year ending on 3 October 2026 earns {num(a.diasIndemnizacion)} days of salary, {eur(a.indemnizacion)}, on top of a final settlement of {eur(a.finiquito)} for holidays and the accrued extra payment. Unlike dismissal compensation, this money is fully taxable. And if the contract was temporary only on paper, or chained with others beyond the legal limits, its end may legally be an unfair dismissal, paying almost three times as much. The calculator below works out the payment for any length of contract.
   </p>
-  <MiniSimAutonome client:visible kind="fincontrato" lang="en" locale="en-GB" href="/en/severance-calculator/" />
+  </Clamp>
+  <MiniSimAutonome client:visible spacing="mt-3 mb-6" kind="fincontrato" lang="en" locale="en-GB" href="/en/severance-calculator/" />
 
   <section>
     <h2 class="text-2xl font-bold text-charcoal dark:text-gray-100">Which temporary contracts still exist</h2>
