@@ -1,3 +1,4 @@
+import { parseEs } from './CampoEntrada';
 import { useState, useEffect, useRef } from 'react';
 
 type ModoSalario = 'anual' | 'mensual';
@@ -27,8 +28,9 @@ export default function CampoSalario({
   lang = 'es',
 }: CampoSalarioProps) {
   const [modo, setModo] = useState<ModoSalario>('anual');
-  // Le champ qu'on remplit garde son texte brut.
-  const [enEdicion, setEnEdicion] = useState(false);
+  // Le champ qu'on remplit garde sa frappe brute (RECETTE §4.1) ; le parent reçoit un nombre
+  // lisible par Number() : « 30.000 » vaut 30000 et « 2.142,86 » vaut 2142,86 (bug du 2026-10-12).
+  const [texto, setTexto] = useState<string | null>(null);
   const [mensual, setMensual] = useState(() =>
     String(Math.round((Number(value) / divisor) * 100) / 100)
   );
@@ -72,12 +74,12 @@ export default function CampoSalario({
   };
 
   const bruto = modo === 'anual' ? value : mensual;
-  const displayValue = enEdicion || String(bruto ?? '') === ''
-    ? bruto
-    : (() => {
-        const n = parseFloat(String(bruto).replace(/\./g, '').replace(',', '.'));
-        return Number.isFinite(n) ? Math.round(n).toLocaleString('es-ES') : bruto;
-      })();
+  const brutoNum = Number(String(bruto ?? ''));
+  const displayValue = texto !== null
+    ? texto
+    : String(bruto ?? '') === '' || !Number.isFinite(brutoNum)
+      ? bruto
+      : Math.round(brutoNum).toLocaleString('es-ES');
   const annualNum = Number(value) || 0;
   const mensualNum = Number(mensual) || 0;
 
@@ -94,11 +96,14 @@ export default function CampoSalario({
             inputMode="decimal"
             value={displayValue}
             onChange={(e) => {
-              const v = e.target.value.replace(/[^\d.,]/g, '');
+              const f = e.target.value.replace(/[^\d.,]/g, '');
+              setTexto(f);
+              const x = parseEs(f);
+              const v = f === '' || !Number.isFinite(x) ? '' : String(x);
               return modo === 'anual' ? handleAnualChange(v) : handleMensualChange(v);
             }}
-            onFocus={() => setEnEdicion(true)}
-            onBlur={() => setEnEdicion(false)}
+            onFocus={() => setTexto(String(bruto ?? '') === '' || !Number.isFinite(brutoNum) ? String(bruto ?? '') : String(Math.round(brutoNum * 100) / 100).replace('.', ','))}
+            onBlur={() => setTexto(null)}
             min={min}
             max={modo === 'anual' ? max : Math.round(max / divisor)}
             step={modo === 'anual' ? step : Math.max(1, Math.round(step / divisor))}
