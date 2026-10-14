@@ -284,3 +284,12 @@
     color: #000;
   }
 }
+/* Drop-down lists: the site draws its own chevron 12 px from the edge and long text stops
+   before it; the native arrow sat against the border (RECETTE §10.3, 2026-10-14). */
+select:not([multiple]):not([size]), select[size="1"] {
+  -webkit-appearance: none; appearance: none;
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%236b7280' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 7.5l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1rem 1rem;
+  text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
+}

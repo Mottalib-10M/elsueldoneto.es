@@ -192,7 +192,16 @@ export default function trustKit(opts) {
               let at = h1;
               const open = html.lastIndexOf('<astro-island', h1);
               if (open >= 0 && html.lastIndexOf('</astro-island>', h1) < open) at = open;
-              html = html.slice(0, at) + top + html.slice(at);
+              // Fil d'Ariane juste avant le titre : la date va à droite sur sa ligne fine,
+              // plutôt que seule sur une ligne de plus (RECETTE §10.3, 2026-10-14).
+              const navEnd = html.lastIndexOf('</nav>', at);
+              const navStart = navEnd >= 0 ? html.lastIndexOf('<nav', navEnd) : -1;
+              const between = navEnd >= 0 ? html.slice(navEnd + 6, at) : 'x';
+              if (navStart > html.indexOf('</header>') && !between.replace(/<[^>]*>/g, '').trim() && !/<\/(div|section|article|header)>/.test(between)) {
+                const aside = top.replace('style="margin:0 0 0.5rem;', 'style="margin:0 0 0 auto;');
+                const row = '<div data-trust-kit-row style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;column-gap:1.5rem">';
+                html = html.slice(0, navStart) + row + html.slice(navStart, navEnd + 6) + aside + '</div>' + html.slice(navEnd + 6);
+              } else html = html.slice(0, at) + top + html.slice(at);
             } else html = html.includes('</header>') ? html.replace('</header>', `</header>${top}`)
                  : html.replace(/<body[^>]*>/, (m) => m + top);
             const i = html.lastIndexOf('</footer>');
