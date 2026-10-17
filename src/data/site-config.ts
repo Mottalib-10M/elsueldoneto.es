@@ -1,6 +1,9 @@
 
 export const CONTACT_EMAIL = 'contact@elsueldoneto.es';
 
+/** Google Analytics 4, avec cookies, sans bandeau (décision de l'éditeur du 2026-10-17, RECETTE §15.6). */
+export const GA4_ID = 'G-6FGRX7NXRF';
+
 /*
  * Identite legale de l'editeur (RECETTE-SITE.md, controle check-legal).
  * Un champ laisse vide ressort en jaune sur la page legale et fait echouer le

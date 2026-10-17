@@ -1,10 +1,11 @@
 ---
 import Layout from '../../components/layout/Layout.astro';
 import { SITE_NAME, SITE_URL } from '../../config';
+import { GA4_ID } from '../../data/site-config';
 import { buildBreadcrumbSchema } from '../../lib/seo';
 
 const title = 'Privacy Policy - GDPR Compliance and Data Protection';
-const description = 'Privacy policy: your salary never leaves your browser, no cookies and no personal data recorded by us. Only cookieless Clarity checks the site\'s stability.';
+const description = 'Privacy policy: your salary never leaves your browser. Audience measured with Google Analytics cookies, no advertising; cookieless Clarity checks site stability.';
 
 const schemas = [
   buildBreadcrumbSchema([
@@ -50,13 +51,13 @@ const schemas = [
         contact details.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">3. No Personal Data Recorded</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">3. What You Type Stays in Your Browser</h2>
       <p>
-        <strong>Radif Partners records no personal data about visitors to {SITE_NAME}.</strong> The net salary,
+        The net salary,
         IRPF, severance and pension calculators run entirely in your browser: the gross salary, autonomous
         community, family situation or contract type you enter is never sent to a server, never saved in a
-        database and is gone once you close the page. The site sets no cookies and uses no local storage, so
-        nothing is kept on your device either.
+        database and is gone once you close the page. What you type is not stored on your device; the
+        only cookies on the site are the Google Analytics audience measurement cookies (section 4).
       </p>
       <p>
         This follows the "privacy by design" principle of Article 25 GDPR: there are no user accounts, no
@@ -64,14 +65,38 @@ const schemas = [
         long as needed to reply.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">4. Anonymous Technical Stability Measurement</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">4. Audience Measurement with Google Analytics</h2>
+      <p>
+        The site uses <strong>Google Analytics 4</strong> to count visits and see which pages are useful: pages
+        viewed, referring page, visit length, device and browser type, approximate country and city. To do so
+        Google Analytics sets two cookies on your device: <code>_ga</code>, which tells visitors apart with a
+        random identifier, and <code>_ga_{GA4_ID.replace('G-', '')}</code>, which keeps the state of the visit. Their
+        lifetime is set to 13 months at most (390 days) and is not extended on each visit; Google’s default is
+        2 years.
+      </p>
+      <p>
+        The IP address is anonymised: Google Analytics 4 neither logs nor stores it, and only uses it at
+        collection time to derive an approximate country and city. The page address sent to Google Analytics is
+        stripped of its parameters, so amounts carried by a share link are not included. The site shows no
+        advertising: ad storage, ad user data, ad personalisation and Google signals are switched off, and
+        measurement data is shared with no advertiser.
+      </p>
+      <ul class="list-disc pl-6 space-y-1">
+        <li><strong>Provider:</strong> Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland, acting as processor (Article 28 GDPR).</li>
+        <li><strong>Purpose:</strong> audience measurement.</li>
+        <li><strong>Retention at Google:</strong> 14 months, then deletion.</li>
+        <li><strong>Legal basis:</strong> the publisher’s legitimate interest in knowing how its site is used (Article 6(1)(f) GDPR).</li>
+        <li><strong>Objecting:</strong> block or delete cookies in your browser settings, or install the <a href="https://tools.google.com/dlpage/gaoptout" class="text-brand hover:underline" target="_blank" rel="nofollow noopener">Google Analytics opt-out browser add-on</a>. The site works the same way.</li>
+      </ul>
+
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">5. Technical Stability Measurement with Microsoft Clarity</h2>
       <p>
         To detect errors, slow pages, clicks with no effect or scrolling issues, the site uses
         <strong>Microsoft Clarity without cookies</strong>. The page signals to Clarity that storage is denied
         before its script loads, so it sets no <code>_clck</code>, <code>_clsk</code>, <code>MUID</code> or
         <code>CLID</code> cookie, uses a fresh identifier for every page view and does not connect your visits.
-        Page text and the amounts you type are masked in your browser before sending. There is no Google
-        Analytics, no advertising and no other tracker.
+        Page text and the amounts you type are masked in your browser before sending. Apart from Google
+        Analytics and Clarity, there is no advertising and no other tracker.
       </p>
       <ul class="list-disc pl-6 space-y-1">
         <li><strong>Controller for this measurement:</strong> Microsoft Ireland Operations Limited, One Microsoft Place, South County Business Park, Leopardstown, Dublin 18, Ireland (<a href="https://privacy.microsoft.com/privacystatement" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">privacy statement</a>).</li>
@@ -83,41 +108,43 @@ const schemas = [
         More in our <a href="/en/cookie-policy/" class="text-brand hover:underline">cookie policy</a>.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">5. Legal Basis</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">6. Legal Basis</h2>
       <p>
-        The stability measurement relies on legitimate interest (Article 6(1)(f) GDPR) in keeping the
-        calculators working. Replying to an e-mail relies on your own request.
+        Audience measurement and stability measurement rely on the publisher’s legitimate interest
+        (Article 6(1)(f) GDPR) in knowing how the site is used and keeping the calculators working; no consent
+        is requested and no banner is shown. Replying to an e-mail relies on your own request.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">6. Your Rights</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">7. Your Rights</h2>
       <p>
         Under Articles 15 to 22 of the GDPR and the LOPDGDD you have rights of access, rectification, erasure,
-        restriction, portability and objection. As we store nothing about you, in practice they only concern
-        e-mails you have sent us. Write to contact@elsueldoneto.es; we reply within 30 days (Article 12 GDPR).
+        restriction, portability and objection. With no user accounts we usually hold no data that identifies
+        you, apart from e-mails you have sent us; for Google Analytics, the simplest objection is in section 4. Write to contact@elsueldoneto.es; we reply within 30 days (Article 12 GDPR).
         You may also lodge a complaint with the Spanish Data Protection Agency (AEPD) at
         <a href="https://www.aepd.es" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">www.aepd.es</a>.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">7. Hosting and Server Logs</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">8. Hosting and Server Logs</h2>
       <p>
         The site is hosted by OVH SAS (2 rue Kellermann, 59100 Roubaix, France), whose servers automatically
         log IP address, date and requested page for security purposes, for a short period.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">8. Transfers Outside the EU</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">9. Transfers Outside the EU</h2>
       <p>
-        Clarity's anonymous measurements may be processed on Microsoft servers in the United States, under the
+        Google Analytics data may be transferred to Google LLC, and Clarity measurements processed on Microsoft
+        servers, both in the United States, under the
         EU-U.S. Data Privacy Framework and standard contractual clauses.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">9. Data Security</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">10. Data Security</h2>
       <p>
         Our website is served over a secure HTTPS connection that encrypts all data in transit. Appropriate
         technical and organizational measures are implemented in accordance with Article 32 of the GDPR to
         ensure a level of security appropriate to the risk.
       </p>
 
-      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">10. Changes and Contact</h2>
+      <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">11. Changes and Contact</h2>
       <p>
         We reserve the right to update this privacy policy to reflect changes in our practices or applicable
         law. The current version is always available on this page. For questions or to exercise your rights,

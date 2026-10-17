@@ -1,10 +1,11 @@
 ---
 import Layout from '../components/layout/Layout.astro';
 import { SITE_NAME, SITE_URL, CURRENT_FISCAL_YEAR } from '../config';
+import { GA4_ID } from '../data/site-config';
 import { buildBreadcrumbSchema } from '../lib/seo';
 
 const title = 'Privacidad y RGPD: qué datos tratamos y tus derechos';
-const description = 'Privacidad: tu salario no sale de tu navegador, sin cookies ni datos personales guardados por el editor. Solo Clarity sin cookies mide la estabilidad.';
+const description = 'Privacidad: tu salario no sale de tu navegador. Medición de audiencia con Google Analytics y cookies, sin publicidad; Clarity sin cookies mide la estabilidad.';
 
 const schemas = [
   buildBreadcrumbSchema([
@@ -58,14 +59,13 @@ const schemas = [
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">3. Ningún dato personal guardado</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">3. Lo que introduces no sale de tu navegador</h2>
         <p>
-          <strong>Radif Partners no registra ningún dato personal de los visitantes de {SITE_NAME}.</strong>
           Las calculadoras de sueldo neto, IRPF, pagas extra o despido funcionan íntegramente en tu
           navegador: el salario bruto, la comunidad autónoma, la situación familiar o el tipo de contrato
           que introduces no se envían a ningún servidor, no se guardan en ninguna base de datos y
-          desaparecen al cerrar la página. El sitio no deposita cookies ni usa localStorage: nada queda
-          almacenado en tu dispositivo.
+          desaparecen al cerrar la página. Lo que introduces no se guarda en tu dispositivo; las únicas
+          cookies del sitio son las de medición de audiencia de Google Analytics (punto 4).
         </p>
         <p>
           Este diseño responde al principio de protección de datos desde el diseño (artículo 25 del RGPD).
@@ -78,14 +78,41 @@ const schemas = [
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">4. Medición técnica y anónima de la estabilidad</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">4. Medición de audiencia con Google Analytics</h2>
+        <p>
+          El sitio usa <strong>Google Analytics 4</strong> para contar las visitas y saber qué páginas son
+          útiles: páginas vistas, página de procedencia, duración de la visita, tipo de dispositivo y de
+          navegador, país y ciudad aproximados. Para ello Google Analytics deposita dos cookies en tu
+          dispositivo: <code>_ga</code>, que distingue a los visitantes con un identificador aleatorio, y
+          <code>_ga_{GA4_ID.replace('G-', '')}</code>, que conserva el estado de la visita. Su duración está limitada a
+          13 meses como máximo (390 días) y no se prolonga en cada visita; Google prevé 2 años por defecto.
+        </p>
+        <p>
+          La dirección IP se anonimiza: Google Analytics 4 no la registra ni la conserva, y solo la usa en
+          el momento de la recogida para estimar país y ciudad. La dirección de página enviada a Google
+          Analytics va sin parámetros, de modo que los importes de un enlace compartido no se transmiten. El
+          sitio no muestra publicidad: el almacenamiento publicitario, los datos publicitarios, la
+          personalización de anuncios y las señales de Google están desactivados, y ningún dato de medición
+          se cede a anunciantes.
+        </p>
+        <ul>
+          <li><strong>Proveedor:</strong> Google Ireland Limited, Gordon House, Barrow Street, Dublín 4, Irlanda, como encargado del tratamiento (artículo 28 del RGPD).</li>
+          <li><strong>Finalidad:</strong> medición de audiencia.</li>
+          <li><strong>Conservación en Google:</strong> 14 meses; después se suprimen.</li>
+          <li><strong>Base jurídica:</strong> interés legítimo del editor en conocer el uso de su sitio (artículo 6.1.f del RGPD).</li>
+          <li><strong>Oposición:</strong> bloquea o borra las cookies desde los ajustes de tu navegador, o instala el <a href="https://tools.google.com/dlpage/gaoptout" class="text-brand hover:underline" target="_blank" rel="nofollow noopener">complemento de inhabilitación de Google Analytics</a>. El sitio funciona igual.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">5. Medición técnica de la estabilidad con Microsoft Clarity</h2>
         <p>
           Para encontrar errores, cargas lentas, clics sin efecto o problemas de desplazamiento, el sitio
           utiliza <strong>Microsoft Clarity sin cookies</strong>: antes de cargarlo le comunicamos que el
           almacenamiento está denegado, de modo que no deposita <code>_clck</code>, <code>_clsk</code>,
           <code>MUID</code> ni <code>CLID</code>, utiliza un identificador nuevo en cada página vista y no
           enlaza tus visitas entre sí. El texto de las páginas y los importes que tecleas se enmascaran
-          en tu navegador antes del envío. No usamos Google Analytics, publicidad ni otros rastreadores.
+          en tu navegador antes del envío. Aparte de Google Analytics y Clarity, no usamos publicidad ni otros rastreadores.
         </p>
         <ul>
           <li><strong>Responsable de esta medición:</strong> Microsoft Ireland Operations Limited, One Microsoft Place, South County Business Park, Leopardstown, Dublín 18, Irlanda (<a href="https://privacy.microsoft.com/privacystatement" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">declaración de privacidad</a>).</li>
@@ -99,20 +126,22 @@ const schemas = [
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">5. Base legal</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">6. Base legal</h2>
         <p>
-          La medición de estabilidad descrita se basa en el interés legítimo (artículo 6, apartado 1,
-          letra f, del RGPD) en mantener unas calculadoras que funcionen bien. La respuesta a un correo
+          La medición de audiencia y la medición de estabilidad se basan en el interés legítimo del editor
+          (artículo 6, apartado 1, letra f, del RGPD) en conocer el uso del sitio y mantener unas
+          calculadoras que funcionen bien; no se pide consentimiento ni se muestra banner. La respuesta a un correo
           se basa en tu propia solicitud.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">6. Tus derechos</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">7. Tus derechos</h2>
         <p>
           Conforme a los artículos 15 a 22 del RGPD y a la LOPDGDD, tienes derecho de acceso,
-          rectificación, supresión, limitación, portabilidad y oposición. Como no guardamos datos tuyos,
-          en la práctica solo afectan a los correos que nos hayas enviado. Escríbenos a
+          rectificación, supresión, limitación, portabilidad y oposición. Sin cuentas de usuario, no solemos
+          tener datos que te identifiquen, salvo los correos que nos hayas enviado; para Google Analytics,
+          la oposición más sencilla es la del punto 4. Escríbenos a
           <a href="mailto:contact@elsueldoneto.es" class="text-brand hover:underline">contact@elsueldoneto.es</a>;
           respondemos en un plazo de 30 días (artículo 12 del RGPD).
         </p>
@@ -123,7 +152,7 @@ const schemas = [
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">7. Alojamiento y registros técnicos</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">8. Alojamiento y registros técnicos</h2>
         <p>
           El sitio está alojado por OVH SAS (2 rue Kellermann, 59100 Roubaix, Francia), cuyos servidores
           anotan de forma automática la dirección IP, la fecha y la página pedida, por motivos de
@@ -132,16 +161,16 @@ const schemas = [
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">8. Transferencias fuera de la UE</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">9. Transferencias fuera de la UE</h2>
         <p>
-          Las mediciones anónimas de Clarity pueden tratarse en servidores de Microsoft situados en
-          Estados Unidos, al amparo del Marco de Privacidad de Datos UE-EE. UU. y de cláusulas
+          Los datos de Google Analytics pueden transferirse a Google LLC y las mediciones de Clarity
+          tratarse en servidores de Microsoft, ambos en Estados Unidos, al amparo del Marco de Privacidad de Datos UE-EE. UU. y de cláusulas
           contractuales tipo.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">9. Seguridad</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">10. Seguridad</h2>
         <p>
           Nuestro sitio web se sirve a través de una conexión HTTPS segura que cifra todos los datos en
           tránsito. Se implementan medidas técnicas y organizativas apropiadas de conformidad con el
@@ -150,7 +179,7 @@ const schemas = [
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">10. Modificaciones</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">11. Modificaciones</h2>
         <p>
           Nos reservamos el derecho de modificar esta política de privacidad para adaptarla a cambios en
           nuestras prácticas o en la legislación aplicable. La versión actual está siempre disponible en
@@ -159,7 +188,7 @@ const schemas = [
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">11. Contacto</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">12. Contacto</h2>
         <p>
           Para cualquier cuestión relativa a esta política de privacidad o para ejercer tus derechos,
           contactanos en:<br>

@@ -1,10 +1,11 @@
 ---
 import Layout from '../components/layout/Layout.astro';
 import { SITE_NAME, SITE_URL, CURRENT_FISCAL_YEAR } from '../config';
+import { GA4_ID } from '../data/site-config';
 import { buildBreadcrumbSchema } from '../lib/seo';
 
-const title = 'Cookies: elsueldoneto.es no deposita ninguna (2026)';
-const description = 'Cookies: este sitio de sueldo neto no deposita ninguna ni guarda tu salario. Solo una medición técnica y anónima de la estabilidad, con Clarity sin cookies.';
+const title = 'Cookies: elsueldoneto.es solo usa Google Analytics (2026)';
+const description = 'Cookies de este sitio de sueldo neto: solo las de medición de audiencia de Google Analytics, 13 meses como máximo, sin publicidad. Tu salario no se guarda.';
 
 const schemas = [
   buildBreadcrumbSchema([
@@ -26,8 +27,9 @@ const schemas = [
       <p><em>Última actualización: octubre {CURRENT_FISCAL_YEAR}</em></p>
 
       <p>
-        <strong>{SITE_NAME}</strong> ({SITE_URL}) no deposita ninguna cookie en tu navegador. Esta página
-        lo explica conforme al RGPD (Reglamento UE 2016/679), la LOPDGDD (Ley Orgánica 3/2018) y el
+        <strong>{SITE_NAME}</strong> ({SITE_URL}) deposita en tu navegador las cookies de medición de
+        audiencia de Google Analytics, y solo esas: ninguna cookie publicitaria ni de redes sociales. Esta
+        página lo explica conforme al RGPD (Reglamento UE 2016/679), la LOPDGDD (Ley Orgánica 3/2018) y el
         artículo 22.2 de la LSSI-CE.
       </p>
 
@@ -35,24 +37,39 @@ const schemas = [
         <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">1. Qué es una cookie</h2>
         <p>
           Una cookie es un pequeño archivo que un sitio web guarda en tu ordenador o en tu móvil para
-          reconocerte en la visita siguiente. La normativa española obliga a informar de su uso; aquí
-          no hay ninguna que declarar.
+          reconocerte en la visita siguiente. La normativa española obliga a informar de su uso: estas son
+          las nuestras.
         </p>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">2. Ninguna cookie en este sitio</h2>
+        <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">2. Cookies de Google Analytics</h2>
+        <table>
+          <thead><tr><th>Nombre</th><th>Proveedor</th><th>Finalidad</th><th>Duración</th></tr></thead>
+          <tbody>
+            <tr><td><code>_ga</code></td><td>Google Analytics</td><td>Distinguir a los visitantes con un identificador aleatorio</td><td>13 meses como máximo (390 días)</td></tr>
+            <tr><td><code>_ga_{GA4_ID.replace('G-', '')}</code></td><td>Google Analytics</td><td>Conservar el estado de la visita en curso</td><td>13 meses como máximo (390 días)</td></tr>
+          </tbody>
+        </table>
         <p>
-          <strong>No.</strong> Ni nosotros ni ningún tercero depositamos cookies cuando consultas
-          {SITE_NAME}: ni cookies técnicas, ni de preferencias, ni analíticas, ni publicitarias. Tampoco
-          usamos localStorage ni sessionStorage. Por eso no verás ningún banner de cookies: no hay nada
-          que aceptar ni que rechazar.
+          Estas duraciones no se prolongan en cada visita; Google prevé 2 años por defecto y el sitio las
+          acorta. Finalidad: medición de audiencia (páginas vistas, procedencia, dispositivo, país
+          aproximado). La dirección IP se anonimiza: Google Analytics 4 no la registra ni la conserva, y la
+          dirección de página que recibe va sin parámetros. Sin publicidad ni cesión publicitaria: el
+          almacenamiento publicitario, la personalización de anuncios y las señales de Google están
+          desactivados.
         </p>
+        <ul>
+          <li><strong>Proveedor:</strong> Google Ireland Limited, Gordon House, Barrow Street, Dublín 4, Irlanda, como encargado del tratamiento (artículo 28 del RGPD).</li>
+          <li><strong>Transferencia:</strong> los datos pueden transferirse a Google LLC (Estados Unidos) al amparo del EU–U.S. Data Privacy Framework y de las cláusulas contractuales tipo de la Comisión Europea.</li>
+          <li><strong>Conservación en Google:</strong> 14 meses.</li>
+          <li><strong>Base jurídica:</strong> interés legítimo del editor en conocer el uso de su sitio (artículo 6.1.f del RGPD).</li>
+          <li><strong>Oposición:</strong> bloquea o borra las cookies desde los ajustes de tu navegador, o instala el <a href="https://tools.google.com/dlpage/gaoptout" class="text-brand hover:underline" target="_blank" rel="nofollow noopener">complemento de inhabilitación de Google Analytics</a>. El sitio y sus calculadoras funcionan igual.</li>
+        </ul>
         <p>
           Las calculadoras de sueldo neto, IRPF, finiquito, paro o hipoteca hacen sus cuentas dentro de tu
           navegador. El salario bruto, la comunidad autónoma o la situación familiar que introduces no se
-          envían a ningún servidor y desaparecen al cerrar la pestaña: nada queda guardado en tu
-          dispositivo ni en nuestras manos.
+          envían a ningún servidor y desaparecen al cerrar la pestaña.
         </p>
       </section>
 
@@ -61,7 +78,7 @@ const schemas = [
         <p>
           Para detectar fallos técnicos (errores de JavaScript, páginas lentas, clics que no responden,
           desplazamiento en móvil) usamos <strong>Microsoft Clarity</strong> en modo sin cookies. Antes de
-          cargar su script indicamos a Clarity que el almacenamiento está denegado: no crea las cookies
+          cargar su script indicamos a Clarity que el almacenamiento está denegado, de modo que Clarity no crea las cookies
           <code>_clck</code>, <code>_clsk</code>, <code>MUID</code> ni <code>CLID</code>, asigna un
           identificador distinto a cada página vista y no relaciona una visita con otra. El contenido de
           las páginas y todo lo que escribes en los formularios se enmascara en tu navegador antes de
@@ -77,7 +94,7 @@ const schemas = [
         <p>
           Más información:
           <a href="https://privacy.microsoft.com/privacystatement" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">privacy.microsoft.com/privacystatement</a>.
-          No utilizamos Google Analytics, publicidad, píxeles de redes sociales ni ningún otro rastreador.
+          Aparte de Google Analytics y Clarity, no usamos publicidad, píxeles de redes sociales ni ningún otro rastreador.
         </p>
       </section>
 
@@ -86,15 +103,15 @@ const schemas = [
         <p>
           Como cualquier servidor web, el de nuestro proveedor de alojamiento (OVH) anota de forma
           automática la dirección IP, la fecha y la página solicitada, para la seguridad y el buen
-          funcionamiento del servicio. Estos registros no implican ninguna cookie.
+          funcionamiento del servicio.
         </p>
       </section>
 
       <section>
         <h2 class="text-xl font-bold text-charcoal dark:text-gray-100">5. Tus derechos y reclamaciones</h2>
         <p>
-          Como Radif Partners no guarda datos personales tuyos, no hay nada que consultar ni borrar de
-          nuestra parte. Puedes escribirnos para cualquier duda y, si lo consideras necesario, presentar
+          Puedes ejercer tus derechos de acceso, rectificación, supresión y oposición escribiéndonos; con
+          Google Analytics, la oposición más sencilla es la del punto 2. Si lo consideras necesario, puedes presentar
           una reclamación ante la Agencia Española de Protección de Datos
           (<a href="https://www.aepd.es" class="text-brand hover:underline" target="_blank" rel="noopener noreferrer">www.aepd.es</a>).
         </p>

@@ -5,6 +5,7 @@ import { SITE_NAME, SITE_URL, BRAND_COLOR, CONTACT_EMAIL, AUTHOR_NAME, clarityPr
 import { buildCanonical, buildOrganizationSchema, buildWebSiteSchema } from '../../lib/seo';
 import { getLocaleFromPath, getHreflangUrls, LANG_MAP, OG_LOCALE_MAP } from '../../i18n';
 import type { Locale } from '../../i18n/types';
+import { GA4_ID } from '../../data/site-config';
 import '../../styles/global.css';
 
 interface Props {
@@ -120,6 +121,15 @@ const pageType = isHomepage ? 'home' : isGuide ? 'guide' : 'calculator';
     {schemas.map((s) => (
       <script type="application/ld+json" set:html={JSON.stringify(s)} />
     ))}
+
+    {/* GA4, régime 'none' (décision de l'éditeur du 2026-10-17, RECETTE §15.6) : Google Analytics 4
+         normal, avec cookies, SANS bandeau. Mesure d'audience accordée, publicité refusée ; cookies
+         _ga et _ga_<ID> limités à 390 jours et non prolongés ; adresse envoyée sans paramètres. */}
+    {GA4_ID && (<>
+      <script is:inline set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('consent','default',{analytics_storage:'granted',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',functionality_storage:'granted',security_storage:'granted'});`} />
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}></script>
+      <script is:inline set:html={`gtag('js',new Date());gtag('config','${GA4_ID}',{anonymize_ip:true,page_location:location.origin+location.pathname,cookie_expires:33696000,cookie_update:false,allow_google_signals:false,allow_ad_personalization_signals:false});`} />
+    </>)}
 
     <!-- Microsoft Clarity en mode sans cookie (RECETTE §15.6, 2026-10-06) : le signal consentv2
          « denied » est mis en file AVANT le script, donc aucun cookie (_clck, _clsk, MUID, CLID),
