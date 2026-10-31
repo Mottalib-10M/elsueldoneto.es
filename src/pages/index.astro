@@ -3,6 +3,19 @@ import Layout from '../components/layout/Layout.astro';
 import SueldoNeto from '../components/calculadoras/SueldoNeto';
 import { CURRENT_FISCAL_YEAR } from '../config';
 import { buildWebApplicationSchema, buildBreadcrumbSchema, buildFAQSchema } from '../lib/seo';
+import { calcularSueldoNeto, rendimientoNetoReducido, calcularMinimoPersonalFamiliar, situacionFamiliarDefecto } from '../lib/irpf-engine';
+import { reduccionRendimientosTrabajo2026, gastosDeduciblesTrabajo2026 } from '../data/irpf-2026';
+import { formatEuros, formatEurosRound, formatPercent } from '../lib/format-es';
+
+// Cifras del ejemplo y de la tabla calculadas con el mismo motor que la calculadora (Madrid, soltero, 14 pagas).
+const e = (n: number) => formatEurosRound(n);
+const md30 = calcularSueldoNeto(30_000, 'MD');
+const ct30 = calcularSueldoNeto(30_000, 'CT');
+const rn30 = rendimientoNetoReducido(30_000, md30.seguridadSocialAnual);
+const minimo = calcularMinimoPersonalFamiliar(situacionFamiliarDefecto);
+const limiteReduccion = reduccionRendimientosTrabajo2026.limiteSuperior;
+const otrosGastos = gastosDeduciblesTrabajo2026.otros;
+const tabla = [18_000, 25_000, 30_000, 40_000, 50_000, 60_000, 80_000].map((b) => calcularSueldoNeto(b, 'MD'));
 
 const title = `Sueldo neto ${CURRENT_FISCAL_YEAR} España: de bruto a neto en un clic`;
 const description = `Introduce tu salario bruto y obtén tu sueldo neto exacto en segundos. IRPF por comunidad autónoma, Seguridad Social y deducciones incluidas. España ${CURRENT_FISCAL_YEAR}.`;
@@ -14,7 +27,7 @@ const faqs = [
   },
   {
     question: '¿Cuánto IRPF se paga por un sueldo de 30.000 € brutos?',
-    answer: 'Para un trabajador soltero, sin hijos, en Madrid con 14 pagas, el IRPF aproximado sobre 30.000 € brutos anuales es de unos 4.645 €, lo que supone un tipo efectivo de IRPF del 15,5%. Sumando la Seguridad Social (1.905 €), el neto anual ronda los 23.450 € (1.675 €/mes en 14 pagas).',
+    answer: `Para un trabajador soltero, sin hijos, en Madrid con 14 pagas, el IRPF sobre 30.000 € brutos anuales es de unos ${e(md30.irpfTotalAnual)}, lo que supone un tipo efectivo de IRPF del ${formatPercent(md30.tipoEfectivoIRPF)}. Sumando la Seguridad Social (${e(md30.seguridadSocialAnual)}), el neto anual ronda los ${e(md30.netoAnual)} (${e(md30.netoMensual)}/mes en 14 pagas).`,
   },
   {
     question: '¿Qué comunidad autónoma tiene el IRPF más bajo?',
@@ -64,7 +77,7 @@ import ContextoFiscal from '../components/ContextoFiscal.astro';
         El sueldo neto es la cantidad que un trabajador recibe en su cuenta bancaria cada mes, una vez descontados los impuestos y las cotizaciones obligatorias. La diferencia entre el salario bruto que aparece en tu contrato y lo que realmente cobras puede sorprender a quien firma su primer contrato laboral: en España, esa diferencia ronda entre el 20% y el 40% del bruto, dependiendo del tramo de renta, la comunidad autónoma y la situación personal del trabajador. Dos grandes conceptos se comen esa diferencia. El primero es la <strong>Seguridad Social</strong>, que supone un 6,50% del salario bruto para contingencias comunes, desempleo, formación profesional y MEI. El segundo, y más variable, es el <strong>IRPF</strong> (Impuesto sobre la Renta de las Personas Físicas), un impuesto progresivo que se aplica por tramos. Esto significa que los primeros 12.450 € de base imponible tributan a un tipo diferente que los siguientes 7.750 €, y así sucesivamente hasta alcanzar el tipo máximo del 47% para rentas superiores a 300.000 €.
       </p>
       <p>
-        Lo que mucha gente desconoce es que el IRPF no se aplica directamente sobre el bruto. Antes hay que restar las cotizaciones a la Seguridad Social, los gastos deducibles del trabajo (2.000 € anuales), y en algunos casos una reducción adicional por rendimientos del trabajo para rentas inferiores a 19.747,50 €. Sobre esa base imponible reducida se aplica el mínimo personal y familiar, una cantidad exenta de impuestos que depende de si tienes hijos, ascendientes a cargo o alguna discapacidad reconocida.
+        Lo que mucha gente desconoce es que el IRPF no se aplica directamente sobre el bruto. Antes hay que restar las cotizaciones a la Seguridad Social, los gastos deducibles del trabajo (2.000 € anuales), y en algunos casos una reducción adicional por rendimientos del trabajo cuando el bruto menos las cotizaciones queda por debajo de 19.747,50 €. Sobre esa base imponible reducida se aplica el mínimo personal y familiar, una cantidad exenta de impuestos que depende de si tienes hijos, ascendientes a cargo o alguna discapacidad reconocida.
       </p>
       <p>
         Otro factor determinante es tu <strong>comunidad autónoma</strong>. El IRPF se divide en una escala estatal (igual en todo el territorio, excepto País Vasco y Navarra) y una escala autonómica que cada gobierno regional fija libremente. La diferencia puede llegar a superar los 2.000 € anuales para un mismo salario bruto. Madrid aplica los tipos autonómicos más bajos, mientras que Cataluña y la Comunidad Valenciana se sitúan en el extremo opuesto para rentas altas.
@@ -78,18 +91,18 @@ import ContextoFiscal from '../components/ContextoFiscal.astro';
         Veamos paso a paso cómo se calcula el neto de un trabajador soltero, sin hijos, con un salario bruto de 30.000 € anuales en la Comunidad de Madrid y 14 pagas:
       </p>
       <ol class="list-decimal ml-4 space-y-1">
-        <li><strong>Seguridad Social:</strong> 6,50% × 30.000 € = 1.950 €/año (incluye contingencias comunes, desempleo, FP y MEI).</li>
-        <li><strong>Gastos deducibles del trabajo:</strong> 2.000 € fijos según el art. 19.2 de la Ley del IRPF.</li>
-        <li><strong>Rendimiento neto del trabajo:</strong> 30.000 − 1.950 − 2.000 = 26.050 €. Como supera los 19.747,50 €, no aplica la reducción adicional por rendimientos del trabajo.</li>
-        <li><strong>Mínimo personal:</strong> 5.550 € (contribuyente menor de 65 años sin cargas familiares).</li>
-        <li><strong>IRPF estatal:</strong> se calcula aplicando los tramos del art. 63 de la Ley 35/2006 a la base imponible, descontando la cuota del mínimo personal. Resultado aproximado: 2.760 €.</li>
-        <li><strong>IRPF autonómico (Madrid):</strong> escala aprobada por la Ley 3/2023 de la CAM. Resultado aproximado: 1.885 €.</li>
-        <li><strong>IRPF total:</strong> 2.760 + 1.885 = 4.645 €/año.</li>
-        <li><strong>Neto anual:</strong> 30.000 − 1.950 − 4.645 = 23.405 €.</li>
-        <li><strong>Neto mensual (14 pagas):</strong> 23.405 ÷ 14 ≈ 1.672 €/mes.</li>
+        <li><strong>Seguridad Social:</strong> 6,50% × 30.000 € = {e(md30.seguridadSocialAnual)}/año (incluye contingencias comunes, desempleo, FP y MEI).</li>
+        <li><strong>Rendimiento neto del trabajo:</strong> 30.000 − {e(md30.seguridadSocialAnual)} = {e(rn30.rendimientoNeto)}. Como supera los {formatEuros(limiteReduccion)}, no aplica la reducción por rendimientos del trabajo (art. 20 de la Ley del IRPF, que se mide sobre el bruto menos las cotizaciones).</li>
+        <li><strong>Gastos deducibles del trabajo:</strong> {e(otrosGastos)} fijos según el art. 19.2 f) de la Ley del IRPF. Base imponible: {e(rn30.base)}.</li>
+        <li><strong>Mínimo personal:</strong> {e(minimo)} (contribuyente menor de 65 años sin cargas familiares).</li>
+        <li><strong>IRPF estatal:</strong> se calcula aplicando los tramos del art. 63 de la Ley 35/2006 a la base imponible, descontando la cuota del mínimo personal: {e(md30.irpfEstatalAnual)}.</li>
+        <li><strong>IRPF autonómico (Madrid):</strong> escala aprobada por la Ley 3/2023 de la CAM: {e(md30.irpfAutonomicoAnual)}.</li>
+        <li><strong>IRPF total:</strong> {e(md30.irpfTotalAnual)}/año.</li>
+        <li><strong>Neto anual:</strong> 30.000 − {e(md30.seguridadSocialAnual)} − {e(md30.irpfTotalAnual)} = {e(md30.netoAnual)}.</li>
+        <li><strong>Neto mensual (14 pagas):</strong> {e(md30.netoAnual)} ÷ 14 ≈ {e(md30.netoMensual)}/mes.</li>
       </ol>
       <p>
-        En este ejemplo, el tipo efectivo total (IRPF + SS sobre bruto) es del 22%. Esto significa que de cada 100 € brutos, el trabajador se lleva 78 € a su cuenta. Si este mismo trabajador viviera en Cataluña con el mismo bruto, su IRPF autonómico sería unos 350 € más alto, y su neto mensual bajaría a unos 1.647 €.
+        En este ejemplo, el tipo efectivo total (IRPF + SS sobre bruto) es del {formatPercent(md30.tipoEfectivoTotal)}. Si este mismo trabajador viviera en Cataluña con el mismo bruto, su IRPF sería unos {e(ct30.irpfTotalAnual - md30.irpfTotalAnual)} más alto, y su neto mensual bajaría a unos {e(ct30.netoMensual)}. La nómina retiene el IRPF con el algoritmo de la AEAT, por lo que el neto de cada mes puede diferir algo de esta cifra; la diferencia se regulariza en la declaración de la Renta.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tabla de referencia: bruto a neto en Madrid ({CURRENT_FISCAL_YEAR}, soltero, 14 pagas)</h3>
@@ -98,25 +111,21 @@ import ContextoFiscal from '../components/ContextoFiscal.astro';
           <thead>
             <tr class="border-b-2 border-gray-300 dark:border-gray-600">
               <th class="px-3 py-2 text-left">Bruto anual</th>
-              <th class="px-3 py-2 text-right">SS (6,50%)</th>
-              <th class="px-3 py-2 text-right">IRPF aprox.</th>
+              <th class="px-3 py-2 text-right">SS</th>
+              <th class="px-3 py-2 text-right">IRPF</th>
               <th class="px-3 py-2 text-right">Neto anual</th>
               <th class="px-3 py-2 text-right">Neto/mes (14p)</th>
               <th class="px-3 py-2 text-right">Tipo efectivo</th>
             </tr>
           </thead>
           <tbody class="tabular-nums">
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">18.000 €</td><td class="px-3 py-1 text-right">1.170 €</td><td class="px-3 py-1 text-right">1.250 €</td><td class="px-3 py-1 text-right">15.580 €</td><td class="px-3 py-1 text-right">1.113 €</td><td class="px-3 py-1 text-right">13,4%</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">25.000 €</td><td class="px-3 py-1 text-right">1.625 €</td><td class="px-3 py-1 text-right">3.150 €</td><td class="px-3 py-1 text-right">20.225 €</td><td class="px-3 py-1 text-right">1.445 €</td><td class="px-3 py-1 text-right">19,1%</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">30.000 €</td><td class="px-3 py-1 text-right">1.950 €</td><td class="px-3 py-1 text-right">4.645 €</td><td class="px-3 py-1 text-right">23.405 €</td><td class="px-3 py-1 text-right">1.672 €</td><td class="px-3 py-1 text-right">22,0%</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">40.000 €</td><td class="px-3 py-1 text-right">2.600 €</td><td class="px-3 py-1 text-right">7.820 €</td><td class="px-3 py-1 text-right">29.580 €</td><td class="px-3 py-1 text-right">2.113 €</td><td class="px-3 py-1 text-right">26,1%</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">50.000 €</td><td class="px-3 py-1 text-right">3.250 €</td><td class="px-3 py-1 text-right">11.400 €</td><td class="px-3 py-1 text-right">35.350 €</td><td class="px-3 py-1 text-right">2.525 €</td><td class="px-3 py-1 text-right">29,3%</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">60.000 €</td><td class="px-3 py-1 text-right">3.900 €</td><td class="px-3 py-1 text-right">15.300 €</td><td class="px-3 py-1 text-right">40.800 €</td><td class="px-3 py-1 text-right">2.914 €</td><td class="px-3 py-1 text-right">32,0%</td></tr>
-            <tr><td class="px-3 py-1">80.000 €</td><td class="px-3 py-1 text-right">4.495 €</td><td class="px-3 py-1 text-right">23.500 €</td><td class="px-3 py-1 text-right">52.005 €</td><td class="px-3 py-1 text-right">3.715 €</td><td class="px-3 py-1 text-right">35,0%</td></tr>
+            {tabla.map((r, i) => (
+              <tr class={i < tabla.length - 1 ? 'border-b border-gray-100 dark:border-gray-700' : ''}><td class="px-3 py-1">{e(r.brutoAnual)}</td><td class="px-3 py-1 text-right">{e(r.seguridadSocialAnual)}</td><td class="px-3 py-1 text-right">{e(r.irpfTotalAnual)}</td><td class="px-3 py-1 text-right">{e(r.netoAnual)}</td><td class="px-3 py-1 text-right">{e(r.netoMensual)}</td><td class="px-3 py-1 text-right">{formatPercent(r.tipoEfectivoTotal)}</td></tr>
+            ))}
           </tbody>
         </table>
       </div>
-      <p class="text-xs text-gray-500 mt-2">Valores orientativos calculados para un trabajador soltero, sin hijos, régimen general. Los importes exactos pueden variar según la situación personal.</p>
+      <p class="text-xs text-gray-500 mt-2">Calculado con el mismo motor que la calculadora, para un trabajador soltero, sin hijos, régimen general. Los importes exactos pueden variar según la situación personal.</p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El Salario Mínimo Interprofesional y su efecto en la nómina</h3>
       <p>

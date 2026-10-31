@@ -127,7 +127,7 @@ import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
 
         <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Paso 1: Base imponible</h3>
         <p>
-          Tu base imponible se calcula restando a tu salario bruto las cotizaciones a la SS y los gastos deducibles del trabajo (2.000 €). Si el resultado es inferior a 19.747,50 €, se aplica una reducción adicional por rendimientos del trabajo.
+          Tu base imponible se calcula restando a tu salario bruto las cotizaciones a la SS y los gastos deducibles del trabajo (2.000 €). Si el bruto menos las cotizaciones es inferior a 19.747,50 €, se resta además una reducción por rendimientos del trabajo (art. 20 de la Ley del IRPF).
         </p>
 
         <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Paso 2: Escala progresiva</h3>
@@ -233,7 +233,7 @@ import MiniSimAutonome from '../../components/calc/MiniSimAutonome';
           </tbody>
         </table>
         <p>
-          Como el rendimiento neto supera los 19.747,50 €, no se aplica la reducción adicional por rendimientos del trabajo. La base imponible general queda en 30.725 €.
+          Como el bruto menos las cotizaciones supera los 19.747,50 €, no se aplica la reducción adicional por rendimientos del trabajo. La base imponible general queda en 30.725 €.
         </p>
 
         <h3 class="text-lg font-bold text-charcoal dark:text-gray-100">Paso 3: Aplicar la escala progresiva del IRPF</h3>

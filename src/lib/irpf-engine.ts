@@ -12,6 +12,7 @@ import {
   deduccionSMI2026,
   gastosDeduciblesTrabajo2026,
   regimenBeckham2026,
+  deduccionCeutaMelilla2026,
   type TramoIRPF,
 } from '../data/irpf-2026';
 
@@ -140,6 +141,19 @@ export function calcularMinimoPersonalFamiliar(situacion: SituacionFamiliar): nu
 
 // ── Reducción por rendimientos del trabajo ──────────────────────────────────
 
+/**
+ * Rendimiento neto del trabajo y base tras la reducción del art. 20 LIRPF.
+ * Art. 20: la reducción se calcula sobre el rendimiento íntegro menos los gastos de las letras a) a e)
+ * del art. 19.2 (cotizaciones), sin restar los 2.000 € de «otros gastos» de la letra f); el saldo no puede
+ * ser negativo. Coincide con el algoritmo de retenciones de la AEAT 2026 (RdtoNeto, Reduccion/RdtosTrabajo).
+ */
+export function rendimientoNetoReducido(brutoAnual: number, ssAnual: number): { rendimientoNeto: number; reduccion: number; base: number } {
+  const rendimientoNeto = brutoAnual - ssAnual;
+  const reduccion = calcularReduccionRendimientosTrabajo(rendimientoNeto);
+  const base = Math.max(0, rendimientoNeto - gastosDeduciblesTrabajo2026.otros - reduccion);
+  return { rendimientoNeto, reduccion, base };
+}
+
 export function calcularReduccionRendimientosTrabajo(
   rendimientosNetosTrabajo: number
 ): number {
@@ -210,14 +224,8 @@ export function calcularIRPF(
   // SS contributions are deductible
   const ssAnual = calcularSeguridadSocialAnual(brutoAnual);
 
-  // Net employment income = bruto - SS - gastos deducibles
-  const rendimientosNetos = brutoAnual - ssAnual - gastosDeduciblesTrabajo2026.otros;
-
-  // Reducción por rendimientos del trabajo
-  const reduccion = calcularReduccionRendimientosTrabajo(rendimientosNetos);
-
-  // Base imponible general
-  const baseImponible = Math.max(0, rendimientosNetos - reduccion);
+  // Base imponible general: bruto − SS − 2.000 € (art. 19.2 f) − reducción del art. 20 (sobre bruto − SS)
+  const { base: baseImponible } = rendimientoNetoReducido(brutoAnual, ssAnual);
 
   // Mínimo personal y familiar
   const minimoPersonalFamiliar = calcularMinimoPersonalFamiliar(situacion);
@@ -240,21 +248,23 @@ export function calcularIRPF(
   const cuotaMinimoAutonomico = calcularImpuestoProgresivo(minimoPersonalFamiliar, comunidad.tramos);
   let autonomico = Math.max(0, impuestoAutonomico - cuotaMinimoAutonomico);
 
-  // Deducción por rendimientos del trabajo (salarios próximos al SMI) : reduce la cuota, repartida entre ambas partes
-  const cuotaPrevia = estatal + autonomico;
-  if (cuotaPrevia > 0) {
-    const factor = Math.max(0, cuotaPrevia - calcularDeduccionSMI(brutoAnual)) / cuotaPrevia;
+  // Ceuta y Melilla (art. 68.4 LIRPF): deducción del 60 % de la suma de las cuotas íntegras estatal y
+  // autonómica, antes de la deducción del SMI, que se resta de la cuota líquida (disposición adicional 61.ª.2 LIRPF).
+  const cuotaIntegra = estatal + autonomico;
+  let bonificacion = 0;
+  if (ccaa === 'CE' || ccaa === 'ML') {
+    bonificacion = cuotaIntegra * deduccionCeutaMelilla2026;
+  }
+  // Deducción por rendimientos del trabajo (salarios próximos al SMI), con el límite de la cuota íntegra
+  const cuotaLiquida = cuotaIntegra - bonificacion;
+  const total = Math.max(0, cuotaLiquida - Math.min(calcularDeduccionSMI(brutoAnual), cuotaIntegra));
+  // Reparto de la deducción del SMI entre ambas partes en proporción a las cuotas íntegras;
+  // estatal + autonómico − bonificación = total.
+  if (cuotaIntegra > 0) {
+    const factor = (total + bonificacion) / cuotaIntegra;
     estatal *= factor;
     autonomico *= factor;
   }
-
-  let bonificacion = 0;
-  // Ceuta and Melilla: 50% bonus on total tax
-  if (ccaa === 'CE' || ccaa === 'ML') {
-    bonificacion = (estatal + autonomico) * 0.5;
-  }
-
-  const total = estatal + autonomico - bonificacion;
 
   return { estatal, autonomico, total, bonificacion };
 }
@@ -268,9 +278,7 @@ export function calcularSueldoNeto(
   pagas: 12 | 14 = 14
 ): DesgloseSueldo {
   const ssAnual = calcularSeguridadSocialAnual(brutoAnual);
-  const rendimientosNetos = brutoAnual - ssAnual - gastosDeduciblesTrabajo2026.otros;
-  const reduccion = calcularReduccionRendimientosTrabajo(rendimientosNetos);
-  const baseImponible = Math.max(0, rendimientosNetos - reduccion);
+  const { reduccion, base: baseImponible } = rendimientoNetoReducido(brutoAnual, ssAnual);
   const minimoPersonalFamiliar = calcularMinimoPersonalFamiliar(situacion);
   const irpf = calcularIRPF(brutoAnual, ccaa, situacion);
 

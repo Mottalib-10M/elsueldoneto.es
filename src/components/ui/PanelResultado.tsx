@@ -94,6 +94,11 @@ export default function PanelResultado({ resultado, lang = 'es' }: PanelResultad
             />
           </tbody>
         </table>
+        <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+          {l
+            ? 'The monthly net spreads the final annual income tax over your payments. Your payslip withholds IRPF with the AEAT withholding algorithm, so the payslip can differ from this figure, sometimes by tens of euros a month; the difference is settled in the annual tax return.'
+            : 'El neto mensual reparte entre las pagas el IRPF anual definitivo. La nómina retiene según el algoritmo de retenciones de la AEAT, por lo que la nómina puede diferir de esta cifra, a veces en decenas de euros al mes; la diferencia se regulariza en la declaración de la Renta.'}
+        </p>
       </div>
     </div>
   );

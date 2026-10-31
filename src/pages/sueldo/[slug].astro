@@ -75,8 +75,8 @@ const topeSSAnual = seguridadSocial2026.baseMaximaMensual * 12;
 const eurA = (v: number) => Math.round(v).toLocaleString('es-ES') + ' €';
 const angulos: Record<number, { titulo: string; texto: string }> = {
   22000: {
-    titulo: 'Por qué los primeros euros de subida rinden menos a este nivel',
-    texto: `Con 22.000 € brutos, el rendimiento neto del trabajo queda en torno a los 18.500 €, dentro de la franja en la que la reducción por rendimientos del trabajo del artículo 20 de la Ley del IRPF se va apagando: cada euro más de sueldo reduce esa reducción en 1,14 euros hasta que desaparece, al llegar a 19.747,50 € de rendimiento neto. El efecto es un tipo marginal más alto de lo que sugiere la escala: de 1.000 € brutos más al año, en Madrid y sin hijos, te quedan ${eurA(netoDeMil)} netos, lo que equivale a perder el ${marginalPct} % entre Seguridad Social e IRPF. Es la razón por la que una subida de convenio modesta se nota poco en la nómina de enero, y por la que conviene revisar el tipo de retención tras cada cambio de salario.`,
+    titulo: 'Justo por encima de la franja en la que se apaga la reducción del trabajo',
+    texto: `Con 22.000 € brutos, el rendimiento neto del trabajo que cuenta para la reducción del artículo 20 de la Ley del IRPF (bruto menos cotizaciones) queda en torno a ${eurA(page.annualGross - defaultResult.seguridadSocialAnual)}, ya por encima de los 19.747,50 € en los que esa reducción desaparece. Unos cientos de euros menos de sueldo bastan para entrar en la franja en la que cada euro de más recorta la reducción en 1,14 euros, y la deducción por salarios cercanos al SMI se apaga a los 20.048,45 € brutos: por eso, entre 17.000 y 21.000 € brutos, una subida rinde menos de lo que sugiere la escala. A este nivel ya no: de 1.000 € brutos más al año, en Madrid y sin hijos, te quedan ${eurA(netoDeMil)} netos, lo que equivale a perder el ${marginalPct} % entre Seguridad Social e IRPF. Conviene revisar el tipo de retención tras cada cambio de salario.`,
   },
   30000: {
     titulo: 'El salario de referencia: dónde empieza a pesar el IRPF',

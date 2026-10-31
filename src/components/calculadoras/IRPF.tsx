@@ -1,6 +1,6 @@
 import BarraResultado from '../ui/BarraResultado';
 import { useState, useMemo } from 'react';
-import { calcularIRPF, calcularSeguridadSocialAnual, calcularMinimoPersonalFamiliar, calcularReduccionRendimientosTrabajo, situacionFamiliarDefecto, type SituacionFamiliar } from '../../lib/irpf-engine';
+import { calcularIRPF, calcularSeguridadSocialAnual, calcularMinimoPersonalFamiliar, rendimientoNetoReducido, situacionFamiliarDefecto, type SituacionFamiliar } from '../../lib/irpf-engine';
 import { gastosDeduciblesTrabajo2026 } from '../../data/irpf-2026';
 import type { CCAACodigo } from '../../data/comunidades-autonomas';
 import { formatEuros, formatPercent } from '../../lib/format-es';
@@ -19,9 +19,8 @@ export default function IRPF({ lang = 'es' }: { lang?: 'es' | 'en' }) {
 
   const resultado = useMemo(() => {
     const ss = calcularSeguridadSocialAnual(brutoNum);
+    const { reduccion, base: baseImponible } = rendimientoNetoReducido(brutoNum, ss);
     const rendNetos = brutoNum - ss - gastosDeduciblesTrabajo2026.otros;
-    const reduccion = calcularReduccionRendimientosTrabajo(rendNetos);
-    const baseImponible = Math.max(0, rendNetos - reduccion);
     const minimo = calcularMinimoPersonalFamiliar(situacion);
     const irpf = calcularIRPF(brutoNum, ccaa, situacion);
     return { ss, rendNetos, reduccion, baseImponible, minimo, irpf };

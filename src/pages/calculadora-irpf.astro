@@ -2,6 +2,16 @@
 import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
 import IRPF from '../components/calculadoras/IRPF';
 import { CURRENT_FISCAL_YEAR } from '../config';
+import { calcularSueldoNeto, compararComunidades } from '../lib/irpf-engine';
+import { formatEurosRound, formatPercent } from '../lib/format-es';
+
+// Ejemplo de 40.000 € calculado con el motor de la calculadora (soltero, sin hijos).
+const e = (n: number) => formatEurosRound(n);
+const md40 = calcularSueldoNeto(40_000, 'MD');
+const ct40 = calcularSueldoNeto(40_000, 'CT');
+const an40 = calcularSueldoNeto(40_000, 'AN');
+const comunes40 = compararComunidades(40_000);
+const brecha40 = Math.max(...comunes40.map((r) => r.irpfTotalAnual)) - md40.irpfTotalAnual;
 
 const title = `IRPF ${CURRENT_FISCAL_YEAR}: calcula tu tipo efectivo real, tramo a tramo`;
 const description = `Introduce tu salario y calcula el IRPF exacto en ${CURRENT_FISCAL_YEAR}. Desglose por tramos estatales y autonómicos, tipo efectivo real y comparativa entre comunidades.`;
@@ -56,7 +66,7 @@ import ContextoFiscal from '../components/ContextoFiscal.astro';
       </p>
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">De bruto a base imponible: las reducciones previas</h3>
       <p>
-        Antes de aplicar los tramos hay varias reducciones. Primero se restan las cotizaciones a la Seguridad Social (6,35% del bruto, con un tope en la base máxima de cotización). Después, los gastos deducibles del trabajo, fijados en 2.000 € anuales para la generalidad de los contribuyentes. Y si el rendimiento neto del trabajo es inferior a 19.747,50 €, existe una reducción adicional que va de 7.302 € a 0 € de forma decreciente. Esta reducción es la que consigue que los trabajadores con rentas más bajas apenas paguen IRPF.
+        Antes de aplicar los tramos hay varias reducciones. Primero se restan las cotizaciones a la Seguridad Social (6,50% del bruto, con un tope en la base máxima de cotización). Después, los gastos deducibles del trabajo, fijados en 2.000 € anuales para la generalidad de los contribuyentes. Y si el bruto menos las cotizaciones (el rendimiento neto del art. 20, antes de esos 2.000 €) es inferior a 19.747,50 €, existe una reducción adicional que va de 7.302 € a 0 € de forma decreciente. Esta reducción es la que consigue que los trabajadores con rentas más bajas apenas paguen IRPF.
       </p>
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El mínimo personal y familiar</h3>
       <p>
@@ -72,25 +82,25 @@ import ContextoFiscal from '../components/ContextoFiscal.astro';
         Tomemos un trabajador soltero sin hijos con 40.000 € brutos anuales en Madrid:
       </p>
       <ol class="list-decimal ml-4 space-y-1">
-        <li><strong>Seguridad Social:</strong> 6,35% × 40.000 = 2.540 €.</li>
-        <li><strong>Rendimiento neto del trabajo:</strong> 40.000 − 2.540 − 2.000 (gastos deducibles) = 35.460 €. Sin reducción adicional al superar 19.747,50 €.</li>
-        <li><strong>Base imponible:</strong> 35.460 €.</li>
+        <li><strong>Seguridad Social:</strong> 6,50% × 40.000 = {e(md40.seguridadSocialAnual)}.</li>
+        <li><strong>Rendimiento neto del trabajo:</strong> 40.000 − 2.600 = 37.400 €, por encima de 19.747,50 €: sin reducción por rendimientos del trabajo. Menos 2.000 € de gastos deducibles queda la base.</li>
+        <li><strong>Base imponible:</strong> {e(md40.baseImponible)}.</li>
         <li><strong>Cuota estatal:</strong> Se aplica la escala del art. 63 de la Ley 35/2006:
           <ul class="list-disc ml-4 mt-1">
             <li>Hasta 12.450 €: 9,5% → 1.182,75 €</li>
             <li>De 12.450 a 20.200 € (7.750 €): 12% → 930,00 €</li>
             <li>De 20.200 a 35.200 € (15.000 €): 15% → 2.250,00 €</li>
-            <li>De 35.200 a 35.460 € (260 €): 18,5% → 48,10 €</li>
-            <li>Subtotal: 4.410,85 €</li>
+            <li>De 35.200 a 35.400 € (200 €): 18,5% → 37,00 €</li>
+            <li>Subtotal: 4.399,75 €</li>
           </ul>
         </li>
         <li><strong>Cuota del mínimo personal (estatal):</strong> 5.550 € × 9,5% = 527,25 €.</li>
-        <li><strong>IRPF estatal neto:</strong> 4.410,85 − 527,25 = 3.883,60 €.</li>
-        <li><strong>Cuota autonómica (Madrid):</strong> siguiendo la escala madrileña con el mismo proceso, resulta en torno a 3.935 €, menos el mínimo personal autonómico.</li>
-        <li><strong>IRPF total aproximado:</strong> 7.820 €/año, lo que supone un tipo efectivo del 19,6% sobre el bruto.</li>
+        <li><strong>IRPF estatal neto:</strong> 4.399,75 − 527,25 = 3.872,50 €.</li>
+        <li><strong>Cuota autonómica (Madrid):</strong> siguiendo la escala madrileña con el mismo proceso, menos la cuota del mínimo personal: {e(md40.irpfAutonomicoAnual)}.</li>
+        <li><strong>IRPF total:</strong> {e(md40.irpfTotalAnual)}/año, lo que supone un tipo efectivo del {formatPercent(md40.tipoEfectivoIRPF)} sobre el bruto.</li>
       </ol>
       <p>
-        Este mismo salario en Cataluña generaría un IRPF total de unos 8.550 €, y en Andalucía de unos 8.100 €. La diferencia entre la comunidad más barata (Madrid) y la más cara puede alcanzar los 730 € anuales para este nivel de renta.
+        Este mismo salario en Cataluña generaría un IRPF total de unos {e(ct40.irpfTotalAnual)}, y en Andalucía de unos {e(an40.irpfTotalAnual)}. La diferencia entre Madrid y la comunidad más cara puede alcanzar los {e(brecha40)} anuales para este nivel de renta.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Tramos estatales del IRPF vigentes</h3>

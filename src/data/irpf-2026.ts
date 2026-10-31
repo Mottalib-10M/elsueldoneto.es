@@ -75,6 +75,10 @@ export const deduccionSMI2026 = {
   coeficiente: 0.2,
 };
 
+// Deducción por rentas obtenidas en Ceuta o Melilla: 60 % de la suma de las cuotas íntegras estatal y
+// autonómica (art. 68.4 LIRPF, BOE-A-2006-20764, texto consolidado leído el 2026-10-31).
+export const deduccionCeutaMelilla2026 = 0.6;
+
 // Gastos deducibles fijos del trabajo
 export const gastosDeduciblesTrabajo2026 = {
   otros: 2_000,           // "Otros gastos" fixed deduction for all workers

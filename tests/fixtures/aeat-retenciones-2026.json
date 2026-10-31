@@ -1,0 +1,851 @@
+{
+ "fuente": "https://www2.agenciatributaria.gob.es/wlpl/PRET-R200/mc (EJER=2026, PER=1), servicio de cálculo de retenciones de la AEAT",
+ "consultado": "2026-10-31",
+ "casos": [
+  {
+   "situacion": "soltero",
+   "nacimiento": 1996,
+   "hijos": [],
+   "bruto": 12000,
+   "cotizaciones": 780,
+   "aeat": {
+    "RdtoNeto": 11220,
+    "ReduccionRdtosTrabajo": 7302,
+    "RdtoNetoReducido": 1918,
+    "MinimoPersonalFamiliar": 5550,
+    "ImpAnualRetenciones": 0,
+    "TipoRetencion": 0
+   }
+  },
+  {
+   "situacion": "soltero",
+   "nacimiento": 1996,
+   "hijos": [],
+   "bruto": 15000,
+   "cotizaciones": 975,
+   "aeat": {
+    "RdtoNeto": 14025,
+    "ReduccionRdtosTrabajo": 7302,
+    "RdtoNetoReducido": 4723,
+    "MinimoPersonalFamiliar": 5550,
+    "ImpAnualRetenciones": 0,
+    "TipoRetencion": 0
+   }
+  },
+  {
+   "situacion": "soltero",
+   "nacimiento": 1996,
+   "hijos": [],
+   "bruto": 16000,
+   "cotizaciones": 1040,
+   "aeat": {
+    "RdtoNeto": 14960,
+    "ReduccionRdtosTrabajo": 7113,
+    "RdtoNetoReducido": 5847,
+    "MinimoPersonalFamiliar": 5550,
+    "ImpAnualRetenciones": 52.8,
+    "TipoRetencion": 0.33
+   }
+  },
+  {
+   "situacion": "soltero",
+   "nacimiento": 1996,
+   "hijos": [],
+   "bruto": 17094,
+   "cotizaciones": 1111.11,
+   "aeat": {
+    "RdtoNeto": 15982.89,
+    "ReduccionRdtosTrabajo": 5322.94,
+    "RdtoNetoReducido": 8659.95,
+    "MinimoPersonalFamiliar": 5550,
+    "ImpAnualRetenciones": 523.08,
+    "TipoRetencion": 3.06
+   }
+  },
+  {
+   "situacion": "soltero",
+   "nacimiento": 1996,
+   "hijos": [],
+   "bruto": 18000,
+   "cotizaciones": 1170,
+   "aeat": {
+    "RdtoNeto": 16830,
+    "ReduccionRdtosTrabajo": 3840.5,
+    "RdtoNetoReducido": 10989.5,
+    "MinimoPersonalFamiliar": 5550,
+    "ImpAnualRetenciones": 912.6,
+    "TipoRetencion": 5.07
+   }
+  },
+  {
+   "situacion": "soltero",
+   "nacimiento": 1996,
+   "hijos": [],
+   "bruto": 19000,
+   "cotizaciones": 1235,
+   "aeat": {
+    "RdtoNeto": 17765,
+    "ReduccionRdtosTrabajo": 2260.05,
+    "RdtoNetoReducido": 13504.95,
+    "MinimoPersonalFamiliar": 5550,
+    "ImpAnualRetenciones": 1343.3,
+    "TipoRetencion": 7.07
+   }
+  },
+  {
+   "situacion": "soltero",
+   "nacimiento": 1996,
+   "hijos": [],
+   "bruto": 20000,
+   "cotizaciones": 1300,
+   "aeat": {
+    "RdtoNeto": 18700,
+    "ReduccionRdtosTrabajo": 1194.15,
+    "RdtoNetoReducido": 15505.85,
+    "MinimoPersonalFamiliar": 5550,
+    "ImpAnualRetenciones": 1772,
+    "TipoRetencion": 8.86
+   }
+  },
+  {
+   "situacion": "soltero",
+   "nacimiento": 1996,
+   "hijos": [],
+   "bruto": 21000,
+   "cotizaciones": 1365,
+   "aeat": {
+    "RdtoNeto": 19635,
+    "ReduccionRdtosTrabajo": 128.25,
+    "RdtoNetoReducido": 17506.75,
+    "MinimoPersonalFamiliar": 5550,
+    "ImpAnualRetenciones": 2202.9,
+    "TipoRetencion": 10.49
+   }
+  },
+  {
+   "situacion": "soltero",
+   "nacimiento": 1996,
+   "hijos": [],
+   "bruto": 22000,
+   "cotizaciones": 1430,
+   "aeat": {
+    "RdtoNeto": 20570,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 18570,
+    "MinimoPersonalFamiliar": 5550,
+    "ImpAnualRetenciones": 2631.2,
+    "TipoRetencion": 11.96
+   }
+  },
+  {
+   "situacion": "soltero",
+   "nacimiento": 1996,
+   "hijos": [],
+   "bruto": 25000,
+   "cotizaciones": 1625,
+   "aeat": {
+    "RdtoNeto": 23375,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 21375,
+    "MinimoPersonalFamiliar": 5550,
+    "ImpAnualRetenciones": 3522.5,
+    "TipoRetencion": 14.09
+   }
+  },
+  {
+   "situacion": "soltero",
+   "nacimiento": 1996,
+   "hijos": [],
+   "bruto": 30000,
+   "cotizaciones": 1950,
+   "aeat": {
+    "RdtoNeto": 28050,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 26050,
+    "MinimoPersonalFamiliar": 5550,
+    "ImpAnualRetenciones": 4926,
+    "TipoRetencion": 16.42
+   }
+  },
+  {
+   "situacion": "soltero",
+   "nacimiento": 1996,
+   "hijos": [],
+   "bruto": 45000,
+   "cotizaciones": 2925,
+   "aeat": {
+    "RdtoNeto": 42075,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 40075,
+    "MinimoPersonalFamiliar": 5550,
+    "ImpAnualRetenciones": 9472.5,
+    "TipoRetencion": 21.05
+   }
+  },
+  {
+   "situacion": "soltero",
+   "nacimiento": 1996,
+   "hijos": [],
+   "bruto": 60000,
+   "cotizaciones": 3900,
+   "aeat": {
+    "RdtoNeto": 56100,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 54100,
+    "MinimoPersonalFamiliar": 5550,
+    "ImpAnualRetenciones": 14664,
+    "TipoRetencion": 24.44
+   }
+  },
+  {
+   "situacion": "1-hijo-menor-3",
+   "nacimiento": 1990,
+   "hijos": [
+    2025
+   ],
+   "bruto": 12000,
+   "cotizaciones": 780,
+   "aeat": {
+    "RdtoNeto": 11220,
+    "ReduccionRdtosTrabajo": 7302,
+    "RdtoNetoReducido": 1918,
+    "MinimoPersonalFamiliar": 10750,
+    "ImpAnualRetenciones": 0,
+    "TipoRetencion": 0
+   }
+  },
+  {
+   "situacion": "1-hijo-menor-3",
+   "nacimiento": 1990,
+   "hijos": [
+    2025
+   ],
+   "bruto": 15000,
+   "cotizaciones": 975,
+   "aeat": {
+    "RdtoNeto": 14025,
+    "ReduccionRdtosTrabajo": 7302,
+    "RdtoNetoReducido": 4723,
+    "MinimoPersonalFamiliar": 10750,
+    "ImpAnualRetenciones": 0,
+    "TipoRetencion": 0
+   }
+  },
+  {
+   "situacion": "1-hijo-menor-3",
+   "nacimiento": 1990,
+   "hijos": [
+    2025
+   ],
+   "bruto": 16000,
+   "cotizaciones": 1040,
+   "aeat": {
+    "RdtoNeto": 14960,
+    "ReduccionRdtosTrabajo": 7113,
+    "RdtoNetoReducido": 5847,
+    "MinimoPersonalFamiliar": 10750,
+    "ImpAnualRetenciones": 0,
+    "TipoRetencion": 0
+   }
+  },
+  {
+   "situacion": "1-hijo-menor-3",
+   "nacimiento": 1990,
+   "hijos": [
+    2025
+   ],
+   "bruto": 17094,
+   "cotizaciones": 1111.11,
+   "aeat": {
+    "RdtoNeto": 15982.89,
+    "ReduccionRdtosTrabajo": 5322.94,
+    "RdtoNetoReducido": 8659.95,
+    "MinimoPersonalFamiliar": 10750,
+    "ImpAnualRetenciones": 0,
+    "TipoRetencion": 0
+   }
+  },
+  {
+   "situacion": "1-hijo-menor-3",
+   "nacimiento": 1990,
+   "hijos": [
+    2025
+   ],
+   "bruto": 18000,
+   "cotizaciones": 1170,
+   "aeat": {
+    "RdtoNeto": 16830,
+    "ReduccionRdtosTrabajo": 3840.5,
+    "RdtoNetoReducido": 10989.5,
+    "MinimoPersonalFamiliar": 10750,
+    "ImpAnualRetenciones": 45,
+    "TipoRetencion": 0.25
+   }
+  },
+  {
+   "situacion": "1-hijo-menor-3",
+   "nacimiento": 1990,
+   "hijos": [
+    2025
+   ],
+   "bruto": 19000,
+   "cotizaciones": 1235,
+   "aeat": {
+    "RdtoNeto": 17765,
+    "ReduccionRdtosTrabajo": 2260.05,
+    "RdtoNetoReducido": 13504.95,
+    "MinimoPersonalFamiliar": 10750,
+    "ImpAnualRetenciones": 575.7,
+    "TipoRetencion": 3.03
+   }
+  },
+  {
+   "situacion": "1-hijo-menor-3",
+   "nacimiento": 1990,
+   "hijos": [
+    2025
+   ],
+   "bruto": 20000,
+   "cotizaciones": 1300,
+   "aeat": {
+    "RdtoNeto": 18700,
+    "ReduccionRdtosTrabajo": 1194.15,
+    "RdtoNetoReducido": 15505.85,
+    "MinimoPersonalFamiliar": 10750,
+    "ImpAnualRetenciones": 1012,
+    "TipoRetencion": 5.06
+   }
+  },
+  {
+   "situacion": "1-hijo-menor-3",
+   "nacimiento": 1990,
+   "hijos": [
+    2025
+   ],
+   "bruto": 21000,
+   "cotizaciones": 1365,
+   "aeat": {
+    "RdtoNeto": 19635,
+    "ReduccionRdtosTrabajo": 128.25,
+    "RdtoNetoReducido": 17506.75,
+    "MinimoPersonalFamiliar": 10750,
+    "ImpAnualRetenciones": 1442.7,
+    "TipoRetencion": 6.87
+   }
+  },
+  {
+   "situacion": "1-hijo-menor-3",
+   "nacimiento": 1990,
+   "hijos": [
+    2025
+   ],
+   "bruto": 22000,
+   "cotizaciones": 1430,
+   "aeat": {
+    "RdtoNeto": 20570,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 18570,
+    "MinimoPersonalFamiliar": 10750,
+    "ImpAnualRetenciones": 1790.8,
+    "TipoRetencion": 8.14
+   }
+  },
+  {
+   "situacion": "1-hijo-menor-3",
+   "nacimiento": 1990,
+   "hijos": [
+    2025
+   ],
+   "bruto": 25000,
+   "cotizaciones": 1625,
+   "aeat": {
+    "RdtoNeto": 23375,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 21375,
+    "MinimoPersonalFamiliar": 10750,
+    "ImpAnualRetenciones": 2535,
+    "TipoRetencion": 10.14
+   }
+  },
+  {
+   "situacion": "1-hijo-menor-3",
+   "nacimiento": 1990,
+   "hijos": [
+    2025
+   ],
+   "bruto": 30000,
+   "cotizaciones": 1950,
+   "aeat": {
+    "RdtoNeto": 28050,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 26050,
+    "MinimoPersonalFamiliar": 10750,
+    "ImpAnualRetenciones": 3936,
+    "TipoRetencion": 13.12
+   }
+  },
+  {
+   "situacion": "1-hijo-menor-3",
+   "nacimiento": 1990,
+   "hijos": [
+    2025
+   ],
+   "bruto": 45000,
+   "cotizaciones": 2925,
+   "aeat": {
+    "RdtoNeto": 42075,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 40075,
+    "MinimoPersonalFamiliar": 10750,
+    "ImpAnualRetenciones": 8482.5,
+    "TipoRetencion": 18.85
+   }
+  },
+  {
+   "situacion": "1-hijo-menor-3",
+   "nacimiento": 1990,
+   "hijos": [
+    2025
+   ],
+   "bruto": 60000,
+   "cotizaciones": 3900,
+   "aeat": {
+    "RdtoNeto": 56100,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 54100,
+    "MinimoPersonalFamiliar": 10750,
+    "ImpAnualRetenciones": 13674,
+    "TipoRetencion": 22.79
+   }
+  },
+  {
+   "situacion": "2-hijos",
+   "nacimiento": 1985,
+   "hijos": [
+    2015,
+    2018
+   ],
+   "bruto": 12000,
+   "cotizaciones": 780,
+   "aeat": {
+    "RdtoNeto": 11220,
+    "ReduccionRdtosTrabajo": 7302,
+    "RdtoNetoReducido": 1918,
+    "MinimoPersonalFamiliar": 10650,
+    "ImpAnualRetenciones": 0,
+    "TipoRetencion": 0
+   }
+  },
+  {
+   "situacion": "2-hijos",
+   "nacimiento": 1985,
+   "hijos": [
+    2015,
+    2018
+   ],
+   "bruto": 15000,
+   "cotizaciones": 975,
+   "aeat": {
+    "RdtoNeto": 14025,
+    "ReduccionRdtosTrabajo": 7302,
+    "RdtoNetoReducido": 4723,
+    "MinimoPersonalFamiliar": 10650,
+    "ImpAnualRetenciones": 0,
+    "TipoRetencion": 0
+   }
+  },
+  {
+   "situacion": "2-hijos",
+   "nacimiento": 1985,
+   "hijos": [
+    2015,
+    2018
+   ],
+   "bruto": 16000,
+   "cotizaciones": 1040,
+   "aeat": {
+    "RdtoNeto": 14960,
+    "ReduccionRdtosTrabajo": 7113,
+    "RdtoNetoReducido": 5847,
+    "MinimoPersonalFamiliar": 10650,
+    "ImpAnualRetenciones": 0,
+    "TipoRetencion": 0
+   }
+  },
+  {
+   "situacion": "2-hijos",
+   "nacimiento": 1985,
+   "hijos": [
+    2015,
+    2018
+   ],
+   "bruto": 17094,
+   "cotizaciones": 1111.11,
+   "aeat": {
+    "RdtoNeto": 15982.89,
+    "ReduccionRdtosTrabajo": 5322.94,
+    "RdtoNetoReducido": 8659.95,
+    "MinimoPersonalFamiliar": 10650,
+    "ImpAnualRetenciones": 0,
+    "TipoRetencion": 0
+   }
+  },
+  {
+   "situacion": "2-hijos",
+   "nacimiento": 1985,
+   "hijos": [
+    2015,
+    2018
+   ],
+   "bruto": 18000,
+   "cotizaciones": 1170,
+   "aeat": {
+    "RdtoNeto": 16830,
+    "ReduccionRdtosTrabajo": 3840.5,
+    "RdtoNetoReducido": 10989.5,
+    "MinimoPersonalFamiliar": 10650,
+    "ImpAnualRetenciones": 0,
+    "TipoRetencion": 0
+   }
+  },
+  {
+   "situacion": "2-hijos",
+   "nacimiento": 1985,
+   "hijos": [
+    2015,
+    2018
+   ],
+   "bruto": 19000,
+   "cotizaciones": 1235,
+   "aeat": {
+    "RdtoNeto": 17765,
+    "ReduccionRdtosTrabajo": 2260.05,
+    "RdtoNetoReducido": 13504.95,
+    "MinimoPersonalFamiliar": 10650,
+    "ImpAnualRetenciones": 131.1,
+    "TipoRetencion": 0.69
+   }
+  },
+  {
+   "situacion": "2-hijos",
+   "nacimiento": 1985,
+   "hijos": [
+    2015,
+    2018
+   ],
+   "bruto": 20000,
+   "cotizaciones": 1300,
+   "aeat": {
+    "RdtoNeto": 18700,
+    "ReduccionRdtosTrabajo": 1194.15,
+    "RdtoNetoReducido": 15505.85,
+    "MinimoPersonalFamiliar": 10650,
+    "ImpAnualRetenciones": 560,
+    "TipoRetencion": 2.8
+   }
+  },
+  {
+   "situacion": "2-hijos",
+   "nacimiento": 1985,
+   "hijos": [
+    2015,
+    2018
+   ],
+   "bruto": 21000,
+   "cotizaciones": 1365,
+   "aeat": {
+    "RdtoNeto": 19635,
+    "ReduccionRdtosTrabajo": 128.25,
+    "RdtoNetoReducido": 17506.75,
+    "MinimoPersonalFamiliar": 10650,
+    "ImpAnualRetenciones": 991.2,
+    "TipoRetencion": 4.72
+   }
+  },
+  {
+   "situacion": "2-hijos",
+   "nacimiento": 1985,
+   "hijos": [
+    2015,
+    2018
+   ],
+   "bruto": 22000,
+   "cotizaciones": 1430,
+   "aeat": {
+    "RdtoNeto": 20570,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 18570,
+    "MinimoPersonalFamiliar": 10650,
+    "ImpAnualRetenciones": 1421.2,
+    "TipoRetencion": 6.46
+   }
+  },
+  {
+   "situacion": "2-hijos",
+   "nacimiento": 1985,
+   "hijos": [
+    2015,
+    2018
+   ],
+   "bruto": 25000,
+   "cotizaciones": 1625,
+   "aeat": {
+    "RdtoNeto": 23375,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 21375,
+    "MinimoPersonalFamiliar": 10650,
+    "ImpAnualRetenciones": 2552.5,
+    "TipoRetencion": 10.21
+   }
+  },
+  {
+   "situacion": "2-hijos",
+   "nacimiento": 1985,
+   "hijos": [
+    2015,
+    2018
+   ],
+   "bruto": 30000,
+   "cotizaciones": 1950,
+   "aeat": {
+    "RdtoNeto": 28050,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 26050,
+    "MinimoPersonalFamiliar": 10650,
+    "ImpAnualRetenciones": 3957,
+    "TipoRetencion": 13.19
+   }
+  },
+  {
+   "situacion": "2-hijos",
+   "nacimiento": 1985,
+   "hijos": [
+    2015,
+    2018
+   ],
+   "bruto": 45000,
+   "cotizaciones": 2925,
+   "aeat": {
+    "RdtoNeto": 42075,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 40075,
+    "MinimoPersonalFamiliar": 10650,
+    "ImpAnualRetenciones": 8505,
+    "TipoRetencion": 18.9
+   }
+  },
+  {
+   "situacion": "2-hijos",
+   "nacimiento": 1985,
+   "hijos": [
+    2015,
+    2018
+   ],
+   "bruto": 60000,
+   "cotizaciones": 3900,
+   "aeat": {
+    "RdtoNeto": 56100,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 54100,
+    "MinimoPersonalFamiliar": 10650,
+    "ImpAnualRetenciones": 13692,
+    "TipoRetencion": 22.82
+   }
+  },
+  {
+   "situacion": "66-anos",
+   "nacimiento": 1960,
+   "hijos": [],
+   "bruto": 12000,
+   "cotizaciones": 780,
+   "aeat": {
+    "RdtoNeto": 11220,
+    "ReduccionRdtosTrabajo": 7302,
+    "RdtoNetoReducido": 1918,
+    "MinimoPersonalFamiliar": 6700,
+    "ImpAnualRetenciones": 0,
+    "TipoRetencion": 0
+   }
+  },
+  {
+   "situacion": "66-anos",
+   "nacimiento": 1960,
+   "hijos": [],
+   "bruto": 15000,
+   "cotizaciones": 975,
+   "aeat": {
+    "RdtoNeto": 14025,
+    "ReduccionRdtosTrabajo": 7302,
+    "RdtoNetoReducido": 4723,
+    "MinimoPersonalFamiliar": 6700,
+    "ImpAnualRetenciones": 0,
+    "TipoRetencion": 0
+   }
+  },
+  {
+   "situacion": "66-anos",
+   "nacimiento": 1960,
+   "hijos": [],
+   "bruto": 16000,
+   "cotizaciones": 1040,
+   "aeat": {
+    "RdtoNeto": 14960,
+    "ReduccionRdtosTrabajo": 7113,
+    "RdtoNetoReducido": 5847,
+    "MinimoPersonalFamiliar": 6700,
+    "ImpAnualRetenciones": 0,
+    "TipoRetencion": 0
+   }
+  },
+  {
+   "situacion": "66-anos",
+   "nacimiento": 1960,
+   "hijos": [],
+   "bruto": 17094,
+   "cotizaciones": 1111.11,
+   "aeat": {
+    "RdtoNeto": 15982.89,
+    "ReduccionRdtosTrabajo": 5322.94,
+    "RdtoNetoReducido": 8659.95,
+    "MinimoPersonalFamiliar": 6700,
+    "ImpAnualRetenciones": 370.94,
+    "TipoRetencion": 2.17
+   }
+  },
+  {
+   "situacion": "66-anos",
+   "nacimiento": 1960,
+   "hijos": [],
+   "bruto": 18000,
+   "cotizaciones": 1170,
+   "aeat": {
+    "RdtoNeto": 16830,
+    "ReduccionRdtosTrabajo": 3840.5,
+    "RdtoNetoReducido": 10989.5,
+    "MinimoPersonalFamiliar": 6700,
+    "ImpAnualRetenciones": 813.6,
+    "TipoRetencion": 4.52
+   }
+  },
+  {
+   "situacion": "66-anos",
+   "nacimiento": 1960,
+   "hijos": [],
+   "bruto": 19000,
+   "cotizaciones": 1235,
+   "aeat": {
+    "RdtoNeto": 17765,
+    "ReduccionRdtosTrabajo": 2260.05,
+    "RdtoNetoReducido": 13504.95,
+    "MinimoPersonalFamiliar": 6700,
+    "ImpAnualRetenciones": 1343.3,
+    "TipoRetencion": 7.07
+   }
+  },
+  {
+   "situacion": "66-anos",
+   "nacimiento": 1960,
+   "hijos": [],
+   "bruto": 20000,
+   "cotizaciones": 1300,
+   "aeat": {
+    "RdtoNeto": 18700,
+    "ReduccionRdtosTrabajo": 1194.15,
+    "RdtoNetoReducido": 15505.85,
+    "MinimoPersonalFamiliar": 6700,
+    "ImpAnualRetenciones": 1772,
+    "TipoRetencion": 8.86
+   }
+  },
+  {
+   "situacion": "66-anos",
+   "nacimiento": 1960,
+   "hijos": [],
+   "bruto": 21000,
+   "cotizaciones": 1365,
+   "aeat": {
+    "RdtoNeto": 19635,
+    "ReduccionRdtosTrabajo": 128.25,
+    "RdtoNetoReducido": 17506.75,
+    "MinimoPersonalFamiliar": 6700,
+    "ImpAnualRetenciones": 2202.9,
+    "TipoRetencion": 10.49
+   }
+  },
+  {
+   "situacion": "66-anos",
+   "nacimiento": 1960,
+   "hijos": [],
+   "bruto": 22000,
+   "cotizaciones": 1430,
+   "aeat": {
+    "RdtoNeto": 20570,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 18570,
+    "MinimoPersonalFamiliar": 6700,
+    "ImpAnualRetenciones": 2560.8,
+    "TipoRetencion": 11.64
+   }
+  },
+  {
+   "situacion": "66-anos",
+   "nacimiento": 1960,
+   "hijos": [],
+   "bruto": 25000,
+   "cotizaciones": 1625,
+   "aeat": {
+    "RdtoNeto": 23375,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 21375,
+    "MinimoPersonalFamiliar": 6700,
+    "ImpAnualRetenciones": 3305,
+    "TipoRetencion": 13.22
+   }
+  },
+  {
+   "situacion": "66-anos",
+   "nacimiento": 1960,
+   "hijos": [],
+   "bruto": 30000,
+   "cotizaciones": 1950,
+   "aeat": {
+    "RdtoNeto": 28050,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 26050,
+    "MinimoPersonalFamiliar": 6700,
+    "ImpAnualRetenciones": 4707,
+    "TipoRetencion": 15.69
+   }
+  },
+  {
+   "situacion": "66-anos",
+   "nacimiento": 1960,
+   "hijos": [],
+   "bruto": 45000,
+   "cotizaciones": 2925,
+   "aeat": {
+    "RdtoNeto": 42075,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 40075,
+    "MinimoPersonalFamiliar": 6700,
+    "ImpAnualRetenciones": 9252,
+    "TipoRetencion": 20.56
+   }
+  },
+  {
+   "situacion": "66-anos",
+   "nacimiento": 1960,
+   "hijos": [],
+   "bruto": 60000,
+   "cotizaciones": 3900,
+   "aeat": {
+    "RdtoNeto": 56100,
+    "ReduccionRdtosTrabajo": 0,
+    "RdtoNetoReducido": 54100,
+    "MinimoPersonalFamiliar": 6700,
+    "ImpAnualRetenciones": 14442,
+    "TipoRetencion": 24.07
+   }
+  }
+ ]
+}
