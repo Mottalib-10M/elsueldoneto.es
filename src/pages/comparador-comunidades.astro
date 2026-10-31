@@ -2,6 +2,24 @@
 import CalculadoraLayout from '../layouts/CalculadoraLayout.astro';
 import ComparadorComunidades from '../components/calculadoras/ComparadorComunidades';
 import { CURRENT_FISCAL_YEAR } from '../config';
+import { calcularSueldoNeto } from '../lib/irpf-engine';
+import type { CCAACodigo } from '../data/comunidades-autonomas';
+import { tipoEmpleadoIndefinido } from '../data/seguridad-social-2026';
+import { formatEurosRound, formatPercent } from '../lib/format-es';
+
+// Ejemplos y tablas calculados con el motor de la calculadora (soltero, sin hijos, 14 pagas).
+const e = (n: number) => formatEurosRound(n);
+const NOMBRE: Partial<Record<CCAACodigo, string>> = { MD: 'Madrid', CL: 'Castilla y León', AN: 'Andalucía', PV: 'País Vasco', GA: 'Galicia', CT: 'Cataluña', VC: 'C. Valenciana' };
+const N = (b: number, c: CCAACodigo) => calcularSueldoNeto(b, c);
+const md45 = N(45_000, 'MD');
+const t45 = (['MD', 'CL', 'AN', 'PV', 'CT', 'VC'] as CCAACodigo[]).map((c) => ({ c, r: N(45_000, c) })).sort((a, b) => b.r.netoMensual - a.r.netoMensual);
+const peor45 = t45[t45.length - 1];
+const brecha45 = md45.netoMensual - peor45.r.netoMensual;
+const brecha80 = Math.max(...t45.map((x) => N(80_000, x.c).irpfTotalAnual)) - N(80_000, 'MD').irpfTotalAnual;
+const an40 = N(40_000, 'AN'), md40 = N(40_000, 'MD');
+const NIVELES = [30_000, 50_000, 80_000];
+const t3 = (['MD', 'AN', 'PV', 'GA', 'CT', 'VC'] as CCAACodigo[]).map((c) => ({ c, r: NIVELES.map((b) => N(b, c)) })).sort((a, b) => a.r[2].tipoEfectivoIRPF - b.r[2].tipoEfectivoIRPF);
+const bajo = t3[0], alto = t3[t3.length - 1];
 
 const title = `Sueldo Neto por Comunidad Autónoma ${CURRENT_FISCAL_YEAR} - Comparativa`;
 const description = '¿Dónde cobrarás más con el mismo bruto? Compara tu sueldo neto en las 17 comunidades autónomas. Ranking de IRPF autonómico con diferencias reales en euros.';
@@ -64,7 +82,7 @@ const faqs = [
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Ejemplo: mismo sueldo, distintas comunidades</h3>
       <p>
-        Veamos cómo varía el neto mensual de un trabajador soltero con 45.000 € brutos y 14 pagas según la comunidad (valores aproximados):
+        Veamos cómo varía el neto mensual de un trabajador soltero con 45.000 € brutos y 14 pagas según la comunidad (calculado con la misma herramienta):
       </p>
       <div class="overflow-x-auto">
         <table class="w-full text-sm border-collapse my-4">
@@ -77,17 +95,14 @@ const faqs = [
             </tr>
           </thead>
           <tbody class="tabular-nums">
-            <tr class="border-b border-gray-100 dark:border-gray-700 bg-emerald-50/50 dark:bg-emerald-900/10"><td class="px-3 py-1 font-medium">Madrid</td><td class="px-3 py-1 text-right">9.420 €</td><td class="px-3 py-1 text-right">2.377 €</td><td class="px-3 py-1 text-right">-</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Castilla y León</td><td class="px-3 py-1 text-right">9.650 €</td><td class="px-3 py-1 text-right">2.361 €</td><td class="px-3 py-1 text-right">−16 €/mes</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Andalucía</td><td class="px-3 py-1 text-right">9.950 €</td><td class="px-3 py-1 text-right">2.339 €</td><td class="px-3 py-1 text-right">−38 €/mes</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">País Vasco</td><td class="px-3 py-1 text-right">9.700 €</td><td class="px-3 py-1 text-right">2.357 €</td><td class="px-3 py-1 text-right">−20 €/mes</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Cataluña</td><td class="px-3 py-1 text-right">10.450 €</td><td class="px-3 py-1 text-right">2.304 €</td><td class="px-3 py-1 text-right">−73 €/mes</td></tr>
-            <tr class="bg-red-50/50 dark:bg-red-900/10"><td class="px-3 py-1">C. Valenciana</td><td class="px-3 py-1 text-right">10.600 €</td><td class="px-3 py-1 text-right">2.293 €</td><td class="px-3 py-1 text-right">−84 €/mes</td></tr>
+            {t45.map((x, i) => (
+              <tr class={i === 0 ? 'border-b border-gray-100 dark:border-gray-700 bg-emerald-50/50 dark:bg-emerald-900/10' : i === t45.length - 1 ? 'bg-red-50/50 dark:bg-red-900/10' : 'border-b border-gray-100 dark:border-gray-700'}><td class={i === 0 ? 'px-3 py-1 font-medium' : 'px-3 py-1'}>{NOMBRE[x.c]}</td><td class="px-3 py-1 text-right">{e(x.r.irpfTotalAnual)}</td><td class="px-3 py-1 text-right">{e(x.r.netoMensual)}</td><td class="px-3 py-1 text-right">{x.c === 'MD' ? '-' : `${x.r.netoMensual > md45.netoMensual ? '+' : '−'}${e(Math.abs(x.r.netoMensual - md45.netoMensual))}/mes`}</td></tr>
+            ))}
           </tbody>
         </table>
       </div>
       <p>
-        La diferencia entre Madrid y la Comunidad Valenciana es de 84 €/mes, es decir, más de 1.000 € al año. Para un salario de 80.000 €, esa brecha se duplica.
+        La diferencia entre Madrid y {NOMBRE[peor45.c]} es de {e(brecha45)}/mes, es decir, {e(brecha45 * 14)} al año. Para un salario de 80.000 €, la brecha entre estas comunidades llega a {e(brecha80)} al año.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Cómo funcionan los tramos autonómicos del IRPF</h3>
@@ -95,7 +110,7 @@ const faqs = [
         El IRPF en España se recauda a partes iguales entre el Estado y la comunidad autónoma donde reside el contribuyente. La Ley 22/2009, de 18 de diciembre, del sistema de financiación de las comunidades autónomas de régimen común, establece que el 50% de la cuota íntegra del IRPF corresponde al tramo estatal y el otro 50% al tramo autonómico. El Estado fija una escala estatal (Art. 63 de la Ley 35/2006) que se aplica en todo el territorio de régimen común, y cada comunidad fija su propia escala para su mitad.
       </p>
       <p>
-        Veamos cómo funciona con un ejemplo. Antonio gana 40.000 € brutos en Sevilla. Tras aplicar las cotizaciones a la Seguridad Social (6,35%) y las reducciones por rendimientos del trabajo, su base liquidable general queda en unos 30.800 €. A esa cifra se le aplican dos escalas en paralelo: la escala estatal genera una cuota de unos 3.540 €, y la escala autonómica de Andalucía genera unos 3.670 €. El total de IRPF de Antonio es la suma de ambas cuotas: 7.210 € aproximadamente. Si Antonio viviera en Madrid con las mismas condiciones, la cuota estatal sería idéntica (3.540 €), pero la cuota autonómica de Madrid sería de unos 3.350 €, resultando un IRPF total de 6.890 €. La diferencia (320 €) procede exclusivamente de la mitad autonómica.
+        Veamos cómo funciona con un ejemplo. Antonio gana 40.000 € brutos en Sevilla. Tras restar las cotizaciones a la Seguridad Social ({formatPercent(tipoEmpleadoIndefinido)}, {e(an40.seguridadSocialAnual)}) y los gastos deducibles, su base liquidable general queda en {e(an40.baseImponible)}. A esa cifra se le aplican dos escalas en paralelo, descontando en cada una la cuota del mínimo personal: la escala estatal genera {e(an40.irpfEstatalAnual)}, y la escala autonómica de Andalucía {e(an40.irpfAutonomicoAnual)}. El total de IRPF de Antonio es la suma de ambas cuotas: {e(an40.irpfTotalAnual)}. Si Antonio viviera en Madrid con las mismas condiciones, la cuota estatal sería idéntica ({e(md40.irpfEstatalAnual)}), pero la cuota autonómica de Madrid sería de {e(md40.irpfAutonomicoAnual)}, resultando un IRPF total de {e(md40.irpfTotalAnual)}. La diferencia ({e(an40.irpfTotalAnual - md40.irpfTotalAnual)}) procede exclusivamente de la mitad autonómica.
       </p>
       <p>
         Es importante entender que el sistema es progresivo en ambas mitades. Cada tramo se aplica solo al importe de renta que excede el límite inferior del tramo, no a la totalidad de la base. Eso significa que aunque Madrid tenga un tipo máximo del 20,5% y Cataluña del 25,5%, esos tipos solo se aplican a la renta que supera los umbrales más altos, no a todo el sueldo.
@@ -116,18 +131,15 @@ const faqs = [
             </tr>
           </thead>
           <tbody class="tabular-nums">
-            <tr class="border-b border-gray-100 dark:border-gray-700 bg-emerald-50/50 dark:bg-emerald-900/10"><td class="px-3 py-1 font-medium">Madrid</td><td class="px-3 py-1 text-right">14,8%</td><td class="px-3 py-1 text-right">20,9%</td><td class="px-3 py-1 text-right">27,1%</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Andalucía</td><td class="px-3 py-1 text-right">15,3%</td><td class="px-3 py-1 text-right">21,8%</td><td class="px-3 py-1 text-right">28,4%</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">País Vasco (Bizkaia)</td><td class="px-3 py-1 text-right">14,9%</td><td class="px-3 py-1 text-right">21,4%</td><td class="px-3 py-1 text-right">28,6%</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Galicia</td><td class="px-3 py-1 text-right">15,5%</td><td class="px-3 py-1 text-right">22,0%</td><td class="px-3 py-1 text-right">28,9%</td></tr>
-            <tr class="border-b border-gray-100 dark:border-gray-700"><td class="px-3 py-1">Cataluña</td><td class="px-3 py-1 text-right">15,6%</td><td class="px-3 py-1 text-right">22,4%</td><td class="px-3 py-1 text-right">29,8%</td></tr>
-            <tr class="bg-red-50/50 dark:bg-red-900/10"><td class="px-3 py-1">C. Valenciana</td><td class="px-3 py-1 text-right">15,7%</td><td class="px-3 py-1 text-right">22,5%</td><td class="px-3 py-1 text-right">30,1%</td></tr>
+            {t3.map((x, i) => (
+              <tr class={i === 0 ? 'border-b border-gray-100 dark:border-gray-700 bg-emerald-50/50 dark:bg-emerald-900/10' : i === t3.length - 1 ? 'bg-red-50/50 dark:bg-red-900/10' : 'border-b border-gray-100 dark:border-gray-700'}><td class={i === 0 ? 'px-3 py-1 font-medium' : 'px-3 py-1'}>{x.c === 'PV' ? 'País Vasco (Bizkaia)' : NOMBRE[x.c]}</td>{x.r.map((r) => <td class="px-3 py-1 text-right">{formatPercent(r.tipoEfectivoIRPF)}</td>)}</tr>
+            ))}
           </tbody>
         </table>
       </div>
-      <p class="text-xs text-gray-500 mt-2">Porcentaje de retención efectiva de IRPF sobre el bruto total. Valores orientativos. País Vasco aplica normativa foral propia, no tramos estatales+autonómicos.</p>
+      <p class="text-xs text-gray-500 mt-2">Porcentaje de IRPF anual sobre el bruto total, calculado con la misma herramienta. País Vasco aplica normativa foral propia, no tramos estatales+autonómicos.</p>
       <p>
-        Para un salario de 30.000 € brutos, la diferencia entre Madrid (14,8%) y la Comunidad Valenciana (15,7%) es de 0,9 puntos, lo que equivale a unos 270 € anuales. Pero a 80.000 € brutos, la brecha entre Madrid (27,1%) y la Comunidad Valenciana (30,1%) es de 3 puntos: unos 2.400 € al año. La progresividad fiscal amplifica las diferencias autonómicas a medida que sube el salario, lo que explica por qué el debate fiscal entre comunidades afecta sobre todo a las rentas medias-altas y altas.
+        Para un salario de 30.000 € brutos, la diferencia entre {NOMBRE[bajo.c]} ({formatPercent(bajo.r[0].tipoEfectivoIRPF)}) y {NOMBRE[alto.c]} ({formatPercent(alto.r[0].tipoEfectivoIRPF)}) equivale a unos {e(alto.r[0].irpfTotalAnual - bajo.r[0].irpfTotalAnual)} anuales. Pero a 80.000 € brutos, la brecha entre {NOMBRE[bajo.c]} ({formatPercent(bajo.r[2].tipoEfectivoIRPF)}) y {NOMBRE[alto.c]} ({formatPercent(alto.r[2].tipoEfectivoIRPF)}) es de unos {e(alto.r[2].irpfTotalAnual - bajo.r[2].irpfTotalAnual)} al año. La progresividad fiscal amplifica las diferencias autonómicas a medida que sube el salario, lo que explica por qué el debate fiscal entre comunidades afecta sobre todo a las rentas medias-altas y altas.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El régimen foral: País Vasco y Navarra, un sistema aparte</h3>
