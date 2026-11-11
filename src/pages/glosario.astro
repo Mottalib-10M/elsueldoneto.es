@@ -75,7 +75,7 @@ import ContextoFiscal from '../components/ContextoFiscal.astro';
     </nav>
 
     <h1 class="mb-4 text-3xl font-bold text-charcoal md:text-4xl dark:text-gray-100">
-      Glosario Fiscal y Salarial de España
+      Glosario de fiscalidad y nómina en España
     </h1>
     <p class="mb-8 text-lg text-dark-gray dark:text-gray-300">
       Más de 30 términos clave de fiscalidad, nóminas y Seguridad Social explicados de forma clara y concisa. Actualizado para el ejercicio fiscal {CURRENT_FISCAL_YEAR}. El vocabulario importa más en España que en otros países, porque una misma nómina mezcla términos de tres sistemas distintos: el contrato laboral, la Seguridad Social y el código fiscal. Saber que la base de cotización no es la base imponible, que el finiquito no es la indemnización y que el tipo marginal no es el tipo efectivo es lo que separa leer una nómina de adivinarla. Cada entrada da el término, la cifra o la regla que le corresponde en el ejercicio en curso y un enlace a la calculadora o la guía donde el concepto se usa de verdad.
@@ -124,7 +124,7 @@ import ContextoFiscal from '../components/ContextoFiscal.astro';
   </section>
   <script type="application/ld+json" set:html={JSON.stringify(faqPageSchema)} />
   <section class="mx-auto max-w-6xl px-4 py-10">
-    <h2 class="mb-4 text-2xl font-bold">Preguntas frecuentes</h2>
+    <h2 class="mb-4 text-2xl font-bold">Preguntas frecuentes sobre fiscalidad y nómina</h2>
     <div class="space-y-3">
       {faqPage.map((f) => (
         <details class="rounded-lg border border-gray-200 p-4 dark:border-gray-700">

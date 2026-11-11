@@ -10,6 +10,8 @@ interface Props {
   title: string;
   description: string;
   h1: string;
+  /** Frase de introducción bajo el H1, con el término clave del título (MASTERFACTORY §13). */
+  intro?: string;
   calculatorName: string;
   path: string;
   ogImage?: string;
@@ -24,6 +26,7 @@ const {
   title,
   description,
   h1,
+  intro,
   calculatorName,
   path,
   ogImage,
@@ -88,6 +91,8 @@ const schemas = [
     <h1 class="mb-3 text-2xl font-bold text-charcoal sm:text-3xl md:text-4xl dark:text-gray-100">
       {h1}
     </h1>
+
+    {intro && <p class="mb-4 text-dark-gray dark:text-gray-300">{intro}</p>}
 
     <slot />
 
