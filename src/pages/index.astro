@@ -6,6 +6,8 @@ import { buildWebApplicationSchema, buildBreadcrumbSchema, buildFAQSchema } from
 import { calcularSueldoNeto, rendimientoNetoReducido, calcularMinimoPersonalFamiliar, situacionFamiliarDefecto } from '../lib/irpf-engine';
 import { reduccionRendimientosTrabajo2026, gastosDeduciblesTrabajo2026 } from '../data/irpf-2026';
 import { formatEuros, formatEurosRound, formatPercent } from '../lib/format-es';
+import { eurES2 } from '../lib/fuentes';
+import { cambios2027 as c27, smi2026, smiNeto2027, tipoEmpleadoIndefinido2027, fuentes2027 } from '../data/cambios-2027';
 
 // Cifras del ejemplo y de la tabla calculadas con el mismo motor que la calculadora (Madrid, soltero, 14 pagas).
 const e = (n: number) => formatEurosRound(n);
@@ -20,7 +22,24 @@ const tabla = [18_000, 25_000, 30_000, 40_000, 50_000, 60_000, 80_000].map((b) =
 const title = `Sueldo neto ${CURRENT_FISCAL_YEAR} España: de bruto a neto en un clic`;
 const description = `Introduce tu salario bruto y obtén tu sueldo neto exacto en segundos. IRPF por comunidad autónoma, Seguridad Social y deducciones incluidas. España ${CURRENT_FISCAL_YEAR}.`;
 
+const pct2 = (x: number) => `${(x * 100).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`;
+const filas2027 = [
+  ['SMI mensual (14 pagas)', formatEuros(smi2026.mensual), formatEuros(c27.smiMensual)],
+  ['SMI anual', formatEuros(smi2026.anual), formatEuros(c27.smiAnual)],
+  ['Deducción del SMI en el IRPF', eurES2(smi2026.deduccion.importe), eurES2(c27.deduccionSMI.importe)],
+  ['Deducción: se agota en', eurES2(smi2026.deduccion.hasta + smi2026.deduccion.importe / smi2026.deduccion.coeficiente), eurES2(c27.deduccionSMI.agotaEn)],
+  ['MEI del trabajador / de la empresa', `${pct2(smi2026.meiEmpleado)} / ${pct2(smi2026.meiEmpresa)}`, `${pct2(c27.meiEmpleado)} / ${pct2(c27.meiEmpresa)}`],
+  ['Cotización del trabajador (indefinido)', pct2(tipoEmpleadoIndefinido2027 - c27.meiEmpleado + smi2026.meiEmpleado), pct2(tipoEmpleadoIndefinido2027)],
+  ['Cuota de solidaridad, tramos 1 / 2 / 3 (total)', smi2026.solidaridadTotal.map(pct2).join(' / '), c27.solidaridadTotal.map(pct2).join(' / ')],
+  ['Tarifa estatal del IRPF', 'art. 63 Ley 35/2006', 'sin cambios (RDL 38/2026)'],
+  ['Base máxima de cotización', '5.101,20 €/mes', 'pendiente de la Orden de cotización'],
+];
+
 const faqs = [
+  {
+    question: '¿Qué cambia en el sueldo neto en 2027?',
+    answer: `Ya es oficial: el SMI sube a ${formatEuros(c27.smiMensual)} al mes en 14 pagas (${formatEuros(c27.smiAnual)} al año, Real Decreto 1013/2026), la deducción del IRPF para salarios bajos pasa a ${eurES2(c27.deduccionSMI.importe)} y llega hasta ${eurES2(c27.deduccionSMI.agotaEn)} brutos (Real Decreto-ley 38/2026), y el MEI del trabajador sube al ${pct2(c27.meiEmpleado)}, con lo que la cotización de un indefinido queda en el ${pct2(tipoEmpleadoIndefinido2027)}. La tarifa estatal del IRPF no cambia; la base máxima de 2027 se conocerá con la Orden de cotización, a principios de año.`,
+  },
   {
     question: '¿Cómo se calcula el sueldo neto en España?',
     answer: `El sueldo neto se obtiene restando al salario bruto dos conceptos: las cotizaciones a la Seguridad Social (6,50% para empleados por cuenta ajena en ${CURRENT_FISCAL_YEAR}) y la retención del IRPF, que depende de tu base imponible, comunidad autónoma y situación familiar. La fórmula es: Neto = Bruto − Seguridad Social − IRPF.`,
@@ -130,6 +149,33 @@ import ContextoFiscal from '../components/ContextoFiscal.astro';
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">El Salario Mínimo Interprofesional y su efecto en la nómina</h3>
       <p>
         El SMI en {CURRENT_FISCAL_YEAR} se sitúa en 1.221 € mensuales en 14 pagas, lo que equivale a 17.094 € brutos anuales. Es el suelo salarial que ningún contrato a jornada completa puede perforar. Su impacto fiscal es notable: un trabajador que cobra exactamente el SMI prácticamente no paga IRPF, gracias a la combinación de la reducción por rendimientos del trabajo (art. 20 de la Ley 35/2006) y el mínimo personal de 5.550 €. La base imponible resultante queda tan baja que la cuota tributaria es próxima a cero. Sin embargo, las cotizaciones a la Seguridad Social sí se aplican íntegramente: el 6,50% sobre 17.094 € supone unos 1.111 € anuales que el trabajador aporta de su nómina. Así, alguien como David, reponedor en un supermercado de Murcia con contrato al SMI, cobra en limpio unos 15.983 € netos al año (alrededor de 1.142 € en 14 pagas). Cada subida del SMI eleva también la base mínima de cotización, lo que incrementa ligeramente el coste de Seguridad Social tanto para el trabajador como para la empresa.
+      </p>
+
+      <h2 id="sueldo-neto-2027" class="mt-10 mb-3 text-2xl font-bold text-charcoal dark:text-gray-100">Sueldo neto 2027: lo que ya es oficial</h2>
+      <p>
+        Tres normas publicadas en el BOE fijan ya parte de la nómina de 2027. El <strong>Real Decreto 1013/2026</strong> (BOE del 19 de noviembre de 2026) sube el SMI a {formatEuros(c27.smiMensual)} al mes en 14 pagas, {formatEuros(c27.smiAnual)} al año. El <strong>Real Decreto-ley 38/2026</strong> (BOE del 18 de noviembre de 2026) eleva la deducción por rendimientos del trabajo a {eurES2(c27.deduccionSMI.importe)} anuales hasta {formatEuros(c27.deduccionSMI.hasta)} brutos; por encima, baja 0,20 € por euro y desaparece en {eurES2(c27.deduccionSMI.agotaEn)}. No toca la tarifa del impuesto. Y el calendario del <strong>Real Decreto-ley 2/2023</strong> lleva el MEI al 1 % en 2027 (0,83 % la empresa, 0,17 % el trabajador) y la cuota de solidaridad, que pagan los sueldos por encima de la base máxima, a 1,38 %, 1,50 % y 1,75 % según el tramo.
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Concepto</th>
+              <th class="px-3 py-2 text-right">2026</th>
+              <th class="px-3 py-2 text-right">2027</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            {filas2027.map(([k, a, b], i) => (
+              <tr class={i < filas2027.length - 1 ? 'border-b border-gray-100 dark:border-gray-700' : ''}><td class="px-3 py-1">{k}</td><td class="px-3 py-1 text-right">{a}</td><td class="px-3 py-1 text-right">{b}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Para quien cobre el SMI, la cuenta de 2027 ya se puede hacer: cotiza el {pct2(tipoEmpleadoIndefinido2027)} de {formatEuros(c27.smiAnual)}, es decir {eurES2(smiNeto2027.ss)} al año, y no paga IRPF: con la tarifa vigente y las escalas autonómicas de 2026, la deducción de {eurES2(c27.deduccionSMI.importe)} cubre toda la cuota en las {smiNeto2027.total} comunidades de régimen común. Neto: {e(smiNeto2027.neto)} al año, unos {e(smiNeto2027.mensual14)} en cada una de las 14 pagas, frente a {e(calcularSueldoNeto(smi2026.anual, 'MD').netoMensual)} en 2026.
+      </p>
+      <p>
+        Lo que falta: la base máxima de cotización de 2027 sube lo que suban las pensiones (el IPC medio de diciembre a noviembre) más 1,2 puntos (disposición transitoria 38.ª de la Ley General de la Seguridad Social) y se publicará en la Orden de cotización de 2027; las comunidades pueden cambiar sus escalas autonómicas en sus presupuestos. Hasta entonces, la calculadora de esta página aplica las cifras de 2026, y cambiará a 2027 en cuanto estén todas publicadas. Fuentes: <a href={fuentes2027.smi} class="text-brand hover:underline" target="_blank" rel="noopener">Real Decreto 1013/2026</a>, <a href={fuentes2027.deduccion} class="text-brand hover:underline" target="_blank" rel="noopener">Real Decreto-ley 38/2026</a>, <a href={fuentes2027.rdl2_2023} class="text-brand hover:underline" target="_blank" rel="noopener">Real Decreto-ley 2/2023</a>.
       </p>
 
       <h3 class="mt-10 mb-3 text-lg font-semibold text-charcoal dark:text-gray-100">Normativa y fuentes oficiales</h3>

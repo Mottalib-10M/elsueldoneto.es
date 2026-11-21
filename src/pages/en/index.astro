@@ -5,7 +5,9 @@ import { CURRENT_FISCAL_YEAR } from '../../config';
 import { buildWebApplicationSchema, buildBreadcrumbSchema, buildFAQSchema } from '../../lib/seo';
 import { calcularSueldoNeto, rendimientoNetoReducido, calcularMinimoPersonalFamiliar, situacionFamiliarDefecto } from '../../lib/irpf-engine';
 import { reduccionRendimientosTrabajo2026, gastosDeduciblesTrabajo2026 } from '../../data/irpf-2026';
-import { formatEurosRoundLocale, formatPercentLocale } from '../../lib/format';
+import { formatEurosRoundLocale, formatPercentLocale, formatEurosLocale } from '../../lib/format';
+import { eurEN2 } from '../../lib/fuentes';
+import { cambios2027 as c27, smi2026, smiNeto2027, tipoEmpleadoIndefinido2027, fuentes2027 } from '../../data/cambios-2027';
 
 // Example and table figures from the same engine as the calculator (Madrid, single, 14 payments).
 const e = (n: number) => formatEurosRoundLocale(n, 'en');
@@ -20,7 +22,25 @@ const tabla = [18_000, 25_000, 30_000, 40_000, 50_000, 60_000, 80_000].map((b) =
 const title = `Net Salary Calculator Spain ${CURRENT_FISCAL_YEAR}: Your Take-Home Pay`;
 const description = `Enter your gross salary and get your exact net pay in Spain. IRPF by region, Social Security and family deductions included. Instant results, updated ${CURRENT_FISCAL_YEAR}.`;
 
+const eu = (n: number) => formatEurosLocale(n, 'en');
+const pct2 = (x: number) => `${(x * 100).toFixed(2)}%`;
+const rows2027 = [
+  ['Minimum wage per month (14 payments)', eu(smi2026.mensual), eu(c27.smiMensual)],
+  ['Minimum wage per year', eu(smi2026.anual), eu(c27.smiAnual)],
+  ['Low-wage income tax credit', eurEN2(smi2026.deduccion.importe), eurEN2(c27.deduccionSMI.importe)],
+  ['Credit fully phased out at', eurEN2(smi2026.deduccion.hasta + smi2026.deduccion.importe / smi2026.deduccion.coeficiente), eurEN2(c27.deduccionSMI.agotaEn)],
+  ['MEI, employee / employer', `${pct2(smi2026.meiEmpleado)} / ${pct2(smi2026.meiEmpresa)}`, `${pct2(c27.meiEmpleado)} / ${pct2(c27.meiEmpresa)}`],
+  ['Employee contribution (permanent contract)', pct2(tipoEmpleadoIndefinido2027 - c27.meiEmpleado + smi2026.meiEmpleado), pct2(tipoEmpleadoIndefinido2027)],
+  ['Solidarity levy, bands 1 / 2 / 3 (total)', smi2026.solidaridadTotal.map(pct2).join(' / '), c27.solidaridadTotal.map(pct2).join(' / ')],
+  ['State income tax scale', 'art. 63, Law 35/2006', 'unchanged (RDL 38/2026)'],
+  ['Maximum contribution base', '€5,101.20/month', 'awaiting the 2027 contribution order'],
+];
+
 const faqs = [
+  {
+    question: 'What changes for net pay in Spain in 2027?',
+    answer: `Three things are already law. The minimum wage rises to ${eu(c27.smiMensual)} a month over 14 payments (${eu(c27.smiAnual)} a year, Royal Decree 1013/2026). The income tax credit for low earners grows to ${eurEN2(c27.deduccionSMI.importe)} and now reaches salaries up to ${eurEN2(c27.deduccionSMI.agotaEn)} (Royal Decree-law 38/2026). The employee's MEI share goes up to ${pct2(c27.meiEmpleado)}, taking the standard employee contribution to ${pct2(tipoEmpleadoIndefinido2027)}. The state tax scale stays as it is; the 2027 contribution ceiling comes with the contribution order early in the year.`,
+  },
   {
     question: 'How is net salary calculated in Spain?',
     answer: `Net salary is obtained by subtracting two items from gross salary: Social Security contributions (6.50% for employees in ${CURRENT_FISCAL_YEAR}) and income tax withholding (IRPF), which depends on your taxable base, autonomous community and family situation. Formula: Net = Gross − Social Security − IRPF.`,
@@ -122,6 +142,33 @@ const schemas = [
         </table>
       </div>
       <p class="text-xs text-gray-500 mt-2">Calculated with the same engine as the calculator, for a single worker, no children, general regime. Exact amounts may vary depending on personal circumstances.</p>
+
+      <h2 id="net-salary-2027" class="mt-10 mb-3 text-2xl font-bold text-charcoal dark:text-gray-100">Net salary in Spain 2027: what is already confirmed</h2>
+      <p>
+        If you are negotiating a Spanish contract that starts in 2027, part of the payslip is already set by the Official State Gazette (BOE). Royal Decree 1013/2026, published on 19 November 2026, puts the minimum wage at {eu(c27.smiMensual)} a month over 14 payments. Royal Decree-law 38/2026, published the day before, raises the income tax credit for low earners to {eurEN2(c27.deduccionSMI.importe)} a year: it applies in full up to {eu(c27.deduccionSMI.hasta)} gross, then shrinks by 20 cents per euro and is gone at {eurEN2(c27.deduccionSMI.agotaEn)}. The tax brackets themselves do not change. On the Social Security side, the schedule written into Royal Decree-law 2/2023 takes the intergenerational equity levy (MEI) to 1% in 2027, of which the employee pays 0.17%, and lifts the solidarity levy on pay above the contribution ceiling to 1.38%, 1.50% and 1.75% by band.
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse my-4">
+          <thead>
+            <tr class="border-b-2 border-gray-300 dark:border-gray-600">
+              <th class="px-3 py-2 text-left">Item</th>
+              <th class="px-3 py-2 text-right">2026</th>
+              <th class="px-3 py-2 text-right">2027</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            {rows2027.map(([k, a, b], i) => (
+              <tr class={i < rows2027.length - 1 ? 'border-b border-gray-100 dark:border-gray-700' : ''}><td class="px-3 py-1">{k}</td><td class="px-3 py-1 text-right">{a}</td><td class="px-3 py-1 text-right">{b}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>
+        A full-time worker on the 2027 minimum wage pays {pct2(tipoEmpleadoIndefinido2027)} in contributions, {eurEN2(smiNeto2027.ss)} a year, and no income tax: with the current scales the new credit wipes out the whole tax bill in all {smiNeto2027.total} regions under the common system. That leaves {e(smiNeto2027.neto)} net a year, about {e(smiNeto2027.mensual14)} per payment.
+      </p>
+      <p>
+        Still to come: the 2027 contribution ceiling, which rises by the pension uprating (average inflation from December to November) plus 1.2 points, and any regional tax changes in the regions' budgets. The calculator above keeps the 2026 figures until those are published. Sources: <a href={fuentes2027.smi} class="text-brand hover:underline" target="_blank" rel="noopener">Royal Decree 1013/2026</a>, <a href={fuentes2027.deduccion} class="text-brand hover:underline" target="_blank" rel="noopener">Royal Decree-law 38/2026</a>, <a href={fuentes2027.rdl2_2023} class="text-brand hover:underline" target="_blank" rel="noopener">Royal Decree-law 2/2023</a>.
+      </p>
     </div>
   </section>
 
