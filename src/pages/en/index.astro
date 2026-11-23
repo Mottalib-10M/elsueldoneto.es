@@ -39,7 +39,7 @@ const rows2027 = [
 const faqs = [
   {
     question: 'What changes for net pay in Spain in 2027?',
-    answer: `Three things are already law. The minimum wage rises to ${eu(c27.smiMensual)} a month over 14 payments (${eu(c27.smiAnual)} a year, Royal Decree 1013/2026). The income tax credit for low earners grows to ${eurEN2(c27.deduccionSMI.importe)} and now reaches salaries up to ${eurEN2(c27.deduccionSMI.agotaEn)} (Royal Decree-law 38/2026). The employee's MEI share goes up to ${pct2(c27.meiEmpleado)}, taking the standard employee contribution to ${pct2(tipoEmpleadoIndefinido2027)}. The state tax scale stays as it is; the 2027 contribution ceiling comes with the contribution order early in the year.`,
+    answer: `Three things are already law. The minimum wage rises to ${eu(c27.smiMensual)} a month over 14 payments (${eu(c27.smiAnual)} a year, Royal Decree 1013/2026). The income tax credit for low earners grows to ${eurEN2(c27.deduccionSMI.importe)} and now reaches salaries up to ${eurEN2(c27.deduccionSMI.agotaEn)} (Royal Decree-law 38/2026). The employee's MEI share goes up to ${pct2(c27.meiEmpleado)}, taking the standard employee contribution to ${pct2(tipoEmpleadoIndefinido2027)}. The state tax scale stays as it is; the 2027 contribution ceiling comes with the contribution order published in the BOE by the Social Security ministry (the 2026 one came out on 31 March 2026, backdated to January). The calculator moves to 2027 as soon as it is published.`,
   },
   {
     question: 'How is net salary calculated in Spain?',
@@ -167,7 +167,7 @@ const schemas = [
         A full-time worker on the 2027 minimum wage pays {pct2(tipoEmpleadoIndefinido2027)} in contributions, {eurEN2(smiNeto2027.ss)} a year, and no income tax: with the current scales the new credit wipes out the whole tax bill in all {smiNeto2027.total} regions under the common system. That leaves {e(smiNeto2027.neto)} net a year, about {e(smiNeto2027.mensual14)} per payment.
       </p>
       <p>
-        Still to come: the 2027 contribution ceiling, which rises by the pension uprating (average inflation from December to November) plus 1.2 points, and any regional tax changes in the regions' budgets. The calculator above keeps the 2026 figures until those are published. Sources: <a href={fuentes2027.smi} class="text-brand hover:underline" target="_blank" rel="noopener">Royal Decree 1013/2026</a>, <a href={fuentes2027.deduccion} class="text-brand hover:underline" target="_blank" rel="noopener">Royal Decree-law 38/2026</a>, <a href={fuentes2027.rdl2_2023} class="text-brand hover:underline" target="_blank" rel="noopener">Royal Decree-law 2/2023</a>.
+        Still to come: the 2027 contribution ceiling, which rises by the pension uprating (average inflation from December to November) plus 1.2 points and is set by the 2027 contribution order of the Ministry of Inclusion, Social Security and Migration in the BOE (the 2026 order, PJC/297/2026, came out on 31 March 2026, backdated to 1 January), and any regional tax changes in the regions' budgets. The calculator above keeps the 2026 figures until those are published. Sources: <a href={fuentes2027.smi} class="text-brand hover:underline" target="_blank" rel="noopener">Royal Decree 1013/2026</a>, <a href={fuentes2027.deduccion} class="text-brand hover:underline" target="_blank" rel="noopener">Royal Decree-law 38/2026</a>, <a href={fuentes2027.rdl2_2023} class="text-brand hover:underline" target="_blank" rel="noopener">Royal Decree-law 2/2023</a>.
       </p>
     </div>
   </section>

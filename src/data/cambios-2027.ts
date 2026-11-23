@@ -6,7 +6,7 @@
  * - MEI y cotización adicional de solidaridad 2027 : Real Decreto-ley 2/2023, disposiciones transitorias
  *   43.ª y 42.ª de la LGSS, BOE núm. 65 de 17-03-2023 (BOE-A-2023-6967).
  * - Base máxima 2027 : pendiente de la Orden de cotización 2027 (revalorización de las pensiones + 1,2 puntos,
- *   disposición transitoria 38.ª LGSS). Reemplazar en cuanto se publique (enero-febrero de 2027).
+ *   disposición transitoria 38.ª LGSS). Reemplazar en cuanto se publique (la de 2026, Orden PJC/297/2026, salió en el BOE el 31-03-2026).
  */
 import { seguridadSocial2026, tipoEmpleadoIndefinido } from './seguridad-social-2026';
 import { deduccionSMI2026, tramosEstatales2026 } from './irpf-2026';
