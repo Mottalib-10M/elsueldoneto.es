@@ -20,7 +20,7 @@ export default function InteresCompuesto({ lang = 'es' }: { lang?: 'es' | 'en' }
   const resultado = useMemo(() => calcularInteresCompuesto(capitalNum, tipoNum / 100, aniosNum, aportacionNum), [capitalNum, tipoNum, aniosNum, aportacionNum]);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
       <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
         <CampoEntrada id="ic-capital" label={l ? 'Initial capital' : 'Capital inicial'} value={capitalInicial} onChange={setCapitalInicial} min={0} max={10000000} step="any" suffix="€" />

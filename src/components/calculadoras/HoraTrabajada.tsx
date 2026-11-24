@@ -38,7 +38,7 @@ export default function HoraTrabajada({ lang = 'es' }: HoraTrabajadaProps) {
   }, [brutoNum, horasNum, vacNum, festNum]);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
       <div className="space-y-6">
       <CampoSalario id="ht-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={300000} step="any" divisor={14} lang={lang} />
 

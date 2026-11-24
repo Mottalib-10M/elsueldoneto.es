@@ -34,7 +34,7 @@ const T = {
     metodo: 'Cómo calculamos', metodoHref: '/metodologia/',
   },
   en: {
-    inicio: 'Start date at the company', fin: 'Last day worked', salario: 'Gross annual salary', salarioAyuda: 'Including extra payments and fixed bonuses',
+    inicio: 'Start date at the company', fin: 'Last day worked', salario: 'Gross annual salary', salarioAyuda: 'With extra pay and fixed bonuses',
     tipo: 'Reason the contract ended', pagas: 'Extra payments (pagas extra)',
     tipos: { improcedente: 'Unfair dismissal (improcedente)', objetivo: 'Objective dismissal (objetivo)', ere: 'Collective redundancy (ERE)', 'fin-contrato': 'End of temporary contract', voluntaria: 'Resignation', procedente: 'Fair disciplinary dismissal' },
     pagas14: '14 payments (extras paid separately)', pagas12: '12 payments (extras spread monthly)',
@@ -114,7 +114,7 @@ export default function IndemnizacionDespido({ lang = 'es', hoy, enfoque = 'inde
   );
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
       <div className="space-y-6">
       <form className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2" onSubmit={(e) => e.preventDefault()}>
         <div className="flex h-full flex-col">

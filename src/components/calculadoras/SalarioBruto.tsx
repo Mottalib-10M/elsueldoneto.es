@@ -23,7 +23,7 @@ export default function SalarioBruto({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   }, [netoNum, ccaa, pagas]);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
       <div className="space-y-6">
       <CampoSalario id="sb-neto" label={l ? 'Desired net' : 'Neto deseado'} value={netoDeseado} onChange={setNetoDeseado} min={0} max={500000} step="any" divisor={pagas} lang={lang} />
 

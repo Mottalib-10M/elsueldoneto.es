@@ -29,7 +29,7 @@ export default function ComparadorComunidades({ lang = 'es' }: ComparadorComunid
   const minNeto = resultados[resultados.length - 1]?.desglose.netoAnual ?? 0;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
       <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
         <CampoSalario id="comp-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={1000000} step="any" divisor={pagas} lang={lang} />

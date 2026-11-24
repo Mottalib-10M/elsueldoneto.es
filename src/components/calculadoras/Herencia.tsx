@@ -208,7 +208,7 @@ export default function Herencia({ lang = 'es' }: HerenciaProps) {
   }, [valorNum, ccaa, grupo, patrimonioNum, viviendaHabitual]);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
       <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
         <CampoEntrada

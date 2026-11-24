@@ -107,7 +107,7 @@ export default function Jubilacion({ lang = 'es', hoy, cuandoInicial = 'ordinari
   const copiar = async (txt: string) => { try { await navigator.clipboard.writeText(txt); setAviso(t.copiado); setTimeout(() => setAviso(''), 1500); } catch { /* sin portapapeles */ } };
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
       <div className="space-y-6">
       <form className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2" onSubmit={(e) => e.preventDefault()}>
         <CampoNumero id="jub-anio" label={t.anio} value={anio} onChange={(v) => setAnio(Math.round(v))} max={2010} locale={loc} agrupar={false} />
@@ -118,7 +118,10 @@ export default function Jubilacion({ lang = 'es', hoy, cuandoInicial = 'ordinari
           </select>
           <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">{' '}</p>
         </div>
-        <CampoNumero id="jub-base" label={t.base} value={base} onChange={setBase} suffix={lang === 'en' ? '€/month' : '€/mes'} max={100000} locale={loc} help={t.baseAyuda} />
+        {/* rangée entière : l'aide (« base contingencias comunes ») tient sur une ligne et les champs suivants vont par paire */}
+        <div className="sm:col-span-2">
+          <CampoNumero id="jub-base" label={t.base} value={base} onChange={setBase} suffix={lang === 'en' ? '€/month' : '€/mes'} max={100000} locale={loc} help={t.baseAyuda} />
+        </div>
         <CampoNumero id="jub-cota" label={t.cotA} value={cotA} onChange={(v) => setCotA(Math.round(v))} suffix={t.anios} max={60} locale={loc} />
         <CampoNumero id="jub-cotm" label={t.cotM} value={cotM} onChange={(v) => setCotM(Math.round(v))} suffix={t.m} max={11} locale={loc} />
         <div className="flex h-full flex-col">

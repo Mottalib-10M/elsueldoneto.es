@@ -24,7 +24,7 @@ export default function PagasExtra({ lang = 'es' }: PagasExtraProps) {
   }, [brutoNum, ccaa]);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
       <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
         <CampoSalario id="pe-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={brutoAnual} onChange={setBrutoAnual} min={0} max={1000000} step="any" lang={lang} />

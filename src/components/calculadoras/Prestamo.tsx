@@ -20,7 +20,7 @@ export default function Prestamo({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   }, [capitalNum, tinNum, plazoNum]);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
       <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-2">
         <CampoEntrada id="pr-capital" label={l ? 'Loan amount' : 'Capital del préstamo'} value={capital} onChange={setCapital} min={0} max={1000000} step="any" suffix="€" />

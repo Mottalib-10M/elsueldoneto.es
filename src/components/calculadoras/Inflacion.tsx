@@ -17,7 +17,7 @@ export default function Inflacion({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   const resultado = useMemo(() => calcularImpactoInflacion(cantidadNum, inflacionNum / 100, aniosNum), [cantidadNum, inflacionNum, aniosNum]);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
       <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-2">
         <CampoEntrada id="inf-cantidad" label={l ? 'Current amount' : 'Cantidad actual'} value={cantidad} onChange={setCantidad} min={0} max={10000000} step="any" suffix="€" helpText={l ? 'Amount of money today' : 'Cantidad de dinero hoy'} />

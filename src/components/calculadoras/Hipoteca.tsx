@@ -66,7 +66,7 @@ export default function Hipoteca({ lang = 'es' }: HipotecaProps) {
   }, [precioNum, ahorroNum, plazoNum, interesNum]);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
       <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
         <CampoEntrada id="hip-precio" label={l ? 'Property price' : 'Precio de la vivienda'} value={precio} onChange={setPrecio} min={0} max={5000000} step="any" suffix="€" />

@@ -31,7 +31,7 @@ export default function TipoRetencion({ lang = 'es' }: TipoRetencionProps) {
   const retencionPorcentaje = brutoNum > 0 ? (resultado.irpfTotalAnual / brutoNum) * 100 : 0;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
       <div className="space-y-6">
       <CampoSalario id="tr-bruto" label={l ? 'Gross salary' : 'Salario bruto'} value={bruto} onChange={setBruto} min={0} max={300000} step="any" divisor={pagas} lang={lang} />
 

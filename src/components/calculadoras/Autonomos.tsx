@@ -18,7 +18,7 @@ export default function Autonomos({ lang = 'es' }: { lang?: 'es' | 'en' }) {
   const resultado = useMemo(() => calcularNetoAutonomo(ingresosNum, gastosNum, ccaa), [ingresosNum, gastosNum, ccaa]);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
       <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-2">
         <CampoSalario id="au-ingresos" label={l ? 'Gross income' : 'Ingresos brutos'} value={ingresos} onChange={setIngresos} min={0} max={500000} step="any" lang={lang} />

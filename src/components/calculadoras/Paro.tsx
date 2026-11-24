@@ -26,7 +26,7 @@ export default function Paro({ lang = 'es' }: ParoProps) {
   );
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
       <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-2">
         <CampoEntrada id="pa-base" label={l ? 'Monthly contribution base' : 'Base cotización mensual'} value={baseCotizacion} onChange={setBaseCotizacion} min={0} max={10000} step="any" suffix={l ? '€/mo' : '€/mes'} helpText={l ? 'Average of last 180 days' : 'Media últimos 180 días'} />
