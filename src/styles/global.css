@@ -1,4 +1,7 @@
 @import "tailwindcss";
+/* Charte de page claire (refonte d'identité du 2026-11-25) : plus de mode sombre automatique, la variante dark: ne suit plus le système. */
+@custom-variant dark (&:where(.dark, .dark *));
+:root { color-scheme: light; }
 
 @font-face {
   font-family: 'Inter';
@@ -72,6 +75,17 @@
   --color-green-600: #15803d;     /* 5,02:1 */
 
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --color-accent-50: #FAEEEF;
+  --color-accent-100: #F4DDDF;
+  --color-accent-200: #E8B5BB;
+  --color-accent-300: #D9848D;
+  --color-accent-400: #C64754;
+  --color-accent-500: #B30A1B;
+  --color-accent-600: #9E0918;
+  --color-accent-700: #860814;
+  --color-accent-800: #6B0610;
+  --color-accent-900: #51040C;
+
 }
 
 @layer base {
@@ -101,15 +115,6 @@
     outline-offset: 2px;
   }
 
-  @media (prefers-color-scheme: dark) {
-    body {
-      @apply bg-gray-900 text-gray-100;
-    }
-
-    :focus-visible {
-      outline-color: var(--color-gold);
-    }
-  }
 }
 
 /*
@@ -134,7 +139,6 @@
   .clamp-toggle:checked ~ .clamp-more { display: none; }
   .clamp-more { display: inline-block; cursor: pointer; margin-top: 0.125rem; font-size: 0.875rem; font-weight: 600; color: var(--color-brand); text-decoration: underline; text-underline-offset: 3px; }
   .clamp-toggle:focus-visible ~ .clamp-more { outline: 2px solid currentColor; outline-offset: 3px; }
-  @media (prefers-color-scheme: dark) { .clamp-more { color: #fca5a5; } }
   /*
    * Mise en forme des pages de texte.
    *
@@ -242,36 +246,6 @@
  * classe du plugin absent : sans cette regle, les titres restaient anthracite
  * sur le fond sombre, donc illisibles.
  */
-@media (prefers-color-scheme: dark) {
-  :where(.prose) h2,
-  .prose h3,
-  .prose strong {
-    color: #f3f4f6;
-  }
-
-  :where(.prose) a {
-    color: var(--color-gold-light);
-    text-decoration-color: var(--color-gold-dark);
-  }
-
-  :where(.prose) li::marker {
-    color: var(--color-gold);
-  }
-
-  :where(.prose) blockquote {
-    border-left-color: var(--color-gold);
-    color: #9ca3af;
-  }
-
-  :where(.prose) th {
-    color: #f3f4f6;
-    border-bottom-color: #4b5563;
-  }
-
-  :where(.prose) td {
-    border-bottom-color: #374151;
-  }
-}
 
 /* Impression : le lecteur qui imprime sa fiche n'a que faire du menu. */
 @media print {
@@ -293,3 +267,43 @@ select:not([multiple]):not([size]), select[size="1"] {
   background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1rem 1rem;
   text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
 }
+
+/* Charte de page aux couleurs du pays (refonte d'identité validée par l'éditeur, appliquée le 2026-11-25, MASTERFACTORY §10.5) :
+   en-tête et bandeau du H1 pleins dans la couleur forte, filet de la 2e couleur, sections alternées teintées,
+   simulateur en carte blanche à bord haut épais, chiffres-résultats grands, boutons pleins, pied sombre.
+   Échelle --color-accent-* dans @theme ci-dessus ; règles hors couche, elles priment sur les utilitaires Tailwind. */
+/* En-tete plein + filet de la 2e couleur */
+body header.sticky { background:#B30A1B; border-bottom:5px solid #FFC400; backdrop-filter:none; }
+body header.sticky > div > a span, body header.sticky nav > div > button, body header.sticky nav > a, body header.sticky > div > div > button { color:#fff; }
+body header.sticky img { background:#fff; border-radius:8px; padding:2px; }
+body header.sticky nav [class*="absolute"], #mobile-menu { background:#fff; }
+body header.sticky nav [class*="absolute"], #mobile-menu a, body header.sticky nav [class*="absolute"], #mobile-menu button, body header.sticky nav [class*="absolute"], #mobile-menu span { color:#0F172A; }
+/* Bandeau heros pleine largeur */
+main > section:first-child { background:#B30A1B; box-shadow:0 0 0 100vmax #B30A1B; clip-path:inset(-3rem -100vmax 0 -100vmax); margin-bottom:0; padding-top:1.25rem; padding-bottom:1.5rem; border:0; }
+main > section:first-child h1, main > section:first-child h1 *, main > section:first-child > p, main > section:first-child > div > p, main > section:first-child p, main > section:first-child li, main > section:first-child label, main > section:first-child span:not([class*="bg-"]) { color:#fff; }
+main > section:first-child h1 { letter-spacing:-0.02em; }
+main > section:first-child a { color:#fff; text-decoration:underline; text-decoration-color:#FFC400; text-decoration-thickness:2px; }
+main > section:nth-child(2) { background:#B30A1B; box-shadow:0 0 0 100vmax #B30A1B; clip-path:inset(0 -100vmax); padding-bottom:2.25rem; margin-bottom:2.25rem; border:0; }
+main > section:nth-child(2) > div:first-child { background:#fff; border:0; border-top:6px solid #FFC400; border-radius:14px; box-shadow:0 10px 30px rgba(0,0,0,.18); }
+main > section:nth-child(2) > div:first-child, main > section:nth-child(2) > div:first-child p, main > section:nth-child(2) > div:first-child label, main > section:nth-child(2) > div:first-child span, main > section:nth-child(2) > div:first-child h2, main > section:nth-child(2) > div:first-child h3, main > section:nth-child(2) > div:first-child li, main > section:nth-child(2) > div:first-child dt, main > section:nth-child(2) > div:first-child dd, main > section:nth-child(2) > div:first-child td, main > section:nth-child(2) > div:first-child th { color:#0F172A; }
+/* Chiffres-resultats grands, dans l'accent, sur fond teinte */
+main [aria-live] :is([class*="text-2xl"],[class*="text-3xl"],[class*="text-4xl"]), main [data-resultat] :is([class*="text-2xl"],[class*="text-3xl"]), main .prose strong.big { font-size:2.1rem; line-height:1.15; color:#B30A1B; background:#FAEEEF; border-radius:8px; padding:.05em .3em; }
+/* Sections alternees blanc / teinte */
+main > section:nth-child(n+3):nth-child(even) { background:#F4DDDF; box-shadow:0 0 0 100vmax #F4DDDF; clip-path:inset(0 -100vmax); padding-top:1.5rem; padding-bottom:1.5rem; }
+main h2 { color:#B30A1B; border-left:8px solid #FFC400; padding-left:.6rem; }
+main h3 { color:#B30A1B; }
+/* Boutons pleins 2e couleur, liens soulignes colores */
+main button[type="submit"], main a[class*="bg-accent"], main button[class*="bg-accent"], main a[class*="border-accent"], main a[class*="bg-brand"], main button[class*="bg-brand"], main a[class*="bg-primary"], main button[class*="bg-primary"] { background:#FFC400; color:#0F172A; border-color:#FFC400; border-radius:10px; font-weight:700; }
+main button[type="submit"]:hover, main a[class*="bg-accent"]:hover, main a[class*="border-accent"]:hover, main a[class*="bg-brand"]:hover, main a[class*="bg-primary"]:hover { background:#D6A500; }
+main .prose a, main p > a, main li > a { color:#B30A1B; text-decoration:underline; text-decoration-color:#FFC400; text-decoration-thickness:2px; text-underline-offset:3px; }
+/* Encadres et tableaux */
+main .bg-accent-50 { background:#FAEEEF; border-left:6px solid #FFC400; }
+main table thead th { color:#B30A1B; border-bottom:3px solid #FFC400; background:#FAEEEF; }
+/* Pied de page plein sombre */
+footer { background:#3B0A10; border-top:6px solid #FFC400; }
+footer, footer *:not(svg):not(path) { color:#E5E7EB; border-color:rgba(255,255,255,.16); }
+footer a { color:#fff; text-decoration:underline; text-decoration-color:#FFC400; }
+footer [class*="bg-"] { background:transparent; }
+/* --- corrections hors trame (maquette verifiee) --- */
+header a:is([title="Switch to English"],[title="Cambiar a Español"]) { color:#fff; border-color:rgba(255,255,255,.8); }
+main [data-cle="true"] { color:#B30A1B; }
